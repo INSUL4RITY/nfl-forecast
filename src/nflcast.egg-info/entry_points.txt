@@ -1,2 +1,0 @@
-[console_scripts]
-nflcast = nflcast.cli:main
