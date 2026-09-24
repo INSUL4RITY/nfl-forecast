@@ -15,6 +15,7 @@ from nflcast.data import sources as S
 from nflcast.data.games import build_games, market_asof
 from nflcast.evaluation import backtest as BT
 from nflcast.features.asof import AsOfFeatureBuilder, build_feature_snapshots
+from nflcast.features import personnel as P
 from nflcast.features.team_games import attach_game_info, team_game_stats
 from nflcast.models.core import FootballRidge, MarketCalibrated, MarketRaw, select_alpha_chronologically
 
@@ -67,7 +68,16 @@ def ingest() -> None:
 # ---------------------------------------------------------------- build
 PBP_COLS = ["game_id", "play_id", "posteam", "defteam", "play_type", "qb_dropback", "qb_spike", "qb_kneel", "rush",
             "score_differential", "qtr", "epa", "yards_gained", "sack", "interception", "fumble_lost", "cpoe",
-            "passer_player_id", "fixed_drive", "fixed_drive_result", "yardline_100"]
+            "passer_player_id", "passer_id", "fixed_drive", "fixed_drive_result", "yardline_100"]
+
+
+def personnel_objects(games: pl.DataFrame, tg: pl.DataFrame, qbg: pl.DataFrame):
+    all_s, _ = _seasons()
+    inj_s = [s for s in all_s if s >= 2012]
+    qbm = P.QBModel(qbg)
+    dcs = P.DepthCharts(P.depth_chart_qb1([s for s in all_s if s >= settings()["seasons"]["core_start"]]))
+    avail = P.Availability(P.injury_player_weeks(inj_s, games), P.snap_shares(inj_s, games), tg)
+    return qbm, dcs, avail
 
 
 def build() -> None:
@@ -78,8 +88,12 @@ def build() -> None:
     pbp = pl.concat([S.fetch("pbp", s).select(PBP_COLS) for s in all_s], how="diagonal_relaxed")
     tg = attach_game_info(team_game_stats(pbp), games)
     tg.write_parquet(PROCESSED_DIR / "team_games.parquet")
-    print(f"[build] team-games: {tg.height} rows from {pbp.height} plays")
+    qbg = P.qb_games(pbp, games)
+    qbg.write_parquet(PROCESSED_DIR / "qb_games.parquet")
+    print(f"[build] team-games: {tg.height} rows from {pbp.height} plays; qb-games {qbg.height}")
     feats = build_feature_snapshots(games, tg, feat_s)
+    qbm, dcs, avail = personnel_objects(games, tg, qbg)
+    feats = P.add_personnel_features(feats, games, qbm, dcs, avail)
     feats.write_parquet(PROCESSED_DIR / "feature_snapshots.parquet")
     print(f"[build] feature snapshots: {feats.height} rows x {len(feats.columns)} cols")
     cuts = feats.select("game_id", "horizon", "cutoff_utc")
@@ -96,9 +110,9 @@ def backtest(include_locked: bool = False) -> Path:
     feats = pl.read_parquet(PROCESSED_DIR / "feature_snapshots.parquet")
     market = pl.read_parquet(PROCESSED_DIR / "market_asof.parquet")
     data = BT.assemble(games, feats, market)
-    folds = list(v["dev_folds"]) + ([v["locked_test"]] if include_locked else [])
+    folds = list(v["tune_folds"]) + list(v["dev_folds"]) + ([v["locked_test"]] if include_locked else [])
     preds, fold_info = BT.run(data, folds, list(cfg["horizons"].keys()))
-    summary = BT.summarise(preds, v["bootstrap_reps"], v["seed"])
+    summary = BT.summarise(preds, v["bootstrap_reps"], v["seed"], tune_folds=list(v["tune_folds"]))
     run_id = f"bt_{utc_stamp()}"
     manifest = {"run_id": run_id, "generated_at_utc": utc_now().isoformat(), "package_version": __version__,
                 "code_hash": code_hash(), "folds": folds, "locked_test": v["locked_test"], "locked_included": include_locked,

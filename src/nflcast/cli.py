@@ -15,6 +15,7 @@ def main(argv: list[str] | None = None) -> None:
     sub.add_parser("ingest", help="Download/refresh raw snapshots needed by the pipeline")
     sub.add_parser("build", help="Build games table and as-of feature snapshots")
     sub.add_parser("backtest", help="Walk-forward evaluation of benchmark models")
+    sub.add_parser("tune", help="Tune feature window settings on tune folds only")
     pr = sub.add_parser("predict", help="Generate a forecast release for upcoming games")
     pr.add_argument("--horizon", default="final", choices=["early", "final"])
     sub.add_parser("all", help="ingest + build + backtest + predict")
@@ -33,6 +34,9 @@ def main(argv: list[str] | None = None) -> None:
     elif args.cmd == "backtest":
         from nflcast.pipeline import backtest
         backtest()
+    elif args.cmd == "tune":
+        from nflcast.evaluation import tuning
+        tuning.run()
     elif args.cmd == "predict":
         from nflcast.pipeline import predict
         predict(horizon=args.horizon)

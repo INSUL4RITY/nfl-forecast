@@ -1,0 +1,129 @@
+{
+ "tune_folds": [
+  2019,
+  2020,
+  2021
+ ],
+ "criterion": "mean of margin and total RMSE, averaged over horizons/models",
+ "best": {
+  "half_life": 16,
+  "carry": 0.4,
+  "score": 13.352669636601657,
+  "margin_rmse": 13.26787666839175,
+  "total_rmse": 13.437462604811563
+ },
+ "grid": [
+  {
+   "half_life": 16,
+   "carry": 0.4,
+   "score": 13.352669636601657,
+   "margin_rmse": 13.26787666839175,
+   "total_rmse": 13.437462604811563
+  },
+  {
+   "half_life": 12,
+   "carry": 0.4,
+   "score": 13.35451995137368,
+   "margin_rmse": 13.27366450075795,
+   "total_rmse": 13.435375401989413
+  },
+  {
+   "half_life": 8,
+   "carry": 0.6,
+   "score": 13.358425927501582,
+   "margin_rmse": 13.278721915215659,
+   "total_rmse": 13.438129939787506
+  },
+  {
+   "half_life": 12,
+   "carry": 0.6,
+   "score": 13.360528519680917,
+   "margin_rmse": 13.273628537356576,
+   "total_rmse": 13.44742850200526
+  },
+  {
+   "half_life": 8,
+   "carry": 0.4,
+   "score": 13.363008160339064,
+   "margin_rmse": 13.291226656587373,
+   "total_rmse": 13.434789664090752
+  },
+  {
+   "half_life": 16,
+   "carry": 0.6,
+   "score": 13.364427995213259,
+   "margin_rmse": 13.274335727471918,
+   "total_rmse": 13.454520262954603
+  },
+  {
+   "half_life": 8,
+   "carry": 0.8,
+   "score": 13.364555440178739,
+   "margin_rmse": 13.281624936934724,
+   "total_rmse": 13.447485943422754
+  },
+  {
+   "half_life": 6,
+   "carry": 0.8,
+   "score": 13.365641125572733,
+   "margin_rmse": 13.291068849025336,
+   "total_rmse": 13.440213402120133
+  },
+  {
+   "half_life": 6,
+   "carry": 0.6,
+   "score": 13.367104418480533,
+   "margin_rmse": 13.297521071550815,
+   "total_rmse": 13.436687765410252
+  },
+  {
+   "half_life": 12,
+   "carry": 0.8,
+   "score": 13.370596445527411,
+   "margin_rmse": 13.280220745577708,
+   "total_rmse": 13.460972145477115
+  },
+  {
+   "half_life": 6,
+   "carry": 0.4,
+   "score": 13.374158947951736,
+   "margin_rmse": 13.31226602253912,
+   "total_rmse": 13.436051873364352
+  },
+  {
+   "half_life": 16,
+   "carry": 0.8,
+   "score": 13.380493991197904,
+   "margin_rmse": 13.293885544472554,
+   "total_rmse": 13.467102437923254
+  },
+  {
+   "half_life": 4,
+   "carry": 0.8,
+   "score": 13.38624011137043,
+   "margin_rmse": 13.333832123289952,
+   "total_rmse": 13.438648099450907
+  },
+  {
+   "half_life": 4,
+   "carry": 0.6,
+   "score": 13.389447123565224,
+   "margin_rmse": 13.34134938196494,
+   "total_rmse": 13.437544865165506
+  },
+  {
+   "half_life": 4,
+   "carry": 0.4,
+   "score": 13.396278608829178,
+   "margin_rmse": 13.354645155373507,
+   "total_rmse": 13.437912062284852
+  }
+ ],
+ "current_settings": {
+  "half_life_games": 8,
+  "season_carryover": 0.6,
+  "explosive_pass_yards": 20,
+  "explosive_rush_yards": 10,
+  "ridge_rating_alpha": 30.0
+ }
+}

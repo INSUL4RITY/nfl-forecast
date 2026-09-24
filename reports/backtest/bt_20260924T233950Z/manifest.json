@@ -1,0 +1,712 @@
+{
+ "run_id": "bt_20260924T233950Z",
+ "generated_at_utc": "2026-09-24T23:39:50.369369+00:00",
+ "package_version": "0.1.0",
+ "code_hash": "e8ae1e5205625ac0035afcb7f11f8980d5a9af6ce59802201de2619637b23f70",
+ "folds": [
+  2019,
+  2020,
+  2021,
+  2022,
+  2023,
+  2024
+ ],
+ "locked_test": 2025,
+ "locked_included": false,
+ "settings": {
+  "seasons": {
+   "warmup_start": 2011,
+   "core_start": 2016,
+   "last_completed": 2025,
+   "current": 2026
+  },
+  "horizons": {
+   "early": 72,
+   "final": 1
+  },
+  "pbp_available_after_kickoff_hours": 12,
+  "schedule_timezone": "America/New_York",
+  "features": {
+   "half_life_games": 8,
+   "season_carryover": 0.6,
+   "explosive_pass_yards": 20,
+   "explosive_rush_yards": 10,
+   "ridge_rating_alpha": 30.0
+  },
+  "validation": {
+   "tune_folds": [
+    2019,
+    2020,
+    2021
+   ],
+   "dev_folds": [
+    2022,
+    2023,
+    2024
+   ],
+   "locked_test": 2025,
+   "interval_levels": [
+    0.8,
+    0.95
+   ],
+   "bootstrap_reps": 2000,
+   "seed": 20260924
+  },
+  "market": {
+   "allowed_numeric": [
+    "home_spread",
+    "total"
+   ]
+  }
+ },
+ "data": [
+  {
+   "source": "depth_charts",
+   "season": 2016,
+   "observed_at_utc": "2026-09-24T23:13:22.854105+00:00",
+   "http_last_modified": "Sun, 04 Aug 2024 21:39:10 GMT",
+   "content_sha256": "8b422876575b0d7b95a6a15f3308cd73efdd3d67a42cebe1d492c2bc79b7b148",
+   "rows": 36612
+  },
+  {
+   "source": "depth_charts",
+   "season": 2017,
+   "observed_at_utc": "2026-09-24T23:37:44.378543+00:00",
+   "http_last_modified": "Sun, 04 Aug 2024 21:40:26 GMT",
+   "content_sha256": "f9bec422b6e89303f5529a846e5decd433f6557978df60ff52676b969e1f4900",
+   "rows": 36620
+  },
+  {
+   "source": "depth_charts",
+   "season": 2018,
+   "observed_at_utc": "2026-09-24T23:37:44.628115+00:00",
+   "http_last_modified": "Sun, 04 Aug 2024 21:41:41 GMT",
+   "content_sha256": "6c489328b30049d74103b4ab1f544c65fa8cec99755bff98e8baf1399d0d70b5",
+   "rows": 36560
+  },
+  {
+   "source": "depth_charts",
+   "season": 2019,
+   "observed_at_utc": "2026-09-24T23:37:44.876744+00:00",
+   "http_last_modified": "Sun, 04 Aug 2024 21:42:56 GMT",
+   "content_sha256": "c366093cc463685732aac9ce262b72f0f250ee52ca0add8dfe9c4b5c24a2d1b4",
+   "rows": 36308
+  },
+  {
+   "source": "depth_charts",
+   "season": 2020,
+   "observed_at_utc": "2026-09-24T23:37:45.099192+00:00",
+   "http_last_modified": "Sun, 04 Aug 2024 21:44:12 GMT",
+   "content_sha256": "a14f80d6d9b5ea45b57aee0c39070ca2a25b51b6c7bf068269c00cbddfe8f1bb",
+   "rows": 36168
+  },
+  {
+   "source": "depth_charts",
+   "season": 2021,
+   "observed_at_utc": "2026-09-24T23:37:45.406264+00:00",
+   "http_last_modified": "Sun, 04 Aug 2024 21:45:30 GMT",
+   "content_sha256": "c82822f30f66797039b9fc5ddb79c1181382041ba6187ecb482780a17cd89bd4",
+   "rows": 37487
+  },
+  {
+   "source": "depth_charts",
+   "season": 2022,
+   "observed_at_utc": "2026-09-24T23:37:45.667242+00:00",
+   "http_last_modified": "Sun, 04 Aug 2024 21:46:50 GMT",
+   "content_sha256": "dc801bdea11e4969c38ce2a35a40d7277a3fa7ab95a0a1ee157eaeb8653fec37",
+   "rows": 37780
+  },
+  {
+   "source": "depth_charts",
+   "season": 2023,
+   "observed_at_utc": "2026-09-24T23:13:22.953102+00:00",
+   "http_last_modified": "Sun, 04 Aug 2024 21:48:08 GMT",
+   "content_sha256": "6cffc62cb69140c7ad82f66d8c4fde2020ea29a4161b4f0b3ca1393aee6fef93",
+   "rows": 37327
+  },
+  {
+   "source": "depth_charts",
+   "season": 2024,
+   "observed_at_utc": "2026-09-24T23:13:23.049742+00:00",
+   "http_last_modified": "Thu, 13 Feb 2025 07:32:56 GMT",
+   "content_sha256": "a4a4a4262643952a8e96c0a69c964b4196b74536991a7242fed6456d393bc320",
+   "rows": 37312
+  },
+  {
+   "source": "depth_charts",
+   "season": 2025,
+   "observed_at_utc": "2026-09-24T23:13:23.476708+00:00",
+   "http_last_modified": "Sat, 14 Mar 2026 07:32:28 GMT",
+   "content_sha256": "9cb80841d969618258dcee4efe0fae2f124bbeac8d132128472c678388046a5b",
+   "rows": 554215
+  },
+  {
+   "source": "depth_charts",
+   "season": 2026,
+   "observed_at_utc": "2026-09-24T23:13:23.998678+00:00",
+   "http_last_modified": "Thu, 24 Sep 2026 12:42:19 GMT",
+   "content_sha256": "43b5d1047ea1a87ce8532975f7739ad0b5037556f3fea74ac4dbdf018081723d",
+   "rows": 558570
+  },
+  {
+   "source": "ftn_charting",
+   "season": 2022,
+   "observed_at_utc": "2026-09-24T23:13:27.827633+00:00",
+   "http_last_modified": "Thu, 10 Oct 2024 01:13:45 GMT",
+   "content_sha256": "9d59fc71a85acfdf78aa4f74be1a196d5038fbea11073c267c48f2961eccdc54",
+   "rows": 41643
+  },
+  {
+   "source": "ftn_charting",
+   "season": 2023,
+   "observed_at_utc": "2026-09-24T23:13:27.932058+00:00",
+   "http_last_modified": "Fri, 06 Sep 2024 23:50:21 GMT",
+   "content_sha256": "dacfcdd116070e11739fe138565d8d7b138057b3265b51de030668f9c420f3d2",
+   "rows": 48225
+  },
+  {
+   "source": "ftn_charting",
+   "season": 2024,
+   "observed_at_utc": "2026-09-24T23:13:28.036157+00:00",
+   "http_last_modified": "Mon, 01 Sep 2025 01:29:36 GMT",
+   "content_sha256": "1b25a20acc693f47a3af03ec2b7c68348dca046422db7d5e023c4f464a1a6a40",
+   "rows": 48031
+  },
+  {
+   "source": "ftn_charting",
+   "season": 2025,
+   "observed_at_utc": "2026-09-24T23:13:28.137155+00:00",
+   "http_last_modified": "Wed, 23 Sep 2026 03:14:30 GMT",
+   "content_sha256": "ea7b4f6d963a41389b54d8b33cf4f497a5a29c975b328beefe10a9f88bd128a3",
+   "rows": 47316
+  },
+  {
+   "source": "ftn_charting",
+   "season": 2026,
+   "observed_at_utc": "2026-09-24T23:13:28.180148+00:00",
+   "http_last_modified": "Wed, 23 Sep 2026 21:03:58 GMT",
+   "content_sha256": "73fc3bf037ac354d8e5dd995957368d61aa82ea2d57f29c2b23e2a60acdde35c",
+   "rows": 5324
+  },
+  {
+   "source": "injuries",
+   "season": 2009,
+   "observed_at_utc": "2026-09-24T23:13:22.442624+00:00",
+   "http_last_modified": "Tue, 26 Jul 2022 05:22:16 GMT",
+   "content_sha256": "9e1fd8c950284d4b16b5e28f7c53b2c6c4a13f2aaa90f6beb46e694986cb4a7f",
+   "rows": 4821
+  },
+  {
+   "source": "injuries",
+   "season": 2012,
+   "observed_at_utc": "2026-09-24T23:37:45.960191+00:00",
+   "http_last_modified": "Tue, 26 Jul 2022 05:22:36 GMT",
+   "content_sha256": "43c61cc13c0911b7f61ec43d95478bf86491cef61a3f127d7dbfcec55acf5d8a",
+   "rows": 5533
+  },
+  {
+   "source": "injuries",
+   "season": 2013,
+   "observed_at_utc": "2026-09-24T23:37:46.157475+00:00",
+   "http_last_modified": "Tue, 26 Jul 2022 05:22:44 GMT",
+   "content_sha256": "62e9a0e96e92ad891f3b058703b6cc400309ce26609a23f45d262e1ab78c61a7",
+   "rows": 5070
+  },
+  {
+   "source": "injuries",
+   "season": 2014,
+   "observed_at_utc": "2026-09-24T23:37:46.330402+00:00",
+   "http_last_modified": "Tue, 26 Jul 2022 05:22:51 GMT",
+   "content_sha256": "01d4e4afe3789f04dc0ac8e65d554f7953d6d0cebd835edb6e0e4da3bf2a3be3",
+   "rows": 5078
+  },
+  {
+   "source": "injuries",
+   "season": 2015,
+   "observed_at_utc": "2026-09-24T23:13:22.497529+00:00",
+   "http_last_modified": "Tue, 26 Jul 2022 05:22:57 GMT",
+   "content_sha256": "28209ceba3f10a253523c210b82b5704f5c47159162912fe8abb4d20f4ffeccc",
+   "rows": 5232
+  },
+  {
+   "source": "injuries",
+   "season": 2016,
+   "observed_at_utc": "2026-09-24T23:37:46.500448+00:00",
+   "http_last_modified": "Tue, 26 Jul 2022 05:23:04 GMT",
+   "content_sha256": "969253c007530b0cb5add2e3121880627f6b66bc7834203e23f40204ed9b9695",
+   "rows": 5115
+  },
+  {
+   "source": "injuries",
+   "season": 2017,
+   "observed_at_utc": "2026-09-24T23:37:46.686951+00:00",
+   "http_last_modified": "Tue, 26 Jul 2022 05:23:11 GMT",
+   "content_sha256": "96bb6a80751a28370a8d17d1d11eaba80970b9f8975c7a12b44748a3723b42a0",
+   "rows": 5104
+  },
+  {
+   "source": "injuries",
+   "season": 2018,
+   "observed_at_utc": "2026-09-24T23:37:46.862648+00:00",
+   "http_last_modified": "Tue, 26 Jul 2022 05:23:17 GMT",
+   "content_sha256": "37a492782bbb2e7d2b7aa757e3ddd260baa465aa07cfe78f8f25b792601893aa",
+   "rows": 5133
+  },
+  {
+   "source": "injuries",
+   "season": 2019,
+   "observed_at_utc": "2026-09-24T23:13:22.539889+00:00",
+   "http_last_modified": "Tue, 26 Jul 2022 05:23:23 GMT",
+   "content_sha256": "641436279e3befec51e88893d84ba8a94ea81a888d7ab993b7cd84411c6c968a",
+   "rows": 5392
+  },
+  {
+   "source": "injuries",
+   "season": 2020,
+   "observed_at_utc": "2026-09-24T23:37:47.043228+00:00",
+   "http_last_modified": "Tue, 26 Jul 2022 05:23:29 GMT",
+   "content_sha256": "fb93e511f2e4bc347a98e1da4fa4c95fb0872bc1de6e2519fed170d66f2028d8",
+   "rows": 5661
+  },
+  {
+   "source": "injuries",
+   "season": 2021,
+   "observed_at_utc": "2026-09-24T23:37:47.270018+00:00",
+   "http_last_modified": "Wed, 31 Aug 2022 07:37:32 GMT",
+   "content_sha256": "3fa5f1a057e14c182c0eddbafb5ef6fa1627406c0b9607721dd9964aa0b214e1",
+   "rows": 5587
+  },
+  {
+   "source": "injuries",
+   "season": 2022,
+   "observed_at_utc": "2026-09-24T23:13:22.591012+00:00",
+   "http_last_modified": "Thu, 31 Aug 2023 07:14:31 GMT",
+   "content_sha256": "afbd5704130a8e3ed23eae226114d436f89827ebe8eaeb484af7dbe9d6032803",
+   "rows": 5682
+  },
+  {
+   "source": "injuries",
+   "season": 2023,
+   "observed_at_utc": "2026-09-24T23:34:49.971488+00:00",
+   "http_last_modified": "Wed, 04 Sep 2024 07:15:42 GMT",
+   "content_sha256": "776652340579d9e4835ac7123b119145b033424d5b9452c75456ccaf0c35c01e",
+   "rows": 5599
+  },
+  {
+   "source": "injuries",
+   "season": 2024,
+   "observed_at_utc": "2026-09-24T23:13:22.675876+00:00",
+   "http_last_modified": "Thu, 13 Feb 2025 07:16:35 GMT",
+   "content_sha256": "74e4001b028675e35db77e59bc5a3d38b43b0bdd455feb3fca07ea3c5011dc85",
+   "rows": 6215
+  },
+  {
+   "source": "injuries",
+   "season": 2025,
+   "observed_at_utc": "2026-09-24T23:13:22.720348+00:00",
+   "http_last_modified": "Mon, 07 Sep 2026 12:23:41 GMT",
+   "content_sha256": "16298cbfb901e048d368d5d6373f3992e611a0b7ce2a566f0a0050db10a7ed20",
+   "rows": 6068
+  },
+  {
+   "source": "injuries",
+   "season": 2026,
+   "observed_at_utc": "2026-09-24T23:13:22.757840+00:00",
+   "http_last_modified": "Thu, 24 Sep 2026 12:41:57 GMT",
+   "content_sha256": "3c5f5cf98300c9e74cad543df12fc155e2b46c0b77f5bc8438f879a382e9ed46",
+   "rows": 692
+  },
+  {
+   "source": "nextgen_passing",
+   "season": null,
+   "observed_at_utc": "2026-09-24T23:13:28.296045+00:00",
+   "http_last_modified": "Thu, 24 Sep 2026 12:28:01 GMT",
+   "content_sha256": "547d0c6c28d8c893bf4199a3b347751211cce6762c50b0eefef38d82e4f8ad70",
+   "rows": 6032
+  },
+  {
+   "source": "officials",
+   "season": null,
+   "observed_at_utc": "2026-09-24T23:13:28.342247+00:00",
+   "http_last_modified": "Wed, 02 Sep 2026 11:48:29 GMT",
+   "content_sha256": "e1eb7bb22d5829792b2ad3813b38c55b725a40d089eb08adbcacc9e18b5e42e4",
+   "rows": 22012
+  },
+  {
+   "source": "participation",
+   "season": 2016,
+   "observed_at_utc": "2026-09-24T23:13:25.265354+00:00",
+   "http_last_modified": "Tue, 19 Dec 2023 05:50:06 GMT",
+   "content_sha256": "9e13ec907c81f1e3b69088a860f2376e0694da11321c54f56f7c976bae7e63be",
+   "rows": 48434
+  },
+  {
+   "source": "participation",
+   "season": 2022,
+   "observed_at_utc": "2026-09-24T23:13:25.694268+00:00",
+   "http_last_modified": "Tue, 19 Dec 2023 06:34:57 GMT",
+   "content_sha256": "97f1ee09a9b20100d26ea1a4e02d1fd2531716810c258eb55158f1cf18f4ef6d",
+   "rows": 50150
+  },
+  {
+   "source": "participation",
+   "season": 2023,
+   "observed_at_utc": "2026-09-24T23:13:26.348633+00:00",
+   "http_last_modified": "Thu, 04 Sep 2025 10:25:29 GMT",
+   "content_sha256": "09f8e8df63cd3138bbf6a85b8b5f14b0352be3cbcccadff33892d6983eb8725d",
+   "rows": 46168
+  },
+  {
+   "source": "participation",
+   "season": 2024,
+   "observed_at_utc": "2026-09-24T23:13:26.990200+00:00",
+   "http_last_modified": "Thu, 04 Sep 2025 10:24:48 GMT",
+   "content_sha256": "3db5ddae0d71b4155899b3c130359f02e9b51e77d9d1dfef9f85cf9834b2dae9",
+   "rows": 45919
+  },
+  {
+   "source": "participation",
+   "season": 2025,
+   "observed_at_utc": "2026-09-24T23:13:27.644188+00:00",
+   "http_last_modified": "Tue, 10 Feb 2026 18:54:07 GMT",
+   "content_sha256": "a40a3e8f39eb51ae1bc80cf5886e1d9502adf812d12f6df5dbd43b87783396c0",
+   "rows": 45184
+  },
+  {
+   "source": "pbp",
+   "season": 2006,
+   "observed_at_utc": "2026-09-24T23:13:16.263956+00:00",
+   "http_last_modified": "Wed, 30 Apr 2025 06:33:16 GMT",
+   "content_sha256": "a89563af9dba3975c96bdc30c329fd8dda7a9ea7a7ef4db97bdca43d21b08f3d",
+   "rows": 46299
+  },
+  {
+   "source": "pbp",
+   "season": 2011,
+   "observed_at_utc": "2026-09-24T23:20:14.799197+00:00",
+   "http_last_modified": "Wed, 30 Apr 2025 06:38:47 GMT",
+   "content_sha256": "584daa0224db81f3e9e97191e8b1a8b7a974d3d1c5665c991b20deb6a4c4466d",
+   "rows": 47448
+  },
+  {
+   "source": "pbp",
+   "season": 2012,
+   "observed_at_utc": "2026-09-24T23:15:22.104475+00:00",
+   "http_last_modified": "Wed, 30 Apr 2025 06:33:24 GMT",
+   "content_sha256": "8298329352e23399fedc739c4f65000b840f4cb7bb948482508b75ab037923b0",
+   "rows": 47834
+  },
+  {
+   "source": "pbp",
+   "season": 2013,
+   "observed_at_utc": "2026-09-24T23:20:18.437675+00:00",
+   "http_last_modified": "Sun, 25 Aug 2024 12:30:13 GMT",
+   "content_sha256": "fef107fa555a284d01539474662819a1bdeb8cb1642c764b0d98dcaac7373acb",
+   "rows": 48158
+  },
+  {
+   "source": "pbp",
+   "season": 2014,
+   "observed_at_utc": "2026-09-24T23:20:22.016291+00:00",
+   "http_last_modified": "Sun, 25 Aug 2024 12:30:15 GMT",
+   "content_sha256": "ac9576444fa70c3303eb8d11b2c709d374631fe385bd3b2fefd4e26f0ebd9c5b",
+   "rows": 47629
+  },
+  {
+   "source": "pbp",
+   "season": 2015,
+   "observed_at_utc": "2026-09-24T23:20:25.712889+00:00",
+   "http_last_modified": "Wed, 30 Apr 2025 06:33:27 GMT",
+   "content_sha256": "222d6660f2b98139e65f6c3667eb563684de283bc3e67c021f00b8f3ae75af65",
+   "rows": 48122
+  },
+  {
+   "source": "pbp",
+   "season": 2016,
+   "observed_at_utc": "2026-09-24T23:13:19.126527+00:00",
+   "http_last_modified": "Wed, 30 Apr 2025 06:34:28 GMT",
+   "content_sha256": "e9df50002cfe3c7dcc56685ec53d590bbfe52647cd61a56e35f096b924b839f5",
+   "rows": 47651
+  },
+  {
+   "source": "pbp",
+   "season": 2017,
+   "observed_at_utc": "2026-09-24T23:20:28.837280+00:00",
+   "http_last_modified": "Wed, 30 Apr 2025 06:41:25 GMT",
+   "content_sha256": "d32d26890c9d186649a922e78953fe8745213568c65252d6b169acb72f47473c",
+   "rows": 47245
+  },
+  {
+   "source": "pbp",
+   "season": 2018,
+   "observed_at_utc": "2026-09-24T23:20:31.703666+00:00",
+   "http_last_modified": "Wed, 30 Apr 2025 06:39:20 GMT",
+   "content_sha256": "a10a3ea20dff651266b14e2af7629b36e475abb3c0c902925689afdbb836ef60",
+   "rows": 47109
+  },
+  {
+   "source": "pbp",
+   "season": 2019,
+   "observed_at_utc": "2026-09-24T23:20:35.247507+00:00",
+   "http_last_modified": "Thu, 31 Jul 2025 18:17:18 GMT",
+   "content_sha256": "14d23a97ac2b935f3be381769b9a6dfbab34ac47c02774d19e3881684e60fa63",
+   "rows": 47260
+  },
+  {
+   "source": "pbp",
+   "season": 2020,
+   "observed_at_utc": "2026-09-24T23:20:38.971765+00:00",
+   "http_last_modified": "Wed, 26 Aug 2026 07:33:10 GMT",
+   "content_sha256": "e6664dcfc33a2f18f72ffbaa8ab20c7bec4c0067701c7123c86739b9dd7528ee",
+   "rows": 47705
+  },
+  {
+   "source": "pbp",
+   "season": 2021,
+   "observed_at_utc": "2026-09-24T23:20:41.961060+00:00",
+   "http_last_modified": "Thu, 08 Jan 2026 13:13:13 GMT",
+   "content_sha256": "47e04341916534bea6315f4efa6e363b6ca29661a2c1c53cf34281e27aa8964a",
+   "rows": 49922
+  },
+  {
+   "source": "pbp",
+   "season": 2022,
+   "observed_at_utc": "2026-09-24T23:20:45.597689+00:00",
+   "http_last_modified": "Thu, 12 Feb 2026 10:25:24 GMT",
+   "content_sha256": "a8015949702362aad4746b3f2011f7de1875f115d8a41a1cd01f54e274506343",
+   "rows": 49434
+  },
+  {
+   "source": "pbp",
+   "season": 2023,
+   "observed_at_utc": "2026-09-24T23:20:48.930619+00:00",
+   "http_last_modified": "Thu, 12 Feb 2026 10:24:52 GMT",
+   "content_sha256": "282020f61cf0921d23d6e0df6d231805c2effb53844810eaab97d848333dd4db",
+   "rows": 49665
+  },
+  {
+   "source": "pbp",
+   "season": 2024,
+   "observed_at_utc": "2026-09-24T23:20:52.291925+00:00",
+   "http_last_modified": "Thu, 13 Aug 2026 12:26:27 GMT",
+   "content_sha256": "a708101d54ef5a1271df023c847f0f405da4e97d10994328d29b1f2a9baa4312",
+   "rows": 49492
+  },
+  {
+   "source": "pbp",
+   "season": 2025,
+   "observed_at_utc": "2026-09-24T23:13:21.953372+00:00",
+   "http_last_modified": "Thu, 13 Aug 2026 12:26:09 GMT",
+   "content_sha256": "96e39bf5ee16d477d24578c4d8e1f8b3d8596bbbb1c5e1797fc963f8a20ec430",
+   "rows": 48771
+  },
+  {
+   "source": "pbp",
+   "season": 2026,
+   "observed_at_utc": "2026-09-24T23:13:22.397094+00:00",
+   "http_last_modified": "Thu, 24 Sep 2026 14:12:31 GMT",
+   "content_sha256": "c1b42ffbdb750f0cff95767782c78ec77b34d0e18d5741521fc839bab1bda391",
+   "rows": 5489
+  },
+  {
+   "source": "pfr_advstats_week_pass",
+   "season": 2018,
+   "observed_at_utc": "2026-09-24T23:13:27.675255+00:00",
+   "http_last_modified": "Tue, 08 Mar 2022 18:20:05 GMT",
+   "content_sha256": "24568cce6d8114e039df39d440d698c280fc934e2e59266ee6be203b1921e0a9",
+   "rows": 646
+  },
+  {
+   "source": "pfr_advstats_week_pass",
+   "season": 2025,
+   "observed_at_utc": "2026-09-24T23:13:27.709881+00:00",
+   "http_last_modified": "Wed, 11 Feb 2026 13:24:09 GMT",
+   "content_sha256": "44e861b796af9580559a668a4ca097b050dfda2474ad390ff9acf92dad9c9f71",
+   "rows": 684
+  },
+  {
+   "source": "pfr_advstats_week_pass",
+   "season": 2026,
+   "observed_at_utc": "2026-09-24T23:13:27.740872+00:00",
+   "http_last_modified": "Thu, 24 Sep 2026 11:03:16 GMT",
+   "content_sha256": "5ed1a5290d833e96785140a52068394ad26039a45ccb13b3906e14d136573209",
+   "rows": 77
+  },
+  {
+   "source": "players",
+   "season": null,
+   "observed_at_utc": "2026-09-24T23:34:49.710311+00:00",
+   "http_last_modified": "Mon, 21 Sep 2026 14:48:47 GMT",
+   "content_sha256": "6f0ae65f198df7acd2901bb38262ef4c77b0239c80c8e4f9f03f42957b574401",
+   "rows": 24830
+  },
+  {
+   "source": "rosters_weekly",
+   "season": 2016,
+   "observed_at_utc": "2026-09-24T23:13:24.153913+00:00",
+   "http_last_modified": "Wed, 13 Sep 2023 00:43:18 GMT",
+   "content_sha256": "d9ced47bd5e44273988c52a79b6bf991e699c66b69a5b99a56eb2cdfb2d9f5c6",
+   "rows": 35020
+  },
+  {
+   "source": "rosters_weekly",
+   "season": 2021,
+   "observed_at_utc": "2026-09-24T23:13:24.304380+00:00",
+   "http_last_modified": "Wed, 13 Sep 2023 01:10:12 GMT",
+   "content_sha256": "15ff3866f2a48a684df0b2c716d2b84ce0e17111d11aa19afb86a38146da7304",
+   "rows": 46696
+  },
+  {
+   "source": "rosters_weekly",
+   "season": 2025,
+   "observed_at_utc": "2026-09-24T23:13:24.463853+00:00",
+   "http_last_modified": "Sat, 14 Mar 2026 07:33:05 GMT",
+   "content_sha256": "fb22a00924b329af64bf8596604990edfe12019777cea700b5ed8a3254c440e6",
+   "rows": 46849
+  },
+  {
+   "source": "rosters_weekly",
+   "season": 2026,
+   "observed_at_utc": "2026-09-24T23:13:24.591054+00:00",
+   "http_last_modified": "Thu, 24 Sep 2026 12:44:17 GMT",
+   "content_sha256": "2f02e7394dc1e5baa7ddbf323016a3fd8b488b3d8a9067984af78992fbc249be",
+   "rows": 8034
+  },
+  {
+   "source": "schedules",
+   "season": null,
+   "observed_at_utc": "2026-09-24T23:20:11.629584+00:00",
+   "http_last_modified": "Thu, 24 Sep 2026 23:16:22 GMT",
+   "content_sha256": "f121022e3d3259b0ac0881801ca40751d736df05d480bebf3604222f057b4a32",
+   "rows": 7548
+  },
+  {
+   "source": "snap_counts",
+   "season": 2012,
+   "observed_at_utc": "2026-09-24T23:37:47.455828+00:00",
+   "http_last_modified": "Mon, 06 Oct 2025 06:50:40 GMT",
+   "content_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "rows": 0
+  },
+  {
+   "source": "snap_counts",
+   "season": 2013,
+   "observed_at_utc": "2026-09-24T23:37:47.644117+00:00",
+   "http_last_modified": "Mon, 06 Oct 2025 06:50:44 GMT",
+   "content_sha256": "cde0601cd88f3ce526b08f0314231a1554a6a099506769eabd1ac48b46d02f8a",
+   "rows": 23799
+  },
+  {
+   "source": "snap_counts",
+   "season": 2014,
+   "observed_at_utc": "2026-09-24T23:37:47.823841+00:00",
+   "http_last_modified": "Mon, 06 Oct 2025 06:50:47 GMT",
+   "content_sha256": "2723366edd9cf37ed8fb48d89769b926f99a43d8116e120638c61a24f60eaa18",
+   "rows": 23864
+  },
+  {
+   "source": "snap_counts",
+   "season": 2015,
+   "observed_at_utc": "2026-09-24T23:37:48.013884+00:00",
+   "http_last_modified": "Mon, 06 Oct 2025 06:50:50 GMT",
+   "content_sha256": "047186f00de1f2a9b2c06869a051c6b21b9c90ccfad8845b40776e2e67736e1b",
+   "rows": 23842
+  },
+  {
+   "source": "snap_counts",
+   "season": 2016,
+   "observed_at_utc": "2026-09-24T23:13:24.649137+00:00",
+   "http_last_modified": "Mon, 06 Oct 2025 06:50:53 GMT",
+   "content_sha256": "e781b86724fabbc2118afbfb456e503499375edb72d15e3d0a824b57c6719585",
+   "rows": 23890
+  },
+  {
+   "source": "snap_counts",
+   "season": 2017,
+   "observed_at_utc": "2026-09-24T23:37:48.237422+00:00",
+   "http_last_modified": "Mon, 06 Oct 2025 06:50:57 GMT",
+   "content_sha256": "5336b8f77279678ebaa6952505a38580001ad3fda0fd6107be31eb0f56bb5dbc",
+   "rows": 23862
+  },
+  {
+   "source": "snap_counts",
+   "season": 2018,
+   "observed_at_utc": "2026-09-24T23:37:48.452803+00:00",
+   "http_last_modified": "Mon, 06 Oct 2025 06:51:00 GMT",
+   "content_sha256": "deb05b2aa28c7e431a2beb639c33f1b49a427f8578ef8d4f5fd5fa1f5aebdc73",
+   "rows": 23877
+  },
+  {
+   "source": "snap_counts",
+   "season": 2019,
+   "observed_at_utc": "2026-09-24T23:37:48.674468+00:00",
+   "http_last_modified": "Mon, 06 Oct 2025 06:51:03 GMT",
+   "content_sha256": "c7d265f81f2f5f44347ef528b0f1cef493c678b3197d6878a32aedad46ebf091",
+   "rows": 23862
+  },
+  {
+   "source": "snap_counts",
+   "season": 2020,
+   "observed_at_utc": "2026-09-24T23:37:48.862586+00:00",
+   "http_last_modified": "Thu, 24 Sep 2026 12:50:25 GMT",
+   "content_sha256": "7fb08bd6ab96c2a039c48c3d6c279c773d82c5a4037a4b0428c3a45f432a53de",
+   "rows": 24999
+  },
+  {
+   "source": "snap_counts",
+   "season": 2021,
+   "observed_at_utc": "2026-09-24T23:13:24.712494+00:00",
+   "http_last_modified": "Mon, 06 Oct 2025 06:51:10 GMT",
+   "content_sha256": "f7e8e06459656d49370ffe65054446061d262bbee02d537509ed55a2a6bc0b9f",
+   "rows": 26468
+  },
+  {
+   "source": "snap_counts",
+   "season": 2022,
+   "observed_at_utc": "2026-09-24T23:37:49.051976+00:00",
+   "http_last_modified": "Mon, 06 Oct 2025 06:51:13 GMT",
+   "content_sha256": "8bbf64719df8cfe348ed4cd00239c72e6135d934e29aa8db0992867076154475",
+   "rows": 26381
+  },
+  {
+   "source": "snap_counts",
+   "season": 2023,
+   "observed_at_utc": "2026-09-24T23:34:50.295077+00:00",
+   "http_last_modified": "Mon, 06 Oct 2025 06:51:17 GMT",
+   "content_sha256": "f62c8acd483ad16c4e5974da2f5d3c0ffd75cf9211aed02f0a2b0e5d2ca3088b",
+   "rows": 26540
+  },
+  {
+   "source": "snap_counts",
+   "season": 2024,
+   "observed_at_utc": "2026-09-24T23:37:49.295666+00:00",
+   "http_last_modified": "Mon, 06 Oct 2025 06:51:20 GMT",
+   "content_sha256": "0e460a2d0d6aa46d1ddf6ae9592dfee52061b21e285aadce3f3c8663f63d9662",
+   "rows": 26615
+  },
+  {
+   "source": "snap_counts",
+   "season": 2025,
+   "observed_at_utc": "2026-09-24T23:13:24.776413+00:00",
+   "http_last_modified": "Thu, 24 Sep 2026 12:50:31 GMT",
+   "content_sha256": "0adb5a6a79a12c7000c2e3e22d643cd30b01fafc718c1f20f06bc9b9b86ab354",
+   "rows": 26613
+  },
+  {
+   "source": "snap_counts",
+   "season": 2026,
+   "observed_at_utc": "2026-09-24T23:13:24.813579+00:00",
+   "http_last_modified": "Thu, 24 Sep 2026 12:50:08 GMT",
+   "content_sha256": "02bdc1eb79402982e2fc25b6208f55fe693306e01083492b97356684212852e0",
+   "rows": 2994
+  },
+  {
+   "source": "teams",
+   "season": null,
+   "observed_at_utc": "2026-09-24T23:13:28.370787+00:00",
+   "http_last_modified": "Fri, 27 Mar 2026 15:49:46 GMT",
+   "content_sha256": "8e486676c4d8a0bc8fdfda11dd64e87e78f28448db8ff2e06aa01857eccfc9ea",
+   "rows": 36
+  }
+ ]
+}

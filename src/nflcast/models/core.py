@@ -88,6 +88,30 @@ TEAM_FEATS = [f"off_{m[0]}" for m in METRICS] + ["adj_off_epa", "adj_off_pts"]
 OPP_FEATS = [f"def_{m[0]}" for m in METRICS] + ["adj_def_epa", "adj_def_pts"]
 CONTEXT = ["venue", "rest_adv", "is_playoff", "own_games_this_season", "opp_games_this_season"]
 
+QB_TEAM = ["qb_rating", "qb_log_db", "qb_delta", "qb_change"]
+SCHED_TEAM = ["off_bye", "short_week"]
+SCHED_OPP = ["off_bye", "short_week"]
+INJ_TEAM = ["lost_ol", "lost_skill"]      # own offensive absences -> own points
+INJ_OPP = ["lost_front", "lost_db"]       # opponent defensive absences -> own points
+OPP_ADJ = {"team": ["adj_off_epa", "adj_off_pts"], "opp": ["adj_def_epa", "adj_def_pts"]}
+
+
+def feature_set(name: str) -> dict:
+    """Named, versioned feature sets. Early-horizon sets never include injury features (not reconstructable)."""
+    core = {"team": list(TEAM_FEATS), "opp": list(OPP_FEATS), "context": list(CONTEXT)}
+    if name == "core":
+        return core
+    if name in ("core_qb", "core_qb_inj", "core_qb_inj_noadj", "core_qb_noadj"):
+        fs = {"team": core["team"] + QB_TEAM + SCHED_TEAM, "opp": core["opp"] + SCHED_OPP, "context": core["context"] + ["dome"]}
+        if "inj" in name:
+            fs["team"] += INJ_TEAM
+            fs["opp"] += INJ_OPP
+        if "noadj" in name:
+            fs["team"] = [f for f in fs["team"] if f not in OPP_ADJ["team"]]
+            fs["opp"] = [f for f in fs["opp"] if f not in OPP_ADJ["opp"]]
+        return fs
+    raise KeyError(name)
+
 
 def stack_team_rows(df: pl.DataFrame, feature_set: dict | None = None) -> tuple[np.ndarray, list[str]]:
     """Two rows per game: (home offence vs away defence) then (away offence vs home defence)."""
@@ -106,6 +130,8 @@ def stack_team_rows(df: pl.DataFrame, feature_set: dict | None = None) -> tuple[
             "own_games_this_season": df[f"{me}_games_this_season"].to_numpy(),
             "opp_games_this_season": df[f"{them}_games_this_season"].to_numpy(),
         }
+        if "dome" in ctx:
+            cmap["dome"] = df["dome"].to_numpy().astype(float)
         cols += [cmap[c] for c in ctx]
         return np.column_stack(cols).astype(float)
 
@@ -140,15 +166,24 @@ class FootballRidge:
         return dict(zip(self.names, map(float, r.coef_)))
 
 
-def select_alpha_chronologically(train: pl.DataFrame, grid=(1, 3, 10, 30, 100, 300, 1000, 3000, 10000, 30000), feature_set=None) -> tuple[float, dict]:
-    """Choose ridge alpha on the LAST training season, fitting on the earlier training seasons only."""
-    last = train["season"].max()
-    inner_tr, inner_va = train.filter(pl.col("season") < last), train.filter(pl.col("season") == last)
+def select_alpha_chronologically(train: pl.DataFrame, grid=(1, 3, 10, 30, 100, 300, 1000, 3000, 10000, 30000),
+                                 feature_set=None, n_val: int = 2) -> tuple[float, dict]:
+    """Choose ridge alpha on the last `n_val` training seasons, each predicted from seasons before it only.
+
+    Scores are team-points RMSE averaged over the validation seasons.
+    """
+    seasons = sorted(train["season"].unique().to_list())
+    val_seasons = seasons[-n_val:] if len(seasons) > n_val else seasons[-1:]
     scores = {}
     for a in grid:
-        m = FootballRidge(alpha=a, feature_set=feature_set).fit(inner_tr)
-        p = m.predict(inner_va)
-        err = np.concatenate([p["home_pts"] - inner_va["home_score"].to_numpy(), p["away_pts"] - inner_va["away_score"].to_numpy()])
-        scores[a] = float(np.sqrt(np.mean(err ** 2)))
+        errs = []
+        for vs in val_seasons:
+            inner_tr, inner_va = train.filter(pl.col("season") < vs), train.filter(pl.col("season") == vs)
+            if inner_tr.height == 0:
+                continue
+            p = FootballRidge(alpha=a, feature_set=feature_set).fit(inner_tr).predict(inner_va)
+            e = np.concatenate([p["home_pts"] - inner_va["home_score"].to_numpy(), p["away_pts"] - inner_va["away_score"].to_numpy()])
+            errs.append(float(np.sqrt(np.mean(e ** 2))))
+        scores[a] = float(np.mean(errs))
     best = min(scores, key=scores.get)
     return float(best), scores

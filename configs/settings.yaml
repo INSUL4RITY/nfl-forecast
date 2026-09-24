@@ -28,7 +28,9 @@ features:
   ridge_rating_alpha: 30.0
 
 validation:
-  # Walk-forward development folds: train on all core seasons before the fold season.
+  # Walk-forward folds: train on all core seasons before the fold season.
+  # tune_folds are used to make modelling choices; dev_folds are the development report.
+  tune_folds: [2019, 2020, 2021]
   dev_folds: [2022, 2023, 2024]
   locked_test: 2025
   interval_levels: [0.8, 0.95]
