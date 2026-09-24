@@ -1,0 +1,40 @@
+# Central configuration. All times are UTC unless stated.
+
+seasons:
+  warmup_start: 2011        # older data used only to initialise ratings
+  core_start: 2016          # first season whose games enter model training
+  last_completed: 2025
+  current: 2026
+
+# Forecast release horizons (hours before scheduled kickoff). Configurable; each is evaluated separately.
+horizons:
+  early: 72
+  final: 1
+
+# Assumed lag between kickoff and the game's play-by-play being available to the pipeline.
+# nflverse pbp is typically refreshed overnight after games; 12h is a conservative default.
+pbp_available_after_kickoff_hours: 12
+
+# Schedule times from nflverse are US/Eastern local wall-clock times.
+schedule_timezone: America/New_York
+
+features:
+  # Exponential decay per game for team form (half-life in games); tuned later on chronological folds.
+  half_life_games: 8
+  # Weight multiplier applied to previous-season games when a new season starts (regression to the mean).
+  season_carryover: 0.6
+  explosive_pass_yards: 20
+  explosive_rush_yards: 10
+  ridge_rating_alpha: 30.0
+
+validation:
+  # Walk-forward development folds: train on all core seasons before the fold season.
+  dev_folds: [2022, 2023, 2024]
+  locked_test: 2025
+  interval_levels: [0.8, 0.95]
+  bootstrap_reps: 2000
+  seed: 20260924
+
+# Market fields: ONLY these numbers may reach model features.
+market:
+  allowed_numeric: [home_spread, total]

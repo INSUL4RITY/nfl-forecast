@@ -1,0 +1,17 @@
+Metadata-Version: 2.4
+Name: nflcast
+Version: 0.1.0
+Summary: Reproducible NFL game forecasting portfolio (expected scores, margins, totals, outcome probabilities).
+Requires-Python: >=3.11
+Requires-Dist: nflreadpy>=0.1.5
+Requires-Dist: polars>=1.30
+Requires-Dist: pandas>=2.2
+Requires-Dist: numpy>=2.0
+Requires-Dist: scikit-learn>=1.5
+Requires-Dist: scipy>=1.13
+Requires-Dist: duckdb>=1.1
+Requires-Dist: pyarrow>=17
+Requires-Dist: pyyaml>=6
+Requires-Dist: requests>=2.32
+Provides-Extra: dev
+Requires-Dist: pytest>=8; extra == "dev"
