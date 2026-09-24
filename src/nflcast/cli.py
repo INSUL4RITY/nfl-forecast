@@ -17,8 +17,9 @@ def main(argv: list[str] | None = None) -> None:
     sub.add_parser("backtest", help="Walk-forward evaluation of benchmark models")
     sub.add_parser("tune", help="Tune feature window settings on tune folds only")
     sub.add_parser("locked-test", help="One-time evaluation including the locked test season (after decisions are frozen)")
-    pr = sub.add_parser("predict", help="Generate a forecast release for upcoming games")
-    pr.add_argument("--horizon", default="final", choices=["early", "final"])
+    sub.add_parser("predict", help="Generate an immutable forecast release for the next week's unplayed games")
+    sub.add_parser("score", help="Score frozen prospective releases against final results")
+    sub.add_parser("export-web", help="Export versioned JSON for the website")
     sub.add_parser("all", help="ingest + build + backtest + predict")
     args = p.parse_args(argv)
     ensure_dirs()
@@ -35,6 +36,12 @@ def main(argv: list[str] | None = None) -> None:
     elif args.cmd == "backtest":
         from nflcast.pipeline import backtest
         backtest()
+    elif args.cmd == "score":
+        from nflcast.predict.score import score
+        score()
+    elif args.cmd == "export-web":
+        from nflcast.predict.export_web import export
+        export()
     elif args.cmd == "locked-test":
         from nflcast.pipeline import backtest
         backtest(include_locked=True)
@@ -42,15 +49,15 @@ def main(argv: list[str] | None = None) -> None:
         from nflcast.evaluation import tuning
         tuning.run()
     elif args.cmd == "predict":
-        from nflcast.pipeline import predict
-        predict(horizon=args.horizon)
+        from nflcast.predict.release import generate
+        generate()
     elif args.cmd == "all":
         from nflcast import pipeline
         pipeline.ingest()
         pipeline.build()
         pipeline.backtest()
-        pipeline.predict(horizon="early")
-        pipeline.predict(horizon="final")
+        from nflcast.predict.release import generate
+        generate()
 
 
 if __name__ == "__main__":
