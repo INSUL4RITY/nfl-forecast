@@ -1,6 +1,6 @@
-# Backtest report `bt_20260924T234801Z`
+# Backtest report `bt_20260924T234406Z`
 
-Generated 2026-09-24T23:48:01.939829+00:00 (UTC). Code hash `39e057cbc51b`. Folds (walk-forward, expanding window): [2019, 2020, 2021, 2022, 2023, 2024]. Locked test season 2025 not evaluated.
+Generated 2026-09-24T23:44:06.276207+00:00 (UTC). Code hash `5adea321aa0a`. Folds (walk-forward, expanding window): [2019, 2020, 2021, 2022, 2023, 2024]. Locked test season 2025 not evaluated.
 
 All numbers below were produced by `python -m nflcast backtest` on real nflverse data. Lower is better for MAE/RMSE. Historical market lines are the single nflverse schedule line (timing unknown, treated as approximately closing), so market comparisons apply only to the final-pregame horizon.
 
@@ -49,222 +49,222 @@ Season-week block bootstrap 95% intervals. Few independent seasons: treat as lim
 
 | period | horizon | a | b | loss | n | mean diff | 95% CI |
 |---|---|---|---|---|---|---|---|
-| dev | early | B_qb | B_core | ae_margin | 854 | +0.002 | [-0.043, +0.047] |
-| dev | early | B_qb | B_core | ae_total | 854 | -0.058 | [-0.149, +0.033] |
-| dev | early | B_qb | B_core | se_margin | 854 | -0.009 | [-1.164, +1.124] |
-| dev | early | B_qb | B_core | se_total | 854 | -2.735 | [-5.142, -0.287] |
-| dev | early | B_qb_noadj | B_core | ae_margin | 854 | +0.019 | [-0.034, +0.071] |
-| dev | early | B_qb_noadj | B_core | ae_total | 854 | -0.095 | [-0.208, +0.012] |
-| dev | early | B_qb_noadj | B_core | se_margin | 854 | +0.559 | [-0.828, +1.964] |
-| dev | early | B_qb_noadj | B_core | se_total | 854 | -2.426 | [-5.358, +0.490] |
-| dev | early | N_naive_home | B_core | ae_margin | 854 | +0.827 | [+0.570, +1.081] |
-| dev | early | N_naive_home | B_core | ae_total | 854 | +0.373 | [+0.119, +0.628] |
-| dev | early | N_naive_home | B_core | se_margin | 854 | +25.326 | [+17.564, +33.625] |
-| dev | early | N_naive_home | B_core | se_total | 854 | +10.031 | [+3.118, +16.742] |
-| dev | early | B_core | N_naive_home | ae_margin | 854 | -0.827 | [-1.079, -0.577] |
-| dev | early | B_core | N_naive_home | ae_total | 854 | -0.373 | [-0.640, -0.120] |
-| dev | early | B_core | N_naive_home | se_margin | 854 | -25.326 | [-33.950, -17.336] |
-| dev | early | B_core | N_naive_home | se_total | 854 | -10.031 | [-16.902, -3.467] |
+| dev | early | B_qb | B_core | ae_margin | 854 | +0.002 | [-0.044, +0.044] |
+| dev | early | B_qb | B_core | ae_total | 854 | -0.058 | [-0.153, +0.036] |
+| dev | early | B_qb | B_core | se_margin | 854 | -0.009 | [-1.100, +1.146] |
+| dev | early | B_qb | B_core | se_total | 854 | -2.735 | [-5.212, -0.207] |
+| dev | early | B_qb_noadj | B_core | ae_margin | 854 | +0.019 | [-0.032, +0.071] |
+| dev | early | B_qb_noadj | B_core | ae_total | 854 | -0.095 | [-0.208, +0.016] |
+| dev | early | B_qb_noadj | B_core | se_margin | 854 | +0.559 | [-0.834, +1.970] |
+| dev | early | B_qb_noadj | B_core | se_total | 854 | -2.426 | [-5.169, +0.467] |
+| dev | early | N_naive_home | B_core | ae_margin | 854 | +0.827 | [+0.578, +1.077] |
+| dev | early | N_naive_home | B_core | ae_total | 854 | +0.373 | [+0.107, +0.630] |
+| dev | early | N_naive_home | B_core | se_margin | 854 | +25.326 | [+17.051, +34.317] |
+| dev | early | N_naive_home | B_core | se_total | 854 | +10.031 | [+3.123, +16.796] |
+| dev | early | B_core | N_naive_home | ae_margin | 854 | -0.827 | [-1.071, -0.584] |
+| dev | early | B_core | N_naive_home | ae_total | 854 | -0.373 | [-0.627, -0.116] |
+| dev | early | B_core | N_naive_home | se_margin | 854 | -25.326 | [-33.824, -17.129] |
+| dev | early | B_core | N_naive_home | se_total | 854 | -10.031 | [-16.882, -3.152] |
 | dev | final | A_market_cal | A_market_raw | ae_margin | 854 | +0.011 | [-0.002, +0.025] |
-| dev | final | A_market_cal | A_market_raw | ae_total | 854 | +0.002 | [-0.007, +0.011] |
-| dev | final | A_market_cal | A_market_raw | se_margin | 854 | +0.398 | [+0.082, +0.718] |
-| dev | final | A_market_cal | A_market_raw | se_total | 854 | -0.154 | [-0.381, +0.070] |
-| dev | final | B_core | A_market_raw | ae_margin | 854 | +0.309 | [+0.152, +0.475] |
-| dev | final | B_core | A_market_raw | ae_total | 854 | +0.317 | [+0.130, +0.504] |
-| dev | final | B_core | A_market_raw | se_margin | 854 | +9.341 | [+4.085, +14.657] |
-| dev | final | B_core | A_market_raw | se_total | 854 | +8.873 | [+4.440, +13.179] |
-| dev | final | B_qb | A_market_raw | ae_margin | 854 | +0.258 | [+0.119, +0.397] |
-| dev | final | B_qb | A_market_raw | ae_total | 854 | +0.162 | [+0.021, +0.315] |
-| dev | final | B_qb | A_market_raw | se_margin | 854 | +5.927 | [+1.776, +9.905] |
-| dev | final | B_qb | A_market_raw | se_total | 854 | +4.535 | [+0.561, +8.518] |
-| dev | final | B_qb_inj | A_market_raw | ae_margin | 854 | +0.241 | [+0.112, +0.368] |
-| dev | final | B_qb_inj | A_market_raw | ae_total | 854 | +0.173 | [+0.019, +0.320] |
-| dev | final | B_qb_inj | A_market_raw | se_margin | 854 | +5.143 | [+0.992, +8.916] |
-| dev | final | B_qb_inj | A_market_raw | se_total | 854 | +4.823 | [+0.911, +8.918] |
-| dev | final | B_qb_noadj | A_market_raw | ae_margin | 854 | +0.274 | [+0.131, +0.413] |
-| dev | final | B_qb_noadj | A_market_raw | ae_total | 854 | +0.120 | [-0.027, +0.270] |
-| dev | final | B_qb_noadj | A_market_raw | se_margin | 854 | +6.434 | [+2.002, +10.522] |
-| dev | final | B_qb_noadj | A_market_raw | se_total | 854 | +4.838 | [+0.968, +8.900] |
-| dev | final | C_direct | A_market_raw | ae_margin | 854 | +0.068 | [-0.004, +0.138] |
-| dev | final | C_direct | A_market_raw | ae_total | 854 | +0.095 | [-0.020, +0.202] |
-| dev | final | C_direct | A_market_raw | se_margin | 854 | +1.265 | [-0.748, +3.154] |
-| dev | final | C_direct | A_market_raw | se_total | 854 | +1.227 | [-1.762, +4.043] |
-| dev | final | C_resid | A_market_raw | ae_margin | 854 | -0.005 | [-0.024, +0.014] |
-| dev | final | C_resid | A_market_raw | ae_total | 854 | +0.004 | [-0.081, +0.093] |
-| dev | final | C_resid | A_market_raw | se_margin | 854 | -0.069 | [-0.497, +0.358] |
-| dev | final | C_resid | A_market_raw | se_total | 854 | -1.366 | [-3.585, +0.689] |
-| dev | final | C_resid_hgb | A_market_raw | ae_margin | 854 | +0.095 | [-0.031, +0.215] |
-| dev | final | C_resid_hgb | A_market_raw | ae_total | 854 | -0.047 | [-0.174, +0.091] |
-| dev | final | C_resid_hgb | A_market_raw | se_margin | 854 | +3.250 | [+0.259, +6.049] |
-| dev | final | C_resid_hgb | A_market_raw | se_total | 854 | -0.975 | [-4.637, +2.607] |
-| dev | final | C_resid_noinj | A_market_raw | ae_margin | 854 | -0.008 | [-0.035, +0.019] |
-| dev | final | C_resid_noinj | A_market_raw | ae_total | 854 | -0.004 | [-0.092, +0.083] |
-| dev | final | C_resid_noinj | A_market_raw | se_margin | 854 | -0.197 | [-0.802, +0.428] |
-| dev | final | C_resid_noinj | A_market_raw | se_total | 854 | -1.508 | [-3.778, +0.669] |
-| dev | final | C_resid_nopersonnel | A_market_raw | ae_margin | 854 | -0.008 | [-0.045, +0.031] |
-| dev | final | C_resid_nopersonnel | A_market_raw | ae_total | 854 | +0.013 | [-0.051, +0.074] |
-| dev | final | C_resid_nopersonnel | A_market_raw | se_margin | 854 | -0.217 | [-1.301, +0.814] |
-| dev | final | C_resid_nopersonnel | A_market_raw | se_total | 854 | -1.037 | [-2.932, +0.745] |
-| dev | final | N_naive_home | A_market_raw | ae_margin | 854 | +1.136 | [+0.831, +1.464] |
-| dev | final | N_naive_home | A_market_raw | ae_total | 854 | +0.690 | [+0.405, +0.968] |
-| dev | final | N_naive_home | A_market_raw | se_margin | 854 | +34.685 | [+24.774, +44.651] |
-| dev | final | N_naive_home | A_market_raw | se_total | 854 | +18.889 | [+11.087, +26.612] |
-| dev | final | A_market_cal | B_core | ae_margin | 854 | -0.298 | [-0.458, -0.145] |
-| dev | final | A_market_cal | B_core | ae_total | 854 | -0.315 | [-0.509, -0.135] |
-| dev | final | A_market_cal | B_core | se_margin | 854 | -8.943 | [-14.185, -3.806] |
-| dev | final | A_market_cal | B_core | se_total | 854 | -9.026 | [-13.447, -4.658] |
-| dev | final | A_market_raw | B_core | ae_margin | 854 | -0.309 | [-0.473, -0.144] |
-| dev | final | A_market_raw | B_core | ae_total | 854 | -0.317 | [-0.500, -0.125] |
-| dev | final | A_market_raw | B_core | se_margin | 854 | -9.341 | [-14.669, -4.221] |
-| dev | final | A_market_raw | B_core | se_total | 854 | -8.873 | [-13.558, -4.389] |
-| dev | final | B_qb | B_core | ae_margin | 854 | -0.051 | [-0.166, +0.057] |
-| dev | final | B_qb | B_core | ae_total | 854 | -0.156 | [-0.284, -0.024] |
-| dev | final | B_qb | B_core | se_margin | 854 | -3.414 | [-6.784, -0.493] |
-| dev | final | B_qb | B_core | se_total | 854 | -4.338 | [-7.448, -1.438] |
-| dev | final | B_qb_inj | B_core | ae_margin | 854 | -0.069 | [-0.209, +0.052] |
-| dev | final | B_qb_inj | B_core | ae_total | 854 | -0.145 | [-0.261, -0.022] |
-| dev | final | B_qb_inj | B_core | se_margin | 854 | -4.198 | [-8.016, -0.918] |
-| dev | final | B_qb_inj | B_core | se_total | 854 | -4.049 | [-7.004, -1.121] |
-| dev | final | B_qb_noadj | B_core | ae_margin | 854 | -0.035 | [-0.159, +0.082] |
-| dev | final | B_qb_noadj | B_core | ae_total | 854 | -0.197 | [-0.338, -0.056] |
-| dev | final | B_qb_noadj | B_core | se_margin | 854 | -2.907 | [-6.300, +0.042] |
-| dev | final | B_qb_noadj | B_core | se_total | 854 | -4.035 | [-7.622, -0.639] |
-| dev | final | C_direct | B_core | ae_margin | 854 | -0.242 | [-0.417, -0.069] |
-| dev | final | C_direct | B_core | ae_total | 854 | -0.223 | [-0.382, -0.058] |
-| dev | final | C_direct | B_core | se_margin | 854 | -8.076 | [-13.654, -3.342] |
-| dev | final | C_direct | B_core | se_total | 854 | -7.646 | [-11.502, -4.194] |
-| dev | final | C_resid | B_core | ae_margin | 854 | -0.314 | [-0.468, -0.148] |
-| dev | final | C_resid | B_core | ae_total | 854 | -0.313 | [-0.525, -0.108] |
-| dev | final | C_resid | B_core | se_margin | 854 | -9.410 | [-14.734, -4.250] |
-| dev | final | C_resid | B_core | se_total | 854 | -10.238 | [-15.123, -5.354] |
-| dev | final | C_resid_hgb | B_core | ae_margin | 854 | -0.214 | [-0.411, -0.021] |
-| dev | final | C_resid_hgb | B_core | ae_total | 854 | -0.364 | [-0.576, -0.151] |
-| dev | final | C_resid_hgb | B_core | se_margin | 854 | -6.091 | [-12.366, +0.107] |
-| dev | final | C_resid_hgb | B_core | se_total | 854 | -9.848 | [-15.304, -4.330] |
-| dev | final | C_resid_noinj | B_core | ae_margin | 854 | -0.317 | [-0.477, -0.150] |
-| dev | final | C_resid_noinj | B_core | ae_total | 854 | -0.321 | [-0.525, -0.113] |
-| dev | final | C_resid_noinj | B_core | se_margin | 854 | -9.538 | [-14.950, -4.475] |
-| dev | final | C_resid_noinj | B_core | se_total | 854 | -10.381 | [-15.352, -5.167] |
-| dev | final | C_resid_nopersonnel | B_core | ae_margin | 854 | -0.317 | [-0.480, -0.149] |
-| dev | final | C_resid_nopersonnel | B_core | ae_total | 854 | -0.305 | [-0.504, -0.119] |
-| dev | final | C_resid_nopersonnel | B_core | se_margin | 854 | -9.558 | [-14.720, -4.754] |
-| dev | final | C_resid_nopersonnel | B_core | se_total | 854 | -9.910 | [-14.491, -5.391] |
-| dev | final | N_naive_home | B_core | ae_margin | 854 | +0.827 | [+0.577, +1.077] |
-| dev | final | N_naive_home | B_core | ae_total | 854 | +0.373 | [+0.116, +0.624] |
-| dev | final | N_naive_home | B_core | se_margin | 854 | +25.344 | [+17.478, +34.201] |
-| dev | final | N_naive_home | B_core | se_total | 854 | +10.016 | [+3.048, +16.970] |
-| dev | final | B_core | N_naive_home | ae_margin | 854 | -0.827 | [-1.078, -0.560] |
-| dev | final | B_core | N_naive_home | ae_total | 854 | -0.373 | [-0.622, -0.098] |
-| dev | final | B_core | N_naive_home | se_margin | 854 | -25.344 | [-33.486, -16.859] |
-| dev | final | B_core | N_naive_home | se_total | 854 | -10.016 | [-17.265, -2.996] |
-| tune | early | B_qb | B_core | ae_margin | 821 | -0.030 | [-0.064, +0.002] |
-| tune | early | B_qb | B_core | ae_total | 821 | -0.039 | [-0.090, +0.014] |
-| tune | early | B_qb | B_core | se_margin | 821 | -0.774 | [-1.684, +0.133] |
-| tune | early | B_qb | B_core | se_total | 821 | -1.484 | [-3.096, +0.216] |
-| tune | early | B_qb_noadj | B_core | ae_margin | 821 | -0.024 | [-0.071, +0.026] |
-| tune | early | B_qb_noadj | B_core | ae_total | 821 | -0.028 | [-0.102, +0.045] |
-| tune | early | B_qb_noadj | B_core | se_margin | 821 | -0.485 | [-1.988, +1.008] |
-| tune | early | B_qb_noadj | B_core | se_total | 821 | -1.371 | [-3.516, +0.926] |
-| tune | early | N_naive_home | B_core | ae_margin | 821 | +1.065 | [+0.790, +1.350] |
-| tune | early | N_naive_home | B_core | ae_total | 821 | +0.217 | [-0.019, +0.459] |
-| tune | early | N_naive_home | B_core | se_margin | 821 | +37.913 | [+29.827, +45.825] |
-| tune | early | N_naive_home | B_core | se_total | 821 | +7.238 | [-0.368, +15.187] |
-| tune | early | B_core | N_naive_home | ae_margin | 821 | -1.065 | [-1.337, -0.782] |
-| tune | early | B_core | N_naive_home | ae_total | 821 | -0.217 | [-0.452, +0.025] |
-| tune | early | B_core | N_naive_home | se_margin | 821 | -37.913 | [-45.712, -30.447] |
-| tune | early | B_core | N_naive_home | se_total | 821 | -7.238 | [-14.820, +0.416] |
-| tune | final | A_market_cal | A_market_raw | ae_margin | 821 | +0.015 | [-0.008, +0.038] |
-| tune | final | A_market_cal | A_market_raw | ae_total | 821 | +0.011 | [-0.004, +0.025] |
-| tune | final | A_market_cal | A_market_raw | se_margin | 821 | +0.337 | [-0.288, +0.935] |
-| tune | final | A_market_cal | A_market_raw | se_total | 821 | +0.291 | [-0.080, +0.641] |
-| tune | final | B_core | A_market_raw | ae_margin | 821 | +0.308 | [+0.110, +0.510] |
-| tune | final | B_core | A_market_raw | ae_total | 821 | +0.334 | [+0.153, +0.504] |
-| tune | final | B_core | A_market_raw | se_margin | 821 | +9.995 | [+3.764, +16.190] |
-| tune | final | B_core | A_market_raw | se_total | 821 | +12.443 | [+7.459, +17.551] |
-| tune | final | B_qb | A_market_raw | ae_margin | 821 | +0.189 | [+0.026, +0.344] |
-| tune | final | B_qb | A_market_raw | ae_total | 821 | +0.157 | [-0.004, +0.315] |
-| tune | final | B_qb | A_market_raw | se_margin | 821 | +5.943 | [+1.071, +10.603] |
-| tune | final | B_qb | A_market_raw | se_total | 821 | +6.494 | [+1.781, +11.261] |
-| tune | final | B_qb_inj | A_market_raw | ae_margin | 821 | +0.195 | [+0.034, +0.350] |
-| tune | final | B_qb_inj | A_market_raw | ae_total | 821 | +0.137 | [-0.027, +0.307] |
-| tune | final | B_qb_inj | A_market_raw | se_margin | 821 | +5.981 | [+1.407, +10.690] |
-| tune | final | B_qb_inj | A_market_raw | se_total | 821 | +5.896 | [+1.314, +10.954] |
-| tune | final | B_qb_noadj | A_market_raw | ae_margin | 821 | +0.205 | [+0.040, +0.363] |
-| tune | final | B_qb_noadj | A_market_raw | ae_total | 821 | +0.168 | [+0.009, +0.332] |
-| tune | final | B_qb_noadj | A_market_raw | se_margin | 821 | +6.788 | [+1.881, +11.943] |
-| tune | final | B_qb_noadj | A_market_raw | se_total | 821 | +6.378 | [+1.723, +11.179] |
-| tune | final | C_direct | A_market_raw | ae_margin | 821 | +0.054 | [-0.052, +0.156] |
-| tune | final | C_direct | A_market_raw | ae_total | 821 | +0.100 | [-0.042, +0.233] |
-| tune | final | C_direct | A_market_raw | se_margin | 821 | +1.708 | [-1.066, +4.825] |
-| tune | final | C_direct | A_market_raw | se_total | 821 | +4.440 | [+0.944, +7.993] |
-| tune | final | C_resid | A_market_raw | ae_margin | 821 | +0.008 | [-0.026, +0.041] |
-| tune | final | C_resid | A_market_raw | ae_total | 821 | +0.008 | [-0.008, +0.023] |
-| tune | final | C_resid | A_market_raw | se_margin | 821 | +0.347 | [-0.483, +1.232] |
-| tune | final | C_resid | A_market_raw | se_total | 821 | +0.179 | [-0.209, +0.550] |
-| tune | final | C_resid_hgb | A_market_raw | ae_margin | 821 | +0.048 | [-0.083, +0.184] |
-| tune | final | C_resid_hgb | A_market_raw | ae_total | 821 | +0.226 | [+0.048, +0.402] |
-| tune | final | C_resid_hgb | A_market_raw | se_margin | 821 | +2.374 | [-0.942, +5.653] |
-| tune | final | C_resid_hgb | A_market_raw | se_total | 821 | +8.204 | [+3.542, +12.773] |
-| tune | final | C_resid_noinj | A_market_raw | ae_margin | 821 | +0.009 | [-0.016, +0.035] |
+| dev | final | A_market_cal | A_market_raw | ae_total | 854 | +0.002 | [-0.008, +0.012] |
+| dev | final | A_market_cal | A_market_raw | se_margin | 854 | +0.398 | [+0.068, +0.702] |
+| dev | final | A_market_cal | A_market_raw | se_total | 854 | -0.154 | [-0.392, +0.068] |
+| dev | final | B_core | A_market_raw | ae_margin | 854 | +0.309 | [+0.144, +0.479] |
+| dev | final | B_core | A_market_raw | ae_total | 854 | +0.317 | [+0.127, +0.501] |
+| dev | final | B_core | A_market_raw | se_margin | 854 | +9.341 | [+4.068, +14.617] |
+| dev | final | B_core | A_market_raw | se_total | 854 | +8.873 | [+4.350, +13.391] |
+| dev | final | B_qb | A_market_raw | ae_margin | 854 | +0.258 | [+0.115, +0.389] |
+| dev | final | B_qb | A_market_raw | ae_total | 854 | +0.162 | [+0.020, +0.303] |
+| dev | final | B_qb | A_market_raw | se_margin | 854 | +5.927 | [+1.670, +9.905] |
+| dev | final | B_qb | A_market_raw | se_total | 854 | +4.535 | [+0.291, +8.560] |
+| dev | final | B_qb_inj | A_market_raw | ae_margin | 854 | +0.241 | [+0.114, +0.369] |
+| dev | final | B_qb_inj | A_market_raw | ae_total | 854 | +0.173 | [+0.035, +0.321] |
+| dev | final | B_qb_inj | A_market_raw | se_margin | 854 | +5.143 | [+1.140, +8.934] |
+| dev | final | B_qb_inj | A_market_raw | se_total | 854 | +4.823 | [+0.974, +8.851] |
+| dev | final | B_qb_noadj | A_market_raw | ae_margin | 854 | +0.274 | [+0.137, +0.410] |
+| dev | final | B_qb_noadj | A_market_raw | ae_total | 854 | +0.120 | [-0.024, +0.269] |
+| dev | final | B_qb_noadj | A_market_raw | se_margin | 854 | +6.434 | [+2.127, +10.624] |
+| dev | final | B_qb_noadj | A_market_raw | se_total | 854 | +4.838 | [+0.915, +8.711] |
+| dev | final | C_direct | A_market_raw | ae_margin | 854 | +0.068 | [-0.003, +0.140] |
+| dev | final | C_direct | A_market_raw | ae_total | 854 | +0.095 | [-0.020, +0.204] |
+| dev | final | C_direct | A_market_raw | se_margin | 854 | +1.265 | [-0.751, +3.113] |
+| dev | final | C_direct | A_market_raw | se_total | 854 | +1.227 | [-1.624, +4.045] |
+| dev | final | C_resid | A_market_raw | ae_margin | 854 | -0.005 | [-0.023, +0.014] |
+| dev | final | C_resid | A_market_raw | ae_total | 854 | +0.004 | [-0.080, +0.090] |
+| dev | final | C_resid | A_market_raw | se_margin | 854 | -0.069 | [-0.497, +0.355] |
+| dev | final | C_resid | A_market_raw | se_total | 854 | -1.366 | [-3.383, +0.796] |
+| dev | final | C_resid_hgb | A_market_raw | ae_margin | 854 | +0.095 | [-0.024, +0.217] |
+| dev | final | C_resid_hgb | A_market_raw | ae_total | 854 | -0.047 | [-0.179, +0.086] |
+| dev | final | C_resid_hgb | A_market_raw | se_margin | 854 | +3.250 | [+0.382, +6.334] |
+| dev | final | C_resid_hgb | A_market_raw | se_total | 854 | -0.975 | [-4.612, +2.764] |
+| dev | final | C_resid_noinj | A_market_raw | ae_margin | 854 | -0.008 | [-0.034, +0.018] |
+| dev | final | C_resid_noinj | A_market_raw | ae_total | 854 | -0.004 | [-0.096, +0.082] |
+| dev | final | C_resid_noinj | A_market_raw | se_margin | 854 | -0.197 | [-0.839, +0.376] |
+| dev | final | C_resid_noinj | A_market_raw | se_total | 854 | -1.508 | [-3.774, +0.746] |
+| dev | final | C_resid_nopersonnel | A_market_raw | ae_margin | 854 | -0.008 | [-0.044, +0.031] |
+| dev | final | C_resid_nopersonnel | A_market_raw | ae_total | 854 | +0.013 | [-0.050, +0.075] |
+| dev | final | C_resid_nopersonnel | A_market_raw | se_margin | 854 | -0.217 | [-1.349, +0.774] |
+| dev | final | C_resid_nopersonnel | A_market_raw | se_total | 854 | -1.037 | [-2.710, +0.818] |
+| dev | final | N_naive_home | A_market_raw | ae_margin | 854 | +1.136 | [+0.825, +1.449] |
+| dev | final | N_naive_home | A_market_raw | ae_total | 854 | +0.690 | [+0.403, +0.968] |
+| dev | final | N_naive_home | A_market_raw | se_margin | 854 | +34.685 | [+24.444, +45.062] |
+| dev | final | N_naive_home | A_market_raw | se_total | 854 | +18.889 | [+10.895, +26.843] |
+| dev | final | A_market_cal | B_core | ae_margin | 854 | -0.298 | [-0.451, -0.138] |
+| dev | final | A_market_cal | B_core | ae_total | 854 | -0.315 | [-0.500, -0.127] |
+| dev | final | A_market_cal | B_core | se_margin | 854 | -8.943 | [-14.123, -3.721] |
+| dev | final | A_market_cal | B_core | se_total | 854 | -9.026 | [-13.581, -4.396] |
+| dev | final | A_market_raw | B_core | ae_margin | 854 | -0.309 | [-0.475, -0.145] |
+| dev | final | A_market_raw | B_core | ae_total | 854 | -0.317 | [-0.508, -0.139] |
+| dev | final | A_market_raw | B_core | se_margin | 854 | -9.341 | [-14.855, -4.428] |
+| dev | final | A_market_raw | B_core | se_total | 854 | -8.873 | [-13.349, -4.508] |
+| dev | final | B_qb | B_core | ae_margin | 854 | -0.051 | [-0.173, +0.060] |
+| dev | final | B_qb | B_core | ae_total | 854 | -0.156 | [-0.279, -0.032] |
+| dev | final | B_qb | B_core | se_margin | 854 | -3.414 | [-6.919, -0.574] |
+| dev | final | B_qb | B_core | se_total | 854 | -4.338 | [-7.254, -1.359] |
+| dev | final | B_qb_inj | B_core | ae_margin | 854 | -0.069 | [-0.216, +0.055] |
+| dev | final | B_qb_inj | B_core | ae_total | 854 | -0.145 | [-0.266, -0.020] |
+| dev | final | B_qb_inj | B_core | se_margin | 854 | -4.198 | [-8.046, -1.037] |
+| dev | final | B_qb_inj | B_core | se_total | 854 | -4.049 | [-7.026, -1.162] |
+| dev | final | B_qb_noadj | B_core | ae_margin | 854 | -0.035 | [-0.154, +0.082] |
+| dev | final | B_qb_noadj | B_core | ae_total | 854 | -0.197 | [-0.339, -0.057] |
+| dev | final | B_qb_noadj | B_core | se_margin | 854 | -2.907 | [-6.311, +0.214] |
+| dev | final | B_qb_noadj | B_core | se_total | 854 | -4.035 | [-7.278, -0.642] |
+| dev | final | C_direct | B_core | ae_margin | 854 | -0.242 | [-0.427, -0.076] |
+| dev | final | C_direct | B_core | ae_total | 854 | -0.223 | [-0.377, -0.056] |
+| dev | final | C_direct | B_core | se_margin | 854 | -8.076 | [-13.474, -3.333] |
+| dev | final | C_direct | B_core | se_total | 854 | -7.646 | [-11.411, -3.945] |
+| dev | final | C_resid | B_core | ae_margin | 854 | -0.314 | [-0.473, -0.164] |
+| dev | final | C_resid | B_core | ae_total | 854 | -0.313 | [-0.521, -0.103] |
+| dev | final | C_resid | B_core | se_margin | 854 | -9.410 | [-14.762, -4.133] |
+| dev | final | C_resid | B_core | se_total | 854 | -10.238 | [-15.030, -5.542] |
+| dev | final | C_resid_hgb | B_core | ae_margin | 854 | -0.214 | [-0.412, -0.012] |
+| dev | final | C_resid_hgb | B_core | ae_total | 854 | -0.364 | [-0.603, -0.148] |
+| dev | final | C_resid_hgb | B_core | se_margin | 854 | -6.091 | [-12.074, -0.436] |
+| dev | final | C_resid_hgb | B_core | se_total | 854 | -9.848 | [-15.608, -3.937] |
+| dev | final | C_resid_noinj | B_core | ae_margin | 854 | -0.317 | [-0.485, -0.149] |
+| dev | final | C_resid_noinj | B_core | ae_total | 854 | -0.321 | [-0.533, -0.112] |
+| dev | final | C_resid_noinj | B_core | se_margin | 854 | -9.538 | [-14.796, -4.350] |
+| dev | final | C_resid_noinj | B_core | se_total | 854 | -10.381 | [-15.547, -5.466] |
+| dev | final | C_resid_nopersonnel | B_core | ae_margin | 854 | -0.317 | [-0.487, -0.151] |
+| dev | final | C_resid_nopersonnel | B_core | ae_total | 854 | -0.305 | [-0.499, -0.111] |
+| dev | final | C_resid_nopersonnel | B_core | se_margin | 854 | -9.558 | [-14.590, -4.627] |
+| dev | final | C_resid_nopersonnel | B_core | se_total | 854 | -9.910 | [-14.406, -5.270] |
+| dev | final | N_naive_home | B_core | ae_margin | 854 | +0.827 | [+0.566, +1.080] |
+| dev | final | N_naive_home | B_core | ae_total | 854 | +0.373 | [+0.112, +0.624] |
+| dev | final | N_naive_home | B_core | se_margin | 854 | +25.344 | [+17.035, +33.650] |
+| dev | final | N_naive_home | B_core | se_total | 854 | +10.016 | [+3.572, +16.967] |
+| dev | final | B_core | N_naive_home | ae_margin | 854 | -0.827 | [-1.083, -0.580] |
+| dev | final | B_core | N_naive_home | ae_total | 854 | -0.373 | [-0.639, -0.125] |
+| dev | final | B_core | N_naive_home | se_margin | 854 | -25.344 | [-34.091, -17.342] |
+| dev | final | B_core | N_naive_home | se_total | 854 | -10.016 | [-16.970, -3.078] |
+| tune | early | B_qb | B_core | ae_margin | 821 | -0.030 | [-0.061, +0.002] |
+| tune | early | B_qb | B_core | ae_total | 821 | -0.039 | [-0.093, +0.017] |
+| tune | early | B_qb | B_core | se_margin | 821 | -0.774 | [-1.671, +0.144] |
+| tune | early | B_qb | B_core | se_total | 821 | -1.484 | [-3.014, +0.174] |
+| tune | early | B_qb_noadj | B_core | ae_margin | 821 | -0.024 | [-0.075, +0.023] |
+| tune | early | B_qb_noadj | B_core | ae_total | 821 | -0.028 | [-0.107, +0.047] |
+| tune | early | B_qb_noadj | B_core | se_margin | 821 | -0.485 | [-1.986, +1.045] |
+| tune | early | B_qb_noadj | B_core | se_total | 821 | -1.371 | [-3.541, +0.887] |
+| tune | early | N_naive_home | B_core | ae_margin | 821 | +1.065 | [+0.787, +1.343] |
+| tune | early | N_naive_home | B_core | ae_total | 821 | +0.217 | [-0.018, +0.454] |
+| tune | early | N_naive_home | B_core | se_margin | 821 | +37.913 | [+30.054, +45.743] |
+| tune | early | N_naive_home | B_core | se_total | 821 | +7.238 | [-0.181, +14.619] |
+| tune | early | B_core | N_naive_home | ae_margin | 821 | -1.065 | [-1.354, -0.779] |
+| tune | early | B_core | N_naive_home | ae_total | 821 | -0.217 | [-0.460, +0.021] |
+| tune | early | B_core | N_naive_home | se_margin | 821 | -37.913 | [-46.270, -29.708] |
+| tune | early | B_core | N_naive_home | se_total | 821 | -7.238 | [-14.614, +0.705] |
+| tune | final | A_market_cal | A_market_raw | ae_margin | 821 | +0.015 | [-0.008, +0.039] |
+| tune | final | A_market_cal | A_market_raw | ae_total | 821 | +0.011 | [-0.003, +0.026] |
+| tune | final | A_market_cal | A_market_raw | se_margin | 821 | +0.337 | [-0.269, +0.922] |
+| tune | final | A_market_cal | A_market_raw | se_total | 821 | +0.291 | [-0.070, +0.680] |
+| tune | final | B_core | A_market_raw | ae_margin | 821 | +0.308 | [+0.112, +0.504] |
+| tune | final | B_core | A_market_raw | ae_total | 821 | +0.334 | [+0.162, +0.510] |
+| tune | final | B_core | A_market_raw | se_margin | 821 | +9.995 | [+3.774, +16.278] |
+| tune | final | B_core | A_market_raw | se_total | 821 | +12.443 | [+7.163, +17.675] |
+| tune | final | B_qb | A_market_raw | ae_margin | 821 | +0.189 | [+0.025, +0.349] |
+| tune | final | B_qb | A_market_raw | ae_total | 821 | +0.157 | [+0.009, +0.318] |
+| tune | final | B_qb | A_market_raw | se_margin | 821 | +5.943 | [+1.343, +10.923] |
+| tune | final | B_qb | A_market_raw | se_total | 821 | +6.494 | [+1.799, +11.182] |
+| tune | final | B_qb_inj | A_market_raw | ae_margin | 821 | +0.195 | [+0.029, +0.354] |
+| tune | final | B_qb_inj | A_market_raw | ae_total | 821 | +0.137 | [-0.036, +0.300] |
+| tune | final | B_qb_inj | A_market_raw | se_margin | 821 | +5.981 | [+1.152, +10.740] |
+| tune | final | B_qb_inj | A_market_raw | se_total | 821 | +5.896 | [+1.161, +10.859] |
+| tune | final | B_qb_noadj | A_market_raw | ae_margin | 821 | +0.205 | [+0.039, +0.364] |
+| tune | final | B_qb_noadj | A_market_raw | ae_total | 821 | +0.168 | [+0.008, +0.330] |
+| tune | final | B_qb_noadj | A_market_raw | se_margin | 821 | +6.788 | [+2.016, +11.621] |
+| tune | final | B_qb_noadj | A_market_raw | se_total | 821 | +6.378 | [+1.366, +11.375] |
+| tune | final | C_direct | A_market_raw | ae_margin | 821 | +0.054 | [-0.048, +0.155] |
+| tune | final | C_direct | A_market_raw | ae_total | 821 | +0.100 | [-0.030, +0.233] |
+| tune | final | C_direct | A_market_raw | se_margin | 821 | +1.708 | [-1.291, +4.488] |
+| tune | final | C_direct | A_market_raw | se_total | 821 | +4.440 | [+0.691, +8.442] |
+| tune | final | C_resid | A_market_raw | ae_margin | 821 | +0.008 | [-0.025, +0.041] |
+| tune | final | C_resid | A_market_raw | ae_total | 821 | +0.008 | [-0.008, +0.024] |
+| tune | final | C_resid | A_market_raw | se_margin | 821 | +0.347 | [-0.531, +1.202] |
+| tune | final | C_resid | A_market_raw | se_total | 821 | +0.179 | [-0.217, +0.560] |
+| tune | final | C_resid_hgb | A_market_raw | ae_margin | 821 | +0.048 | [-0.088, +0.176] |
+| tune | final | C_resid_hgb | A_market_raw | ae_total | 821 | +0.226 | [+0.050, +0.385] |
+| tune | final | C_resid_hgb | A_market_raw | se_margin | 821 | +2.374 | [-0.937, +5.570] |
+| tune | final | C_resid_hgb | A_market_raw | se_total | 821 | +8.204 | [+3.856, +12.884] |
+| tune | final | C_resid_noinj | A_market_raw | ae_margin | 821 | +0.009 | [-0.015, +0.035] |
 | tune | final | C_resid_noinj | A_market_raw | ae_total | 821 | +0.008 | [-0.007, +0.024] |
-| tune | final | C_resid_noinj | A_market_raw | se_margin | 821 | +0.320 | [-0.362, +1.001] |
-| tune | final | C_resid_noinj | A_market_raw | se_total | 821 | +0.172 | [-0.238, +0.547] |
-| tune | final | C_resid_nopersonnel | A_market_raw | ae_margin | 821 | +0.006 | [-0.024, +0.039] |
-| tune | final | C_resid_nopersonnel | A_market_raw | ae_total | 821 | +0.007 | [-0.008, +0.022] |
-| tune | final | C_resid_nopersonnel | A_market_raw | se_margin | 821 | +0.297 | [-0.560, +1.085] |
-| tune | final | C_resid_nopersonnel | A_market_raw | se_total | 821 | +0.171 | [-0.192, +0.516] |
-| tune | final | N_naive_home | A_market_raw | ae_margin | 821 | +1.372 | [+0.994, +1.741] |
-| tune | final | N_naive_home | A_market_raw | ae_total | 821 | +0.549 | [+0.295, +0.797] |
-| tune | final | N_naive_home | A_market_raw | se_margin | 821 | +47.884 | [+36.371, +60.402] |
-| tune | final | N_naive_home | A_market_raw | se_total | 821 | +19.656 | [+12.700, +26.387] |
-| tune | final | A_market_cal | B_core | ae_margin | 821 | -0.293 | [-0.494, -0.090] |
-| tune | final | A_market_cal | B_core | ae_total | 821 | -0.323 | [-0.504, -0.142] |
-| tune | final | A_market_cal | B_core | se_margin | 821 | -9.658 | [-16.174, -3.313] |
-| tune | final | A_market_cal | B_core | se_total | 821 | -12.152 | [-17.326, -6.967] |
-| tune | final | A_market_raw | B_core | ae_margin | 821 | -0.308 | [-0.513, -0.114] |
-| tune | final | A_market_raw | B_core | ae_total | 821 | -0.334 | [-0.508, -0.153] |
-| tune | final | A_market_raw | B_core | se_margin | 821 | -9.995 | [-16.153, -3.589] |
-| tune | final | A_market_raw | B_core | se_total | 821 | -12.443 | [-17.899, -7.237] |
-| tune | final | B_qb | B_core | ae_margin | 821 | -0.118 | [-0.205, -0.031] |
-| tune | final | B_qb | B_core | ae_total | 821 | -0.176 | [-0.279, -0.069] |
-| tune | final | B_qb | B_core | se_margin | 821 | -4.052 | [-6.935, -1.254] |
-| tune | final | B_qb | B_core | se_total | 821 | -5.949 | [-8.849, -3.108] |
-| tune | final | B_qb_inj | B_core | ae_margin | 821 | -0.112 | [-0.195, -0.027] |
-| tune | final | B_qb_inj | B_core | ae_total | 821 | -0.196 | [-0.314, -0.081] |
-| tune | final | B_qb_inj | B_core | se_margin | 821 | -4.013 | [-7.251, -1.261] |
-| tune | final | B_qb_inj | B_core | se_total | 821 | -6.547 | [-9.602, -3.420] |
+| tune | final | C_resid_noinj | A_market_raw | se_margin | 821 | +0.320 | [-0.313, +0.994] |
+| tune | final | C_resid_noinj | A_market_raw | se_total | 821 | +0.172 | [-0.215, +0.539] |
+| tune | final | C_resid_nopersonnel | A_market_raw | ae_margin | 821 | +0.006 | [-0.027, +0.037] |
+| tune | final | C_resid_nopersonnel | A_market_raw | ae_total | 821 | +0.007 | [-0.009, +0.021] |
+| tune | final | C_resid_nopersonnel | A_market_raw | se_margin | 821 | +0.297 | [-0.569, +1.104] |
+| tune | final | C_resid_nopersonnel | A_market_raw | se_total | 821 | +0.171 | [-0.195, +0.516] |
+| tune | final | N_naive_home | A_market_raw | ae_margin | 821 | +1.372 | [+0.981, +1.749] |
+| tune | final | N_naive_home | A_market_raw | ae_total | 821 | +0.549 | [+0.286, +0.803] |
+| tune | final | N_naive_home | A_market_raw | se_margin | 821 | +47.884 | [+36.298, +59.668] |
+| tune | final | N_naive_home | A_market_raw | se_total | 821 | +19.656 | [+12.578, +25.972] |
+| tune | final | A_market_cal | B_core | ae_margin | 821 | -0.293 | [-0.484, -0.086] |
+| tune | final | A_market_cal | B_core | ae_total | 821 | -0.323 | [-0.506, -0.144] |
+| tune | final | A_market_cal | B_core | se_margin | 821 | -9.658 | [-15.863, -3.450] |
+| tune | final | A_market_cal | B_core | se_total | 821 | -12.152 | [-17.415, -7.090] |
+| tune | final | A_market_raw | B_core | ae_margin | 821 | -0.308 | [-0.506, -0.106] |
+| tune | final | A_market_raw | B_core | ae_total | 821 | -0.334 | [-0.508, -0.169] |
+| tune | final | A_market_raw | B_core | se_margin | 821 | -9.995 | [-16.498, -3.687] |
+| tune | final | A_market_raw | B_core | se_total | 821 | -12.443 | [-17.493, -7.392] |
+| tune | final | B_qb | B_core | ae_margin | 821 | -0.118 | [-0.200, -0.034] |
+| tune | final | B_qb | B_core | ae_total | 821 | -0.176 | [-0.278, -0.064] |
+| tune | final | B_qb | B_core | se_margin | 821 | -4.052 | [-7.038, -1.131] |
+| tune | final | B_qb | B_core | se_total | 821 | -5.949 | [-8.828, -3.351] |
+| tune | final | B_qb_inj | B_core | ae_margin | 821 | -0.112 | [-0.197, -0.027] |
+| tune | final | B_qb_inj | B_core | ae_total | 821 | -0.196 | [-0.312, -0.081] |
+| tune | final | B_qb_inj | B_core | se_margin | 821 | -4.013 | [-6.968, -1.100] |
+| tune | final | B_qb_inj | B_core | se_total | 821 | -6.547 | [-9.729, -3.448] |
 | tune | final | B_qb_noadj | B_core | ae_margin | 821 | -0.103 | [-0.184, -0.023] |
-| tune | final | B_qb_noadj | B_core | ae_total | 821 | -0.166 | [-0.274, -0.062] |
-| tune | final | B_qb_noadj | B_core | se_margin | 821 | -3.207 | [-6.036, -0.544] |
-| tune | final | B_qb_noadj | B_core | se_total | 821 | -6.065 | [-8.808, -3.043] |
-| tune | final | C_direct | B_core | ae_margin | 821 | -0.254 | [-0.391, -0.134] |
-| tune | final | C_direct | B_core | ae_total | 821 | -0.234 | [-0.351, -0.110] |
-| tune | final | C_direct | B_core | se_margin | 821 | -8.287 | [-12.832, -3.782] |
-| tune | final | C_direct | B_core | se_total | 821 | -8.003 | [-11.479, -4.764] |
-| tune | final | C_resid | B_core | ae_margin | 821 | -0.300 | [-0.508, -0.103] |
-| tune | final | C_resid | B_core | ae_total | 821 | -0.325 | [-0.499, -0.147] |
-| tune | final | C_resid | B_core | se_margin | 821 | -9.647 | [-15.962, -3.442] |
-| tune | final | C_resid | B_core | se_total | 821 | -12.264 | [-17.184, -7.049] |
-| tune | final | C_resid_hgb | B_core | ae_margin | 821 | -0.259 | [-0.532, -0.008] |
-| tune | final | C_resid_hgb | B_core | ae_total | 821 | -0.108 | [-0.308, +0.098] |
-| tune | final | C_resid_hgb | B_core | se_margin | 821 | -7.621 | [-15.120, -0.074] |
-| tune | final | C_resid_hgb | B_core | se_total | 821 | -4.239 | [-10.557, +2.405] |
-| tune | final | C_resid_noinj | B_core | ae_margin | 821 | -0.298 | [-0.507, -0.112] |
-| tune | final | C_resid_noinj | B_core | ae_total | 821 | -0.325 | [-0.494, -0.142] |
-| tune | final | C_resid_noinj | B_core | se_margin | 821 | -9.675 | [-16.199, -3.846] |
-| tune | final | C_resid_noinj | B_core | se_total | 821 | -12.271 | [-17.468, -7.250] |
-| tune | final | C_resid_nopersonnel | B_core | ae_margin | 821 | -0.302 | [-0.494, -0.115] |
-| tune | final | C_resid_nopersonnel | B_core | ae_total | 821 | -0.327 | [-0.501, -0.154] |
-| tune | final | C_resid_nopersonnel | B_core | se_margin | 821 | -9.697 | [-15.934, -3.837] |
-| tune | final | C_resid_nopersonnel | B_core | se_total | 821 | -12.272 | [-17.325, -7.119] |
-| tune | final | N_naive_home | B_core | ae_margin | 821 | +1.065 | [+0.773, +1.352] |
-| tune | final | N_naive_home | B_core | ae_total | 821 | +0.215 | [-0.012, +0.462] |
-| tune | final | N_naive_home | B_core | se_margin | 821 | +37.890 | [+29.583, +45.698] |
-| tune | final | N_naive_home | B_core | se_total | 821 | +7.213 | [-0.877, +14.870] |
-| tune | final | B_core | N_naive_home | ae_margin | 821 | -1.065 | [-1.346, -0.768] |
-| tune | final | B_core | N_naive_home | ae_total | 821 | -0.215 | [-0.458, +0.019] |
-| tune | final | B_core | N_naive_home | se_margin | 821 | -37.890 | [-46.118, -29.387] |
-| tune | final | B_core | N_naive_home | se_total | 821 | -7.213 | [-14.463, +0.829] |
+| tune | final | B_qb_noadj | B_core | ae_total | 821 | -0.166 | [-0.273, -0.062] |
+| tune | final | B_qb_noadj | B_core | se_margin | 821 | -3.207 | [-5.961, -0.520] |
+| tune | final | B_qb_noadj | B_core | se_total | 821 | -6.065 | [-8.962, -3.289] |
+| tune | final | C_direct | B_core | ae_margin | 821 | -0.254 | [-0.380, -0.120] |
+| tune | final | C_direct | B_core | ae_total | 821 | -0.234 | [-0.351, -0.118] |
+| tune | final | C_direct | B_core | se_margin | 821 | -8.287 | [-12.629, -3.885] |
+| tune | final | C_direct | B_core | se_total | 821 | -8.003 | [-11.250, -4.635] |
+| tune | final | C_resid | B_core | ae_margin | 821 | -0.300 | [-0.514, -0.097] |
+| tune | final | C_resid | B_core | ae_total | 821 | -0.325 | [-0.502, -0.149] |
+| tune | final | C_resid | B_core | se_margin | 821 | -9.647 | [-15.936, -3.552] |
+| tune | final | C_resid | B_core | se_total | 821 | -12.264 | [-17.413, -7.368] |
+| tune | final | C_resid_hgb | B_core | ae_margin | 821 | -0.259 | [-0.516, -0.015] |
+| tune | final | C_resid_hgb | B_core | ae_total | 821 | -0.108 | [-0.312, +0.088] |
+| tune | final | C_resid_hgb | B_core | se_margin | 821 | -7.621 | [-15.131, -0.235] |
+| tune | final | C_resid_hgb | B_core | se_total | 821 | -4.239 | [-10.452, +2.270] |
+| tune | final | C_resid_noinj | B_core | ae_margin | 821 | -0.298 | [-0.488, -0.115] |
+| tune | final | C_resid_noinj | B_core | ae_total | 821 | -0.325 | [-0.496, -0.155] |
+| tune | final | C_resid_noinj | B_core | se_margin | 821 | -9.675 | [-15.874, -3.412] |
+| tune | final | C_resid_noinj | B_core | se_total | 821 | -12.271 | [-17.396, -7.076] |
+| tune | final | C_resid_nopersonnel | B_core | ae_margin | 821 | -0.302 | [-0.497, -0.110] |
+| tune | final | C_resid_nopersonnel | B_core | ae_total | 821 | -0.327 | [-0.498, -0.145] |
+| tune | final | C_resid_nopersonnel | B_core | se_margin | 821 | -9.697 | [-15.592, -3.549] |
+| tune | final | C_resid_nopersonnel | B_core | se_total | 821 | -12.272 | [-17.316, -7.074] |
+| tune | final | N_naive_home | B_core | ae_margin | 821 | +1.065 | [+0.782, +1.339] |
+| tune | final | N_naive_home | B_core | ae_total | 821 | +0.215 | [-0.020, +0.451] |
+| tune | final | N_naive_home | B_core | se_margin | 821 | +37.890 | [+29.206, +45.760] |
+| tune | final | N_naive_home | B_core | se_total | 821 | +7.213 | [-0.895, +14.878] |
+| tune | final | B_core | N_naive_home | ae_margin | 821 | -1.065 | [-1.345, -0.777] |
+| tune | final | B_core | N_naive_home | ae_total | 821 | -0.215 | [-0.452, +0.016] |
+| tune | final | B_core | N_naive_home | se_margin | 821 | -37.890 | [-45.927, -30.054] |
+| tune | final | B_core | N_naive_home | se_total | 821 | -7.213 | [-15.085, +0.586] |
 
 ## Per season
 
@@ -367,7 +367,7 @@ Season-week block bootstrap 95% intervals. Few independent seasons: treat as lim
 | final | C_resid_nopersonnel | 2023 | 285 | 9.99 | 10.17 | 0.674 |
 | final | C_resid_nopersonnel | 2024 | 285 | 9.67 | 9.81 | 0.702 |
 
-## Subgroups, reported period (dev, or locked when included; prespecified; small groups are exploratory)
+## Subgroups, dev period (prespecified; small groups are exploratory)
 
 | horizon | model | group | n | margin MAE | total MAE | exploratory |
 |---|---|---|---|---|---|---|
@@ -1138,160 +1138,3 @@ Season-week block bootstrap 95% intervals. Few independent seasons: treat as lim
  ]
 }
 ```
-
-## Outcome probabilities (walk-forward; calibrated on earlier seasons' out-of-fold predictions)
-
-Tie probability = smoothed regular-season tie rate since 2017 (as of the training seasons); 0 in playoffs.
-
-| period | horizon | model | n | ties | log loss | Brier (3-class) | Brier (home win) |
-|---|---|---|---|---|---|---|---|
-| dev | early | B_qb | 854 | 2 | 0.6531 | 0.4491 | 0.2230 |
-| dev | final | C_resid_noinj | 854 | 2 | 0.6225 | 0.4219 | 0.2094 |
-| dev | final | A_market_raw | 854 | 2 | 0.6234 | 0.4228 | 0.2099 |
-| dev | final | B_qb | 854 | 2 | 0.6466 | 0.4434 | 0.2202 |
-| tune | early | B_qb | 554 | 2 | 0.6501 | 0.4402 | 0.2189 |
-| tune | final | A_market_raw | 554 | 2 | 0.6286 | 0.4232 | 0.2105 |
-| tune | final | C_resid_noinj | 554 | 2 | 0.6291 | 0.4232 | 0.2105 |
-| tune | final | B_qb | 554 | 2 | 0.6424 | 0.4327 | 0.2150 |
-
-Paired log-loss differences (a − b; negative = a better), season-week block bootstrap:
-
-| period | a | b | n | mean diff | 95% CI |
-|---|---|---|---|---|---|
-| tune | C_resid_noinj | A_market_raw | 554 | +0.0005 | [-0.0022, +0.0031] |
-| tune | B_qb | A_market_raw | 554 | +0.0138 | [+0.0031, +0.0246] |
-| tune | C_resid_noinj | B_qb | 554 | -0.0133 | [-0.0245, -0.0018] |
-| dev | C_resid_noinj | A_market_raw | 854 | -0.0009 | [-0.0025, +0.0008] |
-| dev | B_qb | A_market_raw | 854 | +0.0232 | [+0.0144, +0.0325] |
-| dev | C_resid_noinj | B_qb | 854 | -0.0241 | [-0.0335, -0.0149] |
-
-### Calibration (latest reported period, P(home win) bins, with counts)
-
-**final / C_resid_noinj**
-
-| bin | n | mean predicted | observed home-win rate |
-|---|---|---|---|
-| 0.0–0.1 | 2 | 0.091 | 0.000 |
-| 0.1–0.2 | 23 | 0.158 | 0.217 |
-| 0.2–0.3 | 69 | 0.258 | 0.290 |
-| 0.3–0.4 | 159 | 0.356 | 0.333 |
-| 0.4–0.5 | 93 | 0.435 | 0.441 |
-| 0.5–0.6 | 208 | 0.563 | 0.620 |
-| 0.6–0.7 | 148 | 0.651 | 0.709 |
-| 0.7–0.8 | 114 | 0.747 | 0.789 |
-| 0.8–0.9 | 36 | 0.855 | 0.889 |
-| 0.9–1.0 | 2 | 0.924 | 1.000 |
-
-**final / A_market_raw**
-
-| bin | n | mean predicted | observed home-win rate |
-|---|---|---|---|
-| 0.0–0.1 | 1 | 0.081 | 0.000 |
-| 0.1–0.2 | 23 | 0.153 | 0.217 |
-| 0.2–0.3 | 73 | 0.257 | 0.260 |
-| 0.3–0.4 | 177 | 0.361 | 0.356 |
-| 0.4–0.5 | 69 | 0.439 | 0.435 |
-| 0.5–0.6 | 216 | 0.563 | 0.630 |
-| 0.6–0.7 | 149 | 0.652 | 0.711 |
-| 0.7–0.8 | 107 | 0.748 | 0.776 |
-| 0.8–0.9 | 37 | 0.854 | 0.892 |
-| 0.9–1.0 | 2 | 0.922 | 1.000 |
-
-**final / B_qb**
-
-| bin | n | mean predicted | observed home-win rate |
-|---|---|---|---|
-| 0.0–0.1 | 2 | 0.091 | 0.500 |
-| 0.1–0.2 | 27 | 0.167 | 0.333 |
-| 0.2–0.3 | 54 | 0.253 | 0.259 |
-| 0.3–0.4 | 142 | 0.356 | 0.380 |
-| 0.4–0.5 | 158 | 0.450 | 0.443 |
-| 0.5–0.6 | 172 | 0.548 | 0.622 |
-| 0.6–0.7 | 146 | 0.649 | 0.705 |
-| 0.7–0.8 | 105 | 0.745 | 0.714 |
-| 0.8–0.9 | 44 | 0.836 | 0.909 |
-| 0.9–1.0 | 4 | 0.918 | 1.000 |
-
-**early / B_qb**
-
-| bin | n | mean predicted | observed home-win rate |
-|---|---|---|---|
-| 0.0–0.1 | 1 | 0.081 | 0.000 |
-| 0.1–0.2 | 21 | 0.163 | 0.429 |
-| 0.2–0.3 | 58 | 0.250 | 0.259 |
-| 0.3–0.4 | 134 | 0.355 | 0.396 |
-| 0.4–0.5 | 167 | 0.451 | 0.443 |
-| 0.5–0.6 | 173 | 0.553 | 0.607 |
-| 0.6–0.7 | 144 | 0.650 | 0.729 |
-| 0.7–0.8 | 108 | 0.747 | 0.694 |
-| 0.8–0.9 | 46 | 0.830 | 0.848 |
-| 0.9–1.0 | 2 | 0.912 | 1.000 |
-
-## Prediction intervals (coverage should be close to the nominal level)
-
-| period | horizon | model | target | method | level | coverage | mean width |
-|---|---|---|---|---|---|---|---|
-| dev | early | B_qb | margin | quantile | 0.80 | 0.811 | 33.6 |
-| dev | early | B_qb | margin | quantile | 0.95 | 0.958 | 53.8 |
-| dev | early | B_qb | margin | residual | 0.80 | 0.803 | 33.9 |
-| dev | early | B_qb | margin | residual | 0.95 | 0.956 | 53.4 |
-| dev | early | B_qb | total | quantile | 0.80 | 0.813 | 34.5 |
-| dev | early | B_qb | total | quantile | 0.95 | 0.943 | 51.6 |
-| dev | early | B_qb | total | residual | 0.80 | 0.816 | 34.7 |
-| dev | early | B_qb | total | residual | 0.95 | 0.952 | 52.6 |
-| dev | final | A_market_raw | margin | quantile | 0.80 | 0.799 | 31.7 |
-| dev | final | A_market_raw | margin | quantile | 0.95 | 0.956 | 52.4 |
-| dev | final | A_market_raw | margin | residual | 0.80 | 0.802 | 31.8 |
-| dev | final | A_market_raw | margin | residual | 0.95 | 0.951 | 52.1 |
-| dev | final | A_market_raw | total | quantile | 0.80 | 0.827 | 33.8 |
-| dev | final | A_market_raw | total | quantile | 0.95 | 0.944 | 51.0 |
-| dev | final | A_market_raw | total | residual | 0.80 | 0.828 | 33.8 |
-| dev | final | A_market_raw | total | residual | 0.95 | 0.947 | 51.3 |
-| dev | final | B_qb | margin | quantile | 0.80 | 0.811 | 33.2 |
-| dev | final | B_qb | margin | quantile | 0.95 | 0.953 | 53.2 |
-| dev | final | B_qb | margin | residual | 0.80 | 0.807 | 33.4 |
-| dev | final | B_qb | margin | residual | 0.95 | 0.954 | 53.1 |
-| dev | final | B_qb | total | quantile | 0.80 | 0.811 | 34.0 |
-| dev | final | B_qb | total | quantile | 0.95 | 0.941 | 51.0 |
-| dev | final | B_qb | total | residual | 0.80 | 0.817 | 34.4 |
-| dev | final | B_qb | total | residual | 0.95 | 0.947 | 52.1 |
-| dev | final | C_resid_noinj | margin | quantile | 0.80 | 0.797 | 31.9 |
-| dev | final | C_resid_noinj | margin | quantile | 0.95 | 0.954 | 52.3 |
-| dev | final | C_resid_noinj | margin | residual | 0.80 | 0.797 | 31.8 |
-| dev | final | C_resid_noinj | margin | residual | 0.95 | 0.953 | 52.1 |
-| dev | final | C_resid_noinj | total | quantile | 0.80 | 0.822 | 33.8 |
-| dev | final | C_resid_noinj | total | quantile | 0.95 | 0.944 | 50.7 |
-| dev | final | C_resid_noinj | total | residual | 0.80 | 0.820 | 33.5 |
-| dev | final | C_resid_noinj | total | residual | 0.95 | 0.947 | 51.1 |
-| tune | early | B_qb | margin | quantile | 0.80 | 0.800 | 33.2 |
-| tune | early | B_qb | margin | quantile | 0.95 | 0.940 | 53.6 |
-| tune | early | B_qb | margin | residual | 0.80 | 0.792 | 33.5 |
-| tune | early | B_qb | margin | residual | 0.95 | 0.933 | 51.9 |
-| tune | early | B_qb | total | quantile | 0.80 | 0.792 | 34.6 |
-| tune | early | B_qb | total | quantile | 0.95 | 0.935 | 50.4 |
-| tune | early | B_qb | total | residual | 0.80 | 0.801 | 35.3 |
-| tune | early | B_qb | total | residual | 0.95 | 0.942 | 51.6 |
-| tune | final | A_market_raw | margin | quantile | 0.80 | 0.796 | 32.1 |
-| tune | final | A_market_raw | margin | quantile | 0.95 | 0.933 | 51.6 |
-| tune | final | A_market_raw | margin | residual | 0.80 | 0.800 | 31.8 |
-| tune | final | A_market_raw | margin | residual | 0.95 | 0.930 | 51.1 |
-| tune | final | A_market_raw | total | quantile | 0.80 | 0.814 | 33.8 |
-| tune | final | A_market_raw | total | quantile | 0.95 | 0.955 | 52.2 |
-| tune | final | A_market_raw | total | residual | 0.80 | 0.827 | 34.2 |
-| tune | final | A_market_raw | total | residual | 0.95 | 0.944 | 50.3 |
-| tune | final | B_qb | margin | quantile | 0.80 | 0.803 | 33.1 |
-| tune | final | B_qb | margin | quantile | 0.95 | 0.940 | 52.3 |
-| tune | final | B_qb | margin | residual | 0.80 | 0.800 | 33.2 |
-| tune | final | B_qb | margin | residual | 0.95 | 0.935 | 51.3 |
-| tune | final | B_qb | total | quantile | 0.80 | 0.816 | 35.0 |
-| tune | final | B_qb | total | quantile | 0.95 | 0.942 | 51.2 |
-| tune | final | B_qb | total | residual | 0.80 | 0.814 | 35.2 |
-| tune | final | B_qb | total | residual | 0.95 | 0.944 | 51.4 |
-| tune | final | C_resid_noinj | margin | quantile | 0.80 | 0.794 | 32.2 |
-| tune | final | C_resid_noinj | margin | quantile | 0.95 | 0.928 | 51.5 |
-| tune | final | C_resid_noinj | margin | residual | 0.80 | 0.791 | 32.0 |
-| tune | final | C_resid_noinj | margin | residual | 0.95 | 0.926 | 51.0 |
-| tune | final | C_resid_noinj | total | quantile | 0.80 | 0.809 | 34.0 |
-| tune | final | C_resid_noinj | total | quantile | 0.95 | 0.951 | 52.2 |
-| tune | final | C_resid_noinj | total | residual | 0.80 | 0.807 | 34.2 |
-| tune | final | C_resid_noinj | total | residual | 0.95 | 0.942 | 50.4 |

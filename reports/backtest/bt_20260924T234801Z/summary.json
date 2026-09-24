@@ -1,0 +1,6442 @@
+{
+ "overall": [
+  {
+   "period": "tune",
+   "horizon": "early",
+   "model": "N_naive_home",
+   "n_games": 821,
+   "margin_mae": 11.592295629597986,
+   "margin_rmse": 14.830211118116019,
+   "total_mae": 11.183099162036761,
+   "total_rmse": 13.983557425098422,
+   "home_pts_mae": 8.02166869121271,
+   "away_pts_mae": 8.378576580502177,
+   "margin_bias": 1.3284836626019183,
+   "total_bias": -1.3641528052792522,
+   "winner_accuracy": 0.5048899755501223,
+   "n_decided": 818
+  },
+  {
+   "period": "dev",
+   "horizon": "early",
+   "model": "N_naive_home",
+   "n_games": 854,
+   "margin_mae": 10.627671227533973,
+   "margin_rmse": 13.801705193946523,
+   "total_mae": 10.801635317497254,
+   "total_rmse": 13.664128397730039,
+   "home_pts_mae": 7.775312171968975,
+   "away_pts_mae": 7.659249876821441,
+   "margin_bias": -0.6823876901998907,
+   "total_bias": 1.311945324081853,
+   "winner_accuracy": 0.545774647887324,
+   "n_decided": 852
+  },
+  {
+   "period": "tune",
+   "horizon": "early",
+   "model": "B_core",
+   "n_games": 821,
+   "margin_mae": 10.527291091896105,
+   "margin_rmse": 13.491577392263128,
+   "total_mae": 10.966467700683445,
+   "total_rmse": 13.722319926824515,
+   "home_pts_mae": 7.67347625756536,
+   "away_pts_mae": 7.686678943441649,
+   "margin_bias": 0.5390290570379306,
+   "total_bias": 0.10948677959314952,
+   "winner_accuracy": 0.6405867970660146,
+   "n_decided": 818
+  },
+  {
+   "period": "dev",
+   "horizon": "early",
+   "model": "B_core",
+   "n_games": 854,
+   "margin_mae": 9.80101801328721,
+   "margin_rmse": 12.851515717457048,
+   "total_mae": 10.429089733974559,
+   "total_rmse": 13.292013743007304,
+   "home_pts_mae": 7.3633569907927745,
+   "away_pts_mae": 7.257075268381033,
+   "margin_bias": -1.1052095665981003,
+   "total_bias": 0.33700909592537287,
+   "winner_accuracy": 0.6490610328638498,
+   "n_decided": 852
+  },
+  {
+   "period": "tune",
+   "horizon": "early",
+   "model": "B_qb",
+   "n_games": 821,
+   "margin_mae": 10.497088004988774,
+   "margin_rmse": 13.462863214373705,
+   "total_mae": 10.927804277793875,
+   "total_rmse": 13.668155429836037,
+   "home_pts_mae": 7.639191785629216,
+   "away_pts_mae": 7.673097431273777,
+   "margin_bias": 0.5488754560273373,
+   "total_bias": 0.042234143618247504,
+   "winner_accuracy": 0.6393643031784841,
+   "n_decided": 818
+  },
+  {
+   "period": "dev",
+   "horizon": "early",
+   "model": "B_qb",
+   "n_games": 854,
+   "margin_mae": 9.802642658358634,
+   "margin_rmse": 12.85117677429971,
+   "total_mae": 10.37079016118178,
+   "total_rmse": 13.188735114636966,
+   "home_pts_mae": 7.351541319554003,
+   "away_pts_mae": 7.216434247875545,
+   "margin_bias": -0.9743938337951579,
+   "total_bias": 0.43284656478937517,
+   "winner_accuracy": 0.6431924882629108,
+   "n_decided": 852
+  },
+  {
+   "period": "tune",
+   "horizon": "early",
+   "model": "B_qb_noadj",
+   "n_games": 821,
+   "margin_mae": 10.503007409976977,
+   "margin_rmse": 13.473578572812508,
+   "total_mae": 10.937998077336218,
+   "total_rmse": 13.672261190904297,
+   "home_pts_mae": 7.676146427170181,
+   "away_pts_mae": 7.651788115983365,
+   "margin_bias": 0.7028173635422124,
+   "total_bias": 0.5588918369381423,
+   "winner_accuracy": 0.6430317848410758,
+   "n_decided": 818
+  },
+  {
+   "period": "dev",
+   "horizon": "early",
+   "model": "B_qb_noadj",
+   "n_games": 854,
+   "margin_mae": 9.819839283143121,
+   "margin_rmse": 12.87324203882897,
+   "total_mae": 10.334287298831256,
+   "total_rmse": 13.200427951916266,
+   "home_pts_mae": 7.362017584394482,
+   "away_pts_mae": 7.199289883205695,
+   "margin_bias": -0.9855396835095199,
+   "total_bias": -3.6376806814544995e-05,
+   "winner_accuracy": 0.647887323943662,
+   "n_decided": 852
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "model": "N_naive_home",
+   "n_games": 821,
+   "margin_mae": 11.592295629597986,
+   "margin_rmse": 14.830211118116019,
+   "total_mae": 11.183099162036761,
+   "total_rmse": 13.983557425098422,
+   "home_pts_mae": 8.02166869121271,
+   "away_pts_mae": 8.378576580502177,
+   "margin_bias": 1.3284836626019183,
+   "total_bias": -1.3641528052792522,
+   "winner_accuracy": 0.5048899755501223,
+   "n_decided": 818
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "model": "N_naive_home",
+   "n_games": 854,
+   "margin_mae": 10.627671227533973,
+   "margin_rmse": 13.801705193946523,
+   "total_mae": 10.801635317497254,
+   "total_rmse": 13.664128397730039,
+   "home_pts_mae": 7.775312171968975,
+   "away_pts_mae": 7.659249876821441,
+   "margin_bias": -0.6823876901998907,
+   "total_bias": 1.311945324081853,
+   "winner_accuracy": 0.545774647887324,
+   "n_decided": 852
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "model": "B_core",
+   "n_games": 821,
+   "margin_mae": 10.527453633746296,
+   "margin_rmse": 13.49242391717521,
+   "total_mae": 10.968131984743705,
+   "total_rmse": 13.723217790961689,
+   "home_pts_mae": 7.6741844813257,
+   "away_pts_mae": 7.687299573073098,
+   "margin_bias": 0.5394552364849675,
+   "total_bias": 0.12309256974709101,
+   "winner_accuracy": 0.6381418092909535,
+   "n_decided": 818
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "model": "B_core",
+   "n_games": 854,
+   "margin_mae": 9.800565461920877,
+   "margin_rmse": 12.850791260593429,
+   "total_mae": 10.428531313222077,
+   "total_rmse": 13.292561076408251,
+   "home_pts_mae": 7.3644813706232775,
+   "away_pts_mae": 7.255974046364664,
+   "margin_bias": -1.1063725665272082,
+   "total_bias": 0.3274672144201161,
+   "winner_accuracy": 0.647887323943662,
+   "n_decided": 852
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "model": "B_qb",
+   "n_games": 821,
+   "margin_mae": 10.408957833282923,
+   "margin_rmse": 13.34141519493271,
+   "total_mae": 10.792016953584707,
+   "total_rmse": 13.504743599481058,
+   "home_pts_mae": 7.552911264865376,
+   "away_pts_mae": 7.530260381938446,
+   "margin_bias": 0.7004484961380335,
+   "total_bias": -0.20374220608630506,
+   "winner_accuracy": 0.6479217603911981,
+   "n_decided": 818
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "model": "B_qb",
+   "n_games": 854,
+   "margin_mae": 9.74918865591027,
+   "margin_rmse": 12.717253965623112,
+   "total_mae": 10.272856316702898,
+   "total_rmse": 13.128373361867355,
+   "home_pts_mae": 7.313744907942584,
+   "away_pts_mae": 7.138794231379059,
+   "margin_bias": -0.9522176629463395,
+   "total_bias": 0.3290483568098671,
+   "winner_accuracy": 0.6619718309859155,
+   "n_decided": 852
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "model": "B_qb_noadj",
+   "n_games": 821,
+   "margin_mae": 10.424420351393152,
+   "margin_rmse": 13.373054668767825,
+   "total_mae": 10.802371987178732,
+   "total_rmse": 13.500436397498628,
+   "home_pts_mae": 7.577357433697755,
+   "away_pts_mae": 7.53281458353727,
+   "margin_bias": 0.7133261104764429,
+   "total_bias": 0.36418654444383136,
+   "winner_accuracy": 0.6479217603911981,
+   "n_decided": 818
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "model": "B_qb_noadj",
+   "n_games": 854,
+   "margin_mae": 9.765300199680178,
+   "margin_rmse": 12.737199569271292,
+   "total_mae": 10.231308557623155,
+   "total_rmse": 13.13991655798064,
+   "home_pts_mae": 7.320554204282076,
+   "away_pts_mae": 7.122264357325429,
+   "margin_bias": -0.9621552854059647,
+   "total_bias": -0.07835917772330614,
+   "winner_accuracy": 0.6584507042253521,
+   "n_decided": 852
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "model": "B_qb_inj",
+   "n_games": 821,
+   "margin_mae": 10.415044323560778,
+   "margin_rmse": 13.342872195020709,
+   "total_mae": 10.771667200563792,
+   "total_rmse": 13.482559389029323,
+   "home_pts_mae": 7.53895674563633,
+   "away_pts_mae": 7.536332844715223,
+   "margin_bias": 0.7192928370459574,
+   "total_bias": -0.24487973368737168,
+   "winner_accuracy": 0.6491442542787286,
+   "n_decided": 818
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "model": "B_qb_inj",
+   "n_games": 854,
+   "margin_mae": 9.731947987948242,
+   "margin_rmse": 12.686405174443847,
+   "total_mae": 10.283935667925297,
+   "total_rmse": 13.139369461453558,
+   "home_pts_mae": 7.311175698364435,
+   "away_pts_mae": 7.1268725705465235,
+   "margin_bias": -0.9566416475944781,
+   "total_bias": 0.3967242815396573,
+   "winner_accuracy": 0.6619718309859155,
+   "n_decided": 852
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "model": "A_market_raw",
+   "n_games": 821,
+   "margin_mae": 10.21985383678441,
+   "margin_rmse": 13.116815643240459,
+   "total_mae": 10.634591961023142,
+   "total_rmse": 13.2621144031005,
+   "home_pts_mae": 7.530755176613885,
+   "away_pts_mae": 7.28958587088916,
+   "margin_bias": 0.8812423873325214,
+   "total_bias": -0.4226552984165652,
+   "winner_accuracy": 0.6454767726161369,
+   "n_decided": 818
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "model": "A_market_raw",
+   "n_games": 854,
+   "margin_mae": 9.491217798594848,
+   "margin_rmse": 12.482059725393498,
+   "total_mae": 10.111241217798595,
+   "total_rmse": 12.954523230561113,
+   "home_pts_mae": 7.192915690866511,
+   "away_pts_mae": 7.0260538641686185,
+   "margin_bias": -0.699648711943794,
+   "total_bias": -0.6744730679156908,
+   "winner_accuracy": 0.6807511737089202,
+   "n_decided": 852
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "model": "A_market_cal",
+   "n_games": 821,
+   "margin_mae": 10.234873886101756,
+   "margin_rmse": 13.12964332851071,
+   "total_mae": 10.645617095380553,
+   "total_rmse": 13.273076877490615,
+   "home_pts_mae": 7.532996355208955,
+   "away_pts_mae": 7.288669413620625,
+   "margin_bias": 0.7481546150361293,
+   "total_bias": -0.39392661621503516,
+   "winner_accuracy": 0.6454767726161369,
+   "n_decided": 818
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "model": "A_market_cal",
+   "n_games": 854,
+   "margin_mae": 9.502692055400438,
+   "margin_rmse": 12.498002165715226,
+   "total_mae": 10.11327017980435,
+   "total_rmse": 12.94859282335308,
+   "home_pts_mae": 7.191222631134793,
+   "away_pts_mae": 7.038556853767725,
+   "margin_bias": -0.8836193771758476,
+   "total_bias": -0.5634444288967528,
+   "winner_accuracy": 0.6807511737089202,
+   "n_decided": 852
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "model": "C_resid",
+   "n_games": 821,
+   "margin_mae": 10.227553882547575,
+   "margin_rmse": 13.13004569049104,
+   "total_mae": 10.642679344778541,
+   "total_rmse": 13.268871995559577,
+   "home_pts_mae": 7.523223908512704,
+   "away_pts_mae": 7.3007342659514745,
+   "margin_bias": 0.623274432283344,
+   "total_bias": -0.43248946174085345,
+   "winner_accuracy": 0.6454767726161369,
+   "n_decided": 818
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "model": "C_resid",
+   "n_games": 854,
+   "margin_mae": 9.486666108913528,
+   "margin_rmse": 12.479290350210698,
+   "total_mae": 10.115664225245904,
+   "total_rmse": 12.901705269793549,
+   "home_pts_mae": 7.171252011192878,
+   "away_pts_mae": 7.052979932302457,
+   "margin_bias": -0.8537686927318295,
+   "total_bias": -0.29227046816234054,
+   "winner_accuracy": 0.6807511737089202,
+   "n_decided": 852
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "model": "C_resid_hgb",
+   "n_games": 821,
+   "margin_mae": 10.268236577092441,
+   "margin_rmse": 13.206984240756297,
+   "total_mae": 10.86048327205723,
+   "total_rmse": 13.567904862272307,
+   "home_pts_mae": 7.631313568866128,
+   "away_pts_mae": 7.3489156573385195,
+   "margin_bias": 0.051306247687654315,
+   "total_bias": -0.8516167970289988,
+   "winner_accuracy": 0.656479217603912,
+   "n_decided": 818
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "model": "C_resid_hgb",
+   "n_games": 854,
+   "margin_mae": 9.586068705370018,
+   "margin_rmse": 12.611562365947488,
+   "total_mae": 10.064518306644992,
+   "total_rmse": 12.916833117303584,
+   "home_pts_mae": 7.197574694314389,
+   "away_pts_mae": 7.097744766447458,
+   "margin_bias": -0.648465488153953,
+   "total_bias": -0.048399834194018734,
+   "winner_accuracy": 0.6807511737089202,
+   "n_decided": 852
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "model": "C_direct",
+   "n_games": 821,
+   "margin_mae": 10.273753213676686,
+   "margin_rmse": 13.18175819054502,
+   "total_mae": 10.734401270454219,
+   "total_rmse": 13.428464797926338,
+   "home_pts_mae": 7.515585889291264,
+   "away_pts_mae": 7.436539228371315,
+   "margin_bias": 0.767289044783591,
+   "total_bias": -0.4588142816187367,
+   "winner_accuracy": 0.6515892420537898,
+   "n_decided": 818
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "model": "C_direct",
+   "n_games": 854,
+   "margin_mae": 9.55905605010945,
+   "margin_rmse": 12.53264157951574,
+   "total_mae": 10.20574144222594,
+   "total_rmse": 13.001781623879689,
+   "home_pts_mae": 7.221272637025888,
+   "away_pts_mae": 7.081042033964043,
+   "margin_bias": -0.8507447135063719,
+   "total_bias": 0.3235147757121,
+   "winner_accuracy": 0.681924882629108,
+   "n_decided": 852
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "model": "C_resid_noinj",
+   "n_games": 821,
+   "margin_mae": 10.22901573313777,
+   "margin_rmse": 13.12899447775774,
+   "total_mae": 10.642730548289288,
+   "total_rmse": 13.268587452989621,
+   "home_pts_mae": 7.527194333741518,
+   "away_pts_mae": 7.29937313221266,
+   "margin_bias": 0.7139352749150517,
+   "total_bias": -0.4304599383934409,
+   "winner_accuracy": 0.6454767726161369,
+   "n_decided": 818
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "model": "C_resid_noinj",
+   "n_games": 854,
+   "margin_mae": 9.483195729013485,
+   "margin_rmse": 12.474155495588393,
+   "total_mae": 10.107530167022238,
+   "total_rmse": 12.896174793167498,
+   "home_pts_mae": 7.161556741376231,
+   "away_pts_mae": 7.04861840586004,
+   "margin_bias": -0.8391650143565532,
+   "total_bias": -0.2938127482641207,
+   "winner_accuracy": 0.6807511737089202,
+   "n_decided": 852
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "model": "C_resid_nopersonnel",
+   "n_games": 821,
+   "margin_mae": 10.225747902649783,
+   "margin_rmse": 13.128145360955028,
+   "total_mae": 10.641434409659249,
+   "total_rmse": 13.268577020741365,
+   "home_pts_mae": 7.524190635772437,
+   "away_pts_mae": 7.2980340545083875,
+   "margin_bias": 0.6394238044269012,
+   "total_bias": -0.43167464302216313,
+   "winner_accuracy": 0.6454767726161369,
+   "n_decided": 818
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "model": "C_resid_nopersonnel",
+   "n_games": 854,
+   "margin_mae": 9.483653147090646,
+   "margin_rmse": 12.473349152879285,
+   "total_mae": 10.123762726844552,
+   "total_rmse": 12.914431926642447,
+   "home_pts_mae": 7.163709330298271,
+   "away_pts_mae": 7.054935423340911,
+   "margin_bias": -0.8333470593422508,
+   "total_bias": -0.3279659499615326,
+   "winner_accuracy": 0.6795774647887324,
+   "n_decided": 852
+  }
+ ],
+ "per_season": [
+  {
+   "horizon": "early",
+   "model": "N_naive_home",
+   "season": 2019,
+   "n_games": 267,
+   "margin_mae": 11.622008748606227,
+   "margin_rmse": 14.934795414084498,
+   "total_mae": 11.130218905757117,
+   "total_rmse": 13.908800522527125,
+   "home_pts_mae": 8.001200789089973,
+   "away_pts_mae": 8.284043800211565,
+   "margin_bias": 2.570517768819512,
+   "total_bias": -0.3504302827572419,
+   "winner_accuracy": 0.5112781954887218,
+   "n_decided": 266
+  },
+  {
+   "horizon": "early",
+   "model": "N_naive_home",
+   "season": 2020,
+   "n_games": 269,
+   "margin_mae": 11.083808225306505,
+   "margin_rmse": 14.205993022696832,
+   "total_mae": 11.335630567775517,
+   "total_rmse": 14.32981555983103,
+   "home_pts_mae": 7.46334899145372,
+   "away_pts_mae": 8.64351324194104,
+   "margin_bias": 1.8237662572831566,
+   "total_bias": -4.038939366502985,
+   "winner_accuracy": 0.4962686567164179,
+   "n_decided": 268
+  },
+  {
+   "horizon": "early",
+   "model": "N_naive_home",
+   "season": 2021,
+   "n_games": 285,
+   "margin_mae": 12.044399871630294,
+   "margin_rmse": 15.301183010384534,
+   "total_mae": 11.08867137355584,
+   "total_rmse": 13.720057599818448,
+   "home_pts_mae": 8.567819319640565,
+   "away_pts_mae": 8.217075845100556,
+   "margin_bias": -0.3025834403080853,
+   "total_bias": 0.2107723577235807,
+   "winner_accuracy": 0.5070422535211268,
+   "n_decided": 284
+  },
+  {
+   "horizon": "early",
+   "model": "N_naive_home",
+   "season": 2022,
+   "n_games": 284,
+   "margin_mae": 9.583393013447917,
+   "margin_rmse": 12.387092808741361,
+   "total_mae": 11.296815734330654,
+   "total_rmse": 13.952901225682039,
+   "home_pts_mae": 7.3496492135487115,
+   "away_pts_mae": 7.5689736346516,
+   "margin_bias": -0.4477467441181971,
+   "total_bias": 2.21501419060502,
+   "winner_accuracy": 0.5602836879432624,
+   "n_decided": 282
+  },
+  {
+   "horizon": "early",
+   "model": "N_naive_home",
+   "season": 2023,
+   "n_games": 285,
+   "margin_mae": 11.103112862369828,
+   "margin_rmse": 14.42693797994992,
+   "total_mae": 10.988261562998407,
+   "total_rmse": 13.839518250285334,
+   "home_pts_mae": 7.8739112487100105,
+   "away_pts_mae": 7.869621915751948,
+   "margin_bias": -1.1942058354442255,
+   "total_bias": 2.095187165775404,
+   "winner_accuracy": 0.5543859649122806,
+   "n_decided": 285
+  },
+  {
+   "horizon": "early",
+   "model": "N_naive_home",
+   "season": 2024,
+   "n_games": 285,
+   "margin_mae": 11.192843672699663,
+   "margin_rmse": 14.482907221460831,
+   "total_mae": 10.121566130309487,
+   "total_rmse": 13.18853590126669,
+   "home_pts_mae": 8.10088249940813,
+   "away_pts_mae": 7.5388373213163185,
+   "margin_bias": -0.4043871894720503,
+   "total_bias": -0.37119672144530763,
+   "winner_accuracy": 0.5228070175438596,
+   "n_decided": 285
+  },
+  {
+   "horizon": "early",
+   "model": "B_core",
+   "season": 2019,
+   "n_games": 267,
+   "margin_mae": 10.425376577164132,
+   "margin_rmse": 13.397838760536262,
+   "total_mae": 10.95919291836807,
+   "total_rmse": 13.78807539259254,
+   "home_pts_mae": 7.635458712579232,
+   "away_pts_mae": 7.472192763814167,
+   "margin_bias": 1.68840877443708,
+   "total_bias": 0.07512002945900717,
+   "winner_accuracy": 0.6428571428571429,
+   "n_decided": 266
+  },
+  {
+   "horizon": "early",
+   "model": "B_core",
+   "season": 2020,
+   "n_games": 269,
+   "margin_mae": 10.01364089417146,
+   "margin_rmse": 12.913432198861624,
+   "total_mae": 10.783641873271158,
+   "total_rmse": 13.680332830524609,
+   "home_pts_mae": 7.162514269572593,
+   "away_pts_mae": 7.992169383828441,
+   "margin_bias": 1.2079188801034668,
+   "total_bias": -2.10643780309786,
+   "winner_accuracy": 0.667910447761194,
+   "n_decided": 268
+  },
+  {
+   "horizon": "early",
+   "model": "B_core",
+   "season": 2021,
+   "n_games": 285,
+   "margin_mae": 11.107582595830722,
+   "margin_rmse": 14.099394952014656,
+   "total_mae": 11.145844944375067,
+   "total_rmse": 13.700121183771223,
+   "home_pts_mae": 8.191369097149044,
+   "away_pts_mae": 7.599278527639858,
+   "margin_bias": -1.1690963708575157,
+   "total_bias": 2.2332047972412106,
+   "winner_accuracy": 0.6126760563380281,
+   "n_decided": 284
+  },
+  {
+   "horizon": "early",
+   "model": "B_core",
+   "season": 2022,
+   "n_games": 284,
+   "margin_mae": 8.929034524296297,
+   "margin_rmse": 11.72952203129441,
+   "total_mae": 10.838066919930581,
+   "total_rmse": 13.583953849730037,
+   "home_pts_mae": 7.000078544774739,
+   "away_pts_mae": 7.277358752595975,
+   "margin_bias": -1.188053805099086,
+   "total_bias": 1.6835564554751825,
+   "winner_accuracy": 0.648936170212766,
+   "n_decided": 282
+  },
+  {
+   "horizon": "early",
+   "model": "B_core",
+   "season": 2023,
+   "n_games": 285,
+   "margin_mae": 10.334156331651911,
+   "margin_rmse": 13.554501903884486,
+   "total_mae": 10.555161505211046,
+   "total_rmse": 13.488221651124299,
+   "home_pts_mae": 7.5119611499970205,
+   "away_pts_mae": 7.530305424476413,
+   "margin_bias": -1.5010608093334634,
+   "total_bias": 0.05383976196963637,
+   "winner_accuracy": 0.6210526315789474,
+   "n_decided": 285
+  },
+  {
+   "horizon": "early",
+   "model": "B_core",
+   "season": 2024,
+   "n_games": 285,
+   "margin_mae": 10.136803592723979,
+   "margin_rmse": 13.193990626162762,
+   "total_mae": 9.89547578445207,
+   "total_rmse": 12.790797198082474,
+   "home_pts_mae": 7.576756616392466,
+   "away_pts_mae": 6.963632798190761,
+   "margin_bias": -0.6268047669003506,
+   "total_bias": -0.7216442020913325,
+   "winner_accuracy": 0.6771929824561403,
+   "n_decided": 285
+  },
+  {
+   "horizon": "early",
+   "model": "B_qb",
+   "season": 2019,
+   "n_games": 267,
+   "margin_mae": 10.41577595557585,
+   "margin_rmse": 13.422641644183935,
+   "total_mae": 10.978392434099137,
+   "total_rmse": 13.792285271033737,
+   "home_pts_mae": 7.589475689070347,
+   "away_pts_mae": 7.530733573601405,
+   "margin_bias": 1.6946764736136324,
+   "total_bias": -0.01845430790334892,
+   "winner_accuracy": 0.6390977443609023,
+   "n_decided": 266
+  },
+  {
+   "horizon": "early",
+   "model": "B_qb",
+   "season": 2020,
+   "n_games": 269,
+   "margin_mae": 9.982310902210672,
+   "margin_rmse": 12.87322442420655,
+   "total_mae": 10.68095070117853,
+   "total_rmse": 13.567490485700135,
+   "home_pts_mae": 7.118277763849358,
+   "away_pts_mae": 7.930774222481219,
+   "margin_bias": 1.2256775989358557,
+   "total_bias": -2.0352671499677992,
+   "winner_accuracy": 0.6604477611940298,
+   "n_decided": 268
+  },
+  {
+   "horizon": "early",
+   "model": "B_qb",
+   "season": 2021,
+   "n_games": 285,
+   "margin_mae": 11.059141892148634,
+   "margin_rmse": 14.032774258872083,
+   "total_mae": 11.113406293148344,
+   "total_rmse": 13.645983024319866,
+   "home_pts_mae": 8.177437644015182,
+   "away_pts_mae": 7.563259161672798,
+   "margin_bias": -1.1633654146320744,
+   "total_bias": 2.0599592823232045,
+   "winner_accuracy": 0.6197183098591549,
+   "n_decided": 284
+  },
+  {
+   "horizon": "early",
+   "model": "B_qb",
+   "season": 2022,
+   "n_games": 284,
+   "margin_mae": 8.95865014815077,
+   "margin_rmse": 11.757206481176064,
+   "total_mae": 10.643332761910235,
+   "total_rmse": 13.44462897927301,
+   "home_pts_mae": 7.046415618560019,
+   "away_pts_mae": 7.130985031542679,
+   "margin_bias": -0.7791802023713962,
+   "total_bias": 1.4753785279670888,
+   "winner_accuracy": 0.648936170212766,
+   "n_decided": 282
+  },
+  {
+   "horizon": "early",
+   "model": "B_qb",
+   "season": 2023,
+   "n_games": 285,
+   "margin_mae": 10.297888257487763,
+   "margin_rmse": 13.520499738549955,
+   "total_mae": 10.522514839267087,
+   "total_rmse": 13.34076730381769,
+   "home_pts_mae": 7.455228148362821,
+   "away_pts_mae": 7.525474648089759,
+   "margin_bias": -1.481486524751111,
+   "total_bias": 0.0948149800943767,
+   "winner_accuracy": 0.6175438596491228,
+   "n_decided": 285
+  },
+  {
+   "horizon": "early",
+   "model": "B_qb",
+   "season": 2024,
+   "n_games": 285,
+   "margin_mae": 10.148428192208566,
+   "margin_rmse": 13.20333128203599,
+   "total_mae": 9.947479172195134,
+   "total_rmse": 12.771765520528001,
+   "home_pts_mae": 7.55190957524445,
+   "away_pts_mae": 6.992543242182501,
+   "margin_bias": -0.6618298141527077,
+   "total_bias": -0.2679958068049975,
+   "winner_accuracy": 0.6631578947368421,
+   "n_decided": 285
+  },
+  {
+   "horizon": "early",
+   "model": "B_qb_noadj",
+   "season": 2019,
+   "n_games": 267,
+   "margin_mae": 10.44905001823759,
+   "margin_rmse": 13.477937021034098,
+   "total_mae": 10.996664425027586,
+   "total_rmse": 13.82961184405047,
+   "home_pts_mae": 7.611598770130093,
+   "away_pts_mae": 7.573091940271034,
+   "margin_bias": 1.7009866110799694,
+   "total_bias": 0.12470945233683892,
+   "winner_accuracy": 0.6428571428571429,
+   "n_decided": 266
+  },
+  {
+   "horizon": "early",
+   "model": "B_qb_noadj",
+   "season": 2020,
+   "n_games": 269,
+   "margin_mae": 9.997873796416494,
+   "margin_rmse": 12.892557890737935,
+   "total_mae": 10.642442225665105,
+   "total_rmse": 13.447467435671554,
+   "home_pts_mae": 7.154503136520879,
+   "away_pts_mae": 7.877727718097177,
+   "margin_bias": 1.2488134922362204,
+   "total_bias": -0.8871037820683807,
+   "winner_accuracy": 0.6753731343283582,
+   "n_decided": 268
+  },
+  {
+   "horizon": "early",
+   "model": "B_qb_noadj",
+   "season": 2021,
+   "n_games": 285,
+   "margin_mae": 11.030332201703946,
+   "margin_rmse": 13.995946309303987,
+   "total_mae": 11.162000215111425,
+   "total_rmse": 13.734289020437773,
+   "home_pts_mae": 8.228975443360937,
+   "away_pts_mae": 7.512258733339773,
+   "margin_bias": -0.7476533301815397,
+   "total_bias": 2.330469093784818,
+   "winner_accuracy": 0.6126760563380281,
+   "n_decided": 284
+  },
+  {
+   "horizon": "early",
+   "model": "B_qb_noadj",
+   "season": 2022,
+   "n_games": 284,
+   "margin_mae": 8.957713762591903,
+   "margin_rmse": 11.770852557801058,
+   "total_mae": 10.595704612953384,
+   "total_rmse": 13.422617587544583,
+   "home_pts_mae": 7.021972321821041,
+   "away_pts_mae": 7.103956361830878,
+   "margin_bias": -0.7832539258705953,
+   "total_bias": 1.1191519184741192,
+   "winner_accuracy": 0.6524822695035462,
+   "n_decided": 282
+  },
+  {
+   "horizon": "early",
+   "model": "B_qb_noadj",
+   "season": 2023,
+   "n_games": 285,
+   "margin_mae": 10.304964008501864,
+   "margin_rmse": 13.52246268445258,
+   "total_mae": 10.452971042053246,
+   "total_rmse": 13.383523986785477,
+   "home_pts_mae": 7.509449220214057,
+   "away_pts_mae": 7.471969933708421,
+   "margin_bias": -1.503418399943574,
+   "total_bias": -0.7516254778721572,
+   "winner_accuracy": 0.6280701754385964,
+   "n_decided": 285
+  },
+  {
+   "horizon": "early",
+   "model": "B_qb_noadj",
+   "season": 2024,
+   "n_games": 285,
+   "margin_mae": 10.193815076509107,
+   "margin_rmse": 13.25351993257592,
+   "total_mae": 9.955103495220904,
+   "total_rmse": 12.786292378981303,
+   "home_pts_mae": 7.5534380698761545,
+   "away_pts_mae": 7.021608850494016,
+   "margin_bias": -0.6692369501261833,
+   "total_bias": -0.36370859454773546,
+   "winner_accuracy": 0.6631578947368421,
+   "n_decided": 285
+  },
+  {
+   "horizon": "final",
+   "model": "N_naive_home",
+   "season": 2019,
+   "n_games": 267,
+   "margin_mae": 11.622008748606227,
+   "margin_rmse": 14.934795414084498,
+   "total_mae": 11.130218905757117,
+   "total_rmse": 13.908800522527125,
+   "home_pts_mae": 8.001200789089973,
+   "away_pts_mae": 8.284043800211565,
+   "margin_bias": 2.570517768819512,
+   "total_bias": -0.3504302827572419,
+   "winner_accuracy": 0.5112781954887218,
+   "n_decided": 266
+  },
+  {
+   "horizon": "final",
+   "model": "N_naive_home",
+   "season": 2020,
+   "n_games": 269,
+   "margin_mae": 11.083808225306505,
+   "margin_rmse": 14.205993022696832,
+   "total_mae": 11.335630567775517,
+   "total_rmse": 14.32981555983103,
+   "home_pts_mae": 7.46334899145372,
+   "away_pts_mae": 8.64351324194104,
+   "margin_bias": 1.8237662572831566,
+   "total_bias": -4.038939366502985,
+   "winner_accuracy": 0.4962686567164179,
+   "n_decided": 268
+  },
+  {
+   "horizon": "final",
+   "model": "N_naive_home",
+   "season": 2021,
+   "n_games": 285,
+   "margin_mae": 12.044399871630294,
+   "margin_rmse": 15.301183010384534,
+   "total_mae": 11.08867137355584,
+   "total_rmse": 13.720057599818448,
+   "home_pts_mae": 8.567819319640565,
+   "away_pts_mae": 8.217075845100556,
+   "margin_bias": -0.3025834403080853,
+   "total_bias": 0.2107723577235807,
+   "winner_accuracy": 0.5070422535211268,
+   "n_decided": 284
+  },
+  {
+   "horizon": "final",
+   "model": "N_naive_home",
+   "season": 2022,
+   "n_games": 284,
+   "margin_mae": 9.583393013447917,
+   "margin_rmse": 12.387092808741361,
+   "total_mae": 11.296815734330654,
+   "total_rmse": 13.952901225682039,
+   "home_pts_mae": 7.3496492135487115,
+   "away_pts_mae": 7.5689736346516,
+   "margin_bias": -0.4477467441181971,
+   "total_bias": 2.21501419060502,
+   "winner_accuracy": 0.5602836879432624,
+   "n_decided": 282
+  },
+  {
+   "horizon": "final",
+   "model": "N_naive_home",
+   "season": 2023,
+   "n_games": 285,
+   "margin_mae": 11.103112862369828,
+   "margin_rmse": 14.42693797994992,
+   "total_mae": 10.988261562998407,
+   "total_rmse": 13.839518250285334,
+   "home_pts_mae": 7.8739112487100105,
+   "away_pts_mae": 7.869621915751948,
+   "margin_bias": -1.1942058354442255,
+   "total_bias": 2.095187165775404,
+   "winner_accuracy": 0.5543859649122806,
+   "n_decided": 285
+  },
+  {
+   "horizon": "final",
+   "model": "N_naive_home",
+   "season": 2024,
+   "n_games": 285,
+   "margin_mae": 11.192843672699663,
+   "margin_rmse": 14.482907221460831,
+   "total_mae": 10.121566130309487,
+   "total_rmse": 13.18853590126669,
+   "home_pts_mae": 8.10088249940813,
+   "away_pts_mae": 7.5388373213163185,
+   "margin_bias": -0.4043871894720503,
+   "total_bias": -0.37119672144530763,
+   "winner_accuracy": 0.5228070175438596,
+   "n_decided": 285
+  },
+  {
+   "horizon": "final",
+   "model": "B_core",
+   "season": 2019,
+   "n_games": 267,
+   "margin_mae": 10.4261431875822,
+   "margin_rmse": 13.40009690491724,
+   "total_mae": 10.959521435445852,
+   "total_rmse": 13.79014137000885,
+   "home_pts_mae": 7.636301871289488,
+   "away_pts_mae": 7.4734893521475545,
+   "margin_bias": 1.6885639570104873,
+   "total_bias": 0.08198077808945009,
+   "winner_accuracy": 0.6353383458646616,
+   "n_decided": 266
+  },
+  {
+   "horizon": "final",
+   "model": "B_core",
+   "season": 2020,
+   "n_games": 269,
+   "margin_mae": 10.013184825144803,
+   "margin_rmse": 12.913487600365096,
+   "total_mae": 10.78762365670675,
+   "total_rmse": 13.679841624980652,
+   "home_pts_mae": 7.163422640894912,
+   "away_pts_mae": 7.991532760071187,
+   "margin_bias": 1.2088034594410875,
+   "total_bias": -2.0789809885673107,
+   "winner_accuracy": 0.667910447761194,
+   "n_decided": 268
+  },
+  {
+   "horizon": "final",
+   "model": "B_core",
+   "season": 2021,
+   "n_games": 285,
+   "margin_mae": 11.107763102657222,
+   "margin_rmse": 14.099670159183646,
+   "total_mae": 11.146573237040085,
+   "total_rmse": 13.701226778419816,
+   "home_pts_mae": 8.191761996959206,
+   "away_pts_mae": 7.6004525614402345,
+   "margin_bias": -1.1688489752887516,
+   "total_bias": 2.2400562032880176,
+   "winner_accuracy": 0.6126760563380281,
+   "n_decided": 284
+  },
+  {
+   "horizon": "final",
+   "model": "B_core",
+   "season": 2022,
+   "n_games": 284,
+   "margin_mae": 8.92840902087306,
+   "margin_rmse": 11.729174024499253,
+   "total_mae": 10.839617354542028,
+   "total_rmse": 13.583230132813709,
+   "home_pts_mae": 7.001152151998095,
+   "away_pts_mae": 7.278191673339766,
+   "margin_bias": -1.1889573218269363,
+   "total_bias": 1.6839231737570322,
+   "winner_accuracy": 0.648936170212766,
+   "n_decided": 282
+  },
+  {
+   "horizon": "final",
+   "model": "B_core",
+   "season": 2023,
+   "n_games": 285,
+   "margin_mae": 10.333290595675415,
+   "margin_rmse": 13.552636201979714,
+   "total_mae": 10.553457997049781,
+   "total_rmse": 13.491093782883148,
+   "home_pts_mae": 7.512741757447039,
+   "away_pts_mae": 7.527561068733776,
+   "margin_bias": -1.50109689682781,
+   "total_bias": 0.027485029965868577,
+   "winner_accuracy": 0.6210526315789474,
+   "n_decided": 285
+  },
+  {
+   "horizon": "final",
+   "model": "B_core",
+   "season": 2024,
+   "n_games": 285,
+   "margin_mae": 10.136936571175395,
+   "margin_rmse": 13.194101042481654,
+   "total_mae": 9.893960995236956,
+   "total_rmse": 12.790238387130444,
+   "home_pts_mae": 7.578275363061097,
+   "away_pts_mae": 6.962247353606328,
+   "margin_bias": -0.6293532519981058,
+   "total_bias": -0.7242470658683878,
+   "winner_accuracy": 0.6736842105263158,
+   "n_decided": 285
+  },
+  {
+   "horizon": "final",
+   "model": "B_qb",
+   "season": 2019,
+   "n_games": 267,
+   "margin_mae": 10.345187588188278,
+   "margin_rmse": 13.31503664279342,
+   "total_mae": 10.93812092749587,
+   "total_rmse": 13.716082596959428,
+   "home_pts_mae": 7.544434225828946,
+   "away_pts_mae": 7.413355351472347,
+   "margin_bias": 1.6579465102032096,
+   "total_bias": -0.22358349878298275,
+   "winner_accuracy": 0.6390977443609023,
+   "n_decided": 266
+  },
+  {
+   "horizon": "final",
+   "model": "B_qb",
+   "season": 2020,
+   "n_games": 269,
+   "margin_mae": 9.935397797235712,
+   "margin_rmse": 12.804504211444062,
+   "total_mae": 10.535238567636812,
+   "total_rmse": 13.377428160217757,
+   "home_pts_mae": 6.95542114887745,
+   "away_pts_mae": 7.881635298951997,
+   "margin_bias": 1.1690093516720699,
+   "total_bias": -2.0901296175531408,
+   "winner_accuracy": 0.6753731343283582,
+   "n_decided": 268
+  },
+  {
+   "horizon": "final",
+   "model": "B_qb",
+   "season": 2021,
+   "n_games": 285,
+   "margin_mae": 10.915674693412644,
+   "margin_rmse": 13.8528711569418,
+   "total_mae": 10.897503356341561,
+   "total_rmse": 13.424566584706268,
+   "home_pts_mae": 8.124799723193371,
+   "away_pts_mae": 7.308133330913194,
+   "margin_bias": -0.6388316438411166,
+   "total_bias": 1.5953309126315611,
+   "winner_accuracy": 0.6302816901408451,
+   "n_decided": 284
+  },
+  {
+   "horizon": "final",
+   "model": "B_qb",
+   "season": 2022,
+   "n_games": 284,
+   "margin_mae": 9.005482591550253,
+   "margin_rmse": 11.794930064507755,
+   "total_mae": 10.573298676073705,
+   "total_rmse": 13.437467463576455,
+   "home_pts_mae": 7.0467972803696535,
+   "away_pts_mae": 7.069944110921973,
+   "margin_bias": -0.7927338439610102,
+   "total_bias": 1.4496262456985778,
+   "winner_accuracy": 0.6595744680851063,
+   "n_decided": 282
+  },
+  {
+   "horizon": "final",
+   "model": "B_qb",
+   "season": 2023,
+   "n_games": 285,
+   "margin_mae": 10.249040212425973,
+   "margin_rmse": 13.381022939308982,
+   "total_mae": 10.430362322750414,
+   "total_rmse": 13.302100210507229,
+   "home_pts_mae": 7.420508451733834,
+   "away_pts_mae": 7.457853008812676,
+   "margin_bias": -1.4394160577942305,
+   "total_bias": -0.12378583866209447,
+   "winner_accuracy": 0.6350877192982456,
+   "n_decided": 285
+  },
+  {
+   "horizon": "final",
+   "model": "B_qb",
+   "season": 2024,
+   "n_games": 285,
+   "margin_mae": 9.990433668791923,
+   "margin_rmse": 12.920300624444502,
+   "total_mae": 9.815962135001664,
+   "total_rmse": 12.632496636711352,
+   "home_pts_mae": 7.472992333381905,
+   "away_pts_mae": 6.888343995032505,
+   "margin_bias": -0.6239434947364607,
+   "total_bias": -0.3347634843651671,
+   "winner_accuracy": 0.6912280701754386,
+   "n_decided": 285
+  },
+  {
+   "horizon": "final",
+   "model": "B_qb_noadj",
+   "season": 2019,
+   "n_games": 267,
+   "margin_mae": 10.376246348622436,
+   "margin_rmse": 13.367028326721838,
+   "total_mae": 10.950182164910181,
+   "total_rmse": 13.74793935049039,
+   "home_pts_mae": 7.561444651801483,
+   "away_pts_mae": 7.457081917026812,
+   "margin_bias": 1.6641586165414848,
+   "total_bias": -0.09142391839107057,
+   "winner_accuracy": 0.6428571428571429,
+   "n_decided": 266
+  },
+  {
+   "horizon": "final",
+   "model": "B_qb_noadj",
+   "season": 2020,
+   "n_games": 269,
+   "margin_mae": 9.946703800182197,
+   "margin_rmse": 12.82498882148793,
+   "total_mae": 10.480109385497656,
+   "total_rmse": 13.250386580698741,
+   "home_pts_mae": 6.9786064485620125,
+   "away_pts_mae": 7.828030567623355,
+   "margin_bias": 1.189810840846742,
+   "total_bias": -0.9702583571459154,
+   "winner_accuracy": 0.6791044776119403,
+   "n_decided": 268
+  },
+  {
+   "horizon": "final",
+   "model": "B_qb_noadj",
+   "season": 2021,
+   "n_games": 285,
+   "margin_mae": 10.920449161973956,
+   "margin_rmse": 13.875940834234415,
+   "total_mae": 10.968067855241584,
+   "total_rmse": 13.500266038218491,
+   "home_pts_mae": 8.157402092532212,
+   "away_pts_mae": 7.325121679113181,
+   "margin_bias": -0.6271885266778616,
+   "total_bias": 2.0505503062142196,
+   "winner_accuracy": 0.6232394366197183,
+   "n_decided": 284
+  },
+  {
+   "horizon": "final",
+   "model": "B_qb_noadj",
+   "season": 2022,
+   "n_games": 284,
+   "margin_mae": 9.006559961190279,
+   "margin_rmse": 11.809239916988444,
+   "total_mae": 10.522463951498993,
+   "total_rmse": 13.421829467854629,
+   "home_pts_mae": 7.019888449538541,
+   "away_pts_mae": 7.050597569285421,
+   "margin_bias": -0.7965185089639362,
+   "total_bias": 1.106751786162445,
+   "winner_accuracy": 0.6560283687943262,
+   "n_decided": 282
+  },
+  {
+   "horizon": "final",
+   "model": "B_qb_noadj",
+   "season": 2023,
+   "n_games": 285,
+   "margin_mae": 10.251727796460372,
+   "margin_rmse": 13.382670262439326,
+   "total_mae": 10.36301082131509,
+   "total_rmse": 13.345445430473914,
+   "home_pts_mae": 7.468458129303008,
+   "away_pts_mae": 7.407794012716794,
+   "margin_bias": -1.45977343482805,
+   "total_bias": -0.9143564618906477,
+   "winner_accuracy": 0.624561403508772,
+   "n_decided": 285
+  },
+  {
+   "horizon": "final",
+   "model": "B_qb_noadj",
+   "season": 2024,
+   "n_games": 285,
+   "margin_mae": 10.034950594939044,
+   "margin_rmse": 12.96436749923204,
+   "total_mae": 9.809472497928626,
+   "total_rmse": 12.639306764302013,
+   "home_pts_mae": 7.472261066444179,
+   "away_pts_mae": 6.908150027559893,
+   "margin_bias": -0.6295927307541822,
+   "total_bias": -0.4233145733579059,
+   "winner_accuracy": 0.6947368421052632,
+   "n_decided": 285
+  },
+  {
+   "horizon": "final",
+   "model": "B_qb_inj",
+   "season": 2019,
+   "n_games": 267,
+   "margin_mae": 10.3370068684479,
+   "margin_rmse": 13.324677463892298,
+   "total_mae": 10.91989235969993,
+   "total_rmse": 13.688772124902739,
+   "home_pts_mae": 7.531895167003419,
+   "away_pts_mae": 7.396462088582299,
+   "margin_bias": 1.6381313103463437,
+   "total_bias": -0.24665901004383553,
+   "winner_accuracy": 0.6353383458646616,
+   "n_decided": 266
+  },
+  {
+   "horizon": "final",
+   "model": "B_qb_inj",
+   "season": 2020,
+   "n_games": 269,
+   "margin_mae": 9.939598949787108,
+   "margin_rmse": 12.80342097515283,
+   "total_mae": 10.475748331820267,
+   "total_rmse": 13.336113013423894,
+   "home_pts_mae": 6.937682922194015,
+   "away_pts_mae": 7.873521038077114,
+   "margin_bias": 1.2172962099618487,
+   "total_bias": -2.1929936530595597,
+   "winner_accuracy": 0.6716417910447762,
+   "n_decided": 268
+  },
+  {
+   "horizon": "final",
+   "model": "B_qb_inj",
+   "season": 2021,
+   "n_games": 285,
+   "margin_mae": 10.936906800965186,
+   "margin_rmse": 13.849173704453747,
+   "total_mae": 10.912109510046811,
+   "total_rmse": 13.425245538074853,
+   "home_pts_mae": 8.113090429850262,
+   "away_pts_mae": 7.349111328480636,
+   "margin_bias": -0.6115590214999302,
+   "total_bias": 1.5955332877101518,
+   "winner_accuracy": 0.6408450704225352,
+   "n_decided": 284
+  },
+  {
+   "horizon": "final",
+   "model": "B_qb_inj",
+   "season": 2022,
+   "n_games": 284,
+   "margin_mae": 9.001875050039589,
+   "margin_rmse": 11.766213668587156,
+   "total_mae": 10.573530774468654,
+   "total_rmse": 13.43178411534671,
+   "home_pts_mae": 7.055394169991314,
+   "away_pts_mae": 7.02897928448714,
+   "margin_bias": -0.8315592879162093,
+   "total_bias": 1.5365175381259064,
+   "winner_accuracy": 0.6453900709219859,
+   "n_decided": 282
+  },
+  {
+   "horizon": "final",
+   "model": "B_qb_inj",
+   "season": 2023,
+   "n_games": 285,
+   "margin_mae": 10.23181654139028,
+   "margin_rmse": 13.41188807745879,
+   "total_mae": 10.464660102062151,
+   "total_rmse": 13.341563418756424,
+   "home_pts_mae": 7.430125282614296,
+   "away_pts_mae": 7.493282841016897,
+   "margin_bias": -1.4591031936298415,
+   "total_bias": -0.04202733116091206,
+   "winner_accuracy": 0.6596491228070176,
+   "n_decided": 285
+  },
+  {
+   "horizon": "final",
+   "model": "B_qb_inj",
+   "season": 2024,
+   "n_games": 285,
+   "margin_mae": 9.959590712983601,
+   "margin_rmse": 12.823149053676065,
+   "total_mae": 9.814632250425943,
+   "total_rmse": 12.631160397731378,
+   "home_pts_mae": 7.447110163440775,
+   "away_pts_mae": 6.858012100921292,
+   "margin_bias": -0.5788235757648281,
+   "total_bias": -0.3003180877615095,
+   "winner_accuracy": 0.6807017543859649,
+   "n_decided": 285
+  },
+  {
+   "horizon": "final",
+   "model": "A_market_raw",
+   "season": 2019,
+   "n_games": 267,
+   "margin_mae": 10.176029962546817,
+   "margin_rmse": 13.064518664691589,
+   "total_mae": 10.784644194756554,
+   "total_rmse": 13.402198097986684,
+   "home_pts_mae": 7.420411985018727,
+   "away_pts_mae": 7.107677902621723,
+   "margin_bias": 1.8689138576779025,
+   "total_bias": -0.4812734082397004,
+   "winner_accuracy": 0.6428571428571429,
+   "n_decided": 266
+  },
+  {
+   "horizon": "final",
+   "model": "A_market_raw",
+   "season": 2020,
+   "n_games": 269,
+   "margin_mae": 9.78996282527881,
+   "margin_rmse": 12.696595275841197,
+   "total_mae": 10.302973977695167,
+   "total_rmse": 13.083624374224417,
+   "home_pts_mae": 6.9907063197026025,
+   "away_pts_mae": 7.659851301115242,
+   "margin_bias": 0.9572490706319703,
+   "total_bias": -1.3178438661710037,
+   "winner_accuracy": 0.6716417910447762,
+   "n_decided": 268
+  },
+  {
+   "horizon": "final",
+   "model": "A_market_raw",
+   "season": 2021,
+   "n_games": 285,
+   "margin_mae": 10.666666666666666,
+   "margin_rmse": 13.548871902286235,
+   "total_mae": 10.807017543859649,
+   "total_rmse": 13.297473708097485,
+   "home_pts_mae": 8.143859649122806,
+   "away_pts_mae": 7.110526315789474,
+   "margin_bias": -0.11578947368421053,
+   "total_bias": 0.47719298245614034,
+   "winner_accuracy": 0.6232394366197183,
+   "n_decided": 284
+  },
+  {
+   "horizon": "final",
+   "model": "A_market_raw",
+   "season": 2022,
+   "n_games": 284,
+   "margin_mae": 8.783450704225352,
+   "margin_rmse": 11.487247981878998,
+   "total_mae": 10.397887323943662,
+   "total_rmse": 13.212709950095482,
+   "home_pts_mae": 6.851232394366197,
+   "away_pts_mae": 7.044894366197183,
+   "margin_bias": -0.2869718309859155,
+   "total_bias": 0.18661971830985916,
+   "winner_accuracy": 0.6631205673758865,
+   "n_decided": 282
+  },
+  {
+   "horizon": "final",
+   "model": "A_market_raw",
+   "season": 2023,
+   "n_games": 285,
+   "margin_mae": 9.98421052631579,
+   "margin_rmse": 13.173970880942838,
+   "total_mae": 10.16842105263158,
+   "total_rmse": 13.0569602330066,
+   "home_pts_mae": 7.309649122807017,
+   "away_pts_mae": 7.292105263157895,
+   "margin_bias": -1.131578947368421,
+   "total_bias": -0.6736842105263158,
+   "winner_accuracy": 0.6736842105263158,
+   "n_decided": 285
+  },
+  {
+   "horizon": "final",
+   "model": "A_market_raw",
+   "season": 2024,
+   "n_games": 285,
+   "margin_mae": 9.703508771929824,
+   "margin_rmse": 12.72051113394316,
+   "total_mae": 9.76842105263158,
+   "total_rmse": 12.586612213679416,
+   "home_pts_mae": 7.416666666666667,
+   "away_pts_mae": 6.741228070175438,
+   "margin_bias": -0.6789473684210526,
+   "total_bias": -1.5333333333333334,
+   "winner_accuracy": 0.7052631578947368,
+   "n_decided": 285
+  },
+  {
+   "horizon": "final",
+   "model": "A_market_cal",
+   "season": 2019,
+   "n_games": 267,
+   "margin_mae": 10.220609144252665,
+   "margin_rmse": 13.107311809157697,
+   "total_mae": 10.787206755940629,
+   "total_rmse": 13.411978402100367,
+   "home_pts_mae": 7.424715215474336,
+   "away_pts_mae": 7.123004040926877,
+   "margin_bias": 2.15929831853076,
+   "total_bias": -0.673375428197807,
+   "winner_accuracy": 0.6428571428571429,
+   "n_decided": 266
+  },
+  {
+   "horizon": "final",
+   "model": "A_market_cal",
+   "season": 2020,
+   "n_games": 269,
+   "margin_mae": 9.803484135189922,
+   "margin_rmse": 12.684182077022587,
+   "total_mae": 10.303109744015579,
+   "total_rmse": 13.084549753966286,
+   "home_pts_mae": 6.995108606746413,
+   "away_pts_mae": 7.6422858010746255,
+   "margin_bias": 0.6785347712154798,
+   "total_bias": -1.3292187064642709,
+   "winner_accuracy": 0.6716417910447762,
+   "n_decided": 268
+  },
+  {
+   "horizon": "final",
+   "model": "A_market_cal",
+   "season": 2021,
+   "n_games": 285,
+   "margin_mae": 10.655409075817516,
+   "margin_rmse": 13.556914761885052,
+   "total_mae": 10.836248808179283,
+   "total_rmse": 13.318867618152906,
+   "home_pts_mae": 8.142129227649542,
+   "away_pts_mae": 7.11010747075783,
+   "margin_bias": -0.508152861614087,
+   "total_bias": 0.7506572612461734,
+   "winner_accuracy": 0.6232394366197183,
+   "n_decided": 284
+  },
+  {
+   "horizon": "final",
+   "model": "A_market_cal",
+   "season": 2022,
+   "n_games": 284,
+   "margin_mae": 8.805413617793185,
+   "margin_rmse": 11.509487167197571,
+   "total_mae": 10.410526628449633,
+   "total_rmse": 13.215536409479169,
+   "home_pts_mae": 6.848669639404049,
+   "away_pts_mae": 7.062816472215156,
+   "margin_bias": -0.5905274266263202,
+   "total_bias": 0.28817375872756257,
+   "winner_accuracy": 0.6631205673758865,
+   "n_decided": 282
+  },
+  {
+   "horizon": "final",
+   "model": "A_market_cal",
+   "season": 2023,
+   "n_games": 285,
+   "margin_mae": 9.993590923159347,
+   "margin_rmse": 13.194476137459883,
+   "total_mae": 10.17453053287291,
+   "total_rmse": 13.054251077667445,
+   "home_pts_mae": 7.314228244308548,
+   "away_pts_mae": 7.307615683495215,
+   "margin_bias": -1.3437117941812573,
+   "total_bias": -0.6093166251949208,
+   "winner_accuracy": 0.6736842105263158,
+   "n_decided": 285
+  },
+  {
+   "horizon": "final",
+   "model": "A_market_cal",
+   "season": 2024,
+   "n_games": 285,
+   "margin_mae": 9.70662503423963,
+   "margin_rmse": 12.726130977792632,
+   "total_mae": 9.755796383173465,
+   "total_rmse": 12.568166175095598,
+   "home_pts_mae": 7.4095680693699215,
+   "away_pts_mae": 6.74532352706104,
+   "margin_bias": -0.71559051791102,
+   "total_bias": -1.3662022862312355,
+   "winner_accuracy": 0.7052631578947368,
+   "n_decided": 285
+  },
+  {
+   "horizon": "final",
+   "model": "C_resid",
+   "season": 2019,
+   "n_games": 267,
+   "margin_mae": 10.215957831501266,
+   "margin_rmse": 13.107429525277523,
+   "total_mae": 10.7880713177959,
+   "total_rmse": 13.411466599248833,
+   "home_pts_mae": 7.423975056214404,
+   "away_pts_mae": 7.131803588032564,
+   "margin_bias": 2.146516911015241,
+   "total_bias": -0.6760707435655992,
+   "winner_accuracy": 0.6428571428571429,
+   "n_decided": 266
+  },
+  {
+   "horizon": "final",
+   "model": "C_resid",
+   "season": 2020,
+   "n_games": 269,
+   "margin_mae": 9.7970344231104,
+   "margin_rmse": 12.678354800169677,
+   "total_mae": 10.303354993249433,
+   "total_rmse": 13.086066191686372,
+   "home_pts_mae": 6.979253261629687,
+   "away_pts_mae": 7.650415473519399,
+   "margin_bias": 0.5136112203219325,
+   "total_bias": -1.3874913797951263,
+   "winner_accuracy": 0.6716417910447762,
+   "n_decided": 268
+  },
+  {
+   "horizon": "final",
+   "model": "C_resid",
+   "season": 2021,
+   "n_games": 285,
+   "margin_mae": 10.644767497347447,
+   "margin_rmse": 13.56307418537029,
+   "total_mae": 10.826744586061682,
+   "total_rmse": 13.305868437074924,
+   "home_pts_mae": 8.129636356144907,
+   "away_pts_mae": 7.12894565601666,
+   "margin_bias": -0.7002565775545395,
+   "total_bias": 0.6970955144128537,
+   "winner_accuracy": 0.6232394366197183,
+   "n_decided": 284
+  },
+  {
+   "horizon": "final",
+   "model": "C_resid",
+   "season": 2022,
+   "n_games": 284,
+   "margin_mae": 8.792139009683241,
+   "margin_rmse": 11.497314740531113,
+   "total_mae": 10.382823962636772,
+   "total_rmse": 13.193649542728492,
+   "home_pts_mae": 6.843613344211843,
+   "away_pts_mae": 7.043824627351971,
+   "margin_bias": -0.5931068973097322,
+   "total_bias": 0.31813976585229437,
+   "winner_accuracy": 0.6631205673758865,
+   "n_decided": 282
+  },
+  {
+   "horizon": "final",
+   "model": "C_resid",
+   "season": 2023,
+   "n_games": 285,
+   "margin_mae": 9.990950495950527,
+   "margin_rmse": 13.188691838322558,
+   "total_mae": 10.167795917768025,
+   "total_rmse": 12.884040042533954,
+   "home_pts_mae": 7.2597064157794495,
+   "away_pts_mae": 7.311130027373643,
+   "margin_bias": -1.30314384781468,
+   "total_bias": -0.2621767726475196,
+   "winner_accuracy": 0.6736842105263158,
+   "n_decided": 285
+  },
+  {
+   "horizon": "final",
+   "model": "C_resid",
+   "season": 2024,
+   "n_games": 285,
+   "margin_mae": 9.674471883916533,
+   "margin_rmse": 12.68801056944786,
+   "total_mae": 9.79731019792025,
+   "total_rmse": 12.622117560961469,
+   "home_pts_mae": 7.409286664229514,
+   "away_pts_mae": 6.803953018304739,
+   "margin_bias": -0.6641407302801212,
+   "total_bias": -0.9306326073970083,
+   "winner_accuracy": 0.7052631578947368,
+   "n_decided": 285
+  },
+  {
+   "horizon": "final",
+   "model": "C_resid_hgb",
+   "season": 2019,
+   "n_games": 267,
+   "margin_mae": 10.365358032774365,
+   "margin_rmse": 13.213205279952009,
+   "total_mae": 11.216231279238135,
+   "total_rmse": 13.838773235185172,
+   "home_pts_mae": 7.5314588409399486,
+   "away_pts_mae": 7.3575923829021255,
+   "margin_bias": 1.7534892673952716,
+   "total_bias": -0.48174054969836666,
+   "winner_accuracy": 0.6353383458646616,
+   "n_decided": 266
+  },
+  {
+   "horizon": "final",
+   "model": "C_resid_hgb",
+   "season": 2020,
+   "n_games": 269,
+   "margin_mae": 9.879191142154829,
+   "margin_rmse": 12.773222324097246,
+   "total_mae": 10.521375483941481,
+   "total_rmse": 13.416975316330342,
+   "home_pts_mae": 7.079508855339288,
+   "away_pts_mae": 7.688766773794895,
+   "margin_bias": -0.15011720214348798,
+   "total_bias": -1.9536447428772408,
+   "winner_accuracy": 0.6940298507462687,
+   "n_decided": 268
+  },
+  {
+   "horizon": "final",
+   "model": "C_resid_hgb",
+   "season": 2021,
+   "n_games": 285,
+   "margin_mae": 10.544453395798211,
+   "margin_rmse": 13.598052007265586,
+   "total_mae": 10.847273717972438,
+   "total_rmse": 13.452786534796042,
+   "home_pts_mae": 8.245687885690725,
+   "away_pts_mae": 7.020015179962211,
+   "margin_bias": -1.3532550093557016,
+   "total_bias": -0.15797272897321557,
+   "winner_accuracy": 0.6408450704225352,
+   "n_decided": 284
+  },
+  {
+   "horizon": "final",
+   "model": "C_resid_hgb",
+   "season": 2022,
+   "n_games": 284,
+   "margin_mae": 8.880600767336304,
+   "margin_rmse": 11.642931164611095,
+   "total_mae": 10.32530427654092,
+   "total_rmse": 13.288494933275507,
+   "home_pts_mae": 6.938874307666913,
+   "away_pts_mae": 7.074185462614769,
+   "margin_bias": -0.638998566947833,
+   "total_bias": 0.5286483601093236,
+   "winner_accuracy": 0.6808510638297872,
+   "n_decided": 282
+  },
+  {
+   "horizon": "final",
+   "model": "C_resid_hgb",
+   "season": 2023,
+   "n_games": 285,
+   "margin_mae": 10.15694673600243,
+   "margin_rmse": 13.318484643018495,
+   "total_mae": 10.13467188046939,
+   "total_rmse": 12.924614392990051,
+   "home_pts_mae": 7.308208046199128,
+   "away_pts_mae": 7.338804289847391,
+   "margin_bias": -0.7470307528301573,
+   "total_bias": -0.1677026487415118,
+   "winner_accuracy": 0.6526315789473685,
+   "n_decided": 285
+  },
+  {
+   "horizon": "final",
+   "model": "C_resid_hgb",
+   "season": 2024,
+   "n_games": 285,
+   "margin_mae": 9.718183286672955,
+   "margin_rmse": 12.81140908520235,
+   "total_mae": 9.734493801415525,
+   "total_rmse": 12.527495850941708,
+   "home_pts_mae": 7.3447340084222175,
+   "away_pts_mae": 6.88016188265624,
+   "margin_bias": -0.5593339274164787,
+   "total_bias": -0.5041204834435402,
+   "winner_accuracy": 0.7087719298245614,
+   "n_decided": 285
+  },
+  {
+   "horizon": "final",
+   "model": "C_direct",
+   "season": 2019,
+   "n_games": 267,
+   "margin_mae": 10.2355451683164,
+   "margin_rmse": 13.174647913791002,
+   "total_mae": 10.890234037895342,
+   "total_rmse": 13.629616214822782,
+   "home_pts_mae": 7.47928647386481,
+   "away_pts_mae": 7.309913828816134,
+   "margin_bias": 1.812954572515869,
+   "total_bias": -0.3610423561991798,
+   "winner_accuracy": 0.6428571428571429,
+   "n_decided": 266
+  },
+  {
+   "horizon": "final",
+   "model": "C_direct",
+   "season": 2020,
+   "n_games": 269,
+   "margin_mae": 9.802021072658617,
+   "margin_rmse": 12.667487670870988,
+   "total_mae": 10.477083284139413,
+   "total_rmse": 13.320299366759128,
+   "home_pts_mae": 6.932190810621335,
+   "away_pts_mae": 7.8009173541814265,
+   "margin_bias": 1.0723195489983857,
+   "total_bias": -2.3397947509781036,
+   "winner_accuracy": 0.6791044776119403,
+   "n_decided": 268
+  },
+  {
+   "horizon": "final",
+   "model": "C_direct",
+   "season": 2021,
+   "n_games": 285,
+   "margin_mae": 10.754797052431272,
+   "margin_rmse": 13.655823575417719,
+   "total_mae": 10.831282636811773,
+   "total_rmse": 13.339996652056433,
+   "home_pts_mae": 8.100235784312579,
+   "away_pts_mae": 7.211245424295219,
+   "margin_bias": -0.5002404342981562,
+   "total_bias": 1.2249704277519577,
+   "winner_accuracy": 0.6338028169014085,
+   "n_decided": 284
+  },
+  {
+   "horizon": "final",
+   "model": "C_direct",
+   "season": 2022,
+   "n_games": 284,
+   "margin_mae": 8.928991623951829,
+   "margin_rmse": 11.629570894305658,
+   "total_mae": 10.490734343806157,
+   "total_rmse": 13.289696651283673,
+   "home_pts_mae": 6.969348498919791,
+   "away_pts_mae": 7.003879693685006,
+   "margin_bias": -0.6988567423693763,
+   "total_bias": 1.2971964599544417,
+   "winner_accuracy": 0.648936170212766,
+   "n_decided": 282
+  },
+  {
+   "horizon": "final",
+   "model": "C_direct",
+   "season": 2023,
+   "n_games": 285,
+   "margin_mae": 10.067395399296377,
+   "margin_rmse": 13.271233650659955,
+   "total_mae": 10.330317466578803,
+   "total_rmse": 13.11827386544054,
+   "home_pts_mae": 7.2965643449338815,
+   "away_pts_mae": 7.454191141315332,
+   "margin_bias": -1.2915822640219814,
+   "total_bias": 0.13993415746478507,
+   "winner_accuracy": 0.6807017543859649,
+   "n_decided": 285
+  },
+  {
+   "horizon": "final",
+   "model": "C_direct",
+   "season": 2024,
+   "n_games": 285,
+   "margin_mae": 9.678570374707666,
+   "margin_rmse": 12.639311335289566,
+   "total_mae": 9.797172491386123,
+   "total_rmse": 12.588105110985284,
+   "home_pts_mae": 7.397021122879756,
+   "away_pts_mae": 6.78478452183818,
+   "margin_bias": -0.5612621938781546,
+   "total_bias": -0.46316986332067256,
+   "winner_accuracy": 0.7157894736842105,
+   "n_decided": 285
+  },
+  {
+   "horizon": "final",
+   "model": "C_resid_noinj",
+   "season": 2019,
+   "n_games": 267,
+   "margin_mae": 10.216641187274162,
+   "margin_rmse": 13.107657995032397,
+   "total_mae": 10.788221350166573,
+   "total_rmse": 13.41113417520358,
+   "home_pts_mae": 7.424374486047341,
+   "away_pts_mae": 7.131859251601582,
+   "margin_bias": 2.148604518286033,
+   "total_bias": -0.6737516499278576,
+   "winner_accuracy": 0.6428571428571429,
+   "n_decided": 266
+  },
+  {
+   "horizon": "final",
+   "model": "C_resid_noinj",
+   "season": 2020,
+   "n_games": 269,
+   "margin_mae": 9.791783315359849,
+   "margin_rmse": 12.679789555042335,
+   "total_mae": 10.303441262319053,
+   "total_rmse": 13.085796058984652,
+   "home_pts_mae": 6.98418213815355,
+   "away_pts_mae": 7.651709678049777,
+   "margin_bias": 0.6479047471578624,
+   "total_bias": -1.3855473637276239,
+   "winner_accuracy": 0.6716417910447762,
+   "n_decided": 268
+  },
+  {
+   "horizon": "final",
+   "model": "C_resid_noinj",
+   "season": 2021,
+   "n_games": 285,
+   "margin_mae": 10.653294765165292,
+   "margin_rmse": 13.55866924417842,
+   "total_mae": 10.826670105569146,
+   "total_rmse": 13.305615689682485,
+   "home_pts_mae": 8.136047596715237,
+   "away_pts_mae": 7.1237509402581765,
+   "margin_bias": -0.5677997286406253,
+   "total_bias": 0.6989344629910659,
+   "winner_accuracy": 0.6232394366197183,
+   "n_decided": 284
+  },
+  {
+   "horizon": "final",
+   "model": "C_resid_noinj",
+   "season": 2022,
+   "n_games": 284,
+   "margin_mae": 8.792954140738038,
+   "margin_rmse": 11.49857429683532,
+   "total_mae": 10.360218178019977,
+   "total_rmse": 13.17635653349672,
+   "home_pts_mae": 6.840711077638353,
+   "away_pts_mae": 7.032293898235267,
+   "margin_bias": -0.5891241351796923,
+   "total_bias": 0.33634671314256714,
+   "winner_accuracy": 0.6631205673758865,
+   "n_decided": 282
+  },
+  {
+   "horizon": "final",
+   "model": "C_resid_noinj",
+   "season": 2023,
+   "n_games": 285,
+   "margin_mae": 9.989439878178704,
+   "margin_rmse": 13.186441186187999,
+   "total_mae": 10.16606102909334,
+   "total_rmse": 12.880147961807653,
+   "home_pts_mae": 7.246054987738091,
+   "away_pts_mae": 7.30191168421872,
+   "margin_bias": -1.2966973285009704,
+   "total_bias": -0.2840524917841083,
+   "winner_accuracy": 0.6736842105263158,
+   "n_decided": 285
+  },
+  {
+   "horizon": "final",
+   "model": "C_resid_noinj",
+   "season": 2024,
+   "n_games": 285,
+   "margin_mae": 9.66477126781397,
+   "margin_rmse": 12.67407444786142,
+   "total_mae": 9.797197918553389,
+   "total_rmse": 12.62715413766993,
+   "home_pts_mae": 7.396778384493518,
+   "away_pts_mae": 6.81159235615201,
+   "margin_bias": -0.6307962429708321,
+   "total_bias": -0.9315213803213235,
+   "winner_accuracy": 0.7052631578947368,
+   "n_decided": 285
+  },
+  {
+   "horizon": "final",
+   "model": "C_resid_nopersonnel",
+   "season": 2019,
+   "n_games": 267,
+   "margin_mae": 10.214548329738728,
+   "margin_rmse": 13.105952402097476,
+   "total_mae": 10.783237403420188,
+   "total_rmse": 13.410208800573837,
+   "home_pts_mae": 7.422843291227368,
+   "away_pts_mae": 7.1310494681945755,
+   "margin_bias": 2.1504678737801406,
+   "total_bias": -0.6758066511306837,
+   "winner_accuracy": 0.6428571428571429,
+   "n_decided": 266
+  },
+  {
+   "horizon": "final",
+   "model": "C_resid_nopersonnel",
+   "season": 2020,
+   "n_games": 269,
+   "margin_mae": 9.795205317407575,
+   "margin_rmse": 12.676102676468513,
+   "total_mae": 10.305027889328144,
+   "total_rmse": 13.0882807606388,
+   "home_pts_mae": 6.981384681969559,
+   "away_pts_mae": 7.647661048222585,
+   "margin_bias": 0.5314107309903968,
+   "total_bias": -1.3835216281689122,
+   "winner_accuracy": 0.6716417910447762,
+   "n_decided": 268
+  },
+  {
+   "horizon": "final",
+   "model": "C_resid_nopersonnel",
+   "season": 2021,
+   "n_games": 285,
+   "margin_mae": 10.642611907552961,
+   "margin_rmse": 13.561099040182578,
+   "total_mae": 10.826107934693976,
+   "total_rmse": 13.304152731723626,
+   "home_pts_mae": 8.131469732497026,
+   "away_pts_mae": 7.1244734342861715,
+   "margin_bias": -0.6742367210569413,
+   "total_bias": 0.6954484628355577,
+   "winner_accuracy": 0.6232394366197183,
+   "n_decided": 284
+  },
+  {
+   "horizon": "final",
+   "model": "C_resid_nopersonnel",
+   "season": 2022,
+   "n_games": 284,
+   "margin_mae": 8.79185432937233,
+   "margin_rmse": 11.497705922640087,
+   "total_mae": 10.39200210968078,
+   "total_rmse": 13.199579394839004,
+   "home_pts_mae": 6.840176035806845,
+   "away_pts_mae": 7.050899878049587,
+   "margin_bias": -0.5879005749655175,
+   "total_bias": 0.3180378726475757,
+   "winner_accuracy": 0.6631205673758865,
+   "n_decided": 282
+  },
+  {
+   "horizon": "final",
+   "model": "C_resid_nopersonnel",
+   "season": 2023,
+   "n_games": 285,
+   "margin_mae": 9.98901651836468,
+   "margin_rmse": 13.185339282365847,
+   "total_mae": 10.169605705512202,
+   "total_rmse": 12.940736422964918,
+   "home_pts_mae": 7.256544422706421,
+   "away_pts_mae": 7.305317556519153,
+   "margin_bias": -1.2967602416525352,
+   "total_bias": -0.31183190926702514,
+   "winner_accuracy": 0.6736842105263158,
+   "n_decided": 285
+  },
+  {
+   "horizon": "final",
+   "model": "C_resid_nopersonnel",
+   "season": 2024,
+   "n_games": 285,
+   "margin_mae": 9.667661229262231,
+   "margin_rmse": 12.673627872547492,
+   "total_mae": 9.810621556157646,
+   "total_rmse": 12.596913436151317,
+   "home_pts_mae": 7.393272327839476,
+   "away_pts_mae": 6.808574675645949,
+   "margin_bias": -0.6145191456740442,
+   "total_bias": -0.987837133185818,
+   "winner_accuracy": 0.7017543859649122,
+   "n_decided": 285
+  }
+ ],
+ "subgroups": [
+  {
+   "horizon": "early",
+   "model": "N_naive_home",
+   "group": "weeks_1_4",
+   "exploratory_small_n": false,
+   "n_games": 192,
+   "margin_mae": 10.703256378985339,
+   "margin_rmse": 14.1256282798147,
+   "total_mae": 10.743382624715638,
+   "total_rmse": 13.22588191605808,
+   "home_pts_mae": 7.348067387569341,
+   "away_pts_mae": 7.577986026643018,
+   "margin_bias": 0.5424513413170803,
+   "total_bias": 2.064829545143103,
+   "winner_accuracy": 0.49214659685863876,
+   "n_decided": 191
+  },
+  {
+   "horizon": "early",
+   "model": "N_naive_home",
+   "group": "weeks_5_plus_reg",
+   "exploratory_small_n": false,
+   "n_games": 623,
+   "margin_mae": 10.557360794361056,
+   "margin_rmse": 13.656929215607434,
+   "total_mae": 10.842150252367455,
+   "total_rmse": 13.788281485446683,
+   "home_pts_mae": 7.924690868011515,
+   "away_pts_mae": 7.666595938286343,
+   "margin_bias": -0.7197422652393025,
+   "total_bias": 1.3959982854540067,
+   "winner_accuracy": 0.5530546623794212,
+   "n_decided": 622
+  },
+  {
+   "horizon": "early",
+   "model": "N_naive_home",
+   "group": "playoffs",
+   "exploratory_small_n": true,
+   "n_games": 39,
+   "margin_mae": 11.378723811843347,
+   "margin_rmse": 14.472562814341615,
+   "total_mae": 10.441217691598144,
+   "total_rmse": 13.794155998093492,
+   "home_pts_mae": 7.492442196846573,
+   "away_pts_mae": 7.94196943942723,
+   "margin_bias": -6.115649069730801,
+   "total_bias": -3.7372537881902304,
+   "winner_accuracy": 0.6923076923076923,
+   "n_decided": 39
+  },
+  {
+   "horizon": "early",
+   "model": "N_naive_home",
+   "group": "neutral_site",
+   "exploratory_small_n": true,
+   "n_games": 20,
+   "margin_mae": 9.2,
+   "margin_rmse": 11.588787684654509,
+   "total_mae": 9.659714426527376,
+   "total_rmse": 12.429739250789977,
+   "home_pts_mae": 6.595133574299545,
+   "away_pts_mae": 6.794385142277994,
+   "margin_bias": -3.2,
+   "total_bias": 0.8311241641114879,
+   "winner_accuracy": 0.0,
+   "n_decided": 20
+  },
+  {
+   "horizon": "early",
+   "model": "N_naive_home",
+   "group": "expected_qb_changed",
+   "exploratory_small_n": false,
+   "n_games": 158,
+   "margin_mae": 10.6412041533616,
+   "margin_rmse": 13.663213377206034,
+   "total_mae": 10.736900910209181,
+   "total_rmse": 12.963418409491565,
+   "home_pts_mae": 7.557399463875471,
+   "away_pts_mae": 7.617295373227711,
+   "margin_bias": -1.4967091358899083,
+   "total_bias": 3.2131986456658184,
+   "winner_accuracy": 0.5414012738853503,
+   "n_decided": 157
+  },
+  {
+   "horizon": "early",
+   "model": "B_core",
+   "group": "weeks_1_4",
+   "exploratory_small_n": false,
+   "n_games": 192,
+   "margin_mae": 10.090701502603869,
+   "margin_rmse": 13.424300101031955,
+   "total_mae": 10.113908695236452,
+   "total_rmse": 12.851568948470293,
+   "home_pts_mae": 6.8869504057229,
+   "away_pts_mae": 7.496349109306709,
+   "margin_bias": -0.13797257332689905,
+   "total_bias": 1.2744997263816356,
+   "winner_accuracy": 0.6020942408376964,
+   "n_decided": 191
+  },
+  {
+   "horizon": "early",
+   "model": "B_core",
+   "group": "weeks_5_plus_reg",
+   "exploratory_small_n": false,
+   "n_games": 623,
+   "margin_mae": 9.643818458945724,
+   "margin_rmse": 12.583702092660616,
+   "total_mae": 10.530949210491594,
+   "total_rmse": 13.454037524492652,
+   "home_pts_mae": 7.529542100684927,
+   "away_pts_mae": 7.171949080296834,
+   "margin_bias": -1.1802849808818152,
+   "total_bias": 0.202970298933185,
+   "winner_accuracy": 0.662379421221865,
+   "n_decided": 622
+  },
+  {
+   "horizon": "early",
+   "model": "B_core",
+   "group": "playoffs",
+   "exploratory_small_n": true,
+   "n_games": 39,
+   "margin_mae": 10.886046023696117,
+   "margin_rmse": 14.137998257455035,
+   "total_mae": 10.353610389554161,
+   "total_rmse": 12.81175526961799,
+   "home_pts_mae": 7.054042654141604,
+   "away_pts_mae": 7.4389480303996764,
+   "margin_bias": -4.667710069401079,
+   "total_bias": -2.1371455328302558,
+   "winner_accuracy": 0.6666666666666666,
+   "n_decided": 39
+  },
+  {
+   "horizon": "early",
+   "model": "B_core",
+   "group": "neutral_site",
+   "exploratory_small_n": true,
+   "n_games": 20,
+   "margin_mae": 9.093132243668862,
+   "margin_rmse": 11.238737940395366,
+   "total_mae": 8.543945897848944,
+   "total_rmse": 11.01982051039442,
+   "home_pts_mae": 6.172190815975056,
+   "away_pts_mae": 6.3715267056024985,
+   "margin_bias": -2.5025360898692552,
+   "total_bias": -0.1689040334727853,
+   "winner_accuracy": 0.7,
+   "n_decided": 20
+  },
+  {
+   "horizon": "early",
+   "model": "B_core",
+   "group": "expected_qb_changed",
+   "exploratory_small_n": false,
+   "n_games": 158,
+   "margin_mae": 9.56336367835614,
+   "margin_rmse": 12.225109652684775,
+   "total_mae": 10.385919280725862,
+   "total_rmse": 12.754463092095573,
+   "home_pts_mae": 7.018040501715816,
+   "away_pts_mae": 6.886656007403761,
+   "margin_bias": -1.959289586938282,
+   "total_bias": 0.8757170683947417,
+   "winner_accuracy": 0.6942675159235668,
+   "n_decided": 157
+  },
+  {
+   "horizon": "early",
+   "model": "B_qb",
+   "group": "weeks_1_4",
+   "exploratory_small_n": false,
+   "n_games": 192,
+   "margin_mae": 10.07544087541251,
+   "margin_rmse": 13.391102914334274,
+   "total_mae": 10.13185556041825,
+   "total_rmse": 12.865018581330276,
+   "home_pts_mae": 6.927189751524068,
+   "away_pts_mae": 7.520789192521032,
+   "margin_bias": -0.06815215099393519,
+   "total_bias": 1.3351376017206416,
+   "winner_accuracy": 0.612565445026178,
+   "n_decided": 191
+  },
+  {
+   "horizon": "early",
+   "model": "B_qb",
+   "group": "weeks_5_plus_reg",
+   "exploratory_small_n": false,
+   "n_games": 623,
+   "margin_mae": 9.650443855635501,
+   "margin_rmse": 12.591254158292443,
+   "total_mae": 10.474110102142465,
+   "total_rmse": 13.34207163505977,
+   "home_pts_mae": 7.5047960230133,
+   "away_pts_mae": 7.111280642700042,
+   "margin_bias": -1.0290478538374195,
+   "total_bias": 0.31056281515724615,
+   "winner_accuracy": 0.6511254019292605,
+   "n_decided": 622
+  },
+  {
+   "horizon": "early",
+   "model": "B_qb",
+   "group": "playoffs",
+   "exploratory_small_n": true,
+   "n_games": 39,
+   "margin_mae": 10.890914361491149,
+   "margin_rmse": 14.178774311961375,
+   "total_mae": 9.89661375420971,
+   "total_rmse": 12.266954076672402,
+   "home_pts_mae": 6.992511083825907,
+   "away_pts_mae": 7.397832879988501,
+   "margin_bias": -4.562828413577356,
+   "total_bias": -2.055797103671822,
+   "winner_accuracy": 0.6666666666666666,
+   "n_decided": 39
+  },
+  {
+   "horizon": "early",
+   "model": "B_qb",
+   "group": "neutral_site",
+   "exploratory_small_n": true,
+   "n_games": 20,
+   "margin_mae": 9.03735351357238,
+   "margin_rmse": 11.188801081692409,
+   "total_mae": 8.44178980010835,
+   "total_rmse": 10.707122334314647,
+   "home_pts_mae": 5.882177925286692,
+   "away_pts_mae": 6.582597728308537,
+   "margin_bias": -2.6553624910904174,
+   "total_bias": 0.022959064320167498,
+   "winner_accuracy": 0.7,
+   "n_decided": 20
+  },
+  {
+   "horizon": "early",
+   "model": "B_qb",
+   "group": "expected_qb_changed",
+   "exploratory_small_n": false,
+   "n_games": 158,
+   "margin_mae": 9.45199935226131,
+   "margin_rmse": 12.167014584960981,
+   "total_mae": 10.365153061726016,
+   "total_rmse": 12.663833793883562,
+   "home_pts_mae": 7.012015466703908,
+   "away_pts_mae": 6.786065887727675,
+   "margin_bias": -1.7976680280173825,
+   "total_bias": 0.6141139488227891,
+   "winner_accuracy": 0.6751592356687898,
+   "n_decided": 157
+  },
+  {
+   "horizon": "early",
+   "model": "B_qb_noadj",
+   "group": "weeks_1_4",
+   "exploratory_small_n": false,
+   "n_games": 192,
+   "margin_mae": 10.063386357526538,
+   "margin_rmse": 13.372613852050693,
+   "total_mae": 10.112782615964388,
+   "total_rmse": 12.907714198694363,
+   "home_pts_mae": 6.943711225971552,
+   "away_pts_mae": 7.520668762143916,
+   "margin_bias": -0.08614402913879919,
+   "total_bias": 0.8170320942886425,
+   "winner_accuracy": 0.6178010471204188,
+   "n_decided": 191
+  },
+  {
+   "horizon": "early",
+   "model": "B_qb_noadj",
+   "group": "weeks_5_plus_reg",
+   "exploratory_small_n": false,
+   "n_games": 623,
+   "margin_mae": 9.675763685168233,
+   "margin_rmse": 12.627886504133716,
+   "total_mae": 10.4293797255107,
+   "total_rmse": 13.338656663574112,
+   "home_pts_mae": 7.511773276927838,
+   "away_pts_mae": 7.085010978336112,
+   "margin_bias": -1.0392359511445575,
+   "total_bias": -0.10756931758205471,
+   "winner_accuracy": 0.6559485530546624,
+   "n_decided": 622
+  },
+  {
+   "horizon": "early",
+   "model": "B_qb_noadj",
+   "group": "playoffs",
+   "exploratory_small_n": true,
+   "n_games": 39,
+   "margin_mae": 10.922353623059536,
+   "margin_rmse": 14.182573874112286,
+   "total_mae": 9.905731331886285,
+   "total_rmse": 12.380353169030709,
+   "home_pts_mae": 7.029120773341155,
+   "away_pts_mae": 7.4426491903239755,
+   "margin_bias": -4.555570219472339,
+   "total_bias": -2.3047575139184344,
+   "winner_accuracy": 0.6666666666666666,
+   "n_decided": 39
+  },
+  {
+   "horizon": "early",
+   "model": "B_qb_noadj",
+   "group": "neutral_site",
+   "exploratory_small_n": true,
+   "n_games": 20,
+   "margin_mae": 9.016258426464029,
+   "margin_rmse": 11.172288623095708,
+   "total_mae": 8.400644446891002,
+   "total_rmse": 10.58957380168386,
+   "home_pts_mae": 5.843315830915927,
+   "away_pts_mae": 6.586520392960618,
+   "margin_bias": -2.7175094799133825,
+   "total_bias": -0.2809981065735784,
+   "winner_accuracy": 0.7,
+   "n_decided": 20
+  },
+  {
+   "horizon": "early",
+   "model": "B_qb_noadj",
+   "group": "expected_qb_changed",
+   "exploratory_small_n": false,
+   "n_games": 158,
+   "margin_mae": 9.487783560820048,
+   "margin_rmse": 12.22202259736851,
+   "total_mae": 10.347909781570266,
+   "total_rmse": 12.678730291605058,
+   "home_pts_mae": 7.034371690300877,
+   "away_pts_mae": 6.791202073323326,
+   "margin_bias": -1.7902835011179854,
+   "total_bias": 0.27994359164813915,
+   "winner_accuracy": 0.6751592356687898,
+   "n_decided": 157
+  },
+  {
+   "horizon": "final",
+   "model": "N_naive_home",
+   "group": "weeks_1_4",
+   "exploratory_small_n": false,
+   "n_games": 192,
+   "margin_mae": 10.703256378985339,
+   "margin_rmse": 14.1256282798147,
+   "total_mae": 10.743382624715638,
+   "total_rmse": 13.22588191605808,
+   "home_pts_mae": 7.348067387569341,
+   "away_pts_mae": 7.577986026643018,
+   "margin_bias": 0.5424513413170803,
+   "total_bias": 2.064829545143103,
+   "winner_accuracy": 0.49214659685863876,
+   "n_decided": 191
+  },
+  {
+   "horizon": "final",
+   "model": "N_naive_home",
+   "group": "weeks_5_plus_reg",
+   "exploratory_small_n": false,
+   "n_games": 623,
+   "margin_mae": 10.557360794361056,
+   "margin_rmse": 13.656929215607434,
+   "total_mae": 10.842150252367455,
+   "total_rmse": 13.788281485446683,
+   "home_pts_mae": 7.924690868011515,
+   "away_pts_mae": 7.666595938286343,
+   "margin_bias": -0.7197422652393025,
+   "total_bias": 1.3959982854540067,
+   "winner_accuracy": 0.5530546623794212,
+   "n_decided": 622
+  },
+  {
+   "horizon": "final",
+   "model": "N_naive_home",
+   "group": "playoffs",
+   "exploratory_small_n": true,
+   "n_games": 39,
+   "margin_mae": 11.378723811843347,
+   "margin_rmse": 14.472562814341615,
+   "total_mae": 10.441217691598144,
+   "total_rmse": 13.794155998093492,
+   "home_pts_mae": 7.492442196846573,
+   "away_pts_mae": 7.94196943942723,
+   "margin_bias": -6.115649069730801,
+   "total_bias": -3.7372537881902304,
+   "winner_accuracy": 0.6923076923076923,
+   "n_decided": 39
+  },
+  {
+   "horizon": "final",
+   "model": "N_naive_home",
+   "group": "neutral_site",
+   "exploratory_small_n": true,
+   "n_games": 20,
+   "margin_mae": 9.2,
+   "margin_rmse": 11.588787684654509,
+   "total_mae": 9.659714426527376,
+   "total_rmse": 12.429739250789977,
+   "home_pts_mae": 6.595133574299545,
+   "away_pts_mae": 6.794385142277994,
+   "margin_bias": -3.2,
+   "total_bias": 0.8311241641114879,
+   "winner_accuracy": 0.0,
+   "n_decided": 20
+  },
+  {
+   "horizon": "final",
+   "model": "N_naive_home",
+   "group": "expected_qb_changed",
+   "exploratory_small_n": false,
+   "n_games": 200,
+   "margin_mae": 10.862936382541255,
+   "margin_rmse": 14.107844291816672,
+   "total_mae": 10.856408638151983,
+   "total_rmse": 13.597490965591778,
+   "home_pts_mae": 7.541439820526014,
+   "away_pts_mae": 7.999104066658408,
+   "margin_bias": -2.6268384264365956,
+   "total_bias": 3.964320179385979,
+   "winner_accuracy": 0.5879396984924623,
+   "n_decided": 199
+  },
+  {
+   "horizon": "final",
+   "model": "B_core",
+   "group": "weeks_1_4",
+   "exploratory_small_n": false,
+   "n_games": 192,
+   "margin_mae": 10.089980146783676,
+   "margin_rmse": 13.423748411050736,
+   "total_mae": 10.112320564613924,
+   "total_rmse": 12.850761394166952,
+   "home_pts_mae": 6.888818414584946,
+   "away_pts_mae": 7.494546153250066,
+   "margin_bias": -0.14046908743320988,
+   "total_bias": 1.2671669189457386,
+   "winner_accuracy": 0.5968586387434555,
+   "n_decided": 191
+  },
+  {
+   "horizon": "final",
+   "model": "B_core",
+   "group": "weeks_5_plus_reg",
+   "exploratory_small_n": false,
+   "n_games": 623,
+   "margin_mae": 9.643599618168697,
+   "margin_rmse": 12.583225888213269,
+   "total_mae": 10.530939340181323,
+   "total_rmse": 13.455114566333775,
+   "home_pts_mae": 7.530538013575319,
+   "away_pts_mae": 7.17108591337535,
+   "margin_bias": -1.181301611705553,
+   "total_bias": 0.19280946942476773,
+   "winner_accuracy": 0.662379421221865,
+   "n_decided": 622
+  },
+  {
+   "horizon": "final",
+   "model": "B_core",
+   "group": "playoffs",
+   "exploratory_small_n": true,
+   "n_games": 39,
+   "margin_mae": 10.883183440483753,
+   "margin_rmse": 14.132927007257656,
+   "total_mae": 10.349358568020994,
+   "total_rmse": 12.81010946928765,
+   "home_pts_mae": 7.053558268065278,
+   "away_pts_mae": 7.437498721501757,
+   "margin_bias": -4.66464622908974,
+   "total_bias": -2.1476755583187987,
+   "winner_accuracy": 0.6666666666666666,
+   "n_decided": 39
+  },
+  {
+   "horizon": "final",
+   "model": "B_core",
+   "group": "neutral_site",
+   "exploratory_small_n": true,
+   "n_games": 20,
+   "margin_mae": 9.092416619886103,
+   "margin_rmse": 11.23684894374373,
+   "total_mae": 8.53289277468599,
+   "total_rmse": 11.01303405440844,
+   "home_pts_mae": 6.176872757935506,
+   "away_pts_mae": 6.367457988686981,
+   "margin_bias": -2.503123849383577,
+   "total_bias": -0.17341004934077303,
+   "winner_accuracy": 0.7,
+   "n_decided": 20
+  },
+  {
+   "horizon": "final",
+   "model": "B_core",
+   "group": "expected_qb_changed",
+   "exploratory_small_n": false,
+   "n_games": 200,
+   "margin_mae": 10.108790374263515,
+   "margin_rmse": 13.397532551003557,
+   "total_mae": 10.555861288407982,
+   "total_rmse": 13.56125602866808,
+   "home_pts_mae": 7.491803797846185,
+   "away_pts_mae": 7.3336486777607774,
+   "margin_bias": -2.857225026580267,
+   "total_bias": 1.6901206754183835,
+   "winner_accuracy": 0.6683417085427136,
+   "n_decided": 199
+  },
+  {
+   "horizon": "final",
+   "model": "B_qb",
+   "group": "weeks_1_4",
+   "exploratory_small_n": false,
+   "n_games": 192,
+   "margin_mae": 10.130383584634993,
+   "margin_rmse": 13.35150813504034,
+   "total_mae": 10.077074173496001,
+   "total_rmse": 12.764032849207476,
+   "home_pts_mae": 6.897069022030311,
+   "away_pts_mae": 7.476317108426602,
+   "margin_bias": 0.032663572065381584,
+   "total_bias": 1.369860180575962,
+   "winner_accuracy": 0.6178010471204188,
+   "n_decided": 191
+  },
+  {
+   "horizon": "final",
+   "model": "B_qb",
+   "group": "weeks_5_plus_reg",
+   "exploratory_small_n": false,
+   "n_games": 623,
+   "margin_mae": 9.552946232519375,
+   "margin_rmse": 12.417216746861241,
+   "total_mae": 10.344222930989897,
+   "total_rmse": 13.27284637648284,
+   "home_pts_mae": 7.462402931722729,
+   "away_pts_mae": 7.0137435042836085,
+   "margin_bias": -1.043484323419596,
+   "total_bias": 0.15849980764825683,
+   "winner_accuracy": 0.6752411575562701,
+   "n_decided": 622
+  },
+  {
+   "horizon": "final",
+   "model": "B_qb",
+   "group": "playoffs",
+   "exploratory_small_n": true,
+   "n_games": 39,
+   "margin_mae": 11.00738361635596,
+   "margin_rmse": 14.17026348547495,
+   "total_mae": 10.096670952470166,
+   "total_rmse": 12.564488253260526,
+   "home_pts_mae": 6.9903557099971065,
+   "away_pts_mae": 7.4747483490031135,
+   "margin_bias": -4.342937346213301,
+   "total_bias": -2.070544567174928,
+   "winner_accuracy": 0.6666666666666666,
+   "n_decided": 39
+  },
+  {
+   "horizon": "final",
+   "model": "B_qb",
+   "group": "neutral_site",
+   "exploratory_small_n": true,
+   "n_games": 20,
+   "margin_mae": 9.026095552368215,
+   "margin_rmse": 11.16422628096492,
+   "total_mae": 8.430537132674264,
+   "total_rmse": 10.81827565552693,
+   "home_pts_mae": 6.033257187598318,
+   "away_pts_mae": 6.5745005287024325,
+   "margin_bias": -2.836542666614639,
+   "total_bias": 0.202762155907676,
+   "winner_accuracy": 0.7,
+   "n_decided": 20
+  },
+  {
+   "horizon": "final",
+   "model": "B_qb",
+   "group": "expected_qb_changed",
+   "exploratory_small_n": false,
+   "n_games": 200,
+   "margin_mae": 9.767588052524017,
+   "margin_rmse": 12.885897597107023,
+   "total_mae": 9.979475299257057,
+   "total_rmse": 13.057125680906552,
+   "home_pts_mae": 7.317789987777457,
+   "away_pts_mae": 6.938626582876666,
+   "margin_bias": -2.8559649502699114,
+   "total_bias": 0.09926236749441919,
+   "winner_accuracy": 0.6934673366834171,
+   "n_decided": 199
+  },
+  {
+   "horizon": "final",
+   "model": "B_qb_noadj",
+   "group": "weeks_1_4",
+   "exploratory_small_n": false,
+   "n_games": 192,
+   "margin_mae": 10.127354792012818,
+   "margin_rmse": 13.335311073798914,
+   "total_mae": 10.049303644963937,
+   "total_rmse": 12.803077953467358,
+   "home_pts_mae": 6.916591214903626,
+   "away_pts_mae": 7.480418261148384,
+   "margin_bias": 0.017572716219765194,
+   "total_bias": 0.8765120237949816,
+   "winner_accuracy": 0.6282722513089005,
+   "n_decided": 191
+  },
+  {
+   "horizon": "final",
+   "model": "B_qb_noadj",
+   "group": "weeks_5_plus_reg",
+   "exploratory_small_n": false,
+   "n_games": 623,
+   "margin_mae": 9.573457402415743,
+   "margin_rmse": 12.450177343436739,
+   "total_mae": 10.297562392048338,
+   "total_rmse": 13.270645939177584,
+   "home_pts_mae": 7.464096992916893,
+   "away_pts_mae": 6.986544210760301,
+   "margin_bias": -1.05269316171578,
+   "total_bias": -0.23357964146244742,
+   "winner_accuracy": 0.6672025723472669,
+   "n_decided": 622
+  },
+  {
+   "horizon": "final",
+   "model": "B_qb_noadj",
+   "group": "playoffs",
+   "exploratory_small_n": true,
+   "n_games": 39,
+   "margin_mae": 11.047443301420603,
+   "margin_rmse": 14.175630260628697,
+   "total_mae": 10.068970208486697,
+   "total_rmse": 12.669828830573389,
+   "home_pts_mae": 7.016291041235197,
+   "away_pts_mae": 7.527087479788668,
+   "margin_bias": -4.339147064152768,
+   "total_bias": -2.2997161464932137,
+   "winner_accuracy": 0.6666666666666666,
+   "n_decided": 39
+  },
+  {
+   "horizon": "final",
+   "model": "B_qb_noadj",
+   "group": "neutral_site",
+   "exploratory_small_n": true,
+   "n_games": 20,
+   "margin_mae": 9.039830167500266,
+   "margin_rmse": 11.151866406122698,
+   "total_mae": 8.397557756448402,
+   "total_rmse": 10.691257162411667,
+   "home_pts_mae": 5.988966285097779,
+   "away_pts_mae": 6.582190384310573,
+   "margin_bias": -2.896556652876206,
+   "total_bias": -0.08144466036341917,
+   "winner_accuracy": 0.7,
+   "n_decided": 20
+  },
+  {
+   "horizon": "final",
+   "model": "B_qb_noadj",
+   "group": "expected_qb_changed",
+   "exploratory_small_n": false,
+   "n_games": 200,
+   "margin_mae": 9.821974195091418,
+   "margin_rmse": 12.920687973984236,
+   "total_mae": 9.964007321325537,
+   "total_rmse": 13.0834533479961,
+   "home_pts_mae": 7.323022880797994,
+   "away_pts_mae": 6.942053350601136,
+   "margin_bias": -2.8941869309888166,
+   "total_bias": -0.2547710140881002,
+   "winner_accuracy": 0.6934673366834171,
+   "n_decided": 199
+  },
+  {
+   "horizon": "final",
+   "model": "B_qb_inj",
+   "group": "weeks_1_4",
+   "exploratory_small_n": false,
+   "n_games": 192,
+   "margin_mae": 10.164534102442191,
+   "margin_rmse": 13.388525716821839,
+   "total_mae": 10.065814398346918,
+   "total_rmse": 12.752807139132827,
+   "home_pts_mae": 6.937249768151705,
+   "away_pts_mae": 7.449287074296052,
+   "margin_bias": -0.021588720921322024,
+   "total_bias": 1.4056623880676404,
+   "winner_accuracy": 0.6073298429319371,
+   "n_decided": 191
+  },
+  {
+   "horizon": "final",
+   "model": "B_qb_inj",
+   "group": "weeks_5_plus_reg",
+   "exploratory_small_n": false,
+   "n_games": 623,
+   "margin_mae": 9.523217064636398,
+   "margin_rmse": 12.366928486038622,
+   "total_mae": 10.365615002737842,
+   "total_rmse": 13.288593309018491,
+   "home_pts_mae": 7.449728489598661,
+   "away_pts_mae": 7.005527993145847,
+   "margin_bias": -1.033696144220223,
+   "total_bias": 0.246044352828277,
+   "winner_accuracy": 0.6784565916398714,
+   "n_decided": 622
+  },
+  {
+   "horizon": "final",
+   "model": "B_qb_inj",
+   "group": "playoffs",
+   "exploratory_small_n": true,
+   "n_games": 39,
+   "margin_mae": 10.936635968472338,
+   "margin_rmse": 14.095123578654881,
+   "total_mae": 10.052988441536412,
+   "total_rmse": 12.606348179580749,
+   "home_pts_mae": 6.938749792259885,
+   "away_pts_mae": 7.478003006462225,
+   "margin_bias": -4.329082943066445,
+   "total_bias": -2.163340356054778,
+   "winner_accuracy": 0.6666666666666666,
+   "n_decided": 39
+  },
+  {
+   "horizon": "final",
+   "model": "B_qb_inj",
+   "group": "neutral_site",
+   "exploratory_small_n": true,
+   "n_games": 20,
+   "margin_mae": 8.909151545798995,
+   "margin_rmse": 11.07239537893526,
+   "total_mae": 8.358672794226527,
+   "total_rmse": 10.780986308139788,
+   "home_pts_mae": 6.026181974344879,
+   "away_pts_mae": 6.490365088531003,
+   "margin_bias": -2.9657174219637286,
+   "total_bias": 0.3063960402195406,
+   "winner_accuracy": 0.65,
+   "n_decided": 20
+  },
+  {
+   "horizon": "final",
+   "model": "B_qb_inj",
+   "group": "expected_qb_changed",
+   "exploratory_small_n": false,
+   "n_games": 200,
+   "margin_mae": 9.715026534408706,
+   "margin_rmse": 12.791658397683062,
+   "total_mae": 10.058131296799111,
+   "total_rmse": 13.14479058173541,
+   "home_pts_mae": 7.338654329392243,
+   "away_pts_mae": 6.952240605715761,
+   "margin_bias": -2.886963325569849,
+   "total_bias": 0.1934286302817226,
+   "winner_accuracy": 0.6934673366834171,
+   "n_decided": 199
+  },
+  {
+   "horizon": "final",
+   "model": "A_market_raw",
+   "group": "weeks_1_4",
+   "exploratory_small_n": false,
+   "n_games": 192,
+   "margin_mae": 10.057291666666666,
+   "margin_rmse": 13.38424524705571,
+   "total_mae": 10.03125,
+   "total_rmse": 12.58212604583714,
+   "home_pts_mae": 6.9453125,
+   "away_pts_mae": 7.427083333333333,
+   "margin_bias": 0.24479166666666666,
+   "total_bias": 0.3854166666666667,
+   "winner_accuracy": 0.6020942408376964,
+   "n_decided": 191
+  },
+  {
+   "horizon": "final",
+   "model": "A_market_raw",
+   "group": "weeks_5_plus_reg",
+   "exploratory_small_n": false,
+   "n_games": 623,
+   "margin_mae": 9.221508828250402,
+   "margin_rmse": 12.06692812666609,
+   "total_mae": 10.148475120385232,
+   "total_rmse": 13.091096431486982,
+   "home_pts_mae": 7.281300160513644,
+   "away_pts_mae": 6.873595505617978,
+   "margin_bias": -0.826645264847512,
+   "total_bias": -0.8723916532905297,
+   "winner_accuracy": 0.7106109324758842,
+   "n_decided": 622
+  },
+  {
+   "horizon": "final",
+   "model": "A_market_raw",
+   "group": "playoffs",
+   "exploratory_small_n": true,
+   "n_games": 39,
+   "margin_mae": 11.012820512820513,
+   "margin_rmse": 14.272755111103757,
+   "total_mae": 9.91025641025641,
+   "total_rmse": 12.562408310674453,
+   "home_pts_mae": 7.0,
+   "away_pts_mae": 7.487179487179487,
+   "margin_bias": -3.3205128205128207,
+   "total_bias": -2.730769230769231,
+   "winner_accuracy": 0.5897435897435898,
+   "n_decided": 39
+  },
+  {
+   "horizon": "final",
+   "model": "A_market_raw",
+   "group": "neutral_site",
+   "exploratory_small_n": true,
+   "n_games": 20,
+   "margin_mae": 8.475,
+   "margin_rmse": 10.759298304257578,
+   "total_mae": 8.8,
+   "total_rmse": 11.084899638697681,
+   "home_pts_mae": 5.9625,
+   "away_pts_mae": 6.5125,
+   "margin_bias": -2.825,
+   "total_bias": 0.05,
+   "winner_accuracy": 0.55,
+   "n_decided": 20
+  },
+  {
+   "horizon": "final",
+   "model": "A_market_raw",
+   "group": "expected_qb_changed",
+   "exploratory_small_n": false,
+   "n_games": 200,
+   "margin_mae": 9.6775,
+   "margin_rmse": 12.64125191585074,
+   "total_mae": 9.9275,
+   "total_rmse": 12.913607164537723,
+   "home_pts_mae": 7.15,
+   "away_pts_mae": 6.8175,
+   "margin_bias": -2.4725,
+   "total_bias": -0.2125,
+   "winner_accuracy": 0.6633165829145728,
+   "n_decided": 199
+  },
+  {
+   "horizon": "final",
+   "model": "A_market_cal",
+   "group": "weeks_1_4",
+   "exploratory_small_n": false,
+   "n_games": 192,
+   "margin_mae": 10.066016627023997,
+   "margin_rmse": 13.387653333358863,
+   "total_mae": 10.046234491807661,
+   "total_rmse": 12.589890301962603,
+   "home_pts_mae": 6.948051450146852,
+   "away_pts_mae": 7.438827519095457,
+   "margin_bias": 0.0548511400284063,
+   "total_bias": 0.5050896148073422,
+   "winner_accuracy": 0.6020942408376964,
+   "n_decided": 191
+  },
+  {
+   "horizon": "final",
+   "model": "A_market_cal",
+   "group": "weeks_5_plus_reg",
+   "exploratory_small_n": false,
+   "n_games": 623,
+   "margin_mae": 9.234332179804914,
+   "margin_rmse": 12.087336902330458,
+   "total_mae": 10.146041771421167,
+   "total_rmse": 13.081876642810567,
+   "home_pts_mae": 7.277751714305065,
+   "away_pts_mae": 6.8872130425045475,
+   "margin_bias": -1.0091853541743758,
+   "total_bias": -0.7640667954536978,
+   "winner_accuracy": 0.7106109324758842,
+   "n_decided": 622
+  },
+  {
+   "horizon": "final",
+   "model": "A_market_cal",
+   "group": "playoffs",
+   "exploratory_small_n": true,
+   "n_games": 39,
+   "margin_mae": 11.016278843715495,
+   "margin_rmse": 14.286642446827926,
+   "total_mae": 9.919786859755217,
+   "total_rmse": 12.543639449599521,
+   "home_pts_mae": 7.006126424329809,
+   "away_pts_mae": 7.485613947973747,
+   "margin_bias": -3.4979459318716,
+   "total_bias": -2.619106019312379,
+   "winner_accuracy": 0.5897435897435898,
+   "n_decided": 39
+  },
+  {
+   "horizon": "final",
+   "model": "A_market_cal",
+   "group": "neutral_site",
+   "exploratory_small_n": true,
+   "n_games": 20,
+   "margin_mae": 8.464195770200261,
+   "margin_rmse": 10.714193232694939,
+   "total_mae": 8.800259498253954,
+   "total_rmse": 11.070655413405355,
+   "home_pts_mae": 5.922305959400932,
+   "away_pts_mae": 6.507994151199415,
+   "margin_bias": -3.0062953969574857,
+   "total_bias": 0.16730313999469573,
+   "winner_accuracy": 0.55,
+   "n_decided": 20
+  },
+  {
+   "horizon": "final",
+   "model": "A_market_cal",
+   "group": "expected_qb_changed",
+   "exploratory_small_n": false,
+   "n_games": 200,
+   "margin_mae": 9.70905748628114,
+   "margin_rmse": 12.691697493437415,
+   "total_mae": 9.92994643876264,
+   "total_rmse": 12.909457903149825,
+   "home_pts_mae": 7.146750410379434,
+   "away_pts_mae": 6.845223981943735,
+   "margin_bias": -2.667014456775837,
+   "total_bias": -0.10434179345756778,
+   "winner_accuracy": 0.6633165829145728,
+   "n_decided": 199
+  },
+  {
+   "horizon": "final",
+   "model": "C_resid",
+   "group": "weeks_1_4",
+   "exploratory_small_n": false,
+   "n_games": 192,
+   "margin_mae": 10.048153832369932,
+   "margin_rmse": 13.370239598900238,
+   "total_mae": 10.201298991452465,
+   "total_rmse": 12.694434932944466,
+   "home_pts_mae": 6.988188852653568,
+   "away_pts_mae": 7.4451583904712955,
+   "margin_bias": 0.09329103450873422,
+   "total_bias": 0.7713419662471394,
+   "winner_accuracy": 0.6020942408376964,
+   "n_decided": 191
+  },
+  {
+   "horizon": "final",
+   "model": "C_resid",
+   "group": "weeks_5_plus_reg",
+   "exploratory_small_n": false,
+   "n_games": 623,
+   "margin_mae": 9.21865833282259,
+   "margin_rmse": 12.068383378798593,
+   "total_mae": 10.110550949685818,
+   "total_rmse": 12.999149712271823,
+   "home_pts_mae": 7.241426728828233,
+   "away_pts_mae": 6.9024811597258156,
+   "margin_bias": -0.9795900443626054,
+   "total_bias": -0.4780230279880706,
+   "winner_accuracy": 0.7106109324758842,
+   "n_decided": 622
+  },
+  {
+   "horizon": "final",
+   "model": "C_resid",
+   "group": "playoffs",
+   "exploratory_small_n": true,
+   "n_games": 39,
+   "margin_mae": 11.003671278170565,
+   "margin_rmse": 14.264694368358557,
+   "total_mae": 9.775758983252931,
+   "total_rmse": 12.33916146091322,
+   "home_pts_mae": 6.951489892031889,
+   "away_pts_mae": 7.526376633503242,
+   "margin_bias": -3.5063011430963096,
+   "total_bias": -2.5612382280390067,
+   "winner_accuracy": 0.5897435897435898,
+   "n_decided": 39
+  },
+  {
+   "horizon": "final",
+   "model": "C_resid",
+   "group": "neutral_site",
+   "exploratory_small_n": true,
+   "n_games": 20,
+   "margin_mae": 8.492960561858517,
+   "margin_rmse": 10.750658483749703,
+   "total_mae": 8.879251003731907,
+   "total_rmse": 11.102795115681792,
+   "home_pts_mae": 6.093992061146647,
+   "away_pts_mae": 6.455722591074041,
+   "margin_bias": -2.9718502496191785,
+   "total_bias": -0.4926749738963583,
+   "winner_accuracy": 0.55,
+   "n_decided": 20
+  },
+  {
+   "horizon": "final",
+   "model": "C_resid",
+   "group": "expected_qb_changed",
+   "exploratory_small_n": false,
+   "n_games": 200,
+   "margin_mae": 9.678645821370976,
+   "margin_rmse": 12.657896312302933,
+   "total_mae": 9.788911163721282,
+   "total_rmse": 12.71168437836943,
+   "home_pts_mae": 7.034274250003268,
+   "away_pts_mae": 6.86553875171899,
+   "margin_bias": -2.6082074359028216,
+   "total_bias": 0.015625769813199106,
+   "winner_accuracy": 0.6633165829145728,
+   "n_decided": 199
+  },
+  {
+   "horizon": "final",
+   "model": "C_resid_hgb",
+   "group": "weeks_1_4",
+   "exploratory_small_n": false,
+   "n_games": 192,
+   "margin_mae": 10.055607196500413,
+   "margin_rmse": 13.492511959708287,
+   "total_mae": 10.111989621096898,
+   "total_rmse": 12.817721045661909,
+   "home_pts_mae": 7.052437153782679,
+   "away_pts_mae": 7.50596587612436,
+   "margin_bias": -0.10037514172588002,
+   "total_bias": 0.7487980022719861,
+   "winner_accuracy": 0.6020942408376964,
+   "n_decided": 191
+  },
+  {
+   "horizon": "final",
+   "model": "C_resid_hgb",
+   "group": "weeks_5_plus_reg",
+   "exploratory_small_n": false,
+   "n_games": 623,
+   "margin_mae": 9.361720573033278,
+   "margin_rmse": 12.2149589295965,
+   "total_mae": 10.069088975713823,
+   "total_rmse": 12.996768746356551,
+   "home_pts_mae": 7.285439881964882,
+   "away_pts_mae": 6.93549194903755,
+   "margin_bias": -0.608432956722426,
+   "total_bias": -0.2087608769697206,
+   "winner_accuracy": 0.7090032154340836,
+   "n_decided": 622
+  },
+  {
+   "horizon": "final",
+   "model": "C_resid_hgb",
+   "group": "playoffs",
+   "exploratory_small_n": true,
+   "n_games": 39,
+   "margin_mae": 10.858312196363723,
+   "margin_rmse": 14.252250997341518,
+   "total_mae": 9.757799865500148,
+   "total_rmse": 12.095941243072922,
+   "home_pts_mae": 6.508507921899752,
+   "away_pts_mae": 7.679925591791245,
+   "margin_bias": -3.9862504521547577,
+   "total_bias": -1.4114012432250576,
+   "winner_accuracy": 0.6153846153846154,
+   "n_decided": 39
+  },
+  {
+   "horizon": "final",
+   "model": "C_resid_hgb",
+   "group": "neutral_site",
+   "exploratory_small_n": true,
+   "n_games": 20,
+   "margin_mae": 8.674774649733752,
+   "margin_rmse": 10.908713858071028,
+   "total_mae": 9.18490116958308,
+   "total_rmse": 11.20225557087368,
+   "home_pts_mae": 6.423149476345573,
+   "away_pts_mae": 6.591157513434818,
+   "margin_bias": -2.652609032877162,
+   "total_bias": 0.38757162979013415,
+   "winner_accuracy": 0.45,
+   "n_decided": 20
+  },
+  {
+   "horizon": "final",
+   "model": "C_resid_hgb",
+   "group": "expected_qb_changed",
+   "exploratory_small_n": false,
+   "n_games": 200,
+   "margin_mae": 9.729321913581167,
+   "margin_rmse": 12.607394432434104,
+   "total_mae": 9.65044375110043,
+   "total_rmse": 12.731270393932101,
+   "home_pts_mae": 6.994622840317154,
+   "away_pts_mae": 6.843011493519091,
+   "margin_bias": -2.4665649854748213,
+   "total_bias": 0.15324159552142216,
+   "winner_accuracy": 0.6482412060301508,
+   "n_decided": 199
+  },
+  {
+   "horizon": "final",
+   "model": "C_direct",
+   "group": "weeks_1_4",
+   "exploratory_small_n": false,
+   "n_games": 192,
+   "margin_mae": 10.100358406969018,
+   "margin_rmse": 13.4717937148646,
+   "total_mae": 10.207815593234699,
+   "total_rmse": 12.775713314262875,
+   "home_pts_mae": 6.972484030859594,
+   "away_pts_mae": 7.5026027483946285,
+   "margin_bias": 0.07546095474903458,
+   "total_bias": 1.231599733008134,
+   "winner_accuracy": 0.6073298429319371,
+   "n_decided": 191
+  },
+  {
+   "horizon": "final",
+   "model": "C_direct",
+   "group": "weeks_5_plus_reg",
+   "exploratory_small_n": false,
+   "n_games": 623,
+   "margin_mae": 9.312606740873099,
+   "margin_rmse": 12.12050737256619,
+   "total_mae": 10.232025656808807,
+   "total_rmse": 13.105076634943492,
+   "home_pts_mae": 7.315403123157404,
+   "away_pts_mae": 6.925043160095802,
+   "margin_bias": -0.9610021298565626,
+   "total_bias": 0.21885758370628497,
+   "winner_accuracy": 0.7106109324758842,
+   "n_decided": 622
+  },
+  {
+   "horizon": "final",
+   "model": "C_direct",
+   "group": "playoffs",
+   "exploratory_small_n": true,
+   "n_games": 39,
+   "margin_mae": 10.831052643371283,
+   "margin_rmse": 14.111736165896792,
+   "total_mae": 9.775656758153874,
+   "total_rmse": 12.436126672138355,
+   "home_pts_mae": 6.942403906871875,
+   "away_pts_mae": 7.497648219842016,
+   "margin_bias": -3.6492349165543057,
+   "total_bias": -2.475225767395996,
+   "winner_accuracy": 0.5897435897435898,
+   "n_decided": 39
+  },
+  {
+   "horizon": "final",
+   "model": "C_direct",
+   "group": "neutral_site",
+   "exploratory_small_n": true,
+   "n_games": 20,
+   "margin_mae": 8.872900771397113,
+   "margin_rmse": 11.294475395094969,
+   "total_mae": 8.704461935914358,
+   "total_rmse": 10.90512232660264,
+   "home_pts_mae": 5.91804665824313,
+   "away_pts_mae": 6.843564597836552,
+   "margin_bias": -3.08095595895139,
+   "total_bias": 0.988846421819748,
+   "winner_accuracy": 0.55,
+   "n_decided": 20
+  },
+  {
+   "horizon": "final",
+   "model": "C_direct",
+   "group": "expected_qb_changed",
+   "exploratory_small_n": false,
+   "n_games": 200,
+   "margin_mae": 9.650500336852792,
+   "margin_rmse": 12.546669715554698,
+   "total_mae": 9.828374893912848,
+   "total_rmse": 12.823430763479314,
+   "home_pts_mae": 7.115556476446406,
+   "away_pts_mae": 6.81474100516285,
+   "margin_bias": -2.6523313923434024,
+   "total_bias": 0.2190950526095929,
+   "winner_accuracy": 0.6733668341708543,
+   "n_decided": 199
+  },
+  {
+   "horizon": "final",
+   "model": "C_resid_noinj",
+   "group": "weeks_1_4",
+   "exploratory_small_n": false,
+   "n_games": 192,
+   "margin_mae": 10.043330817906517,
+   "margin_rmse": 13.358092245469804,
+   "total_mae": 10.187290155423765,
+   "total_rmse": 12.691987182361975,
+   "home_pts_mae": 6.985136466151514,
+   "away_pts_mae": 7.432895383754302,
+   "margin_bias": 0.15232376404463685,
+   "total_bias": 0.785891551697461,
+   "winner_accuracy": 0.6020942408376964,
+   "n_decided": 191
+  },
+  {
+   "horizon": "final",
+   "model": "C_resid_noinj",
+   "group": "weeks_5_plus_reg",
+   "exploratory_small_n": false,
+   "n_games": 623,
+   "margin_mae": 9.216913521347669,
+   "margin_rmse": 12.068641781763477,
+   "total_mae": 10.106785353970448,
+   "total_rmse": 12.994852507511924,
+   "home_pts_mae": 7.2317746566921715,
+   "away_pts_mae": 6.901423771320262,
+   "margin_bias": -0.9802383301083044,
+   "total_bias": -0.4872585675179466,
+   "winner_accuracy": 0.7106109324758842,
+   "n_decided": 622
+  },
+  {
+   "horizon": "final",
+   "model": "C_resid_noinj",
+   "group": "playoffs",
+   "exploratory_small_n": true,
+   "n_games": 39,
+   "margin_mae": 10.979295172817093,
+   "margin_rmse": 14.218808673461988,
+   "total_mae": 9.726763519795925,
+   "total_rmse": 12.297193870297784,
+   "home_pts_mae": 6.908401141409961,
+   "away_pts_mae": 7.508133215157018,
+   "margin_bias": -3.466784751271614,
+   "total_bias": -2.5191071123023323,
+   "winner_accuracy": 0.5897435897435898,
+   "n_decided": 39
+  },
+  {
+   "horizon": "final",
+   "model": "C_resid_noinj",
+   "group": "neutral_site",
+   "exploratory_small_n": true,
+   "n_games": 20,
+   "margin_mae": 8.451450476885125,
+   "margin_rmse": 10.711280654156093,
+   "total_mae": 8.926089525008384,
+   "total_rmse": 11.109666266090553,
+   "home_pts_mae": 6.067911923443532,
+   "away_pts_mae": 6.468221380149823,
+   "margin_bias": -2.927321958871058,
+   "total_bias": -0.6160518231939947,
+   "winner_accuracy": 0.55,
+   "n_decided": 20
+  },
+  {
+   "horizon": "final",
+   "model": "C_resid_noinj",
+   "group": "expected_qb_changed",
+   "exploratory_small_n": false,
+   "n_games": 200,
+   "margin_mae": 9.680191840885595,
+   "margin_rmse": 12.663436866361447,
+   "total_mae": 9.763720540518786,
+   "total_rmse": 12.687937805093066,
+   "home_pts_mae": 7.0341152420986495,
+   "away_pts_mae": 6.839617031060544,
+   "margin_bias": -2.5789777629000317,
+   "total_bias": -0.04122362575924139,
+   "winner_accuracy": 0.6633165829145728,
+   "n_decided": 199
+  },
+  {
+   "horizon": "final",
+   "model": "C_resid_nopersonnel",
+   "group": "weeks_1_4",
+   "exploratory_small_n": false,
+   "n_games": 192,
+   "margin_mae": 10.031563603384626,
+   "margin_rmse": 13.322541099054671,
+   "total_mae": 10.165707320135004,
+   "total_rmse": 12.673406331417075,
+   "home_pts_mae": 6.980493757026015,
+   "away_pts_mae": 7.412023150477114,
+   "margin_bias": 0.17753862341906668,
+   "total_bias": 0.765959613158716,
+   "winner_accuracy": 0.6020942408376964,
+   "n_decided": 191
+  },
+  {
+   "horizon": "final",
+   "model": "C_resid_nopersonnel",
+   "group": "weeks_5_plus_reg",
+   "exploratory_small_n": false,
+   "n_games": 623,
+   "margin_mae": 9.222885961271029,
+   "margin_rmse": 12.084197964841666,
+   "total_mae": 10.120586879439195,
+   "total_rmse": 13.015262506387973,
+   "home_pts_mae": 7.23557399316888,
+   "away_pts_mae": 6.91729572641662,
+   "margin_bias": -0.9829220877662979,
+   "total_bias": -0.5305947405622958,
+   "winner_accuracy": 0.7090032154340836,
+   "n_decided": 622
+  },
+  {
+   "horizon": "final",
+   "model": "C_resid_nopersonnel",
+   "group": "playoffs",
+   "exploratory_small_n": true,
+   "n_games": 39,
+   "margin_mae": 10.951836458813153,
+   "margin_rmse": 14.15633130396338,
+   "total_mae": 9.967998394069495,
+   "total_rmse": 12.465139503773264,
+   "home_pts_mae": 6.91770176875684,
+   "away_pts_mae": 7.495671002153276,
+   "margin_bias": -3.4206498383676784,
+   "total_bias": -2.476580605725956,
+   "winner_accuracy": 0.5897435897435898,
+   "n_decided": 39
+  },
+  {
+   "horizon": "final",
+   "model": "C_resid_nopersonnel",
+   "group": "neutral_site",
+   "exploratory_small_n": true,
+   "n_games": 20,
+   "margin_mae": 8.43229653479998,
+   "margin_rmse": 10.667612217303951,
+   "total_mae": 8.96602097449029,
+   "total_rmse": 11.093127250934252,
+   "home_pts_mae": 6.08903991136979,
+   "away_pts_mae": 6.3867613972149995,
+   "margin_bias": -2.9103575172134812,
+   "total_bias": -0.4584139733240729,
+   "winner_accuracy": 0.55,
+   "n_decided": 20
+  },
+  {
+   "horizon": "final",
+   "model": "C_resid_nopersonnel",
+   "group": "expected_qb_changed",
+   "exploratory_small_n": false,
+   "n_games": 200,
+   "margin_mae": 9.700085087872004,
+   "margin_rmse": 12.68098403093342,
+   "total_mae": 9.855115649436632,
+   "total_rmse": 12.789956012307758,
+   "home_pts_mae": 7.0535524488326296,
+   "away_pts_mae": 6.895002837387985,
+   "margin_bias": -2.572013181788326,
+   "total_bias": 0.1981684684997333,
+   "winner_accuracy": 0.6633165829145728,
+   "n_decided": 199
+  }
+ ],
+ "paired": [
+  {
+   "period": "tune",
+   "horizon": "early",
+   "a": "B_qb",
+   "b": "B_core",
+   "loss": "ae_margin",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": -0.030203086907329032,
+   "ci95": [
+    -0.06367491680087652,
+    0.0021202567222169864
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "early",
+   "a": "B_qb",
+   "b": "B_core",
+   "loss": "ae_total",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": -0.0386634228895719,
+   "ci95": [
+    -0.09043412406450427,
+    0.014099603485837175
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "early",
+   "a": "B_qb",
+   "b": "B_core",
+   "loss": "se_margin",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": -0.773974602488869,
+   "ci95": [
+    -1.6844246873914315,
+    0.13258964238417867
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "early",
+   "a": "B_qb",
+   "b": "B_core",
+   "loss": "se_total",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": -1.4835913199688098,
+   "ci95": [
+    -3.0959725998786682,
+    0.21553088878402987
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "early",
+   "a": "B_qb_noadj",
+   "b": "B_core",
+   "loss": "ae_margin",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": -0.024283681919125794,
+   "ci95": [
+    -0.07141033256309529,
+    0.02552427589320737
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "early",
+   "a": "B_qb_noadj",
+   "b": "B_core",
+   "loss": "ae_total",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": -0.028469623347230133,
+   "ci95": [
+    -0.10152299442732288,
+    0.044943199220236506
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "early",
+   "a": "B_qb_noadj",
+   "b": "B_core",
+   "loss": "se_margin",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": -0.48534097367320617,
+   "ci95": [
+    -1.988406688854449,
+    1.0082998844992346
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "early",
+   "a": "B_qb_noadj",
+   "b": "B_core",
+   "loss": "se_total",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": -1.3713381018173312,
+   "ci95": [
+    -3.5162048914623996,
+    0.9259172821215519
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "early",
+   "a": "N_naive_home",
+   "b": "B_core",
+   "loss": "ae_margin",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": 1.0650045377018826,
+   "ci95": [
+    0.7901751734420368,
+    1.3499307737996664
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "early",
+   "a": "N_naive_home",
+   "b": "B_core",
+   "loss": "ae_total",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": 0.21663146135331107,
+   "ci95": [
+    -0.018621004687922018,
+    0.4587051339038655
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "early",
+   "a": "N_naive_home",
+   "b": "B_core",
+   "loss": "se_margin",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": 37.91250127646643,
+   "ci95": [
+    29.827148711476326,
+    45.82455804444972
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "early",
+   "a": "N_naive_home",
+   "b": "B_core",
+   "loss": "se_total",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": 7.237814086900095,
+   "ci95": [
+    -0.36803554381432707,
+    15.187370448832736
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "early",
+   "a": "B_core",
+   "b": "N_naive_home",
+   "loss": "ae_margin",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": -1.0650045377018826,
+   "ci95": [
+    -1.3372425383681168,
+    -0.7819023299139017
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "early",
+   "a": "B_core",
+   "b": "N_naive_home",
+   "loss": "ae_total",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": -0.21663146135331107,
+   "ci95": [
+    -0.4520592623053966,
+    0.02481585653092692
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "early",
+   "a": "B_core",
+   "b": "N_naive_home",
+   "loss": "se_margin",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": -37.91250127646643,
+   "ci95": [
+    -45.712464773695494,
+    -30.446909397756745
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "early",
+   "a": "B_core",
+   "b": "N_naive_home",
+   "loss": "se_total",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": -7.237814086900095,
+   "ci95": [
+    -14.820046330238544,
+    0.4164716906817154
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "early",
+   "a": "B_qb",
+   "b": "B_core",
+   "loss": "ae_margin",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": 0.0016246450714239118,
+   "ci95": [
+    -0.042646317311445366,
+    0.04710851630755426
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "early",
+   "a": "B_qb",
+   "b": "B_core",
+   "loss": "ae_total",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": -0.0582995727927787,
+   "ci95": [
+    -0.1490559013962258,
+    0.03285217041910829
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "early",
+   "a": "B_qb",
+   "b": "B_core",
+   "loss": "se_margin",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": -0.008711751745221331,
+   "ci95": [
+    -1.164018684409489,
+    1.1244277349163925
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "early",
+   "a": "B_qb",
+   "b": "B_core",
+   "loss": "se_total",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": -2.734895420236871,
+   "ci95": [
+    -5.1423254918018975,
+    -0.28707535735869816
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "early",
+   "a": "B_qb_noadj",
+   "b": "B_core",
+   "loss": "ae_margin",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": 0.018821269855911905,
+   "ci95": [
+    -0.033548130647008775,
+    0.07087606047260778
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "early",
+   "a": "B_qb_noadj",
+   "b": "B_core",
+   "loss": "ae_total",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": -0.0948024351433004,
+   "ci95": [
+    -0.20848108217013278,
+    0.01186042720777296
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "early",
+   "a": "B_qb_noadj",
+   "b": "B_core",
+   "loss": "se_margin",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": 0.5589043542279705,
+   "ci95": [
+    -0.8275776315036004,
+    1.9637653236594197
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "early",
+   "a": "B_qb_noadj",
+   "b": "B_core",
+   "loss": "se_total",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": -2.426331230562749,
+   "ci95": [
+    -5.357609202014334,
+    0.49028793695075157
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "early",
+   "a": "N_naive_home",
+   "b": "B_core",
+   "loss": "ae_margin",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": 0.8266532142467646,
+   "ci95": [
+    0.5702882456401349,
+    1.0806879038820651
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "early",
+   "a": "N_naive_home",
+   "b": "B_core",
+   "loss": "ae_total",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": 0.37254558352269634,
+   "ci95": [
+    0.11851548351279892,
+    0.628319814486055
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "early",
+   "a": "N_naive_home",
+   "b": "B_core",
+   "loss": "se_margin",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": 25.32561002456492,
+   "ci95": [
+    17.563635759501306,
+    33.624844215575806
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "early",
+   "a": "N_naive_home",
+   "b": "B_core",
+   "loss": "se_total",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": 10.030775525357452,
+   "ci95": [
+    3.1175938901824702,
+    16.7420294163167
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "early",
+   "a": "B_core",
+   "b": "N_naive_home",
+   "loss": "ae_margin",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": -0.8266532142467646,
+   "ci95": [
+    -1.0785543178627146,
+    -0.5769160232744522
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "early",
+   "a": "B_core",
+   "b": "N_naive_home",
+   "loss": "ae_total",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": -0.37254558352269634,
+   "ci95": [
+    -0.6404869072785861,
+    -0.11952096690888689
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "early",
+   "a": "B_core",
+   "b": "N_naive_home",
+   "loss": "se_margin",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": -25.32561002456492,
+   "ci95": [
+    -33.94965103119677,
+    -17.336177471896583
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "early",
+   "a": "B_core",
+   "b": "N_naive_home",
+   "loss": "se_total",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": -10.030775525357452,
+   "ci95": [
+    -16.90243314442107,
+    -3.4666180217974354
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "A_market_cal",
+   "b": "A_market_raw",
+   "loss": "ae_margin",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": 0.015020049317347623,
+   "ci95": [
+    -0.007843951853776149,
+    0.03758578276439029
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "A_market_cal",
+   "b": "A_market_raw",
+   "loss": "ae_total",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": 0.011025134357410983,
+   "ci95": [
+    -0.0037225208454915583,
+    0.025438519503555735
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "A_market_cal",
+   "b": "A_market_raw",
+   "loss": "se_margin",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": 0.3366813151481761,
+   "ci95": [
+    -0.2876226783727624,
+    0.9351934985953279
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "A_market_cal",
+   "b": "A_market_raw",
+   "loss": "se_total",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": 0.29089135485032974,
+   "ci95": [
+    -0.08026193815812194,
+    0.640606443748856
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "B_core",
+   "b": "A_market_raw",
+   "loss": "ae_margin",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": 0.30759979696188544,
+   "ci95": [
+    0.10954046220253574,
+    0.5100984044929131
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "B_core",
+   "b": "A_market_raw",
+   "loss": "ae_total",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": 0.33354002372056496,
+   "ci95": [
+    0.15348173495558012,
+    0.5043097593171357
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "B_core",
+   "b": "A_market_raw",
+   "loss": "se_margin",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": 9.994650542003978,
+   "ci95": [
+    3.7636732241316486,
+    16.19004227427116
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "B_core",
+   "b": "A_market_raw",
+   "loss": "se_total",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": 12.443028097241733,
+   "ci95": [
+    7.459497408646401,
+    17.550537807670935
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "B_qb",
+   "b": "A_market_raw",
+   "loss": "ae_margin",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": 0.18910399649851437,
+   "ci95": [
+    0.026494638259252544,
+    0.34393527142483576
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "B_qb",
+   "b": "A_market_raw",
+   "loss": "ae_total",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": 0.15742499256156545,
+   "ci95": [
+    -0.004139522415698317,
+    0.3151883235401828
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "B_qb",
+   "b": "A_market_raw",
+   "loss": "se_margin",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": 5.942506784823796,
+   "ci95": [
+    1.0710231052253798,
+    10.60348027751774
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "B_qb",
+   "b": "A_market_raw",
+   "loss": "se_total",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": 6.494421246798913,
+   "ci95": [
+    1.780968167670695,
+    11.260820330585762
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "B_qb_inj",
+   "b": "A_market_raw",
+   "loss": "ae_margin",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": 0.19519048677636977,
+   "ci95": [
+    0.03447724649500294,
+    0.34967870603230716
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "B_qb_inj",
+   "b": "A_market_raw",
+   "loss": "ae_total",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": 0.13707523954065026,
+   "ci95": [
+    -0.026927029492200993,
+    0.30657556567647865
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "B_qb_inj",
+   "b": "A_market_raw",
+   "loss": "se_margin",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": 5.981385793899153,
+   "ci95": [
+    1.4067253842546228,
+    10.689581788145087
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "B_qb_inj",
+   "b": "A_market_raw",
+   "loss": "se_total",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": 5.89572923777704,
+   "ci95": [
+    1.3142529912481704,
+    10.954117284479143
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "B_qb_noadj",
+   "b": "A_market_raw",
+   "loss": "ae_margin",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": 0.2045665146087432,
+   "ci95": [
+    0.039766433750607406,
+    0.3633868147948861
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "B_qb_noadj",
+   "b": "A_market_raw",
+   "loss": "ae_total",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": 0.16778002615559034,
+   "ci95": [
+    0.009358186456655595,
+    0.3318762690258118
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "B_qb_noadj",
+   "b": "A_market_raw",
+   "loss": "se_margin",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": 6.787738555095313,
+   "ci95": [
+    1.880543495674239,
+    11.943425129522636
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "B_qb_noadj",
+   "b": "A_market_raw",
+   "loss": "se_total",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": 6.378104481980041,
+   "ci95": [
+    1.7229835378174339,
+    11.178584378428827
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "C_direct",
+   "b": "A_market_raw",
+   "loss": "ae_margin",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": 0.05389937689227655,
+   "ci95": [
+    -0.05249726927577431,
+    0.15596757400937059
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "C_direct",
+   "b": "A_market_raw",
+   "loss": "ae_total",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": 0.0998093094310758,
+   "ci95": [
+    -0.04225091518340274,
+    0.23336707972128987
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "C_direct",
+   "b": "A_market_raw",
+   "loss": "se_margin",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": 1.7078963752431136,
+   "ci95": [
+    -1.06562391343506,
+    4.824811293638321
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "C_direct",
+   "b": "A_market_raw",
+   "loss": "se_total",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": 4.439988388221137,
+   "ci95": [
+    0.9440521079696103,
+    7.993444796938022
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "C_resid",
+   "b": "A_market_raw",
+   "loss": "ae_margin",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": 0.007700045763164812,
+   "ci95": [
+    -0.025764478621260013,
+    0.041013326942375965
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "C_resid",
+   "b": "A_market_raw",
+   "loss": "ae_total",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": 0.008087383755399314,
+   "ci95": [
+    -0.008283066752462574,
+    0.023036498111924132
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "C_resid",
+   "b": "A_market_raw",
+   "loss": "se_margin",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": 0.34724721562465116,
+   "ci95": [
+    -0.4828614009162932,
+    1.2321925204427293
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "C_resid",
+   "b": "A_market_raw",
+   "loss": "se_total",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": 0.17928559361949334,
+   "ci95": [
+    -0.20937217808451725,
+    0.5502933320741613
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "C_resid_hgb",
+   "b": "A_market_raw",
+   "loss": "ae_margin",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": 0.048382740308031996,
+   "ci95": [
+    -0.08312581211779065,
+    0.18409776063783193
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "C_resid_hgb",
+   "b": "A_market_raw",
+   "loss": "ae_total",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": 0.22589131103408655,
+   "ci95": [
+    0.047577058135349744,
+    0.4018063280964858
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "C_resid_hgb",
+   "b": "A_market_raw",
+   "loss": "se_margin",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": 2.373580116827578,
+   "ci95": [
+    -0.9417451341803302,
+    5.65336700388122
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "C_resid_hgb",
+   "b": "A_market_raw",
+   "loss": "se_total",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": 8.2043639107468,
+   "ci95": [
+    3.5421633827010406,
+    12.773195561484345
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "C_resid_noinj",
+   "b": "A_market_raw",
+   "loss": "ae_margin",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": 0.00916189635335994,
+   "ci95": [
+    -0.016125096140982374,
+    0.03541662644996256
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "C_resid_noinj",
+   "b": "A_market_raw",
+   "loss": "ae_total",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": 0.00813858726614615,
+   "ci95": [
+    -0.007490537971388307,
+    0.02407553254266804
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "C_resid_noinj",
+   "b": "A_market_raw",
+   "loss": "se_margin",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": 0.31964337823560635,
+   "ci95": [
+    -0.3622685232223018,
+    1.0010810082657329
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "C_resid_noinj",
+   "b": "A_market_raw",
+   "loss": "se_total",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": 0.17173455670792925,
+   "ci95": [
+    -0.23818011974044453,
+    0.5470966873492401
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "C_resid_nopersonnel",
+   "b": "A_market_raw",
+   "loss": "ae_margin",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": 0.0058940658653736065,
+   "ci95": [
+    -0.023875142223891498,
+    0.039065251599800774
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "C_resid_nopersonnel",
+   "b": "A_market_raw",
+   "loss": "ae_total",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": 0.006842448636107329,
+   "ci95": [
+    -0.00823633357359654,
+    0.02185168050661261
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "C_resid_nopersonnel",
+   "b": "A_market_raw",
+   "loss": "se_margin",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": 0.2973479996074073,
+   "ci95": [
+    -0.5603936797202819,
+    1.085270686462909
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "C_resid_nopersonnel",
+   "b": "A_market_raw",
+   "loss": "se_total",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": 0.17145771442009547,
+   "ci95": [
+    -0.1922340528166429,
+    0.5155454076172208
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "N_naive_home",
+   "b": "A_market_raw",
+   "loss": "ae_margin",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": 1.3724417928135768,
+   "ci95": [
+    0.9940734381025245,
+    1.7410050971251472
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "N_naive_home",
+   "b": "A_market_raw",
+   "loss": "ae_total",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": 0.5485072010136163,
+   "ci95": [
+    0.2946477095730021,
+    0.7968218526635633
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "N_naive_home",
+   "b": "A_market_raw",
+   "loss": "se_margin",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": 47.88430918913436,
+   "ci95": [
+    36.37134662094033,
+    60.40152130351653
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "N_naive_home",
+   "b": "A_market_raw",
+   "loss": "se_total",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": 19.65619982009953,
+   "ci95": [
+    12.69999803330548,
+    26.386742591956637
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "A_market_cal",
+   "b": "B_core",
+   "loss": "ae_margin",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": -0.2925797476445378,
+   "ci95": [
+    -0.4935974859376274,
+    -0.08962540850006036
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "A_market_cal",
+   "b": "B_core",
+   "loss": "ae_total",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": -0.3225148893631539,
+   "ci95": [
+    -0.5040361179699151,
+    -0.14244047324988468
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "A_market_cal",
+   "b": "B_core",
+   "loss": "se_margin",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": -9.6579692268558,
+   "ci95": [
+    -16.17420028443614,
+    -3.3132206698983118
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "A_market_cal",
+   "b": "B_core",
+   "loss": "se_total",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": -12.152136742391404,
+   "ci95": [
+    -17.326310770591224,
+    -6.967162509082148
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "A_market_raw",
+   "b": "B_core",
+   "loss": "ae_margin",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": -0.30759979696188544,
+   "ci95": [
+    -0.512794326856238,
+    -0.11434890291659537
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "A_market_raw",
+   "b": "B_core",
+   "loss": "ae_total",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": -0.33354002372056496,
+   "ci95": [
+    -0.5076593284490285,
+    -0.15260155071111228
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "A_market_raw",
+   "b": "B_core",
+   "loss": "se_margin",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": -9.994650542003978,
+   "ci95": [
+    -16.15270301918684,
+    -3.5890876584765445
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "A_market_raw",
+   "b": "B_core",
+   "loss": "se_total",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": -12.443028097241733,
+   "ci95": [
+    -17.89910245803253,
+    -7.237000155272234
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "B_qb",
+   "b": "B_core",
+   "loss": "ae_margin",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": -0.118495800463371,
+   "ci95": [
+    -0.20546055883646486,
+    -0.03138869354996115
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "B_qb",
+   "b": "B_core",
+   "loss": "ae_total",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": -0.17611503115899943,
+   "ci95": [
+    -0.27874943482460723,
+    -0.06891366390661312
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "B_qb",
+   "b": "B_core",
+   "loss": "se_margin",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": -4.052143757180182,
+   "ci95": [
+    -6.935383568773063,
+    -1.2538402924352374
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "B_qb",
+   "b": "B_core",
+   "loss": "se_total",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": -5.948606850442822,
+   "ci95": [
+    -8.848599178079398,
+    -3.10841764023643
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "B_qb_inj",
+   "b": "B_core",
+   "loss": "ae_margin",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": -0.11240931018551564,
+   "ci95": [
+    -0.19532537131625577,
+    -0.026789250489369934
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "B_qb_inj",
+   "b": "B_core",
+   "loss": "ae_total",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": -0.19646478417991464,
+   "ci95": [
+    -0.3141503377019832,
+    -0.08065317147941992
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "B_qb_inj",
+   "b": "B_core",
+   "loss": "se_margin",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": -4.013264748104825,
+   "ci95": [
+    -7.251044882768347,
+    -1.261136276696066
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "B_qb_inj",
+   "b": "B_core",
+   "loss": "se_total",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": -6.547298859464694,
+   "ci95": [
+    -9.602488544203581,
+    -3.4200455524048663
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "B_qb_noadj",
+   "b": "B_core",
+   "loss": "ae_margin",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": -0.10303328235314221,
+   "ci95": [
+    -0.1838938556417366,
+    -0.02291685567862095
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "B_qb_noadj",
+   "b": "B_core",
+   "loss": "ae_total",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": -0.16575999756497456,
+   "ci95": [
+    -0.27441822440421915,
+    -0.06189248667832005
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "B_qb_noadj",
+   "b": "B_core",
+   "loss": "se_margin",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": -3.2069119869086635,
+   "ci95": [
+    -6.0359804369862395,
+    -0.5439011224455285
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "B_qb_noadj",
+   "b": "B_core",
+   "loss": "se_total",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": -6.0649236152616925,
+   "ci95": [
+    -8.808219943779983,
+    -3.0434337242016785
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "C_direct",
+   "b": "B_core",
+   "loss": "ae_margin",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": -0.25370042006960886,
+   "ci95": [
+    -0.3909208819932918,
+    -0.13392843240358457
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "C_direct",
+   "b": "B_core",
+   "loss": "ae_total",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": -0.2337307142894891,
+   "ci95": [
+    -0.35085767265876205,
+    -0.11030314685692201
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "C_direct",
+   "b": "B_core",
+   "loss": "se_margin",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": -8.286754166760863,
+   "ci95": [
+    -12.831973932660151,
+    -3.7824005292213982
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "C_direct",
+   "b": "B_core",
+   "loss": "se_total",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": -8.003039709020598,
+   "ci95": [
+    -11.479479269155243,
+    -4.763633425156441
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "C_resid",
+   "b": "B_core",
+   "loss": "ae_margin",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": -0.2998997511987206,
+   "ci95": [
+    -0.5083714987553435,
+    -0.10332120101597973
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "C_resid",
+   "b": "B_core",
+   "loss": "ae_total",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": -0.32545263996516555,
+   "ci95": [
+    -0.498629060433453,
+    -0.1465444166175182
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "C_resid",
+   "b": "B_core",
+   "loss": "se_margin",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": -9.647403326379326,
+   "ci95": [
+    -15.962109601110397,
+    -3.441703216518442
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "C_resid",
+   "b": "B_core",
+   "loss": "se_total",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": -12.263742503622243,
+   "ci95": [
+    -17.18375573859811,
+    -7.049109216585816
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "C_resid_hgb",
+   "b": "B_core",
+   "loss": "ae_margin",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": -0.2592170566538534,
+   "ci95": [
+    -0.5320618605630631,
+    -0.008260010436747383
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "C_resid_hgb",
+   "b": "B_core",
+   "loss": "ae_total",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": -0.1076487126864783,
+   "ci95": [
+    -0.30756748750961993,
+    0.09773272167725038
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "C_resid_hgb",
+   "b": "B_core",
+   "loss": "se_margin",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": -7.621070425176399,
+   "ci95": [
+    -15.12013472275009,
+    -0.07400323867999443
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "C_resid_hgb",
+   "b": "B_core",
+   "loss": "se_total",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": -4.238664186494935,
+   "ci95": [
+    -10.557069482309236,
+    2.4045856457379418
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "C_resid_noinj",
+   "b": "B_core",
+   "loss": "ae_margin",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": -0.2984379006085255,
+   "ci95": [
+    -0.5074884162444645,
+    -0.11185031459420994
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "C_resid_noinj",
+   "b": "B_core",
+   "loss": "ae_total",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": -0.32540143645441877,
+   "ci95": [
+    -0.49416991553115824,
+    -0.14185553750864036
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "C_resid_noinj",
+   "b": "B_core",
+   "loss": "se_margin",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": -9.675007163768374,
+   "ci95": [
+    -16.198763472658122,
+    -3.846139001504853
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "C_resid_noinj",
+   "b": "B_core",
+   "loss": "se_total",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": -12.271293540533804,
+   "ci95": [
+    -17.467949862558367,
+    -7.249997471552084
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "C_resid_nopersonnel",
+   "b": "B_core",
+   "loss": "ae_margin",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": -0.3017057310965118,
+   "ci95": [
+    -0.4944566626221966,
+    -0.11451364573602184
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "C_resid_nopersonnel",
+   "b": "B_core",
+   "loss": "ae_total",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": -0.3266975750844576,
+   "ci95": [
+    -0.5014561267583457,
+    -0.1537280224947534
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "C_resid_nopersonnel",
+   "b": "B_core",
+   "loss": "se_margin",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": -9.69730254239657,
+   "ci95": [
+    -15.933829871273137,
+    -3.836877971813941
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "C_resid_nopersonnel",
+   "b": "B_core",
+   "loss": "se_total",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": -12.27157038282164,
+   "ci95": [
+    -17.32455428456467,
+    -7.119335738637149
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "N_naive_home",
+   "b": "B_core",
+   "loss": "ae_margin",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": 1.0648419958516915,
+   "ci95": [
+    0.7728740689535788,
+    1.3521722928977018
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "N_naive_home",
+   "b": "B_core",
+   "loss": "ae_total",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": 0.21496717729305145,
+   "ci95": [
+    -0.011631923135093872,
+    0.46232079488712735
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "N_naive_home",
+   "b": "B_core",
+   "loss": "se_margin",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": 37.88965864713038,
+   "ci95": [
+    29.58288836420281,
+    45.69754852489203
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "N_naive_home",
+   "b": "B_core",
+   "loss": "se_total",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": 7.213171722857793,
+   "ci95": [
+    -0.8767130278814795,
+    14.870135291369701
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "B_core",
+   "b": "N_naive_home",
+   "loss": "ae_margin",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": -1.0648419958516915,
+   "ci95": [
+    -1.3458254273016128,
+    -0.7683003097754827
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "B_core",
+   "b": "N_naive_home",
+   "loss": "ae_total",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": -0.21496717729305145,
+   "ci95": [
+    -0.45815379358402725,
+    0.01886569837134631
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "B_core",
+   "b": "N_naive_home",
+   "loss": "se_margin",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": -37.88965864713038,
+   "ci95": [
+    -46.11834349691615,
+    -29.387379929283796
+   ]
+  },
+  {
+   "period": "tune",
+   "horizon": "final",
+   "a": "B_core",
+   "b": "N_naive_home",
+   "loss": "se_total",
+   "n_games": 821,
+   "n_blocks": 64,
+   "mean_diff": -7.213171722857793,
+   "ci95": [
+    -14.462940259056477,
+    0.8289159405726081
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "A_market_cal",
+   "b": "A_market_raw",
+   "loss": "ae_margin",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": 0.011474256805589922,
+   "ci95": [
+    -0.0022167368628761156,
+    0.024644622963362006
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "A_market_cal",
+   "b": "A_market_raw",
+   "loss": "ae_total",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": 0.0020289620057525075,
+   "ci95": [
+    -0.007478671581087646,
+    0.010832465781787684
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "A_market_cal",
+   "b": "A_market_raw",
+   "loss": "se_margin",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": 0.3982431459320866,
+   "ci95": [
+    0.08155193260493722,
+    0.7182025824574901
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "A_market_cal",
+   "b": "A_market_raw",
+   "loss": "se_total",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": -0.15361602615665904,
+   "ci95": [
+    -0.38133389562049924,
+    0.07031313675724443
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "B_core",
+   "b": "A_market_raw",
+   "loss": "ae_margin",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": 0.3093476633260307,
+   "ci95": [
+    0.15189340044981456,
+    0.4745811529324182
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "B_core",
+   "b": "A_market_raw",
+   "loss": "ae_total",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": 0.3172900954234842,
+   "ci95": [
+    0.13012399690714332,
+    0.5042558524916102
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "B_core",
+   "b": "A_market_raw",
+   "loss": "se_margin",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": 9.341021035054064,
+   "ci95": [
+    4.084666537092944,
+    14.656963221507038
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "B_core",
+   "b": "A_market_raw",
+   "loss": "se_total",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": 8.872507838896132,
+   "ci95": [
+    4.440431674258916,
+    13.17862088989578
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "B_qb",
+   "b": "A_market_raw",
+   "loss": "ae_margin",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": 0.2579708573154227,
+   "ci95": [
+    0.11934615733275239,
+    0.3965649847746088
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "B_qb",
+   "b": "A_market_raw",
+   "loss": "ae_total",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": 0.16161509890430314,
+   "ci95": [
+    0.021058573998959534,
+    0.31509686944727017
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "B_qb",
+   "b": "A_market_raw",
+   "loss": "se_margin",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": 5.926733437866344,
+   "ci95": [
+    1.7757121620394727,
+    9.904657671477182
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "B_qb",
+   "b": "A_market_raw",
+   "loss": "se_total",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": 4.534514997440823,
+   "ci95": [
+    0.5613853954327831,
+    8.517725774734556
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "B_qb_inj",
+   "b": "A_market_raw",
+   "loss": "ae_margin",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": 0.24073018935339494,
+   "ci95": [
+    0.11150024017512036,
+    0.36808776424111106
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "B_qb_inj",
+   "b": "A_market_raw",
+   "loss": "ae_total",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": 0.17269445012670231,
+   "ci95": [
+    0.01905404635145415,
+    0.3199948954469779
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "B_qb_inj",
+   "b": "A_market_raw",
+   "loss": "se_margin",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": 5.143061261865213,
+   "ci95": [
+    0.9924654202491314,
+    8.916427182007999
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "B_qb_inj",
+   "b": "A_market_raw",
+   "loss": "se_total",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": 4.823357713430831,
+   "ci95": [
+    0.9109732806735364,
+    8.91775234393632
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "B_qb_noadj",
+   "b": "A_market_raw",
+   "loss": "ae_margin",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": 0.2740824010853312,
+   "ci95": [
+    0.1312489321215291,
+    0.4131106752487198
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "B_qb_noadj",
+   "b": "A_market_raw",
+   "loss": "ae_total",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": 0.12006733982455975,
+   "ci95": [
+    -0.027198282575798628,
+    0.2701275218362556
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "B_qb_noadj",
+   "b": "A_market_raw",
+   "loss": "se_margin",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": 6.434437879154356,
+   "ci95": [
+    2.0019900899887415,
+    10.521617374462053
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "B_qb_noadj",
+   "b": "A_market_raw",
+   "loss": "se_total",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": 4.837735019546266,
+   "ci95": [
+    0.9679293257693785,
+    8.900105758216968
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "C_direct",
+   "b": "A_market_raw",
+   "loss": "ae_margin",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": 0.06783825151460403,
+   "ci95": [
+    -0.0037056473186864035,
+    0.13794898598791638
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "C_direct",
+   "b": "A_market_raw",
+   "loss": "ae_total",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": 0.09450022442734471,
+   "ci95": [
+    -0.020119485834154707,
+    0.20203271633687037
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "C_direct",
+   "b": "A_market_raw",
+   "loss": "se_margin",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": 1.2652899723163864,
+   "ci95": [
+    -0.748299522017518,
+    3.1538799771779824
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "C_direct",
+   "b": "A_market_raw",
+   "loss": "se_total",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": 1.226653263907983,
+   "ci95": [
+    -1.7624973314232366,
+    4.043180940782816
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "C_resid",
+   "b": "A_market_raw",
+   "loss": "ae_margin",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": -0.004551689681319666,
+   "ci95": [
+    -0.023665678395512105,
+    0.014435516249890321
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "C_resid",
+   "b": "A_market_raw",
+   "loss": "ae_total",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": 0.004423007447308578,
+   "ci95": [
+    -0.08083427014073265,
+    0.09282833071482587
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "C_resid",
+   "b": "A_market_raw",
+   "loss": "se_margin",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": -0.06912734342852711,
+   "ci95": [
+    -0.4969154836444138,
+    0.3577820647665686
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "C_resid",
+   "b": "A_market_raw",
+   "loss": "se_total",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": -1.3656732625289234,
+   "ci95": [
+    -3.5853442417472974,
+    0.688723757309953
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "C_resid_hgb",
+   "b": "A_market_raw",
+   "loss": "ae_margin",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": 0.0948509067751699,
+   "ci95": [
+    -0.0309192534752824,
+    0.2151223387656606
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "C_resid_hgb",
+   "b": "A_market_raw",
+   "loss": "ae_total",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": -0.0467229111536038,
+   "ci95": [
+    -0.17413777594428712,
+    0.0905138163240876
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "C_resid_hgb",
+   "b": "A_market_raw",
+   "loss": "se_margin",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": 3.2496903218926096,
+   "ci95": [
+    0.2591427521948502,
+    6.049429980329022
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "C_resid_hgb",
+   "b": "A_market_raw",
+   "loss": "se_total",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": -0.9750943508769329,
+   "ci95": [
+    -4.637156055600908,
+    2.6068303236282873
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "C_resid_noinj",
+   "b": "A_market_raw",
+   "loss": "ae_margin",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": -0.008022069581363575,
+   "ci95": [
+    -0.035302647939412825,
+    0.019454665919112744
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "C_resid_noinj",
+   "b": "A_market_raw",
+   "loss": "ae_total",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": -0.0037110507763552535,
+   "ci95": [
+    -0.09172466357057207,
+    0.08288637711336558
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "C_resid_noinj",
+   "b": "A_market_raw",
+   "loss": "se_margin",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": -0.1972596601723256,
+   "ci95": [
+    -0.8017093543524717,
+    0.4282486881263577
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "C_resid_noinj",
+   "b": "A_market_raw",
+   "loss": "se_total",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": -1.5083478352187434,
+   "ci95": [
+    -3.777609443861799,
+    0.6692300233965709
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "C_resid_nopersonnel",
+   "b": "A_market_raw",
+   "loss": "ae_margin",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": -0.007564651504202463,
+   "ci95": [
+    -0.045072815109176496,
+    0.030896805529008933
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "C_resid_nopersonnel",
+   "b": "A_market_raw",
+   "loss": "ae_total",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": 0.012521509045958036,
+   "ci95": [
+    -0.05070931565995966,
+    0.07448404079655611
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "C_resid_nopersonnel",
+   "b": "A_market_raw",
+   "loss": "se_margin",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": -0.21737589865603194,
+   "ci95": [
+    -1.3007569205640972,
+    0.8142828093979528
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "C_resid_nopersonnel",
+   "b": "A_market_raw",
+   "loss": "se_total",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": -1.0371201432658144,
+   "ci95": [
+    -2.9319837724445406,
+    0.7448083619330271
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "N_naive_home",
+   "b": "A_market_raw",
+   "loss": "ae_margin",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": 1.1364534289391273,
+   "ci95": [
+    0.831294000069554,
+    1.4640898709243184
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "N_naive_home",
+   "b": "A_market_raw",
+   "loss": "ae_total",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": 0.6903940996986593,
+   "ci95": [
+    0.4052772478798978,
+    0.9679786174174589
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "N_naive_home",
+   "b": "A_market_raw",
+   "loss": "se_margin",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": 34.685251272320045,
+   "ci95": [
+    24.774369456614096,
+    44.65105903008856
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "N_naive_home",
+   "b": "A_market_raw",
+   "loss": "se_total",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": 18.888732738504938,
+   "ci95": [
+    11.087051556208795,
+    26.611849938914013
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "A_market_cal",
+   "b": "B_core",
+   "loss": "ae_margin",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": -0.29787340652044086,
+   "ci95": [
+    -0.45807882009128936,
+    -0.14486872438894466
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "A_market_cal",
+   "b": "B_core",
+   "loss": "ae_total",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": -0.3152611334177316,
+   "ci95": [
+    -0.5093744315081031,
+    -0.13516550283293452
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "A_market_cal",
+   "b": "B_core",
+   "loss": "se_margin",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": -8.942777889121977,
+   "ci95": [
+    -14.184967427672621,
+    -3.806304928748238
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "A_market_cal",
+   "b": "B_core",
+   "loss": "se_total",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": -9.026123865052789,
+   "ci95": [
+    -13.446622454156804,
+    -4.658007189540202
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "A_market_raw",
+   "b": "B_core",
+   "loss": "ae_margin",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": -0.3093476633260307,
+   "ci95": [
+    -0.47296561454939645,
+    -0.14388457943834246
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "A_market_raw",
+   "b": "B_core",
+   "loss": "ae_total",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": -0.3172900954234842,
+   "ci95": [
+    -0.4995333437276436,
+    -0.12465250307891593
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "A_market_raw",
+   "b": "B_core",
+   "loss": "se_margin",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": -9.341021035054064,
+   "ci95": [
+    -14.66855480316752,
+    -4.2211046532338035
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "A_market_raw",
+   "b": "B_core",
+   "loss": "se_total",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": -8.872507838896132,
+   "ci95": [
+    -13.557662436426634,
+    -4.389200465765661
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "B_qb",
+   "b": "B_core",
+   "loss": "ae_margin",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": -0.05137680601060805,
+   "ci95": [
+    -0.16624193975278181,
+    0.05728590855043619
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "B_qb",
+   "b": "B_core",
+   "loss": "ae_total",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": -0.15567499651918099,
+   "ci95": [
+    -0.2838269642887612,
+    -0.02368884884669531
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "B_qb",
+   "b": "B_core",
+   "loss": "se_margin",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": -3.4142875971877196,
+   "ci95": [
+    -6.783697049368222,
+    -0.4934817344019662
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "B_qb",
+   "b": "B_core",
+   "loss": "se_total",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": -4.337992841455307,
+   "ci95": [
+    -7.44759953092077,
+    -1.438131722680795
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "B_qb_inj",
+   "b": "B_core",
+   "loss": "ae_margin",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": -0.06861747397263583,
+   "ci95": [
+    -0.20897239365340567,
+    0.05187791168051508
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "B_qb_inj",
+   "b": "B_core",
+   "loss": "ae_total",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": -0.14459564529678182,
+   "ci95": [
+    -0.2606644286642064,
+    -0.02184542905142154
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "B_qb_inj",
+   "b": "B_core",
+   "loss": "se_margin",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": -4.197959773188851,
+   "ci95": [
+    -8.01649744180136,
+    -0.9181319682452811
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "B_qb_inj",
+   "b": "B_core",
+   "loss": "se_total",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": -4.0491501254652995,
+   "ci95": [
+    -7.003882066602729,
+    -1.1206905631828734
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "B_qb_noadj",
+   "b": "B_core",
+   "loss": "ae_margin",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": -0.03526526224069956,
+   "ci95": [
+    -0.1591265641043163,
+    0.08190132024774208
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "B_qb_noadj",
+   "b": "B_core",
+   "loss": "ae_total",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": -0.19722275559892438,
+   "ci95": [
+    -0.338454765327022,
+    -0.056257911449156935
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "B_qb_noadj",
+   "b": "B_core",
+   "loss": "se_margin",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": -2.9065831558997064,
+   "ci95": [
+    -6.299586737691143,
+    0.04233783243196833
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "B_qb_noadj",
+   "b": "B_core",
+   "loss": "se_total",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": -4.034772819349863,
+   "ci95": [
+    -7.6216640364677115,
+    -0.6393364476878168
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "C_direct",
+   "b": "B_core",
+   "loss": "ae_margin",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": -0.2415094118114268,
+   "ci95": [
+    -0.417080391360421,
+    -0.06895192937615781
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "C_direct",
+   "b": "B_core",
+   "loss": "ae_total",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": -0.22278987099613945,
+   "ci95": [
+    -0.3820446554638774,
+    -0.05776082081992553
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "C_direct",
+   "b": "B_core",
+   "loss": "se_margin",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": -8.075731062737676,
+   "ci95": [
+    -13.653872399718349,
+    -3.3424404658776314
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "C_direct",
+   "b": "B_core",
+   "loss": "se_total",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": -7.645854574988147,
+   "ci95": [
+    -11.501501969746156,
+    -4.1938588283481
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "C_resid",
+   "b": "B_core",
+   "loss": "ae_margin",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": -0.31389935300735045,
+   "ci95": [
+    -0.4684656525099338,
+    -0.1481249911361256
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "C_resid",
+   "b": "B_core",
+   "loss": "ae_total",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": -0.3128670879761755,
+   "ci95": [
+    -0.5246673492660934,
+    -0.10788892438347832
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "C_resid",
+   "b": "B_core",
+   "loss": "se_margin",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": -9.41014837848259,
+   "ci95": [
+    -14.734424376136031,
+    -4.249653914993141
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "C_resid",
+   "b": "B_core",
+   "loss": "se_total",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": -10.238181101425054,
+   "ci95": [
+    -15.122901194490876,
+    -5.354117394511444
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "C_resid_hgb",
+   "b": "B_core",
+   "loss": "ae_margin",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": -0.21449675655086087,
+   "ci95": [
+    -0.4107316347302229,
+    -0.02147575397250845
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "C_resid_hgb",
+   "b": "B_core",
+   "loss": "ae_total",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": -0.36401300657708796,
+   "ci95": [
+    -0.5764641835597779,
+    -0.15096682684548324
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "C_resid_hgb",
+   "b": "B_core",
+   "loss": "se_margin",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": -6.0913307131614545,
+   "ci95": [
+    -12.366309364202705,
+    0.10718860195929801
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "C_resid_hgb",
+   "b": "B_core",
+   "loss": "se_total",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": -9.847602189773063,
+   "ci95": [
+    -15.3035679169872,
+    -4.330395906470022
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "C_resid_noinj",
+   "b": "B_core",
+   "loss": "ae_margin",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": -0.31736973290739434,
+   "ci95": [
+    -0.4770707461519837,
+    -0.14990746670416477
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "C_resid_noinj",
+   "b": "B_core",
+   "loss": "ae_total",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": -0.3210011461998393,
+   "ci95": [
+    -0.5249318887612593,
+    -0.11316545814664894
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "C_resid_noinj",
+   "b": "B_core",
+   "loss": "se_margin",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": -9.538280695226389,
+   "ci95": [
+    -14.950401722467479,
+    -4.475442024406876
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "C_resid_noinj",
+   "b": "B_core",
+   "loss": "se_total",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": -10.380855674114873,
+   "ci95": [
+    -15.35185916200277,
+    -5.166665620033458
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "C_resid_nopersonnel",
+   "b": "B_core",
+   "loss": "ae_margin",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": -0.3169123148302332,
+   "ci95": [
+    -0.48042166461759533,
+    -0.14918036681435004
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "C_resid_nopersonnel",
+   "b": "B_core",
+   "loss": "ae_total",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": -0.3047685863775261,
+   "ci95": [
+    -0.5042534482940765,
+    -0.11943203004892233
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "C_resid_nopersonnel",
+   "b": "B_core",
+   "loss": "se_margin",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": -9.558396933710096,
+   "ci95": [
+    -14.720245767111372,
+    -4.754437496731249
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "C_resid_nopersonnel",
+   "b": "B_core",
+   "loss": "se_total",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": -9.909627982161945,
+   "ci95": [
+    -14.49083991966033,
+    -5.391494708297237
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "N_naive_home",
+   "b": "B_core",
+   "loss": "ae_margin",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": 0.8271057656130965,
+   "ci95": [
+    0.5772814923302236,
+    1.0766461749200504
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "N_naive_home",
+   "b": "B_core",
+   "loss": "ae_total",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": 0.3731040042751751,
+   "ci95": [
+    0.11633581242737469,
+    0.6240134371931534
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "N_naive_home",
+   "b": "B_core",
+   "loss": "se_margin",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": 25.344230237265982,
+   "ci95": [
+    17.477938657349167,
+    34.20140833452024
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "N_naive_home",
+   "b": "B_core",
+   "loss": "se_total",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": 10.016224899608803,
+   "ci95": [
+    3.0484944920785044,
+    16.970208033653368
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "B_core",
+   "b": "N_naive_home",
+   "loss": "ae_margin",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": -0.8271057656130965,
+   "ci95": [
+    -1.0776269048127443,
+    -0.5604436648873469
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "B_core",
+   "b": "N_naive_home",
+   "loss": "ae_total",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": -0.3731040042751751,
+   "ci95": [
+    -0.6218352479653723,
+    -0.09848564514495459
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "B_core",
+   "b": "N_naive_home",
+   "loss": "se_margin",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": -25.344230237265982,
+   "ci95": [
+    -33.48617045595486,
+    -16.858575257214174
+   ]
+  },
+  {
+   "period": "dev",
+   "horizon": "final",
+   "a": "B_core",
+   "b": "N_naive_home",
+   "loss": "se_total",
+   "n_games": 854,
+   "n_blocks": 66,
+   "mean_diff": -10.016224899608803,
+   "ci95": [
+    -17.26451665738523,
+    -2.9963802722657467
+   ]
+  }
+ ]
+}

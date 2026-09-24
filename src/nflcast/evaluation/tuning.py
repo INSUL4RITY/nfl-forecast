@@ -40,7 +40,7 @@ def run(half_lives=(4, 6, 8, 12, 16), carries=(0.4, 0.6, 0.8)) -> dict:
             feats = P.add_personnel_features(build_feature_snapshots(games, tg, seasons), games, qbm, dcs, avail)
             data = BT.assemble(games, feats, market)
             specs = [("B_qb", "core_qb", ("early", "final")), ("B_qb_inj", "core_qb_inj", ("final",))]
-            preds, _ = BT.run(data, tune, ["early", "final"], specs=specs)
+            preds, _ = BT.run(data, tune, ["early", "final"], specs=specs, combined=False)
             for (h, m), g in preds.filter(pl.col("model") != "N_naive_home").group_by(["horizon", "model"]):
                 r = point_metrics(g)
                 results.append({"half_life": hl, "carry": ca, "horizon": h, "model": m,

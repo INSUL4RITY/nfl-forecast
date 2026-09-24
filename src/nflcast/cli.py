@@ -16,6 +16,7 @@ def main(argv: list[str] | None = None) -> None:
     sub.add_parser("build", help="Build games table and as-of feature snapshots")
     sub.add_parser("backtest", help="Walk-forward evaluation of benchmark models")
     sub.add_parser("tune", help="Tune feature window settings on tune folds only")
+    sub.add_parser("locked-test", help="One-time evaluation including the locked test season (after decisions are frozen)")
     pr = sub.add_parser("predict", help="Generate a forecast release for upcoming games")
     pr.add_argument("--horizon", default="final", choices=["early", "final"])
     sub.add_parser("all", help="ingest + build + backtest + predict")
@@ -34,6 +35,9 @@ def main(argv: list[str] | None = None) -> None:
     elif args.cmd == "backtest":
         from nflcast.pipeline import backtest
         backtest()
+    elif args.cmd == "locked-test":
+        from nflcast.pipeline import backtest
+        backtest(include_locked=True)
     elif args.cmd == "tune":
         from nflcast.evaluation import tuning
         tuning.run()

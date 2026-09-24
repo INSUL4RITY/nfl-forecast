@@ -1,0 +1,30 @@
+# Frozen production decisions (set 2026-09-24 before the locked 2025 evaluation).
+# Evidence: reports/backtest/bt_20260924T234555Z (tune 2019-21, dev 2022-24).
+# Changing anything here after the locked test must be recorded in PROGRESS.md, and the locked
+# season can no longer be described as untouched for the changed component.
+
+primary:
+  model: C_resid            # residual-to-market ridge (models/combined.py::ResidualRidge)
+  feature_set: core_qb      # QB layer included; injury features excluded (no measurable gain, final-horizon only)
+  label: "Combined (market spread/total + football)"
+fallback:                   # used when no market line is available at the cutoff
+  model: B_football_ridge
+  feature_set: core_qb
+  label: "Football-only fallback"
+benchmark:
+  model: A_market_raw
+  label: "Market-only benchmark"
+probabilities:
+  method: "logistic(P(home win | no tie) ~ predicted margin) + smoothed regular-season tie base rate since 2017; tie = 0 in playoffs"
+  calibration_data: "walk-forward out-of-fold predictions of the same model"
+intervals:
+  method: residual          # empirical out-of-fold residual quantiles (matched quantile regression, simpler)
+  levels: [0.8, 0.95]
+selection_rule: >
+  Lowest mean of margin RMSE and total RMSE pooled over tune+dev seasons at the final horizon,
+  ties broken by simplicity. C_resid(core_qb) 12.94 vs market-only 12.95: statistically
+  indistinguishable from the market benchmark (paired CIs include zero).
+early_horizon_note: >
+  No free timestamped historical lines exist, so the combined model is validated only at the final
+  horizon. Early releases apply it to the line observed at release time and are labelled accordingly;
+  early-horizon accuracy is measured prospectively.

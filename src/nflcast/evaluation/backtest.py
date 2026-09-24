@@ -19,6 +19,7 @@ import polars as pl
 
 from nflcast.config import settings
 from nflcast.evaluation.metrics import block_bootstrap_diff, per_game_losses, point_metrics
+from nflcast.models.combined import DirectRidge, ResidualHGB, ResidualRidge, select_resid_alphas
 from nflcast.models.core import (FootballRidge, MarketCalibrated, MarketRaw, NaiveHome, feature_set,
                                  select_alpha_chronologically)
 
@@ -49,7 +50,14 @@ FOOTBALL_SPECS = [
 ]
 
 
-def run(data: pl.DataFrame, folds: list[int], horizons: list[str], specs=None) -> tuple[pl.DataFrame, dict]:
+COMBINED_SPECS = [
+    ("C_resid", "core_qb_inj"),
+    ("C_resid_noinj", "core_qb"),
+    ("C_resid_nopersonnel", "core"),
+]
+
+
+def run(data: pl.DataFrame, folds: list[int], horizons: list[str], specs=None, combined: bool = True) -> tuple[pl.DataFrame, dict]:
     cfg = settings()
     core_start = cfg["seasons"]["core_start"]
     specs = specs or FOOTBALL_SPECS
@@ -80,27 +88,45 @@ def run(data: pl.DataFrame, folds: list[int], horizons: list[str], specs=None) -
                 cal = MarketCalibrated().fit(tr_m)
                 preds.append(_pred_frame(te_m, cal.predict(te_m), MarketCalibrated.name, S, h))
                 info["A_cal_params"] = cal.params()
+                if combined:
+                    for cname, fs_name in COMBINED_SPECS:
+                        am, at = select_resid_alphas(tr_m, fs_name)
+                        c = ResidualRidge(fs_name, am, at).fit(tr_m)
+                        preds.append(_pred_frame(te_m, c.predict(te_m), cname, S, h))
+                        info["alphas"][cname] = [am, at]
+                        if cname == "C_resid":
+                            info["C_resid_top_coefs"] = c.top_coefficients()
+                            hgb = ResidualHGB(fs_name, seed=cfg["validation"]["seed"]).fit(tr_m)
+                            preds.append(_pred_frame(te_m, hgb.predict(te_m), "C_resid_hgb", S, h))
+                            d = DirectRidge(fs_name)
+                            a_d, _ = select_alpha_chronologically(DirectRidge.with_market_points(tr_m), feature_set=d.feature_set)
+                            d = DirectRidge(fs_name, a_d).fit(tr_m)
+                            preds.append(_pred_frame(te_m, d.predict(te_m), "C_direct", S, h))
+                            info["alphas"]["C_direct"] = a_d
             fold_info.append(info)
     return pl.concat(preds), {"folds": fold_info}
 
 
-def period_of(season_expr: pl.Expr, tune_folds: list[int]) -> pl.Expr:
-    return pl.when(season_expr.is_in(tune_folds)).then(pl.lit("tune")).otherwise(pl.lit("dev"))
+def period_of(season_expr: pl.Expr, tune_folds: list[int], locked_folds: list[int] | None = None) -> pl.Expr:
+    return (pl.when(season_expr.is_in(tune_folds)).then(pl.lit("tune"))
+            .when(season_expr.is_in(locked_folds or [])).then(pl.lit("locked"))
+            .otherwise(pl.lit("dev")))
 
 
 def summarise(preds: pl.DataFrame, reps: int, seed: int, tune_folds: list[int] | None = None,
-              baselines=("A_market_raw", "B_core", "N_naive_home")) -> dict:
+              baselines=("A_market_raw", "B_core", "N_naive_home"), locked_folds: list[int] | None = None) -> dict:
     """Metrics by (period, horizon, model). `tune` seasons were used to make modelling choices; `dev` seasons
-    are the walk-forward development report. Paired comparisons are within period and horizon."""
+    are the walk-forward development report; `locked` is the untouched test. Paired comparisons are within
+    period and horizon."""
     tune_folds = tune_folds or []
-    preds = preds.with_columns(period=period_of(pl.col("season"), tune_folds))
+    preds = preds.with_columns(period=period_of(pl.col("season"), tune_folds, locked_folds))
     out = {"overall": [], "per_season": [], "subgroups": [], "paired": []}
     for (h, m), grp in preds.group_by(["horizon", "model"], maintain_order=True):
         for (per,), gp in grp.group_by(["period"], maintain_order=True):
             out["overall"].append({"period": per, "horizon": h, "model": m, **point_metrics(gp)})
         for (s,), g2 in grp.group_by(["season"], maintain_order=True):
             out["per_season"].append({"horizon": h, "model": m, "season": s, **point_metrics(g2)})
-        grp = grp.filter(pl.col("period") == "dev")
+        grp = grp.filter(pl.col("period") == ("locked" if locked_folds else "dev"))
         groups = {
             "weeks_1_4": grp.filter((pl.col("week") <= 4) & ~pl.col("is_playoff")),
             "weeks_5_plus_reg": grp.filter((pl.col("week") > 4) & ~pl.col("is_playoff")),
@@ -160,7 +186,7 @@ def to_markdown(summary: dict, fold_info: dict, manifest: dict) -> str:
     for r in summary["per_season"]:
         L.append(f"| {r['horizon']} | {r['model']} | {r['season']} | {r['n_games']} | {fmt(r['margin_mae'])} | "
                  f"{fmt(r['total_mae'])} | {fmt(r['winner_accuracy'], 3)} |")
-    L += ["", "## Subgroups, dev period (prespecified; small groups are exploratory)", "",
+    L += ["", "## Subgroups, reported period (dev, or locked when included; prespecified; small groups are exploratory)", "",
           "| horizon | model | group | n | margin MAE | total MAE | exploratory |", "|---|---|---|---|---|---|---|"]
     for r in summary["subgroups"]:
         L.append(f"| {r['horizon']} | {r['model']} | {r['group']} | {r['n_games']} | {fmt(r['margin_mae'])} | "

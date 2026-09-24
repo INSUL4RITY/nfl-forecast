@@ -8,12 +8,14 @@ from pathlib import Path
 
 import numpy as np
 import polars as pl
+import yaml
 
 from nflcast import __version__
 from nflcast.config import PROCESSED_DIR, RAW_DIR, RELEASES_DIR, REPORTS_DIR, ROOT, settings, utc_now, utc_stamp
 from nflcast.data import sources as S
 from nflcast.data.games import build_games, market_asof
 from nflcast.evaluation import backtest as BT
+from nflcast.evaluation import prob_eval as PE
 from nflcast.features.asof import AsOfFeatureBuilder, build_feature_snapshots
 from nflcast.features import personnel as P
 from nflcast.features.team_games import attach_game_info, team_game_stats
@@ -110,22 +112,28 @@ def backtest(include_locked: bool = False) -> Path:
     feats = pl.read_parquet(PROCESSED_DIR / "feature_snapshots.parquet")
     market = pl.read_parquet(PROCESSED_DIR / "market_asof.parquet")
     data = BT.assemble(games, feats, market)
-    folds = list(v["tune_folds"]) + list(v["dev_folds"]) + ([v["locked_test"]] if include_locked else [])
+    locked = [v["locked_test"]] if include_locked else []
+    folds = list(v["tune_folds"]) + list(v["dev_folds"]) + locked
     preds, fold_info = BT.run(data, folds, list(cfg["horizons"].keys()))
-    summary = BT.summarise(preds, v["bootstrap_reps"], v["seed"], tune_folds=list(v["tune_folds"]))
-    run_id = f"bt_{utc_stamp()}"
+    summary = BT.summarise(preds, v["bootstrap_reps"], v["seed"], tune_folds=list(v["tune_folds"]), locked_folds=locked)
+    run_id = f"{'locked' if include_locked else 'bt'}_{utc_stamp()}"
     manifest = {"run_id": run_id, "generated_at_utc": utc_now().isoformat(), "package_version": __version__,
                 "code_hash": code_hash(), "folds": folds, "locked_test": v["locked_test"], "locked_included": include_locked,
-                "settings": cfg, "data": data_manifest()}
-    out = REPORTS_DIR / "backtest" / run_id
+                "settings": cfg, "production": yaml.safe_load((ROOT / "configs" / "production.yaml").read_text(encoding="utf-8")),
+                "data": data_manifest()}
+    out = REPORTS_DIR / ("locked_test" if include_locked else "backtest") / run_id
     out.mkdir(parents=True, exist_ok=True)
     preds.write_parquet(out / "predictions.parquet")
     (out / "summary.json").write_text(json.dumps(summary, indent=1, default=str), encoding="utf-8")
     (out / "manifest.json").write_text(json.dumps(manifest, indent=1, default=str), encoding="utf-8")
     (out / "fold_info.json").write_text(json.dumps(fold_info, indent=1, default=str), encoding="utf-8")
-    md = BT.to_markdown(summary, fold_info, manifest)
+    prob = PE.evaluate(preds, games, list(v["tune_folds"]), tuple(v["interval_levels"]), v["bootstrap_reps"], v["seed"],
+                       locked_folds=locked)
+    prob.pop("per_game_frame").write_parquet(out / "probabilities_per_game.parquet")
+    (out / "probabilities.json").write_text(json.dumps(prob, indent=1, default=str), encoding="utf-8")
+    md = BT.to_markdown(summary, fold_info, manifest) + "\n" + PE.to_markdown(prob)
     (out / "report.md").write_text(md, encoding="utf-8")
-    (REPORTS_DIR / "backtest" / "LATEST.md").write_text(md, encoding="utf-8")
+    (out.parent / "LATEST.md").write_text(md, encoding="utf-8")
     print(f"[backtest] wrote {out}")
     return out
 

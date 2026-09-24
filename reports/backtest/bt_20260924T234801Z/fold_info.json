@@ -1,0 +1,682 @@
+{
+ "folds": [
+  {
+   "horizon": "early",
+   "fold": 2019,
+   "n_train": 801,
+   "n_test": 267,
+   "alphas": {
+    "B_core": 1000.0,
+    "B_qb": 1000.0,
+    "B_qb_noadj": 1000.0
+   }
+  },
+  {
+   "horizon": "early",
+   "fold": 2020,
+   "n_train": 1068,
+   "n_test": 269,
+   "alphas": {
+    "B_core": 1000.0,
+    "B_qb": 1000.0,
+    "B_qb_noadj": 1000.0
+   }
+  },
+  {
+   "horizon": "early",
+   "fold": 2021,
+   "n_train": 1337,
+   "n_test": 285,
+   "alphas": {
+    "B_core": 3000.0,
+    "B_qb": 3000.0,
+    "B_qb_noadj": 1000.0
+   }
+  },
+  {
+   "horizon": "early",
+   "fold": 2022,
+   "n_train": 1622,
+   "n_test": 284,
+   "alphas": {
+    "B_core": 3000.0,
+    "B_qb": 1000.0,
+    "B_qb_noadj": 1000.0
+   }
+  },
+  {
+   "horizon": "early",
+   "fold": 2023,
+   "n_train": 1906,
+   "n_test": 285,
+   "alphas": {
+    "B_core": 1000.0,
+    "B_qb": 1000.0,
+    "B_qb_noadj": 1000.0
+   }
+  },
+  {
+   "horizon": "early",
+   "fold": 2024,
+   "n_train": 2191,
+   "n_test": 285,
+   "alphas": {
+    "B_core": 1000.0,
+    "B_qb": 1000.0,
+    "B_qb_noadj": 1000.0
+   }
+  },
+  {
+   "horizon": "final",
+   "fold": 2019,
+   "n_train": 801,
+   "n_test": 267,
+   "alphas": {
+    "B_core": 1000.0,
+    "B_qb": 1000.0,
+    "B_qb_noadj": 1000.0,
+    "B_qb_inj": 1000.0,
+    "C_resid": [
+     100000.0,
+     100000.0
+    ],
+    "C_direct": 1000.0,
+    "C_resid_noinj": [
+     100000.0,
+     100000.0
+    ],
+    "C_resid_nopersonnel": [
+     100000.0,
+     100000.0
+    ]
+   },
+   "market_rows_test": 267,
+   "A_cal_params": {
+    "margin_intercept": 0.2714332281373468,
+    "margin_slope": 1.009921527715767,
+    "total_intercept": -1.107805616630536,
+    "total_slope": 1.0202486943816753
+   },
+   "C_resid_top_coefs": {
+    "margin": [
+     [
+      "away_off_bye",
+      -0.009074542032415282
+     ],
+     [
+      "away_def_succ_play",
+      -0.008917925114793963
+     ],
+     [
+      "away_def_epa_rush",
+      -0.0075236250173366746
+     ],
+     [
+      "away_def_pts_drive",
+      -0.007291857829891277
+     ],
+     [
+      "home_off_bye",
+      -0.007115033665587314
+     ],
+     [
+      "away_adj_def_epa",
+      0.006155103089988275
+     ],
+     [
+      "home_off_sack_rate",
+      -0.006149599506537145
+     ],
+     [
+      "away_def_expl_rush",
+      -0.0056682744282788525
+     ]
+    ],
+    "total": [
+     [
+      "away_qb_log_db",
+      -0.01283960713937504
+     ],
+     [
+      "home_qb_change",
+      -0.01011300341660079
+     ],
+     [
+      "away_off_epa_rush",
+      -0.009481988163889739
+     ],
+     [
+      "market_margin",
+      0.009137831339250597
+     ],
+     [
+      "home_off_fum_rate",
+      -0.00867175926345951
+     ],
+     [
+      "away_off_sack_rate",
+      0.00863796865061254
+     ],
+     [
+      "home_lost_skill",
+      0.008635974045702592
+     ],
+     [
+      "away_qb_rating",
+      -0.008556305547895902
+     ]
+    ]
+   }
+  },
+  {
+   "horizon": "final",
+   "fold": 2020,
+   "n_train": 1068,
+   "n_test": 269,
+   "alphas": {
+    "B_core": 1000.0,
+    "B_qb": 1000.0,
+    "B_qb_noadj": 1000.0,
+    "B_qb_inj": 1000.0,
+    "C_resid": [
+     30000.0,
+     100000.0
+    ],
+    "C_direct": 1000.0,
+    "C_resid_noinj": [
+     100000.0,
+     100000.0
+    ],
+    "C_resid_nopersonnel": [
+     30000.0,
+     100000.0
+    ]
+   },
+   "market_rows_test": 269,
+   "A_cal_params": {
+    "margin_intercept": -0.3131370526446391,
+    "margin_slope": 1.0304095915217468,
+    "total_intercept": -0.15667839919503024,
+    "total_slope": 1.0030162948909653
+   },
+   "C_resid_top_coefs": {
+    "margin": [
+     [
+      "away_def_succ_play",
+      -0.029419735594963983
+     ],
+     [
+      "away_def_pts_drive",
+      -0.02724190313652972
+     ],
+     [
+      "home_def_expl_rush",
+      -0.02695316209347477
+     ],
+     [
+      "home_off_sack_rate",
+      -0.026773003637524693
+     ],
+     [
+      "away_lost_ol",
+      0.02314640003966891
+     ],
+     [
+      "home_off_bye",
+      -0.022304019749974795
+     ],
+     [
+      "away_off_succ_play",
+      -0.022135573429358617
+     ],
+     [
+      "away_def_expl_rush",
+      -0.020657160160915594
+     ]
+    ],
+    "total": [
+     [
+      "away_qb_log_db",
+      -0.011464766549311101
+     ],
+     [
+      "away_off_sack_rate",
+      0.010676033025439284
+     ],
+     [
+      "away_qb_rating",
+      -0.010353339106561221
+     ],
+     [
+      "home_off_fum_rate",
+      -0.010103364865016527
+     ],
+     [
+      "away_qb_change",
+      0.009667053073599366
+     ],
+     [
+      "away_off_fum_rate",
+      0.009533719028415261
+     ],
+     [
+      "away_off_epa_rush",
+      -0.008599921564376565
+     ],
+     [
+      "away_off_epa_play",
+      -0.007970923218485495
+     ]
+    ]
+   }
+  },
+  {
+   "horizon": "final",
+   "fold": 2021,
+   "n_train": 1337,
+   "n_test": 285,
+   "alphas": {
+    "B_core": 3000.0,
+    "B_qb": 1000.0,
+    "B_qb_noadj": 1000.0,
+    "B_qb_inj": 1000.0,
+    "C_resid": [
+     30000.0,
+     100000.0
+    ],
+    "C_direct": 1000.0,
+    "C_resid_noinj": [
+     100000.0,
+     100000.0
+    ],
+    "C_resid_nopersonnel": [
+     30000.0,
+     100000.0
+    ]
+   },
+   "market_rows_test": 285,
+   "A_cal_params": {
+    "margin_intercept": -0.4238922732118018,
+    "margin_slope": 1.0173469735624494,
+    "total_intercept": -1.7024676035908186,
+    "total_slope": 1.0424531162064488
+   },
+   "C_resid_top_coefs": {
+    "margin": [
+     [
+      "away_lost_ol",
+      0.031851840953906946
+     ],
+     [
+      "away_lost_front",
+      0.03061736528717698
+     ],
+     [
+      "away_def_pts_drive",
+      -0.028591590774163244
+     ],
+     [
+      "away_def_succ_play",
+      -0.027932877298705448
+     ],
+     [
+      "away_off_succ_play",
+      -0.02599448957871687
+     ],
+     [
+      "away_off_epa_rush",
+      -0.025777529899816777
+     ],
+     [
+      "home_off_sack_rate",
+      -0.02388220096538668
+     ],
+     [
+      "home_off_expl_db",
+      -0.023591060654416966
+     ]
+    ],
+    "total": [
+     [
+      "away_qb_log_db",
+      -0.012308423130865645
+     ],
+     [
+      "home_qb_change",
+      -0.011897550344782131
+     ],
+     [
+      "home_qb_delta",
+      0.011280614274700352
+     ],
+     [
+      "away_off_fum_rate",
+      0.010800460525178392
+     ],
+     [
+      "away_off_sack_rate",
+      0.010435529029837807
+     ],
+     [
+      "home_def_neutral_pass",
+      -0.010366168961100914
+     ],
+     [
+      "home_qb_log_db",
+      0.01028574510454589
+     ],
+     [
+      "away_off_epa_rush",
+      -0.009705431097719692
+     ]
+    ]
+   }
+  },
+  {
+   "horizon": "final",
+   "fold": 2022,
+   "n_train": 1622,
+   "n_test": 284,
+   "alphas": {
+    "B_core": 3000.0,
+    "B_qb": 1000.0,
+    "B_qb_noadj": 1000.0,
+    "B_qb_inj": 1000.0,
+    "C_resid": [
+     100000.0,
+     30000.0
+    ],
+    "C_direct": 1000.0,
+    "C_resid_noinj": [
+     100000.0,
+     10000.0
+    ],
+    "C_resid_nopersonnel": [
+     100000.0,
+     30000.0
+    ]
+   },
+   "market_rows_test": 284,
+   "A_cal_params": {
+    "margin_intercept": -0.3372140492370519,
+    "margin_slope": 1.0186881736489692,
+    "total_intercept": -0.3791273355051885,
+    "total_slope": 1.0108706410863275
+   },
+   "C_resid_top_coefs": {
+    "margin": [
+     [
+      "away_lost_front",
+      0.01167161306866733
+     ],
+     [
+      "home_def_expl_rush",
+      -0.010650992348835524
+     ],
+     [
+      "home_off_expl_db",
+      -0.00911549820920556
+     ],
+     [
+      "home_off_rz_td",
+      -0.008726463006333594
+     ],
+     [
+      "away_off_succ_play",
+      -0.008574643213737973
+     ],
+     [
+      "away_off_epa_rush",
+      -0.008562581532245775
+     ],
+     [
+      "away_off_pts_drive",
+      -0.007970037151857439
+     ],
+     [
+      "away_def_succ_play",
+      -0.007903979786272395
+     ]
+    ],
+    "total": [
+     [
+      "home_def_neutral_pass",
+      -0.048426859175067144
+     ],
+     [
+      "home_qb_change",
+      -0.04146770945821293
+     ],
+     [
+      "home_qb_delta",
+      0.03820379415116717
+     ],
+     [
+      "home_qb_log_db",
+      0.03652166627059973
+     ],
+     [
+      "home_off_plays_pg",
+      -0.033079950526879336
+     ],
+     [
+      "dome",
+      0.031015752892507988
+     ],
+     [
+      "home_field",
+      0.029156203335997815
+     ],
+     [
+      "away_off_fum_rate",
+      0.028079303632259345
+     ]
+    ]
+   }
+  },
+  {
+   "horizon": "final",
+   "fold": 2023,
+   "n_train": 1906,
+   "n_test": 285,
+   "alphas": {
+    "B_core": 1000.0,
+    "B_qb": 1000.0,
+    "B_qb_noadj": 1000.0,
+    "B_qb_inj": 1000.0,
+    "C_resid": [
+     100000.0,
+     3000.0
+    ],
+    "C_direct": 300.0,
+    "C_resid_noinj": [
+     100000.0,
+     3000.0
+    ],
+    "C_resid_nopersonnel": [
+     100000.0,
+     3000.0
+    ]
+   },
+   "market_rows_test": 285,
+   "A_cal_params": {
+    "margin_intercept": -0.19669998553214119,
+    "margin_slope": 0.9913842008521099,
+    "total_intercept": -0.12022426750792903,
+    "total_slope": 1.0042802601952003
+   },
+   "C_resid_top_coefs": {
+    "margin": [
+     [
+      "home_def_expl_rush",
+      -0.012838693473453476
+     ],
+     [
+      "away_lost_front",
+      0.010795181149342276
+     ],
+     [
+      "home_lost_front",
+      0.010422900203795752
+     ],
+     [
+      "away_def_pts_drive",
+      -0.010051628168021362
+     ],
+     [
+      "away_off_succ_play",
+      -0.009403898820353916
+     ],
+     [
+      "away_lost_db",
+      0.009128019603953057
+     ],
+     [
+      "home_off_expl_db",
+      -0.009051786883630484
+     ],
+     [
+      "away_off_epa_rush",
+      -0.008881406160954763
+     ]
+    ],
+    "total": [
+     [
+      "home_def_neutral_pass",
+      -0.2955295752066182
+     ],
+     [
+      "home_qb_change",
+      -0.2602846869064333
+     ],
+     [
+      "dome",
+      0.25591117693962845
+     ],
+     [
+      "away_off_neutral_pass",
+      0.25333585661524
+     ],
+     [
+      "home_qb_log_db",
+      0.21803464255927837
+     ],
+     [
+      "home_def_fum_rate",
+      0.2127055666560408
+     ],
+     [
+      "home_def_int_rate",
+      -0.21018784989455433
+     ],
+     [
+      "away_off_fum_rate",
+      0.19652601648009463
+     ]
+    ]
+   }
+  },
+  {
+   "horizon": "final",
+   "fold": 2024,
+   "n_train": 2191,
+   "n_test": 285,
+   "alphas": {
+    "B_core": 1000.0,
+    "B_qb": 1000.0,
+    "B_qb_noadj": 1000.0,
+    "B_qb_inj": 1000.0,
+    "C_resid": [
+     30000.0,
+     3000.0
+    ],
+    "C_direct": 100.0,
+    "C_resid_noinj": [
+     10000.0,
+     3000.0
+    ],
+    "C_resid_nopersonnel": [
+     3000.0,
+     3000.0
+    ]
+   },
+   "market_rows_test": 285,
+   "A_cal_params": {
+    "margin_intercept": -0.027850388525439973,
+    "margin_slope": 0.9944984920419533,
+    "total_intercept": 0.7895283444290158,
+    "total_slope": 0.9860085794495842
+   },
+   "C_resid_top_coefs": {
+    "margin": [
+     [
+      "home_def_expl_rush",
+      -0.04165826451014613
+     ],
+     [
+      "home_off_rz_td",
+      -0.04036534174494265
+     ],
+     [
+      "away_off_succ_play",
+      -0.03296408634292416
+     ],
+     [
+      "away_def_pts_drive",
+      -0.031034954315100834
+     ],
+     [
+      "away_def_epa_db",
+      -0.029472785463353187
+     ],
+     [
+      "home_off_expl_db",
+      -0.028018100552734324
+     ],
+     [
+      "away_lost_front",
+      0.027488183657788167
+     ],
+     [
+      "away_def_succ_play",
+      -0.027001488489803077
+     ]
+    ],
+    "total": [
+     [
+      "home_qb_change",
+      -0.30281025215569657
+     ],
+     [
+      "home_def_neutral_pass",
+      -0.288571180639287
+     ],
+     [
+      "dome",
+      0.2759631098981094
+     ],
+     [
+      "away_off_neutral_pass",
+      0.2567865814218382
+     ],
+     [
+      "home_off_neutral_pass",
+      -0.21886954178946127
+     ],
+     [
+      "away_off_sack_rate",
+      0.2124807875110251
+     ],
+     [
+      "home_off_expl_db",
+      0.20742564851098755
+     ],
+     [
+      "home_lost_skill",
+      0.20252243852490726
+     ]
+    ]
+   }
+  }
+ ]
+}
