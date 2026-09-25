@@ -5,7 +5,7 @@ import TeamBadge from "@/components/TeamBadge";
 import { dataProblems } from "@/components/GameCard";
 import StateLabel from "@/components/StateLabel";
 import { allGames, findGame, getTeams } from "@/lib/data";
-import { f1, f2, f3, marginText, pct, pctP, spreadText, STATE_LABEL, VERIFY_LABEL } from "@/lib/format";
+import { f1, f2, f3, marginText, pct, pctP, problemText, qbStatusText, rosterText, spreadText, VERIFY_LABEL } from "@/lib/format";
 import type { Forecast, LineupSide } from "@/lib/types";
 
 export function generateStaticParams() {
@@ -48,6 +48,26 @@ const FLAG_TEXT: Record<string, string> = {
   designation_pending: "Game designations (Questionable/Doubtful/Out) for this week are not published yet; a pooled historical rate is used and labelled.",
   override_expired: "A manual override for this game has expired and is no longer applied.",
 };
+
+/** Plain-English note for a lineup flag; internal codes and player IDs are never shown. Unknown codes are hidden. */
+function flagText(fl: string, side: LineupSide): string | null {
+  if (FLAG_TEXT[fl]) return FLAG_TEXT[fl];
+  const m = fl.match(/^chain_qb_unavailable_roster:(.+)$/);
+  if (m) {
+    const q = side.qbs?.find((x) => x.qb_id === m[1]);
+    const where = q?.roster_status ? rosterText(q.roster_status).toLowerCase() : "an inactive roster list";
+    return `${q?.qb ?? "A listed quarterback"} is on the ${where} and cannot start, so he is skipped in the order of replacements.`;
+  }
+  return null;
+}
+
+const LEGACY_SOURCE: Record<string, string> = {
+  depth_chart_daily: "the daily depth chart", depth_chart_weekly: "the weekly depth chart", depth_chart: "the depth chart",
+  last_starter: "the team's most recent starter", override: "a documented override",
+};
+
+/** Evidence detail with internal shorthand spelled out. */
+const detailText = (s?: string) => (s ?? "").replace("finished prev", "QB1 finished his previous game");
 const EVIDENCE_TEXT: Record<string, string> = {
   injury_report: "injury report",
   not_on_published_report: "not on published report",
@@ -74,7 +94,7 @@ function Lineup({ side, abbr }: { side: LineupSide; abbr: string }) {
     return (
       <div>
         <h3>{abbr}: {side.expected_qb ?? "unknown"}</h3>
-        <p className="small ink2">Legacy release: expected starter from {side.source ?? "unknown source"}
+        <p className="small ink2">Legacy release: expected starter from {LEGACY_SOURCE[side.source ?? ""] ?? "the available team information"}
           {side.qb1_status ? `; QB1 report status ${side.qb1_status}` : "; missing injury information was treated as available"}.</p>
         <table><thead><tr><th>Scenario</th><th className="r">Weight</th></tr></thead><tbody>
           {side.scenarios.map((s) => <tr key={s.qb_id ?? "x"}><td>{s.qb} starts</td><td className="r">{pctP(s.p)}</td></tr>)}
@@ -92,12 +112,12 @@ function Lineup({ side, abbr }: { side: LineupSide; abbr: string }) {
         <summary className="small">Evidence for each quarterback</summary>
         <table style={{ marginTop: 6 }}><thead><tr><th>QB</th><th>Chart</th><th>Roster</th><th>Status</th><th>Evidence</th><th className="r">P(starts if next in line)</th></tr></thead><tbody>
           {side.qbs.map((q) => (
-            <tr key={q.qb_id} title={q.detail}><td>{q.qb ?? q.qb_id}</td><td>{q.depth_rank ? `QB${q.depth_rank}` : "—"}</td>
-              <td>{q.roster_status ?? "—"}</td><td>{q.status}</td>
-              <td>{EVIDENCE_TEXT[q.evidence] ?? q.evidence}</td><td className="r">{pctP(q.p_available)}</td></tr>))}
+            <tr key={q.qb_id} title={detailText(q.detail)}><td>{q.qb ?? "Unnamed QB"}</td><td>{q.depth_rank ? `QB${q.depth_rank}` : "—"}</td>
+              <td>{rosterText(q.roster_status)}</td><td>{qbStatusText(q.status)}</td>
+              <td>{EVIDENCE_TEXT[q.evidence] ?? "other evidence"}</td><td className="r">{pctP(q.p_available)}</td></tr>))}
         </tbody></table>
         <p className="small muted" style={{ marginTop: 4 }}>
-          {side.qbs.map((q) => `${q.qb ?? q.qb_id}: ${q.detail}`).join(" · ")}
+          {side.qbs.map((q) => `${q.qb ?? "Unnamed QB"}: ${detailText(q.detail)}`).join(" · ")}
           {side.depth_chart_at ? ` · Depth chart snapshot ${side.depth_chart_at.slice(0, 16).replace("T", " ")} UTC.` : ""}
           {side.injury_snapshot_at ? ` Injury data observed ${side.injury_snapshot_at.slice(0, 16).replace("T", " ")} UTC.` : ""}
         </p>
@@ -105,7 +125,8 @@ function Lineup({ side, abbr }: { side: LineupSide; abbr: string }) {
           <p className="small">Documented overrides: {side.overrides_used.map((o) => `${o.status} (${o.source}, published ${o.source_published_at_utc}${o.expires_at_utc ? `, expires ${o.expires_at_utc}` : ""})`).join("; ")}</p>
         )}
       </details>
-      {(side.flags ?? []).map((fl) => <p key={fl} className="small tag warn" style={{ display: "inline-block", whiteSpace: "normal" }}>{FLAG_TEXT[fl] ?? fl}</p>)}
+      {(side.flags ?? []).map((fl) => [fl, flagText(fl, side)] as const).filter(([, t]) => t).map(([fl, t]) =>
+        <p key={fl} className="small tag warn" style={{ display: "inline-block", whiteSpace: "normal" }}>{t}</p>)}
     </div>
   );
 }
@@ -146,13 +167,24 @@ export default async function GamePage({ params }: { params: Promise<{ id: strin
         )}
       </div>
 
-      {g.corrections.map((c) => (
-        <div key={c.id} className="callout warn"><b>Correction.</b> {c.summary}{" "}
-          <span className="small">(Generated {c.details["generated_at_utc (self-reported)"]?.slice(0, 16).replace("T", " ")} UTC;
-            kickoff {c.details.kickoff_utc?.slice(0, 16).replace("T", " ")} UTC; first public evidence{" "}
-            {c.details.first_public_evidence_utc?.slice(0, 16).replace("T", " ")} UTC, <a href={c.details.evidence}>GitHub record</a>.)</span>
+      {g.corrections.length > 0 && (
+        <div className="small ink2" style={{ margin: "4px 0 12px" }}>
+          <b>Generated before kickoff; published after kickoff.</b> Kickoff {iso16(g.kickoff_utc)}; first public evidence{" "}
+          {iso16(g.corrections[0].details.first_public_evidence_utc)} (<a href={g.corrections[0].details.evidence}>GitHub record</a>).
+          Scored separately from publicly verifiable pregame forecasts.
+          <details style={{ marginTop: 4 }}>
+            <summary>Audit history ({g.corrections.length} {g.corrections.length === 1 ? "record" : "records"})</summary>
+            <ul style={{ margin: "4px 0 0", paddingLeft: 18 }}>
+              {g.corrections.map((c) => (
+                <li key={c.id}>Version generated {iso16(c.details["generated_at_utc (self-reported)"])}; first public evidence{" "}
+                  {iso16(c.details.first_public_evidence_utc)}; recorded {iso16(c.recorded_at_utc)}.</li>
+              ))}
+            </ul>
+            <p className="muted" style={{ margin: "4px 0 0" }}>The original files are unchanged; these records are kept in the
+              append-only corrections log.</p>
+          </details>
         </div>
-      ))}
+      )}
 
       {!e || !f ? (
         <div className="panel pending">
@@ -166,7 +198,7 @@ export default async function GamePage({ params }: { params: Promise<{ id: strin
             <b><StateLabel state={g.forecast_state} kickoff={g.kickoff_utc} /></b> · generated <LocalTime iso={g.forecast_generated_at} /> ·{" "}
             {g.forecast_verification ? VERIFY_LABEL[g.forecast_verification] : ""}
             {g.forecast_public_evidence_at ? <> (first public evidence <LocalTime iso={g.forecast_public_evidence_at} />)</> : null}
-            {g.model_version ? <> · model {g.model_version}{g.model_frozen ? " (frozen)" : ""}</> : null}
+            {g.model_version ? <> · {g.model_frozen ? `model ${g.model_version} (frozen)` : `pre-freeze model build ${g.model_version.replace(/^unfrozen-/, "").slice(0, 8)}`}</> : null}
           </p>
           <div className="three-col">
             <div className="panel stat">
@@ -218,7 +250,7 @@ export default async function GamePage({ params }: { params: Promise<{ id: strin
               </tbody></table></div>
             {e.market && (
               <p className="small ink2" style={{ marginTop: 10 }}>
-                Market inputs: {spreadText(e.market.home_spread, H, A)}, total {f1(e.market.total)} · source {e.market.source} · observed{" "}
+                Market inputs: {spreadText(e.market.home_spread, H, A)}, total {f1(e.market.total)} · source: nflverse schedule data · observed{" "}
                 <LocalTime iso={e.market.snapshot_at} />. These two numbers are inputs to the combined model; no prices or odds are used.
               </p>
             )}
@@ -266,7 +298,7 @@ export default async function GamePage({ params }: { params: Promise<{ id: strin
                 <>
                   <p className={dataProblems(e).length === 0 ? "small ink2" : "small tag warn"} style={{ whiteSpace: "normal" }}>
                     {dataProblems(e).length === 0 ? "All sources were fresh and complete at the cutoff."
-                      : `Problems: ${dataProblems(e).join("; ")}`}</p>
+                      : `Incomplete at the cutoff: ${dataProblems(e).map((p) => problemText(p, H, A)).join("; ")}. Documented fallbacks were used (see Lineup assumptions).`}</p>
                   <div className="table-wrap"><table>
                     <thead><tr><th>Source</th><th>State</th><th>Provider updated</th><th>Last checked by us</th></tr></thead>
                     <tbody>{e.data_freshness.sources.map((s) => (
@@ -323,7 +355,7 @@ export default async function GamePage({ params }: { params: Promise<{ id: strin
                 <td className="r">{f1(h.away_pts)}</td><td className="r">{f1(h.home_pts)}</td>
                 <td className="r">{h.margin != null ? marginText(h.margin, H, A) : "—"}</td><td className="r">{f1(h.total)}</td><td className="r">{pct(h.p_home)}</td>
                 <td className="r">{h.market_spread != null ? `${spreadText(h.market_spread, H, A)} / ${f1(h.market_total)}` : "—"}</td>
-                <td title={Object.values(h.validation_problems ?? {}).flat().join("; ")}><StateLabel state={h.version_state} kickoff={g.kickoff_utc} /></td>
+                <td title={Object.values(h.validation_problems ?? {}).flat().length ? "Failed the automatic consistency checks; kept for the audit record only" : undefined}><StateLabel state={h.version_state} kickoff={g.kickoff_utc} /></td>
                 <td className="small">{VERIFY_LABEL[h.verification] ?? h.verification}</td>
                 <td className="small" title={h.archive?.sha256 ? `SHA-256 ${h.archive.sha256}` : ""}>
                   {h.archive?.sha256 ? <>sha {h.archive.sha256.slice(0, 10)}…

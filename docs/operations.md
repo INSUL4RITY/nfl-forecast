@@ -3,16 +3,31 @@
 **Model frozen** (v1.0-2026-rest-of-season, `configs/model_freeze.yaml`): every release loads the frozen artifact; a
 changed artifact or config blocks publishing. Weekly health checks:
 
+The launcher `nflcast.cmd` works from **any** folder (it switches to the project folder first). Running
+`.\.venv\Scripts\python.exe ...` from another folder (e.g. `C:\Users\Craig`) fails with "not recognized": that relative path
+only exists inside the project folder.
+
 ```powershell
-.\.venv\Scripts\python.exe -m nflcast freeze-check     # frozen artifact + configs unchanged
-.\.venv\Scripts\python.exe -m nflcast verify-claims    # labels, GitHub evidence, archive tokens/copies
-.\.venv\Scripts\python.exe -m nflcast backup           # private off-PC backup sync + verification
-Select-String -Path logs\operate.log -Pattern "FAILED|VIOLATION|failed"
+& "C:\Users\Craig\NFL MODEL PROJECTIONS\nflcast.cmd" freeze-check     # frozen artifact + configs unchanged
+& "C:\Users\Craig\NFL MODEL PROJECTIONS\nflcast.cmd" verify-claims    # labels, public-page wording, GitHub evidence, archive
+& "C:\Users\Craig\NFL MODEL PROJECTIONS\nflcast.cmd" backup           # private off-PC backup sync + verification
+Get-Content "C:\Users\Craig\NFL MODEL PROJECTIONS\logs\operate.log" -Tail 5   # healthy run ends with "operate: done"
 ```
 
 Off-PC backup: private GitHub repository `INSUL4RITY/nfl-forecast-data` (weather snapshots, injury snapshots/versions,
 schedule/market-line snapshots). Pushed every cycle; verified against the GitHub API (privacy + identical blob hashes).
-**The PC must stay on, awake, online and logged in**: all refreshes, releases, scoring, evidence and backups run here.
+
+**PC off / asleep / logged out:** updates simply pause; the public site stays up with the last published forecasts. After you
+log in to Windows, the task catches up within minutes (missed runs start when available) and then runs every 30 minutes.
+Claude (the app or chat) does not need to be open. Anything that should have happened while the PC was off (e.g. a
+final-hour update) is not recreated afterwards.
+
+## Full slate before the first kickoff
+A release covers every unplayed game of the upcoming week. As soon as the last game of a week kicks off, the next cycle
+publishes the whole next week (dry run 2026-09-25: all 16 week-4 games, ~3 days before the Thursday game). Missing or stale
+optional inputs never block a forecast: QB availability falls back to documented historical start rates (flagged
+"designation pending" / "report not published yet"), weather is display-only, and the page states what was incomplete.
+Only a failed validation can withhold a combined forecast, and then the football-only fallback is published instead.
 
 ## One cycle
 
@@ -42,8 +57,8 @@ Failures are written to `logs/operate.log`; the previous release and site stay i
 ## Scheduling (enabled 2026-09-25)
 
 Windows Task Scheduler task **`nflcast-operate`** runs `scripts/operate.ps1` every 30 minutes (hidden window). It runs only
-**while you are logged in to Windows**: running while logged out needs administrator rights (S4U logon was refused). The PC
-must be on, online and signed in for releases to be timely.
+**while you are logged in to Windows**: running while logged out needs administrator rights (S4U logon was refused). Updates
+pause while the PC is off or asleep and resume after login (catch-up run, then every 30 minutes).
 
 ```powershell
 Get-ScheduledTaskInfo -TaskName nflcast-operate      # last/next run and result (0 = OK)

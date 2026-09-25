@@ -26,7 +26,10 @@ Read `PROGRESS.md` first (status, model version, schedule, data locations, next 
 - Ask the user before paid services, new external accounts, or changing the scheduled task/system settings.
 
 ## How things run
-- Venv: `.\.venv\Scripts\python.exe -m nflcast <cmd>` (refresh PATH from User+Machine env first in PowerShell).
+- Venv: `.\.venv\Scripts\python.exe -m nflcast <cmd>` from the project folder (refresh PATH from User+Machine env first in
+  PowerShell), or `nflcast.cmd <cmd>` from any folder (give the user this form).
+- Public pages must never show internal codes or player IDs; map them to plain English in `web/` (verify-claims checks this).
+- The user accepts that updates pause while the PC is off; never recreate or back-date missed forecasts.
 - Windows Task Scheduler `nflcast-operate` runs `scripts/operate.ps1` every 30 min while the user is logged in.
   Pause it (`Disable-ScheduledTask -TaskName nflcast-operate`) before development work; re-enable afterwards.
 - Tests: `.\.venv\Scripts\python.exe -m pytest -q` (all must pass before pushing). Site: `cd web; npx next build`.

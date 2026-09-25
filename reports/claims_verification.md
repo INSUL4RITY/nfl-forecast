@@ -1,6 +1,6 @@
 # Claims verification
 
-Run 2026-09-25T02:16:55.498910+00:00: 37 passed, 0 failed.
+Run 2026-09-25T02:41:32.019048+00:00: 38 passed, 0 failed.
 
 | check | result | detail |
 |---|---|---|
@@ -10,6 +10,7 @@ Run 2026-09-25T02:16:55.498910+00:00: 37 passed, 0 failed.
 | site performance page labels retrospective benchmark + untimed lines + actual-starter proxy | PASS |  |
 | site performance page shows weather inputs as RETROSPECTIVE | PASS |  |
 | methodology page documents approximations | PASS |  |
+| game pages show no internal codes or player IDs | PASS | 272 pages clean |
 | GitHub push time matches API: rel_20260924T232247Z.json | PASS | 2026-09-25T00:31:03Z a28b4275ad |
 | publication not before generation: rel_20260924T232247Z.json | PASS |  |
 | GitHub push time matches API: rel_20260924T235129Z.json | PASS | 2026-09-25T00:31:03Z a28b4275ad |

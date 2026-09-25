@@ -1,7 +1,8 @@
 """Independent re-verification of evaluation labels and publication claims (python -m nflcast verify-claims).
 
 Checks, each PASS/FAIL with detail:
-  labels:      retrospective weather and untimed historical lines are labelled in reports, exported data and the built site
+  labels:      retrospective weather and untimed historical lines are labelled in reports, exported data and the built site;
+               built game pages show no internal codes or player IDs
   evidence:    every recorded GitHub push-run time is re-fetched from the GitHub API and must match; no publication
                evidence may precede the file's generation time
   site labels: every exported "publicly verifiable" label is recomputed from evidence (< kickoff); every version generated
@@ -15,7 +16,9 @@ from __future__ import annotations
 
 import base64
 import hashlib
+import html
 import json
+import re
 import subprocess
 from datetime import datetime
 
@@ -28,6 +31,22 @@ from nflcast.predict import publication as PUB
 
 def _check(results: list, name: str, ok: bool, detail: str = "") -> None:
     results.append({"check": name, "ok": bool(ok), "detail": detail})
+
+
+RAW_LABEL_RE = re.compile(r"00-00\d{5}|chain_qb|roster:|_stale\b|stale_(provider|retrieval)|report_not_available|designation_pending|"
+                          r"NotListed|nflverse_schedules|replacement_chain|no_candidate|depth_chart_|finished prev\b")
+
+
+def public_raw_labels(out_dir=None) -> dict[str, list[str]]:
+    """Internal codes/player IDs in the VISIBLE text of built game pages (the embedded data payload is excluded)."""
+    hits = {}
+    for p in sorted(((out_dir or WEB_OUT_DIR) / "game").glob("*/index.html")):
+        body = p.read_text(encoding="utf-8").split("<body", 1)[-1]
+        vis = html.unescape(re.sub(r"<script.*?</script>", "", body, flags=re.S))
+        found = sorted({m.group(0) for m in RAW_LABEL_RE.finditer(vis)})
+        if found:
+            hits[p.parent.name] = found
+    return hits
 
 
 def run(download_web_archive: bool = True) -> list[dict]:
@@ -48,6 +67,9 @@ def run(download_web_archive: bool = True) -> list[dict]:
     _check(R, "site performance page shows weather inputs as RETROSPECTIVE", "RETROSPECTIVE" in perf_html)
     meth_html = (WEB_OUT_DIR / "methodology" / "index.html").read_text(encoding="utf-8") if (WEB_OUT_DIR / "methodology" / "index.html").exists() else ""
     _check(R, "methodology page documents approximations", all(s in meth_html for s in ("Actual-starter proxy", "Untimed closing lines")))
+    raw = public_raw_labels()
+    _check(R, "game pages show no internal codes or player IDs", not raw,
+           "; ".join(f"{k}: {v}" for k, v in list(raw.items())[:5]) if raw else f"{len(list((WEB_OUT_DIR / 'game').glob('*/index.html')))} pages clean")
 
     # ---------------- GitHub evidence re-fetched
     ev = PUB.load_evidence()

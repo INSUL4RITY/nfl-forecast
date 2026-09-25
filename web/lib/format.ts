@@ -57,6 +57,51 @@ export const VERIFY_LABEL: Record<string, string> = {
   generated_after_kickoff: "Generated after kickoff",
 };
 
+/** Public wording for internal codes. The codes stay in the data files (audit trail); pages show only these texts. */
+const ROSTER_TEXT: Record<string, string> = {
+  ACT: "Active", RES: "Reserve list", INA: "Inactive", DEV: "Practice squad", CUT: "Released", RET: "Retired",
+  EXE: "Exempt", SUS: "Suspended", PUP: "PUP list", NON: "Non-football injury list", TRD: "Traded", UFA: "Free agent",
+};
+export const rosterText = (s?: string | null) => (s ? ROSTER_TEXT[s] ?? "Other roster status" : "—");
+
+const QB_STATUS_TEXT: Record<string, string> = {
+  NotListed: "Not on report", Pending: "Designation pending", Unknown: "No report yet",
+  Questionable: "Questionable", Doubtful: "Doubtful", Out: "Out", Available: "Available",
+};
+export function qbStatusText(s?: string | null): string {
+  if (!s) return "—";
+  if (s.startsWith("roster:")) return rosterText(s.slice(7));
+  if (s.startsWith("override")) return "Documented override";
+  return QB_STATUS_TEXT[s] ?? s.replace(/_/g, " ");
+}
+
+const QB_PROBLEM_TEXT: Record<string, string> = {
+  report_not_available: "injury report not published yet",
+  report_stale: "injury report out of date",
+  depth_chart_stale: "depth chart out of date",
+  depth_chart_missing: "no depth chart",
+  roster_missing: "no roster snapshot",
+  roster_stale: "roster out of date",
+  replacement_chain_exhausted: "every listed QB carries some risk of missing the game",
+  no_candidate_qb_prior_used: "no candidate QB identified; generic estimate used",
+};
+const SOURCE_TEXT: Record<string, string> = {
+  injuries: "Injury reports", depth_charts: "Depth charts", rosters_weekly: "Rosters", schedules: "Schedule & market line",
+};
+const SOURCE_STATE_TEXT: Record<string, string> = {
+  stale_provider: "not updated by the provider recently", stale_retrieval: "not re-checked recently", missing: "missing",
+};
+
+/** Plain-English version of a data-freshness problem such as "home QB: report_not_available". */
+export function problemText(p: string, home: string, away: string): string {
+  const [head, ...rest] = p.split(": ");
+  const tail = rest.join(": ");
+  const qb = head.match(/^(home|away) QB$/);
+  if (qb) return `${qb[1] === "home" ? home : away} QB: ${QB_PROBLEM_TEXT[tail.split(":")[0]] ?? "availability evidence incomplete"}`;
+  if (head === "market line") return tail === "missing" ? "No market line yet" : `Market line is ${tail}`;
+  return `${SOURCE_TEXT[head] ?? "A data source"}: ${SOURCE_STATE_TEXT[tail] ?? "not current"}`;
+}
+
 /** "GB by 4.7" from a home-margin number. */
 export function marginText(margin: number, home: string, away: string): string {
   if (Math.abs(margin) < 0.05) return "Even";
