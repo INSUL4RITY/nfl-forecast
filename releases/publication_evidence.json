@@ -36,6 +36,15 @@
    "pushed_commit": "612594caa69b6ef376915dd4a2e8611a23639f69",
    "run_id": 36080986597,
    "run_url": "https://github.com/INSUL4RITY/nfl-forecast/actions/runs/36080986597"
+  },
+  "releases/2026/week_03/rel_20260925T015111Z.json": {
+   "commit_adding_file": "fa27e56aaaf3921fd514982759b8aacea0913378",
+   "evidence": "github_actions_push_run",
+   "file_sha256_at_commit": "1cad6a49b25aba9410e46139296685925e241ea83cedc67a6ddbc332dd780258",
+   "first_public_evidence_utc": "2026-09-25T01:55:20+00:00",
+   "pushed_commit": "fa27e56aaaf3921fd514982759b8aacea0913378",
+   "run_id": 36084087193,
+   "run_url": "https://github.com/INSUL4RITY/nfl-forecast/actions/runs/36084087193"
   }
  }
 }
