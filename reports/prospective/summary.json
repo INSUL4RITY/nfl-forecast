@@ -1,7 +1,26 @@
 {
- "n_scored": 0,
- "by_horizon": [],
+ "n_scored": 1,
+ "by_horizon": [
+  {
+   "horizon_type": "final_pregame",
+   "n": 1,
+   "margin_mae": 25.686452630723423,
+   "total_mae": 5.898995716848354,
+   "market_margin_mae": 25.5,
+   "market_total_mae": 6.5,
+   "football_margin_mae": 28.134864207098886,
+   "winner_acc": 0.0,
+   "log_loss": 1.0609895981364004,
+   "cover_m80": 0.0,
+   "cover_t80": 1.0
+  }
+ ],
  "n_publicly_verifiable": 0,
  "by_horizon_publicly_verifiable": [],
- "verification_counts": []
+ "verification_counts": [
+  {
+   "verification": "generated_pregame_published_after_kickoff",
+   "len": 1
+  }
+ ]
 }
