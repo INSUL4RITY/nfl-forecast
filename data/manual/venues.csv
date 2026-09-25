@@ -1,0 +1,51 @@
+# Venue -> city used to geocode (city-level coordinates via the Open-Meteo geocoding API; a few km from the
+# stadium, adequate for weather). stadium_id is nflverse's schedule identifier. Retractable roofs are marked so a
+# future game's unknown roof status can be treated as partly exposed.
+stadium_id,city,admin1,country_code,retractable
+ATL00,Atlanta,Georgia,US,0
+ATL97,Atlanta,Georgia,US,1
+BAL00,Baltimore,Maryland,US,0
+BOS00,Foxborough,Massachusetts,US,0
+BUF00,Orchard Park,New York,US,0
+CAR00,Charlotte,North Carolina,US,0
+CHI98,Chicago,Illinois,US,0
+CIN00,Cincinnati,Ohio,US,0
+CLE00,Cleveland,Ohio,US,0
+DAL00,Arlington,Texas,US,1
+DEN00,Denver,Colorado,US,0
+DET00,Detroit,Michigan,US,0
+FRA00,Frankfurt am Main,Hesse,DE,0
+GER00,Munich,Bavaria,DE,0
+GNB00,Green Bay,Wisconsin,US,0
+HOU00,Houston,Texas,US,1
+IND00,Indianapolis,Indiana,US,1
+JAX00,Jacksonville,Florida,US,0
+KAN00,Kansas City,Missouri,US,0
+LAX01,Inglewood,California,US,0
+LAX97,Carson,California,US,0
+LAX99,Los Angeles,California,US,0
+LON00,Wembley,England,GB,0
+LON01,Twickenham,England,GB,0
+LON02,Tottenham,England,GB,0
+MAD01,Madrid,Madrid,ES,1
+MEL00,Melbourne,Victoria,AU,0
+MEX00,Mexico City,Mexico City,MX,0
+MIA00,Miami Gardens,Florida,US,0
+MIN01,Minneapolis,Minnesota,US,0
+MUN01,Munich,Bavaria,DE,0
+NAS00,Nashville,Tennessee,US,0
+NOR00,New Orleans,Louisiana,US,0
+NYC01,East Rutherford,New Jersey,US,0
+OAK00,Oakland,California,US,0
+PAR00,Saint-Denis,Île-de-France,FR,0
+PHI00,Philadelphia,Pennsylvania,US,0
+PHO00,Glendale,Arizona,US,1
+PIT00,Pittsburgh,Pennsylvania,US,0
+RIO00,Rio de Janeiro,Rio de Janeiro,BR,0
+SAO00,São Paulo,São Paulo,BR,0
+SDG00,San Diego,California,US,0
+SEA00,Seattle,Washington,US,0
+SFO01,Santa Clara,California,US,0
+TAM00,Tampa,Florida,US,0
+VEG00,Paradise,Nevada,US,0
+WAS00,Landover,Maryland,US,0

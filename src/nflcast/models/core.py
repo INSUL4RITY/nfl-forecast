@@ -96,8 +96,15 @@ INJ_OPP = ["lost_front", "lost_db"]       # opponent defensive absences -> own p
 OPP_ADJ = {"team": ["adj_off_epa", "adj_off_pts"], "opp": ["adj_def_epa", "adj_def_pts"]}
 
 
+WX_CONTEXT = ["wx_wind", "wx_gust", "wx_cold", "wx_precip", "wx_exposed"]
+
+
 def feature_set(name: str) -> dict:
-    """Named, versioned feature sets. Early-horizon sets never include injury features (not reconstructable)."""
+    """Named, versioned feature sets. Early-horizon sets never include injury features (not reconstructable).
+    A "_wx" suffix adds exposure-weighted weather context (evaluation only unless promoted)."""
+    if name.endswith("_wx"):
+        fs = feature_set(name[:-3])
+        return {**fs, "context": fs["context"] + WX_CONTEXT}
     core = {"team": list(TEAM_FEATS), "opp": list(OPP_FEATS), "context": list(CONTEXT)}
     if name == "core":
         return core
@@ -130,8 +137,9 @@ def stack_team_rows(df: pl.DataFrame, feature_set: dict | None = None) -> tuple[
             "own_games_this_season": df[f"{me}_games_this_season"].to_numpy(),
             "opp_games_this_season": df[f"{them}_games_this_season"].to_numpy(),
         }
-        if "dome" in ctx:
-            cmap["dome"] = df["dome"].to_numpy().astype(float)
+        for c in ctx:
+            if c not in cmap:
+                cmap[c] = df[c].fill_null(0).to_numpy().astype(float)   # passthrough game-level context (dome, weather)
         cols += [cmap[c] for c in ctx]
         return np.column_stack(cols).astype(float)
 

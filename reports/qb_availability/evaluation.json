@@ -1,0 +1,336 @@
+{
+ "evaluation": {
+  "generated_at": "2026-09-25T01:37:00.125972+00:00",
+  "test_seasons": [
+   2019,
+   2020,
+   2021,
+   2022,
+   2023,
+   2024
+  ],
+  "chosen_m_by_season": {
+   "2019": 20.0,
+   "2020": 5.0,
+   "2021": 5.0,
+   "2022": 20.0,
+   "2023": 20.0,
+   "2024": 20.0
+  },
+  "overall": [
+   {
+    "method": "status_beta11",
+    "n": 3331,
+    "log_loss": 0.2650268171243928,
+    "brier": 0.0710060829073785,
+    "mean_pred": 0.8871475939048613,
+    "obs_rate": 0.8766136295406785
+   },
+   {
+    "method": "status_jeffreys",
+    "n": 3331,
+    "log_loss": 0.26470336425798735,
+    "brier": 0.0710009717021027,
+    "mean_pred": 0.8871610734059209,
+    "obs_rate": 0.8766136295406785
+   },
+   {
+    "method": "status_x_practice",
+    "n": 3331,
+    "log_loss": 0.25884210664949064,
+    "brier": 0.06929633526441634,
+    "mean_pred": 0.886432133036409,
+    "obs_rate": 0.8766136295406785
+   }
+  ],
+  "uncertain": [
+   {
+    "method": "status_beta11",
+    "n": 162,
+    "log_loss": 0.6245546460251542,
+    "brier": 0.22446493576226986,
+    "mean_pred": 0.5652118557074217,
+    "obs_rate": 0.47530864197530864
+   },
+   {
+    "method": "status_jeffreys",
+    "n": 162,
+    "log_loss": 0.6216066709170459,
+    "brier": 0.22438775493234422,
+    "mean_pred": 0.563284426669466,
+    "obs_rate": 0.47530864197530864
+   },
+   {
+    "method": "status_x_practice",
+    "n": 162,
+    "log_loss": 0.6018971144094567,
+    "brier": 0.21425577462107284,
+    "mean_pred": 0.5347943432540532,
+    "obs_rate": 0.47530864197530864
+   }
+  ],
+  "by_status": [
+   {
+    "method": "status_beta11",
+    "status": "None",
+    "n": 532,
+    "log_loss": 0.25894762119751463,
+    "brier": 0.06651387531050286,
+    "mean_pred": 0.9366312364088105,
+    "obs_rate": 0.9285714285714286
+   },
+   {
+    "method": "status_beta11",
+    "status": "Questionable",
+    "n": 141,
+    "log_loss": 0.7093094209578319,
+    "brier": 0.25743034407953014,
+    "mean_pred": 0.641371303642805,
+    "obs_rate": 0.5460992907801419
+   },
+   {
+    "method": "status_beta11",
+    "status": "Out",
+    "n": 111,
+    "log_loss": 0.012945527823487494,
+    "brier": 0.00019149812470816018,
+    "mean_pred": 0.012848677497574295,
+    "obs_rate": 0.0
+   },
+   {
+    "method": "status_beta11",
+    "status": "Doubtful",
+    "n": 21,
+    "log_loss": 0.05548687147717437,
+    "brier": 0.0031257656320942233,
+    "mean_pred": 0.05385556242699101,
+    "obs_rate": 0.0
+   },
+   {
+    "method": "status_beta11",
+    "status": "NotListed",
+    "n": 2526,
+    "log_loss": 0.25432675657949033,
+    "brier": 0.06522221085271572,
+    "mean_pred": 0.935791881908461,
+    "obs_rate": 0.9299287410926366
+   },
+   {
+    "method": "status_jeffreys",
+    "status": "Questionable",
+    "n": 141,
+    "log_loss": 0.7098597590337585,
+    "brier": 0.25767470778556534,
+    "mean_pred": 0.6429190041048191,
+    "obs_rate": 0.5460992907801419
+   },
+   {
+    "method": "status_jeffreys",
+    "status": "NotListed",
+    "n": 2526,
+    "log_loss": 0.2543493340141964,
+    "brier": 0.06522477330271685,
+    "mean_pred": 0.9360071618116245,
+    "obs_rate": 0.9299287410926366
+   },
+   {
+    "method": "status_jeffreys",
+    "status": "Out",
+    "n": 111,
+    "log_loss": 0.006546667497654138,
+    "brier": 4.9550288556887116e-05,
+    "mean_pred": 0.006521747617122529,
+    "obs_rate": 0.0
+   },
+   {
+    "method": "status_jeffreys",
+    "status": "None",
+    "n": 532,
+    "log_loss": 0.25904798466671936,
+    "brier": 0.06652282518039809,
+    "mean_pred": 0.9376004768289558,
+    "obs_rate": 0.9285714285714286
+   },
+   {
+    "method": "status_jeffreys",
+    "status": "Doubtful",
+    "n": 21,
+    "log_loss": 0.02905022213340362,
+    "brier": 0.0008896429178600044,
+    "mean_pred": 0.028595121032095827,
+    "obs_rate": 0.0
+   },
+   {
+    "method": "status_x_practice",
+    "status": "NotListed",
+    "n": 2526,
+    "log_loss": 0.25437250618237256,
+    "brier": 0.06522739550703553,
+    "mean_pred": 0.9362209751289438,
+    "obs_rate": 0.9299287410926366
+   },
+   {
+    "method": "status_x_practice",
+    "status": "Questionable",
+    "n": 141,
+    "log_loss": 0.6888668860167316,
+    "brier": 0.24611456252001349,
+    "mean_pred": 0.6117962821945078,
+    "obs_rate": 0.5460992907801419
+   },
+   {
+    "method": "status_x_practice",
+    "status": "Out",
+    "n": 111,
+    "log_loss": 0.0017204376763833495,
+    "brier": 6.578011897879816e-06,
+    "mean_pred": 0.0017171356984634976,
+    "obs_rate": 0.0
+   },
+   {
+    "method": "status_x_practice",
+    "status": "None",
+    "n": 532,
+    "log_loss": 0.22924775473001854,
+    "brier": 0.05893143997568532,
+    "mean_pred": 0.94169918477233,
+    "obs_rate": 0.9285714285714286
+   },
+   {
+    "method": "status_x_practice",
+    "status": "Doubtful",
+    "n": 21,
+    "log_loss": 0.017957219332040284,
+    "brier": 0.00034677015675683656,
+    "mean_pred": 0.017781324653858614,
+    "obs_rate": 0.0
+   }
+  ],
+  "paired": [
+   {
+    "method": "status_jeffreys",
+    "vs": "status_beta11",
+    "subset": "uncertain",
+    "n": 162,
+    "mean_logloss_diff": -0.002947975108108221,
+    "ci95": [
+     -0.004635763515912207,
+     -0.0013999395829490374
+    ]
+   },
+   {
+    "method": "status_jeffreys",
+    "vs": "status_beta11",
+    "subset": "overall",
+    "n": 3331,
+    "mean_logloss_diff": -0.0003234528664054341,
+    "ci95": [
+     -0.00043121404587054523,
+     -0.00021893460060392743
+    ]
+   },
+   {
+    "method": "status_x_practice",
+    "vs": "status_beta11",
+    "subset": "uncertain",
+    "n": 162,
+    "mean_logloss_diff": -0.022657531615697318,
+    "ci95": [
+     -0.06024888532787701,
+     0.01844195762594663
+    ]
+   },
+   {
+    "method": "status_x_practice",
+    "vs": "status_beta11",
+    "subset": "overall",
+    "n": 3331,
+    "mean_logloss_diff": -0.0061847104749021345,
+    "ci95": [
+     -0.010517524621653177,
+     -0.001945216543404217
+    ]
+   }
+  ]
+ },
+ "audit": [
+  {
+   "status": "Doubtful",
+   "practice": "DNP",
+   "n": 20,
+   "started": 0,
+   "played_not_started": 0,
+   "declared_inactive": 12,
+   "p_start_jeffreys": 0.023809523809523808,
+   "ci90": [
+    9.707775858233165e-05,
+    0.0904764265378723
+   ]
+  },
+  {
+   "status": "Doubtful",
+   "practice": "Limited",
+   "n": 9,
+   "started": 0,
+   "played_not_started": 0,
+   "declared_inactive": 7,
+   "p_start_jeffreys": 0.05,
+   "ci90": [
+    0.00021244796242273476,
+    0.1873656640603168
+   ]
+  },
+  {
+   "status": "Doubtful",
+   "practice": "Full",
+   "n": 2,
+   "started": 0,
+   "played_not_started": 0,
+   "declared_inactive": 2,
+   "p_start_jeffreys": 0.16666666666666666,
+   "ci90": [
+    0.0008681992074418029,
+    0.5692585318618988
+   ]
+  },
+  {
+   "status": "Questionable",
+   "practice": "Limited",
+   "n": 131,
+   "started": 68,
+   "played_not_started": 5,
+   "declared_inactive": 39,
+   "p_start_jeffreys": 0.5189393939393939,
+   "ci90": [
+    0.4474759432517837,
+    0.5900752366364674
+   ]
+  },
+  {
+   "status": "Questionable",
+   "practice": "Full",
+   "n": 41,
+   "started": 36,
+   "played_not_started": 1,
+   "declared_inactive": 3,
+   "p_start_jeffreys": 0.8690476190476191,
+   "ci90": [
+    0.7753875528711685,
+    0.942617445710917
+   ]
+  },
+  {
+   "status": "Questionable",
+   "practice": "DNP",
+   "n": 21,
+   "started": 8,
+   "played_not_started": 0,
+   "declared_inactive": 11,
+   "p_start_jeffreys": 0.38636363636363635,
+   "ci90": [
+    0.22517148284848976,
+    0.5595703610669691
+   ]
+  }
+ ]
+}

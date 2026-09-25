@@ -3,6 +3,20 @@
 Specification: `NFL_Forecasting_Claude_Build_Brief.md` (Downloads folder, 24 Sep 2026).
 Update this file at the end of every working session.
 
+## Session 3 (2026-09-25): freshness, archive, QB-rate audit, approximations, weather/injury collection
+
+| Item | Implemented | Tested / evidence | Unresolved |
+|---|---|---|---|
+| 1. Freshness & chain | Provider + retrieval freshness per source; stale/missing shown per game (`data_freshness`, site panel + card tag); roster validation for every QB in the chain; chain-exhaustion flag; overrides require `expires_at_utc`; designation-pending handling | 25 QB tests incl. QB1 reserve + QB2 released, missing roster, inactive, stale provider files, expired overrides, chain exhaustion, pending designation | No official NFL feed; nflverse refresh cadence limits freshness; mid-week practice readings uncalibrated |
+| 2. Archive | Write-once manifests (sha256, cutoff, generation, model version, inputs); append-only evidence: FreeTSA RFC 3161 token, GitHub push-run copy, Internet Archive copy with hash check; integrity check stops publishing | All 5 releases archived; 4 with all three evidence types (1 awaiting push); tests: write-once, tamper detection, append-only, archive files never read as releases | Evidence for releases before today was obtained today (not back-dated); Wayback "Save" is best-effort and retried |
+| 3. QB-rate audit | Audit report; start ≠ play documented; Jeffreys + practice-aware shrinkage (m by nested validation); 90% intervals everywhere | Walk-forward 2019-24: overall log-loss gain CI excludes 0; Q/D-only gain not established (n=162) | Downward drift in recent start rates for listed QBs (reported, not corrected) |
+| 4. Approximations | Actual-starter proxy and untimed closing lines documented (site Performance callout + Methodology + docs); original benchmark untouched; prospective results separate | — | Historical market lines remain untimed |
+| 5. Weather / non-QB injuries | Weather snapshots per upcoming game each cycle; injury-report versions table; separate pre-specified evaluations | Both groups **not promoted** (CIs include zero) | Weather history is retrospective; early-horizon injuries need a season of collected versions; coaching deferred |
+
+Tests: 57 passing. New release `rel_20260925T015111Z` (schema v3 with freshness, roster checks, practice-aware rates, weather display).
+Bug found and fixed before push: archive manifests (`rel_*.manifest.json`) matched the release glob; all scans now use
+`config.release_paths()` (strict `releases/<season>/week_<nn>/rel_*.json`), with a regression test.
+
 ## Session 2 (2026-09-25): reliability fixes from independent review
 
 All five review findings were reproduced and fixed. Details are in `docs/methodology.md` (new sections).

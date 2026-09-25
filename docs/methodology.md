@@ -65,6 +65,45 @@ combined margin RMSE 12.29 vs market 12.24 (difference not significant). The cho
 - Documented overrides: `data/manual/qb_overrides.csv` (source URL and source publication time required; applied only
   when the forecast cutoff is at or after that time; logged in the release).
 
+### Session-3 additions (2026-09-25)
+- **Freshness per source** (`assess_freshness`): injury reports, depth charts, rosters and the schedule/market snapshot are each
+  checked against the provider's own Last-Modified time and our last confirmation (append-only `checks.jsonl`). Older than 36 h
+  (8 days for rosters) = stale; a stale source is never treated as confirmation. Every release entry stores `data_freshness`.
+- **Replacement-chain validation**: every QB in line is checked against the latest roster snapshot (RES/CUT/RET/EXE/DEV or
+  declared inactive INA => cannot start; not on the roster => cannot start), his injury designation and any override.
+  Residual probability after the chain is flagged `replacement_chain_exhausted`.
+- **Overrides expire**: `expires_at_utc` is required; an override applies only while published <= cutoff < expires.
+- **Start, not play**: audit (`python -m nflcast qb-rates-audit`, `reports/qb_availability/evaluation.md`) of the 193
+  Questionable / 31 Doubtful depth-chart QB1 cases: Questionable 112 started, 6 played without starting, 53 declared inactive,
+  22 active but did not play; Doubtful 0 started / 0 played / 21 inactive. The generic all-position P(played | status) is no
+  longer used anywhere in QB logic.
+- **Estimator** (chosen by walk-forward evaluation, test seasons 2019-2024, each fitted on earlier seasons only): Jeffreys prior;
+  final-report status × final practice level, shrunk toward the status rate with pseudo-count m chosen by nested chronological
+  validation (m = 10 on 2016-2024). Log loss on the 162 Questionable/Doubtful test cases 0.6246 → 0.6019 (bootstrap 95% CI of the
+  difference −0.060 to +0.018, not established); on all 3,331 QB1 games 0.2650 → 0.2588 (CI −0.0105 to −0.0019). Every rate
+  carries a 90% Beta interval. All estimators over-predict starts for listed QBs in recent seasons (drift; reported, not corrected).
+- **Designation pending** (mid-week, before Questionable/Doubtful/Out are published): mid-week practice lines are not the same
+  measurement as the final report and there is no intra-week history. A listed QB1 gets the pooled start rate of QB1s listed on
+  final reports (e.g. 107/153, daily charts), except a full-practice reading, which uses the final-report full-practice rate
+  (a lower bound, 97/98). The final-report rate for the same practice level is shown as the low end of the plausible range.
+
+## Durable forecast archive (2026-09-25, `predict/archive.py`)
+- Write-once manifest per release: sha256, size, information cutoff, generation time, model version (code hash, production
+  config hash at archiving, OOF source run, QB-rate version), input-snapshot hashes, game ids.
+- Append-only evidence log: RFC 3161 timestamp from FreeTSA over the hash (token + query stored, verified with openssl);
+  copy of the GitHub Actions push-run metadata; Internet Archive capture of the commit-pinned raw file with sha256 check.
+- `archive.verify()` runs before every operate cycle; any changed release file stops publishing.
+
+## Candidate feature groups (2026-09-25, `evaluation/feature_groups.py`, `reports/feature_groups/LATEST.md`)
+Pre-specified rule: promote only if the combined model improves the group's target loss in the dev seasons (95% block-bootstrap
+interval below zero) and in the tune seasons; 2025 not used. Results:
+- Non-QB injuries (final report, final horizon): combined dev +0.271 (CI −0.473, +0.936) → **not promoted**.
+- Weather (retrospective stitched forecasts 2019+, exposure-weighted wind/gust/cold/precip; tune 2021, dev 2022-24):
+  combined dev total SE −0.465 (CI −1.467, +0.557); total RMSE 12.940 → 12.922 → **not promoted** (would only have been a
+  candidate anyway, because the inputs are retrospective).
+- Prospective collection now runs every cycle: weather forecast snapshots per upcoming game (`data/raw/weather/`) and injury-report
+  versions (`data/processed/injury_versions.parquet`). Coaching is deferred.
+
 ## Historical approximations (backtests)
 - **Actual-starter proxy:** the final-horizon backtest uses the QB who actually started (starters are usually known from
   inactives ~90 min before kickoff). This is optimistic compared with live forecasting, which uses the availability model above.

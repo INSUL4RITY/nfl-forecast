@@ -1,0 +1,38 @@
+{
+ "game_ids": [
+  "2026_03_ATL_GB",
+  "2026_03_CAR_CLE",
+  "2026_03_CIN_PIT",
+  "2026_03_HOU_IND",
+  "2026_03_KC_MIA",
+  "2026_03_LAC_BUF",
+  "2026_03_NE_JAX",
+  "2026_03_NYJ_DET",
+  "2026_03_SEA_WAS",
+  "2026_03_TEN_NYG",
+  "2026_03_ARI_SF",
+  "2026_03_MIN_TB",
+  "2026_03_BAL_DAL",
+  "2026_03_LV_NO",
+  "2026_03_LA_DEN",
+  "2026_03_PHI_CHI",
+  "2026_04_PIT_CLE"
+ ],
+ "generated_at_utc": "2026-09-24T23:22:47.438429+00:00",
+ "information_cutoff_utc": "2026-09-24T23:22:47.438429+00:00",
+ "input_snapshots": null,
+ "manifest_created_at_utc": "2026-09-25T01:39:13.057361+00:00",
+ "model_version": {
+  "code_hash": "8469776ce49b2e8844acda4215babef351b9139d3aa7d9f7178bf8b34b777bea",
+  "oof_source_run": null,
+  "production_config_sha256_at_archiving": "93370fd999d74861e7ac08a4d9522756fc384a2be04d04c60dad10fefd9f23f8",
+  "qb_start_rates": null,
+  "stage": "milestone_2_baseline"
+ },
+ "note": "Manifest creation time is when this archive entry was made; it is not a publication time.",
+ "release_path": "releases/2026/week_03/rel_20260924T232247Z.json",
+ "run_id": "rel_20260924T232247Z",
+ "schema_version": 1,
+ "sha256": "9e8bd47813fbdca42f6c6211c39e8e113ff0383cd1e8dd25a4056a3dae28d760",
+ "size_bytes": 34009
+}

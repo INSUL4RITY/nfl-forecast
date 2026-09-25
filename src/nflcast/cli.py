@@ -19,6 +19,11 @@ def main(argv: list[str] | None = None) -> None:
     lt = sub.add_parser("locked-test", help="One-time evaluation including the locked test season (after decisions are frozen)")
     lt.add_argument("--revision-label", default=None,
                     help="required after the first run: writes a labelled re-evaluation (not an untouched test)")
+    ar = sub.add_parser("archive", help="Manifest, timestamp and externally archive every release; verify integrity")
+    ar.add_argument("--no-public", action="store_true", help="skip Web Archive captures")
+    sub.add_parser("feature-groups", help="Separate chronological evaluation of candidate feature groups (weather, non-QB injuries)")
+    sub.add_parser("collect", help="Collect weather forecast snapshots and injury-report versions for upcoming games")
+    sub.add_parser("qb-rates-audit", help="Audit and chronologically evaluate QB start-probability estimators")
     sub.add_parser("verify-publication", help="Record independent publication evidence and any late-publication corrections")
     sub.add_parser("predict", help="Generate an immutable forecast release for the next week's unplayed games")
     sub.add_parser("score", help="Score frozen prospective releases against final results")
@@ -54,6 +59,18 @@ def main(argv: list[str] | None = None) -> None:
     elif args.cmd == "locked-test":
         from nflcast.pipeline import backtest
         backtest(include_locked=True, revision_label=args.revision_label)
+    elif args.cmd == "archive":
+        from nflcast.predict import archive
+        print(f"[archive] {archive.run(capture_public=not args.no_public)}")
+    elif args.cmd == "feature-groups":
+        from nflcast.evaluation import feature_groups
+        feature_groups.run()
+    elif args.cmd == "collect":
+        from nflcast.predict.collect import collect
+        print(f"[collect] {collect()}")
+    elif args.cmd == "qb-rates-audit":
+        from nflcast.evaluation import qb_rates_eval
+        qb_rates_eval.run()
     elif args.cmd == "verify-publication":
         from nflcast.predict import publication
         ev = publication.update_evidence()

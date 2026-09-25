@@ -34,12 +34,16 @@ def no_overrides():
     return QA.load_overrides(path=QA.OVERRIDE_FILE.with_name("__none__.csv"))
 
 
+ROSTER = {QB1: "ACT", QB2: "ACT", QB3: "ACT"}
+
+
 def resolve(inj=None, depth=DEPTH, depth_at=NOW - timedelta(hours=6), inj_obs=NOW - timedelta(hours=1),
-            prev_ko=NOW - timedelta(days=6), prev_share=1.0, overrides=None):
+            prev_ko=NOW - timedelta(days=6), prev_share=1.0, overrides=None, roster=ROSTER, freshness=None, rates=None):
     return QA.resolve_team_qbs(team="CHI", season=2026, week=3, now=NOW, depth=depth, depth_at=depth_at,
                                injuries=inj if inj is not None else injuries([]), injury_observed_at=inj_obs,
                                previous_starter=QB1, previous_game_kickoff=prev_ko, previous_share=prev_share,
-                               rates=RATES, p_play=P_PLAY, overrides=overrides if overrides is not None else no_overrides())
+                               rates=rates or RATES, overrides=overrides if overrides is not None else no_overrides(),
+                               roster=roster, freshness=freshness)
 
 
 def probs(res):
@@ -109,10 +113,13 @@ def test_missing_depth_chart_flagged():
     assert "depth_chart_missing" in res.flags and res.qbs[0].qb_id == QB1
 
 
-def _override_file(tmp_path, published):
+HEADER = "team,season,week,qb_gsis_id,status,p_start,source,source_published_at_utc,entered_at_utc,expires_at_utc,note\n"
+
+
+def _override_file(tmp_path, published, expires="2026-09-28T00:00:00Z"):
     f = tmp_path / "ov.csv"
-    f.write_text("team,season,week,qb_gsis_id,status,p_start,source,source_published_at_utc,entered_at_utc,note\n"
-                 f"CHI,2026,3,{QB1},out,,https://example.org/report,{published},2026-09-27T10:00:00Z,test\n", encoding="utf-8")
+    f.write_text(HEADER + f"CHI,2026,3,{QB1},out,,https://example.org/report,{published},2026-09-27T10:00:00Z,{expires},test\n",
+                 encoding="utf-8")
     return QA.load_overrides(f)
 
 
@@ -125,10 +132,103 @@ def test_override_applies_only_after_its_publication(tmp_path):
 
 def test_override_without_source_rejected(tmp_path):
     f = tmp_path / "ov.csv"
-    f.write_text("team,season,week,qb_gsis_id,status,p_start,source,source_published_at_utc,entered_at_utc,note\n"
-                 f"CHI,2026,3,{QB1},out,,,2026-09-27T11:00:00Z,2026-09-27T11:05:00Z,\n", encoding="utf-8")
+    f.write_text(HEADER + f"CHI,2026,3,{QB1},out,,,2026-09-27T11:00:00Z,2026-09-27T11:05:00Z,2026-09-28T00:00:00Z,\n", encoding="utf-8")
     with pytest.raises(ValueError):
         QA.load_overrides(f)
+
+
+def test_override_without_expiry_rejected(tmp_path):
+    f = tmp_path / "ov.csv"
+    f.write_text(HEADER + f"CHI,2026,3,{QB1},out,,https://example.org,2026-09-27T11:00:00Z,2026-09-27T11:05:00Z,,\n", encoding="utf-8")
+    with pytest.raises(ValueError):
+        QA.load_overrides(f)
+
+
+def test_expired_override_ignored_and_flagged(tmp_path):
+    ov = _override_file(tmp_path, "2026-09-26T11:00:00Z", expires="2026-09-27T06:00:00Z")   # expired before NOW
+    res = resolve(injuries([]), overrides=ov)
+    assert QB1 in probs(res) and not res.overrides_used and "override_expired" in res.flags
+
+
+# ---- roster validation across the replacement chain
+def test_qb1_on_reserve_skipped_and_qb2_checked():
+    res = resolve(injuries([{"gsis_id": QB2, "report_status": "Questionable"}]), roster={QB1: "RES", QB2: "ACT", QB3: "ACT"})
+    p = probs(res)
+    assert QB1 not in p and res.qbs[0].status == "roster:RES"
+    assert p[QB2] == pytest.approx(0.53)                      # QB2's own (Questionable) availability, not assumed
+
+
+def test_qb1_reserve_and_qb2_released_promotes_qb3():
+    res = resolve(injuries([]), roster={QB1: "RES", QB2: "CUT", QB3: "ACT"})
+    p = probs(res)
+    assert QB1 not in p and QB2 not in p and p[QB3] == pytest.approx(1.0)
+
+
+def test_qb_missing_from_current_roster_is_not_available():
+    res = resolve(injuries([]), roster={QB2: "ACT", QB3: "ACT"})   # QB1 no longer on the team's roster
+    assert QB1 not in probs(res)
+
+
+def test_declared_inactive_cannot_start():
+    res = resolve(injuries([]), roster={QB1: "INA", QB2: "ACT", QB3: "ACT"})
+    assert QB1 not in probs(res)
+
+
+def test_chain_exhaustion_flagged():
+    res = resolve(injuries([{"gsis_id": q, "report_status": "Questionable"} for q in (QB1, QB2, QB3)]))
+    assert "replacement_chain_exhausted" in res.flags and res.chain_residual > 0.02
+    assert sum(p for p, _ in res.scenarios) == pytest.approx(1.0)
+
+
+def test_missing_roster_flagged_not_used():
+    res = resolve(injuries([]), roster=None)
+    assert "roster_missing" in res.flags and QB1 in probs(res)
+
+
+def test_midweek_listing_without_designation_is_pending_not_final_rate():
+    # Wednesday: QB1 did not practise, no team member has a game designation yet
+    inj = injuries([{"gsis_id": QB1, "report_status": None, "practice_status": "Did Not Participate In Practice"}])
+    inj = inj.with_columns(pl.lit(None, pl.Utf8).alias("report_status"))
+    res = resolve(inj)
+    info = res.qbs[0]
+    assert info.status == "Pending" and "designation not yet published" in info.detail
+    # pooled over listed final statuses (None/Questionable/Doubtful/Out in RATES), not the final DNP-specific cell
+    assert 0.0 < info.p_available < 0.93 and "designation_pending" in res.flags
+
+
+# ---- freshness
+def test_assess_freshness_states():
+    meta = {"observed_at_utc": (NOW - timedelta(hours=2)).isoformat(), "last_confirmed_at_utc": (NOW - timedelta(hours=1)).isoformat(),
+            "http_last_modified": "Sat, 26 Sep 2026 12:00:00 GMT"}
+    assert QA.assess_freshness("injuries", meta, NOW).state == "fresh"
+    old_provider = {**meta, "http_last_modified": "Wed, 23 Sep 2026 12:00:00 GMT"}
+    assert QA.assess_freshness("injuries", old_provider, NOW).state == "stale_provider"
+    old_check = {**meta, "last_confirmed_at_utc": (NOW - timedelta(days=3)).isoformat()}
+    assert QA.assess_freshness("injuries", old_check, NOW).state == "stale_retrieval"
+    assert QA.assess_freshness("injuries", None, NOW).state == "missing"
+
+
+def test_stale_provider_injury_file_is_not_a_published_report():
+    stale = QA.SourceFreshness("injuries", "stale_provider", None, None, None)
+    res = resolve(injuries([]), freshness=[stale])
+    assert "report_stale" in res.flags and res.qbs[0].status == "Unknown"
+
+
+def test_stale_provider_depth_chart_flagged():
+    stale = QA.SourceFreshness("depth_charts", "stale_provider", None, None, None)
+    res = resolve(injuries([]), freshness=[stale])
+    assert "depth_chart_stale" in res.flags
+
+
+def test_practice_specific_rate_used_for_questionable_qb1():
+    rates = {**RATES, "by_status_practice": {"Questionable|Full": {"p": 0.87, "k": 36, "n": 41, "lo": 0.78, "hi": 0.94},
+                                             "Questionable|DNP": {"p": 0.39, "k": 8, "n": 21, "lo": 0.23, "hi": 0.56}}}
+    full = resolve(injuries([{"gsis_id": QB1, "report_status": "Questionable", "practice_status": "Full Participation in Practice"}]),
+                   rates=rates)
+    dnp = resolve(injuries([{"gsis_id": QB1, "report_status": "Questionable", "practice_status": "Did Not Participate In Practice"}]),
+                  rates=rates)
+    assert probs(full)[QB1] == pytest.approx(0.87) and probs(dnp)[QB1] == pytest.approx(0.39)
+    assert "90% interval" in full.qbs[0].detail
 
 
 def test_scenarios_sum_to_one_and_leader_never_inflated():

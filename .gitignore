@@ -13,3 +13,4 @@ web/out/
 logs/
 web/tsconfig.tsbuildinfo
 .scratch/
+releases/archive/.tmp/

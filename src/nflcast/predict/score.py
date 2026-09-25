@@ -1,4 +1,4 @@
-"""Score prospectively generated releases against final results.
+﻿"""Score prospectively generated releases against final results.
 
 For each completed game, the scored forecast is the specific frozen version that was generated BEFORE the
 relevant cutoff and passed validation (never a later model run, never an invalid version):
@@ -17,7 +17,7 @@ from datetime import datetime, timedelta
 
 import polars as pl
 
-from nflcast.config import RELEASES_DIR, REPORTS_DIR, settings
+from nflcast.config import RELEASES_DIR, REPORTS_DIR, release_paths, settings
 from nflcast.data import sources as S
 from nflcast.data.games import build_games
 from nflcast.predict import publication as PUB
@@ -27,7 +27,7 @@ from nflcast.predict.validation import entry_is_valid
 def load_release_entries() -> pl.DataFrame:
     ev = PUB.load_evidence()
     rows = []
-    for f in sorted(RELEASES_DIR.rglob("rel_*.json")):
+    for f in release_paths():
         r = json.loads(f.read_text(encoding="utf-8"))
         if r.get("schema_version", 1) < 2:
             continue  # milestone-2 baseline releases have no probabilities; kept on disk, not scored

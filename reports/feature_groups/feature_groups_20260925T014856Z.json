@@ -1,0 +1,344 @@
+{
+ "rule": "(fixed before results were seen, 2026-09-25):\n  A feature group is promoted into the production (combined) model only if, for the combined model at the final\n  horizon, adding the group\n    (1) reduces the group's target loss in the DEV seasons with a 95% season-week block-bootstrap interval entirely\n        below zero, AND\n    (2) also reduces it (mean difference < 0) in the TUNE seasons.\n  Target loss: squared error of the total for weather; squared error of margin plus squared error of total for\n  non-QB injuries. The football-only model is evaluated the same way and reported, but it is the fallback, not the\n  headline model. The locked 2025 season is NOT used for these evaluations.\n  Weather has an extra requirement: its historical inputs are retrospective (stitched short-lead forecasts, not what\n  was knowable at the forecast cutoff), so even a pass only makes it a \"candidate\" until strictly as-of prospective\n  snapshots confirm it.",
+ "results": [
+  {
+   "group": "non-QB injuries (final weekly report; expected lost snap share by unit)",
+   "horizon": "final",
+   "inputs": "final weekly injury report (strictly available before the final horizon)",
+   "retrospective": false,
+   "tune": [
+    2019,
+    2020,
+    2021
+   ],
+   "dev": [
+    2022,
+    2023,
+    2024
+   ],
+   "combined": {
+    "tune": {
+     "paired_target": {
+      "n_games": 821,
+      "n_blocks": 64,
+      "mean_diff": 0.035176340788831494,
+      "ci95": [
+       -0.22135026334466396,
+       0.30712015988995395
+      ]
+     },
+     "metrics_candidate": {
+      "n_games": 821,
+      "margin_mae": 10.227556486176873,
+      "margin_rmse": 13.130046721711407,
+      "total_mae": 10.642679302006442,
+      "total_rmse": 13.268871439492953,
+      "home_pts_mae": 7.52322285910903,
+      "away_pts_mae": 7.300736442325431,
+      "margin_bias": 0.6232747516578009,
+      "total_bias": -0.4324871621066778,
+      "winner_accuracy": 0.6454767726161369,
+      "n_decided": 818
+     },
+     "metrics_base": {
+      "n_games": 821,
+      "margin_mae": 10.229016623901002,
+      "margin_rmse": 13.128994691328296,
+      "total_mae": 10.642730505560477,
+      "total_rmse": 13.268586897119105,
+      "home_pts_mae": 7.527193672535597,
+      "away_pts_mae": 7.299374022887982,
+      "margin_bias": 0.7139369732715293,
+      "total_bias": -0.4304576484455127,
+      "winner_accuracy": 0.6454767726161369,
+      "n_decided": 818
+     }
+    },
+    "dev": {
+     "paired_target": {
+      "n_games": 854,
+      "n_blocks": 66,
+      "mean_diff": 0.270957645413457,
+      "ci95": [
+       -0.472934730591907,
+       0.9358532685930221
+      ]
+     },
+     "metrics_candidate": {
+      "n_games": 854,
+      "margin_mae": 9.486667223165497,
+      "margin_rmse": 12.479288852566244,
+      "total_mae": 10.115667322096604,
+      "total_rmse": 12.901703854670568,
+      "home_pts_mae": 7.171253070081354,
+      "away_pts_mae": 7.05298424539313,
+      "margin_bias": -0.8537658076453654,
+      "total_bias": -0.2921969889054663,
+      "winner_accuracy": 0.6807511737089202,
+      "n_decided": 852
+     },
+     "metrics_base": {
+      "n_games": 854,
+      "margin_mae": 9.483197852194493,
+      "margin_rmse": 12.474151199135552,
+      "total_mae": 10.107531455631046,
+      "total_rmse": 12.896170239070866,
+      "home_pts_mae": 7.161552759344292,
+      "away_pts_mae": 7.048619393771133,
+      "margin_bias": -0.8391593182046588,
+      "total_bias": -0.29373367515464993,
+      "winner_accuracy": 0.6807511737089202,
+      "n_decided": 852
+     }
+    }
+   },
+   "football_only": {
+    "tune": {
+     "paired_target": {
+      "n_games": 821,
+      "n_blocks": 64,
+      "mean_diff": -0.5599645465279949,
+      "ci95": [
+       -1.885214373961566,
+       0.7743819097152781
+      ]
+     },
+     "metrics_candidate": {
+      "n_games": 821,
+      "margin_mae": 10.414945720918002,
+      "margin_rmse": 13.342815882714671,
+      "total_mae": 10.771795038279645,
+      "total_rmse": 13.48266499819537,
+      "home_pts_mae": 7.538913511312737,
+      "away_pts_mae": 7.536413402369564,
+      "margin_bias": 0.7193824435677972,
+      "total_bias": -0.24466444732509265,
+      "winner_accuracy": 0.6491442542787286,
+      "n_decided": 818
+     },
+     "metrics_base": {
+      "n_games": 821,
+      "margin_mae": 10.408867230546463,
+      "margin_rmse": 13.341359227368521,
+      "total_mae": 10.79214711152109,
+      "total_rmse": 13.504854299340748,
+      "home_pts_mae": 7.552869450443861,
+      "away_pts_mae": 7.530340282469199,
+      "margin_bias": 0.7005384534468538,
+      "total_bias": -0.20350861835615808,
+      "winner_accuracy": 0.6479217603911981,
+      "n_decided": 818
+     }
+    },
+    "dev": {
+     "paired_target": {
+      "n_games": 854,
+      "n_blocks": 66,
+      "mean_diff": -0.49532544408801443,
+      "ci95": [
+       -1.833443261458319,
+       0.9157500218182458
+      ]
+     },
+     "metrics_candidate": {
+      "n_games": 854,
+      "margin_mae": 9.731943521126945,
+      "margin_rmse": 12.686411185881777,
+      "total_mae": 10.283924596148568,
+      "total_rmse": 13.139338932916214,
+      "home_pts_mae": 7.311139233999616,
+      "away_pts_mae": 7.12686455113389,
+      "margin_bias": -0.956543287233951,
+      "total_bias": 0.39686968023540115,
+      "winner_accuracy": 0.6619718309859155,
+      "n_decided": 852
+     },
+     "metrics_base": {
+      "n_games": 854,
+      "margin_mae": 9.749208228846186,
+      "margin_rmse": 12.717272260097708,
+      "total_mae": 10.272849690445483,
+      "total_rmse": 13.128349785024445,
+      "home_pts_mae": 7.313698102418108,
+      "away_pts_mae": 7.138785743816611,
+      "margin_bias": -0.9521189923707685,
+      "total_bias": 0.3291988478463441,
+      "winner_accuracy": 0.6619718309859155,
+      "n_decided": 852
+     }
+    }
+   },
+   "decision": "not promoted (rule not met)",
+   "early_horizon": "not evaluable: mid-week report versions are not retained historically (now being collected)"
+  },
+  {
+   "group": "weather (exposure-weighted wind, gusts, cold, precipitation)",
+   "horizon": "final",
+   "inputs": "RETROSPECTIVE: Open-Meteo Historical Forecast API (stitched short-lead forecasts), 2019+",
+   "retrospective": true,
+   "games_with_weather": 1992,
+   "train_start": 2019,
+   "tune": [
+    2021
+   ],
+   "dev": [
+    2022,
+    2023,
+    2024
+   ],
+   "combined": {
+    "tune": {
+     "paired_target": {
+      "n_games": 285,
+      "n_blocks": 22,
+      "mean_diff": -2.843379333133614,
+      "ci95": [
+       -5.970370172523022,
+       0.25203385814028706
+      ]
+     },
+     "metrics_candidate": {
+      "n_games": 285,
+      "margin_mae": 10.683211691681578,
+      "margin_rmse": 13.633113094418023,
+      "total_mae": 10.805305746635216,
+      "total_rmse": 13.251339895270426,
+      "home_pts_mae": 8.100837828607371,
+      "away_pts_mae": 7.144555278147811,
+      "margin_bias": -1.5349716615368227,
+      "total_bias": 1.0900002902982733,
+      "winner_accuracy": 0.6302816901408451,
+      "n_decided": 284
+     },
+     "metrics_base": {
+      "n_games": 285,
+      "margin_mae": 10.683825733474995,
+      "margin_rmse": 13.633815453275057,
+      "total_mae": 10.896280612713959,
+      "total_rmse": 13.358195550040405,
+      "home_pts_mae": 8.124803524475052,
+      "away_pts_mae": 7.18462911036452,
+      "margin_bias": -1.5355085918417635,
+      "total_bias": 1.3682130333222042,
+      "winner_accuracy": 0.6302816901408451,
+      "n_decided": 284
+     }
+    },
+    "dev": {
+     "paired_target": {
+      "n_games": 854,
+      "n_blocks": 66,
+      "mean_diff": -0.4648935506722208,
+      "ci95": [
+       -1.46694237526462,
+       0.5573863386497616
+      ]
+     },
+     "metrics_candidate": {
+      "n_games": 854,
+      "margin_mae": 9.499676095742718,
+      "margin_rmse": 12.50826795070541,
+      "total_mae": 10.155021262589326,
+      "total_rmse": 12.921649564416597,
+      "home_pts_mae": 7.151747663388981,
+      "away_pts_mae": 7.0882533684755105,
+      "margin_bias": -1.1120164570034055,
+      "total_bias": 0.35428443534177284,
+      "winner_accuracy": 0.6795774647887324,
+      "n_decided": 852
+     },
+     "metrics_base": {
+      "n_games": 854,
+      "margin_mae": 9.510418308713433,
+      "margin_rmse": 12.516837108228671,
+      "total_mae": 10.155418159901677,
+      "total_rmse": 12.939625999860269,
+      "home_pts_mae": 7.164454869358255,
+      "away_pts_mae": 7.084804750832829,
+      "margin_bias": -1.025814481932521,
+      "total_bias": 0.2886800261475317,
+      "winner_accuracy": 0.6830985915492958,
+      "n_decided": 852
+     }
+    }
+   },
+   "football_only": {
+    "tune": {
+     "paired_target": {
+      "n_games": 285,
+      "n_blocks": 22,
+      "mean_diff": -3.1674186264759374,
+      "ci95": [
+       -6.726142668633938,
+       0.09448549068075679
+      ]
+     },
+     "metrics_candidate": {
+      "n_games": 285,
+      "margin_mae": 10.951459552962167,
+      "margin_rmse": 13.978499404915333,
+      "total_mae": 10.917574852315672,
+      "total_rmse": 13.4229890701198,
+      "home_pts_mae": 8.052066480682441,
+      "away_pts_mae": 7.508240117332213,
+      "margin_bias": -1.8127361745046238,
+      "total_bias": 2.313973902716492,
+      "winner_accuracy": 0.6161971830985915,
+      "n_decided": 284
+     },
+     "metrics_base": {
+      "n_games": 285,
+      "margin_mae": 10.948632561859654,
+      "margin_rmse": 13.973262525741934,
+      "total_mae": 11.013994089800688,
+      "total_rmse": 13.540459896289768,
+      "home_pts_mae": 8.088552901589567,
+      "away_pts_mae": 7.529282927466017,
+      "margin_bias": -1.8149710480972345,
+      "total_bias": 2.390351175433531,
+      "winner_accuracy": 0.6197183098591549,
+      "n_decided": 284
+     }
+    },
+    "dev": {
+     "paired_target": {
+      "n_games": 854,
+      "n_blocks": 66,
+      "mean_diff": -2.016673449222275,
+      "ci95": [
+       -4.570681401297608,
+       0.2874871745632096
+      ]
+     },
+     "metrics_candidate": {
+      "n_games": 854,
+      "margin_mae": 9.799383081189328,
+      "margin_rmse": 12.787763290966083,
+      "total_mae": 10.228609271194902,
+      "total_rmse": 13.028907633543712,
+      "home_pts_mae": 7.321056619862065,
+      "away_pts_mae": 7.1606883000983395,
+      "margin_bias": -1.6050002551114453,
+      "total_bias": 0.49963570062958124,
+      "winner_accuracy": 0.6607981220657277,
+      "n_decided": 852
+     },
+     "metrics_base": {
+      "n_games": 854,
+      "margin_mae": 9.800961071023993,
+      "margin_rmse": 12.792212412736678,
+      "total_mae": 10.249139400289762,
+      "total_rmse": 13.10607140117266,
+      "home_pts_mae": 7.326251001256911,
+      "away_pts_mae": 7.185530251600363,
+      "margin_bias": -1.6058968666440705,
+      "total_bias": 0.39422281146290034,
+      "winner_accuracy": 0.6607981220657277,
+      "n_decided": 852
+     }
+    }
+   },
+   "decision": "not promoted (rule not met)"
+  }
+ ]
+}

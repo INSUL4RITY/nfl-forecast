@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import LocalTime from "@/components/LocalTime";
 import TeamBadge from "@/components/TeamBadge";
+import { dataProblems } from "@/components/GameCard";
 import { allGames, findGame, getTeams } from "@/lib/data";
 import { f1, f2, f3, marginText, pct, pctP, spreadText, STATE_LABEL, VERIFY_LABEL } from "@/lib/format";
 import type { Forecast, LineupSide } from "@/lib/types";
@@ -40,6 +41,11 @@ const FLAG_TEXT: Record<string, string> = {
   depth_chart_missing: "No depth chart was available; the last actual starter leads.",
   qb1_did_not_finish_previous_game: "QB1 took under 75% of the team's dropbacks last game, which historically lowers the chance he starts.",
   no_candidate_qb_prior_used: "No candidate QB could be identified; a generic prior was used.",
+  roster_missing: "No current roster snapshot: roster status (reserve, released, practice squad, inactive) could not be checked.",
+  roster_stale: "The roster snapshot is stale; roster status was not used.",
+  replacement_chain_exhausted: "Every listed QB has some chance of being unavailable; the remaining probability is assigned to the last usable QB (an emergency option).",
+  designation_pending: "Game designations (Questionable/Doubtful/Out) for this week are not published yet; a pooled historical rate is used and labelled.",
+  override_expired: "A manual override for this game has expired and is no longer applied.",
 };
 const EVIDENCE_TEXT: Record<string, string> = {
   injury_report: "injury report",
@@ -47,7 +53,19 @@ const EVIDENCE_TEXT: Record<string, string> = {
   report_not_available: "no report yet",
   report_stale: "stale report",
   override: "documented override",
+  roster: "roster status",
 };
+
+const SOURCE_NAME: Record<string, string> = {
+  injuries: "Injury reports", depth_charts: "Depth charts", rosters_weekly: "Rosters", schedules: "Schedule & market line",
+};
+const STATE_TEXT: Record<string, string> = {
+  fresh: "fresh", stale_provider: "STALE (provider not updated)", stale_retrieval: "STALE (not re-checked)", missing: "MISSING",
+};
+
+function iso16(s?: string | null) {
+  return s ? s.slice(0, 16).replace("T", " ") + " UTC" : "—";
+}
 
 function Lineup({ side, abbr }: { side: LineupSide; abbr: string }) {
   if (!side.qbs) {
@@ -71,9 +89,10 @@ function Lineup({ side, abbr }: { side: LineupSide; abbr: string }) {
       </tbody></table>
       <details style={{ marginTop: 6 }}>
         <summary className="small">Evidence for each quarterback</summary>
-        <table style={{ marginTop: 6 }}><thead><tr><th>QB</th><th>Chart</th><th>Status</th><th>Evidence</th><th className="r">P(next in line starts)</th></tr></thead><tbody>
+        <table style={{ marginTop: 6 }}><thead><tr><th>QB</th><th>Chart</th><th>Roster</th><th>Status</th><th>Evidence</th><th className="r">P(starts if next in line)</th></tr></thead><tbody>
           {side.qbs.map((q) => (
-            <tr key={q.qb_id} title={q.detail}><td>{q.qb ?? q.qb_id}</td><td>{q.depth_rank ? `QB${q.depth_rank}` : "—"}</td><td>{q.status}</td>
+            <tr key={q.qb_id} title={q.detail}><td>{q.qb ?? q.qb_id}</td><td>{q.depth_rank ? `QB${q.depth_rank}` : "—"}</td>
+              <td>{q.roster_status ?? "—"}</td><td>{q.status}</td>
               <td>{EVIDENCE_TEXT[q.evidence] ?? q.evidence}</td><td className="r">{pctP(q.p_available)}</td></tr>))}
         </tbody></table>
         <p className="small muted" style={{ marginTop: 4 }}>
@@ -82,7 +101,7 @@ function Lineup({ side, abbr }: { side: LineupSide; abbr: string }) {
           {side.injury_snapshot_at ? ` Injury data observed ${side.injury_snapshot_at.slice(0, 16).replace("T", " ")} UTC.` : ""}
         </p>
         {side.overrides_used && side.overrides_used.length > 0 && (
-          <p className="small">Documented overrides: {side.overrides_used.map((o) => `${o.status} (${o.source}, published ${o.source_published_at_utc})`).join("; ")}</p>
+          <p className="small">Documented overrides: {side.overrides_used.map((o) => `${o.status} (${o.source}, published ${o.source_published_at_utc}${o.expires_at_utc ? `, expires ${o.expires_at_utc}` : ""})`).join("; ")}</p>
         )}
       </details>
       {(side.flags ?? []).map((fl) => <p key={fl} className="small tag warn" style={{ display: "inline-block", whiteSpace: "normal" }}>{FLAG_TEXT[fl] ?? fl}</p>)}
@@ -238,6 +257,39 @@ export default async function GamePage({ params }: { params: Promise<{ id: strin
             </div>
           </div>
 
+          <div className="two-col">
+            <div className="panel">
+              <h2>Data freshness at this forecast</h2>
+              {e.data_freshness ? (
+                <>
+                  <p className={dataProblems(e).length === 0 ? "small ink2" : "small tag warn"} style={{ whiteSpace: "normal" }}>
+                    {dataProblems(e).length === 0 ? "All sources were fresh and complete at the cutoff."
+                      : `Problems: ${dataProblems(e).join("; ")}`}</p>
+                  <div className="table-wrap"><table>
+                    <thead><tr><th>Source</th><th>State</th><th>Provider updated</th><th>Last checked by us</th></tr></thead>
+                    <tbody>{e.data_freshness.sources.map((s) => (
+                      <tr key={s.source} title={s.detail}><td>{SOURCE_NAME[s.source] ?? s.source}</td><td>{STATE_TEXT[s.state] ?? s.state}</td>
+                        <td>{iso16(s.provider_last_modified)}</td><td>{iso16(s.last_confirmed_at)}</td></tr>))}</tbody>
+                  </table></div>
+                  <p className="small muted" style={{ marginTop: 6 }}>
+                    Market line age at the cutoff: {e.data_freshness.market_line_age_hours ?? "—"} h. A source counts as stale if the
+                    provider has not updated it for 36 h (8 days for rosters) or we have not re-checked it for 36 h.</p>
+                </>
+              ) : <p className="small muted">Freshness was not recorded for this (older) release version.</p>}
+            </div>
+            <div className="panel">
+              <h2>Weather (display only)</h2>
+              {e.weather?.available ? (
+                <>
+                  <p>{e.weather.exposure === 0 ? "Closed roof: weather does not apply." :
+                    `${f1(e.weather.temperature_c)} °C, wind ${f1(e.weather.wind_kmh)} km/h (gusts ${f1(e.weather.gust_kmh)}), precipitation ${f1(e.weather.precip_mm)} mm at kickoff${e.weather.exposure === 0.5 ? " (retractable roof, status unknown)" : ""}.`}</p>
+                  <p className="small muted">Open-Meteo forecast observed {iso16(e.weather.observed_at_utc)}, {f1(e.weather.lead_hours)} h before kickoff.
+                    Weather is not a model input: it did not pass the feature-group evaluation (see Performance).</p>
+                </>
+              ) : <p className="small muted">{e.weather?.note ?? "No weather snapshot for this release version."}</p>}
+            </div>
+          </div>
+
           {e.team_efficiency && (
             <div className="panel">
               <h2>Team efficiency entering the game</h2>
@@ -261,7 +313,7 @@ export default async function GamePage({ params }: { params: Promise<{ id: strin
           <h2>Forecast history</h2>
           <div className="table-wrap"><table>
             <thead><tr><th>Generated (cutoff)</th><th>Public evidence</th><th className="r">{A}</th><th className="r">{H}</th><th className="r">Margin</th>
-              <th className="r">Total</th><th className="r">P({H})</th><th className="r">Market</th><th>State</th><th>Verification</th></tr></thead>
+              <th className="r">Total</th><th className="r">P({H})</th><th className="r">Market</th><th>State</th><th>Verification</th><th>Archive</th></tr></thead>
             <tbody>{g.history.map((h) => (
               <tr key={h.run_id} className={h.run_id === g.forecast_run_id ? "hl" : undefined}>
                 <td><LocalTime iso={h.generated_at} /></td>
@@ -271,12 +323,19 @@ export default async function GamePage({ params }: { params: Promise<{ id: strin
                 <td className="r">{h.market_spread != null ? `${spreadText(h.market_spread, H, A)} / ${f1(h.market_total)}` : "—"}</td>
                 <td title={Object.values(h.validation_problems ?? {}).flat().join("; ")}>{STATE_LABEL[h.version_state] ?? h.version_state}</td>
                 <td className="small">{VERIFY_LABEL[h.verification] ?? h.verification}</td>
+                <td className="small" title={h.archive?.sha256 ? `SHA-256 ${h.archive.sha256}` : ""}>
+                  {h.archive?.sha256 ? <>sha {h.archive.sha256.slice(0, 10)}…
+                    {h.archive.rfc3161_time ? <> · timestamped {h.archive.rfc3161_time}</> : null}
+                    {h.archive.web_archive_copy ? <> · <a href={h.archive.web_archive_copy}>Web Archive copy</a></> : null}</> : "—"}
+                </td>
               </tr>))}</tbody></table></div>
           <p className="small muted" style={{ marginTop: 8 }}>
             Every version is kept. The information cutoff of each version is its generation time. The highlighted row is the current version:
             the latest <i>valid</i> version generated before kickoff. Before kickoff it may still be replaced; at kickoff it is locked; once
             the game is final it is scored. Versions that failed validation are never shown as current or scored. &quot;Public evidence&quot; is
-            GitHub&apos;s own record of when the file was first pushed, independent of this project&apos;s clock.</p>
+            GitHub&apos;s own record of when the file was first pushed, independent of this project&apos;s clock. Each version is also archived
+            outside GitHub Actions: its SHA-256 hash, an RFC 3161 trusted timestamp (proves the exact file existed at that time) and an
+            Internet Archive copy of the public file (checked byte-for-byte against the hash).</p>
         </div>
       )}
 

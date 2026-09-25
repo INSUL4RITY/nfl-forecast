@@ -1,5 +1,5 @@
 ﻿import Link from "next/link";
-import type { LineupSide, Team, WeekGame } from "@/lib/types";
+import type { LineupSide, ReleaseEntry, Team, WeekGame } from "@/lib/types";
 import { f1, fmtDateTime, fmtKickoff, marginText, pct, pctP, spreadText, STATE_LABEL } from "@/lib/format";
 import TeamBadge from "./TeamBadge";
 
@@ -79,6 +79,10 @@ export default function GameCard({ g, teams, tz }: { g: WeekGame; teams: Record<
                 ? <span className="tag warn">Football-only fallback (combined forecast failed validation)</span>
                 : <span className="tag warn">Football-only fallback (no line)</span>}
             {e.lineup_uncertain && <span className="tag warn">Lineup uncertain</span>}
+            {dataProblems(e).length > 0 &&
+              <span className="tag warn" title={dataProblems(e).join("; ")}>Stale or missing data</span>}
+            {[e.lineup.home, e.lineup.away].some((s) => s.flags?.includes("designation_pending")) &&
+              <span className="tag" title="Injury designations for this game are not published yet">Injury designation pending</span>}
             {g.forecast_verification === "generated_pregame_published_after_kickoff" &&
               <span className="tag warn" title="See the correction on the game page">Published after kickoff</span>}
           </div>
@@ -96,6 +100,11 @@ export default function GameCard({ g, teams, tz }: { g: WeekGame; teams: Record<
       </div>
     </article>
   );
+}
+
+/** Data problems (missing/stale evidence), excluding normal states such as a pending injury designation. */
+export function dataProblems(e: ReleaseEntry): string[] {
+  return (e.data_freshness?.problems ?? []).filter((p) => !p.includes("designation_pending") && !p.includes("override_expired"));
 }
 
 function qbText(side: LineupSide): string {

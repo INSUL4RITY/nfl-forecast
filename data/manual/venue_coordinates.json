@@ -1,0 +1,331 @@
+{
+ "ATL00": {
+  "latitude": 33.749,
+  "longitude": -84.38798,
+  "matched": "Atlanta, Georgia, US",
+  "source": "open-meteo geocoding",
+  "geocoded_at_utc": "2026-09-25T01:44:45.667019+00:00"
+ },
+ "ATL97": {
+  "latitude": 33.749,
+  "longitude": -84.38798,
+  "matched": "Atlanta, Georgia, US",
+  "source": "open-meteo geocoding",
+  "geocoded_at_utc": "2026-09-25T01:44:46.131398+00:00"
+ },
+ "BAL00": {
+  "latitude": 39.29038,
+  "longitude": -76.61219,
+  "matched": "Baltimore, Maryland, US",
+  "source": "open-meteo geocoding",
+  "geocoded_at_utc": "2026-09-25T01:44:46.525693+00:00"
+ },
+ "BOS00": {
+  "latitude": 42.06538,
+  "longitude": -71.24783,
+  "matched": "Foxborough, Massachusetts, US",
+  "source": "open-meteo geocoding",
+  "geocoded_at_utc": "2026-09-25T01:44:46.927476+00:00"
+ },
+ "BUF00": {
+  "latitude": 42.76756,
+  "longitude": -78.74392,
+  "matched": "Orchard Park, New York, US",
+  "source": "open-meteo geocoding",
+  "geocoded_at_utc": "2026-09-25T01:44:47.318734+00:00"
+ },
+ "CAR00": {
+  "latitude": 35.22709,
+  "longitude": -80.84313,
+  "matched": "Charlotte, North Carolina, US",
+  "source": "open-meteo geocoding",
+  "geocoded_at_utc": "2026-09-25T01:44:47.784185+00:00"
+ },
+ "CHI98": {
+  "latitude": 41.85003,
+  "longitude": -87.65005,
+  "matched": "Chicago, Illinois, US",
+  "source": "open-meteo geocoding",
+  "geocoded_at_utc": "2026-09-25T01:44:48.325614+00:00"
+ },
+ "CIN00": {
+  "latitude": 39.12711,
+  "longitude": -84.51439,
+  "matched": "Cincinnati, Ohio, US",
+  "source": "open-meteo geocoding",
+  "geocoded_at_utc": "2026-09-25T01:44:48.758009+00:00"
+ },
+ "CLE00": {
+  "latitude": 41.4995,
+  "longitude": -81.69541,
+  "matched": "Cleveland, Ohio, US",
+  "source": "open-meteo geocoding",
+  "geocoded_at_utc": "2026-09-25T01:44:49.232796+00:00"
+ },
+ "DAL00": {
+  "latitude": 32.73569,
+  "longitude": -97.10807,
+  "matched": "Arlington, Texas, US",
+  "source": "open-meteo geocoding",
+  "geocoded_at_utc": "2026-09-25T01:44:49.704431+00:00"
+ },
+ "DEN00": {
+  "latitude": 39.73915,
+  "longitude": -104.9847,
+  "matched": "Denver, Colorado, US",
+  "source": "open-meteo geocoding",
+  "geocoded_at_utc": "2026-09-25T01:44:50.192337+00:00"
+ },
+ "DET00": {
+  "latitude": 42.33143,
+  "longitude": -83.04575,
+  "matched": "Detroit, Michigan, US",
+  "source": "open-meteo geocoding",
+  "geocoded_at_utc": "2026-09-25T01:44:50.655796+00:00"
+ },
+ "FRA00": {
+  "latitude": 50.11552,
+  "longitude": 8.68417,
+  "matched": "Frankfurt am Main, Hesse, DE",
+  "source": "open-meteo geocoding",
+  "geocoded_at_utc": "2026-09-25T01:44:51.153815+00:00"
+ },
+ "GER00": {
+  "latitude": 48.13743,
+  "longitude": 11.57549,
+  "matched": "Munich, Bavaria, DE",
+  "source": "open-meteo geocoding",
+  "geocoded_at_utc": "2026-09-25T01:44:51.572115+00:00"
+ },
+ "GNB00": {
+  "latitude": 44.51916,
+  "longitude": -88.01983,
+  "matched": "Green Bay, Wisconsin, US",
+  "source": "open-meteo geocoding",
+  "geocoded_at_utc": "2026-09-25T01:44:51.952486+00:00"
+ },
+ "HOU00": {
+  "latitude": 29.76328,
+  "longitude": -95.36327,
+  "matched": "Houston, Texas, US",
+  "source": "open-meteo geocoding",
+  "geocoded_at_utc": "2026-09-25T01:44:52.365770+00:00"
+ },
+ "IND00": {
+  "latitude": 39.76838,
+  "longitude": -86.15804,
+  "matched": "Indianapolis, Indiana, US",
+  "source": "open-meteo geocoding",
+  "geocoded_at_utc": "2026-09-25T01:44:52.753194+00:00"
+ },
+ "JAX00": {
+  "latitude": 30.33218,
+  "longitude": -81.65565,
+  "matched": "Jacksonville, Florida, US",
+  "source": "open-meteo geocoding",
+  "geocoded_at_utc": "2026-09-25T01:44:53.163891+00:00"
+ },
+ "KAN00": {
+  "latitude": 39.09973,
+  "longitude": -94.57857,
+  "matched": "Kansas City, Missouri, US",
+  "source": "open-meteo geocoding",
+  "geocoded_at_utc": "2026-09-25T01:44:53.565553+00:00"
+ },
+ "LAX01": {
+  "latitude": 33.96168,
+  "longitude": -118.35313,
+  "matched": "Inglewood, California, US",
+  "source": "open-meteo geocoding",
+  "geocoded_at_utc": "2026-09-25T01:44:53.935482+00:00"
+ },
+ "LAX97": {
+  "latitude": 33.83141,
+  "longitude": -118.28202,
+  "matched": "Carson, California, US",
+  "source": "open-meteo geocoding",
+  "geocoded_at_utc": "2026-09-25T01:44:54.385439+00:00"
+ },
+ "LAX99": {
+  "latitude": 34.05223,
+  "longitude": -118.24368,
+  "matched": "Los Angeles, California, US",
+  "source": "open-meteo geocoding",
+  "geocoded_at_utc": "2026-09-25T01:44:54.878783+00:00"
+ },
+ "LON00": {
+  "latitude": 51.55242,
+  "longitude": -0.29686,
+  "matched": "Wembley, England, GB",
+  "source": "open-meteo geocoding",
+  "geocoded_at_utc": "2026-09-25T01:44:55.372329+00:00"
+ },
+ "LON01": {
+  "latitude": 51.44489,
+  "longitude": -0.3377,
+  "matched": "Twickenham, England, GB",
+  "source": "open-meteo geocoding",
+  "geocoded_at_utc": "2026-09-25T01:44:55.883598+00:00"
+ },
+ "LON02": {
+  "latitude": 51.60373,
+  "longitude": -0.06794,
+  "matched": "Tottenham, England, GB",
+  "source": "open-meteo geocoding",
+  "geocoded_at_utc": "2026-09-25T01:44:56.377167+00:00"
+ },
+ "MAD01": {
+  "latitude": 40.4165,
+  "longitude": -3.70256,
+  "matched": "Madrid, Madrid, ES",
+  "source": "open-meteo geocoding",
+  "geocoded_at_utc": "2026-09-25T01:44:56.855367+00:00"
+ },
+ "MEL00": {
+  "latitude": -37.814,
+  "longitude": 144.96332,
+  "matched": "Melbourne, Victoria, AU",
+  "source": "open-meteo geocoding",
+  "geocoded_at_utc": "2026-09-25T01:44:57.324761+00:00"
+ },
+ "MEX00": {
+  "latitude": 19.42847,
+  "longitude": -99.12766,
+  "matched": "Mexico City, Mexico City, MX",
+  "source": "open-meteo geocoding",
+  "geocoded_at_utc": "2026-09-25T01:44:57.775529+00:00"
+ },
+ "MIA00": {
+  "latitude": 25.94204,
+  "longitude": -80.2456,
+  "matched": "Miami Gardens, Florida, US",
+  "source": "open-meteo geocoding",
+  "geocoded_at_utc": "2026-09-25T01:44:58.235470+00:00"
+ },
+ "MIN01": {
+  "latitude": 44.97997,
+  "longitude": -93.26384,
+  "matched": "Minneapolis, Minnesota, US",
+  "source": "open-meteo geocoding",
+  "geocoded_at_utc": "2026-09-25T01:44:58.668097+00:00"
+ },
+ "MUN01": {
+  "latitude": 48.13743,
+  "longitude": 11.57549,
+  "matched": "Munich, Bavaria, DE",
+  "source": "open-meteo geocoding",
+  "geocoded_at_utc": "2026-09-25T01:44:59.092372+00:00"
+ },
+ "NAS00": {
+  "latitude": 36.16589,
+  "longitude": -86.78444,
+  "matched": "Nashville, Tennessee, US",
+  "source": "open-meteo geocoding",
+  "geocoded_at_utc": "2026-09-25T01:44:59.568149+00:00"
+ },
+ "NOR00": {
+  "latitude": 29.95465,
+  "longitude": -90.07507,
+  "matched": "New Orleans, Louisiana, US",
+  "source": "open-meteo geocoding",
+  "geocoded_at_utc": "2026-09-25T01:44:59.995319+00:00"
+ },
+ "NYC01": {
+  "latitude": 40.83399,
+  "longitude": -74.09709,
+  "matched": "East Rutherford, New Jersey, US",
+  "source": "open-meteo geocoding",
+  "geocoded_at_utc": "2026-09-25T01:45:00.455498+00:00"
+ },
+ "OAK00": {
+  "latitude": 37.80437,
+  "longitude": -122.2708,
+  "matched": "Oakland, California, US",
+  "source": "open-meteo geocoding",
+  "geocoded_at_utc": "2026-09-25T01:45:00.952033+00:00"
+ },
+ "PAR00": {
+  "latitude": 48.93564,
+  "longitude": 2.35387,
+  "matched": "Saint-Denis, Île-de-France Region, FR",
+  "source": "open-meteo geocoding",
+  "geocoded_at_utc": "2026-09-25T01:45:01.431425+00:00"
+ },
+ "PHI00": {
+  "latitude": 39.95238,
+  "longitude": -75.16362,
+  "matched": "Philadelphia, Pennsylvania, US",
+  "source": "open-meteo geocoding",
+  "geocoded_at_utc": "2026-09-25T01:45:01.832871+00:00"
+ },
+ "PHO00": {
+  "latitude": 33.53865,
+  "longitude": -112.18599,
+  "matched": "Glendale, Arizona, US",
+  "source": "open-meteo geocoding",
+  "geocoded_at_utc": "2026-09-25T01:45:02.305490+00:00"
+ },
+ "PIT00": {
+  "latitude": 40.44062,
+  "longitude": -79.99589,
+  "matched": "Pittsburgh, Pennsylvania, US",
+  "source": "open-meteo geocoding",
+  "geocoded_at_utc": "2026-09-25T01:45:02.765337+00:00"
+ },
+ "RIO00": {
+  "latitude": -22.90642,
+  "longitude": -43.18223,
+  "matched": "Rio de Janeiro, Rio de Janeiro, BR",
+  "source": "open-meteo geocoding",
+  "geocoded_at_utc": "2026-09-25T01:45:03.159421+00:00"
+ },
+ "SAO00": {
+  "latitude": -23.5475,
+  "longitude": -46.63611,
+  "matched": "São Paulo, São Paulo, BR",
+  "source": "open-meteo geocoding",
+  "geocoded_at_utc": "2026-09-25T01:45:03.584011+00:00"
+ },
+ "SDG00": {
+  "latitude": 32.71571,
+  "longitude": -117.16472,
+  "matched": "San Diego, California, US",
+  "source": "open-meteo geocoding",
+  "geocoded_at_utc": "2026-09-25T01:45:04.018936+00:00"
+ },
+ "SEA00": {
+  "latitude": 47.60621,
+  "longitude": -122.33207,
+  "matched": "Seattle, Washington, US",
+  "source": "open-meteo geocoding",
+  "geocoded_at_utc": "2026-09-25T01:45:04.449110+00:00"
+ },
+ "SFO01": {
+  "latitude": 37.35411,
+  "longitude": -121.95524,
+  "matched": "Santa Clara, California, US",
+  "source": "open-meteo geocoding",
+  "geocoded_at_utc": "2026-09-25T01:45:04.938675+00:00"
+ },
+ "TAM00": {
+  "latitude": 27.94752,
+  "longitude": -82.45843,
+  "matched": "Tampa, Florida, US",
+  "source": "open-meteo geocoding",
+  "geocoded_at_utc": "2026-09-25T01:45:05.380726+00:00"
+ },
+ "VEG00": {
+  "latitude": 36.09719,
+  "longitude": -115.14666,
+  "matched": "Paradise, Nevada, US",
+  "source": "open-meteo geocoding",
+  "geocoded_at_utc": "2026-09-25T01:45:05.834862+00:00"
+ },
+ "WAS00": {
+  "latitude": 38.934,
+  "longitude": -76.89664,
+  "matched": "Landover, Maryland, US",
+  "source": "open-meteo geocoding",
+  "geocoded_at_utc": "2026-09-25T01:45:06.281506+00:00"
+ }
+}

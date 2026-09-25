@@ -57,10 +57,12 @@ COMBINED_SPECS = [
 ]
 
 
-def run(data: pl.DataFrame, folds: list[int], horizons: list[str], specs=None, combined: bool = True) -> tuple[pl.DataFrame, dict]:
+def run(data: pl.DataFrame, folds: list[int], horizons: list[str], specs=None, combined: bool = True,
+        combined_specs=None, train_start: int | None = None) -> tuple[pl.DataFrame, dict]:
     cfg = settings()
-    core_start = cfg["seasons"]["core_start"]
-    specs = specs or FOOTBALL_SPECS
+    core_start = train_start or cfg["seasons"]["core_start"]
+    specs = specs if specs is not None else FOOTBALL_SPECS
+    cspecs = combined_specs if combined_specs is not None else COMBINED_SPECS
     preds, fold_info = [], []
     for h in horizons:
         dh = data.filter(pl.col("horizon") == h)
@@ -89,12 +91,12 @@ def run(data: pl.DataFrame, folds: list[int], horizons: list[str], specs=None, c
                 preds.append(_pred_frame(te_m, cal.predict(te_m), MarketCalibrated.name, S, h))
                 info["A_cal_params"] = cal.params()
                 if combined:
-                    for cname, fs_name in COMBINED_SPECS:
+                    for cname, fs_name in cspecs:
                         am, at = select_resid_alphas(tr_m, fs_name)
                         c = ResidualRidge(fs_name, am, at).fit(tr_m)
                         preds.append(_pred_frame(te_m, c.predict(te_m), cname, S, h))
                         info["alphas"][cname] = [am, at]
-                        if cname == "C_resid":
+                        if cname == "C_resid" and combined_specs is None:
                             info["C_resid_top_coefs"] = c.top_coefficients()
                             hgb = ResidualHGB(fs_name, seed=cfg["validation"]["seed"]).fit(tr_m)
                             preds.append(_pred_frame(te_m, hgb.predict(te_m), "C_resid_hgb", S, h))

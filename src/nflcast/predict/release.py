@@ -110,7 +110,7 @@ def ensure_rates(current_season: int) -> dict:
     releases better and are used per category when they have >= 30 cases. Two sets are built: as the chart
     stood 72 h before kickoff ("early") and 1 h before kickoff ("final").
     """
-    key = f"through_{current_season - 1}"
+    key = f"v3_start_practice_listed_through_{current_season - 1}"
     try:
         r = QA.load_rates()
         if r.get("key") == key:
@@ -122,7 +122,8 @@ def ensure_rates(current_season: int) -> dict:
     weekly_seasons = [s for s in range(2016, current_season) if s <= 2024]
     daily_seasons = [s for s in range(2025, current_season)]
     inj = P.injury_player_weeks(weekly_seasons + daily_seasons, games)
-    weekly = QA.estimate_start_rates(QA.build_history_team_weeks(games, qbg, QA.weekly_depth_qbs(weekly_seasons), inj),
+    practice = QA.injury_practice(weekly_seasons + daily_seasons)
+    weekly = QA.estimate_start_rates(QA.build_history_team_weeks(games, qbg, QA.weekly_depth_qbs(weekly_seasons), inj, practice),
                                      max(weekly_seasons))
     out = {"key": key}
     for label, lead in (("early", 72), ("final", 1)):
@@ -130,7 +131,7 @@ def ensure_rates(current_season: int) -> dict:
         if daily_seasons:
             dd = QA.daily_depth_qbs(daily_seasons, games, lead)
             if dd.height:
-                daily = QA.estimate_start_rates(QA.build_history_team_weeks(games, qbg, dd, inj), max(daily_seasons))
+                daily = QA.estimate_start_rates(QA.build_history_team_weeks(games, qbg, dd, inj, practice), max(daily_seasons))
         out[label] = QA.merge_rates(daily, weekly)
     QA.save_rates(out)
     return out
@@ -146,6 +147,38 @@ def _team_depth(dc: pl.DataFrame | None, team: str, now: datetime) -> tuple[list
     last = s["t"].max()
     s = s.filter(pl.col("t") == last).sort("pos_rank").unique("gsis_id", keep="first", maintain_order=True)
     return list(zip(s["gsis_id"].to_list(), s["pos_rank"].to_list())), last
+
+
+def _weather_display(g: dict, now: datetime) -> dict:
+    """Latest archived forecast snapshot for kickoff (display only; weather is not a model input)."""
+    from nflcast.features import weather as W
+    s = W.latest_snapshot(g["season"], g["game_id"], now)
+    if not s:
+        return {"available": False, "model_input": False, "note": "no forecast snapshot collected before this release"}
+    k = s.get("kickoff_hour") or {}
+    return {"available": bool(k), "model_input": False, "observed_at_utc": s["observed_at_utc"], "lead_hours": s["lead_hours"],
+            "exposure": s["exposure"], "temperature_c": k.get("temperature_2m"), "wind_kmh": k.get("wind_speed_10m"),
+            "gust_kmh": k.get("wind_gusts_10m"), "precip_mm": k.get("precipitation"), "source": "Open-Meteo forecast API",
+            "note": "Display only: weather did not pass the feature-group evaluation, so it is not used by the model."}
+
+
+def _game_freshness(freshness, market_fresh, market, res, now) -> dict:
+    """Explicit per-game data freshness: every source's state, the market line's age and the QB-evidence flags."""
+    sources = [f.to_json() for f in freshness] + [market_fresh.to_json()]
+    line_age_h = None
+    if market and market.get("snapshot_at"):
+        line_age_h = round((now - datetime.fromisoformat(market["snapshot_at"])).total_seconds() / 3600, 1)
+    qb_flags = {side: [f for f in res[side].flags if not f.startswith("chain_qb_unavailable")] for side in res}
+    data_problem = ("missing", "stale", "not_available", "exhausted", "no_candidate", "no_available")
+    problems = [f"{s['source']}: {s['state']}" for s in sources if s["state"] != "fresh"]
+    if market is None:
+        problems.append("market line: missing")
+    elif line_age_h is not None and line_age_h > 36:
+        problems.append(f"market line: {line_age_h:.0f} h old")
+    for side, fl in qb_flags.items():
+        problems += [f"{side} QB: {f}" for f in fl if any(k in f for k in data_problem)]
+    return {"sources": sources, "market_line_age_hours": line_age_h, "qb_flags": qb_flags,
+            "problems": problems, "all_fresh": not problems}
 
 
 def build_candidate(now: datetime | None = None, days_ahead: int = 8) -> dict | None:
@@ -170,15 +203,27 @@ def build_candidate(now: datetime | None = None, days_ahead: int = 8) -> dict | 
     builder = AsOfFeatureBuilder(tg)
     qbm = P.QBModel(qbg)
     all_rates = ensure_rates(season)
-    inj_hist = P.injury_player_weeks(list(range(2012, season)), games)
-    p_play = P.Availability(inj_hist, P.snap_shares(list(range(season - 6, season)), games), tg).p_play(season)
     overrides = QA.load_overrides()
+    ros_now, ros_meta = S.snapshot_asof("rosters_weekly", season, now)
     inj_now, inj_meta = S.snapshot_asof("injuries", season, now)
     inj_now = (inj_now.with_columns(team=franchise(pl.col("team"))) if inj_now is not None
                else pl.DataFrame(schema={"team": pl.Utf8, "week": pl.Int32, "gsis_id": pl.Utf8, "report_status": pl.Utf8,
                                          "practice_status": pl.Utf8, "full_name": pl.Utf8, "position": pl.Utf8}))
     inj_confirmed = datetime.fromisoformat(inj_meta["last_confirmed_at_utc"]) if inj_meta else None
     dc_now, dc_meta = S.snapshot_asof("depth_charts", season, now)
+    freshness = [QA.assess_freshness("injuries", inj_meta, now), QA.assess_freshness("depth_charts", dc_meta, now),
+                 QA.assess_freshness("rosters_weekly", ros_meta, now)]
+    market_fresh = QA.assess_freshness("schedules", sched_meta, now)
+
+    def team_roster(team: str) -> dict[str, str] | None:
+        """{gsis_id: status} for the team's QBs in the latest roster week <= the game week (None if unavailable)."""
+        if ros_now is None:
+            return None
+        r = ros_now.filter((franchise(pl.col("team")) == team) & (pl.col("position") == "QB") & (pl.col("week") <= week))
+        if r.height == 0:
+            return None
+        r = r.filter(pl.col("week") == r["week"].max())
+        return dict(zip(r["gsis_id"].to_list(), r["status"].to_list()))
     players = S.fetch("players").select("gsis_id", "display_name", "position")
     name_of = dict(zip(players["gsis_id"].to_list(), players["display_name"].to_list()))
     hl, carry = float(cfg["features"]["half_life_games"]), float(cfg["features"]["season_carryover"])
@@ -206,7 +251,8 @@ def build_candidate(now: datetime | None = None, days_ahead: int = 8) -> dict | 
             res[side] = QA.resolve_team_qbs(
                 team=team, season=season, week=week, now=now, depth=depth, depth_at=depth_at,
                 injuries=inj_now, injury_observed_at=inj_confirmed, previous_starter=qbm.previous_starter(team, now_us),
-                previous_game_kickoff=prev_ko, previous_share=prev_share, rates=rates, p_play=p_play, overrides=overrides)
+                previous_game_kickoff=prev_ko, previous_share=prev_share, rates=rates, overrides=overrides,
+                roster=team_roster(team), freshness=freshness)
             if not res[side].scenarios:
                 res[side].scenarios = [(1.0, None)]
                 res[side].flags.append("no_candidate_qb_prior_used")
@@ -347,6 +393,8 @@ def build_candidate(now: datetime | None = None, days_ahead: int = 8) -> dict | 
                  "football_margin": float(preds["fallback"]["margin"][i]), "football_total": float(preds["fallback"]["total"][i])}
                 for k, i in enumerate(idx)],
             "input_fingerprint": fingerprint,
+            "data_freshness": _game_freshness(freshness, market_fresh, market, res, now),
+            "weather": _weather_display(g, now),
         })
 
     def snap_info(m):

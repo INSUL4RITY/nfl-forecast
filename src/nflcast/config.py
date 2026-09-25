@@ -33,6 +33,14 @@ def utc_stamp(dt: datetime | None = None) -> str:
     return (dt or utc_now()).strftime("%Y%m%dT%H%M%SZ")
 
 
+def release_paths() -> list[Path]:
+    """Forecast release files only: releases/<season>/week_<nn>/rel_*.json (never archive manifests or evidence)."""
+    return sorted(RELEASES_DIR.glob("[0-9][0-9][0-9][0-9]/week_[0-9][0-9]/rel_*.json"))
+
+
+RELEASE_PATH_RE = r"^releases/\d{4}/week_\d{2}/rel_[^/]+\.json$"
+
+
 def ensure_dirs() -> None:
     for d in (RAW_DIR, PROCESSED_DIR, MANUAL_DIR, REPORTS_DIR, RELEASES_DIR):
         d.mkdir(parents=True, exist_ok=True)

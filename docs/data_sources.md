@@ -30,6 +30,19 @@ historical forecast would have been made. The *as-of* column records what we can
 | Schedule `temp`/`wind` | ~65–95% of outdoor games | Post-game | Observed game-time values | **Never a pregame feature** | CC-BY-4.0 |
 | Timestamped market snapshots (opening/72 h lines) | None free | n/a | n/a | **Gap.** Paid option: The Odds API historical plan (not subscribed). Fallback: CSV import + our own archiving from 2026-09-24 | Provider-specific |
 
+## Added 2026-09-25
+| Source | Use | Notes |
+|---|---|---|
+| nflverse weekly rosters (current season) | QB replacement-chain validation (RES/CUT/RET/EXE/DEV/INA) | `INA` is filled in on game day; historically it measures "declared inactive" |
+| Open-Meteo Forecast API | Prospective weather snapshots for upcoming games (display only) | Observation time recorded; free, no key |
+| Open-Meteo Geocoding API | City-level venue coordinates (`data/manual/venues.csv` → `venue_coordinates.json`) | Matched place names stored for review |
+| Open-Meteo Historical Forecast API | Retrospective weather evaluation only | Values from 2019; stitched short-lead forecasts, not strictly as-of |
+| FreeTSA (RFC 3161) | Trusted timestamps of release-file hashes | Only the sha256 is sent; certs in `releases/archive/tsa_certs/` |
+| Internet Archive (Wayback Machine) | Independent public copy of each pushed release file | Commit-pinned raw GitHub URL; bytes verified against sha256 |
+
+Data-quality notes: nflverse lists some open-air international venues (e.g. Melbourne Cricket Ground, Stade de France,
+Munich) with roof "dome"; roof values are used as provided, and retractable roofs with unknown status count as half exposed.
+
 ## What cannot currently be obtained from free data
 
 1. **Historical market lines at a fixed pre-kickoff time** (72 h or opening). Only one untimed

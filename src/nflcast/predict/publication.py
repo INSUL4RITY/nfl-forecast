@@ -1,4 +1,4 @@
-"""Publication evidence and corrections for released forecast files.
+﻿"""Publication evidence and corrections for released forecast files.
 
 Three different times are kept apart:
   * information cutoff  - latest time of information the forecast may use (in the release file)
@@ -22,7 +22,9 @@ import json
 import subprocess
 from datetime import datetime
 
-from nflcast.config import RELEASES_DIR, ROOT, utc_now
+import re
+
+from nflcast.config import RELEASE_PATH_RE, RELEASES_DIR, ROOT, utc_now
 
 EVIDENCE_FILE = RELEASES_DIR / "publication_evidence.json"
 CORRECTIONS_FILE = RELEASES_DIR / "corrections.jsonl"
@@ -67,7 +69,7 @@ def update_evidence() -> dict:
         return ev
     runs = _push_runs(slug)
     files = [f for f in _run(["git", "ls-files", "releases"]).stdout.splitlines()
-             if f.endswith(".json") and "/rel_" in f]
+             if re.match(RELEASE_PATH_RE, f)]
     changed = False
     for f in files:
         if f in ev["files"]:

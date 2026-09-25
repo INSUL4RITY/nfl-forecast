@@ -1,4 +1,4 @@
-"""Prospective operation. Safe to run on a timer (every 30 minutes).
+﻿"""Prospective operation. Safe to run on a timer (every 30 minutes).
 
 Each run: refresh current-season snapshots -> rebuild processed tables -> score finished games ->
 update publication evidence -> build a CANDIDATE release in memory -> publish it only if due ->
@@ -24,7 +24,7 @@ import time
 import traceback
 from datetime import datetime, timedelta
 
-from nflcast.config import RELEASES_DIR, ROOT, utc_now
+from nflcast.config import RELEASES_DIR, ROOT, release_paths, utc_now
 from nflcast.predict.validation import entry_is_valid
 
 LOG = ROOT / "logs" / "operate.log"
@@ -43,7 +43,7 @@ def published_versions() -> tuple[dict[str, tuple[datetime, dict]], datetime | N
     """Latest VALID pregame version per game, and the time of the latest schema-v2+ release."""
     latest: dict[str, tuple[datetime, dict]] = {}
     last_release = None
-    for f in sorted(RELEASES_DIR.rglob("rel_*.json")):
+    for f in release_paths():
         r = json.loads(f.read_text(encoding="utf-8"))
         if r.get("schema_version", 1) < 2:
             continue
@@ -110,12 +110,24 @@ def publish(note: str) -> bool:
 
 def run(build_site: bool = True, force: bool = False) -> None:
     from nflcast import pipeline
-    from nflcast.predict import export_web, publication, release, score
+    from nflcast.predict import archive, export_web, publication, release, score
 
     _log("operate: start")
+    problems = archive.verify()
+    missing_only = all(p.startswith("no manifest") for p in problems)
+    if problems and not missing_only:
+        _log("operate: INTEGRITY VIOLATION, publishing stopped: " + "; ".join(problems))
+        raise RuntimeError("archived forecast files changed: " + "; ".join(problems))
     try:
         pipeline.ingest()
         pipeline.build()
+        try:
+            from nflcast.predict.collect import collect
+            c = collect()
+            _log(f"operate: collected weather snapshots={c['weather_snapshots_written']}, "
+                 f"injury versions={c['injury_versions']['player_week_versions']}")
+        except Exception as e:  # noqa: BLE001 - collection is best-effort and never blocks forecasting
+            _log(f"operate: collection failed: {e}")
         score.score()
         try:
             publication.update_evidence()
@@ -136,7 +148,10 @@ def run(build_site: bool = True, force: bool = False) -> None:
                 bad = [g["game_id"] for g in cand["games"] if not entry_is_valid(g)]
                 if bad:
                     _log(f"operate: {len(bad)} game(s) failed validation and stay on their last valid version: {bad}")
-                _log(f"operate: release {release.write_release(cand)}")
+                path = release.write_release(cand)
+                archive.create_manifest(path)
+                ts = archive.timestamp(path)
+                _log(f"operate: release {path}; archived (sha256 manifest; trusted timestamp {'ok' if ts else 'pending retry'})")
         export_web.export()
         if publish(f"{utc_now().isoformat(timespec='minutes')}"):
             for _ in range(6):  # give GitHub a moment to register the push run, then record evidence
@@ -144,9 +159,17 @@ def run(build_site: bool = True, force: bool = False) -> None:
                 before = json.dumps(publication.load_evidence(), sort_keys=True)
                 if json.dumps(publication.update_evidence(), sort_keys=True) != before:
                     publication.record_late_publications()
+                    a = archive.run(capture_public=True)
+                    _log(f"operate: archive {a}")
                     export_web.export()
-                    publish("publication evidence")
+                    publish("publication evidence and archive records")
                     break
+        else:
+            a = archive.run(capture_public=True)   # retries any pending timestamps/captures; appends only
+            if any(a[k] for k in ("manifests", "timestamps", "github_runs", "web_archive")):
+                _log(f"operate: archive {a}")
+                export_web.export()
+                publish("archive records")
         if build_site:
             r = subprocess.run("npx next build", cwd=ROOT / "web", shell=True, capture_output=True, text=True)
             _log(f"operate: site build exit={r.returncode}")

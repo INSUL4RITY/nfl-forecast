@@ -1,4 +1,4 @@
-"""Export versioned JSON for the Next.js site (web/public/data). The site never computes forecasts.
+﻿"""Export versioned JSON for the Next.js site (web/public/data). The site never computes forecasts.
 
 Files:
   manifest.json            weeks available, latest week, export time, model labels
@@ -21,11 +21,12 @@ import numpy as np
 import polars as pl
 import yaml
 
-from nflcast.config import PROCESSED_DIR, RELEASES_DIR, REPORTS_DIR, ROOT, settings, utc_now
+from nflcast.config import PROCESSED_DIR, RELEASES_DIR, REPORTS_DIR, ROOT, release_paths, settings, utc_now
 from nflcast.data import sources as S
 from nflcast.data.games import build_games, franchise
 from nflcast.features.asof import AsOfFeatureBuilder
 from nflcast.features.personnel import QBModel
+from nflcast.predict import archive as ARCH
 from nflcast.predict import publication as PUB
 from nflcast.predict.validation import entry_is_valid, select_frozen
 
@@ -67,7 +68,7 @@ def _write(path: Path, obj) -> None:
 
 def _releases() -> list[dict]:
     out = []
-    for f in sorted(RELEASES_DIR.rglob("rel_*.json")):
+    for f in release_paths():
         r = json.loads(f.read_text(encoding="utf-8"))
         if r.get("schema_version", 1) >= 2:
             out.append(r)
@@ -113,7 +114,8 @@ def game_view(vs: list[tuple[dict, dict]], kickoff: datetime, is_final: bool, no
             "home_pts": fc.get("home_pts"), "away_pts": fc.get("away_pts"), "margin": fc.get("margin"),
             "total": fc.get("total"), "p_home": fc.get("p_home"), "primary_model": e.get("primary_model"),
             "market_spread": (e.get("market") or {}).get("home_spread"), "market_total": (e.get("market") or {}).get("total"),
-            "before_kickoff": gen < kickoff})
+            "before_kickoff": gen < kickoff,
+            "archive": ARCH.summary_for(r["run_id"], r.get("season", "")) if r.get("season") else None})
     cur_pub = PUB.public_time(cur_rel["run_id"], evidence) if cur_rel else None
     return {
         "forecast_state": state, "forecast": cur[1] if cur else None,
@@ -199,6 +201,10 @@ def _export_performance() -> None:
                          "probabilities": json.loads((p.parent / "probabilities.json").read_text(encoding="utf-8")),
                          "manifest": {k: v for k, v in json.loads((p.parent / "manifest.json").read_text(encoding="utf-8")).items()
                                       if k in ("run_id", "generated_at_utc", "code_hash", "folds", "locked_test", "locked_included")}}
+    fg = _latest("feature_groups/feature_groups_*.json")
+    perf["feature_groups"] = json.loads(fg.read_text(encoding="utf-8")) if fg else None
+    qe = REPORTS_DIR / "qb_availability" / "evaluation.json"
+    perf["qb_rates"] = json.loads(qe.read_text(encoding="utf-8")) if qe.exists() else None
     pp = REPORTS_DIR / "prospective" / "summary.json"
     perf["prospective"] = json.loads(pp.read_text(encoding="utf-8")) if pp.exists() else {"n_scored": 0}
     ev = REPORTS_DIR / "prospective" / "evaluations.parquet"

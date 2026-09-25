@@ -41,8 +41,9 @@ def game_matrix(df: pl.DataFrame, fs: dict, with_market: bool = True) -> tuple[n
     neu = df["neutral_site"].to_numpy().astype(float)
     cols += [1.0 - neu, df["rest_diff"].fill_null(0).to_numpy(), df["is_playoff"].to_numpy().astype(float)]
     names += ["home_field", "rest_diff", "is_playoff"]
-    if "dome" in fs.get("context", []):
-        cols.append(df["dome"].to_numpy().astype(float)); names.append("dome")
+    for c in fs.get("context", []):
+        if c == "dome" or c.startswith("wx_"):
+            cols.append(df[c].fill_null(0).to_numpy().astype(float)); names.append(c)
     if with_market:
         cols += [-df["home_spread"].to_numpy(), df["total"].to_numpy()]
         names += ["market_margin", "market_total"]

@@ -52,15 +52,25 @@ export default function Methodology() {
           and the team&apos;s most recent actual starter. Each gets a status with its evidence and observation time: listed on the team&apos;s published injury
           report, not on a published report, <b>no report published yet</b>, <b>stale report</b>, or a documented manual override.
           Missing or stale information is never treated as confirmed availability.</p>
-        <p>Start probabilities come from history, not assumptions. From 2016–2025 depth charts, injury reports and actual starters:
-          for example, with daily depth charts a QB1 not on the report started 99.5% of the time (416/417), a Questionable QB1 about 58% (weekly
-          charts, 112/193), Doubtful 0/31 and Out 0/153. With no report yet, a QB1 who finished the previous game started 97% of the time, but one who
-          took under 75% of his team&apos;s dropbacks started only about 60%. Backups are checked the same way; a backup is never promoted without
-          checking his own availability. The starter is chosen sequentially: QB1 starts with his probability, otherwise the next available QB, and so on.</p>
+        <p><b>Freshness is checked explicitly.</b> For injury reports, depth charts and rosters, two times are tracked: when the provider last
+          updated the file, and when we last confirmed it. Either being more than 36 hours old (8 days for rosters) marks the source stale, and a
+          stale source is not used as confirmation. Every game page shows these times and any problems.</p>
+        <p><b>Every link in the replacement chain is validated.</b> Each QB in line is checked against the current roster (a QB on injured reserve,
+          released, retired, on the practice squad or declared inactive cannot start), his injury designation, and any override. If every listed
+          QB has some chance of being out, the remaining probability goes to the last usable QB and is flagged as an exhausted chain.</p>
+        <p><b>Probabilities are start probabilities</b>, estimated from history and never assumed, never equal to the chance of <i>playing</i>. An
+          audit of the 193 Questionable and 31 Doubtful depth-chart QB1s (2016–2024) found 112 Questionable QB1s started, 6 played without starting,
+          53 were declared inactive and 22 dressed but did not play; no Doubtful QB1 started or played. The final practice level matters: Questionable
+          with full practice started 36/41, limited 68/131, no practice 8/21. Rates use a Jeffreys prior, cells by practice level are shrunk toward the
+          status rate (strength chosen on earlier seasons only), every rate carries a 90% interval, and the estimator was selected by testing each
+          season on earlier seasons. Daily depth charts (2025) are used where a category has at least 30 cases; otherwise weekly charts (2016–2024).</p>
+        <p><b>Before designations are published</b> (early in the week), a listed QB&apos;s practice line is not the same measurement as the final report
+          and there is no intra-week history, so a pooled rate for QB1s on final reports is used and labelled &quot;designation pending&quot;, with the
+          final-report rate for the same practice level shown as the low end of the plausible range. Intra-week report versions are now archived so this
+          can be calibrated later.</p>
         <p>When the starter is uncertain, the forecast is a probability-weighted mix of QB scenarios, and &quot;lineup uncertain&quot; is shown separately
-          from the win probability (when the leading QB is below 90%, or evidence is missing or stale). A stale depth chart (older than 4 days or than
-          the team&apos;s last game) is flagged and the last actual starter leads. Documented overrides (a public source and its publication time are
-          required) apply only to forecasts made after that publication time.</p>
+          from the win probability. Documented overrides need a public source, its publication time and an <b>expiry time</b>; they apply only between
+          the two.</p>
       </div>
 
       <div className="panel">
@@ -94,6 +104,25 @@ export default function Methodology() {
             taken only from independent evidence: GitHub&apos;s own record of when the file was first pushed. A forecast counts as <i>publicly verifiable
             pregame</i> only if that evidence predates kickoff. Errors in earlier claims are recorded in an append-only corrections log; original release
             files are never edited. For example, the first Falcons–Packers forecasts were generated before kickoff but first made public 16 minutes after it.</li>
+          <li><b>Durable archive outside GitHub Actions.</b> Every forecast file gets a write-once manifest (SHA-256 hash, information cutoff, generation
+            time, model version, input snapshots) and an append-only evidence log: an RFC 3161 trusted timestamp from FreeTSA over the hash (proves the
+            exact file existed; only the hash is sent), a copy of GitHub&apos;s push record (preserved because Actions records expire), and an Internet
+            Archive capture of the public, commit-pinned file whose bytes are checked against the hash. Evidence is recorded when obtained and never
+            back-dated. An integrity check runs before every cycle and stops publishing if any earlier forecast file has changed.</li>
+        </ul>
+      </div>
+
+      <div className="panel">
+        <h2>Candidate features: collection and evaluation</h2>
+        <ul>
+          <li><b>Weather</b>: a forecast snapshot for the kickoff hour of every upcoming game is archived with the time it was observed (Open-Meteo,
+            city-level venue coordinates, roof exposure). Evaluated separately on a retrospective 2019–2024 history (stitched short-lead forecasts, not
+            what was knowable days ahead): small, statistically unclear total improvements; <b>not promoted</b>. Shown on game pages for context only.</li>
+          <li><b>Non-QB injuries</b>: every injury-report version is now archived with first-observed times, building the as-of history that did not
+            exist before. Evaluated separately at the final horizon (final weekly reports): no gain for the combined model; <b>not promoted</b>;
+            display only.</li>
+          <li>A group is promoted only if, fixed in advance, the combined model improves in the development seasons with a 95% interval below zero and
+            also improves in the tuning seasons. <b>Coaching adjustments are deferred.</b></li>
         </ul>
       </div>
 

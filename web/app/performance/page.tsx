@@ -113,6 +113,13 @@ export default function PerformancePage() {
         )}
       </div>
 
+      <div className="callout warn">
+        <b>Retrospective benchmark, not live results.</b> The historical tables below are the original walk-forward benchmark (preserved
+        unchanged). They rest on two approximations that live forecasts do not have: (1) the <i>actual</i> starting QB stands in for the
+        expected starter at the final horizon, and (2) historical market lines are a single untimed line per game, roughly the closing line.
+        Both make the historical numbers somewhat optimistic compared with genuinely prospective forecasting, which is reported separately above.
+      </div>
+
       <div className="panel">
         <h2>Point-forecast accuracy (final pregame horizon)</h2>
         <div className="table-wrap"><table>
@@ -169,6 +176,57 @@ export default function PerformancePage() {
                   <td className="r">{pct(r.coverage, 1)}</td><td className="r">{f1(r.mean_width)}</td></tr>))}</tbody></table></div>
         </div>
       </div>
+
+      {perf.feature_groups && (
+        <div className="panel">
+          <h2>Candidate feature groups (evaluated separately before promotion)</h2>
+          <p className="small ink2">Promotion rule, fixed before results were seen: the combined model must improve the group&apos;s target loss in
+            the development seasons with a 95% interval entirely below zero, and also improve it in the tuning seasons. The 2025 locked season is
+            not used. Negative differences mean the group helped.</p>
+          {perf.feature_groups.results.map((r: any) => (
+            <div key={r.group} style={{ marginTop: 12 }}>
+              <h3>{r.group}: {r.decision}</h3>
+              <p className="small muted">Inputs: {r.inputs}.{r.early_horizon ? ` Early horizon: ${r.early_horizon}.` : ""}</p>
+              <div className="table-wrap"><table>
+                <thead><tr><th>Model</th><th>Seasons</th><th className="r">Games</th><th className="r">Loss difference</th><th className="r">95% interval</th>
+                  <th className="r">Total RMSE without → with</th></tr></thead>
+                <tbody>{(["combined", "football_only"] as const).flatMap((arm) => Object.entries(r[arm] ?? {}).map(([per, x]: any) => (
+                  <tr key={arm + per}><td>{arm === "combined" ? "Combined" : "Football only"}</td><td>{per === "dev" ? "development" : "tuning"}</td>
+                    <td className="r">{x.paired_target.n_games}</td><td className="r">{x.paired_target.mean_diff.toFixed(3)}</td>
+                    <td className="r">[{x.paired_target.ci95[0].toFixed(3)}, {x.paired_target.ci95[1].toFixed(3)}]</td>
+                    <td className="r">{x.metrics_base.total_rmse.toFixed(3)} → {x.metrics_candidate.total_rmse.toFixed(3)}</td></tr>)))}</tbody>
+              </table></div>
+            </div>))}
+          <p className="small muted" style={{ marginTop: 8 }}>Coaching changes are deferred (no dated source). Weather forecasts and every injury-report
+            version are now collected before each game, so both groups can later be re-evaluated on strictly as-of data.</p>
+        </div>
+      )}
+
+      {perf.qb_rates && (
+        <div className="panel">
+          <h2>Quarterback start-probability audit</h2>
+          <p className="small ink2">What the historical rates measure: whether the depth-chart QB1 <b>started</b>. That is not the same as playing
+            or being active. Rates carry 90% intervals, and each test season is predicted from earlier seasons only.</p>
+          <div className="table-wrap"><table>
+            <thead><tr><th>Final status</th><th>Final practice</th><th className="r">Cases</th><th className="r">Started</th>
+              <th className="r">Played, not started</th><th className="r">Declared inactive</th><th className="r">P(start), 90% interval</th></tr></thead>
+            <tbody>{perf.qb_rates.audit.map((a: any) => (
+              <tr key={a.status + a.practice}><td>{a.status}</td><td>{a.practice}</td><td className="r">{a.n}</td><td className="r">{a.started}</td>
+                <td className="r">{a.played_not_started}</td><td className="r">{a.declared_inactive}</td>
+                <td className="r">{a.p_start_jeffreys.toFixed(2)} ({a.ci90[0].toFixed(2)}–{a.ci90[1].toFixed(2)})</td></tr>))}</tbody>
+          </table></div>
+          <div className="table-wrap" style={{ marginTop: 8 }}><table>
+            <thead><tr><th>Estimator</th><th>Cases</th><th className="r">Log loss</th><th className="r">Brier</th><th className="r">Mean predicted</th><th className="r">Observed</th></tr></thead>
+            <tbody>{perf.qb_rates.evaluation.uncertain.map((r: any) => (
+              <tr key={r.method} className={r.method === "status_x_practice" ? "hl" : undefined}><td>{r.method.replace(/_/g, " ")}</td><td>Questionable + Doubtful ({r.n})</td>
+                <td className="r">{r.log_loss.toFixed(4)}</td><td className="r">{r.brier.toFixed(4)}</td><td className="r">{r.mean_pred.toFixed(3)}</td>
+                <td className="r">{r.obs_rate.toFixed(3)}</td></tr>))}</tbody>
+          </table></div>
+          <p className="small muted" style={{ marginTop: 6 }}>The practice-aware estimator (highlighted) is used. Across all QB1 games it is better with a
+            95% interval excluding zero; on the 162 Questionable/Doubtful cases the gain is not statistically established. All estimators over-predict
+            starts for listed QBs in recent seasons (the rate has drifted down); this is reported, not adjusted.</p>
+        </div>
+      )}
 
       {retro && (
         <div className="panel">

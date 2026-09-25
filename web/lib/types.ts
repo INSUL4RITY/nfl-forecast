@@ -23,6 +23,24 @@ export interface QBEvidence {
   evidence_at: string | null;
   p_available: number;
   detail: string;
+  roster_status?: string | null;
+}
+
+export interface SourceFreshness {
+  source: string;
+  state: "fresh" | "stale_provider" | "stale_retrieval" | "missing";
+  observed_at: string | null;
+  last_confirmed_at: string | null;
+  provider_last_modified: string | null;
+  detail: string;
+}
+
+export interface ArchiveSummary {
+  sha256: string | null;
+  rfc3161_time: string | null;
+  github_push_time: string | null;
+  web_archive_time: string | null;
+  web_archive_copy: string | null;
 }
 
 export interface LineupSide {
@@ -36,8 +54,10 @@ export interface LineupSide {
   folded_probability?: number;
   depth_chart_at?: string | null;
   injury_snapshot_at?: string | null;
-  overrides_used?: { qb_gsis_id: string; status: string; source: string; source_published_at_utc: string }[];
+  overrides_used?: { qb_gsis_id: string; status: string; source: string; source_published_at_utc: string; expires_at_utc?: string }[];
   uncertain?: boolean;
+  chain_residual?: number;
+  freshness?: SourceFreshness[];
   // schema v2 (legacy releases)
   source?: string | null;
   qb1?: string | null;
@@ -68,6 +88,10 @@ export interface ReleaseEntry {
   team_efficiency?: { home: Record<string, number>; away: Record<string, number> };
   scenario_forecasts?: { p: number; home_qb: string | null; away_qb: string | null; combined_margin: number | null;
     combined_total: number | null; football_margin: number; football_total: number }[];
+  data_freshness?: { sources: SourceFreshness[]; market_line_age_hours: number | null; qb_flags: Record<string, string[]>;
+    problems: string[]; all_fresh: boolean };
+  weather?: { available: boolean; model_input: boolean; observed_at_utc?: string; lead_hours?: number; exposure?: number;
+    temperature_c?: number | null; wind_kmh?: number | null; gust_kmh?: number | null; precip_mm?: number | null; note?: string };
 }
 
 export interface HistoryPoint {
@@ -89,6 +113,7 @@ export interface HistoryPoint {
   market_spread: number | null;
   market_total: number | null;
   before_kickoff: boolean;
+  archive?: ArchiveSummary | null;
 }
 
 export interface Correction {
