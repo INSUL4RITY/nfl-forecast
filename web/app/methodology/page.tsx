@@ -134,6 +134,13 @@ export default function Methodology() {
           <li><b>No free timestamped history of betting lines.</b> Historical lines are one untimed value per game (about the closing line), so market-based
             models are validated only at the final-pregame horizon. From September 2026 this project archives its own line snapshots, which will allow
             early-horizon evaluation over time.</li>
+          <li><b>Live market lines (feed change 25 September 2026):</b> from release rel_20260925T132351Z onward, the spread and total come from
+            The Odds API (free plan, US bookmakers): the median point spread for the home team and the median total across bookmakers whose lines
+            were updated before kickoff, rounded to the half point, cross-checked against the nflverse line. Only point values are kept; all prices are
+            discarded before saving. When no valid API line newer than 36 hours exists before the forecast cutoff, the nflverse schedule line is used
+            and the game page says so. Earlier forecasts keep the nflverse lines they were made with. The model&apos;s weights, features and calibration did
+            not change. It was trained on nflverse lines; in the first comparison (29 games, 25 September 2026) the API consensus spread and total
+            were each within 1 point of the nflverse line (mean differences 0.17 and 0.29 points).</li>
           <li><b>Injury reports:</b> only the final weekly report survives historically, so early-week injury information cannot be backtested.</li>
           <li><b>Weather:</b> archived operational forecasts exist only from about April 2026, so weather is not in the historical model.</li>
           <li><b>Coordinators and play-callers:</b> not available in any free feed; not modelled.</li>

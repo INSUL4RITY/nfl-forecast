@@ -30,7 +30,27 @@ historical forecast would have been made. The *as-of* column records what we can
 | Schedule `temp`/`wind` | ~65–95% of outdoor games | Post-game | Observed game-time values | **Never a pregame feature** | CC-BY-4.0 |
 | Timestamped market snapshots (opening/72 h lines) | None free | n/a | n/a | **Gap.** Paid option: The Odds API historical plan (not subscribed). Fallback: CSV import + our own archiving from 2026-09-24 | Provider-specific |
 
-**The Odds API (checked 2026-09-25):** an `ODDS_API_KEY` exists only in the Claude app's session environment (not in the Windows
+**Market feed v2 — The Odds API connected 2026-09-25 (user-authorised).** From release `rel_20260925T132351Z` on, forecasts use
+The Odds API when a valid line exists; nflverse schedule lines are the fallback. Details (`src/nflcast/data/odds_api.py`,
+`configs/market_feed.yaml`):
+- Request: `GET https://api.the-odds-api.com/v4/sports/americanfootball_nfl/odds?regions=us&markets=spreads,totals` — the
+  whole available slate in one request, 2 credits. Key read from the git-ignored `.env` (`ODDS_API_KEY`), never logged/stored.
+- Prices are discarded in memory; snapshots (`data/raw/odds_api/<year>/odds_*.json`, private backup) keep only point values,
+  bookmaker keys, the provider's update times, our request-sent and response-received times.
+- Selection rule: team names mapped to nflverse abbreviations (all 32); event matched to the nflverse game by team pair and
+  kickoff within 36 h; bookmaker kept only if spread points are opposite for the two teams, Over/Under share one point, and
+  both markets were updated before kickoff; home_spread = median home-team point (negative = home favoured), total = median,
+  both rounded to 0.5; >= 2 bookmakers; line available from max(receipt, latest provider update), must be before the forecast
+  cutoff and kickoff and no older than 36 h; cross-check vs the nflverse line (no sign flip when both >= 2.5 from pick'em;
+  totals within 10). Otherwise the nflverse line is used and the release records `fallback_reason`.
+- Budget: routine request when the last success is >= 6 h old (<= 4/day while the PC runs; after downtime one request, no
+  replay); an extra pregame request when a kickoff is <= 100 min away and the last success is >= 50 min old, only if the
+  remaining-credit header covers all routine requests to month end + 20; never below 12 credits; waits 60 min after an error.
+  Credit headers (`x-requests-remaining/used/last`) are logged in `data/raw/odds_api/state.json`. Routine use ~248/month.
+- First verification (2026-09-25 13:23 UTC, scheduled task): 29 events, all 29 matched, home-spread signs agree 29/29 with
+  nflverse, spreads/totals within 1 point (mean 0.17 / 0.29).
+
+**The Odds API (checked 2026-09-25, before connection):** an `ODDS_API_KEY` exists only in the Claude app's session environment (not in the Windows
 user/system environment, not in a project `.env`, so the scheduled task cannot see it). The key is valid (free tier, 500
 requests/month, 0 used; checked with the free `/v4/sports` endpoint). It was **never integrated**: no project code reads it.
 Every forecast's market spread/total comes from nflverse schedule data (`spread_line`/`total_line`), snapshot-archived by

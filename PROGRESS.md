@@ -1,8 +1,9 @@
 # Progress log — nflcast
 
 Spec: `C:\Users\Craig\Downloads\NFL_Forecasting_Claude_Build_Brief.md`. Rules: `CLAUDE.md`. Live site:
-https://insul4rity.github.io/nfl-forecast/ (public repo INSUL4RITY/nfl-forecast). Last updated 2026-09-25 (session 6).
-Market feed actually used: nflverse schedule data (spread and total only). The Odds API key is present but not integrated.
+https://insul4rity.github.io/nfl-forecast/ (public repo INSUL4RITY/nfl-forecast). Last updated 2026-09-25 (session 7).
+Market feed: **v2 from 2026-09-25 13:23 UTC** — The Odds API (median of US bookmakers, spreads/totals only) when valid and
+fresh, nflverse schedule line as fallback. Forecasts before `rel_20260925T132351Z` used nflverse lines and are unchanged.
 
 ## 1. Current model version (FROZEN for the rest of the 2026 season)
 | Item | Value |
@@ -57,10 +58,30 @@ market lines, QB availability, injury display, weather display). A changed artif
   - Time zones: the weekly date range, day headings, day filters and kickoff times are computed from each kickoff in the
     selected mode (your time zone / UK / stadium-local; stadium mode groups by each stadium's local date). Game pages follow
     the same saved mode. Week 3: UK "Fri 25 Sept – Tue 29 Sept"; stadium-local "Thu 24 Sept – Mon 28 Sept".
+- Session 7 (market-feed change, user-authorised; model weights/features/calibration unchanged, freeze-check OK):
+  - **Feed version change (dated): market-feed-v2, 2026-09-25.** The Odds API connected (`src/nflcast/data/odds_api.py`,
+    `configs/market_feed.yaml`, not a frozen config). One request per refresh for the whole slate
+    (`regions=us&markets=spreads,totals`, 2 credits); prices discarded before saving; selection rule = median home-team
+    point spread and median total across valid pre-kickoff US bookmakers (>= 2), rounded to 0.5, cross-checked with
+    nflverse; nflverse line used when the API line is missing, > 36 h old, fails the check, or credits are low. Rule and
+    budget in `docs/data_sources.md`.
+  - Key saved to git-ignored `.env`, loaded by every nflcast process (so by the scheduled task after restarts); verified a
+    process without the session variable loads it. verify-claims checks the key is absent from tracked files, logs, the
+    site, snapshots and the backup.
+  - Budget: routine refresh when the last success is >= 6 h old (<= 4/day, ~248 credits/month); budget-checked pregame
+    refresh within 100 min of a kickoff; floor 12 credits; after downtime one request (no replay).
+  - Releases record source, our retrieval time, the provider's latest update time, bookmaker count, fallback reason and
+    feed version; the market fingerprint now includes the source. Game pages show the source actually used.
+  - **Verified through the scheduled task (13:23 UTC):** request ok (29 events, 2 credits, **498 credits remaining**);
+    release `rel_20260925T132351Z` used The Odds API for all 15 remaining week-3 games (9 bookmakers each); all 29 events
+    matched nflverse games, home-spread signs agree 29/29, spread/total differences <= 1 point (mean 0.17 / 0.29).
+  - Found and fixed: that first release's `retrieved_at` is the request-SENT time, ~1 s before some bookmakers' update time
+    (13:23:47). Recorded as correction `odds-retrieval-time:rel_20260925T132351Z` (labelling only; release unchanged). Retrieval
+    time is now the response-received time and a line counts as available only from max(receipt, provider update).
 
 ## 3. Tests and checks (2026-09-25)
-- `pytest`: **63 passed** (leakage, signs, identities, market policy, probabilities, scoring, validation/states, QB availability
-  (25), archive integrity, release-path isolation, freeze, public-page wording (2)).
+- `pytest`: **74 passed** (leakage, signs, identities, market policy, probabilities, scoring, validation/states, QB availability
+  (25), archive integrity, release-path isolation, freeze, public-page wording (2), The Odds API feed (11)).
 - `python -m nflcast verify-claims`: **38/38 passed** (no internal codes on 272 game pages; retrospective weather + untimed lines labelled in reports and the built
   site; every GitHub push time re-fetched and matching; no publication before generation; 77 exported verification labels
   recomputed from evidence; corrections complete; all RFC 3161 tokens verify against the files; all Web Archive copies match).
@@ -97,6 +118,8 @@ market lines, QB availability, injury display, weather display). A changed artif
 | Weather snapshots | `data/raw/weather/<season>/<game_id>/` | local + **private backup** |
 | Injury snapshots + version table | `data/raw/injuries/2026/`, `data/processed/injury_versions.parquet` | local + **private backup** |
 | Schedule/market-line snapshots | `data/raw/schedules/all/` | local + **private backup** |
+| The Odds API snapshots (points only) + request/credit log | `data/raw/odds_api/<year>/odds_*.json`, `data/raw/odds_api/state.json` | local + **private backup** |
+| API key | `.env` (git-ignored) | local only, never published |
 | Private backup repo (working copy) | `data/backup_repo/` → github.com/INSUL4RITY/nfl-forecast-data (private) | private |
 | Manual inputs | `data/manual/` (QB overrides, venues) | public repo |
 | Logs | `logs/operate.log` | local only |
@@ -110,13 +133,16 @@ Note: depth-chart and roster snapshot *history* is not re-downloadable either; i
 2. GitHub CLI login must stay valid (token in Windows Credential Manager). If pushes fail, `logs/operate.log` shows it:
    run `gh auth login --web` again.
 3. External best-effort services: FreeTSA and the Internet Archive can fail or be slow; failures are logged and retried.
+   The Odds API: free plan (500 credits/month); if the key is revoked or credits run low, forecasts continue on nflverse
+   lines automatically (see `operate: odds ...` lines in `logs/operate.log`).
 4. Depth-chart and roster snapshot history exists only on this PC (not backed up; large). Loss would affect only the audit of
    past QB-availability inputs, not published forecasts.
 5. Data freshness depends on nflverse's refresh cadence; there is no official NFL feed.
 
 ## 7. Research limitations (need future data; no action this season)
-1. Early-horizon (72 h) market validation needs timestamped lines — being collected since 2026-09-24. (A free-tier Odds API
-   key exists but is not integrated; any use would be a v2.0 decision after the season, spreads/totals only.)
+1. Early-horizon (72 h) market validation needs timestamped lines — collected since 2026-09-24 (nflverse snapshots) and,
+   with provider update times, from The Odds API since 2026-09-25. The model was trained on nflverse (≈ closing) lines;
+   whether API consensus lines change accuracy is untested and must be evaluated after the season on identical games.
 2. Mid-week injury practice readings are uncalibrated (no intra-week history) — injury versions being collected.
 3. Weather value is untested on strictly as-of data (historical evaluation was retrospective) — snapshots being collected.
 4. QB start-rate intervals ignore clustering by injury episode; a downward drift in 2024 is not significant at episode level.

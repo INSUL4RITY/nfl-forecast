@@ -67,6 +67,7 @@ def market_feed_checks() -> list[tuple[str, bool, str]]:
     priced = [p.name for p in snaps if re.search(r'"(price|odds)[^"]*"\s*:', p.read_text(encoding="utf-8"))]
     out.append(("The Odds API snapshots contain point values only (no prices)", not priced, "; ".join(priced[:5]) or f"{len(snaps)} snapshots"))
     bad, n = [], 0
+    corrected = {c["id"] for c in PUB.load_corrections()}
     for f in release_paths():
         r = json.loads(f.read_text(encoding="utf-8"))
         gen = datetime.fromisoformat(r["generated_at_utc"])
@@ -77,7 +78,8 @@ def market_feed_checks() -> list[tuple[str, bool, str]]:
             n += 1
             ko = datetime.fromisoformat(g["kickoff_utc"])
             got, upd = datetime.fromisoformat(m["retrieved_at"]), datetime.fromisoformat(m["provider_updated_at"])
-            if not (upd < ko and got < ko and got <= gen):
+            order_ok = upd <= got or f"odds-retrieval-time:{r['run_id']}" in corrected
+            if not (upd < ko and got < ko and upd <= gen and got <= gen and order_ok):
                 bad.append(f"{f.name}:{g['game_id']}")
     out.append(("The Odds API lines retrieved and provider-updated before kickoff and before the forecast cutoff", not bad,
                 "; ".join(bad[:5]) or f"{n} game forecasts"))

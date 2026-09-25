@@ -29,6 +29,14 @@ optional inputs never block a forecast: QB availability falls back to documented
 "designation pending" / "report not published yet"), weather is display-only, and the page states what was incomplete.
 Only a failed validation can withhold a combined forecast, and then the football-only fallback is published instead.
 
+## Market feed (The Odds API, from 2026-09-25)
+The key lives only in the git-ignored project file `.env` (`ODDS_API_KEY=...`), which every nflcast process loads at start,
+including the scheduled task after a restart. To enter or replace it: open `C:\Users\Craig\NFL MODEL PROJECTIONS\.env` in
+Notepad and set the line `ODDS_API_KEY=<your key>` (no quotes), then save. Never paste it into chat, commits or the site.
+Each cycle logs `operate: odds fetched=... reason=... credits_remaining=...` (never the key). Rules and budget:
+`docs/data_sources.md`, settings: `configs/market_feed.yaml`. If the API is unavailable, stale or low on credits, the nflverse
+line is used automatically and the game page names the source.
+
 ## One cycle
 
 ```powershell

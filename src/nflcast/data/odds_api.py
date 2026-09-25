@@ -164,17 +164,26 @@ def fetch(now: datetime | None = None, reason: str = "manual") -> dict:
     try:
         r = requests.get(c["endpoint"], timeout=30, params={
             "apiKey": _key(), "regions": c["regions"], "markets": c["markets"], "oddsFormat": "american", "dateFormat": "iso"})
-        rec.update({"http_status": r.status_code, "requests_remaining": _int(r.headers.get("x-requests-remaining")),
+        # Retrieval time = when the response ARRIVED (the provider's update times can be later than the request start).
+        got = max(utc_now(), now)
+        rec.update({"http_status": r.status_code, "response_received_utc": got.isoformat(),
+                    "requests_remaining": _int(r.headers.get("x-requests-remaining")),
                     "requests_used": _int(r.headers.get("x-requests-used")), "cost": _int(r.headers.get("x-requests-last"))})
         if r.status_code != 200:
             rec["error"] = _scrub(r.text[:200])
         else:
-            snap = sanitize(r.json(), now)
-            path = DIR / str(now.year) / f"odds_{utc_stamp(now)}.json"
+            snap = sanitize(r.json(), got)
+            snap["request_sent_utc"] = now.isoformat()
+            late = [b["bookmaker"] for ev in snap["events"] for b in ev["books"]
+                    if max(filter(None, [_dt(b["spread_updated"]), _dt(b["total_updated"]), _dt(b["bookmaker_last_update"])]),
+                           default=got) > got]
+            if late:   # never expected; recorded rather than hidden
+                snap["provider_times_after_receipt"] = sorted(set(late))
+            path = DIR / str(got.year) / f"odds_{utc_stamp(got)}.json"
             path.parent.mkdir(parents=True, exist_ok=True)
             path.write_text(json.dumps(snap, indent=1), encoding="utf-8")
             rec.update({"ok": True, "events": len(snap["events"]), "file": path.name})
-            st["last_success_utc"] = now.isoformat()
+            st["last_success_utc"] = got.isoformat()
     except Exception as e:  # noqa: BLE001 - network problems fall back to nflverse; the message is scrubbed of the key
         rec["error"] = _scrub(f"{type(e).__name__}: {e}")[:300]
     st.setdefault("requests", []).append(rec)
@@ -245,12 +254,14 @@ def market_rows(games: pl.DataFrame) -> pl.DataFrame:
                 continue
             g = match[0]
             ko = min(g["kickoff_utc"], start)
-            if got >= ko:
-                continue          # never a snapshot taken at/after kickoff
             cons = consensus(ev, g["home_id"], ko, c["min_bookmakers"])
             if cons is None:
                 continue
-            rows.append({"game_id": g["game_id"], "snapshot_at": got, "home_spread": cons["home_spread"],
+            # Available to us no earlier than our receipt AND the provider's latest update (conservative as-of time).
+            avail = max(got, cons["provider_updated_at"])
+            if avail >= ko:
+                continue          # never a line received at/after kickoff
+            rows.append({"game_id": g["game_id"], "snapshot_at": avail, "home_spread": cons["home_spread"],
                          "total": cons["total"], "market_source": SOURCE, "market_timing": "timestamped",
                          "provider_updated_at": cons["provider_updated_at"], "n_books": cons["n_books"],
                          "teams_reversed_in_api": cons["teams_reversed_in_api"]})

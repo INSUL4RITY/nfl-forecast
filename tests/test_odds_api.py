@@ -78,6 +78,16 @@ def test_market_rows_match_nflverse_game_and_skip_post_kickoff_snapshots(tmp_pat
     assert rows["snapshot_at"][0] < KO and rows["provider_updated_at"][0] < KO
 
 
+def test_line_available_only_from_later_of_receipt_and_provider_update(tmp_path, monkeypatch):
+    monkeypatch.setattr(OA, "DIR", tmp_path)
+    (tmp_path / "2026").mkdir()
+    upd = NOW + timedelta(seconds=1)                          # provider time just after the recorded retrieval
+    books = [_book(k, "Cleveland Browns", "Pittsburgh Steelers", 3.0, 38.5, upd=upd) for k in ("dk", "fd")]
+    (tmp_path / "2026" / "odds_x.json").write_text(json.dumps(OA.sanitize([_event(books=books)], NOW)))
+    games = pl.DataFrame({"game_id": ["g"], "home_id": ["CLE"], "away_id": ["PIT"], "kickoff_utc": [KO]})
+    assert OA.market_rows(games)["snapshot_at"][0] == upd
+
+
 def test_cross_check_rejects_sign_flips_and_absurd_totals():
     assert OA.cross_check_ok(3.0, 38.5, 2.5, 39.0)
     assert OA.cross_check_ok(-1.0, 44.0, 1.5, 44.0)           # near pick'em: sign change allowed

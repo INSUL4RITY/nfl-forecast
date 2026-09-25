@@ -17,6 +17,9 @@ Read `PROGRESS.md` first (status, model version, schedule, data locations, next 
   weather display) and publish forecasts from the frozen artifact. A model change requires a new version, recorded in
   PROGRESS.md, and must not be evaluated as "untouched" on already-seen seasons.
 - **2025 locked test was used once (2026-09-24).** `locked-test` refuses to re-run without `--revision-label`.
+- **Market feed v2 (user-authorised 2026-09-25):** The Odds API (free plan) supplies spreads/totals when valid, nflverse is the
+  fallback (`src/nflcast/data/odds_api.py`, `configs/market_feed.yaml`). Key only in git-ignored `.env`; never print, log,
+  commit or publish it (verify-claims checks). Stay under the 500-credit free allowance; no paid plan.
 - **No new features this season.** Weather and non-QB injuries are display-only (did not pass the pre-specified rule).
   Coaching is deferred. Collection continues for future evaluation.
 - **Chronological validation only**; tune/dev/locked separation; paired comparisons on identical games.

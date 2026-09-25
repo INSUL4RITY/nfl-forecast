@@ -1,6 +1,6 @@
 # Claims verification
 
-Run 2026-09-25T12:37:48.617606+00:00: 50 passed, 0 failed.
+Run 2026-09-25T13:28:56.780296+00:00: 61 passed, 0 failed.
 
 | check | result | detail |
 |---|---|---|
@@ -10,6 +10,9 @@ Run 2026-09-25T12:37:48.617606+00:00: 50 passed, 0 failed.
 | site performance page labels retrospective benchmark + untimed lines + actual-starter proxy | PASS |  |
 | site performance page shows weather inputs as RETROSPECTIVE | PASS |  |
 | methodology page documents approximations | PASS |  |
+| API key absent from repository, logs, site, snapshots and backup | PASS | 1905 files checked |
+| The Odds API snapshots contain point values only (no prices) | PASS | 1 snapshots |
+| The Odds API lines retrieved and provider-updated before kickoff and before the forecast cutoff | PASS | 15 game forecasts |
 | game pages show no internal codes or player IDs | PASS | 272 pages clean |
 | GitHub push time matches API: rel_20260924T232247Z.json | PASS | 2026-09-25T00:31:03Z a28b4275ad |
 | publication not before generation: rel_20260924T232247Z.json | PASS |  |
@@ -31,7 +34,11 @@ Run 2026-09-25T12:37:48.617606+00:00: 50 passed, 0 failed.
 | publication not before generation: rel_20260925T061553Z.json | PASS |  |
 | GitHub push time matches API: rel_20260925T121558Z.json | PASS | 2026-09-25T12:16:07Z c9a7f56dea |
 | publication not before generation: rel_20260925T121558Z.json | PASS |  |
-| exported verification labels match evidence (137 versions) | PASS |  |
+| GitHub push time matches API: rel_20260925T131600Z.json | PASS | 2026-09-25T13:16:10Z 1d4c50244a |
+| publication not before generation: rel_20260925T131600Z.json | PASS |  |
+| GitHub push time matches API: rel_20260925T132351Z.json | PASS | 2026-09-25T13:24:01Z a5693dbf7c |
+| publication not before generation: rel_20260925T132351Z.json | PASS |  |
+| exported verification labels match evidence (167 versions) | PASS |  |
 | every late publication has a correction | PASS |  |
 | every release matches its write-once manifest | PASS |  |
 | RFC 3161 token verifies against rel_20260924T232247Z.json | PASS | Sep 25 01:39:14 2026 GMT |
@@ -54,3 +61,7 @@ Run 2026-09-25T12:37:48.617606+00:00: 50 passed, 0 failed.
 | Web Archive copy matches rel_20260925T061553Z.json | PASS | 2026-09-25T06:16:19+00:00 |
 | RFC 3161 token verifies against rel_20260925T121558Z.json | PASS | Sep 25 12:16:01 2026 GMT |
 | Web Archive copy matches rel_20260925T121558Z.json | PASS | 2026-09-25T12:16:18+00:00 |
+| RFC 3161 token verifies against rel_20260925T131600Z.json | PASS | Sep 25 13:16:04 2026 GMT |
+| Web Archive copy matches rel_20260925T131600Z.json | PASS | 2026-09-25T13:16:22+00:00 |
+| RFC 3161 token verifies against rel_20260925T132351Z.json | PASS | Sep 25 13:23:55 2026 GMT |
+| Web Archive copy matches rel_20260925T132351Z.json | PASS | 2026-09-25T13:24:13+00:00 |
