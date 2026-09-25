@@ -144,6 +144,8 @@ export interface WeekGame {
   forecast_generated_at: string | null;
   forecast_public_evidence_at: string | null;
   forecast_verification: string | null;
+  model_version?: string | null;
+  model_frozen?: boolean | null;
   history: HistoryPoint[];
   corrections: Correction[];
 }

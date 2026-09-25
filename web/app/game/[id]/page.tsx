@@ -165,6 +165,7 @@ export default async function GamePage({ params }: { params: Promise<{ id: strin
             <b>{STATE_LABEL[g.forecast_state]}</b> · generated <LocalTime iso={g.forecast_generated_at} /> ·{" "}
             {g.forecast_verification ? VERIFY_LABEL[g.forecast_verification] : ""}
             {g.forecast_public_evidence_at ? <> (first public evidence <LocalTime iso={g.forecast_public_evidence_at} />)</> : null}
+            {g.model_version ? <> · model {g.model_version}{g.model_frozen ? " (frozen)" : ""}</> : null}
           </p>
           <div className="three-col">
             <div className="panel stat">

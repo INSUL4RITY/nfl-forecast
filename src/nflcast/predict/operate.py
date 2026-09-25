@@ -118,6 +118,11 @@ def run(build_site: bool = True, force: bool = False) -> None:
     if problems and not missing_only:
         _log("operate: INTEGRITY VIOLATION, publishing stopped: " + "; ".join(problems))
         raise RuntimeError("archived forecast files changed: " + "; ".join(problems))
+    from nflcast.predict import freeze
+    fz = freeze.check()
+    if fz:
+        _log("operate: MODEL FREEZE VIOLATION, publishing stopped: " + "; ".join(fz))
+        raise RuntimeError("model freeze violated: " + "; ".join(fz))
     try:
         pipeline.ingest()
         pipeline.build()
@@ -128,6 +133,12 @@ def run(build_site: bool = True, force: bool = False) -> None:
                  f"injury versions={c['injury_versions']['player_week_versions']}")
         except Exception as e:  # noqa: BLE001 - collection is best-effort and never blocks forecasting
             _log(f"operate: collection failed: {e}")
+        try:
+            from nflcast.predict import backup
+            b = backup.sync()
+            _log(f"operate: backup ok={b.get('ok')} copied={b.get('files_copied')} pushed={b.get('pushed')} {b.get('error') or b.get('push_error') or ''}")
+        except Exception as e:  # noqa: BLE001 - backup is best-effort and never blocks forecasting
+            _log(f"operate: backup failed: {e}")
         score.score()
         try:
             publication.update_evidence()

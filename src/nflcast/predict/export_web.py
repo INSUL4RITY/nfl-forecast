@@ -122,6 +122,8 @@ def game_view(vs: list[tuple[dict, dict]], kickoff: datetime, is_final: bool, no
         "forecast_run_id": cur_rel["run_id"] if cur_rel else None,
         "forecast_generated_at": cur_time, "forecast_public_evidence_at": cur_pub.isoformat() if cur_pub else None,
         "forecast_verification": PUB.verification_label(datetime.fromisoformat(cur_time), kickoff, cur_pub) if cur else None,
+        "model_version": ((cur_rel or {}).get("models") or {}).get("model_version") or ((cur_rel or {}).get("code_hash") or "")[:12] or None,
+        "model_frozen": ((cur_rel or {}).get("models") or {}).get("frozen"),
         "history": history,
     }
 

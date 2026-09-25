@@ -14,3 +14,4 @@ logs/
 web/tsconfig.tsbuildinfo
 .scratch/
 releases/archive/.tmp/
+data/backup_repo/

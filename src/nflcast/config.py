@@ -16,6 +16,7 @@ PROCESSED_DIR = DATA_DIR / "processed"
 MANUAL_DIR = DATA_DIR / "manual"
 REPORTS_DIR = ROOT / "reports"
 RELEASES_DIR = ROOT / "releases"
+WEB_OUT_DIR = ROOT / "web" / "out"
 
 
 @lru_cache(maxsize=1)

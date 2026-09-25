@@ -162,6 +162,51 @@ def _weather_display(g: dict, now: datetime) -> dict:
             "note": "Display only: weather did not pass the feature-group evaluation, so it is not used by the model."}
 
 
+def fit_production(season: int) -> dict:
+    """Fit the production models (configs/production.yaml) on all completed final-horizon history available now."""
+    cfg = settings()
+    prod = yaml.safe_load((ROOT / "configs" / "production.yaml").read_text(encoding="utf-8"))
+    games = pl.read_parquet(PROCESSED_DIR / "games.parquet")
+    hist = BT.assemble(games, pl.read_parquet(PROCESSED_DIR / "feature_snapshots.parquet"),
+                       pl.read_parquet(PROCESSED_DIR / "market_asof.parquet"))
+    train = hist.filter((pl.col("horizon") == "final") & (pl.col("season") >= cfg["seasons"]["core_start"]))
+    fs_name = prod["primary"]["feature_set"]
+    am, at = select_resid_alphas(train.filter(pl.col("market_available")), fs_name)
+    cmod = ResidualRidge(fs_name, am, at).fit(train.filter(pl.col("market_available")))
+    a_b, _ = select_alpha_chronologically(train, feature_set=feature_set(prod["fallback"]["feature_set"]))
+    bmod = FootballRidge(alpha=a_b, feature_set=feature_set(prod["fallback"]["feature_set"])).fit(train)
+    oof = latest_oof().filter(pl.col("horizon") == "final")
+    oof_models = {"primary": "C_resid_noinj", "fallback": "B_qb", "market": "A_market_raw"}
+    calib = {}
+    for key, mname in oof_models.items():
+        o = oof.filter(pl.col("model") == mname)
+        calib[key] = {"outcome": OutcomeModel().fit(o, games), "res_margin": (o["margin"] - o["pred_margin"]).to_numpy(),
+                      "res_total": (o["total_points"] - o["pred_total"]).to_numpy(), "n_oof": o.height,
+                      "oof_seasons": [int(o["season"].min()), int(o["season"].max())]}
+    last_train = train.sort("season", "week")["game_id"][-1]
+    return {"cmod": cmod, "bmod": bmod, "calib": calib, "alpha_margin": am, "alpha_total": at, "alpha_fallback": a_b,
+            "oof_models": oof_models, "oof_source_run": oof["source_run"][0], "qb_rates": ensure_rates(season),
+            "training_games": train.height, "last_training_game": last_train, "production": prod}
+
+
+_PROD_CACHE: dict = {}
+
+
+def production_models(season: int) -> dict:
+    """Frozen artifact if configs/model_freeze.yaml exists (verified by sha256), else a fresh fit (development only)."""
+    if season in _PROD_CACHE:
+        return _PROD_CACHE[season]
+    from nflcast.predict import freeze
+    if freeze.is_frozen():
+        M = freeze.load()
+    else:
+        from nflcast.pipeline import code_hash
+        M = fit_production(season)
+        M.update({"frozen": False, "model_version": "unfrozen-" + _hash([code_hash(), M["production"], M["oof_source_run"]])})
+    _PROD_CACHE[season] = M
+    return M
+
+
 def _game_freshness(freshness, market_fresh, market, res, now) -> dict:
     """Explicit per-game data freshness: every source's state, the market line's age and the QB-evidence flags."""
     sources = [f.to_json() for f in freshness] + [market_fresh.to_json()]
@@ -202,7 +247,7 @@ def build_candidate(now: datetime | None = None, days_ahead: int = 8) -> dict | 
     qbg = pl.read_parquet(PROCESSED_DIR / "qb_games.parquet")
     builder = AsOfFeatureBuilder(tg)
     qbm = P.QBModel(qbg)
-    all_rates = ensure_rates(season)
+    all_rates = production_models(season)["qb_rates"]
     overrides = QA.load_overrides()
     ros_now, ros_meta = S.snapshot_asof("rosters_weekly", season, now)
     inj_now, inj_meta = S.snapshot_asof("injuries", season, now)
@@ -281,30 +326,17 @@ def build_candidate(now: datetime | None = None, days_ahead: int = 8) -> dict | 
     mk = market_asof(games_all, feats.select("game_id", "horizon", "cutoff_utc").unique(), allow_approx_closing=False)
     feats = feats.join(mk.drop("horizon", "cutoff_utc"), on="game_id", how="left")
 
-    # ---- production models on all completed history (final-horizon features)
-    hist = BT.assemble(games, pl.read_parquet(PROCESSED_DIR / "feature_snapshots.parquet"),
-                       pl.read_parquet(PROCESSED_DIR / "market_asof.parquet"))
-    train = hist.filter((pl.col("horizon") == "final") & (pl.col("season") >= cfg["seasons"]["core_start"]))
-    fs_name = prod["primary"]["feature_set"]
-    am, at = select_resid_alphas(train.filter(pl.col("market_available")), fs_name)
-    cmod = ResidualRidge(fs_name, am, at).fit(train.filter(pl.col("market_available")))
-    a_b, _ = select_alpha_chronologically(train, feature_set=feature_set(prod["fallback"]["feature_set"]))
-    bmod = FootballRidge(alpha=a_b, feature_set=feature_set(prod["fallback"]["feature_set"])).fit(train)
-    oof = latest_oof().filter(pl.col("horizon") == "final")
-    oof_models = {"primary": "C_resid_noinj", "fallback": "B_qb", "market": "A_market_raw"}
-    calib = {}
-    for key, mname in oof_models.items():
-        o = oof.filter(pl.col("model") == mname)
-        calib[key] = {"outcome": OutcomeModel().fit(o, games), "res_margin": (o["margin"] - o["pred_margin"]).to_numpy(),
-                      "res_total": (o["total_points"] - o["pred_total"]).to_numpy(), "n_oof": o.height,
-                      "oof_seasons": [int(o["season"].min()), int(o["season"].max())]}
+    # ---- production models: the FROZEN artifact when a freeze exists, otherwise fitted now
+    M = production_models(season)
+    cmod, bmod, calib = M["cmod"], M["bmod"], M["calib"]
+    am, at, a_b, oof_models = M["alpha_margin"], M["alpha_total"], M["alpha_fallback"], M["oof_models"]
     has_mkt = feats["market_available"].fill_null(False).to_numpy()
     fm = feats.with_columns(home_spread=pl.col("home_spread").fill_null(0.0), total=pl.col("total").fill_null(0.0))
     preds = {"primary": cmod.predict(fm), "fallback": bmod.predict(feats), "market": MarketRaw().predict(fm)}
     Xc, cnames = game_matrix(fm, cmod.fs)
     contrib = (Xc - cmod.gm[0].mean_) / cmod.gm[0].scale_ * cmod.gm[-1].coef_
     from nflcast.pipeline import code_hash
-    model_fp = _hash([code_hash(), prod, oof["source_run"][0]])
+    model_fp = M["model_version"]
 
     def summarise(key: str, idx: np.ndarray, weights: np.ndarray, playoff: bool) -> dict:
         p, c = preds[key], calib[key]
@@ -409,7 +441,9 @@ def build_candidate(now: datetime | None = None, days_ahead: int = 8) -> dict | 
                    "fallback": {**prod["fallback"], "alpha": a_b}, "benchmark": prod["benchmark"],
                    "calibration": {k: {"oof_model": oof_models[k], "n_oof": v["n_oof"], "oof_seasons": v["oof_seasons"],
                                        "outcome_params": v["outcome"].params()} for k, v in calib.items()},
-                   "oof_source_run": oof["source_run"][0], "qb_start_rates": all_rates["key"]},
+                   "oof_source_run": M["oof_source_run"], "qb_start_rates": all_rates["key"],
+                   "model_version": M["model_version"], "frozen": M["frozen"],
+                   "model_artifact_sha256": M.get("artifact_sha256")},
         "notes": [prod["early_horizon_note"].strip(),
                   "Contributions explain the fitted model's adjustment to the market line; they are not causal claims.",
                   "Probabilities: P(home/away/tie). Intervals: 80%/95% ranges from out-of-fold residuals.",

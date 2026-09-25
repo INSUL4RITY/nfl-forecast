@@ -1,0 +1,54 @@
+version: v1.0-2026-rest-of-season
+frozen_at_utc: '2026-09-25T02:13:28.041588+00:00'
+valid_through: 2027-02-15 (end of 2026 postseason)
+artifact: artifacts/frozen/v1.0-2026-rest-of-season/production.joblib
+artifact_sha256: 66e9d500c8b4a8c14fe8b0d2c69a5ce56cd8b7388d458fc8b64fe681ae48063f
+watched_configs:
+  configs/production.yaml: 93370fd999d74861e7ac08a4d9522756fc384a2be04d04c60dad10fefd9f23f8
+  configs/settings.yaml: de15718ad1b59552d2f9253be2248888c95a316808e57b9f6ad217a7a5606104
+training:
+  games: 2793
+  last_training_game: 2026_02_NYG_LA
+  description: all completed final-horizon games 2016 through the last game available
+    at freeze time
+production:
+  primary:
+    model: C_resid
+    feature_set: core_qb
+    label: Combined (market spread/total + football)
+  fallback:
+    model: B_football_ridge
+    feature_set: core_qb
+    label: Football-only fallback
+  benchmark:
+    model: A_market_raw
+    label: Market-only benchmark
+  probabilities:
+    method: logistic(P(home win | no tie) ~ predicted margin) + smoothed regular-season
+      tie base rate since 2017; tie = 0 in playoffs
+    calibration_data: walk-forward out-of-fold predictions of the same model
+  intervals:
+    method: residual
+    levels:
+    - 0.8
+    - 0.95
+  selection_rule: 'Lowest mean of margin RMSE and total RMSE pooled over tune+dev
+    seasons at the final horizon, ties broken by simplicity. C_resid(core_qb) 12.94
+    vs market-only 12.95: statistically indistinguishable from the market benchmark
+    (paired CIs include zero).
+
+    '
+  early_horizon_note: 'No free timestamped historical lines exist, so the combined
+    model is validated only at the final horizon. Early releases apply it to the line
+    observed at release time and are labelled accordingly; early-horizon accuracy
+    is measured prospectively.
+
+    '
+oof_source_run: locked_20260924T234835Z
+qb_start_rates: v3_start_practice_listed_through_2025
+alphas:
+  combined_margin: 100000.0
+  combined_total: 100000.0
+  fallback: 100.0
+rules: Do not refit, retune or change features/configs while frozen. Scheduled runs
+  refresh inputs only.

@@ -23,6 +23,13 @@ def main(argv: list[str] | None = None) -> None:
     ar.add_argument("--no-public", action="store_true", help="skip Web Archive captures")
     sub.add_parser("feature-groups", help="Separate chronological evaluation of candidate feature groups (weather, non-QB injuries)")
     sub.add_parser("collect", help="Collect weather forecast snapshots and injury-report versions for upcoming games")
+    fr = sub.add_parser("freeze", help="Freeze the fitted production model (one-time per version)")
+    fr.add_argument("--model-version", required=True)
+    fr.add_argument("--valid-through", required=True)
+    sub.add_parser("freeze-check", help="Verify the frozen model artifact and configs are unchanged")
+    bk = sub.add_parser("backup", help="Mirror collected data to the private backup repository and verify it")
+    bk.add_argument("--init", action="store_true", help="one-time: create the PRIVATE remote repository if missing")
+    sub.add_parser("verify-claims", help="Re-verify evaluation labels, publication evidence and archive records")
     sub.add_parser("qb-rates-audit", help="Audit and chronologically evaluate QB start-probability estimators")
     sub.add_parser("verify-publication", help="Record independent publication evidence and any late-publication corrections")
     sub.add_parser("predict", help="Generate an immutable forecast release for the next week's unplayed games")
@@ -68,6 +75,26 @@ def main(argv: list[str] | None = None) -> None:
     elif args.cmd == "collect":
         from nflcast.predict.collect import collect
         print(f"[collect] {collect()}")
+    elif args.cmd == "freeze":
+        from nflcast.predict import freeze
+        print(f"[freeze] wrote {freeze.freeze(args.model_version, args.valid_through)}")
+    elif args.cmd == "freeze-check":
+        from nflcast.predict import freeze
+        p = freeze.check()
+        print(f"[freeze-check] {'OK: ' + freeze.record()['version'] if not p and freeze.is_frozen() else p or 'not frozen'}")
+    elif args.cmd == "backup":
+        from nflcast.predict import backup
+        if args.init:
+            print(f"[backup] init: {backup.init(create_remote=True)}")
+        print(f"[backup] sync: {backup.sync()}")
+        print(f"[backup] verify: {backup.verify()}")
+    elif args.cmd == "verify-claims":
+        from nflcast.predict import verify_claims
+        res = verify_claims.run()
+        fails = [r for r in res if not r["ok"]]
+        print(f"[verify-claims] {len(res) - len(fails)} passed, {len(fails)} failed")
+        for r in fails:
+            print("  FAIL:", r["check"], "|", r["detail"])
     elif args.cmd == "qb-rates-audit":
         from nflcast.evaluation import qb_rates_eval
         qb_rates_eval.run()
