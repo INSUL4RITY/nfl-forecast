@@ -29,6 +29,7 @@ import polars as pl
 import yaml
 
 from nflcast.config import PROCESSED_DIR, RELEASES_DIR, REPORTS_DIR, ROOT, settings, utc_now, utc_stamp
+from nflcast.data import odds_api as OA
 from nflcast.data import sources as S
 from nflcast.data.games import build_games, franchise, market_asof
 from nflcast.evaluation import backtest as BT
@@ -205,6 +206,17 @@ def production_models(season: int) -> dict:
         M.update({"frozen": False, "model_version": "unfrozen-" + _hash([code_hash(), M["production"], M["oof_source_run"]])})
     _PROD_CACHE[season] = M
     return M
+
+
+def _market_freshness(market: dict | None, schedule_fresh, now):
+    """Freshness row for the market source actually used (The Odds API snapshot, or the nflverse schedule)."""
+    if not market or market.get("source") != OA.SOURCE:
+        return schedule_fresh
+    got = datetime.fromisoformat(market["retrieved_at"])
+    age_h = (now - got).total_seconds() / 3600
+    state = "fresh" if age_h <= OA.cfg()["odds_api"]["max_age_hours"] else "stale_retrieval"
+    return QA.SourceFreshness(OA.SOURCE, state, market["retrieved_at"], market["retrieved_at"],
+                              market.get("provider_updated_at"), f"{market.get('n_bookmakers')} US bookmakers; retrieved {age_h:.1f} h before the cutoff")
 
 
 def _game_freshness(freshness, market_fresh, market, res, now) -> dict:
@@ -393,12 +405,17 @@ def build_candidate(now: datetime | None = None, days_ahead: int = 8) -> dict | 
         notable = (inj_now.filter((pl.col("week") == week) & pl.col("team").is_in([g["home_id"], g["away_id"]])
                                   & pl.col("report_status").is_in(["Out", "Doubtful", "Questionable"]))
                    .select("team", "full_name", "position", "report_status").sort("team", "report_status", "full_name").to_dicts())
+        pu = feats["provider_updated_at"][i0]
         market = ({"home_spread": float(feats["home_spread"][i0]), "total": float(feats["total"][i0]),
                    "source": feats["market_source"][i0], "timing": feats["market_timing"][i0],
-                   "snapshot_at": feats["snapshot_at"][i0].isoformat()} if mkt_ok else None)
+                   "snapshot_at": feats["snapshot_at"][i0].isoformat(),          # our retrieval time
+                   "retrieved_at": feats["snapshot_at"][i0].isoformat(),
+                   "provider_updated_at": pu.isoformat() if pu is not None else None,
+                   "n_bookmakers": feats["n_books"][i0], "fallback_reason": feats["market_fallback_reason"][i0],
+                   "feed_version": OA.feed_version()} if mkt_ok else None)
         tfm = meta[g["game_id"]]["tf"]
         fingerprint = {
-            "market": _hash([market["home_spread"], market["total"]] if market else None),
+            "market": _hash([market["home_spread"], market["total"], market["source"]] if market else None),
             "quarterbacks": _hash({s: {"scenarios": [(q, round(p, 3)) for p, q in res[s].scenarios],
                                        "qbs": [(i.qb_id, i.status, i.evidence, round(i.p_available, 3)) for i in res[s].qbs],
                                        "flags": sorted(res[s].flags), "overrides": res[s].overrides_used} for s in res}),
@@ -425,7 +442,7 @@ def build_candidate(now: datetime | None = None, days_ahead: int = 8) -> dict | 
                  "football_margin": float(preds["fallback"]["margin"][i]), "football_total": float(preds["fallback"]["total"][i])}
                 for k, i in enumerate(idx)],
             "input_fingerprint": fingerprint,
-            "data_freshness": _game_freshness(freshness, market_fresh, market, res, now),
+            "data_freshness": _game_freshness(freshness, _market_freshness(market, market_fresh, now), market, res, now),
             "weather": _weather_display(g, now),
         })
 
@@ -435,6 +452,7 @@ def build_candidate(now: datetime | None = None, days_ahead: int = 8) -> dict | 
         "schema_version": SCHEMA_VERSION, "run_id": f"rel_{utc_stamp(now)}", "generated_at_utc": now.isoformat(),
         "information_cutoff_utc": now.isoformat(), "season": season, "week": week, "stage": "production_v1.1",
         "input_snapshots": {"schedules": snap_info(sched_meta), "injuries": snap_info(inj_meta), "depth_charts": snap_info(dc_meta)},
+        "market_feed": OA.status(now),
         "publication_note": "Publication time is not recorded here. It is established from independent evidence in "
                             "releases/publication_evidence.json (GitHub server timestamps).",
         "models": {"primary": {**prod["primary"], "alpha_margin": am, "alpha_total": at},

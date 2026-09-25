@@ -8,6 +8,7 @@ Backed up (append-only mirror; files are never deleted from the backup):
   data/raw/injuries/<season>/**           every injury-report snapshot + checks.jsonl (source of report versions)
   data/processed/injury_versions.parquet  derived injury-report version table
   data/raw/schedules/**                   archived schedule snapshots (the as-of market spread/total history)
+  data/raw/odds_api/**                    The Odds API snapshots (point spreads/totals only, no prices) + request log (no key)
 verify() checks, via the GitHub API, that the remote repository is private and that every local file is present on the
 remote with the identical git blob hash.
 """
@@ -31,7 +32,7 @@ GH = r"C:/Program Files/GitHub CLI/gh.exe"
 def _sources() -> list[tuple[Path, str]]:
     season = settings()["seasons"]["current"]
     return [(RAW_DIR / "weather", "raw/weather"), (RAW_DIR / "injuries" / str(season), f"raw/injuries/{season}"),
-            (RAW_DIR / "schedules", "raw/schedules"), (PROCESSED_DIR / "injury_versions.parquet", "processed/injury_versions.parquet")]
+            (RAW_DIR / "schedules", "raw/schedules"), (RAW_DIR / "odds_api", "raw/odds_api"),(PROCESSED_DIR / "injury_versions.parquet", "processed/injury_versions.parquet")]
 
 
 def _git(*args: str, cwd: Path = BACKUP_DIR) -> subprocess.CompletedProcess:

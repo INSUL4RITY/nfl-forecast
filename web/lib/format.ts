@@ -99,6 +99,7 @@ const QB_PROBLEM_TEXT: Record<string, string> = {
 };
 const SOURCE_TEXT: Record<string, string> = {
   injuries: "Injury reports", depth_charts: "Depth charts", rosters_weekly: "Rosters", schedules: "Schedule & market line",
+  the_odds_api: "Market line (The Odds API)",
 };
 const SOURCE_STATE_TEXT: Record<string, string> = {
   stale_provider: "not updated by the provider recently", stale_retrieval: "not re-checked recently", missing: "missing",

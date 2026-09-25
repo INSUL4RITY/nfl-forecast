@@ -49,6 +49,41 @@ def public_raw_labels(out_dir=None) -> dict[str, list[str]]:
     return hits
 
 
+def market_feed_checks() -> list[tuple[str, bool, str]]:
+    """The Odds API feed: key never stored/published, no prices kept, no post-kickoff or post-cutoff lines used."""
+    import os
+
+    from nflcast.data import odds_api as OA
+    out = []
+    key = os.environ.get("ODDS_API_KEY", "").strip()
+    if key:
+        tracked = subprocess.run(["git", "ls-files"], cwd=ROOT, capture_output=True, text=True).stdout.split("\n")
+        places = [ROOT / p for p in tracked if p] + list((ROOT / "logs").glob("*")) + list(OA.DIR.rglob("*.json"))
+        places += [p for p in WEB_OUT_DIR.rglob("*") if p.suffix in (".html", ".json", ".txt", ".js")]
+        places += [p for p in (ROOT / "data" / "backup_repo").rglob("*") if p.is_file() and ".git" not in p.parts]
+        leaks = [str(p.relative_to(ROOT)) for p in places if p.is_file() and key.encode() in p.read_bytes()]
+        out.append(("API key absent from repository, logs, site, snapshots and backup", not leaks, "; ".join(leaks[:5]) or f"{len(places)} files checked"))
+    snaps = sorted(OA.DIR.glob("*/odds_*.json"))
+    priced = [p.name for p in snaps if re.search(r'"(price|odds)[^"]*"\s*:', p.read_text(encoding="utf-8"))]
+    out.append(("The Odds API snapshots contain point values only (no prices)", not priced, "; ".join(priced[:5]) or f"{len(snaps)} snapshots"))
+    bad, n = [], 0
+    for f in release_paths():
+        r = json.loads(f.read_text(encoding="utf-8"))
+        gen = datetime.fromisoformat(r["generated_at_utc"])
+        for g in r["games"]:
+            m = g.get("market") or {}
+            if m.get("source") != OA.SOURCE:
+                continue
+            n += 1
+            ko = datetime.fromisoformat(g["kickoff_utc"])
+            got, upd = datetime.fromisoformat(m["retrieved_at"]), datetime.fromisoformat(m["provider_updated_at"])
+            if not (upd < ko and got < ko and got <= gen):
+                bad.append(f"{f.name}:{g['game_id']}")
+    out.append(("The Odds API lines retrieved and provider-updated before kickoff and before the forecast cutoff", not bad,
+                "; ".join(bad[:5]) or f"{n} game forecasts"))
+    return out
+
+
 def run(download_web_archive: bool = True) -> list[dict]:
     R: list[dict] = []
     # ---------------- labels
@@ -67,6 +102,8 @@ def run(download_web_archive: bool = True) -> list[dict]:
     _check(R, "site performance page shows weather inputs as RETROSPECTIVE", "RETROSPECTIVE" in perf_html)
     meth_html = (WEB_OUT_DIR / "methodology" / "index.html").read_text(encoding="utf-8") if (WEB_OUT_DIR / "methodology" / "index.html").exists() else ""
     _check(R, "methodology page documents approximations", all(s in meth_html for s in ("Actual-starter proxy", "Untimed closing lines")))
+    for name, ok, detail in market_feed_checks():
+        _check(R, name, ok, detail)
     raw = public_raw_labels()
     _check(R, "game pages show no internal codes or player IDs", not raw,
            "; ".join(f"{k}: {v}" for k, v in list(raw.items())[:5]) if raw else f"{len(list((WEB_OUT_DIR / 'game').glob('*/index.html')))} pages clean")

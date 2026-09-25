@@ -101,6 +101,51 @@ def load_manual_market_csv() -> pl.DataFrame:
     return pl.concat(frames)
 
 
+def _prefer_odds_api(out: pl.DataFrame, games: pl.DataFrame, keys: list[str]) -> pl.DataFrame:
+    """Feed v2 (from 2026-09-25): use The Odds API consensus line when a valid one was retrieved before the cutoff (and
+    before kickoff), is no older than `max_age_hours`, and passes the cross-check with the nflverse line. Otherwise keep
+    the line chosen above and record why. Market values only (spread, total); see nflcast.data.odds_api."""
+    from datetime import timedelta
+
+    from nflcast.data import odds_api as OA
+    for col, dtype in (("provider_updated_at", pl.Datetime("us", "UTC")), ("n_books", pl.Int64)):
+        if col not in out.columns:
+            out = out.with_columns(pl.lit(None, dtype).alias(col))
+    out = out.with_columns(pl.col("provider_updated_at").dt.cast_time_unit("us"),
+                           market_fallback_reason=pl.lit(None, pl.Utf8))
+    try:
+        api = OA.market_rows(games) if OA.DIR.exists() else pl.DataFrame()
+    except Exception as e:  # noqa: BLE001 - a broken cache must never block forecasts; the fallback line is used
+        api = pl.DataFrame()
+        out = out.with_columns(market_fallback_reason=pl.lit(f"The Odds API cache unreadable ({type(e).__name__})"))
+    if api.height == 0:
+        return out.with_columns(market_fallback_reason=pl.coalesce(
+            "market_fallback_reason", pl.lit("no The Odds API line available")))
+    max_age = timedelta(hours=OA.cfg()["odds_api"]["max_age_hours"])
+    j = (out.select(keys).join(api, on="game_id", how="inner")
+         .filter((pl.col("snapshot_at") <= pl.col("cutoff_utc")) & (pl.col("snapshot_at") >= pl.col("cutoff_utc") - max_age)))
+    a = j.sort("snapshot_at").group_by(keys).last().select(
+        *keys, *[pl.col(c).alias(f"api_{c}") for c in ("snapshot_at", "home_spread", "total", "provider_updated_at", "n_books")])
+    out = out.join(a, on=keys, how="left")
+    ok = [a_hs is not None and OA.cross_check_ok(a_hs, a_t, n_hs, n_t) for a_hs, a_t, n_hs, n_t in zip(
+        out["api_home_spread"].to_list(), out["api_total"].to_list(), out["home_spread"].to_list(), out["total"].to_list())]
+    out = out.with_columns(_use=pl.Series(ok, dtype=pl.Boolean), _had=pl.col("api_home_spread").is_not_null())
+    u = pl.col("_use")
+    out = out.with_columns(
+        home_spread=pl.when(u).then("api_home_spread").otherwise("home_spread"),
+        total=pl.when(u).then("api_total").otherwise("total"),
+        snapshot_at=pl.when(u).then("api_snapshot_at").otherwise("snapshot_at"),
+        provider_updated_at=pl.when(u).then("api_provider_updated_at").otherwise("provider_updated_at"),
+        n_books=pl.when(u).then("api_n_books").otherwise("n_books"),
+        market_source=pl.when(u).then(pl.lit(OA.SOURCE)).otherwise("market_source"),
+        market_timing=pl.when(u).then(pl.lit("timestamped")).otherwise("market_timing"),
+        market_fallback_reason=pl.when(u).then(pl.lit(None, pl.Utf8))
+        .when(pl.col("_had")).then(pl.lit("The Odds API line failed the cross-check with the nflverse line"))
+        .otherwise(pl.lit(f"no The Odds API line retrieved within {int(max_age.total_seconds() // 3600)} h before the cutoff")),
+    )
+    return out.drop([c for c in out.columns if c.startswith("api_")] + ["_use", "_had"])
+
+
 def market_asof(games: pl.DataFrame, cutoffs: pl.DataFrame, allow_approx_closing: bool) -> pl.DataFrame:
     """Market lines usable at each (game_id, cutoff_utc).
 
@@ -121,16 +166,20 @@ def market_asof(games: pl.DataFrame, cutoffs: pl.DataFrame, allow_approx_closing
         cands.append(live.select("game_id", pl.col("observed_at").alias("snapshot_at"),
                                  (-pl.col("spread_line")).alias("home_spread"), pl.col("total_line").alias("total"),
                                  pl.lit("nflverse_schedules_archived").alias("market_source"),
-                                 pl.lit("observed_by_us").alias("market_timing")))
+                                 pl.lit("observed_by_us").alias("market_timing"),
+                                 pl.col("http_last_modified").str.to_datetime("%a, %d %b %Y %H:%M:%S GMT", time_zone="UTC",
+                                                                              strict=False).alias("provider_updated_at")))
+    keys = ["game_id", "cutoff_utc", "horizon"]
     out = base
     if cands:
         allc = pl.concat(cands, how="diagonal_relaxed").sort("snapshot_at")
         j = base.join(allc, on="game_id", how="inner").filter(pl.col("snapshot_at") <= pl.col("cutoff_utc"))
-        latest = j.sort("snapshot_at").group_by(["game_id", "cutoff_utc", "horizon"]).last()
-        out = base.join(latest, on=["game_id", "cutoff_utc", "horizon"], how="left")
+        latest = j.sort("snapshot_at").group_by(keys).last()
+        out = base.join(latest, on=keys, how="left")
     else:
         out = base.with_columns(snapshot_at=pl.lit(None, pl.Datetime("us", "UTC")), home_spread=pl.lit(None, pl.Float64),
                                 total=pl.lit(None, pl.Float64), market_source=pl.lit(None, pl.Utf8), market_timing=pl.lit(None, pl.Utf8))
+    out = _prefer_odds_api(out, games, keys)
     if allow_approx_closing:
         hist = S.fetch("schedules").filter(pl.col("home_score").is_not_null()).select(
             "game_id", (-pl.col("spread_line")).alias("_hs"), pl.col("total_line").alias("_tot"))

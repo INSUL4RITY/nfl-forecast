@@ -1,0 +1,19 @@
+# Market-data FEED settings. Not part of the frozen model: the model's weights, features and calibration are unchanged;
+# only where the two market inputs (point spread, total) come from. Recorded in every release as `market_feed`.
+feed_version: "market-feed-v2 (2026-09-25): The Odds API primary, nflverse schedule fallback"
+
+odds_api:
+  endpoint: "https://api.the-odds-api.com/v4/sports/americanfootball_nfl/odds"
+  regions: "us"
+  markets: "spreads,totals"          # full-game point spread and total only; prices are discarded before saving
+  cost_per_request: 2                # documented cost = markets x regions
+  routine_interval_hours: 6          # at most four routine refreshes per day, only while the PC is running
+  pregame_window_minutes: 100        # optional extra refresh when a kickoff is this close ...
+  pregame_min_gap_minutes: 50        # ... and the last refresh is at least this old ...
+  pregame_budget_check: true         # ... and remaining credits still cover all routine refreshes to month end
+  retry_after_error_minutes: 60      # after a failed request, wait before trying again (no replay of missed slots)
+  monthly_allowance: 500             # free plan
+  safety_reserve: 20                 # credits kept back beyond the projected routine need
+  hard_floor: 12                     # never request when fewer credits remain (then the fallback feed is used)
+  max_age_hours: 36                  # API snapshots older than this at the cutoff are not used (fallback instead)
+  min_bookmakers: 2                  # consensus needs at least this many valid US bookmakers

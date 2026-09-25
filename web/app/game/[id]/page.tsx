@@ -64,6 +64,7 @@ function flagText(fl: string, side: LineupSide): string | null {
 /** Public name of the market-line source actually recorded in each release (spread and total only). */
 const MARKET_SOURCE: Record<string, string> = {
   nflverse_schedules_archived: "nflverse schedule data (free; snapshot archived by this project)",
+  the_odds_api: "The Odds API (median of US bookmakers)",
 };
 
 const LEGACY_SOURCE: Record<string, string> = {
@@ -84,6 +85,7 @@ const EVIDENCE_TEXT: Record<string, string> = {
 
 const SOURCE_NAME: Record<string, string> = {
   injuries: "Injury reports", depth_charts: "Depth charts", rosters_weekly: "Rosters", schedules: "Schedule & market line",
+  the_odds_api: "Market line (The Odds API)",
 };
 const STATE_TEXT: Record<string, string> = {
   fresh: "fresh", stale_provider: "STALE (provider not updated)", stale_retrieval: "STALE (not re-checked)", missing: "MISSING",
@@ -255,8 +257,15 @@ export default async function GamePage({ params }: { params: Promise<{ id: strin
               </tbody></table></div>
             {e.market && (
               <p className="small ink2" style={{ marginTop: 10 }}>
-                Market inputs: {spreadText(e.market.home_spread, H, A)}, total {f1(e.market.total)} · source: {MARKET_SOURCE[e.market.source] ?? "recorded in the release file"} · observed{" "}
-                <LocalTime venueTz={g.venue_tz} iso={e.market.snapshot_at} />. These two numbers are inputs to the combined model; no prices or odds are used.
+                Market inputs: {spreadText(e.market.home_spread, H, A)}, total {f1(e.market.total)} · source:{" "}
+                {e.market.source === "the_odds_api" && e.market.n_bookmakers
+                  ? `The Odds API (median of ${e.market.n_bookmakers} US bookmakers)`
+                  : MARKET_SOURCE[e.market.source] ?? "recorded in the release file"}
+                {e.market.provider_updated_at ? <> · provider updated <LocalTime venueTz={g.venue_tz} iso={e.market.provider_updated_at} /></> : null}
+                {" "}· retrieved by us <LocalTime venueTz={g.venue_tz} iso={e.market.retrieved_at ?? e.market.snapshot_at} />.
+                These two numbers are inputs to the combined model; no prices or odds are used.
+                {e.market.source !== "the_odds_api" && e.market.fallback_reason && e.market.feed_version
+                  ? <> Fallback line: {e.market.fallback_reason}.</> : null}
               </p>
             )}
           </div>

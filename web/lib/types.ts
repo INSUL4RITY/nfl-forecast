@@ -80,7 +80,11 @@ export interface ReleaseEntry {
   combined: Forecast | null;
   football_only: Forecast;
   market_only: Forecast | null;
-  market: { home_spread: number; total: number; source: string; timing: string; snapshot_at: string } | null;
+  market: {
+    home_spread: number; total: number; source: string; timing: string; snapshot_at: string;
+    retrieved_at?: string; provider_updated_at?: string | null; n_bookmakers?: number | null;
+    fallback_reason?: string | null; feed_version?: string;
+  } | null;
   lineup: { home: LineupSide; away: LineupSide };
   lineup_uncertain: boolean;
   notable_injuries: { team: string; full_name: string; position: string; report_status: string }[];

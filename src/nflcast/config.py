@@ -19,6 +19,32 @@ RELEASES_DIR = ROOT / "releases"
 WEB_OUT_DIR = ROOT / "web" / "out"
 
 
+def load_dotenv(path: Path | None = None) -> list[str]:
+    """Load KEY=VALUE lines from the git-ignored project `.env` into os.environ (existing variables win).
+
+    Runs on import, so the scheduled task and every CLI command see local secrets after a restart without
+    Windows environment changes. Returns the variable NAMES loaded (never values).
+    """
+    import os
+    p = path or ROOT / ".env"
+    loaded = []
+    if not p.exists():
+        return loaded
+    for line in p.read_text(encoding="utf-8").splitlines():
+        line = line.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        k, v = line.split("=", 1)
+        k, v = k.strip(), v.strip().strip('"').strip("'")
+        if k and v and not os.environ.get(k):
+            os.environ[k] = v
+            loaded.append(k)
+    return loaded
+
+
+load_dotenv()
+
+
 @lru_cache(maxsize=1)
 def settings() -> dict:
     with open(CONFIG_DIR / "settings.yaml", encoding="utf-8") as f:

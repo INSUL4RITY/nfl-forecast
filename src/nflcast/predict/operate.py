@@ -82,6 +82,21 @@ def decide(candidate: dict, now: datetime, latest: dict, last_release: datetime 
     return bool(reasons), reasons
 
 
+def _odds_refresh() -> str:
+    """The Odds API refresh when due (routine every 6 h / budgeted pregame). Returns a log line without the key."""
+    import polars as pl
+
+    from nflcast.config import PROCESSED_DIR
+    from nflcast.data import odds_api as OA
+    now = utc_now()
+    g = pl.read_parquet(PROCESSED_DIR / "games.parquet").filter(
+        (pl.col("status") == "scheduled") & (pl.col("kickoff_utc") > now))
+    nxt = g["kickoff_utc"].min() if g.height else None
+    r = OA.refresh_if_due(now, nxt)
+    return (f"fetched={r['fetched']} reason={r['reason']} events={r.get('events')} cost={r.get('cost')} "
+            f"credits_remaining={r.get('requests_remaining')}{' error=' + r['error'] if r.get('error') else ''}")
+
+
 def _git(*args: str) -> subprocess.CompletedProcess:
     return subprocess.run(["git", *args], cwd=ROOT, capture_output=True, text=True)
 
@@ -126,6 +141,11 @@ def run(build_site: bool = True, force: bool = False) -> None:
     try:
         pipeline.ingest()
         pipeline.build()
+        try:
+            _log("operate: odds " + _odds_refresh())
+        except Exception as e:  # noqa: BLE001 - the market feed is best-effort; nflverse lines are the fallback
+            from nflcast.data.odds_api import _scrub
+            _log(f"operate: odds refresh failed: {_scrub(str(e))[:300]}")
         try:
             from nflcast.predict.collect import collect
             c = collect()
