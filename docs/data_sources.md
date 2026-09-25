@@ -30,6 +30,18 @@ historical forecast would have been made. The *as-of* column records what we can
 | Schedule `temp`/`wind` | ~65–95% of outdoor games | Post-game | Observed game-time values | **Never a pregame feature** | CC-BY-4.0 |
 | Timestamped market snapshots (opening/72 h lines) | None free | n/a | n/a | **Gap.** Paid option: The Odds API historical plan (not subscribed). Fallback: CSV import + our own archiving from 2026-09-24 | Provider-specific |
 
+**Candidate injury/stats sources reviewed 2026-09-25 (none added):**
+| Source | What it is | Verdict |
+|---|---|---|
+| nfl.com/injuries | Official league injury report (practice + game status) | Same content as the nflverse injuries we ingest (checked ATL, GB, LAC, BUF: identical players and statuses). nflverse lagged about 10 h on the Thursday report. NFL.com terms bar automated harvesting for commercial use; HTML only. Not needed. |
+| espn.co.uk/nfl/injuries | ESPN aggregation: IR lists, own estimated return dates, dated news notes, game-day inactives | Useful to read; not for automation: Disney/ESPN terms forbid automated extraction for datasets and robots.txt blocks AI crawlers. |
+| pff.com/news/nfl-injury-report | Fantasy-oriented widget (subscription upsell) | Not a data source; page showed sample design data, not live designations. |
+| espn.com/contributor/adam-schefter | Breaking news from a top NFL insider | Most useful for late QB news, but unstructured and under ESPN terms: use manually as the public source for a documented override (`data/manual/qb_overrides.csv`). |
+| x.com/UnderdogNFL | Fast news aggregator on X | robots.txt disallows all crawling; login required; API reads are not free in practice. Manual reading only; cite the original reporter or team for overrides. |
+| nflsavant.com | Fan site of play-by-play views | Its own footer says its data comes via nflverse, so it adds nothing. |
+| ESPN "depth charts for all 32 teams" | Editorial article with links | Not structured; nflverse depth charts are already ingested with timestamps. |
+The real gap is late news between official reports (e.g. inactives ~90 min before kickoff). No free, structured, permitted feed for it was found; the documented manual override route covers it.
+
 **Market feed v2 — The Odds API connected 2026-09-25 (user-authorised).** From release `rel_20260925T132351Z` on, forecasts use
 The Odds API when a valid line exists; nflverse schedule lines are the fallback. Details (`src/nflcast/data/odds_api.py`,
 `configs/market_feed.yaml`):
