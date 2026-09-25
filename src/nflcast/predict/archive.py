@@ -205,7 +205,7 @@ def record_github_runs(publication_evidence: dict) -> int:
 
 
 # ------------------------------------------------------------------ Internet Archive capture
-def web_archive(rel_path: Path, slug: str, commit: str, max_wait_s: int = 90) -> dict | None:
+def web_archive(rel_path: Path, slug: str, commit: str, max_wait_s: int = 240) -> dict | None:
     """Capture the commit-pinned raw URL in the Wayback Machine and verify the archived bytes' sha256."""
     _, ev = _paths(rel_path)
     if any(e["type"] == "web_archive" and e.get("sha256_matches") for e in _evidence(ev)):
