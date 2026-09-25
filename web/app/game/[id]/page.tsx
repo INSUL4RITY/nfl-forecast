@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import LocalTime from "@/components/LocalTime";
 import TeamBadge from "@/components/TeamBadge";
@@ -75,7 +76,7 @@ export default async function GamePage({ params }: { params: Promise<{ id: strin
 
   return (
     <>
-      <p className="small"><a href={`/week/${g.season}/${g.week}/`}>← Week {g.week}</a></p>
+      <p className="small"><Link href={`/week/${g.season}/${g.week}/`}>← Week {g.week}</Link></p>
       <div className="page-head">
         <div>
           <div style={{ display: "flex", gap: 12, alignItems: "center", flexWrap: "wrap" }}>

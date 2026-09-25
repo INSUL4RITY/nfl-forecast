@@ -1,3 +1,4 @@
+﻿import Link from "next/link";
 import type { Team, WeekGame } from "@/lib/types";
 import { f1, fmtDateTime, fmtKickoff, marginText, pct, spreadText } from "@/lib/format";
 import TeamBadge from "./TeamBadge";
@@ -88,7 +89,7 @@ export default function GameCard({ g, teams, tz }: { g: WeekGame; teams: Record<
       )}
       <div className="card-foot">
         <span>{e ? `${e.release_label} release · ${fmtDateTime(g.forecast_generated_at, tz)}` : " "}</span>
-        <a href={`/game/${g.game_id}/`}>Details →</a>
+        <Link href={`/game/${g.game_id}/`}>Details →</Link>
       </div>
     </article>
   );

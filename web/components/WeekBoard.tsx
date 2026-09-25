@@ -50,7 +50,7 @@ export default function WeekBoard({ doc, teams, manifest }: { doc: WeekDoc; team
           Week{" "}
           <select className="select" value={`${doc.season}-${doc.week}`} onChange={(e) => {
             const [s, w] = e.target.value.split("-");
-            window.location.href = `/week/${s}/${w}/`;
+            window.location.href = `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/week/${s}/${w}/`;
           }}>
             {weeks.map((w) => (
               <option key={w.week} value={`${w.season}-${w.week}`}>Week {w.week}{w.has_forecasts ? "" : " (no forecasts)"}</option>

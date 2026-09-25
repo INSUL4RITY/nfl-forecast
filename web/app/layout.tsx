@@ -1,5 +1,6 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import "./globals.css";
+import Link from "next/link";
 import Nav from "@/components/Nav";
 
 export const metadata: Metadata = {
@@ -24,7 +25,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <header className="site-header">
           <div className="container">
-            <a href="/" className="brand"><Mark /> nflcast <small>NFL forecasts</small></a>
+            <Link href="/" className="brand"><Mark /> nflcast <small>NFL forecasts</small></Link>
             <Nav />
           </div>
         </header>

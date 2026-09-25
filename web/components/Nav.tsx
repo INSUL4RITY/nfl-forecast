@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const LINKS = [
@@ -15,7 +16,7 @@ export default function Nav() {
     <nav className="nav" aria-label="Main">
       {LINKS.map(([href, label]) => {
         const active = href === "/" ? path === "/" || path.startsWith("/week") || path.startsWith("/game") : path.startsWith(href);
-        return <a key={href} href={href} className={active ? "active" : undefined}>{label}</a>;
+        return <Link key={href} href={href} className={active ? "active" : undefined}>{label}</Link>;
       })}
     </nav>
   );

@@ -60,6 +60,36 @@ def release_due(now: datetime, daily_hours: float = 20, final_window_min: int = 
     return False, "not due"
 
 
+PUBLISH_TRIGGERS = ["releases", "reports/prospective"]
+PUBLISH_PATHS = PUBLISH_TRIGGERS + ["web/public/data"]
+
+
+def _git(*args: str) -> subprocess.CompletedProcess:
+    return subprocess.run(["git", *args], cwd=ROOT, capture_output=True, text=True)
+
+
+def publish(note: str) -> None:
+    """Commit and push published outputs, but only when a release or scored result changed.
+
+    The site data alone changes on every export (timestamps), so it is only pushed alongside a
+    meaningful change. GitHub Actions then rebuilds and deploys the Pages site.
+    """
+    if _git("remote", "get-url", "origin").returncode != 0:
+        _log("publish: no git remote 'origin'; skipped")
+        return
+    changed = _git("status", "--porcelain", "--", *PUBLISH_TRIGGERS).stdout.strip()
+    if not changed:
+        _log("publish: no new release or results; nothing pushed")
+        return
+    _git("add", "--", *PUBLISH_PATHS)
+    c = _git("commit", "-m", f"Publish: {note}")
+    if c.returncode != 0:
+        _log(f"publish: commit failed: {c.stderr.strip()[:500]}")
+        return
+    p = _git("push", "origin", "HEAD:main")
+    _log(f"publish: push exit={p.returncode} {p.stderr.strip()[-300:]}")
+
+
 def run(build_site: bool = True, force: bool = False) -> None:
     from nflcast import pipeline
     from nflcast.predict import export_web, release, score
@@ -76,6 +106,7 @@ def run(build_site: bool = True, force: bool = False) -> None:
             path = release.generate(now=now)
             _log(f"operate: release {path}")
         export_web.export()
+        publish(f"{why}; {now.isoformat(timespec='minutes')}")
         if build_site:
             r = subprocess.run("npx next build", cwd=ROOT / "web", shell=True, capture_output=True, text=True)
             _log(f"operate: site build exit={r.returncode}")
