@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import LocalTime from "@/components/LocalTime";
 import TeamBadge from "@/components/TeamBadge";
 import { dataProblems } from "@/components/GameCard";
+import StateLabel from "@/components/StateLabel";
 import { allGames, findGame, getTeams } from "@/lib/data";
 import { f1, f2, f3, marginText, pct, pctP, spreadText, STATE_LABEL, VERIFY_LABEL } from "@/lib/format";
 import type { Forecast, LineupSide } from "@/lib/types";
@@ -162,7 +163,7 @@ export default async function GamePage({ params }: { params: Promise<{ id: strin
       ) : (
         <>
           <p className="small ink2">
-            <b>{STATE_LABEL[g.forecast_state]}</b> · generated <LocalTime iso={g.forecast_generated_at} /> ·{" "}
+            <b><StateLabel state={g.forecast_state} kickoff={g.kickoff_utc} /></b> · generated <LocalTime iso={g.forecast_generated_at} /> ·{" "}
             {g.forecast_verification ? VERIFY_LABEL[g.forecast_verification] : ""}
             {g.forecast_public_evidence_at ? <> (first public evidence <LocalTime iso={g.forecast_public_evidence_at} />)</> : null}
             {g.model_version ? <> · model {g.model_version}{g.model_frozen ? " (frozen)" : ""}</> : null}
@@ -322,7 +323,7 @@ export default async function GamePage({ params }: { params: Promise<{ id: strin
                 <td className="r">{f1(h.away_pts)}</td><td className="r">{f1(h.home_pts)}</td>
                 <td className="r">{h.margin != null ? marginText(h.margin, H, A) : "—"}</td><td className="r">{f1(h.total)}</td><td className="r">{pct(h.p_home)}</td>
                 <td className="r">{h.market_spread != null ? `${spreadText(h.market_spread, H, A)} / ${f1(h.market_total)}` : "—"}</td>
-                <td title={Object.values(h.validation_problems ?? {}).flat().join("; ")}>{STATE_LABEL[h.version_state] ?? h.version_state}</td>
+                <td title={Object.values(h.validation_problems ?? {}).flat().join("; ")}><StateLabel state={h.version_state} kickoff={g.kickoff_utc} /></td>
                 <td className="small">{VERIFY_LABEL[h.verification] ?? h.verification}</td>
                 <td className="small" title={h.archive?.sha256 ? `SHA-256 ${h.archive.sha256}` : ""}>
                   {h.archive?.sha256 ? <>sha {h.archive.sha256.slice(0, 10)}…

@@ -1,5 +1,19 @@
 # Operations (Milestone 7)
 
+**Model frozen** (v1.0-2026-rest-of-season, `configs/model_freeze.yaml`): every release loads the frozen artifact; a
+changed artifact or config blocks publishing. Weekly health checks:
+
+```powershell
+.\.venv\Scripts\python.exe -m nflcast freeze-check     # frozen artifact + configs unchanged
+.\.venv\Scripts\python.exe -m nflcast verify-claims    # labels, GitHub evidence, archive tokens/copies
+.\.venv\Scripts\python.exe -m nflcast backup           # private off-PC backup sync + verification
+Select-String -Path logs\operate.log -Pattern "FAILED|VIOLATION|failed"
+```
+
+Off-PC backup: private GitHub repository `INSUL4RITY/nfl-forecast-data` (weather snapshots, injury snapshots/versions,
+schedule/market-line snapshots). Pushed every cycle; verified against the GitHub API (privacy + identical blob hashes).
+**The PC must stay on, awake, online and logged in**: all refreshes, releases, scoring, evidence and backups run here.
+
 ## One cycle
 
 ```powershell

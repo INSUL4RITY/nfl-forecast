@@ -1,6 +1,6 @@
 # Claims verification
 
-Run 2026-09-25T02:10:29.231175+00:00: 33 passed, 0 failed.
+Run 2026-09-25T02:16:55.498910+00:00: 37 passed, 0 failed.
 
 | check | result | detail |
 |---|---|---|
@@ -22,7 +22,9 @@ Run 2026-09-25T02:10:29.231175+00:00: 33 passed, 0 failed.
 | publication not before generation: rel_20260925T015111Z.json | PASS |  |
 | GitHub push time matches API: rel_20260925T015951Z.json | PASS | 2026-09-25T01:59:59Z 15919f6d9f |
 | publication not before generation: rel_20260925T015951Z.json | PASS |  |
-| exported verification labels match evidence (77 versions) | PASS |  |
+| GitHub push time matches API: rel_20260925T021501Z.json | PASS | 2026-09-25T02:15:09Z bf11622430 |
+| publication not before generation: rel_20260925T021501Z.json | PASS |  |
+| exported verification labels match evidence (92 versions) | PASS |  |
 | every late publication has a correction | PASS |  |
 | every release matches its write-once manifest | PASS |  |
 | RFC 3161 token verifies against rel_20260924T232247Z.json | PASS | Sep 25 01:39:14 2026 GMT |
@@ -37,3 +39,5 @@ Run 2026-09-25T02:10:29.231175+00:00: 33 passed, 0 failed.
 | Web Archive copy matches rel_20260925T015111Z.json | PASS | 2026-09-25T01:57:42+00:00 |
 | RFC 3161 token verifies against rel_20260925T015951Z.json | PASS | Sep 25 01:59:54 2026 GMT |
 | Web Archive copy matches rel_20260925T015951Z.json | PASS | 2026-09-25T02:00:09+00:00 |
+| RFC 3161 token verifies against rel_20260925T021501Z.json | PASS | Sep 25 02:15:03 2026 GMT |
+| Web Archive copy matches rel_20260925T021501Z.json | PASS | 2026-09-25T02:15:20+00:00 |

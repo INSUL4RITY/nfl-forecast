@@ -2,6 +2,7 @@
 import type { LineupSide, ReleaseEntry, Team, WeekGame } from "@/lib/types";
 import { f1, fmtDateTime, fmtKickoff, marginText, pct, pctP, spreadText, STATE_LABEL } from "@/lib/format";
 import TeamBadge from "./TeamBadge";
+import StateLabel from "./StateLabel";
 
 function ProbBar({ pAway, pTie, pHome, away, home, awayColor, homeColor }: {
   pAway: number; pTie: number; pHome: number; away: string; home: string; awayColor: string; homeColor: string;
@@ -95,7 +96,7 @@ export default function GameCard({ g, teams, tz }: { g: WeekGame; teams: Record<
         </div>
       )}
       <div className="card-foot">
-        <span>{e ? `${STATE_LABEL[g.forecast_state] ?? g.forecast_state} · generated ${fmtDateTime(g.forecast_generated_at, tz)}` : " "}</span>
+        <span>{e ? <><StateLabel state={g.forecast_state} kickoff={g.kickoff_utc} />{` · generated ${fmtDateTime(g.forecast_generated_at, tz)}`}</> : " "}</span>
         <Link href={`/game/${g.game_id}/`}>Details →</Link>
       </div>
     </article>

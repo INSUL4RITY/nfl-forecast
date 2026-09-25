@@ -1,117 +1,108 @@
-# Progress log
+# Progress log — nflcast
 
-Specification: `NFL_Forecasting_Claude_Build_Brief.md` (Downloads folder, 24 Sep 2026).
-Update this file at the end of every working session.
+Spec: `C:\Users\Craig\Downloads\NFL_Forecasting_Claude_Build_Brief.md`. Rules: `CLAUDE.md`. Live site:
+https://insul4rity.github.io/nfl-forecast/ (public repo INSUL4RITY/nfl-forecast). Last updated 2026-09-25 ~02:30 UTC.
 
-## Session 3 (2026-09-25): freshness, archive, QB-rate audit, approximations, weather/injury collection
-
-| Item | Implemented | Tested / evidence | Unresolved |
-|---|---|---|---|
-| 1. Freshness & chain | Provider + retrieval freshness per source; stale/missing shown per game (`data_freshness`, site panel + card tag); roster validation for every QB in the chain; chain-exhaustion flag; overrides require `expires_at_utc`; designation-pending handling | 25 QB tests incl. QB1 reserve + QB2 released, missing roster, inactive, stale provider files, expired overrides, chain exhaustion, pending designation | No official NFL feed; nflverse refresh cadence limits freshness; mid-week practice readings uncalibrated |
-| 2. Archive | Write-once manifests (sha256, cutoff, generation, model version, inputs); append-only evidence: FreeTSA RFC 3161 token, GitHub push-run copy, Internet Archive copy with hash check; integrity check stops publishing | All 5 releases archived; 4 with all three evidence types (1 awaiting push); tests: write-once, tamper detection, append-only, archive files never read as releases | Evidence for releases before today was obtained today (not back-dated); Wayback "Save" is best-effort and retried |
-| 3. QB-rate audit | Audit report; start ≠ play documented; Jeffreys + practice-aware shrinkage (m by nested validation); 90% intervals everywhere | Walk-forward 2019-24: overall log-loss gain CI excludes 0; Q/D-only gain not established (n=162) | Downward drift in recent start rates for listed QBs (reported, not corrected) |
-| 4. Approximations | Actual-starter proxy and untimed closing lines documented (site Performance callout + Methodology + docs); original benchmark untouched; prospective results separate | — | Historical market lines remain untimed |
-| 5. Weather / non-QB injuries | Weather snapshots per upcoming game each cycle; injury-report versions table; separate pre-specified evaluations | Both groups **not promoted** (CIs include zero) | Weather history is retrospective; early-horizon injuries need a season of collected versions; coaching deferred |
-
-Tests: 57 passing. New release `rel_20260925T015111Z` (schema v3 with freshness, roster checks, practice-aware rates, weather display).
-Bug found and fixed before push: archive manifests (`rel_*.manifest.json`) matched the release glob; all scans now use
-`config.release_paths()` (strict `releases/<season>/week_<nn>/rel_*.json`), with a regression test.
-
-## Session 2 (2026-09-25): reliability fixes from independent review
-
-All five review findings were reproduced and fixed. Details are in `docs/methodology.md` (new sections).
-
-| Finding | Reproduced | Fix |
-|---|---|---|
-| 1. QB availability | Yes: CHI had no Week 3 injury report yet; the code treated "no report" as healthy, so Caleb Williams was 100%. QB2 could be promoted without checking his own status (Bagent was Questionable/DNP in Week 1 and relieved Williams in Week 2) | `features/qb_availability.py`: every QB resolved with evidence and timestamp; missing/stale report and stale depth chart are flagged, never treated as available; historical start rates (daily charts where n≥30, else weekly); sequential scenarios; documented overrides (`data/manual/qb_overrides.csv`). Williams is now 96.7% with the "report not available" flag |
-| 2. Validation | Yes: `pending_validation_failed` entries could be written, displayed and scored | `predict/validation.py` shared by release/export/score; failed combined → labelled football-only fallback; nothing valid → `rejected_validation_failed`, never current or scored; newest valid version wins |
-| 3. Input-driven updates | Yes: only 20 h heartbeat + final hour | Per-game input fingerprints (market, QBs, injury report, team form, model); `operate` publishes on any change; no updates after kickoff |
-| 4. Publication records | Yes: ATL@GB releases generated 23:22/23:51/00:02 UTC, kickoff 00:15, repo created 00:30:49, first public push 00:31:03 | `predict/publication.py`: evidence only from GitHub server timestamps (`releases/publication_evidence.json`); append-only `releases/corrections.jsonl` (3 ATL@GB corrections); release files untouched; scoring split by verification |
-| 5. Labels/explanations | Yes: future games showed "frozen (scored)" | States latest pregame / locked at kickoff / scored; methodology explains actual-starter proxy, untimed closing lines, display-only non-QB injuries, no weather/coaching |
-
-Also: the `locked-test` command now refuses a second untouched run (`--revision-label` needed; writes `reports/revised_evaluations/`).
-New release `rel_20260925T011000Z` (schema v3, 15 unplayed Week 3 games, all valid), first public evidence 01:12:19 UTC.
-Found and fixed while verifying: inside Task Scheduler the GitHub CLI reported "not logged in" (its login file was
-written from a sandboxed shell), which would have blocked auto-publishing. `scripts/operate.ps1` now passes the token from
-Windows Credential Manager (`GH_TOKEN`), git uses a repo-local gh credential helper, and prompts are disabled. A real push
-from the Task Scheduler context was verified (remote HEAD = local HEAD).
-The production model and the original 2025 evaluation are unchanged.
-
-Tests: 38 passing (was 18). New regression tests: QB1 and QB2 both out, QB2 availability checked, missing report,
-early-exit rate, stale report, stale/missing depth chart, overrides (timing and required source), leader never inflated,
-invalid newer version cannot replace valid older one (selection, export, scoring), state labels, verification labels,
-input-change triggers, final window and no updates after kickoff.
-
-Remaining limitations: live QB availability depends on nflverse's refresh cadence (no official NFL feed); the
-rates for Questionable/Doubtful QBs rest on small samples (n=193/31, weekly charts); overrides require manual entry
-with a public source; the historical backtest still uses the actual-starter proxy and untimed closing lines; non-QB
-injuries are display-only; weather and coaching are not modelled; publication evidence depends on GitHub Actions records.
-
-## Status at end of session 1 (2026-09-25 00:10 UTC)
-
-| Milestone | Status |
+## 1. Current model version (FROZEN for the rest of the 2026 season)
+| Item | Value |
 |---|---|
-| 1. Data audit | **Done.** `docs/data_sources.md`, `reports/audit/audit_latest.json` |
-| 2. Benchmarks | **Done.** Market raw/calibrated, naive, football-only; walk-forward |
-| 3. Personnel & context | **Done.** QB ratings/expected starter, injury availability, schedule context, ablations, window tuning |
-| 4. Combined model | **Done.** Residual ridge (selected), direct ridge, residual HGB. Frozen in `configs/production.yaml` |
-| 5. Probabilities & intervals | **Done.** Calibrated on out-of-fold predictions; locked 2025 test run **once** |
-| 6. Website | **Live** at https://insul4rity.github.io/nfl-forecast/ (GitHub Pages, repo INSUL4RITY/nfl-forecast) |
-| 7. Prospective operation | **Running.** Task Scheduler `nflcast-operate` every 30 min (while logged in); auto-publishes to GitHub |
+| Version | **v1.0-2026-rest-of-season**, frozen 2026-09-25T02:13:28Z, valid through the end of the 2026 postseason |
+| Record / artifact | `configs/model_freeze.yaml`; `artifacts/frozen/v1.0-2026-rest-of-season/production.joblib` (sha256 66e9d500c8b4a8c1…) |
+| Primary | Combined residual-to-market ridge (C_resid, feature set core_qb): market spread/total + football features incl. QB layer |
+| Fallback | Football-only ridge (B, core_qb) when no line or when the combined forecast fails validation |
+| Benchmark | Market-only (spread/total mapped to scores) |
+| Training data | 2,793 completed final-horizon games, 2016 → 2026_02_NYG_LA |
+| Probabilities / intervals | Logistic on predicted margin + smoothed tie rate; OOF residual quantiles (locked-test run locked_20260924T234835Z) |
+| QB start rates | key v3_start_practice_listed_through_2025 (Jeffreys; status × practice shrinkage m=10; daily charts where n ≥ 30) |
+| Verified | fitted-vs-frozen forecasts identical (max abs diff 0.0 on 15 games); `python -m nflcast freeze-check` OK |
+While frozen: no refit, retune or feature change. Scheduled runs only refresh inputs (as-of team form from completed games,
+market lines, QB availability, injury display, weather display). A changed artifact/config blocks publishing.
 
-## Environment
-- Python 3.12.10 (venv `.venv`, pins in `requirements.lock.txt`), Node.js 24.19, Next.js 16.3.6, TypeScript 5.9, git 2.55.
-- Git repository initialised; commits per milestone.
-- `pytest`: 18 tests pass (leakage, signs, coherence, DST, market policy, probabilities, intervals, scoring).
+## 2. Completed work (summary)
+- M1–M7 (session 1): data audit, as-of features, market/football/combined models, probabilities/intervals, locked 2025 test
+  (once), Next.js site, scheduled operation, GitHub Pages.
+- Session 2 (review fixes): evidence-based QB availability; validation gate (invalid forecasts never current/scored);
+  input-fingerprint releases; publication evidence from GitHub server times; append-only corrections (3 for ATL@GB, generated
+  before but public after kickoff); state labels (latest pregame / locked at kickoff / scored).
+- Session 3: source freshness (provider + retrieval), roster-validated QB replacement chain, expiring overrides, start≠play
+  audit, practice-aware start rates with 90% intervals, designation-pending handling; durable archive (write-once manifests,
+  FreeTSA RFC 3161 tokens, GitHub push-run copies, Internet Archive copies, integrity check); weather snapshot + injury-version
+  collection; separate pre-specified feature-group evaluations (weather and non-QB injuries **not promoted**).
+- Session 4 (this): private off-PC backup (`INSUL4RITY/nfl-forecast-data`); QB drift investigation
+  (`reports/qb_availability/drift_investigation.md`: no data/calculation error; no retune); `verify-claims` re-verification;
+  model freeze; client-side "locked at kickoff" label when the site is stale; CLAUDE.md.
 
-## Results (real outputs of the code in this repo)
+## 3. Tests and checks (2026-09-25)
+- `pytest`: **61 passed** (leakage, signs, identities, market policy, probabilities, scoring, validation/states, QB availability
+  (25), archive integrity, release-path isolation, freeze).
+- `python -m nflcast verify-claims`: **37/37 passed** (retrospective weather + untimed lines labelled in reports and the built
+  site; every GitHub push time re-fetched and matching; no publication before generation; 77 exported verification labels
+  recomputed from evidence; corrections complete; all RFC 3161 tokens verify against the files; all Web Archive copies match).
+  Report: `reports/claims_verification.md`.
+- `python -m nflcast backup`: private repo verified, all files present with identical git blob hashes.
+- Demonstration (Task Scheduler, 02:14–02:15 UTC): refresh → collect → backup push → frozen-model release
+  `rel_20260925T021501Z` → manifest + trusted timestamp → push → GitHub evidence + Web Archive copy → push → site build;
+  Pages deploy succeeded; live page shows "model v1.0-2026-rest-of-season (frozen)" and the evidence chain.
 
-Final-pregame horizon, margin/total RMSE (MAE in reports):
+## 4. Automation schedule
+- Windows Task Scheduler `nflcast-operate` → `scripts/operate.ps1` every 30 min, **only while the user is logged in** (S4U
+  "run whether logged on or not" needs admin rights). Each cycle: integrity + freeze checks → ingest (nflverse) → build →
+  collect (weather snapshots; injury versions) → backup push → score → publication evidence → candidate release; publish if
+  any input fingerprint changed, a game is < 60 min from kickoff, or ≥ 20 h since the last release → archive (manifest,
+  RFC 3161) → export → push (public repo) → evidence + Web Archive → push → local site build. GitHub Actions deploys Pages.
+- **Does the PC have to stay on? Yes.** All refreshes, releases, final-hour updates, scoring, collection and backups run on
+  this PC. If it is off, asleep or logged out: the public site stays up with the last published forecasts (labels switch to
+  "locked at kickoff" in the browser at kickoff), but no new forecasts, updates, scores, evidence or backups happen, and any
+  missed final-hour window cannot be recreated later.
 
-| Model | 2019–21 tune | 2022–24 dev | 2025 locked |
-|---|---|---|---|
-| Market only | 13.12 / 13.26 | 12.48 / 12.95 | **12.24 / 13.24** |
-| Combined (selected, C_resid core_qb) | 13.13 / 13.27 | **12.47 / 12.90** | 12.29 / 13.32 |
-| Football only (+QB) | 13.34 / 13.50 | 12.72 / 13.13 | 12.70 / 13.28 |
-| Naive home average | 14.83 / 13.98 | 13.80 / 13.66 | 14.11 / 13.83 |
+## 5. Data locations
+| What | Where | Public? |
+|---|---|---|
+| Forecast releases (immutable) | `releases/<season>/week_<nn>/rel_*.json` | public repo |
+| Archive manifests / evidence logs / TSA certs | `releases/archive/` | public repo |
+| Publication evidence; corrections | `releases/publication_evidence.json`; `releases/corrections.jsonl` | public repo |
+| Frozen model | `artifacts/frozen/…/production.joblib`; `configs/model_freeze.yaml` | public repo |
+| Reports (backtests, locked test, QB audit/drift, feature groups, claims) | `reports/` | public repo |
+| Site data (exported) | `web/public/data/` | public repo |
+| Raw nflverse snapshots (all sources, append-only) | `data/raw/<source>/<season>/` | local only |
+| Weather snapshots | `data/raw/weather/<season>/<game_id>/` | local + **private backup** |
+| Injury snapshots + version table | `data/raw/injuries/2026/`, `data/processed/injury_versions.parquet` | local + **private backup** |
+| Schedule/market-line snapshots | `data/raw/schedules/all/` | local + **private backup** |
+| Private backup repo (working copy) | `data/backup_repo/` → github.com/INSUL4RITY/nfl-forecast-data (private) | private |
+| Manual inputs | `data/manual/` (QB overrides, venues) | public repo |
+| Logs | `logs/operate.log` | local only |
+Not backed up off-PC (re-downloadable or derivable): other raw nflverse snapshots (depth charts, rosters, pbp), processed tables.
+Note: depth-chart and roster snapshot *history* is not re-downloadable either; it is local only (large files).
 
-- Combined vs market: every paired 95% CI includes zero (dev and locked). **The market line is not beaten**; this is the honest headline.
-- QB features: margin RMSE 12.85 → 12.72 (dev, football-only); in QB-change games margin MAE 10.11 → 9.77 (market 9.68).
-- Injury (non-QB) features: small gain for football-only, none once the market is included → not in the production model.
-- Probabilities (locked 2025): log loss combined 0.6327, market-only 0.6286, football-only 0.6444. Calibration table in the report.
-- Intervals (locked 2025, combined): 80% → 80.7% coverage; 95% → 97.2% (margin). Total: 80% ≈ 80%, 95% ≈ 95%.
-- Reports: `reports/backtest/LATEST.md`, `reports/locked_test/LATEST.md`, `reports/tuning/`.
+## 6. Operational blockers (need action or attention; not research)
+1. PC must be on, awake, online and logged in for the whole season (Task Scheduler interactive logon). Sleep settings are the
+   user's choice; if the PC sleeps, runs are missed (catch-up runs when it wakes, but past final-hour windows are lost).
+2. GitHub CLI login must stay valid (token in Windows Credential Manager). If pushes fail, `logs/operate.log` shows it:
+   run `gh auth login --web` again.
+3. External best-effort services: FreeTSA and the Internet Archive can fail or be slow; failures are logged and retried.
+4. Depth-chart and roster snapshot history exists only on this PC (not backed up; large). Loss would affect only the audit of
+   past QB-availability inputs, not published forecasts.
+5. Data freshness depends on nflverse's refresh cadence; there is no official NFL feed.
 
-## Releases (prospective, immutable)
-- `releases/2026/week_03/rel_20260924T232247Z.json`: Milestone-2 baseline (schema v1, not scored, kept as a record).
-- `rel_20260924T235129Z.json`, `rel_20260925T000247Z.json`: production schema v2, all 16 Week 3 games, generated before
-  the first kickoff (ATL@GB 00:15 UTC 25 Sep). These are the first genuinely live forecasts; they will be scored after the games.
+## 7. Research limitations (need future data; no action this season)
+1. Early-horizon (72 h) market validation needs timestamped lines — being collected since 2026-09-24.
+2. Mid-week injury practice readings are uncalibrated (no intra-week history) — injury versions being collected.
+3. Weather value is untested on strictly as-of data (historical evaluation was retrospective) — snapshots being collected.
+4. QB start-rate intervals ignore clustering by injury episode; a downward drift in 2024 is not significant at episode level.
+5. Historical backtests use the actual-starter proxy and untimed (≈ closing) lines; they remain optimistic vs live.
+6. Coaching/play-caller effects deferred (no dated source). Non-QB injuries display-only (not promoted).
+7. Prospective sample is tiny so far; weekly results are noisy.
 
-## Decisions made (routine, recorded)
-- Production = residual-to-market ridge with QB features (tie on the selection criterion; simplest of the tied options).
-  Early releases apply it to the line observed at release time (validated only at final horizon; labelled).
-- Locked 2025 result (market marginally better) did **not** change the choice; the 2026 live record is the next untouched test.
-- Window settings kept at half-life 8 / carry 0.6 (grid flat).
-- Tie probability = smoothed REG tie rate since 2017 (~0.36%); interval method = OOF residual quantiles.
-- Site: static export; the displayed verdict text on /performance summarises current results and must be revisited if results change.
+## 8. Exact next steps
+- Weekly (≈5 min): check `logs/operate.log` for FAILED/VIOLATION lines; run `.\.venv\Scripts\python.exe -m nflcast verify-claims`
+  and `... -m nflcast backup` (both should pass); glance at the site.
+- Do NOT change model code/configs; do not add features. Operational bug fixes only (they must not touch `configs/production.yaml`,
+  `configs/settings.yaml` or the frozen artifact; freeze-check enforces this).
+- After the Super Bowl (Feb 2027): run `score`; report prospective 2026 results (all generated-pregame and publicly verifiable
+  subsets) against market-only and football-only on identical games; then evaluate collected weather, injury-version and line
+  data under pre-specified rules; consider an episode-level QB-rate estimator; decide on a v2.0 model for 2027.
+- Optional (only if you want to remove the PC dependency): move operation to a cloud runner — needs a decision and setup.
 
-## Needs from you
-- Keep the PC on and signed in to Windows on game days (the scheduled task only runs while you are logged in).
-- If `logs/operate.log` shows push failures, the GitHub login may have expired: run `gh auth login --web`.
-- Optional/paid: historical timestamped lines (e.g. The Odds API) would enable a historical 72 h market benchmark. Not needed.
-
-## Session log (continued)
-- **S1b (2026-09-25):** registered Task Scheduler job (Interactive logon; S4U needs admin). Installed GitHub CLI, user signed in
-  (INSUL4RITY). Rewrote local commit authors to the GitHub noreply address before the first push. Created the public repo
-  nfl-forecast, enabled Pages (Actions build), first deploy succeeded, live site verified (styles, base-path links, navigation).
-
-## Next steps
-- Keep releases running through the season; after ~4 weeks, review live scoring (small samples: don't over-read).
-- Advanced model track (FTN charting 2022+, PFR pressure 2018+) evaluated on its own date range, as an ablation.
-- Maintain `data/manual/staff_history.csv` (coordinators/play-callers) if you want coaching features.
-- Early-horizon market evaluation once enough archived line snapshots exist.
-- Optional: a team-ratings history chart and a per-week results view on the site.
-
-## Session log
-- **S1 (2026-09-24/25):** installed Python, Node.js and git; built M1–M7. Ran audit, backtests, tuning, locked test (once),
-  3 releases (1 baseline + 2 production for Week 3), website build and mobile/desktop check in the browser pane, one `operate` cycle.
+## 9. Releases so far
+`releases/2026/week_03/`: 1 baseline (schema v1, not scored) + production releases from 2026-09-24T23:51Z; the first frozen-model
+release is `rel_20260925T021501Z`. See `releases/archive/2026/` for per-release evidence.
