@@ -60,9 +60,11 @@ export default function PerformancePage() {
       <div className="page-head"><div>
         <div className="small muted" style={{ fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase" }}>Results &amp; validation</div>
         <h1>How good are the forecasts?</h1>
-        <p className="ink2" style={{ maxWidth: 760 }}>Every number here was produced by the evaluation code on real data. Retrospective backtests
-          (forecasts rebuilt for past seasons using only information available before each game) are kept separate from forecasts published
-          live before kickoff.</p>
+        <p className="ink2" style={{ maxWidth: 760 }}>Every number here was produced by the evaluation code on real data. There are two kinds
+          of results, reported separately. <b>Retrospective backtests</b> rebuild forecasts for past seasons from team data available before each
+          game, but with two approximations: the quarterback who actually started is used as a stand-in for the expected starter, and
+          historical market lines are untimed (approximately closing lines). This makes them somewhat optimistic. <b>Prospective results</b> are
+          forecasts that were generated before kickoff and archived with timestamps in the 2026 season; only these are genuine live tests.</p>
       </div></div>
 
       <div className="callout">

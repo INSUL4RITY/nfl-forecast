@@ -1,7 +1,7 @@
 ﻿"use client";
 import { useEffect, useMemo, useState } from "react";
 import type { Manifest, Team, WeekDoc } from "@/lib/types";
-import { dayKey, fmtDateTime, tzFor, type TzMode } from "@/lib/format";
+import { dateRange, dayKey, fmtDateTime, tzFor, type TzMode } from "@/lib/format";
 import GameCard from "./GameCard";
 
 export default function WeekBoard({ doc, teams, manifest }: { doc: WeekDoc; teams: Record<string, Team>; manifest: Manifest }) {
@@ -24,13 +24,17 @@ export default function WeekBoard({ doc, teams, manifest }: { doc: WeekDoc; team
     try { localStorage.setItem("nflcast.tz", m); } catch { /* ignore */ }
   };
 
-  // Day grouping uses the chosen timezone (stadium mode groups by the viewer's local day for stability).
-  const groupTz = !mounted ? "UTC" : tzMode === "london" ? "Europe/London" : undefined;
-  const days = useMemo(() => Array.from(new Set(doc.games.map((g) => dayKey(g.kickoff_utc, groupTz)))), [doc, groupTz]);
+  // Date range, day headings, day filters and kickoff times all use the selected mode: your time zone, UK time, or each
+  // game's own stadium-local date. Days are ordered by their earliest kickoff.
+  const dayOf = (g: WeekDoc["games"][number]) => dayKey(g.kickoff_utc, tzOf(g.venue_tz));
+  const byKickoff = useMemo(() => [...doc.games].sort((a, b) => a.kickoff_utc.localeCompare(b.kickoff_utc)), [doc]);
+  const days = Array.from(new Set(byKickoff.map(dayOf)));
   const teamsInWeek = useMemo(() => Array.from(new Set(doc.games.flatMap((g) => [g.away, g.home]))).sort(), [doc]);
-  const shown = doc.games.filter((g) => (day === "all" || dayKey(g.kickoff_utc, groupTz) === day)
+  const shown = byKickoff.filter((g) => (day === "all" || dayOf(g) === day)
     && (team === "all" || g.home === team || g.away === team));
-  const grouped = days.map((d) => ({ d, games: shown.filter((g) => dayKey(g.kickoff_utc, groupTz) === d) })).filter((x) => x.games.length);
+  const grouped = days.map((d) => ({ d, games: shown.filter((g) => dayOf(g) === d) })).filter((x) => x.games.length);
+  const range = dateRange(byKickoff.map((g) => [g.kickoff_utc, tzOf(g.venue_tz)] as const));
+  const changeMode = (m: TzMode) => { changeTz(m); setDay("all"); };
   const weeks = manifest.weeks.filter((w) => w.season === doc.season);
 
   return (
@@ -42,8 +46,8 @@ export default function WeekBoard({ doc, teams, manifest }: { doc: WeekDoc; team
           </div>
           <h1>Weekly projections</h1>
           <div className="meta-line">
-            {doc.date_range && <>{doc.date_range[0]} to {doc.date_range[1]} · </>}<b>{doc.n_games}</b> games ·{" "}
-            {doc.last_release_at ? <>last model update <b>{fmtDateTime(doc.last_release_at, tzOf("UTC"))}</b></> : "no release yet"}
+            {range && <>{range} · </>}<b>{doc.n_games}</b> games ·{" "}
+            {doc.last_release_at ? <>last model update <b>{fmtDateTime(doc.last_release_at, mounted && tzMode !== "stadium" ? tzFor(tzMode, "UTC") : "UTC")}</b></> : "no release yet"}
           </div>
         </div>
         <label className="small ink2">
@@ -69,7 +73,7 @@ export default function WeekBoard({ doc, teams, manifest }: { doc: WeekDoc; team
           {teamsInWeek.map((t) => <option key={t} value={t}>{teams[t]?.name ?? t}</option>)}
         </select>
         <span className="spacer" />
-        <select className="select" aria-label="Time zone" value={tzMode} onChange={(e) => changeTz(e.target.value as TzMode)}>
+        <select className="select" aria-label="Time zone" value={tzMode} onChange={(e) => changeMode(e.target.value as TzMode)}>
           <option value="local">Your time zone</option>
           <option value="london">UK time (Europe/London)</option>
           <option value="stadium">Stadium local time</option>

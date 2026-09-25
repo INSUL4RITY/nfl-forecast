@@ -61,6 +61,11 @@ function flagText(fl: string, side: LineupSide): string | null {
   return null;
 }
 
+/** Public name of the market-line source actually recorded in each release (spread and total only). */
+const MARKET_SOURCE: Record<string, string> = {
+  nflverse_schedules_archived: "nflverse schedule data (free; snapshot archived by this project)",
+};
+
 const LEGACY_SOURCE: Record<string, string> = {
   depth_chart_daily: "the daily depth chart", depth_chart_weekly: "the weekly depth chart", depth_chart: "the depth chart",
   last_starter: "the team's most recent starter", override: "a documented override",
@@ -157,7 +162,7 @@ export default async function GamePage({ params }: { params: Promise<{ id: strin
             <h1 style={{ margin: 0 }}>{teams[A]?.nick} at {teams[H]?.nick}</h1>
           </div>
           <div className="meta-line" style={{ marginTop: 8 }}>
-            <LocalTime iso={g.kickoff_utc} kickoff known={g.kickoff_time_known} /> · {g.stadium}{g.neutral_site ? " (neutral site)" : ""}
+            <LocalTime venueTz={g.venue_tz} iso={g.kickoff_utc} kickoff known={g.kickoff_time_known} /> · {g.stadium}{g.neutral_site ? " (neutral site)" : ""}
             {g.roof ? ` · ${g.roof}` : ""} · {g.game_type === "REG" ? "Regular season" : "Playoffs"}
           </div>
         </div>
@@ -195,9 +200,9 @@ export default async function GamePage({ params }: { params: Promise<{ id: strin
       ) : (
         <>
           <p className="small ink2">
-            <b><StateLabel state={g.forecast_state} kickoff={g.kickoff_utc} /></b> · generated <LocalTime iso={g.forecast_generated_at} /> ·{" "}
+            <b><StateLabel state={g.forecast_state} kickoff={g.kickoff_utc} /></b> · generated <LocalTime venueTz={g.venue_tz} iso={g.forecast_generated_at} /> ·{" "}
             {g.forecast_verification ? VERIFY_LABEL[g.forecast_verification] : ""}
-            {g.forecast_public_evidence_at ? <> (first public evidence <LocalTime iso={g.forecast_public_evidence_at} />)</> : null}
+            {g.forecast_public_evidence_at ? <> (first public evidence <LocalTime venueTz={g.venue_tz} iso={g.forecast_public_evidence_at} />)</> : null}
             {g.model_version ? <> · {g.model_frozen ? `model ${g.model_version} (frozen)` : `pre-freeze model build ${g.model_version.replace(/^unfrozen-/, "").slice(0, 8)}`}</> : null}
           </p>
           <div className="three-col">
@@ -250,8 +255,8 @@ export default async function GamePage({ params }: { params: Promise<{ id: strin
               </tbody></table></div>
             {e.market && (
               <p className="small ink2" style={{ marginTop: 10 }}>
-                Market inputs: {spreadText(e.market.home_spread, H, A)}, total {f1(e.market.total)} · source: nflverse schedule data · observed{" "}
-                <LocalTime iso={e.market.snapshot_at} />. These two numbers are inputs to the combined model; no prices or odds are used.
+                Market inputs: {spreadText(e.market.home_spread, H, A)}, total {f1(e.market.total)} · source: {MARKET_SOURCE[e.market.source] ?? "recorded in the release file"} · observed{" "}
+                <LocalTime venueTz={g.venue_tz} iso={e.market.snapshot_at} />. These two numbers are inputs to the combined model; no prices or odds are used.
               </p>
             )}
           </div>
@@ -350,8 +355,8 @@ export default async function GamePage({ params }: { params: Promise<{ id: strin
               <th className="r">Total</th><th className="r">P({H})</th><th className="r">Market</th><th>State</th><th>Verification</th><th>Archive</th></tr></thead>
             <tbody>{g.history.map((h) => (
               <tr key={h.run_id} className={h.run_id === g.forecast_run_id ? "hl" : undefined}>
-                <td><LocalTime iso={h.generated_at} /></td>
-                <td>{h.public_evidence_at ? <LocalTime iso={h.public_evidence_at} /> : "not yet evidenced"}</td>
+                <td><LocalTime venueTz={g.venue_tz} iso={h.generated_at} /></td>
+                <td>{h.public_evidence_at ? <LocalTime venueTz={g.venue_tz} iso={h.public_evidence_at} /> : "not yet evidenced"}</td>
                 <td className="r">{f1(h.away_pts)}</td><td className="r">{f1(h.home_pts)}</td>
                 <td className="r">{h.margin != null ? marginText(h.margin, H, A) : "—"}</td><td className="r">{f1(h.total)}</td><td className="r">{pct(h.p_home)}</td>
                 <td className="r">{h.market_spread != null ? `${spreadText(h.market_spread, H, A)} / ${f1(h.market_total)}` : "—"}</td>

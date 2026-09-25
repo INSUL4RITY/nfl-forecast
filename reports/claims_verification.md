@@ -1,6 +1,6 @@
 # Claims verification
 
-Run 2026-09-25T02:41:32.019048+00:00: 38 passed, 0 failed.
+Run 2026-09-25T12:37:48.617606+00:00: 50 passed, 0 failed.
 
 | check | result | detail |
 |---|---|---|
@@ -25,7 +25,13 @@ Run 2026-09-25T02:41:32.019048+00:00: 38 passed, 0 failed.
 | publication not before generation: rel_20260925T015951Z.json | PASS |  |
 | GitHub push time matches API: rel_20260925T021501Z.json | PASS | 2026-09-25T02:15:09Z bf11622430 |
 | publication not before generation: rel_20260925T021501Z.json | PASS |  |
-| exported verification labels match evidence (92 versions) | PASS |  |
+| GitHub push time matches API: rel_20260925T051555Z.json | PASS | 2026-09-25T05:16:02Z 6cc2b8d89e |
+| publication not before generation: rel_20260925T051555Z.json | PASS |  |
+| GitHub push time matches API: rel_20260925T061553Z.json | PASS | 2026-09-25T06:16:01Z 6ba7b55869 |
+| publication not before generation: rel_20260925T061553Z.json | PASS |  |
+| GitHub push time matches API: rel_20260925T121558Z.json | PASS | 2026-09-25T12:16:07Z c9a7f56dea |
+| publication not before generation: rel_20260925T121558Z.json | PASS |  |
+| exported verification labels match evidence (137 versions) | PASS |  |
 | every late publication has a correction | PASS |  |
 | every release matches its write-once manifest | PASS |  |
 | RFC 3161 token verifies against rel_20260924T232247Z.json | PASS | Sep 25 01:39:14 2026 GMT |
@@ -42,3 +48,9 @@ Run 2026-09-25T02:41:32.019048+00:00: 38 passed, 0 failed.
 | Web Archive copy matches rel_20260925T015951Z.json | PASS | 2026-09-25T02:00:09+00:00 |
 | RFC 3161 token verifies against rel_20260925T021501Z.json | PASS | Sep 25 02:15:03 2026 GMT |
 | Web Archive copy matches rel_20260925T021501Z.json | PASS | 2026-09-25T02:15:20+00:00 |
+| RFC 3161 token verifies against rel_20260925T051555Z.json | PASS | Sep 25 05:15:57 2026 GMT |
+| Web Archive copy matches rel_20260925T051555Z.json | PASS | 2026-09-25T05:16:26+00:00 |
+| RFC 3161 token verifies against rel_20260925T061553Z.json | PASS | Sep 25 06:15:56 2026 GMT |
+| Web Archive copy matches rel_20260925T061553Z.json | PASS | 2026-09-25T06:16:19+00:00 |
+| RFC 3161 token verifies against rel_20260925T121558Z.json | PASS | Sep 25 12:16:01 2026 GMT |
+| Web Archive copy matches rel_20260925T121558Z.json | PASS | 2026-09-25T12:16:18+00:00 |

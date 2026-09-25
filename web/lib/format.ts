@@ -18,6 +18,18 @@ export function dayKey(iso: string, tz?: string): string {
   return new Intl.DateTimeFormat("en-GB", { weekday: "long", day: "numeric", month: "long", timeZone: tz }).format(new Date(iso));
 }
 
+/** Week date range from each kickoff's date in its own display time zone, e.g. "Fri 25 Sept – Tue 29 Sept". */
+export function dateRange(items: readonly (readonly [string, string | undefined])[]): string | null {
+  if (!items.length) return null;
+  const ymd = (iso: string, tz?: string) =>
+    new Intl.DateTimeFormat("en-CA", { year: "numeric", month: "2-digit", day: "2-digit", timeZone: tz }).format(new Date(iso));
+  const fmt = (iso: string, tz?: string) =>
+    new Intl.DateTimeFormat("en-GB", { weekday: "short", day: "numeric", month: "short", timeZone: tz }).format(new Date(iso));
+  const s = items.map(([iso, tz]) => ({ k: ymd(iso, tz), iso, tz })).sort((a, b) => a.k.localeCompare(b.k));
+  const a = s[0], b = s[s.length - 1];
+  return a.k === b.k ? fmt(a.iso, a.tz) : `${fmt(a.iso, a.tz)} – ${fmt(b.iso, b.tz)}`;
+}
+
 export function fmtDateTime(iso: string | null | undefined, tz?: string): string {
   if (!iso) return "—";
   return new Intl.DateTimeFormat("en-GB", {

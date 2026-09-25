@@ -1,7 +1,8 @@
 # Progress log — nflcast
 
 Spec: `C:\Users\Craig\Downloads\NFL_Forecasting_Claude_Build_Brief.md`. Rules: `CLAUDE.md`. Live site:
-https://insul4rity.github.io/nfl-forecast/ (public repo INSUL4RITY/nfl-forecast). Last updated 2026-09-25 (session 5).
+https://insul4rity.github.io/nfl-forecast/ (public repo INSUL4RITY/nfl-forecast). Last updated 2026-09-25 (session 6).
+Market feed actually used: nflverse schedule data (spread and total only). The Odds API key is present but not integrated.
 
 ## 1. Current model version (FROZEN for the rest of the 2026 season)
 | Item | Value |
@@ -45,6 +46,17 @@ market lines, QB availability, injury display, weather display). A changed artif
     `.\.venv\...` path typed in `C:\Users\Craig`).
   - Full-slate check (dry run, nothing written): the first cycle after week 3's last kickoff produces a validated forecast
     for all 16 week-4 games, even with every source deliberately stale (problems flagged, documented fallbacks used).
+- Session 6 (final checks; display only, model untouched):
+  - Market source: `ODDS_API_KEY` (The Odds API) exists only in the Claude session environment; the key is valid (free tier,
+    0 of 500 monthly requests used) but was **never integrated** (no code reads it; the scheduled task cannot see it). All 154
+    archived game forecasts record `nflverse_schedules_archived`; the game page now shows the source recorded in each release
+    ("nflverse schedule data (free; snapshot archived by this project)") rather than fixed text. Nothing added. See
+    `docs/data_sources.md`.
+  - Performance page introduction: now states the two backtest approximations (actual starter as proxy; untimed ≈ closing
+    lines) and separates retrospective backtests from genuinely prospective 2026 forecasts. Results and detailed text unchanged.
+  - Time zones: the weekly date range, day headings, day filters and kickoff times are computed from each kickoff in the
+    selected mode (your time zone / UK / stadium-local; stadium mode groups by each stadium's local date). Game pages follow
+    the same saved mode. Week 3: UK "Fri 25 Sept – Tue 29 Sept"; stadium-local "Thu 24 Sept – Mon 28 Sept".
 
 ## 3. Tests and checks (2026-09-25)
 - `pytest`: **63 passed** (leakage, signs, identities, market policy, probabilities, scoring, validation/states, QB availability
@@ -103,7 +115,8 @@ Note: depth-chart and roster snapshot *history* is not re-downloadable either; i
 5. Data freshness depends on nflverse's refresh cadence; there is no official NFL feed.
 
 ## 7. Research limitations (need future data; no action this season)
-1. Early-horizon (72 h) market validation needs timestamped lines — being collected since 2026-09-24.
+1. Early-horizon (72 h) market validation needs timestamped lines — being collected since 2026-09-24. (A free-tier Odds API
+   key exists but is not integrated; any use would be a v2.0 decision after the season, spreads/totals only.)
 2. Mid-week injury practice readings are uncalibrated (no intra-week history) — injury versions being collected.
 3. Weather value is untested on strictly as-of data (historical evaluation was retrospective) — snapshots being collected.
 4. QB start-rate intervals ignore clustering by injury episode; a downward drift in 2024 is not significant at episode level.

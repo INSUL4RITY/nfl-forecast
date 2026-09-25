@@ -30,6 +30,13 @@ historical forecast would have been made. The *as-of* column records what we can
 | Schedule `temp`/`wind` | ~65–95% of outdoor games | Post-game | Observed game-time values | **Never a pregame feature** | CC-BY-4.0 |
 | Timestamped market snapshots (opening/72 h lines) | None free | n/a | n/a | **Gap.** Paid option: The Odds API historical plan (not subscribed). Fallback: CSV import + our own archiving from 2026-09-24 | Provider-specific |
 
+**The Odds API (checked 2026-09-25):** an `ODDS_API_KEY` exists only in the Claude app's session environment (not in the Windows
+user/system environment, not in a project `.env`, so the scheduled task cannot see it). The key is valid (free tier, 500
+requests/month, 0 used; checked with the free `/v4/sports` endpoint). It was **never integrated**: no project code reads it.
+Every forecast's market spread/total comes from nflverse schedule data (`spread_line`/`total_line`), snapshot-archived by
+this project with retrieval timestamps; releases record this as `market.source = nflverse_schedules_archived`. Integrating
+the API would be a new data feature and is out of scope while the model is frozen.
+
 ## Added 2026-09-25
 | Source | Use | Notes |
 |---|---|---|
