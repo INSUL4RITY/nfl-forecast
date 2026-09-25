@@ -1,6 +1,6 @@
 # Claims verification
 
-Run 2026-09-25T14:20:07.162808+00:00: 53 passed, 12 failed.
+Run 2026-09-25T14:23:08.525055+00:00: 65 passed, 0 failed.
 
 | check | result | detail |
 |---|---|---|
@@ -10,7 +10,7 @@ Run 2026-09-25T14:20:07.162808+00:00: 53 passed, 12 failed.
 | site performance page labels retrospective benchmark + untimed lines + actual-starter proxy | PASS |  |
 | site performance page shows weather inputs as RETROSPECTIVE | PASS |  |
 | methodology page documents approximations | PASS |  |
-| API key absent from repository, logs, site, snapshots and backup | PASS | 1908 files checked |
+| API key absent from repository, logs, site, snapshots and backup | PASS | 1910 files checked |
 | The Odds API snapshots contain point values only (no prices) | PASS | 1 snapshots |
 | The Odds API lines retrieved and provider-updated before kickoff and before the forecast cutoff | PASS | 15 game forecasts |
 | stored pick labels match the published rule | PASS | 0 stored picks |
@@ -46,26 +46,26 @@ Run 2026-09-25T14:20:07.162808+00:00: 53 passed, 12 failed.
 | every late publication has a correction | PASS |  |
 | every release matches its write-once manifest | PASS |  |
 | RFC 3161 token verifies against rel_20260924T232247Z.json | PASS | Sep 25 01:39:14 2026 GMT |
-| Web Archive copy matches rel_20260924T232247Z.json | FAIL | could not re-download now (ConnectionError); retry later |
+| Web Archive copy matches rel_20260924T232247Z.json | PASS | 2026-09-25T01:39:51+00:00 |
 | RFC 3161 token verifies against rel_20260924T235129Z.json | PASS | Sep 25 01:39:16 2026 GMT |
-| Web Archive copy matches rel_20260924T235129Z.json | FAIL | could not re-download now (ConnectionError); retry later |
+| Web Archive copy matches rel_20260924T235129Z.json | PASS | 2026-09-25T01:39:57+00:00 |
 | RFC 3161 token verifies against rel_20260925T000247Z.json | PASS | Sep 25 01:39:17 2026 GMT |
-| Web Archive copy matches rel_20260925T000247Z.json | FAIL | could not re-download now (ConnectionError); retry later |
+| Web Archive copy matches rel_20260925T000247Z.json | PASS | 2026-09-25T01:40:05+00:00 |
 | RFC 3161 token verifies against rel_20260925T011000Z.json | PASS | Sep 25 01:39:18 2026 GMT |
-| Web Archive copy matches rel_20260925T011000Z.json | FAIL | could not re-download now (ConnectionError); retry later |
+| Web Archive copy matches rel_20260925T011000Z.json | PASS | 2026-09-25T01:37:46+00:00 |
 | RFC 3161 token verifies against rel_20260925T015111Z.json | PASS | Sep 25 01:51:15 2026 GMT |
-| Web Archive copy matches rel_20260925T015111Z.json | FAIL | could not re-download now (ConnectionError); retry later |
+| Web Archive copy matches rel_20260925T015111Z.json | PASS | 2026-09-25T01:57:42+00:00 |
 | RFC 3161 token verifies against rel_20260925T015951Z.json | PASS | Sep 25 01:59:54 2026 GMT |
-| Web Archive copy matches rel_20260925T015951Z.json | FAIL | could not re-download now (ConnectionError); retry later |
+| Web Archive copy matches rel_20260925T015951Z.json | PASS | 2026-09-25T02:00:09+00:00 |
 | RFC 3161 token verifies against rel_20260925T021501Z.json | PASS | Sep 25 02:15:03 2026 GMT |
-| Web Archive copy matches rel_20260925T021501Z.json | FAIL | could not re-download now (ConnectionError); retry later |
+| Web Archive copy matches rel_20260925T021501Z.json | PASS | 2026-09-25T02:15:20+00:00 |
 | RFC 3161 token verifies against rel_20260925T051555Z.json | PASS | Sep 25 05:15:57 2026 GMT |
-| Web Archive copy matches rel_20260925T051555Z.json | FAIL | could not re-download now (ConnectionError); retry later |
+| Web Archive copy matches rel_20260925T051555Z.json | PASS | 2026-09-25T05:16:26+00:00 |
 | RFC 3161 token verifies against rel_20260925T061553Z.json | PASS | Sep 25 06:15:56 2026 GMT |
-| Web Archive copy matches rel_20260925T061553Z.json | FAIL | could not re-download now (ConnectionError); retry later |
+| Web Archive copy matches rel_20260925T061553Z.json | PASS | 2026-09-25T06:16:19+00:00 |
 | RFC 3161 token verifies against rel_20260925T121558Z.json | PASS | Sep 25 12:16:01 2026 GMT |
-| Web Archive copy matches rel_20260925T121558Z.json | FAIL | could not re-download now (ConnectionError); retry later |
+| Web Archive copy matches rel_20260925T121558Z.json | PASS | 2026-09-25T12:16:18+00:00 |
 | RFC 3161 token verifies against rel_20260925T131600Z.json | PASS | Sep 25 13:16:04 2026 GMT |
-| Web Archive copy matches rel_20260925T131600Z.json | FAIL | could not re-download now (ConnectionError); retry later |
+| Web Archive copy matches rel_20260925T131600Z.json | PASS | 2026-09-25T13:16:22+00:00 |
 | RFC 3161 token verifies against rel_20260925T132351Z.json | PASS | Sep 25 13:23:55 2026 GMT |
-| Web Archive copy matches rel_20260925T132351Z.json | FAIL | could not re-download now (ConnectionError); retry later |
+| Web Archive copy matches rel_20260925T132351Z.json | PASS | 2026-09-25T13:24:13+00:00 |
