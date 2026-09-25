@@ -179,6 +179,11 @@ Note: depth-chart and roster snapshot *history* is not re-downloadable either; i
 4. QB start-rate intervals ignore clustering by injury episode; a downward drift in 2024 is not significant at episode level.
 5. Historical backtests use the actual-starter proxy and untimed (≈ closing) lines; they remain optimistic vs live.
 6. Coaching/play-caller effects deferred (no dated source). Non-QB injuries display-only (not promoted).
+6b. Team form does not separate games by quarterback, and `qb_change` cannot tell a returning starter from a backup coming
+   in. ATL@GB 2026 wk 3 (decomposed 2026-09-25): ATL's weeks 1–2 without Penix (−0.40 EPA/play, 8 ppg) dragged ATL's form, and the
+   QB-change input added ~+1.2 pts toward GB although the change was the starter returning. Early-season form was ~74% 2025 games
+   (GB's strong 2025 offence outweighed its poor 2026 start). Candidate v2 research: QB-aware team form and a
+   "returning starter" distinction, evaluated under the pre-specified rule after the season.
 7. Prospective sample is tiny so far; weekly results are noisy.
 
 ## 8. Exact next steps
