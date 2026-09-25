@@ -1,30 +1,34 @@
-"""Milestone 7: prospective operation. Safe to run on a timer (e.g. every 30 minutes).
+"""Prospective operation. Safe to run on a timer (every 30 minutes).
 
 Each run: refresh current-season snapshots -> rebuild processed tables -> score finished games ->
-publish a release only if one is due -> re-export the website data (and rebuild the static site).
+update publication evidence -> build a CANDIDATE release in memory -> publish it only if due ->
+re-export the website data -> commit/push published outputs -> rebuild the local static site.
 
-A release is due when either
-  * no release has been generated in the last `daily_hours` (the routine early/update release), or
-  * an unplayed game kicks off within the next `final_window_min` minutes and no release has been
-    generated since `final_window_min` minutes before that kickoff (the final-pregame release).
-Deciding from the live schedule means kickoff-time and daylight-saving changes need no manual edits.
-Every step is logged to logs/operate.log; failures are logged and the previous release stays live.
+A candidate is published when, for any unplayed game of the upcoming week:
+  * the game has no valid forecast yet, or its latest valid version predates input fingerprints;
+  * any input fingerprint changed versus that game's latest valid version: market spread/total,
+    quarterback availability (statuses, evidence, scenarios, overrides), injury report (displayed),
+    team form (new completed games), or the model/code version;
+  * the game kicks off within `final_window_min` minutes and no release has been made since that
+    window opened (final-pregame version); or
+  * no release has been made for `daily_hours` (heartbeat, which also provides >=72 h early versions).
+Games that have kicked off are never included in a new release, so pregame forecasts stop updating at
+kickoff. Every earlier version is preserved (releases are write-once).
 """
 
 from __future__ import annotations
 
 import json
 import subprocess
+import time
 import traceback
 from datetime import datetime, timedelta
 
-import polars as pl
-
 from nflcast.config import RELEASES_DIR, ROOT, utc_now
-from nflcast.data import sources as S
-from nflcast.data.games import build_games
+from nflcast.predict.validation import entry_is_valid
 
 LOG = ROOT / "logs" / "operate.log"
+FINGERPRINT_KEYS = ("market", "quarterbacks", "injury_report", "team_form", "model")
 
 
 def _log(msg: str) -> None:
@@ -35,78 +39,114 @@ def _log(msg: str) -> None:
         f.write(line + "\n")
 
 
-def _last_release_time() -> datetime | None:
-    files = sorted(RELEASES_DIR.rglob("rel_*.json"))
-    for f in reversed(files):
+def published_versions() -> tuple[dict[str, tuple[datetime, dict]], datetime | None]:
+    """Latest VALID pregame version per game, and the time of the latest schema-v2+ release."""
+    latest: dict[str, tuple[datetime, dict]] = {}
+    last_release = None
+    for f in sorted(RELEASES_DIR.rglob("rel_*.json")):
         r = json.loads(f.read_text(encoding="utf-8"))
-        if r.get("schema_version", 1) >= 2:
-            return datetime.fromisoformat(r["generated_at_utc"])
-    return None
+        if r.get("schema_version", 1) < 2:
+            continue
+        gen = datetime.fromisoformat(r["generated_at_utc"])
+        last_release = max(last_release, gen) if last_release else gen
+        for g in r["games"]:
+            if not entry_is_valid(g) or gen >= datetime.fromisoformat(g["kickoff_utc"]):
+                continue
+            if g["game_id"] not in latest or gen > latest[g["game_id"]][0]:
+                latest[g["game_id"]] = (gen, g)
+    return latest, last_release
 
 
-def release_due(now: datetime, daily_hours: float = 20, final_window_min: int = 60) -> tuple[bool, str]:
-    games = build_games(S.fetch("schedules"))
-    last = _last_release_time()
-    soon = games.filter((pl.col("status") == "scheduled") & (pl.col("kickoff_utc") > now)
-                        & (pl.col("kickoff_utc") <= now + timedelta(minutes=final_window_min)))
-    if soon.height:
-        window_start = soon["kickoff_utc"].min() - timedelta(minutes=final_window_min)
-        if last is None or last < window_start:
-            return True, f"final-pregame window for {soon.height} game(s)"
-    upcoming = games.filter((pl.col("status") == "scheduled") & (pl.col("kickoff_utc") > now)
-                            & (pl.col("kickoff_utc") <= now + timedelta(days=8)))
-    if upcoming.height and (last is None or now - last >= timedelta(hours=daily_hours)):
-        return True, "routine daily release"
-    return False, "not due"
-
-
-PUBLISH_TRIGGERS = ["releases", "reports/prospective"]
-PUBLISH_PATHS = PUBLISH_TRIGGERS + ["web/public/data"]
+def decide(candidate: dict, now: datetime, latest: dict, last_release: datetime | None,
+           daily_hours: float = 20, final_window_min: int = 60) -> tuple[bool, list[str]]:
+    reasons: list[str] = []
+    for g in candidate["games"]:
+        gid, ko = g["game_id"], datetime.fromisoformat(g["kickoff_utc"])
+        if ko <= now:
+            continue
+        prev = latest.get(gid)
+        if prev is None:
+            reasons.append(f"{gid}: no valid forecast yet")
+            continue
+        prev_fp = prev[1].get("input_fingerprint")
+        if not prev_fp:
+            reasons.append(f"{gid}: previous version has no input fingerprint (schema upgrade)")
+            continue
+        changed = [k for k in FINGERPRINT_KEYS if prev_fp.get(k) != g["input_fingerprint"].get(k)]
+        if changed:
+            reasons.append(f"{gid}: changed {', '.join(changed)}")
+        if ko - now <= timedelta(minutes=final_window_min) and prev[0] < ko - timedelta(minutes=final_window_min):
+            reasons.append(f"{gid}: final-pregame window")
+    if last_release is None or now - last_release >= timedelta(hours=daily_hours):
+        reasons.append("routine heartbeat")
+    return bool(reasons), reasons
 
 
 def _git(*args: str) -> subprocess.CompletedProcess:
     return subprocess.run(["git", *args], cwd=ROOT, capture_output=True, text=True)
 
 
-def publish(note: str) -> None:
-    """Commit and push published outputs, but only when a release or scored result changed.
+PUBLISH_TRIGGERS = ["releases", "reports/prospective"]
+PUBLISH_PATHS = PUBLISH_TRIGGERS + ["web/public/data"]
 
-    The site data alone changes on every export (timestamps), so it is only pushed alongside a
-    meaningful change. GitHub Actions then rebuilds and deploys the Pages site.
-    """
+
+def publish(note: str) -> bool:
+    """Commit and push published outputs, only when a release, evidence, correction or scored result changed."""
     if _git("remote", "get-url", "origin").returncode != 0:
         _log("publish: no git remote 'origin'; skipped")
-        return
-    changed = _git("status", "--porcelain", "--", *PUBLISH_TRIGGERS).stdout.strip()
-    if not changed:
-        _log("publish: no new release or results; nothing pushed")
-        return
+        return False
+    if not _git("status", "--porcelain", "--", *PUBLISH_TRIGGERS).stdout.strip():
+        _log("publish: no new release, evidence or results; nothing pushed")
+        return False
     _git("add", "--", *PUBLISH_PATHS)
     c = _git("commit", "-m", f"Publish: {note}")
     if c.returncode != 0:
         _log(f"publish: commit failed: {c.stderr.strip()[:500]}")
-        return
+        return False
     p = _git("push", "origin", "HEAD:main")
     _log(f"publish: push exit={p.returncode} {p.stderr.strip()[-300:]}")
+    return p.returncode == 0
 
 
 def run(build_site: bool = True, force: bool = False) -> None:
     from nflcast import pipeline
-    from nflcast.predict import export_web, release, score
+    from nflcast.predict import export_web, publication, release, score
 
     _log("operate: start")
     try:
         pipeline.ingest()
         pipeline.build()
         score.score()
+        try:
+            publication.update_evidence()
+            n = publication.record_late_publications()
+            if n:
+                _log(f"operate: recorded {n} late-publication correction(s)")
+        except Exception as e:  # noqa: BLE001 - evidence is best-effort; never blocks forecasting
+            _log(f"operate: publication evidence update failed: {e}")
         now = utc_now()
-        due, why = (True, "forced") if force else release_due(now)
-        _log(f"operate: release due={due} ({why})")
-        if due:
-            path = release.generate(now=now)
-            _log(f"operate: release {path}")
+        cand = release.build_candidate(now=now)
+        if cand is None:
+            _log("operate: no upcoming games in window")
+        else:
+            latest, last_release = published_versions()
+            due, reasons = (True, ["forced"]) if force else decide(cand, now, latest, last_release)
+            _log(f"operate: release due={due} ({'; '.join(reasons[:8])}{' ...' if len(reasons) > 8 else ''})")
+            if due:
+                bad = [g["game_id"] for g in cand["games"] if not entry_is_valid(g)]
+                if bad:
+                    _log(f"operate: {len(bad)} game(s) failed validation and stay on their last valid version: {bad}")
+                _log(f"operate: release {release.write_release(cand)}")
         export_web.export()
-        publish(f"{why}; {now.isoformat(timespec='minutes')}")
+        if publish(f"{utc_now().isoformat(timespec='minutes')}"):
+            for _ in range(6):  # give GitHub a moment to register the push run, then record evidence
+                time.sleep(10)
+                before = json.dumps(publication.load_evidence(), sort_keys=True)
+                if json.dumps(publication.update_evidence(), sort_keys=True) != before:
+                    publication.record_late_publications()
+                    export_web.export()
+                    publish("publication evidence")
+                    break
         if build_site:
             r = subprocess.run("npx next build", cwd=ROOT / "web", shell=True, capture_output=True, text=True)
             _log(f"operate: site build exit={r.returncode}")

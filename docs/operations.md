@@ -11,10 +11,17 @@ Each cycle:
    Every changed file is stored as a new append-only raw snapshot (this is the as-of archive).
 2. `build`: rebuilds games, team-games, QB games and feature tables.
 3. `score`: scores the frozen pregame versions of finished games (`reports/prospective/`).
-4. Publishes a release **only if due** (see `src/nflcast/predict/operate.py`):
-   - a routine release if none in the last 20 hours (this produces the "early" ≥72 h versions), and
-   - a final-pregame release when a game kicks off within 60 minutes and none has been made in that window.
-5. `export-web` and `next build`, so `web/out/` holds the up-to-date static site.
+4. Updates publication evidence (`releases/publication_evidence.json`) and appends any late-publication corrections.
+5. Builds a candidate release in memory and publishes it **only if due** (see `src/nflcast/predict/operate.py`):
+   - any unplayed game's inputs changed (market spread/total, quarterback availability, injury report, team form, model), or
+   - a game kicks off within 60 minutes and no release has been made in that window (final-pregame version), or
+   - no release in the last 20 hours (heartbeat; also provides the ≥72 h "early" versions).
+   Games that have kicked off are never updated. Forecasts failing validation never become current.
+6. `export-web`, push (then evidence for the pushed files is recorded and pushed), and `next build` for the local copy.
+
+Manual QB override (only with a public source): add a row to `data/manual/qb_overrides.csv`, including
+`source_published_at_utc`. It affects only forecasts made after that time. Check `python -m nflcast verify-publication`
+to record publication evidence on demand.
 
 Failures are written to `logs/operate.log`; the previous release and site stay in place.
 

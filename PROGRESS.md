@@ -3,7 +3,32 @@
 Specification: `NFL_Forecasting_Claude_Build_Brief.md` (Downloads folder, 24 Sep 2026).
 Update this file at the end of every working session.
 
-## Current status (2026-09-25 00:10 UTC, end of session 1)
+## Session 2 (2026-09-25): reliability fixes from independent review
+
+All five review findings were reproduced and fixed. Details are in `docs/methodology.md` (new sections).
+
+| Finding | Reproduced | Fix |
+|---|---|---|
+| 1. QB availability | Yes: CHI had no Week 3 injury report yet; the code treated "no report" as healthy, so Caleb Williams was 100%. QB2 could be promoted without checking his own status (Bagent was Questionable/DNP in Week 1 and relieved Williams in Week 2) | `features/qb_availability.py`: every QB resolved with evidence and timestamp; missing/stale report and stale depth chart are flagged, never treated as available; historical start rates (daily charts where n≥30, else weekly); sequential scenarios; documented overrides (`data/manual/qb_overrides.csv`). Williams is now 96.7% with the "report not available" flag |
+| 2. Validation | Yes: `pending_validation_failed` entries could be written, displayed and scored | `predict/validation.py` shared by release/export/score; failed combined → labelled football-only fallback; nothing valid → `rejected_validation_failed`, never current or scored; newest valid version wins |
+| 3. Input-driven updates | Yes: only 20 h heartbeat + final hour | Per-game input fingerprints (market, QBs, injury report, team form, model); `operate` publishes on any change; no updates after kickoff |
+| 4. Publication records | Yes: ATL@GB releases generated 23:22/23:51/00:02 UTC, kickoff 00:15, repo created 00:30:49, first public push 00:31:03 | `predict/publication.py`: evidence only from GitHub server timestamps (`releases/publication_evidence.json`); append-only `releases/corrections.jsonl` (3 ATL@GB corrections); release files untouched; scoring split by verification |
+| 5. Labels/explanations | Yes: future games showed "frozen (scored)" | States latest pregame / locked at kickoff / scored; methodology explains actual-starter proxy, untimed closing lines, display-only non-QB injuries, no weather/coaching |
+
+Also: the `locked-test` command now refuses a second untouched run (`--revision-label` needed; writes `reports/revised_evaluations/`).
+The production model and the original 2025 evaluation are unchanged.
+
+Tests: 38 passing (was 18). New regression tests: QB1 and QB2 both out, QB2 availability checked, missing report,
+early-exit rate, stale report, stale/missing depth chart, overrides (timing and required source), leader never inflated,
+invalid newer version cannot replace valid older one (selection, export, scoring), state labels, verification labels,
+input-change triggers, final window and no updates after kickoff.
+
+Remaining limitations: live QB availability depends on nflverse's refresh cadence (no official NFL feed); the
+rates for Questionable/Doubtful QBs rest on small samples (n=193/31, weekly charts); overrides require manual entry
+with a public source; the historical backtest still uses the actual-starter proxy and untimed closing lines; non-QB
+injuries are display-only; weather and coaching are not modelled; publication evidence depends on GitHub Actions records.
+
+## Status at end of session 1 (2026-09-25 00:10 UTC)
 
 | Milestone | Status |
 |---|---|

@@ -16,7 +16,10 @@ def main(argv: list[str] | None = None) -> None:
     sub.add_parser("build", help="Build games table and as-of feature snapshots")
     sub.add_parser("backtest", help="Walk-forward evaluation of benchmark models")
     sub.add_parser("tune", help="Tune feature window settings on tune folds only")
-    sub.add_parser("locked-test", help="One-time evaluation including the locked test season (after decisions are frozen)")
+    lt = sub.add_parser("locked-test", help="One-time evaluation including the locked test season (after decisions are frozen)")
+    lt.add_argument("--revision-label", default=None,
+                    help="required after the first run: writes a labelled re-evaluation (not an untouched test)")
+    sub.add_parser("verify-publication", help="Record independent publication evidence and any late-publication corrections")
     sub.add_parser("predict", help="Generate an immutable forecast release for the next week's unplayed games")
     sub.add_parser("score", help="Score frozen prospective releases against final results")
     op = sub.add_parser("operate", help="Scheduled run: refresh, score, release if due, export, build site")
@@ -50,7 +53,12 @@ def main(argv: list[str] | None = None) -> None:
         export()
     elif args.cmd == "locked-test":
         from nflcast.pipeline import backtest
-        backtest(include_locked=True)
+        backtest(include_locked=True, revision_label=args.revision_label)
+    elif args.cmd == "verify-publication":
+        from nflcast.predict import publication
+        ev = publication.update_evidence()
+        n = publication.record_late_publications(ev)
+        print(f"[publication] {len(ev['files'])} release files evidenced; {n} new correction(s)")
     elif args.cmd == "tune":
         from nflcast.evaluation import tuning
         tuning.run()

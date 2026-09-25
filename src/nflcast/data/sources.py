@@ -125,6 +125,10 @@ def fetch(source_name: str, season: int | None = None, refresh: bool = False, ti
         if meta_prev.exists():
             prev = json.loads(meta_prev.read_text(encoding="utf-8"))
             if prev.get("content_sha256") == stored_sha:
+                # unchanged: log the confirmation so freshness checks know the data was re-verified now
+                with open(existing.parent / "checks.jsonl", "a", encoding="utf-8") as fh:
+                    fh.write(json.dumps({"checked_at_utc": utc_now().isoformat(), "content_sha256": stored_sha,
+                                         "http_last_modified": r.headers.get("last-modified")}) + "\n")
                 return pl.read_parquet(existing)
 
     observed = utc_now()
@@ -140,6 +144,34 @@ def fetch(source_name: str, season: int | None = None, refresh: bool = False, ti
     }
     (d / f"{stem}.json").write_text(json.dumps(meta, indent=2), encoding="utf-8")
     return df
+
+
+def snapshot_asof(source_name: str, season: int | None, when) -> tuple[pl.DataFrame | None, dict | None]:
+    """The newest archived snapshot whose observed_at <= `when`, with its metadata (None if none exists).
+
+    `observed_at` is our retrieval time: the data was public no later than that. Provider publication
+    times are not known and are never inferred.
+    """
+    from datetime import datetime
+    d = RAW_DIR / source_name / (str(season) if season is not None else "all")
+    best = None
+    for meta_path in sorted(d.glob("*.json")) if d.exists() else []:
+        meta = json.loads(meta_path.read_text(encoding="utf-8"))
+        if datetime.fromisoformat(meta["observed_at_utc"]) <= when:
+            best = (meta_path, meta)
+    if best is None:
+        return None, None
+    meta = dict(best[1])
+    confirmed = datetime.fromisoformat(meta["observed_at_utc"])
+    checks = d / "checks.jsonl"
+    if checks.exists():
+        for line in checks.read_text(encoding="utf-8").splitlines():
+            c = json.loads(line)
+            t = datetime.fromisoformat(c["checked_at_utc"])
+            if c["content_sha256"] == meta["content_sha256"] and confirmed < t <= when:
+                confirmed = t
+    meta["last_confirmed_at_utc"] = confirmed.isoformat()
+    return pl.read_parquet(best[0].with_suffix(".parquet")), meta
 
 
 def fetch_many(source_name: str, seasons: list[int], refresh: bool = False) -> pl.DataFrame:

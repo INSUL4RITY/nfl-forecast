@@ -12,3 +12,4 @@ web/.next/
 web/out/
 logs/
 web/tsconfig.tsbuildinfo
+.scratch/

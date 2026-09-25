@@ -14,16 +14,36 @@ export interface Forecast {
   scenario_disagreement_margin: number;
 }
 
+export interface QBEvidence {
+  qb_id: string;
+  qb: string | null;
+  depth_rank: number | null;
+  status: string;
+  evidence: string;
+  evidence_at: string | null;
+  p_available: number;
+  detail: string;
+}
+
 export interface LineupSide {
   expected_qb_id: string | null;
   expected_qb: string | null;
-  source: string | null;
-  depth_chart_at: string | null;
-  qb1: string | null;
-  qb1_status: string | null;
-  qb1_practice: string | null;
-  note: string | null;
   scenarios: { p: number; qb: string | null; qb_id: string | null }[];
+  // schema v3 (evidence-based availability)
+  team?: string;
+  qbs?: QBEvidence[];
+  flags?: string[];
+  folded_probability?: number;
+  depth_chart_at?: string | null;
+  injury_snapshot_at?: string | null;
+  overrides_used?: { qb_gsis_id: string; status: string; source: string; source_published_at_utc: string }[];
+  uncertain?: boolean;
+  // schema v2 (legacy releases)
+  source?: string | null;
+  qb1?: string | null;
+  qb1_status?: string | null;
+  qb1_practice?: string | null;
+  note?: string | null;
 }
 
 export interface ReleaseEntry {
@@ -31,6 +51,7 @@ export interface ReleaseEntry {
   release_label: "early" | "update" | "final";
   hours_to_kickoff: number;
   status: string;
+  validation_problems?: Record<string, string[]>;
   primary_model: string;
   market_inputs_used: boolean;
   home_record: string;
@@ -52,16 +73,29 @@ export interface ReleaseEntry {
 export interface HistoryPoint {
   run_id: string;
   generated_at: string;
+  information_cutoff: string | null;
+  public_evidence_at: string | null;
+  verification: string;
   label: string;
-  home_pts: number;
-  away_pts: number;
-  margin: number;
-  total: number;
-  p_home: number;
-  primary_model: string;
+  version_state: string;
+  status: string;
+  validation_problems: Record<string, string[]>;
+  home_pts: number | null;
+  away_pts: number | null;
+  margin: number | null;
+  total: number | null;
+  p_home: number | null;
+  primary_model: string | null;
   market_spread: number | null;
   market_total: number | null;
   before_kickoff: boolean;
+}
+
+export interface Correction {
+  id: string;
+  recorded_at_utc: string;
+  summary: string;
+  details: Record<string, string>;
 }
 
 export interface WeekGame {
@@ -79,11 +113,14 @@ export interface WeekGame {
   away: string;
   status: "final" | "scheduled";
   score: { home: number; away: number } | null;
-  forecast_state: "published" | "pending" | "not_archived";
+  forecast_state: "latest_pregame" | "locked_at_kickoff" | "scored" | "pending" | "not_archived";
   forecast: ReleaseEntry | null;
   forecast_run_id: string | null;
   forecast_generated_at: string | null;
+  forecast_public_evidence_at: string | null;
+  forecast_verification: string | null;
   history: HistoryPoint[];
+  corrections: Correction[];
 }
 
 export interface WeekDoc {
@@ -112,4 +149,5 @@ export interface Manifest {
   latest: { season: number; week: number };
   production: Record<string, any>;
   release_count: number;
+  corrections?: Correction[];
 }

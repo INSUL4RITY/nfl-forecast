@@ -1,0 +1,32 @@
+{
+ "description": "Earliest independent evidence that each release file was publicly visible. Source: GitHub Actions push-run creation times (GitHub server clock).",
+ "files": {
+  "releases/2026/week_03/rel_20260924T232247Z.json": {
+   "commit_adding_file": "a2c81d3ffabdc30eb4738f9b6695abb782fb9330",
+   "evidence": "github_actions_push_run",
+   "file_sha256_at_commit": "9e8bd47813fbdca42f6c6211c39e8e113ff0383cd1e8dd25a4056a3dae28d760",
+   "first_public_evidence_utc": "2026-09-25T00:31:03+00:00",
+   "pushed_commit": "a28b4275ada8ce8d161699075639bd2f948016de",
+   "run_id": 36077897343,
+   "run_url": "https://github.com/INSUL4RITY/nfl-forecast/actions/runs/36077897343"
+  },
+  "releases/2026/week_03/rel_20260924T235129Z.json": {
+   "commit_adding_file": "c1405eea1a2a71a84452135364bdb9d1b15c78e7",
+   "evidence": "github_actions_push_run",
+   "file_sha256_at_commit": "433e4698ad60ab90a6415360204417febb4b2339f44109b74aa86f331da25863",
+   "first_public_evidence_utc": "2026-09-25T00:31:03+00:00",
+   "pushed_commit": "a28b4275ada8ce8d161699075639bd2f948016de",
+   "run_id": 36077897343,
+   "run_url": "https://github.com/INSUL4RITY/nfl-forecast/actions/runs/36077897343"
+  },
+  "releases/2026/week_03/rel_20260925T000247Z.json": {
+   "commit_adding_file": "f5f9754ac46acb5197acdb1c10065c362f3269da",
+   "evidence": "github_actions_push_run",
+   "file_sha256_at_commit": "040003a132b8813b58d51f054538374de5bf477b37f0175a4b70dfcf48209fc7",
+   "first_public_evidence_utc": "2026-09-25T00:31:03+00:00",
+   "pushed_commit": "a28b4275ada8ce8d161699075639bd2f948016de",
+   "run_id": 36077897343,
+   "run_url": "https://github.com/INSUL4RITY/nfl-forecast/actions/runs/36077897343"
+  }
+ }
+}

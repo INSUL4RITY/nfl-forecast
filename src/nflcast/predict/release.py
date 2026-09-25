@@ -1,20 +1,27 @@
-﻿"""Production forecast releases (schema v2).
+"""Production forecast releases (schema v3).
 
 A release freezes, for every scheduled game of the next NFL week that has not kicked off:
-  * primary forecast (configs/production.yaml): combined market+football model, or the football-only
-    fallback with a visible flag when no market line was observed before the cutoff;
+  * the headline forecast: combined market+football model; the football-only model when no market line
+    was observed before the cutoff; or the football-only model when the combined forecast FAILS validation
+    (status fallback_after_validation_failure). If no model passes validation the entry is kept for audit
+    with status rejected_validation_failed and no headline forecast (it is never displayed or scored);
   * football-only and market-only benchmark forecasts;
   * outcome probabilities and 80/95% intervals calibrated on walk-forward out-of-fold predictions;
-  * expected starting QBs with their source and injury status; if a starter is Questionable, a
-    two-scenario mixture weighted by the historical P(played | Questionable);
-  * notable listed injuries (display only; injury features are not in the production model);
-  * top model-derived contributions (explanations of the fitted model, not causal claims).
-The information cutoff is the generation time. Files are write-once.
+  * quarterback availability for every relevant QB with evidence, timestamps and historical start rates,
+    and a scenario mixture whenever the starter is uncertain (features/qb_availability.py);
+  * notable listed injuries (display only; non-QB injuries are not model inputs);
+  * an input fingerprint per game (market, quarterbacks, injury report, team form, model) used to decide
+    when a new release is needed.
+The information cutoff is the generation time; every input snapshot's observation time is recorded.
+Publication time is NOT known when the file is written: it is established later from independent
+evidence (predict/publication.py). Files are write-once.
 """
 
 from __future__ import annotations
 
+import hashlib
 import json
+from datetime import datetime
 from pathlib import Path
 
 import numpy as np
@@ -26,12 +33,14 @@ from nflcast.data import sources as S
 from nflcast.data.games import build_games, franchise, market_asof
 from nflcast.evaluation import backtest as BT
 from nflcast.features import personnel as P
+from nflcast.features import qb_availability as QA
 from nflcast.features.asof import AsOfFeatureBuilder
-from nflcast.models.combined import ResidualRidge, select_resid_alphas
+from nflcast.models.combined import ResidualRidge, game_matrix, select_resid_alphas
 from nflcast.models.core import FootballRidge, MarketRaw, feature_set, select_alpha_chronologically
-from nflcast.models.probability import IntervalModel, OutcomeModel
+from nflcast.models.probability import OutcomeModel
+from nflcast.predict import validation as V
 
-SCHEMA_VERSION = 2
+SCHEMA_VERSION = 3
 LEVELS = (0.8, 0.95)
 
 FEATURE_LABELS = {
@@ -52,6 +61,9 @@ FEATURE_LABELS = {
     "off_bye": "coming off bye", "short_week": "short week", "home_field": "home field", "rest_diff": "rest difference",
     "is_playoff": "playoff game", "dome": "dome/closed roof", "market_margin": "market spread", "market_total": "market total",
 }
+EFF_KEYS = ["off_epa_play", "def_epa_play", "off_epa_db", "def_epa_db", "off_epa_rush", "def_epa_rush",
+            "off_succ_play", "def_succ_play", "off_pts_drive", "def_pts_drive", "off_sack_rate", "def_sack_rate",
+            "adj_off_epa", "adj_def_epa", "games_this_season", "ess_games"]
 
 
 def _label(name: str, home: str, away: str) -> str:
@@ -59,6 +71,10 @@ def _label(name: str, home: str, away: str) -> str:
         if name.startswith(side):
             return f"{team} {FEATURE_LABELS.get(name[len(side):], name[len(side):])}"
     return FEATURE_LABELS.get(name, name)
+
+
+def _hash(obj) -> str:
+    return hashlib.sha256(json.dumps(obj, sort_keys=True, default=str).encode()).hexdigest()[:16]
 
 
 def latest_oof() -> pl.DataFrame:
@@ -80,34 +96,6 @@ def _records(games: pl.DataFrame, season: int, now) -> dict[str, str]:
     return {t: (f"{w[0]}-{w[1]}" + (f"-{w[2]}" if w[2] else "")) for t, w in rec.items()}
 
 
-def _live_qbs(team: str, week: int, season: int, now_us: int, inj: pl.DataFrame, qb_q_play: float) -> dict:
-    """Expected starter from the latest depth-chart snapshot at or before now + current injury report."""
-    dc = S.fetch("depth_charts", season)
-    snap = (dc.filter((franchise(pl.col("team")) == team) & (pl.col("pos_abb") == "QB"))
-            .with_columns(dt_us=pl.col("dt").str.to_datetime(time_zone="UTC").dt.epoch("us"))
-            .filter(pl.col("dt_us") <= now_us))
-    if snap.height == 0:
-        return {"qb1": None, "qb2": None, "source": "none", "dt": None}
-    last = snap["dt_us"].max()
-    s = snap.filter(pl.col("dt_us") == last).sort("pos_rank")
-    ids = s["gsis_id"].to_list()
-    out = {"qb1": ids[0] if ids else None, "qb2": ids[1] if len(ids) > 1 else None, "source": "depth_chart_daily",
-           "dt": s["dt"][0]}
-    st = inj.filter((pl.col("team") == team) & (pl.col("week") == week) & (pl.col("gsis_id") == out["qb1"]))
-    status = st["report_status"][0] if st.height else None
-    practice = st["practice_status"][0] if st.height else None
-    out.update({"qb1_status": status, "qb1_practice": practice})
-    if status in ("Out", "Doubtful") and out["qb2"]:
-        out.update({"expected": out["qb2"], "scenarios": [(1.0, out["qb2"])], "note": f"QB1 listed {status}; backup expected"})
-    elif (status == "Questionable" or (status is None and practice and "Did Not" in practice)) and out["qb2"]:
-        p = qb_q_play
-        out.update({"expected": out["qb1"], "scenarios": [(p, out["qb1"]), (1 - p, out["qb2"])],
-                    "note": f"QB1 {'Questionable' if status else 'did not practice'}: scenario mixture, P(plays)={p:.2f} (historical rate)"})
-    else:
-        out.update({"expected": out["qb1"], "scenarios": [(1.0, out["qb1"])], "note": None})
-    return out
-
-
 def _weighted_quantiles(values: np.ndarray, weights: np.ndarray, qs) -> list[float]:
     o = np.argsort(values)
     v, w = values[o], weights[o]
@@ -115,16 +103,62 @@ def _weighted_quantiles(values: np.ndarray, weights: np.ndarray, qs) -> list[flo
     return [float(np.interp(q, cw, v)) for q in qs]
 
 
-def generate(now=None, days_ahead: int = 8) -> Path | None:
+def ensure_rates(current_season: int) -> dict:
+    """Historical QB start rates from seasons before `current_season`, cached on disk.
+
+    Weekly depth charts (2016-2024, no timestamps) give long history; daily depth charts (2025+) match live
+    releases better and are used per category when they have >= 30 cases. Two sets are built: as the chart
+    stood 72 h before kickoff ("early") and 1 h before kickoff ("final").
+    """
+    key = f"through_{current_season - 1}"
+    try:
+        r = QA.load_rates()
+        if r.get("key") == key:
+            return r
+    except FileNotFoundError:
+        pass
+    games = pl.read_parquet(PROCESSED_DIR / "games.parquet")
+    qbg = pl.read_parquet(PROCESSED_DIR / "qb_games.parquet")
+    weekly_seasons = [s for s in range(2016, current_season) if s <= 2024]
+    daily_seasons = [s for s in range(2025, current_season)]
+    inj = P.injury_player_weeks(weekly_seasons + daily_seasons, games)
+    weekly = QA.estimate_start_rates(QA.build_history_team_weeks(games, qbg, QA.weekly_depth_qbs(weekly_seasons), inj),
+                                     max(weekly_seasons))
+    out = {"key": key}
+    for label, lead in (("early", 72), ("final", 1)):
+        daily = None
+        if daily_seasons:
+            dd = QA.daily_depth_qbs(daily_seasons, games, lead)
+            if dd.height:
+                daily = QA.estimate_start_rates(QA.build_history_team_weeks(games, qbg, dd, inj), max(daily_seasons))
+        out[label] = QA.merge_rates(daily, weekly)
+    QA.save_rates(out)
+    return out
+
+
+def _team_depth(dc: pl.DataFrame | None, team: str, now: datetime) -> tuple[list[tuple[str, int]], datetime | None]:
+    if dc is None or "dt" not in dc.columns:
+        return [], None
+    s = (dc.filter((franchise(pl.col("team")) == team) & (pl.col("pos_abb") == "QB") & pl.col("gsis_id").is_not_null())
+         .with_columns(t=pl.col("dt").str.to_datetime(time_zone="UTC")).filter(pl.col("t") <= now))
+    if s.height == 0:
+        return [], None
+    last = s["t"].max()
+    s = s.filter(pl.col("t") == last).sort("pos_rank").unique("gsis_id", keep="first", maintain_order=True)
+    return list(zip(s["gsis_id"].to_list(), s["pos_rank"].to_list())), last
+
+
+def build_candidate(now: datetime | None = None, days_ahead: int = 8) -> dict | None:
+    """Compute a complete release for the next week's unplayed games WITHOUT writing it."""
     cfg = settings()
     prod = yaml.safe_load((ROOT / "configs" / "production.yaml").read_text(encoding="utf-8"))
     now = now or utc_now()
     now_us = int(now.timestamp() * 1_000_000)
-    games_all = build_games(S.fetch("schedules"))
+    sched, sched_meta = S.snapshot_asof("schedules", None, now)
+    games_all = build_games(sched if sched is not None else S.fetch("schedules"))
     upcoming = games_all.filter((pl.col("status") == "scheduled") & (pl.col("kickoff_utc") > now)
                                 & (pl.col("kickoff_utc") <= now + pl.duration(days=days_ahead)))
     if upcoming.height == 0:
-        print("[release] no upcoming games in window")
         return None
     first = upcoming.sort("kickoff_utc").row(0, named=True)
     upcoming = upcoming.filter((pl.col("season") == first["season"]) & (pl.col("week") == first["week"]))
@@ -135,33 +169,53 @@ def generate(now=None, days_ahead: int = 8) -> Path | None:
     qbg = pl.read_parquet(PROCESSED_DIR / "qb_games.parquet")
     builder = AsOfFeatureBuilder(tg)
     qbm = P.QBModel(qbg)
-    inj_hist = P.injury_player_weeks([s for s in range(2012, season + 1)], games)
-    p_q = P.Availability(inj_hist, P.snap_shares(list(range(season - 6, season)), games), tg).p_play(season)
-    qb_q_play = float(p_q.get("Questionable", 0.66))
-    inj_now = S.fetch("injuries", season).with_columns(team=franchise(pl.col("team")))
+    all_rates = ensure_rates(season)
+    inj_hist = P.injury_player_weeks(list(range(2012, season)), games)
+    p_play = P.Availability(inj_hist, P.snap_shares(list(range(season - 6, season)), games), tg).p_play(season)
+    overrides = QA.load_overrides()
+    inj_now, inj_meta = S.snapshot_asof("injuries", season, now)
+    inj_now = (inj_now.with_columns(team=franchise(pl.col("team"))) if inj_now is not None
+               else pl.DataFrame(schema={"team": pl.Utf8, "week": pl.Int32, "gsis_id": pl.Utf8, "report_status": pl.Utf8,
+                                         "practice_status": pl.Utf8, "full_name": pl.Utf8, "position": pl.Utf8}))
+    inj_confirmed = datetime.fromisoformat(inj_meta["last_confirmed_at_utc"]) if inj_meta else None
+    dc_now, dc_meta = S.snapshot_asof("depth_charts", season, now)
     players = S.fetch("players").select("gsis_id", "display_name", "position")
     name_of = dict(zip(players["gsis_id"].to_list(), players["display_name"].to_list()))
     hl, carry = float(cfg["features"]["half_life_games"]), float(cfg["features"]["season_carryover"])
+    team_db = qbg.group_by("game_id", "team").agg(team_db=pl.col("db").sum())
+    qb_share = qbg.join(team_db, on=["game_id", "team"]).with_columns(share=pl.col("db") / pl.col("team_db"))
+    done = games.filter(pl.col("status") == "final")
 
-    # ---- feature rows per scenario
+    def last_game(team: str) -> tuple[str | None, datetime | None]:
+        d = done.filter(((pl.col("home_id") == team) | (pl.col("away_id") == team)) & (pl.col("kickoff_utc") < now)).sort("kickoff_utc")
+        return (d["game_id"][-1], d["kickoff_utc"][-1]) if d.height else (None, None)
+
     rows, meta = [], {}
     for g in upcoming.iter_rows(named=True):
         tf = {side: builder.team_features(g[f"{side}_id"], now_us, season) for side in ("home", "away")}
-        qbs = {side: _live_qbs(g[f"{side}_id"], week, season, now_us, inj_now, qb_q_play) for side in ("home", "away")}
+        hours_to_ko = (g["kickoff_utc"] - now).total_seconds() / 3600
+        rates = all_rates["early" if hours_to_ko >= cfg["horizons"]["early"] else "final"]
+        res = {}
         for side in ("home", "away"):
-            if qbs[side].get("expected") is None:  # no depth chart: previous starter
-                prev = qbm.previous_starter(g[f"{side}_id"], now_us)
-                qbs[side].update({"expected": prev, "scenarios": [(1.0, prev)], "source": "previous_game_starter", "note": None})
-        eff_keys = ["off_epa_play", "def_epa_play", "off_epa_db", "def_epa_db", "off_epa_rush", "def_epa_rush",
-                    "off_succ_play", "def_succ_play", "off_pts_drive", "def_pts_drive", "off_sack_rate", "def_sack_rate",
-                    "adj_off_epa", "adj_def_epa", "games_this_season", "ess_games"]
-        eff = {side: {k: float(tf[side][k]) for k in eff_keys} for side in ("home", "away")}
+            team = g[f"{side}_id"]
+            depth, depth_at = _team_depth(dc_now, team, now)
+            prev_gid, prev_ko = last_game(team)
+            qb1 = depth[0][0] if depth else qbm.previous_starter(team, now_us)
+            sh = qb_share.filter((pl.col("game_id") == prev_gid) & (pl.col("team") == team) & (pl.col("qb_id") == qb1))
+            prev_share = float(sh["share"][0]) if sh.height else (0.0 if prev_gid else None)
+            res[side] = QA.resolve_team_qbs(
+                team=team, season=season, week=week, now=now, depth=depth, depth_at=depth_at,
+                injuries=inj_now, injury_observed_at=inj_confirmed, previous_starter=qbm.previous_starter(team, now_us),
+                previous_game_kickoff=prev_ko, previous_share=prev_share, rates=rates, p_play=p_play, overrides=overrides)
+            if not res[side].scenarios:
+                res[side].scenarios = [(1.0, None)]
+                res[side].flags.append("no_candidate_qb_prior_used")
+        eff = {side: {k: float(tf[side][k]) for k in EFF_KEYS} for side in ("home", "away")}
         for side in ("home", "away"):
-            eff[side]["expected_qb_rating"] = qbm.rating(qbs[side].get("expected") or qbm.previous_starter(g[f"{side}_id"], now_us),
-                                                         now_us, season)[0]
-        meta[g["game_id"]] = {"qbs": qbs, "efficiency": eff}
-        for ph, qh in qbs["home"]["scenarios"]:
-            for pa, qa in qbs["away"]["scenarios"]:
+            eff[side]["expected_qb_rating"] = float(sum(p * qbm.rating(q, now_us, season)[0] for p, q in res[side].scenarios))
+        meta[g["game_id"]] = {"res": res, "efficiency": eff, "tf": tf}
+        for ph, qh in res["home"].scenarios:
+            for pa, qa in res["away"].scenarios:
                 rec = {"game_id": g["game_id"], "scenario_p": ph * pa, "scenario": f"{qh}|{qa}", "horizon": "final", "cutoff_utc": now}
                 for side, qb in (("home", qh), ("away", qa)):
                     team = g[f"{side}_id"]
@@ -190,36 +244,33 @@ def generate(now=None, days_ahead: int = 8) -> Path | None:
     cmod = ResidualRidge(fs_name, am, at).fit(train.filter(pl.col("market_available")))
     a_b, _ = select_alpha_chronologically(train, feature_set=feature_set(prod["fallback"]["feature_set"]))
     bmod = FootballRidge(alpha=a_b, feature_set=feature_set(prod["fallback"]["feature_set"])).fit(train)
-
     oof = latest_oof().filter(pl.col("horizon") == "final")
     oof_models = {"primary": "C_resid_noinj", "fallback": "B_qb", "market": "A_market_raw"}
     calib = {}
     for key, mname in oof_models.items():
         o = oof.filter(pl.col("model") == mname)
-        calib[key] = {"outcome": OutcomeModel().fit(o, games),
-                      "res_margin": (o["margin"] - o["pred_margin"]).to_numpy(),
+        calib[key] = {"outcome": OutcomeModel().fit(o, games), "res_margin": (o["margin"] - o["pred_margin"]).to_numpy(),
                       "res_total": (o["total_points"] - o["pred_total"]).to_numpy(), "n_oof": o.height,
                       "oof_seasons": [int(o["season"].min()), int(o["season"].max())]}
-
     has_mkt = feats["market_available"].fill_null(False).to_numpy()
     fm = feats.with_columns(home_spread=pl.col("home_spread").fill_null(0.0), total=pl.col("total").fill_null(0.0))
     preds = {"primary": cmod.predict(fm), "fallback": bmod.predict(feats), "market": MarketRaw().predict(fm)}
-    Xc, cnames = __import__("nflcast.models.combined", fromlist=["game_matrix"]).game_matrix(fm, cmod.fs)
-    scaler, ridge = cmod.gm[0], cmod.gm[-1]
-    contrib = (Xc - scaler.mean_) / scaler.scale_ * ridge.coef_
+    Xc, cnames = game_matrix(fm, cmod.fs)
+    contrib = (Xc - cmod.gm[0].mean_) / cmod.gm[0].scale_ * cmod.gm[-1].coef_
+    from nflcast.pipeline import code_hash
+    model_fp = _hash([code_hash(), prod, oof["source_run"][0]])
 
-    def summarise_forecast(key: str, idx: np.ndarray, weights: np.ndarray, playoff: bool, cal_key: str) -> dict:
-        p = preds[key]
+    def summarise(key: str, idx: np.ndarray, weights: np.ndarray, playoff: bool) -> dict:
+        p, c = preds[key], calib[key]
         w = weights / weights.sum()
         H, A = float((w * p["home_pts"][idx]).sum()), float((w * p["away_pts"][idx]).sum())
-        c = calib[cal_key]
         pr = c["outcome"].predict(p["margin"][idx], np.full(len(idx), playoff))
         out = {"home_pts": H, "away_pts": A, "margin": H - A, "total": H + A,
                "p_home": float((w * pr["p_home"]).sum()), "p_away": float((w * pr["p_away"]).sum()),
                "p_tie": float((w * pr["p_tie"]).sum()), "intervals": {}}
-        for tgt, res in (("margin", c["res_margin"]), ("total", c["res_total"])):
-            vals = np.concatenate([p[tgt][i] + res for i in idx])
-            wts = np.concatenate([np.full(len(res), wi / len(res)) for wi in w])
+        for tgt, resid in (("margin", c["res_margin"]), ("total", c["res_total"])):
+            vals = np.concatenate([p[tgt][i] + resid for i in idx])
+            wts = np.concatenate([np.full(len(resid), wi / len(resid)) for wi in w])
             for lv in LEVELS:
                 lo, hi = _weighted_quantiles(vals, wts, [(1 - lv) / 2, 1 - (1 - lv) / 2])
                 out["intervals"][f"{tgt}_{int(lv * 100)}"] = [lo, hi]
@@ -227,86 +278,113 @@ def generate(now=None, days_ahead: int = 8) -> Path | None:
         return out
 
     records = _records(games_all, season, now)
-    run_id = f"rel_{utc_stamp(now)}"
-    out_games = []
     fid = feats["game_id"].to_list()
+    out_games = []
     for g in upcoming.sort("kickoff_utc").iter_rows(named=True):
         idx = np.array([i for i, x in enumerate(fid) if x == g["game_id"]])
+        i0 = int(idx[0])
         w = feats["scenario_p"].to_numpy()[idx]
-        mkt_ok = bool(has_mkt[int(idx[0])])
+        mkt_ok = bool(has_mkt[i0])
         hours = (g["kickoff_utc"] - now).total_seconds() / 3600
         label = "early" if hours >= cfg["horizons"]["early"] else ("final" if hours <= cfg["horizons"]["final"] else "update")
-        prim = summarise_forecast("primary", idx, w, g["is_playoff"], "primary") if mkt_ok else None
-        fb = summarise_forecast("fallback", idx, w, g["is_playoff"], "fallback")
-        mo = summarise_forecast("market", idx, w, g["is_playoff"], "market") if mkt_ok else None
-        headline = prim or fb
-        # validity checks before publishing
-        checks = [headline["home_pts"] >= 0, headline["away_pts"] >= 0,
-                  abs(headline["p_home"] + headline["p_away"] + headline["p_tie"] - 1) < 1e-9,
-                  (not g["is_playoff"]) or headline["p_tie"] == 0,
-                  all(v[0] <= v[1] for v in headline["intervals"].values()),
-                  all(np.isfinite([headline["home_pts"], headline["away_pts"]]))]
-        status = ("ok" if mkt_ok else "fallback_football_only_no_market_line") if all(checks) else "pending_validation_failed"
+        playoff = bool(g["is_playoff"])
+        prim = summarise("primary", idx, w, playoff) if mkt_ok else None
+        fb = summarise("fallback", idx, w, playoff)
+        mo = summarise("market", idx, w, playoff) if mkt_ok else None
+        problems = {"combined": V.check_forecast(prim, playoff) if mkt_ok else None, "football_only": V.check_forecast(fb, playoff)}
+        if mkt_ok and not problems["combined"]:
+            headline, status, model_label = prim, "ok", prod["primary"]["label"]
+        elif not problems["football_only"]:
+            headline, model_label = fb, prod["fallback"]["label"]
+            status = "fallback_after_validation_failure" if mkt_ok else "fallback_football_only_no_market_line"
+        else:
+            headline, status, model_label = None, "rejected_validation_failed", None
         top = []
-        if mkt_ok:
+        if mkt_ok and status == "ok":
             ci = contrib[idx].T @ (w / w.sum())
             for j in np.argsort(-np.abs(ci))[:5]:
                 top.append({"feature": _label(cnames[j], g["home_team"], g["away_team"]), "margin_points": float(ci[j])})
-        qbs = meta[g["game_id"]]["qbs"]
+        res = meta[g["game_id"]]["res"]
         lineup = {}
         for side in ("home", "away"):
-            q = qbs[side]
-            lineup[side] = {"expected_qb_id": q.get("expected"), "expected_qb": name_of.get(q.get("expected")),
-                            "source": q.get("source"), "depth_chart_at": q.get("dt"), "qb1": name_of.get(q.get("qb1")),
-                            "qb1_status": q.get("qb1_status"), "qb1_practice": q.get("qb1_practice"), "note": q.get("note"),
-                            "scenarios": [{"p": p_, "qb": name_of.get(qid), "qb_id": qid} for p_, qid in q.get("scenarios", [])]}
+            j = res[side].to_json(name_of)
+            top_qb = res[side].scenarios[0][1]
+            j.update({"team": g[f"{side}_team"], "expected_qb_id": top_qb, "expected_qb": name_of.get(top_qb),
+                      "uncertain": res[side].uncertain})
+            lineup[side] = j
         notable = (inj_now.filter((pl.col("week") == week) & pl.col("team").is_in([g["home_id"], g["away_id"]])
                                   & pl.col("report_status").is_in(["Out", "Doubtful", "Questionable"]))
-                   .select("team", "full_name", "position", "report_status").sort("team", "report_status").to_dicts())
-        entry = {
+                   .select("team", "full_name", "position", "report_status").sort("team", "report_status", "full_name").to_dicts())
+        market = ({"home_spread": float(feats["home_spread"][i0]), "total": float(feats["total"][i0]),
+                   "source": feats["market_source"][i0], "timing": feats["market_timing"][i0],
+                   "snapshot_at": feats["snapshot_at"][i0].isoformat()} if mkt_ok else None)
+        tfm = meta[g["game_id"]]["tf"]
+        fingerprint = {
+            "market": _hash([market["home_spread"], market["total"]] if market else None),
+            "quarterbacks": _hash({s: {"scenarios": [(q, round(p, 3)) for p, q in res[s].scenarios],
+                                       "qbs": [(i.qb_id, i.status, i.evidence, round(i.p_available, 3)) for i in res[s].qbs],
+                                       "flags": sorted(res[s].flags), "overrides": res[s].overrides_used} for s in res}),
+            "injury_report": _hash(notable),
+            "team_form": _hash({s: {k: round(float(v), 4) for k, v in tfm[s].items()} for s in tfm}),
+            "model": model_fp,
+        }
+        out_games.append({
             "game_id": g["game_id"], "season": season, "week": week, "game_type": g["game_type"],
             "kickoff_utc": g["kickoff_utc"].isoformat(), "kickoff_time_known": g["kickoff_time_known"],
             "home_team": g["home_team"], "away_team": g["away_team"], "home_record": records.get(g["home_team"], "0-0"),
             "away_record": records.get(g["away_team"], "0-0"), "neutral_site": g["neutral_site"], "stadium": g["stadium"],
             "roof": g["roof"], "release_label": label, "hours_to_kickoff": round(hours, 2), "status": status,
-            "primary_model": prod["primary"]["label"] if mkt_ok else prod["fallback"]["label"],
-            "market_inputs_used": mkt_ok,
-            "forecast": headline, "combined": prim, "football_only": fb, "market_only": mo,
-            "market": ({"home_spread": float(feats["home_spread"][int(idx[0])]), "total": float(feats["total"][int(idx[0])]),
-                        "source": feats["market_source"][int(idx[0])], "timing": feats["market_timing"][int(idx[0])],
-                        "snapshot_at": feats["snapshot_at"][int(idx[0])].isoformat()} if mkt_ok else None),
-            "lineup": lineup, "lineup_uncertain": bool(len(idx) > 1), "notable_injuries": notable,
-            "contributions": top,
-            "team_efficiency": meta[g["game_id"]]["efficiency"],
+            "validation_problems": {k: v for k, v in problems.items() if v},
+            "primary_model": model_label, "market_inputs_used": bool(mkt_ok and status == "ok"),
+            "forecast": headline, "combined": prim, "football_only": fb, "market_only": mo, "market": market,
+            "lineup": lineup, "lineup_uncertain": bool(res["home"].uncertain or res["away"].uncertain),
+            "notable_injuries": notable, "contributions": top, "team_efficiency": meta[g["game_id"]]["efficiency"],
             "scenario_forecasts": [
-                {"p": float(w[k]),
-                 "home_qb": name_of.get(feats["scenario"][int(i)].split("|")[0]),
+                {"p": float(w[k]), "home_qb": name_of.get(feats["scenario"][int(i)].split("|")[0]),
                  "away_qb": name_of.get(feats["scenario"][int(i)].split("|")[1]),
                  "combined_margin": float(preds["primary"]["margin"][i]) if mkt_ok else None,
                  "combined_total": float(preds["primary"]["total"][i]) if mkt_ok else None,
-                 "football_margin": float(preds["fallback"]["margin"][i]),
-                 "football_total": float(preds["fallback"]["total"][i])} for k, i in enumerate(idx)],
-        }
-        out_games.append(entry)
-    release = {
-        "schema_version": SCHEMA_VERSION, "run_id": run_id, "generated_at_utc": now.isoformat(),
-        "information_cutoff_utc": now.isoformat(), "season": season, "week": week, "stage": "production_v1",
+                 "football_margin": float(preds["fallback"]["margin"][i]), "football_total": float(preds["fallback"]["total"][i])}
+                for k, i in enumerate(idx)],
+            "input_fingerprint": fingerprint,
+        })
+
+    def snap_info(m):
+        return None if not m else {k: m.get(k) for k in ("observed_at_utc", "last_confirmed_at_utc", "http_last_modified", "content_sha256")}
+    return {
+        "schema_version": SCHEMA_VERSION, "run_id": f"rel_{utc_stamp(now)}", "generated_at_utc": now.isoformat(),
+        "information_cutoff_utc": now.isoformat(), "season": season, "week": week, "stage": "production_v1.1",
+        "input_snapshots": {"schedules": snap_info(sched_meta), "injuries": snap_info(inj_meta), "depth_charts": snap_info(dc_meta)},
+        "publication_note": "Publication time is not recorded here. It is established from independent evidence in "
+                            "releases/publication_evidence.json (GitHub server timestamps).",
         "models": {"primary": {**prod["primary"], "alpha_margin": am, "alpha_total": at},
                    "fallback": {**prod["fallback"], "alpha": a_b}, "benchmark": prod["benchmark"],
                    "calibration": {k: {"oof_model": oof_models[k], "n_oof": v["n_oof"], "oof_seasons": v["oof_seasons"],
                                        "outcome_params": v["outcome"].params()} for k, v in calib.items()},
-                   "oof_source_run": oof["source_run"][0]},
+                   "oof_source_run": oof["source_run"][0], "qb_start_rates": all_rates["key"]},
         "notes": [prod["early_horizon_note"].strip(),
                   "Contributions explain the fitted model's adjustment to the market line; they are not causal claims.",
-                  "Probabilities: P(home/away/tie). Intervals: 80%/95% ranges from out-of-fold residuals."],
-        "code_hash": __import__("nflcast.pipeline", fromlist=["code_hash"]).code_hash(),
+                  "Probabilities: P(home/away/tie). Intervals: 80%/95% ranges from out-of-fold residuals.",
+                  "Non-QB injuries are displayed for context only; they are not model inputs. Weather and coaching are not modelled."],
+        "code_hash": code_hash(),
         "games": out_games,
     }
-    d = RELEASES_DIR / str(season) / f"week_{week:02d}"
+
+
+def write_release(release: dict) -> Path:
+    d = RELEASES_DIR / str(release["season"]) / f"week_{release['week']:02d}"
     d.mkdir(parents=True, exist_ok=True)
-    path = d / f"{run_id}.json"
+    path = d / f"{release['run_id']}.json"
     if path.exists():
         raise FileExistsError(f"{path} exists; releases are immutable")
     path.write_text(json.dumps(release, indent=1, default=str), encoding="utf-8")
-    print(f"[release] wrote {path} ({len(out_games)} games)")
+    print(f"[release] wrote {path} ({len(release['games'])} games)")
     return path
+
+
+def generate(now: datetime | None = None, days_ahead: int = 8) -> Path | None:
+    rel = build_candidate(now, days_ahead)
+    if rel is None:
+        print("[release] no upcoming games in window")
+        return None
+    return write_release(rel)

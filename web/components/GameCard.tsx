@@ -1,6 +1,6 @@
 ﻿import Link from "next/link";
-import type { Team, WeekGame } from "@/lib/types";
-import { f1, fmtDateTime, fmtKickoff, marginText, pct, spreadText } from "@/lib/format";
+import type { LineupSide, Team, WeekGame } from "@/lib/types";
+import { f1, fmtDateTime, fmtKickoff, marginText, pct, pctP, spreadText, STATE_LABEL } from "@/lib/format";
 import TeamBadge from "./TeamBadge";
 
 function ProbBar({ pAway, pTie, pHome, away, home, awayColor, homeColor }: {
@@ -70,29 +70,38 @@ export default function GameCard({ g, teams, tz }: { g: WeekGame; teams: Record<
             <div><dt>Market total</dt><dd className="v" style={{ margin: 0 }}>{e.market ? f1(e.market.total) : "—"}</dd></div>
           </dl>
           <div className="small ink2">
-            QBs: {e.lineup.away.expected_qb ?? "unknown"} / {e.lineup.home.expected_qb ?? "unknown"}
+            QBs: {qbText(e.lineup.away)} / {qbText(e.lineup.home)}
           </div>
           <div className="tags">
             {e.market_inputs_used
               ? <span className="tag info" title="The combined model uses the market spread and total as inputs">Uses market spread &amp; total</span>
-              : <span className="tag warn">Football-only fallback (no line)</span>}
+              : e.status === "fallback_after_validation_failure"
+                ? <span className="tag warn">Football-only fallback (combined forecast failed validation)</span>
+                : <span className="tag warn">Football-only fallback (no line)</span>}
             {e.lineup_uncertain && <span className="tag warn">Lineup uncertain</span>}
-            {e.status.startsWith("pending") && <span className="tag warn">Validation failed</span>}
+            {g.forecast_verification === "generated_pregame_published_after_kickoff" &&
+              <span className="tag warn" title="See the correction on the game page">Published after kickoff</span>}
           </div>
         </>
       ) : (
         <div className="pending">
           {g.forecast_state === "not_archived"
-            ? "No pregame forecast was archived for this game (it was played before the first production release)."
-            : "Forecast pending: it will appear once a release covering this game is published."}
+            ? "No valid pregame forecast was archived for this game."
+            : "Forecast pending: it will appear once a validated release covering this game is published."}
         </div>
       )}
       <div className="card-foot">
-        <span>{e ? `${e.release_label} release · ${fmtDateTime(g.forecast_generated_at, tz)}` : " "}</span>
+        <span>{e ? `${STATE_LABEL[g.forecast_state] ?? g.forecast_state} · generated ${fmtDateTime(g.forecast_generated_at, tz)}` : " "}</span>
         <Link href={`/game/${g.game_id}/`}>Details →</Link>
       </div>
     </article>
   );
+}
+
+function qbText(side: LineupSide): string {
+  const lead = side.scenarios?.[0];
+  if (!lead) return side.expected_qb ?? "unknown";
+  return `${lead.qb ?? "unknown"} ${pctP(lead.p)}`;
 }
 
 function rangeText(r: [number, number] | undefined, home: string, away: string): string {

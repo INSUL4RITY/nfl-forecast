@@ -88,14 +88,25 @@ export default function PerformancePage() {
 
       <div className="panel">
         <h2>Live (prospective) results</h2>
+        <p className="small ink2">Each game is scored once per horizon, against the latest <i>valid</i> version generated before the cutoff.
+          &quot;Publicly verifiable&quot; means GitHub&apos;s own record shows the forecast file was public before kickoff; forecasts generated before
+          kickoff on this project&apos;s machine but published later are reported separately and corrected on their game pages.</p>
         {pros.n_scored > 0 ? (
-          <div className="table-wrap"><table>
-            <thead><tr><th>Horizon</th><th className="r">Games</th><th className="r">Margin MAE</th><th className="r">Market MAE</th>
-              <th className="r">Football MAE</th><th className="r">Total MAE</th><th className="r">Winner acc.</th><th className="r">Log loss</th><th className="r">80% coverage</th></tr></thead>
-            <tbody>{pros.by_horizon.map((r: any) => (
-              <tr key={r.horizon_type}><td>{r.horizon_type}</td><td className="r">{r.n}</td><td className="r">{f2(r.margin_mae)}</td><td className="r">{f2(r.market_margin_mae)}</td>
-                <td className="r">{f2(r.football_margin_mae)}</td><td className="r">{f2(r.total_mae)}</td><td className="r">{pct(r.winner_acc, 1)}</td>
-                <td className="r">{r.log_loss?.toFixed(4)}</td><td className="r">{pct(r.cover_m80)}</td></tr>))}</tbody></table></div>
+          <>
+            {[["All forecasts generated before kickoff", pros.by_horizon], ["Publicly verifiable before kickoff", pros.by_horizon_publicly_verifiable ?? []]].map(([title, rowsP]: any) => (
+              <div key={title} style={{ marginTop: 10 }}>
+                <h3>{title}</h3>
+                {rowsP.length ? (
+                  <div className="table-wrap"><table>
+                    <thead><tr><th>Horizon</th><th className="r">Games</th><th className="r">Margin MAE</th><th className="r">Market MAE</th>
+                      <th className="r">Football MAE</th><th className="r">Total MAE</th><th className="r">Winner acc.</th><th className="r">Log loss</th><th className="r">80% coverage</th></tr></thead>
+                    <tbody>{rowsP.map((r: any) => (
+                      <tr key={r.horizon_type}><td>{r.horizon_type}</td><td className="r">{r.n}</td><td className="r">{f2(r.margin_mae)}</td><td className="r">{f2(r.market_margin_mae)}</td>
+                        <td className="r">{f2(r.football_margin_mae)}</td><td className="r">{f2(r.total_mae)}</td><td className="r">{pct(r.winner_acc, 1)}</td>
+                        <td className="r">{r.log_loss?.toFixed(4)}</td><td className="r">{pct(r.cover_m80)}</td></tr>))}</tbody></table></div>
+                ) : <p className="small muted">None yet.</p>}
+              </div>))}
+          </>
         ) : (
           <p className="ink2">No live forecasts have been scored yet. Production releases began in 2026 week 3; results appear here as those games finish.
             Small live samples are noisy: dozens of games say little about skill.</p>
@@ -175,6 +186,9 @@ export default function PerformancePage() {
         </div>
       )}
 
+      <p className="small muted">The 2025 locked test was run once, on {perf.locked?.manifest.generated_at_utc?.slice(0, 10)}, after the production model was frozen.
+        Later changes (quarterback availability, validation and publication handling in releases) affect live forecasts only; the evaluated model
+        itself is unchanged. Any future evaluation of a revised model on 2025 will be labelled a re-evaluation, not an untouched test.</p>
       <p className="small muted">Evaluation runs: walk-forward {perf.walk_forward?.run_id} · locked test {perf.locked?.run_id} (code {perf.locked?.manifest.code_hash?.slice(0, 12)}).
         Full reports: reports/backtest/LATEST.md and reports/locked_test/LATEST.md in the repository.</p>
     </>

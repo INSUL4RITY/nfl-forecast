@@ -16,7 +16,7 @@ def _entries():
         {**base, "run_id": "r4", "generated_at": KO - timedelta(minutes=50), "pred_margin": 4.0},
         {**base, "run_id": "r5", "generated_at": KO + timedelta(minutes=5), "pred_margin": 99.0},  # after kickoff
     ]
-    return pl.DataFrame(rows)
+    return pl.DataFrame(rows).with_columns(valid=pl.lit(True), public_at=pl.lit(None, pl.Datetime("us", "UTC")))
 
 
 def test_one_row_per_game_and_horizon():

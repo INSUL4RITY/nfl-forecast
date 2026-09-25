@@ -47,14 +47,54 @@ export default function Methodology() {
       </div>
 
       <div className="panel">
-        <h2>Injuries and quarterbacks</h2>
-        <p>The expected starting QB comes from the latest daily depth-chart snapshot before the cutoff, checked against the current injury report.
-          If the starter is listed Out or Doubtful, the backup is expected. If he is Questionable (or missed practice), the forecast becomes a weighted mix
-          of two scenarios, using the share of historically Questionable players who actually played. That lineup uncertainty is shown separately from
-          the win probability. QB ratings follow players across teams and are shrunk toward a prior for inexperienced QBs.</p>
-        <p>Non-QB availability (expected snaps lost by position group, weighted by how often each injury status actually misses games) was built and
-          tested. It helped the football-only model slightly but added nothing once the market line was included, so the selected model does not use it.
-          Listed injuries are shown for context.</p>
+        <h2>Quarterback availability (live forecasts)</h2>
+        <p>Every relevant quarterback is checked: the depth-chart QB1, QB2 and QB3 (from the latest daily depth-chart snapshot at or before the cutoff)
+          and the team&apos;s most recent actual starter. Each gets a status with its evidence and observation time: listed on the team&apos;s published injury
+          report, not on a published report, <b>no report published yet</b>, <b>stale report</b>, or a documented manual override.
+          Missing or stale information is never treated as confirmed availability.</p>
+        <p>Start probabilities come from history, not assumptions. From 2016–2025 depth charts, injury reports and actual starters:
+          for example, with daily depth charts a QB1 not on the report started 99.5% of the time (416/417), a Questionable QB1 about 58% (weekly
+          charts, 112/193), Doubtful 0/31 and Out 0/153. With no report yet, a QB1 who finished the previous game started 97% of the time, but one who
+          took under 75% of his team&apos;s dropbacks started only about 60%. Backups are checked the same way; a backup is never promoted without
+          checking his own availability. The starter is chosen sequentially: QB1 starts with his probability, otherwise the next available QB, and so on.</p>
+        <p>When the starter is uncertain, the forecast is a probability-weighted mix of QB scenarios, and &quot;lineup uncertain&quot; is shown separately
+          from the win probability (when the leading QB is below 90%, or evidence is missing or stale). A stale depth chart (older than 4 days or than
+          the team&apos;s last game) is flagged and the last actual starter leads. Documented overrides (a public source and its publication time are
+          required) apply only to forecasts made after that publication time.</p>
+      </div>
+
+      <div className="panel">
+        <h2>Historical approximations in the backtest</h2>
+        <ul>
+          <li><b>Actual-starter proxy.</b> For the final-pregame horizon, historical backtests use the QB who actually started as the &quot;expected&quot;
+            starter. Starters are usually known from inactive lists about 90 minutes before kickoff, but this is an approximation that knows the answer in
+            the rare late switch. Live forecasts use the evidence-based availability model above instead, so live accuracy may be slightly worse.
+            The early (72-hour) horizon uses the weekly depth chart or the previous starter.</li>
+          <li><b>Untimed closing lines.</b> Historical spreads and totals are a single untimed line per game, roughly the closing line. Market-based
+            models are therefore validated only at the final-pregame horizon, and they may benefit from information that arrived close to kickoff.
+            Live forecasts use the line observed at release time.</li>
+          <li><b>Non-QB injuries are display-only.</b> A non-QB availability feature was built and tested; it added nothing once the market line was
+            included, so no current model uses it. Listed injuries are shown for context only.</li>
+          <li><b>Not modelled:</b> weather (archived operational forecasts exist only from about April 2026) and coaching or play-caller changes
+            (no free source with dates).</li>
+        </ul>
+      </div>
+
+      <div className="panel">
+        <h2>Releases, versions and publication</h2>
+        <ul>
+          <li>The pipeline checks every 30 minutes. A new release is made when any game&apos;s inputs change (market spread or total, quarterback
+            availability, the injury report, team form from newly completed games, or the model version), in the hour before each kickoff, and at least
+            daily. Every version is kept; no game is updated after kickoff.</li>
+          <li>Each forecast is validated before it can be shown or scored: non-negative scores, margin = home − away, total = home + away, probabilities
+            in [0, 1] summing to 1, no playoff ties, ordered and nested intervals containing the forecast. If the combined forecast fails, a validated
+            football-only forecast is used and labelled; if nothing passes, the previous valid version stays current.</li>
+          <li><b>States:</b> <i>latest pregame</i> (may still update), <i>locked at kickoff</i>, and <i>scored</i> (the locked version against the result).</li>
+          <li><b>Three different times:</b> the information cutoff and generation time (recorded by the pipeline) and the publication time, which is
+            taken only from independent evidence: GitHub&apos;s own record of when the file was first pushed. A forecast counts as <i>publicly verifiable
+            pregame</i> only if that evidence predates kickoff. Errors in earlier claims are recorded in an append-only corrections log; original release
+            files are never edited. For example, the first Falcons–Packers forecasts were generated before kickoff but first made public 16 minutes after it.</li>
+        </ul>
       </div>
 
       <div className="panel">

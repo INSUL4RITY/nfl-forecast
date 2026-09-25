@@ -105,7 +105,16 @@ def build() -> None:
 
 
 # ---------------------------------------------------------------- backtest
-def backtest(include_locked: bool = False) -> Path:
+def backtest(include_locked: bool = False, revision_label: str | None = None) -> Path:
+    """Walk-forward backtest. With include_locked, also evaluates the locked test season.
+
+    The locked season was evaluated once (reports/locked_test/) after production choices were frozen. Any
+    further evaluation on it must carry `revision_label`; it is then written to reports/revised_evaluations/
+    and labelled as a re-evaluation of a revised model on a season that is no longer untouched.
+    """
+    if include_locked and revision_label is None and any((REPORTS_DIR / "locked_test").glob("locked_*/summary.json")):
+        raise SystemExit("The locked test season has already been evaluated once. Re-running it would not be an "
+                         "untouched test. Use --revision-label to write a clearly labelled re-evaluation instead.")
     cfg = settings()
     v = cfg["validation"]
     games = pl.read_parquet(PROCESSED_DIR / "games.parquet")
@@ -116,12 +125,15 @@ def backtest(include_locked: bool = False) -> Path:
     folds = list(v["tune_folds"]) + list(v["dev_folds"]) + locked
     preds, fold_info = BT.run(data, folds, list(cfg["horizons"].keys()))
     summary = BT.summarise(preds, v["bootstrap_reps"], v["seed"], tune_folds=list(v["tune_folds"]), locked_folds=locked)
-    run_id = f"{'locked' if include_locked else 'bt'}_{utc_stamp()}"
+    run_id = f"{'revised_' + revision_label if revision_label else ('locked' if include_locked else 'bt')}_{utc_stamp()}"
     manifest = {"run_id": run_id, "generated_at_utc": utc_now().isoformat(), "package_version": __version__,
                 "code_hash": code_hash(), "folds": folds, "locked_test": v["locked_test"], "locked_included": include_locked,
+                "revision_label": revision_label,
+                "locked_status": ("re-evaluation of a revised model; the locked season is NOT untouched for this model"
+                                  if revision_label else ("first and only untouched evaluation" if include_locked else None)),
                 "settings": cfg, "production": yaml.safe_load((ROOT / "configs" / "production.yaml").read_text(encoding="utf-8")),
                 "data": data_manifest()}
-    out = REPORTS_DIR / ("locked_test" if include_locked else "backtest") / run_id
+    out = REPORTS_DIR / ("revised_evaluations" if revision_label else ("locked_test" if include_locked else "backtest")) / run_id
     out.mkdir(parents=True, exist_ok=True)
     preds.write_parquet(out / "predictions.parquet")
     (out / "summary.json").write_text(json.dumps(summary, indent=1, default=str), encoding="utf-8")

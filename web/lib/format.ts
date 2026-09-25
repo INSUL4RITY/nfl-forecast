@@ -30,6 +30,33 @@ export const f2 = (x: number | null | undefined) => (x == null || Number.isNaN(x
 export const f3 = (x: number | null | undefined) => (x == null || Number.isNaN(x) ? "—" : x.toFixed(3));
 export const pct = (x: number | null | undefined, d = 0) => (x == null ? "—" : `${(x * 100).toFixed(d)}%`);
 
+/** Probability with enough precision at the extremes that 99.5% is never shown as 100% (or 0.5% as 0%). */
+export function pctP(x: number | null | undefined): string {
+  if (x == null) return "—";
+  if (x >= 1) return "100%";
+  if (x <= 0) return "0%";
+  if (x > 0.99 || x < 0.01) return `${(x * 100).toFixed(1)}%`;
+  return `${(x * 100).toFixed(0)}%`;
+}
+
+export const STATE_LABEL: Record<string, string> = {
+  latest_pregame: "Latest pregame forecast (may still update)",
+  locked_at_kickoff: "Locked at kickoff",
+  scored: "Scored",
+  superseded: "Superseded",
+  rejected_failed_validation: "Rejected (failed validation)",
+  generated_after_kickoff_not_used: "Generated after kickoff (not used)",
+  pending: "Pending",
+  not_archived: "No forecast archived",
+};
+
+export const VERIFY_LABEL: Record<string, string> = {
+  publicly_verifiable_pregame: "Publicly verifiable before kickoff",
+  generated_pregame_published_after_kickoff: "Generated before kickoff, published after kickoff",
+  generated_pregame_not_yet_evidenced_public: "Generated before kickoff, publication not yet evidenced",
+  generated_after_kickoff: "Generated after kickoff",
+};
+
 /** "GB by 4.7" from a home-margin number. */
 export function marginText(margin: number, home: string, away: string): string {
   if (Math.abs(margin) < 0.05) return "Even";

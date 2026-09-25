@@ -1,0 +1,7 @@
+# Documented quarterback overrides. Every row MUST cite a public source and the time that source was published (UTC).
+# A row is used only by forecasts whose cutoff is at or after source_published_at_utc; earlier forecasts are unaffected.
+# status: available | starting | questionable | doubtful | out | not_starting   (p_start optional, only with questionable)
+# qb_gsis_id: nflverse/GSIS player id (e.g. 00-0039918). team: nflverse team code (e.g. CHI).
+# Example (not real):
+# CHI,2026,3,00-0039918,questionable,0.5,https://example.com/report,2026-09-26T18:00:00Z,2026-09-26T18:20:00Z,coach said game-time decision
+team,season,week,qb_gsis_id,status,p_start,source,source_published_at_utc,entered_at_utc,note

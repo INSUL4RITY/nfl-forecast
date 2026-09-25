@@ -1,4 +1,7 @@
 {
  "n_scored": 0,
- "by_horizon": []
+ "by_horizon": [],
+ "n_publicly_verifiable": 0,
+ "by_horizon_publicly_verifiable": [],
+ "verification_counts": []
 }

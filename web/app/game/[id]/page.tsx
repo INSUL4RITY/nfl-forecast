@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import LocalTime from "@/components/LocalTime";
 import TeamBadge from "@/components/TeamBadge";
 import { allGames, findGame, getTeams } from "@/lib/data";
-import { f1, f2, f3, marginText, pct, spreadText } from "@/lib/format";
+import { f1, f2, f3, marginText, pct, pctP, spreadText, STATE_LABEL, VERIFY_LABEL } from "@/lib/format";
 import type { Forecast, LineupSide } from "@/lib/types";
 
 export function generateStaticParams() {
@@ -33,28 +33,59 @@ function rangeFmt(r: [number, number] | undefined, home: string, away: string) {
   return `${s(r[0])} to ${s(r[1])}`;
 }
 
+const FLAG_TEXT: Record<string, string> = {
+  report_not_available: "This team's injury report for the week has not been published yet; availability is estimated from history, not assumed.",
+  report_stale: "The injury-report snapshot is older than 36 hours; it is not treated as current.",
+  depth_chart_stale: "The depth chart is stale (older than 4 days or older than the team's last game); the last actual starter leads.",
+  depth_chart_missing: "No depth chart was available; the last actual starter leads.",
+  qb1_did_not_finish_previous_game: "QB1 took under 75% of the team's dropbacks last game, which historically lowers the chance he starts.",
+  no_candidate_qb_prior_used: "No candidate QB could be identified; a generic prior was used.",
+};
+const EVIDENCE_TEXT: Record<string, string> = {
+  injury_report: "injury report",
+  not_on_published_report: "not on published report",
+  report_not_available: "no report yet",
+  report_stale: "stale report",
+  override: "documented override",
+};
+
 function Lineup({ side, abbr }: { side: LineupSide; abbr: string }) {
-  const src: Record<string, string> = {
-    depth_chart_daily: "latest daily depth chart",
-    previous_game_starter: "previous game's starter (no depth chart available)",
-    depth_chart_weekly: "weekly depth chart",
-    none: "unknown",
-  };
+  if (!side.qbs) {
+    // legacy (schema v2) releases, shown as published at the time
+    return (
+      <div>
+        <h3>{abbr}: {side.expected_qb ?? "unknown"}</h3>
+        <p className="small ink2">Legacy release: expected starter from {side.source ?? "unknown source"}
+          {side.qb1_status ? `; QB1 report status ${side.qb1_status}` : "; missing injury information was treated as available"}.</p>
+        <table><thead><tr><th>Scenario</th><th className="r">Weight</th></tr></thead><tbody>
+          {side.scenarios.map((s) => <tr key={s.qb_id ?? "x"}><td>{s.qb} starts</td><td className="r">{pctP(s.p)}</td></tr>)}
+        </tbody></table>
+      </div>
+    );
+  }
   return (
     <div>
-      <h3>{abbr}: {side.expected_qb ?? "unknown"}</h3>
-      <p className="small ink2">
-        Source: {src[side.source ?? "none"] ?? side.source}{side.depth_chart_at ? ` (snapshot ${side.depth_chart_at.slice(0, 10)})` : ""}.
-        {side.qb1 && side.qb1 !== side.expected_qb ? ` Depth-chart QB1: ${side.qb1}.` : ""}
-        {side.qb1_status ? ` Injury report: ${side.qb1_status}.` : ""}
-        {side.qb1_practice ? ` Practice: ${side.qb1_practice}.` : ""}
-      </p>
-      {side.scenarios.length > 1 && (
-        <table><thead><tr><th>Scenario</th><th className="r">Weight</th></tr></thead><tbody>
-          {side.scenarios.map((s) => <tr key={s.qb_id ?? "x"}><td>{s.qb} starts</td><td className="r">{pct(s.p)}</td></tr>)}
+      <h3>{abbr}: {side.expected_qb ?? "unknown"} {pctP(side.scenarios[0]?.p)}</h3>
+      <table><thead><tr><th>Start scenario</th><th className="r">Probability</th></tr></thead><tbody>
+        {side.scenarios.map((s) => <tr key={s.qb_id ?? "x"}><td>{s.qb ?? "unknown"}</td><td className="r">{pctP(s.p)}</td></tr>)}
+      </tbody></table>
+      <details style={{ marginTop: 6 }}>
+        <summary className="small">Evidence for each quarterback</summary>
+        <table style={{ marginTop: 6 }}><thead><tr><th>QB</th><th>Chart</th><th>Status</th><th>Evidence</th><th className="r">P(next in line starts)</th></tr></thead><tbody>
+          {side.qbs.map((q) => (
+            <tr key={q.qb_id} title={q.detail}><td>{q.qb ?? q.qb_id}</td><td>{q.depth_rank ? `QB${q.depth_rank}` : "—"}</td><td>{q.status}</td>
+              <td>{EVIDENCE_TEXT[q.evidence] ?? q.evidence}</td><td className="r">{pctP(q.p_available)}</td></tr>))}
         </tbody></table>
-      )}
-      {side.note && <p className="small tag warn" style={{ display: "inline-block" }}>{side.note}</p>}
+        <p className="small muted" style={{ marginTop: 4 }}>
+          {side.qbs.map((q) => `${q.qb ?? q.qb_id}: ${q.detail}`).join(" · ")}
+          {side.depth_chart_at ? ` · Depth chart snapshot ${side.depth_chart_at.slice(0, 16).replace("T", " ")} UTC.` : ""}
+          {side.injury_snapshot_at ? ` Injury data observed ${side.injury_snapshot_at.slice(0, 16).replace("T", " ")} UTC.` : ""}
+        </p>
+        {side.overrides_used && side.overrides_used.length > 0 && (
+          <p className="small">Documented overrides: {side.overrides_used.map((o) => `${o.status} (${o.source}, published ${o.source_published_at_utc})`).join("; ")}</p>
+        )}
+      </details>
+      {(side.flags ?? []).map((fl) => <p key={fl} className="small tag warn" style={{ display: "inline-block", whiteSpace: "normal" }}>{FLAG_TEXT[fl] ?? fl}</p>)}
     </div>
   );
 }
@@ -95,14 +126,27 @@ export default async function GamePage({ params }: { params: Promise<{ id: strin
         )}
       </div>
 
+      {g.corrections.map((c) => (
+        <div key={c.id} className="callout warn"><b>Correction.</b> {c.summary}{" "}
+          <span className="small">(Generated {c.details["generated_at_utc (self-reported)"]?.slice(0, 16).replace("T", " ")} UTC;
+            kickoff {c.details.kickoff_utc?.slice(0, 16).replace("T", " ")} UTC; first public evidence{" "}
+            {c.details.first_public_evidence_utc?.slice(0, 16).replace("T", " ")} UTC, <a href={c.details.evidence}>GitHub record</a>.)</span>
+        </div>
+      ))}
+
       {!e || !f ? (
         <div className="panel pending">
           {g.forecast_state === "not_archived"
-            ? "No pregame forecast was archived for this game. Nothing is shown rather than a forecast reconstructed after the fact."
+            ? "No valid pregame forecast was archived for this game. Nothing is shown rather than a forecast reconstructed after the fact."
             : "Forecast pending."}
         </div>
       ) : (
         <>
+          <p className="small ink2">
+            <b>{STATE_LABEL[g.forecast_state]}</b> · generated <LocalTime iso={g.forecast_generated_at} /> ·{" "}
+            {g.forecast_verification ? VERIFY_LABEL[g.forecast_verification] : ""}
+            {g.forecast_public_evidence_at ? <> (first public evidence <LocalTime iso={g.forecast_public_evidence_at} />)</> : null}
+          </p>
           <div className="three-col">
             <div className="panel stat">
               <span className="lbl">Expected score ({e.primary_model})</span>
@@ -128,7 +172,7 @@ export default async function GamePage({ params }: { params: Promise<{ id: strin
                 <div className="table-wrap" style={{ marginTop: 8 }}><table>
                   <thead><tr><th>Scenario</th><th className="r">Weight</th><th className="r">Combined margin</th><th className="r">Football-only margin</th></tr></thead>
                   <tbody>{e.scenario_forecasts.map((s, i) => (
-                    <tr key={i}><td>{s.away_qb ?? "?"} vs {s.home_qb ?? "?"}</td><td className="r">{pct(s.p)}</td>
+                    <tr key={i}><td>{s.away_qb ?? "?"} vs {s.home_qb ?? "?"}</td><td className="r">{pctP(s.p)}</td>
                       <td className="r">{s.combined_margin != null ? marginText(s.combined_margin, H, A) : "—"}</td>
                       <td className="r">{marginText(s.football_margin, H, A)}</td></tr>))}</tbody></table></div>
               )}
@@ -216,16 +260,23 @@ export default async function GamePage({ params }: { params: Promise<{ id: strin
         <div className="panel">
           <h2>Forecast history</h2>
           <div className="table-wrap"><table>
-            <thead><tr><th>Generated</th><th>Release</th><th className="r">{A}</th><th className="r">{H}</th><th className="r">Margin</th>
-              <th className="r">Total</th><th className="r">P({H})</th><th className="r">Market</th><th>Status</th></tr></thead>
+            <thead><tr><th>Generated (cutoff)</th><th>Public evidence</th><th className="r">{A}</th><th className="r">{H}</th><th className="r">Margin</th>
+              <th className="r">Total</th><th className="r">P({H})</th><th className="r">Market</th><th>State</th><th>Verification</th></tr></thead>
             <tbody>{g.history.map((h) => (
               <tr key={h.run_id} className={h.run_id === g.forecast_run_id ? "hl" : undefined}>
-                <td><LocalTime iso={h.generated_at} /></td><td>{h.label}</td><td className="r">{f1(h.away_pts)}</td><td className="r">{f1(h.home_pts)}</td>
-                <td className="r">{marginText(h.margin, H, A)}</td><td className="r">{f1(h.total)}</td><td className="r">{pct(h.p_home)}</td>
+                <td><LocalTime iso={h.generated_at} /></td>
+                <td>{h.public_evidence_at ? <LocalTime iso={h.public_evidence_at} /> : "not yet evidenced"}</td>
+                <td className="r">{f1(h.away_pts)}</td><td className="r">{f1(h.home_pts)}</td>
+                <td className="r">{h.margin != null ? marginText(h.margin, H, A) : "—"}</td><td className="r">{f1(h.total)}</td><td className="r">{pct(h.p_home)}</td>
                 <td className="r">{h.market_spread != null ? `${spreadText(h.market_spread, H, A)} / ${f1(h.market_total)}` : "—"}</td>
-                <td>{h.before_kickoff ? (h.run_id === g.forecast_run_id ? "frozen (scored)" : "superseded") : "after kickoff (not scored)"}</td>
+                <td title={Object.values(h.validation_problems ?? {}).flat().join("; ")}>{STATE_LABEL[h.version_state] ?? h.version_state}</td>
+                <td className="small">{VERIFY_LABEL[h.verification] ?? h.verification}</td>
               </tr>))}</tbody></table></div>
-          <p className="small muted" style={{ marginTop: 8 }}>The highlighted version is the last one generated before kickoff; results are scored against it.</p>
+          <p className="small muted" style={{ marginTop: 8 }}>
+            Every version is kept. The information cutoff of each version is its generation time. The highlighted row is the current version:
+            the latest <i>valid</i> version generated before kickoff. Before kickoff it may still be replaced; at kickoff it is locked; once
+            the game is final it is scored. Versions that failed validation are never shown as current or scored. &quot;Public evidence&quot; is
+            GitHub&apos;s own record of when the file was first pushed, independent of this project&apos;s clock.</p>
         </div>
       )}
 

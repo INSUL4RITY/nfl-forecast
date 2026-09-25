@@ -26,6 +26,8 @@ from nflcast.data import sources as S
 from nflcast.data.games import build_games, franchise
 from nflcast.features.asof import AsOfFeatureBuilder
 from nflcast.features.personnel import QBModel
+from nflcast.predict import publication as PUB
+from nflcast.predict.validation import entry_is_valid, select_frozen
 
 WEB_DATA = ROOT / "web" / "public" / "data"
 
@@ -72,6 +74,56 @@ def _releases() -> list[dict]:
     return out
 
 
+def game_view(vs: list[tuple[dict, dict]], kickoff: datetime, is_final: bool, now: datetime, evidence: dict) -> dict:
+    """Current forecast and labelled history for one game.
+
+    forecast_state: latest_pregame (before kickoff, may still update) | locked_at_kickoff (kicked off, not yet
+    final) | scored (final result, scored against the locked version) | pending | not_archived.
+    Only VALID versions generated before kickoff can be the current/locked version; a failed newer version
+    never replaces a valid older one.
+    """
+    cur = select_frozen([(r["generated_at_utc"], e) for r, e in vs], kickoff)
+    cur_time = cur[0] if cur else None
+    if cur:
+        state = "scored" if is_final else ("locked_at_kickoff" if kickoff <= now else "latest_pregame")
+    elif is_final or kickoff <= now:
+        state = "not_archived"
+    else:
+        state = "pending"
+    cur_rel = next((r for r, e in vs if r["generated_at_utc"] == cur_time), None) if cur else None
+    history = []
+    for r, e in vs:
+        gen = datetime.fromisoformat(r["generated_at_utc"])
+        valid = entry_is_valid(e)
+        pub = PUB.public_time(r["run_id"], evidence)
+        if gen >= kickoff:
+            vstate = "generated_after_kickoff_not_used"
+        elif not valid:
+            vstate = "rejected_failed_validation"
+        elif r["generated_at_utc"] == cur_time:
+            vstate = state
+        else:
+            vstate = "superseded"
+        fc = e.get("forecast") or {}
+        history.append({
+            "run_id": r["run_id"], "generated_at": r["generated_at_utc"], "information_cutoff": r.get("information_cutoff_utc"),
+            "public_evidence_at": pub.isoformat() if pub else None,
+            "verification": PUB.verification_label(gen, kickoff, pub), "label": e["release_label"], "version_state": vstate,
+            "status": e["status"], "validation_problems": e.get("validation_problems") or {},
+            "home_pts": fc.get("home_pts"), "away_pts": fc.get("away_pts"), "margin": fc.get("margin"),
+            "total": fc.get("total"), "p_home": fc.get("p_home"), "primary_model": e.get("primary_model"),
+            "market_spread": (e.get("market") or {}).get("home_spread"), "market_total": (e.get("market") or {}).get("total"),
+            "before_kickoff": gen < kickoff})
+    cur_pub = PUB.public_time(cur_rel["run_id"], evidence) if cur_rel else None
+    return {
+        "forecast_state": state, "forecast": cur[1] if cur else None,
+        "forecast_run_id": cur_rel["run_id"] if cur_rel else None,
+        "forecast_generated_at": cur_time, "forecast_public_evidence_at": cur_pub.isoformat() if cur_pub else None,
+        "forecast_verification": PUB.verification_label(datetime.fromisoformat(cur_time), kickoff, cur_pub) if cur else None,
+        "history": history,
+    }
+
+
 def _latest(pattern: str) -> Path | None:
     c = sorted(REPORTS_DIR.glob(pattern))
     return c[-1] if c else None
@@ -89,6 +141,8 @@ def export() -> Path:
     _write(WEB_DATA / "teams.json", team_info)
     games = build_games(S.fetch("schedules"))
     releases = _releases()
+    evidence = PUB.load_evidence()
+    corrections = PUB.load_corrections()
     versions: dict[str, list[tuple[dict, dict]]] = {}
     for r in releases:
         for g in r["games"]:
@@ -103,32 +157,16 @@ def export() -> Path:
         items = []
         for g in wk.iter_rows(named=True):
             vs = sorted(versions.get(g["game_id"], []), key=lambda x: x[0]["generated_at_utc"])
-            kick = g["kickoff_utc"]
-            pre = [(r, e) for r, e in vs if datetime.fromisoformat(r["generated_at_utc"]) < kick]
-            frozen = pre[-1] if pre else None
-            if frozen:
-                state = "published"
-            elif g["status"] == "final" or kick <= now:
-                state = "not_archived"   # game before the first production release: no forecast is shown
-            else:
-                state = "pending"
+            view = game_view(vs, g["kickoff_utc"], g["status"] == "final", now, evidence)
             item = {
                 "game_id": g["game_id"], "season": season, "week": week, "game_type": g["game_type"],
-                "kickoff_utc": kick.isoformat(), "kickoff_time_known": g["kickoff_time_known"],
+                "kickoff_utc": g["kickoff_utc"].isoformat(), "kickoff_time_known": g["kickoff_time_known"],
                 "venue_tz": venue_tz(g["stadium"], g["home_id"]), "stadium": g["stadium"],
                 "neutral_site": g["neutral_site"], "roof": g["roof"], "home": g["home_team"], "away": g["away_team"],
                 "status": g["status"], "score": ({"home": g["home_score"], "away": g["away_score"]}
                                                  if g["status"] == "final" else None),
-                "forecast_state": state, "forecast": frozen[1] if frozen else None,
-                "forecast_run_id": frozen[0]["run_id"] if frozen else None,
-                "forecast_generated_at": frozen[0]["generated_at_utc"] if frozen else None,
-                "history": [{"run_id": r["run_id"], "generated_at": r["generated_at_utc"], "label": e["release_label"],
-                             "home_pts": e["forecast"]["home_pts"], "away_pts": e["forecast"]["away_pts"],
-                             "margin": e["forecast"]["margin"], "total": e["forecast"]["total"],
-                             "p_home": e["forecast"]["p_home"], "primary_model": e["primary_model"],
-                             "market_spread": (e.get("market") or {}).get("home_spread"),
-                             "market_total": (e.get("market") or {}).get("total"),
-                             "before_kickoff": datetime.fromisoformat(r["generated_at_utc"]) < kick} for r, e in vs],
+                **view,
+                "corrections": [c for c in corrections if c["details"].get("game_id") == g["game_id"]],
             }
             items.append(item)
         rel = [r for r in releases if r["season"] == season and r["week"] == week]
@@ -144,7 +182,8 @@ def export() -> Path:
     prod = yaml.safe_load((ROOT / "configs" / "production.yaml").read_text(encoding="utf-8"))
     _write(WEB_DATA / "manifest.json", {"exported_at": now.isoformat(), "weeks": week_index,
                                         "latest": {"season": latest["season"], "week": latest["week"]},
-                                        "production": prod, "release_count": len(releases)})
+                                        "production": prod, "release_count": len(releases),
+                                        "corrections": corrections})
     _export_performance()
     _export_ratings(now)
     print(f"[export] wrote {WEB_DATA} ({len(week_index)} weeks, {len(releases)} releases)")
