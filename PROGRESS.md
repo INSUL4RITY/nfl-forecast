@@ -97,6 +97,18 @@ market lines, QB availability, injury display, weather display). A changed artif
   - First graded game: ATL@GB (ATL 35–14): pick GB (wrong), lean GB −4.5 by 0.19 pts, tiny (wrong), margin error 25.7;
     reported separately as generated pregame / published after kickoff, pick label retrospectively derived.
   - Existing performance metrics and prospective scoring (`reports/prospective/`) unchanged.
+- Session 9 (presentation only; calculations, pick rules, archived lines, locking, grading and classifications unchanged):
+  - Game cards: a separate prediction box beneath each game's statistics with two sections, "Projected winner" (team, win
+    probability, projected winning margin) and "Model pick" (signed spread side, e.g. PIT +3.5, subtitle "Against the
+    recorded spread"; "No pick" when the projection matches the line or no line was recorded). Side by side on wider
+    screens, stacked below 480 px (checked at 1280 px and 375 px: all 16 week-3 boxes inside their cards, no overflow).
+    Duplicate winner/lean rows removed from the statistics; the win probability appears only with the projected winner.
+  - The heading "Spread lean — margin comparison" is replaced by "Model pick"; the numerical difference and its
+    tiny/small/moderate/large label moved to the detail page's collapsible "Details: how the model pick is derived", with an
+    explanation also given to screen readers and as a tooltip on each card.
+  - Consistent wording on detail pages, results lines ("model pick (spread)") and the weekly table ("Winner record" vs
+    "Model pick record (spread)"; "no pick" / "no line" / pushes listed separately); methodology text updated.
+    Retrospective and publication notes kept.
 
 ## 3. Tests and checks (2026-09-25)
 - `pytest`: **80 passed** (leakage, signs, identities, market policy, probabilities, scoring, validation/states, QB availability

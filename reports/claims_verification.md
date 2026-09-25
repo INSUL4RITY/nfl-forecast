@@ -1,6 +1,6 @@
 # Claims verification
 
-Run 2026-09-25T14:23:08.525055+00:00: 65 passed, 0 failed.
+Run 2026-09-25T15:11:33.512946+00:00: 65 passed, 0 failed.
 
 | check | result | detail |
 |---|---|---|
@@ -10,7 +10,7 @@ Run 2026-09-25T14:23:08.525055+00:00: 65 passed, 0 failed.
 | site performance page labels retrospective benchmark + untimed lines + actual-starter proxy | PASS |  |
 | site performance page shows weather inputs as RETROSPECTIVE | PASS |  |
 | methodology page documents approximations | PASS |  |
-| API key absent from repository, logs, site, snapshots and backup | PASS | 1910 files checked |
+| API key absent from repository, logs, site, snapshots and backup | PASS | 1942 files checked |
 | The Odds API snapshots contain point values only (no prices) | PASS | 1 snapshots |
 | The Odds API lines retrieved and provider-updated before kickoff and before the forecast cutoff | PASS | 15 game forecasts |
 | stored pick labels match the published rule | PASS | 0 stored picks |
