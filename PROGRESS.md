@@ -16,6 +16,11 @@ All five review findings were reproduced and fixed. Details are in `docs/methodo
 | 5. Labels/explanations | Yes: future games showed "frozen (scored)" | States latest pregame / locked at kickoff / scored; methodology explains actual-starter proxy, untimed closing lines, display-only non-QB injuries, no weather/coaching |
 
 Also: the `locked-test` command now refuses a second untouched run (`--revision-label` needed; writes `reports/revised_evaluations/`).
+New release `rel_20260925T011000Z` (schema v3, 15 unplayed Week 3 games, all valid), first public evidence 01:12:19 UTC.
+Found and fixed while verifying: inside Task Scheduler the GitHub CLI reported "not logged in" (its login file was
+written from a sandboxed shell), which would have blocked auto-publishing. `scripts/operate.ps1` now passes the token from
+Windows Credential Manager (`GH_TOKEN`), git uses a repo-local gh credential helper, and prompts are disabled. A real push
+from the Task Scheduler context was verified (remote HEAD = local HEAD).
 The production model and the original 2025 evaluation are unchanged.
 
 Tests: 38 passing (was 18). New regression tests: QB1 and QB2 both out, QB2 availability checked, missing report,
