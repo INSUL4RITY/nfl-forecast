@@ -12,8 +12,8 @@ Update this file at the end of every working session.
 | 3. Personnel & context | **Done.** QB ratings/expected starter, injury availability, schedule context, ablations, window tuning |
 | 4. Combined model | **Done.** Residual ridge (selected), direct ridge, residual HGB. Frozen in `configs/production.yaml` |
 | 5. Probabilities & intervals | **Done.** Calibrated on out-of-fold predictions; locked 2025 test run **once** |
-| 6. Website | **Done (local).** Next.js 16 static site in `web/`, built to `web/out/`. **Not yet hosted publicly** |
-| 7. Prospective operation | **Built.** `nflcast operate` + `scripts/operate.ps1`. **Not yet scheduled** (needs your OK) |
+| 6. Website | **Live** at https://insul4rity.github.io/nfl-forecast/ (GitHub Pages, repo INSUL4RITY/nfl-forecast) |
+| 7. Prospective operation | **Running.** Task Scheduler `nflcast-operate` every 30 min (while logged in); auto-publishes to GitHub |
 
 ## Environment
 - Python 3.12.10 (venv `.venv`, pins in `requirements.lock.txt`), Node.js 24.19, Next.js 16.3.6, TypeScript 5.9, git 2.55.
@@ -52,12 +52,14 @@ Final-pregame horizon, margin/total RMSE (MAE in reports):
 - Site: static export; the displayed verdict text on /performance summarises current results and must be revisited if results change.
 
 ## Needs from you
-1. **Scheduling:** OK to register a Windows scheduled task running `scripts/operate.ps1` every 30 minutes? (It creates a
-   standing background job on your PC. Command in `docs/operations.md`.) Without it, run `.\scripts\operate.ps1` manually before
-   game days (at minimum ~once a day and in the hour before kickoffs).
-2. **Public hosting:** the site in `web/out/` needs a host account in your name (GitHub Pages, Cloudflare Pages, Netlify or Vercel,
-   all free). Tell me which, once you have an account, and I'll set up deployment.
-3. Optional/paid: historical timestamped lines (e.g. The Odds API) would enable a historical 72 h market benchmark. Not needed.
+- Keep the PC on and signed in to Windows on game days (the scheduled task only runs while you are logged in).
+- If `logs/operate.log` shows push failures, the GitHub login may have expired: run `gh auth login --web`.
+- Optional/paid: historical timestamped lines (e.g. The Odds API) would enable a historical 72 h market benchmark. Not needed.
+
+## Session log (continued)
+- **S1b (2026-09-25):** registered Task Scheduler job (Interactive logon; S4U needs admin). Installed GitHub CLI, user signed in
+  (INSUL4RITY). Rewrote local commit authors to the GitHub noreply address before the first push. Created the public repo
+  nfl-forecast, enabled Pages (Actions build), first deploy succeeded, live site verified (styles, base-path links, navigation).
 
 ## Next steps
 - Keep releases running through the season; after ~4 weeks, review live scoring (small samples: don't over-read).

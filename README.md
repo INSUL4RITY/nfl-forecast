@@ -5,7 +5,7 @@ probabilities) for every NFL regular-season and playoff game. Numbers come from 
 real data. Nothing is hand-authored. The only market inputs are the point spread and the total.
 Moneylines, prices and betting returns are excluded by design and enforced in code.
 
-Status and results are in [PROGRESS.md](PROGRESS.md).
+**Live site: https://insul4rity.github.io/nfl-forecast/** · Status and results are in [PROGRESS.md](PROGRESS.md).
 
 ## Setup (Windows, PowerShell)
 

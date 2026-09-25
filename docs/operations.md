@@ -18,21 +18,27 @@ Each cycle:
 
 Failures are written to `logs/operate.log`; the previous release and site stay in place.
 
-## Scheduling (not yet enabled)
+## Scheduling (enabled 2026-09-25)
 
-Recommended: run every 30 minutes during the season. On Windows (run once in PowerShell, as the user):
+Windows Task Scheduler task **`nflcast-operate`** runs `scripts/operate.ps1` every 30 minutes (hidden window). It runs only
+**while you are logged in to Windows**: running while logged out needs administrator rights (S4U logon was refused). The PC
+must be on, online and signed in for releases to be timely.
 
 ```powershell
-schtasks /Create /TN "nflcast-operate" /SC MINUTE /MO 30 /TR "powershell -NoProfile -ExecutionPolicy Bypass -File \"C:\Users\Craig\NFL MODEL PROJECTIONS\scripts\operate.ps1\""
+Get-ScheduledTaskInfo -TaskName nflcast-operate      # last/next run and result (0 = OK)
+Disable-ScheduledTask -TaskName nflcast-operate      # pause (e.g. off-season)
+Enable-ScheduledTask  -TaskName nflcast-operate      # resume
+Unregister-ScheduledTask -TaskName nflcast-operate   # remove completely
 ```
 
-The PC must be on and online at those times for releases to be timely. A cloud runner (for example GitHub Actions on a
-schedule) avoids that dependency, but it needs a GitHub account and repository.
+## Publishing (GitHub Pages)
 
-## Publishing the site
-
-`web/out/` is a static site. Free hosts include GitHub Pages, Cloudflare Pages, Netlify and Vercel. They all need an account in your
-name. Once one exists, deployment is a folder upload or a small CI workflow.
+- Repository: https://github.com/INSUL4RITY/nfl-forecast (public). Live site: **https://insul4rity.github.io/nfl-forecast/**
+- `.github/workflows/pages.yml` builds `web/` with `NEXT_BASE_PATH=/nfl-forecast` and deploys on every push that touches `web/`.
+- `operate` auto-publishes: when a new release or newly scored result appears, it commits `releases/`, `reports/prospective/`
+  and `web/public/data/`, then pushes to `main`. Git authenticates through the GitHub CLI login (`gh auth status`).
+- Commits use the GitHub noreply address `333550074+INSUL4RITY@users.noreply.github.com` (set in this repo's git config).
+- If the GitHub login expires, run `gh auth login --web` again. Pushes then resume at the next cycle.
 
 ## Rules
 - Never edit or delete files in `releases/`: they are the published record.
