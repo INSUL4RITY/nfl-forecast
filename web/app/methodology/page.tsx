@@ -127,6 +127,19 @@ export default function Methodology() {
       </div>
 
       <div className="panel">
+        <h2>Picks and weekly results</h2>
+        <p className="small">Picks are labels derived from one forecast version and the market line recorded in that same version; the
+          model is unchanged. <b>Projected winner</b>: the team with the higher win probability. <b>Spread lean — margin comparison</b>:
+          the unrounded projected margin minus the margin implied by the line; the side and the difference in points are shown, with
+          differences under 0.5 points labelled tiny; a difference below 0.01 points is &quot;No lean&quot;. It is a comparison, not a betting
+          recommendation. <b>Grading</b> uses the same locked version as scoring (the last valid version generated before kickoff) and
+          that version&apos;s own line, so later runs or line moves cannot change it. Actual ties, pushes, no-lean and no-line games are
+          counted separately. Games whose forecast was generated before but first published after kickoff are reported separately.
+          Forecasts made before pick labels were added (25 September 2026) have their labels derived afterwards by the same fixed rule and
+          are marked as retrospectively derived. Weeks show &quot;Week to date&quot; until every game is final.</p>
+      </div>
+
+      <div className="panel">
         <h2>Data sources and what is missing</h2>
         <ul>
           <li><b>nflverse</b> (CC-BY 4.0): play-by-play with EPA/CPOE, schedules, scores, depth charts, injury reports, snap counts, rosters.

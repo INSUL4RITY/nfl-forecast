@@ -78,10 +78,29 @@ market lines, QB availability, injury display, weather display). A changed artif
   - Found and fixed: that first release's `retrieved_at` is the request-SENT time, ~1 s before some bookmakers' update time
     (13:23:47). Recorded as correction `odds-retrieval-time:rel_20260925T132351Z` (labelling only; release unchanged). Retrieval
     time is now the response-received time and a line counts as available only from max(receipt, provider update).
+- Session 8 (picks and weekly results; display/reporting only — model, feed schedule and credit budget unchanged):
+  - `src/nflcast/predict/picks.py` (picks-v1): projected winner (higher win probability; equal = toss-up), winning margin,
+    and "Spread lean — margin comparison" = unrounded projected margin minus the line margin (-home_spread) of the SAME
+    version; side + difference in points, labelled tiny (< 0.5) / small (< 1.5) / moderate (< 3) / large; < 0.01 = "No lean".
+  - New releases store their pick labels (`games[].picks`, `published_with_forecast`). For older versions the same rule is
+    applied at export and the label is flagged `retrospectively_derived` (card asterisk, detail note, week footnote).
+  - Grading = the scoring rule's final_pregame version (latest valid version generated before kickoff) with its own line;
+    stored picks are used verbatim, never recomputed. Winner: win/loss/tie(actual)/no-pick; lean: win/loss/push/no-lean/
+    no-line; mean absolute margin error. Weekly panel "Week to date" until every game is final, then "Week results
+    (final)"; graded, pending and no-forecast counts; groups kept separate by publication evidence (ATL@GB stays in
+    "published after kickoff").
+  - Site: game cards and detail pages show projected winner + probability + margin, the market spread recorded with that
+    forecast, the spread lean, forecast update time and (when final) the result grade; methodology section added.
+  - Checks: 6 new tests (signs for home favourite/underdog, exact match, pushes, actual ties, toss-ups, record counts, group
+    separation, post-kickoff line move cannot change the locked pick, stored pick used verbatim); verify-claims adds 4
+    (stored picks match rule; graded picks use locked version + own archived line; retrospective flag; records add up).
+  - First graded game: ATL@GB (ATL 35–14): pick GB (wrong), lean GB −4.5 by 0.19 pts, tiny (wrong), margin error 25.7;
+    reported separately as generated pregame / published after kickoff, pick label retrospectively derived.
+  - Existing performance metrics and prospective scoring (`reports/prospective/`) unchanged.
 
 ## 3. Tests and checks (2026-09-25)
-- `pytest`: **74 passed** (leakage, signs, identities, market policy, probabilities, scoring, validation/states, QB availability
-  (25), archive integrity, release-path isolation, freeze, public-page wording (2), The Odds API feed (11)).
+- `pytest`: **80 passed** (leakage, signs, identities, market policy, probabilities, scoring, validation/states, QB availability
+  (25), archive integrity, release-path isolation, freeze, public-page wording (2), The Odds API feed (11), picks/results (6)).
 - `python -m nflcast verify-claims`: **38/38 passed** (no internal codes on 272 game pages; retrospective weather + untimed lines labelled in reports and the built
   site; every GitHub push time re-fetched and matching; no publication before generation; 77 exported verification labels
   recomputed from evidence; corrections complete; all RFC 3161 tokens verify against the files; all Web Archive copies match).

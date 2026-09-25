@@ -3,6 +3,7 @@ import type { LineupSide, ReleaseEntry, Team, WeekGame } from "@/lib/types";
 import { f1, fmtDateTime, fmtKickoff, marginText, pct, pctP, problemText, spreadText } from "@/lib/format";
 import TeamBadge from "./TeamBadge";
 import StateLabel from "./StateLabel";
+import { gradeText, leanText, RETRO_NOTE, winnerText } from "./Pick";
 
 function ProbBar({ pAway, pTie, pHome, away, home, awayColor, homeColor }: {
   pAway: number; pTie: number; pHome: number; away: string; home: string; awayColor: string; homeColor: string;
@@ -63,13 +64,16 @@ export default function GameCard({ g, teams, tz }: { g: WeekGame; teams: Record<
           <ProbBar pAway={f.p_away} pTie={f.p_tie} pHome={f.p_home} away={g.away} home={g.home}
                    awayColor={away?.color ?? "#555"} homeColor={home?.color ?? "#13213c"} />
           <dl className="kv" style={{ margin: 0 }}>
-            <div><dt>Projected winner</dt><dd className="v" style={{ margin: 0 }}>{f.p_home >= f.p_away ? g.home : g.away} {pct(Math.max(f.p_home, f.p_away))}</dd></div>
-            <div><dt>Margin</dt><dd className="v" style={{ margin: 0 }}>{marginText(f.margin, g.home, g.away)}</dd></div>
+            <div><dt>Projected winner</dt><dd className="v" style={{ margin: 0 }}>{g.pick ? winnerText(g.pick) : `${marginText(f.margin, g.home, g.away)}`}</dd></div>
+            <div><dt>Market spread (this forecast)</dt><dd className="v" style={{ margin: 0 }}>{e.market ? spreadText(e.market.home_spread, g.home, g.away) : "none"}</dd></div>
             <div><dt>Total</dt><dd className="v" style={{ margin: 0 }}>{f1(f.total)}</dd></div>
-            <div><dt>80% margin range</dt><dd className="v" style={{ margin: 0 }}>{rangeText(f.intervals.margin_80, g.home, g.away)}</dd></div>
-            <div><dt>Market line</dt><dd className="v" style={{ margin: 0 }}>{e.market ? spreadText(e.market.home_spread, g.home, g.away) : "none"}</dd></div>
             <div><dt>Market total</dt><dd className="v" style={{ margin: 0 }}>{e.market ? f1(e.market.total) : "—"}</dd></div>
+            <div style={{ gridColumn: "1 / -1" }}><dt>Spread lean — margin comparison</dt>
+              <dd className="v" style={{ margin: 0 }}>{g.pick ? leanText(g.pick) : "—"}{g.pick?.retrospectively_derived ? " *" : ""}</dd></div>
+            <div style={{ gridColumn: "1 / -1" }}><dt>80% margin range</dt><dd className="v" style={{ margin: 0 }}>{rangeText(f.intervals.margin_80, g.home, g.away)}</dd></div>
           </dl>
+          {g.result_grade && <div className="small"><b>Result:</b> {gradeText(g.result_grade)}</div>}
+          {g.pick?.retrospectively_derived && <div className="small muted" title={RETRO_NOTE}>* Pick label derived retrospectively from the archived forecast.</div>}
           <div className="small ink2">
             QBs: {qbText(e.lineup.away)} / {qbText(e.lineup.home)}
           </div>
@@ -96,7 +100,7 @@ export default function GameCard({ g, teams, tz }: { g: WeekGame; teams: Record<
         </div>
       )}
       <div className="card-foot">
-        <span>{e ? <><StateLabel state={g.forecast_state} kickoff={g.kickoff_utc} />{` · generated ${fmtDateTime(g.forecast_generated_at, tz)}`}</> : " "}</span>
+        <span>{e ? <><StateLabel state={g.forecast_state} kickoff={g.kickoff_utc} />{` · forecast updated ${fmtDateTime(g.forecast_generated_at, tz)}`}</> : " "}</span>
         <Link href={`/game/${g.game_id}/`}>Details →</Link>
       </div>
     </article>

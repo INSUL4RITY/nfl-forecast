@@ -27,6 +27,7 @@ from nflcast.data.games import build_games, franchise
 from nflcast.features.asof import AsOfFeatureBuilder
 from nflcast.features.personnel import QBModel
 from nflcast.predict import archive as ARCH
+from nflcast.predict import picks as PK
 from nflcast.predict import publication as PUB
 from nflcast.predict.validation import entry_is_valid, select_frozen
 
@@ -128,6 +129,16 @@ def game_view(vs: list[tuple[dict, dict]], kickoff: datetime, is_final: bool, no
     }
 
 
+def pick_for(entry: dict | None, home: str, away: str) -> dict | None:
+    """The pick shown/graded for a forecast version: the one published in the release if present (never recomputed),
+    otherwise derived now by the same rule from that version's own forecast and line, flagged as retrospective."""
+    if not entry or not entry.get("forecast"):
+        return None
+    if entry.get("picks"):
+        return {**entry["picks"], "retrospectively_derived": False}
+    return {**PK.derive(entry["forecast"], entry.get("market"), home, away), "retrospectively_derived": True}
+
+
 def _latest(pattern: str) -> Path | None:
     c = sorted(REPORTS_DIR.glob(pattern))
     return c[-1] if c else None
@@ -172,12 +183,16 @@ def export() -> Path:
                 **view,
                 "corrections": [c for c in corrections if c["details"].get("game_id") == g["game_id"]],
             }
+            item["pick"] = pick_for(view["forecast"], g["home_team"], g["away_team"])
+            item["result_grade"] = (PK.grade(item["pick"], g["home_score"], g["away_score"], g["home_team"], g["away_team"])
+                                    if g["status"] == "final" and item["pick"] and view["forecast_state"] == "scored" else None)
             items.append(item)
         rel = [r for r in releases if r["season"] == season and r["week"] == week]
         doc = {"season": season, "week": week,
                "date_range": [wk["gameday"].min(), wk["gameday"].max()] if wk.height else None,
                "n_games": wk.height, "last_release_at": rel[-1]["generated_at_utc"] if rel else None,
-               "release_count": len(rel), "games": items}
+               "release_count": len(rel), "games": items,
+               "results": PK.weekly_summary(items) if any(it["pick"] for it in items) else None}
         _write(WEB_DATA / "weeks" / f"{season}-{week:02d}.json", doc)
         week_index.append({"season": season, "week": week, "n_games": wk.height, "has_forecasts": bool(rel),
                            "date_range": doc["date_range"]})

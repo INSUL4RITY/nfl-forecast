@@ -152,6 +152,45 @@ export interface WeekGame {
   model_frozen?: boolean | null;
   history: HistoryPoint[];
   corrections: Correction[];
+  pick?: Pick | null;
+  result_grade?: ResultGrade | null;
+}
+
+/** Pick labels from one forecast version and the market line archived with it (see src/nflcast/predict/picks.py). */
+export interface Pick {
+  picks_version: string;
+  winner: string | null;
+  winner_p: number | null;
+  projected_margin: number;
+  winning_margin: number;
+  line_home_spread: number | null;
+  lean: { side: string | null; status: "lean" | "no_lean" | "no_line"; side_spread?: number; difference?: number;
+          strength?: "none" | "tiny" | "small" | "moderate" | "large" } | null;
+  retrospectively_derived: boolean;
+}
+
+export interface ResultGrade {
+  winner: "win" | "loss" | "tie" | "no_pick";
+  lean: "win" | "loss" | "push" | "no_lean" | "no_line";
+  abs_margin_error: number;
+  actual_margin: number;
+}
+
+export interface GroupResults {
+  graded: number;
+  winner: { win: number; loss: number; tie: number; no_pick: number };
+  lean: { win: number; loss: number; push: number; no_lean: number; no_line: number };
+  mean_abs_margin_error: number | null;
+  retrospectively_derived: number;
+}
+
+export interface WeekResults {
+  state: "final" | "week_to_date";
+  n_games: number;
+  pending: number;
+  graded: number;
+  no_forecast: number;
+  groups: Record<string, GroupResults>;
 }
 
 export interface WeekDoc {
@@ -162,6 +201,7 @@ export interface WeekDoc {
   last_release_at: string | null;
   release_count: number;
   games: WeekGame[];
+  results?: WeekResults | null;
 }
 
 export interface Team {

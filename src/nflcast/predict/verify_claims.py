@@ -49,6 +49,49 @@ def public_raw_labels(out_dir=None) -> dict[str, list[str]]:
     return hits
 
 
+def picks_checks() -> list[tuple[str, bool, str]]:
+    """Picks and weekly results: stored picks match the rule; every graded pick uses its locked version and THAT
+    version's archived line; labels for versions without stored picks are flagged retrospective; records add up."""
+    from nflcast.predict import picks as PK
+    rel_by_run = {}
+    for f in release_paths():
+        r = json.loads(f.read_text(encoding="utf-8"))
+        rel_by_run[r["run_id"]] = r
+    stored_bad, n_stored = [], 0
+    for r in rel_by_run.values():
+        for g in r.get("games", []):
+            if g.get("picks"):
+                n_stored += 1
+                again = PK.derive(g.get("forecast"), g.get("market"), g["home_team"], g["away_team"])
+                if {k: g["picks"][k] for k in again} != again:
+                    stored_bad.append(f"{r['run_id']}:{g['game_id']}")
+    bad, retro_bad, count_bad, n = [], [], [], 0
+    for wf in sorted((ROOT / "web" / "public" / "data" / "weeks").glob("*.json")):
+        doc = json.loads(wf.read_text(encoding="utf-8"))
+        for it in doc["games"]:
+            if not it.get("pick"):
+                continue
+            entry = next((g for g in rel_by_run.get(it["forecast_run_id"], {}).get("games", []) if g["game_id"] == it["game_id"]), None)
+            line = ((entry or {}).get("market") or {}).get("home_spread")
+            if entry is None or it["pick"]["line_home_spread"] != line:
+                bad.append(it["game_id"])
+            if it["pick"]["retrospectively_derived"] != (not (entry or {}).get("picks")):
+                retro_bad.append(it["game_id"])
+            if it.get("result_grade"):
+                n += 1
+                if it["forecast_state"] != "scored" or PK.grade(it["pick"], it["score"]["home"], it["score"]["away"], it["home"], it["away"]) != it["result_grade"]:
+                    bad.append(it["game_id"])
+        res = doc.get("results")
+        if res and res["graded"] != sum(1 for it in doc["games"] if it.get("result_grade")):
+            count_bad.append(wf.name)
+        if res and any(sum(g["winner"].values()) != g["graded"] or sum(g["lean"].values()) != g["graded"] for g in res["groups"].values()):
+            count_bad.append(wf.name)
+    return [("stored pick labels match the published rule", not stored_bad, "; ".join(stored_bad[:5]) or f"{n_stored} stored picks"),
+            ("graded picks use the locked version and its own archived line", not bad, "; ".join(bad[:5]) or f"{n} graded"),
+            ("picks without a stored label are flagged retrospectively derived", not retro_bad, "; ".join(retro_bad[:5])),
+            ("weekly records add up (graded = win + loss + tie/push/no-pick/no-lean/no-line)", not count_bad, "; ".join(count_bad))]
+
+
 def market_feed_checks() -> list[tuple[str, bool, str]]:
     """The Odds API feed: key never stored/published, no prices kept, no post-kickoff or post-cutoff lines used."""
     import os
@@ -105,6 +148,8 @@ def run(download_web_archive: bool = True) -> list[dict]:
     meth_html = (WEB_OUT_DIR / "methodology" / "index.html").read_text(encoding="utf-8") if (WEB_OUT_DIR / "methodology" / "index.html").exists() else ""
     _check(R, "methodology page documents approximations", all(s in meth_html for s in ("Actual-starter proxy", "Untimed closing lines")))
     for name, ok, detail in market_feed_checks():
+        _check(R, name, ok, detail)
+    for name, ok, detail in picks_checks():
         _check(R, name, ok, detail)
     raw = public_raw_labels()
     _check(R, "game pages show no internal codes or player IDs", not raw,
@@ -165,9 +210,12 @@ def run(download_web_archive: bool = True) -> list[dict]:
             _check(R, f"RFC 3161 token present for {p.name}", False, "no token yet")
         wa = [x for x in recs if x["type"] == "web_archive" and x.get("sha256_matches")]
         if wa and download_web_archive:
-            got = requests.get(wa[0]["archived_copy"], timeout=120, headers=A.UA).content
-            _check(R, f"Web Archive copy matches {p.name}", hashlib.sha256(got).hexdigest() == hashlib.sha256(p.read_bytes()).hexdigest(),
-                   wa[0]["capture_time_utc"])
+            try:
+                got = requests.get(wa[0]["archived_copy"], timeout=120, headers=A.UA).content
+                _check(R, f"Web Archive copy matches {p.name}", hashlib.sha256(got).hexdigest() == hashlib.sha256(p.read_bytes()).hexdigest(),
+                       wa[0]["capture_time_utc"])
+            except requests.RequestException as e:   # recorded as a failure, never skipped silently
+                _check(R, f"Web Archive copy matches {p.name}", False, f"could not re-download now ({type(e).__name__}); retry later")
         elif not wa:
             _check(R, f"Web Archive copy present for {p.name}", False, "not captured yet (retried each cycle)")
     for f in ("v.tsr", "v.tsq"):

@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import type { Manifest, Team, WeekDoc } from "@/lib/types";
 import { dateRange, dayKey, fmtDateTime, tzFor, type TzMode } from "@/lib/format";
 import GameCard from "./GameCard";
+import { WeekResultsPanel } from "./Pick";
 
 export default function WeekBoard({ doc, teams, manifest }: { doc: WeekDoc; teams: Record<string, Team>; manifest: Manifest }) {
   const [tzMode, setTzMode] = useState<TzMode>("local");
@@ -79,6 +80,8 @@ export default function WeekBoard({ doc, teams, manifest }: { doc: WeekDoc; team
           <option value="stadium">Stadium local time</option>
         </select>
       </div>
+
+      {doc.results && <WeekResultsPanel r={doc.results} />}
 
       {grouped.map(({ d, games }) => (
         <section key={d}>

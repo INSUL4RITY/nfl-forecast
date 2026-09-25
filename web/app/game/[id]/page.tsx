@@ -4,6 +4,7 @@ import LocalTime from "@/components/LocalTime";
 import TeamBadge from "@/components/TeamBadge";
 import { dataProblems } from "@/components/GameCard";
 import StateLabel from "@/components/StateLabel";
+import { gradeText, leanText, RETRO_NOTE, winnerText } from "@/components/Pick";
 import { allGames, findGame, getTeams } from "@/lib/data";
 import { f1, f2, f3, marginText, pct, pctP, problemText, qbStatusText, rosterText, spreadText, VERIFY_LABEL } from "@/lib/format";
 import type { Forecast, LineupSide } from "@/lib/types";
@@ -224,6 +225,28 @@ export default async function GamePage({ params }: { params: Promise<{ id: strin
               <span className="small ink2">80%: {rangeFmt(f.intervals.margin_80, H, A)} · total {f1(f.intervals.total_80[0])}–{f1(f.intervals.total_80[1])}</span>
             </div>
           </div>
+
+          {g.pick && (
+            <div className="panel">
+              <h2 style={{ marginTop: 0 }}>Model pick</h2>
+              <dl className="kv" style={{ margin: 0 }}>
+                <div><dt>Projected winner</dt><dd className="v" style={{ margin: 0 }}>{winnerText(g.pick)}</dd></div>
+                <div><dt>Market spread with this forecast</dt><dd className="v" style={{ margin: 0 }}>
+                  {g.pick.line_home_spread != null ? spreadText(g.pick.line_home_spread, H, A) : "none"}</dd></div>
+                <div><dt>Spread lean — margin comparison</dt><dd className="v" style={{ margin: 0 }}>{leanText(g.pick)}</dd></div>
+                <div><dt>Forecast updated</dt><dd className="v" style={{ margin: 0 }}><LocalTime venueTz={g.venue_tz} iso={g.forecast_generated_at} /></dd></div>
+              </dl>
+              <p className="small muted" style={{ marginBottom: 0 }}>
+                The spread lean compares the unrounded projected margin ({marginText(g.pick.projected_margin, H, A)}) with the market line
+                recorded in the same forecast version; the number is the difference in points. Differences under 0.5 points are labelled
+                tiny and are within normal noise. It is a margin comparison, not a betting recommendation.
+                {g.forecast_state === "latest_pregame" ? " Before kickoff this may change with each new forecast version; at kickoff it locks." : ""}
+              </p>
+              {g.result_grade && <p style={{ marginBottom: 0 }}><b>Result:</b> {gradeText(g.result_grade)} (actual margin{" "}
+                {marginText(g.result_grade.actual_margin, H, A)}).</p>}
+              {g.pick.retrospectively_derived && <p className="small muted" style={{ marginBottom: 0 }}>{RETRO_NOTE}</p>}
+            </div>
+          )}
 
           {e.lineup_uncertain && (
             <div className="callout warn"><b>Lineup uncertain.</b> This forecast is a probability-weighted mix of starting-QB scenarios.

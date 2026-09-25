@@ -39,6 +39,7 @@ from nflcast.features.asof import AsOfFeatureBuilder
 from nflcast.models.combined import ResidualRidge, game_matrix, select_resid_alphas
 from nflcast.models.core import FootballRidge, MarketRaw, feature_set, select_alpha_chronologically
 from nflcast.models.probability import OutcomeModel
+from nflcast.predict import picks as PK
 from nflcast.predict import validation as V
 
 SCHEMA_VERSION = 3
@@ -441,6 +442,8 @@ def build_candidate(now: datetime | None = None, days_ahead: int = 8) -> dict | 
                  "combined_total": float(preds["primary"]["total"][i]) if mkt_ok else None,
                  "football_margin": float(preds["fallback"]["margin"][i]), "football_total": float(preds["fallback"]["total"][i])}
                 for k, i in enumerate(idx)],
+            "picks": ({**PK.derive(headline, market, g["home_team"], g["away_team"]), "published_with_forecast": True}
+                      if headline else None),
             "input_fingerprint": fingerprint,
             "data_freshness": _game_freshness(freshness, _market_freshness(market, market_fresh, now), market, res, now),
             "weather": _weather_display(g, now),
