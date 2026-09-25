@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "site",
+      "runtimeExecutable": "C:\\Users\\Craig\\NFL MODEL PROJECTIONS\\.venv\\Scripts\\python.exe",
+      "runtimeArgs": ["-m", "http.server", "3000", "--directory", "C:\\Users\\Craig\\NFL MODEL PROJECTIONS\\web\\out"],
+      "port": 3000
+    }
+  ]
+}

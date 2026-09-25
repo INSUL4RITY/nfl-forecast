@@ -22,10 +22,21 @@ winget install Python.Python.3.12 --scope user        # if Python is not install
 .\.venv\Scripts\python.exe -m nflcast audit      # Milestone 1 data availability audit -> reports/audit/
 .\.venv\Scripts\python.exe -m nflcast ingest     # download/refresh raw snapshots (append-only) -> data/raw/
 .\.venv\Scripts\python.exe -m nflcast build      # games, team-games, as-of features, market -> data/processed/
-.\.venv\Scripts\python.exe -m nflcast backtest   # walk-forward evaluation -> reports/backtest/
+.\.venv\Scripts\python.exe -m nflcast backtest   # walk-forward evaluation (tune 2019-21, dev 2022-24) -> reports/backtest/
+.\.venv\Scripts\python.exe -m nflcast tune       # window-setting grid on tune seasons only -> reports/tuning/
 .\.venv\Scripts\python.exe -m nflcast predict    # immutable release for the next week -> releases/
+.\.venv\Scripts\python.exe -m nflcast score      # score frozen live releases -> reports/prospective/
+.\.venv\Scripts\python.exe -m nflcast export-web # versioned JSON -> web/public/data/
+.\.venv\Scripts\python.exe -m nflcast operate    # scheduled cycle (see docs/operations.md)
 .\.venv\Scripts\python.exe -m nflcast all        # ingest + build + backtest + predict
-.\.venv\Scripts\python.exe -m pytest -q          # leakage, sign, identity and policy tests (offline fixture)
+.\.venv\Scripts\python.exe -m pytest -q          # leakage, sign, identity, probability, scoring, policy tests
+# (locked-test is a one-time command and has already been used for 2025)
+```
+
+Website (Node.js 24):
+
+```powershell
+cd web; npm install; npx next build   # static site in web/out/
 ```
 
 ## Layout
@@ -36,7 +47,10 @@ winget install Python.Python.3.12 --scope user        # if Python is not install
 | `src/nflcast/features/` | play-by-play aggregation, as-of team features and ratings |
 | `src/nflcast/models/` | market benchmarks, naive floor, football-only ridge |
 | `src/nflcast/evaluation/` | walk-forward backtest, metrics, block bootstrap |
-| `src/nflcast/pipeline.py` | ingest / build / backtest / predict steps with run manifests |
+| `src/nflcast/pipeline.py` | ingest / build / backtest steps with run manifests |
+| `src/nflcast/predict/` | releases, scoring, website export, scheduled operation |
+| `configs/production.yaml` | frozen production model choices |
+| `web/` | Next.js + TypeScript static site (renders exported JSON only) |
 | `configs/settings.yaml` | seasons, horizons, feature settings, validation folds |
 | `tests/` | leakage, sign convention, identities, market policy (synthetic CI fixture) |
 | `docs/` | data sources and availability, methodology |

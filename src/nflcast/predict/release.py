@@ -152,7 +152,14 @@ def generate(now=None, days_ahead: int = 8) -> Path | None:
             if qbs[side].get("expected") is None:  # no depth chart: previous starter
                 prev = qbm.previous_starter(g[f"{side}_id"], now_us)
                 qbs[side].update({"expected": prev, "scenarios": [(1.0, prev)], "source": "previous_game_starter", "note": None})
-        meta[g["game_id"]] = {"qbs": qbs}
+        eff_keys = ["off_epa_play", "def_epa_play", "off_epa_db", "def_epa_db", "off_epa_rush", "def_epa_rush",
+                    "off_succ_play", "def_succ_play", "off_pts_drive", "def_pts_drive", "off_sack_rate", "def_sack_rate",
+                    "adj_off_epa", "adj_def_epa", "games_this_season", "ess_games"]
+        eff = {side: {k: float(tf[side][k]) for k in eff_keys} for side in ("home", "away")}
+        for side in ("home", "away"):
+            eff[side]["expected_qb_rating"] = qbm.rating(qbs[side].get("expected") or qbm.previous_starter(g[f"{side}_id"], now_us),
+                                                         now_us, season)[0]
+        meta[g["game_id"]] = {"qbs": qbs, "efficiency": eff}
         for ph, qh in qbs["home"]["scenarios"]:
             for pa, qa in qbs["away"]["scenarios"]:
                 rec = {"game_id": g["game_id"], "scenario_p": ph * pa, "scenario": f"{qh}|{qa}", "horizon": "final", "cutoff_utc": now}
@@ -270,6 +277,15 @@ def generate(now=None, days_ahead: int = 8) -> Path | None:
                         "snapshot_at": feats["snapshot_at"][int(idx[0])].isoformat()} if mkt_ok else None),
             "lineup": lineup, "lineup_uncertain": bool(len(idx) > 1), "notable_injuries": notable,
             "contributions": top,
+            "team_efficiency": meta[g["game_id"]]["efficiency"],
+            "scenario_forecasts": [
+                {"p": float(w[k]),
+                 "home_qb": name_of.get(feats["scenario"][int(i)].split("|")[0]),
+                 "away_qb": name_of.get(feats["scenario"][int(i)].split("|")[1]),
+                 "combined_margin": float(preds["primary"]["margin"][i]) if mkt_ok else None,
+                 "combined_total": float(preds["primary"]["total"][i]) if mkt_ok else None,
+                 "football_margin": float(preds["fallback"]["margin"][i]),
+                 "football_total": float(preds["fallback"]["total"][i])} for k, i in enumerate(idx)],
         }
         out_games.append(entry)
     release = {

@@ -19,6 +19,9 @@ def main(argv: list[str] | None = None) -> None:
     sub.add_parser("locked-test", help="One-time evaluation including the locked test season (after decisions are frozen)")
     sub.add_parser("predict", help="Generate an immutable forecast release for the next week's unplayed games")
     sub.add_parser("score", help="Score frozen prospective releases against final results")
+    op = sub.add_parser("operate", help="Scheduled run: refresh, score, release if due, export, build site")
+    op.add_argument("--force", action="store_true", help="publish a release even if not due")
+    op.add_argument("--no-site", action="store_true", help="skip the Next.js build")
     sub.add_parser("export-web", help="Export versioned JSON for the website")
     sub.add_parser("all", help="ingest + build + backtest + predict")
     args = p.parse_args(argv)
@@ -36,6 +39,9 @@ def main(argv: list[str] | None = None) -> None:
     elif args.cmd == "backtest":
         from nflcast.pipeline import backtest
         backtest()
+    elif args.cmd == "operate":
+        from nflcast.predict.operate import run
+        run(build_site=not args.no_site, force=args.force)
     elif args.cmd == "score":
         from nflcast.predict.score import score
         score()

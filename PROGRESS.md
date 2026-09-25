@@ -3,86 +3,69 @@
 Specification: `NFL_Forecasting_Claude_Build_Brief.md` (Downloads folder, 24 Sep 2026).
 Update this file at the end of every working session.
 
-## Current status (2026-09-24 UTC, session 1)
+## Current status (2026-09-25 00:10 UTC, end of session 1)
 
 | Milestone | Status |
 |---|---|
-| 1. Data audit | **Done** (first pass). `docs/data_sources.md`, `reports/audit/audit_latest.json` |
-| 2. Reproducible benchmarks | **Done** (baseline). Market raw/calibrated, naive, football-only ridge. Walk-forward 2022–24 |
-| 3. Personnel & context | Not started |
-| 4. Combined model | Not started |
-| 5. Probabilities & uncertainty | Not started |
-| 6. Website | Not started (no Node.js installed yet) |
-| 7. Prospective operation | Snapshot archiving has begun; one baseline release written |
+| 1. Data audit | **Done.** `docs/data_sources.md`, `reports/audit/audit_latest.json` |
+| 2. Benchmarks | **Done.** Market raw/calibrated, naive, football-only; walk-forward |
+| 3. Personnel & context | **Done.** QB ratings/expected starter, injury availability, schedule context, ablations, window tuning |
+| 4. Combined model | **Done.** Residual ridge (selected), direct ridge, residual HGB. Frozen in `configs/production.yaml` |
+| 5. Probabilities & intervals | **Done.** Calibrated on out-of-fold predictions; locked 2025 test run **once** |
+| 6. Website | **Done (local).** Next.js 16 static site in `web/`, built to `web/out/`. **Not yet hosted publicly** |
+| 7. Prospective operation | **Built.** `nflcast operate` + `scripts/operate.ps1`. **Not yet scheduled** (needs your OK) |
 
-## Environment (what actually ran)
-- Windows 11. Python 3.12.10 installed per-user via winget (session 1). Project venv at `.venv`.
-- Packages pinned in `requirements.lock.txt` (nflreadpy 0.1.5, polars 1.44.2, scikit-learn 1.9.1 …).
-- No Node.js and no git on this machine yet.
-- `pytest`: 14 tests pass (leakage, sign convention, coherence, DST kickoff conversion, market policy).
+## Environment
+- Python 3.12.10 (venv `.venv`, pins in `requirements.lock.txt`), Node.js 24.19, Next.js 16.3.6, TypeScript 5.9, git 2.55.
+- Git repository initialised; commits per milestone.
+- `pytest`: 18 tests pass (leakage, signs, coherence, DST, market policy, probabilities, intervals, scoring).
 
-## Results so far (real, produced by code in this repo)
+## Results (real outputs of the code in this repo)
 
-Backtest `reports/backtest/bt_20260924T232335Z` (walk-forward; test seasons 2022, 2023, 2024; n = 854 games;
-**2025 locked, not evaluated**):
+Final-pregame horizon, margin/total RMSE (MAE in reports):
 
-| horizon | model | margin MAE | margin RMSE | total MAE | total RMSE | winner acc |
-|---|---|---|---|---|---|---|
-| final | A_market_raw | 9.49 | 12.48 | 10.11 | 12.95 | 0.681 |
-| final | A_market_cal | 9.50 | 12.50 | 10.11 | 12.95 | 0.681 |
-| final | B_football_ridge | 9.81 | 12.86 | 10.48 | 13.32 | 0.647 |
-| final | N_naive_home | 10.63 | 13.80 | 10.80 | 13.66 | 0.546 |
-| early | B_football_ridge | 9.81 | 12.86 | 10.48 | 13.32 | 0.644 |
+| Model | 2019–21 tune | 2022–24 dev | 2025 locked |
+|---|---|---|---|
+| Market only | 13.12 / 13.26 | 12.48 / 12.95 | **12.24 / 13.24** |
+| Combined (selected, C_resid core_qb) | 13.13 / 13.27 | **12.47 / 12.90** | 12.29 / 13.32 |
+| Football only (+QB) | 13.34 / 13.50 | 12.72 / 13.13 | 12.70 / 13.28 |
+| Naive home average | 14.83 / 13.98 | 13.80 / 13.66 | 14.11 / 13.83 |
 
-Plain English: the market line is the best single predictor so far. The football-only model is clearly
-better than naive (margin MAE −0.82, 95% CI [−1.08, −0.53]) but worse than the market (margin MAE +0.32,
-CI [+0.16, +0.49]; total MAE +0.37, CI [+0.17, +0.57]). The affine market correction adds nothing
-over the raw line. The early- and final-horizon football-only results are near-identical because
-historically the only information difference is whether a few late games are available (no injuries yet).
+- Combined vs market: every paired 95% CI includes zero (dev and locked). **The market line is not beaten**; this is the honest headline.
+- QB features: margin RMSE 12.85 → 12.72 (dev, football-only); in QB-change games margin MAE 10.11 → 9.77 (market 9.68).
+- Injury (non-QB) features: small gain for football-only, none once the market is included → not in the production model.
+- Probabilities (locked 2025): log loss combined 0.6327, market-only 0.6286, football-only 0.6444. Calibration table in the report.
+- Intervals (locked 2025, combined): 80% → 80.7% coverage; 95% → 97.2% (margin). Total: 80% ≈ 80%, 95% ≈ 95%.
+- Reports: `reports/backtest/LATEST.md`, `reports/locked_test/LATEST.md`, `reports/tuning/`.
 
-Caveats: the historical market line has an unknown timestamp (treated as approximately closing).
-nflfastR EPA values are current versions, not the versions available at the time (approximate reconstruction).
-Ridge alpha selection is unstable across folds (1000 / 1 / 100).
+## Releases (prospective, immutable)
+- `releases/2026/week_03/rel_20260924T232247Z.json`: Milestone-2 baseline (schema v1, not scored, kept as a record).
+- `rel_20260924T235129Z.json`, `rel_20260925T000247Z.json`: production schema v2, all 16 Week 3 games, generated before
+  the first kickoff (ATL@GB 00:15 UTC 25 Sep). These are the first genuinely live forecasts; they will be scored after the games.
 
-## Releases
-- `releases/2026/week_03/rel_20260924T232247Z.json`: generated 2026-09-24 23:22:47 UTC, **before** the
-  ATL@GB kickoff (00:15 UTC 25 Sep) and all other Week 3 games. Baseline point forecasts
-  (football-only + market raw/calibrated), no probabilities. It also contains 2026_04_PIT_CLE, because the
-  window was 8 days at the time. The window is now one week per release. The alpha grid was widened after this release,
-  so its code hash differs from the latest backtest. It is kept unchanged (releases are immutable).
+## Decisions made (routine, recorded)
+- Production = residual-to-market ridge with QB features (tie on the selection criterion; simplest of the tied options).
+  Early releases apply it to the line observed at release time (validated only at final horizon; labelled).
+- Locked 2025 result (market marginally better) did **not** change the choice; the 2026 live record is the next untouched test.
+- Window settings kept at half-life 8 / carry 0.6 (grid flat).
+- Tie probability = smoothed REG tie rate since 2017 (~0.36%); interval method = OOF residual quantiles.
+- Site: static export; the displayed verdict text on /performance summarises current results and must be revisited if results change.
 
-## Key audit findings (details in docs/data_sources.md)
-1. Schedule lines: one untimed line per game. **No free timestamped/72 h historical lines.**
-2. Injuries: only the final weekly record per player. `date_modified` is gone from 2025 onward.
-   **Early-horizon injury state cannot be reconstructed historically.**
-3. Depth charts: weekly (no timestamps) 2016–2024; daily timestamped snapshots from 2025.
-4. Participation (pressure/coverage) is released after the season, so it is excluded from live features.
-5. FTN charting 2022+ (CC-BY-SA 4.0, attribute "FTN Data via nflverse").
-6. Operational weather forecast runs are archived only from ~2026-04-07, so weather is prospective only.
-7. Coordinator/play-caller history is not in any free feed; it needs a manual table.
+## Needs from you
+1. **Scheduling:** OK to register a Windows scheduled task running `scripts/operate.ps1` every 30 minutes? (It creates a
+   standing background job on your PC. Command in `docs/operations.md`.) Without it, run `.\scripts\operate.ps1` manually before
+   game days (at minimum ~once a day and in the hour before kickoffs).
+2. **Public hosting:** the site in `web/out/` needs a host account in your name (GitHub Pages, Cloudflare Pages, Netlify or Vercel,
+   all free). Tell me which, once you have an account, and I'll set up deployment.
+3. Optional/paid: historical timestamped lines (e.g. The Odds API) would enable a historical 72 h market benchmark. Not needed.
 
-## Blockers / needs from you
-- **None blocking right now.** Optional decisions for later:
-  - Paid historical market snapshots (e.g. The Odds API historical plan) would allow a historical 72 h
-    market benchmark. Without it, early-horizon market comparisons accumulate prospectively.
-    Your call; there is no need to decide now.
-  - Milestone 6 needs **Node.js** (installable via `winget install OpenJS.NodeJS.LTS --scope user`). I will ask
-    before installing.
-  - Optional: **git** for version control (`winget install Git.Git`). I will ask before installing.
-
-## Next steps (Milestone 3)
-1. Starting-QB layer: QB identity per game from pbp (done in team-games), QB EPA/dropback history with
-   shrinkage following the player across teams, and "QB change" flags. Expected starter at cutoff from depth charts
-   (week-level before 2025) and the final injury report (final horizon only).
-2. Non-QB availability: snap-share-weighted "missing expected snaps" by position group from the final injury
-   report (final horizon), labelled with its horizon limitation.
-3. Tune half-life / carry-over / pseudo-counts on dev folds; stabilise alpha (e.g. average of fold choices).
-4. Ablations: no opponent adjustment, no personnel, short/long windows. Report failure cases.
-5. Start the manual `data/manual/staff_history.csv` (HC/OC/DC/play-caller with effective dates).
-6. Run `python -m nflcast ingest` regularly (ideally before each release) to grow the prospective
-   injury/depth-chart/line archive.
+## Next steps
+- Keep releases running through the season; after ~4 weeks, review live scoring (small samples: don't over-read).
+- Advanced model track (FTN charting 2022+, PFR pressure 2018+) evaluated on its own date range, as an ablation.
+- Maintain `data/manual/staff_history.csv` (coordinators/play-callers) if you want coaching features.
+- Early-horizon market evaluation once enough archived line snapshots exist.
+- Optional: a team-ratings history chart and a per-week results view on the site.
 
 ## Session log
-- **S1 (2026-09-24)**: installed Python; built the package skeleton, append-only snapshot store, market-price policy,
-  audit (M1), games/market tables, pbp team-game aggregation, as-of features and ratings, models A/N/B,
-  walk-forward backtest with block bootstrap, and the release writer; 14 tests; first baseline release.
+- **S1 (2026-09-24/25):** installed Python, Node.js and git; built M1–M7. Ran audit, backtests, tuning, locked test (once),
+  3 releases (1 baseline + 2 production for Week 3), website build and mobile/desktop check in the browser pane, one `operate` cycle.
