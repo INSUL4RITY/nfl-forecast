@@ -208,9 +208,34 @@ def test_assess_freshness_states():
     assert QA.assess_freshness("injuries", None, NOW).state == "missing"
 
 
-def test_stale_provider_injury_file_is_not_a_published_report():
+def _midweek(rows):
+    """A mid-week report: practice statuses only, no game designations yet."""
+    return pl.DataFrame([{"team": "CHI", "week": 3, "full_name": "x", "position": "QB", "practice_status": "Did Not Participate In Practice",
+                          "report_status": None, **r} for r in rows],
+                        schema={"team": pl.Utf8, "week": pl.Int32, "full_name": pl.Utf8, "position": pl.Utf8,
+                                "practice_status": pl.Utf8, "gsis_id": pl.Utf8, "report_status": pl.Utf8})
+
+
+def test_stale_provider_midweek_injury_file_is_not_a_published_report():
     stale = QA.SourceFreshness("injuries", "stale_provider", None, None, None)
-    res = resolve(injuries([]), freshness=[stale])
+    res = resolve(_midweek([{"gsis_id": QB1}]), freshness=[stale])
+    assert "report_stale" in res.flags and res.qbs[0].status == "Unknown"
+
+
+def test_final_report_stays_valid_when_provider_file_is_old():
+    # Monday game: Saturday's final report (game designations) is the last report before kickoff. The provider file not
+    # changing for > 36 h must not discard it; QB1 listed Out must stay out (2026 wk 3 PHI@CHI regression).
+    stale = QA.SourceFreshness("injuries", "stale_provider", None, None, None)
+    res = resolve(injuries([{"gsis_id": QB1, "report_status": "Out"}, {"gsis_id": QB2, "report_status": "Questionable"}]),
+                  freshness=[stale])
+    p = probs(res)
+    assert "report_stale" not in res.flags and QB1 not in p and res.qbs[0].status == "Out"
+    assert res.qbs[1].status == "Questionable" and p[QB2] > 0
+
+
+def test_final_report_still_stale_when_we_have_not_rechecked_it():
+    stale = QA.SourceFreshness("injuries", "stale_retrieval", None, None, None)
+    res = resolve(injuries([{"gsis_id": QB1, "report_status": "Out"}]), freshness=[stale])
     assert "report_stale" in res.flags and res.qbs[0].status == "Unknown"
 
 

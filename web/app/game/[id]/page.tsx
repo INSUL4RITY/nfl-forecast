@@ -175,15 +175,23 @@ export default async function GamePage({ params }: { params: Promise<{ id: strin
         )}
       </div>
 
-      {g.corrections.length > 0 && (
+      {g.corrections.filter((c) => !c.id.startsWith("late-publication:")).map((c) => (
+        <p key={c.id} className="small ink2" style={{ margin: "4px 0 12px" }}>
+          <b>Input correction.</b> {c.details.public_note ?? c.summary} <span className="muted">(recorded {iso16(c.recorded_at_utc)};
+            earlier versions kept unchanged in the history below.)</span>
+        </p>
+      ))}
+
+      {g.corrections.some((c) => c.id.startsWith("late-publication:")) && (
         <div className="small ink2" style={{ margin: "4px 0 12px" }}>
           <b>Generated before kickoff; published after kickoff.</b> Kickoff {iso16(g.kickoff_utc)}; first public evidence{" "}
-          {iso16(g.corrections[0].details.first_public_evidence_utc)} (<a href={g.corrections[0].details.evidence}>GitHub record</a>).
+          {iso16(g.corrections.find((c) => c.id.startsWith("late-publication:"))!.details.first_public_evidence_utc)}{" "}
+          (<a href={g.corrections.find((c) => c.id.startsWith("late-publication:"))!.details.evidence}>GitHub record</a>).
           Scored separately from publicly verifiable pregame forecasts.
           <details style={{ marginTop: 4 }}>
-            <summary>Audit history ({g.corrections.length} {g.corrections.length === 1 ? "record" : "records"})</summary>
+            <summary>Audit history ({g.corrections.filter((c) => c.id.startsWith("late-publication:")).length} records)</summary>
             <ul style={{ margin: "4px 0 0", paddingLeft: 18 }}>
-              {g.corrections.map((c) => (
+              {g.corrections.filter((c) => c.id.startsWith("late-publication:")).map((c) => (
                 <li key={c.id}>Version generated {iso16(c.details["generated_at_utc (self-reported)"])}; first public evidence{" "}
                   {iso16(c.details.first_public_evidence_utc)}; recorded {iso16(c.recorded_at_utc)}.</li>
               ))}

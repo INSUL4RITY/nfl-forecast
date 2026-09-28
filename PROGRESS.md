@@ -109,6 +109,15 @@ market lines, QB availability, injury display, weather display). A changed artif
   - Consistent wording on detail pages, results lines ("model pick (spread)") and the weekly table ("Winner record" vs
     "Model pick record (spread)"; "no pick" / "no line" / pushes listed separately); methodology text updated.
     Retrospective and publication notes kept.
+- Session 10 (2026-09-28, operational bug fix in QB-availability input processing; model artifact/configs unchanged,
+  freeze-check OK):
+  - Bug: `resolve_team_qbs` discarded a team's injury report whenever the provider file (nflverse injuries) had not changed
+    for > 36 h. For the Monday game 2026_03_PHI_CHI, the Bears' FINAL report (Saturday; Caleb Williams Out, Tyson Bagent
+    Questionable) was therefore ignored from 2026-09-28T18:15Z; releases 18:15Z, 22:46Z and 23:16Z fell back to the depth
+    chart + "no report" rate (Williams 97%). Sunday's releases had it right (Bagent 54%, Keenum 46%).
+  - Fix: once the team-week rows contain a game designation (the final report is in), provider age alone no longer marks
+    the report stale (no newer report is due before kickoff); our own retrieval age and "missing" still apply. 3 tests.
+  - The earlier versions are kept unchanged (superseded); the corrected version published before kickoff is the one graded.
 
 ## 3. Tests and checks (2026-09-25)
 - `pytest`: **80 passed** (leakage, signs, identities, market policy, probabilities, scoring, validation/states, QB availability
