@@ -109,18 +109,26 @@ market lines, QB availability, injury display, weather display). A changed artif
   - Consistent wording on detail pages, results lines ("model pick (spread)") and the weekly table ("Winner record" vs
     "Model pick record (spread)"; "no pick" / "no line" / pushes listed separately); methodology text updated.
     Retrospective and publication notes kept.
-- Session 10 (2026-09-28, operational bug fix in QB-availability input processing; model artifact/configs unchanged,
-  freeze-check OK):
-  - Bug: `resolve_team_qbs` discarded a team's injury report whenever the provider file (nflverse injuries) had not changed
-    for > 36 h. For the Monday game 2026_03_PHI_CHI, the Bears' FINAL report (Saturday; Caleb Williams Out, Tyson Bagent
-    Questionable) was therefore ignored from 2026-09-28T18:15Z; releases 18:15Z, 22:46Z and 23:16Z fell back to the depth
-    chart + "no report" rate (Williams 97%). Sunday's releases had it right (Bagent 54%, Keenum 46%).
-  - Fix: once the team-week rows contain a game designation (the final report is in), provider age alone no longer marks
-    the report stale (no newer report is due before kickoff); our own retrieval age and "missing" still apply. 3 tests.
-  - The earlier versions are kept unchanged (superseded); the corrected version published before kickoff is the one graded.
+- Session 10 (2026-09-28, operational input-processing fixes; model artifact/configs unchanged, freeze-check OK):
+  - Bug: `snapshot_asof` kept the provider Last-Modified from the FIRST upload of unchanged content, although nflverse
+    re-uploads daily (checks.jsonl had Mon 06:01 and 15:18 GMT uploads). The injury file therefore looked "stale" 36 h after
+    Sunday's content change, and the resolver (correctly, by its rule) ignored it. For 2026_03_PHI_CHI, versions
+    rel_20260928T181556Z, T224603Z and T231615Z lost both teams' final reports: CHI Williams 97% (he was listed Out),
+    PHI Hurts 97% (vs 99.6%). Sunday's versions had it right (Bagent 54%, Keenum 46%).
+  - Evidenced timeline: a first fix (resolver special case for final reports) plus a sourced override (NFL.com, published
+    2026-09-28T11:32:21Z, NFL Network's Ian Rapoport: Keenum expected to start; Bagent backs up; Williams out) produced
+    rel_20260928T233941Z (generated 23:39:41Z; first public evidence 23:39:49Z, GitHub run 36499179881; kickoff 00:15Z):
+    CHI Keenum 100%, PHI Hurts 99.6%. Combined forecast PHI by 3.37 (was 3.36; line CHI +3.5 already priced it), football-only
+    benchmark moved from CHI by 2.13 to PHI by 3.63. Picks unchanged (PHI; model pick CHI +3.5, tiny).
+  - Adversarial review (3 independent reviewers) found the special case treated a symptom, contradicted the published
+    methodology and misread early mid-week "Out" designations as a final report. Replaced by the root-cause fix: the provider
+    time is the latest Last-Modified for the same content seen by our checks up to the cutoff (as-of). Also fixed: overrides now
+    also require `entered_at_utc <= cutoff`, so rebuilds never use information entered later. Methodology texts updated.
+    Tests 83 (snapshot latest-upload regression; override entry as-of; mid-week stale report still stale).
+  - Earlier versions kept unchanged (superseded). Correction `qb-input:stale-final-report:2026_03_PHI_CHI` appended.
 
 ## 3. Tests and checks (2026-09-25)
-- `pytest`: **80 passed** (leakage, signs, identities, market policy, probabilities, scoring, validation/states, QB availability
+- `pytest`: **83 passed** (leakage, signs, identities, market policy, probabilities, scoring, validation/states, QB availability
   (25), archive integrity, release-path isolation, freeze, public-page wording (2), The Odds API feed (11), picks/results (6)).
 - `python -m nflcast verify-claims`: **38/38 passed** (no internal codes on 272 game pages; retrospective weather + untimed lines labelled in reports and the built
   site; every GitHub push time re-fetched and matching; no publication before generation; 77 exported verification labels

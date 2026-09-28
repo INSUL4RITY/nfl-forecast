@@ -1,5 +1,6 @@
 """Regression tests for quarterback availability (issue: missing reports treated as healthy; QB2 promoted unchecked)."""
 
+import json
 from datetime import datetime, timedelta, timezone
 
 import polars as pl
@@ -222,15 +223,37 @@ def test_stale_provider_midweek_injury_file_is_not_a_published_report():
     assert "report_stale" in res.flags and res.qbs[0].status == "Unknown"
 
 
-def test_final_report_stays_valid_when_provider_file_is_old():
-    # Monday game: Saturday's final report (game designations) is the last report before kickoff. The provider file not
-    # changing for > 36 h must not discard it; QB1 listed Out must stay out (2026 wk 3 PHI@CHI regression).
-    stale = QA.SourceFreshness("injuries", "stale_provider", None, None, None)
-    res = resolve(injuries([{"gsis_id": QB1, "report_status": "Out"}, {"gsis_id": QB2, "report_status": "Questionable"}]),
-                  freshness=[stale])
-    p = probs(res)
-    assert "report_stale" not in res.flags and QB1 not in p and res.qbs[0].status == "Out"
-    assert res.qbs[1].status == "Questionable" and p[QB2] > 0
+def test_snapshot_uses_providers_latest_upload_of_unchanged_content(tmp_path, monkeypatch):
+    # 2026 wk 3 PHI@CHI regression: nflverse re-uploaded the unchanged injury file daily, but only the first-seen
+    # Last-Modified was used, so a current final report looked "stale" 36 h after its content last changed.
+    from nflcast.data import sources as S
+    monkeypatch.setattr(S, "RAW_DIR", tmp_path)
+    d = tmp_path / "injuries" / "2026"
+    d.mkdir(parents=True)
+    injuries([{"gsis_id": QB1, "report_status": "Out"}]).write_parquet(d / "injuries_2026__observed_X.parquet")
+    (d / "injuries_2026__observed_X.json").write_text(json.dumps({
+        "observed_at_utc": "2026-09-27T06:15:00+00:00", "content_sha256": "abc",
+        "http_last_modified": "Sun, 27 Sep 2026 06:01:19 GMT"}), encoding="utf-8")
+    checks = [("2026-09-28T06:15:00+00:00", "abc", "Mon, 28 Sep 2026 06:01:25 GMT"),
+              ("2026-09-28T15:45:00+00:00", "abc", "Mon, 28 Sep 2026 15:18:13 GMT"),
+              ("2026-09-28T23:50:00+00:00", "abc", "Mon, 28 Sep 2026 23:40:00 GMT"),   # after the cutoff: not as-of
+              ("2026-09-28T16:00:00+00:00", "zzz", "Mon, 28 Sep 2026 16:00:00 GMT")]   # different content: ignored
+    (d / "checks.jsonl").write_text("\n".join(json.dumps({"checked_at_utc": t, "content_sha256": s, "http_last_modified": lm})
+                                              for t, s, lm in checks), encoding="utf-8")
+    cutoff = datetime(2026, 9, 28, 23, 16, tzinfo=timezone.utc)
+    _, meta = S.snapshot_asof("injuries", 2026, cutoff)
+    assert meta["http_last_modified"] == "Mon, 28 Sep 2026 15:18:13 GMT"
+    assert meta["first_http_last_modified"] == "Sun, 27 Sep 2026 06:01:19 GMT"
+    assert meta["last_confirmed_at_utc"] == "2026-09-28T15:45:00+00:00"
+    assert QA.assess_freshness("injuries", meta, cutoff).state == "fresh"
+
+
+def test_override_entered_after_the_cutoff_is_not_used(tmp_path):
+    f = tmp_path / "ov.csv"
+    f.write_text(HEADER + f"CHI,2026,3,{QB1},out,,https://example.org/report,2026-09-27T11:00:00Z,2026-09-27T12:30:00Z,"
+                          "2026-09-28T00:00:00Z,entered after NOW\n", encoding="utf-8")
+    res = resolve(injuries([]), overrides=QA.load_overrides(f))       # NOW = 12:00: source public, but not yet entered
+    assert QB1 in probs(res) and not res.overrides_used
 
 
 def test_final_report_still_stale_when_we_have_not_rechecked_it():

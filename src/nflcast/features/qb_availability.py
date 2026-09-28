@@ -420,15 +420,7 @@ def resolve_team_qbs(*, team: str, season: int, week: int, now: datetime,
     # ---- injury report availability for this team-week (our retrieval age, provider age, team rows)
     inj_f = fresh.get("injuries")
     team_rows = injuries.filter((pl.col("team") == team) & (pl.col("week") == week))
-    # A provider file that has not changed for a while is only suspicious while newer reports are still due. Once the
-    # team's FINAL report for this game is in (it carries game designations), no newer report is expected before
-    # kickoff, so provider age alone must not discard it (e.g. a Monday game's Saturday report). Our own retrieval
-    # age still applies.
-    gs = team_rows["report_status"].drop_nulls() if "report_status" in team_rows.columns else pl.Series([], dtype=pl.Utf8)
-    final_report_in = gs.filter(gs != "").len() > 0
-    provider_age_only = inj_f is not None and inj_f.state == "stale_provider" and final_report_in
-    if (injury_observed_at is None or now - injury_observed_at > INJURY_SNAPSHOT_MAX_AGE
-            or (inj_f and inj_f.state != "fresh" and not provider_age_only)):
+    if injury_observed_at is None or now - injury_observed_at > INJURY_SNAPSHOT_MAX_AGE or (inj_f and inj_f.state != "fresh"):
         report_state = "report_stale"
     elif team_rows.height == 0:
         report_state = "report_not_available"
@@ -437,8 +429,10 @@ def resolve_team_qbs(*, team: str, season: int, week: int, now: datetime,
     if report_state != "report_published":
         flags.append(report_state)
 
+    # As-of: an override needs both its public source AND its entry into our file to precede the cutoff, so a rebuild of
+    # an earlier moment never uses information entered later.
     ov = overrides.filter((pl.col("team") == team) & (pl.col("season") == season) & (pl.col("week") == week)
-                          & (pl.col("published") <= now) & (pl.col("expires") > now))
+                          & (pl.col("published") <= now) & (pl.col("entered") <= now) & (pl.col("expires") > now))
     expired = overrides.filter((pl.col("team") == team) & (pl.col("season") == season) & (pl.col("week") == week)
                                & (pl.col("expires") <= now))
     if expired.height:

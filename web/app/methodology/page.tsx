@@ -54,7 +54,9 @@ export default function Methodology() {
           Missing or stale information is never treated as confirmed availability.</p>
         <p><b>Freshness is checked explicitly.</b> For injury reports, depth charts and rosters, two times are tracked: when the provider last
           updated the file, and when we last confirmed it. Either being more than 36 hours old (8 days for rosters) marks the source stale, and a
-          stale source is not used as confirmation. Every game page shows these times and any problems.</p>
+          stale source is not used as confirmation. The provider time is its most recent upload seen by our checks before the forecast, even
+          when the content is unchanged (a Saturday report re-published on Monday is current); until 28 September 2026 only the first upload
+          of unchanged content was used, which wrongly marked current reports as stale. Every game page shows these times and any problems.</p>
         <p><b>Every link in the replacement chain is validated.</b> Each QB in line is checked against the current roster (a QB on injured reserve,
           released, retired, on the practice squad or declared inactive cannot start), his injury designation, and any override. If every listed
           QB has some chance of being out, the remaining probability goes to the last usable QB and is flagged as an exhausted chain.</p>

@@ -161,16 +161,30 @@ def snapshot_asof(source_name: str, season: int | None, when) -> tuple[pl.DataFr
             best = (meta_path, meta)
     if best is None:
         return None, None
+    from email.utils import parsedate_to_datetime
     meta = dict(best[1])
     confirmed = datetime.fromisoformat(meta["observed_at_utc"])
+    # The provider can re-upload unchanged content (nflverse refreshes files daily). Its latest Last-Modified for THIS
+    # content, as seen by our checks up to `when`, is when the provider last refreshed it; keeping only the first-seen
+    # value made unchanged-but-current files look stale (2026 wk 3 PHI@CHI).
+    lm = meta.get("http_last_modified")
+    latest_lm = parsedate_to_datetime(lm) if lm else None
     checks = d / "checks.jsonl"
     if checks.exists():
         for line in checks.read_text(encoding="utf-8").splitlines():
             c = json.loads(line)
             t = datetime.fromisoformat(c["checked_at_utc"])
-            if c["content_sha256"] == meta["content_sha256"] and confirmed < t <= when:
+            if c["content_sha256"] != meta["content_sha256"] or t > when or t < datetime.fromisoformat(meta["observed_at_utc"]):
+                continue
+            if confirmed < t:
                 confirmed = t
+            clm = c.get("http_last_modified")
+            if clm and (latest_lm is None or parsedate_to_datetime(clm) > latest_lm):
+                latest_lm, lm = parsedate_to_datetime(clm), clm
     meta["last_confirmed_at_utc"] = confirmed.isoformat()
+    if lm != meta.get("http_last_modified"):
+        meta["first_http_last_modified"] = meta.get("http_last_modified")
+        meta["http_last_modified"] = lm
     return pl.read_parquet(best[0].with_suffix(".parquet")), meta
 
 

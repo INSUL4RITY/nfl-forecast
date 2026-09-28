@@ -69,6 +69,12 @@ combined margin RMSE 12.29 vs market 12.24 (difference not significant). The cho
 - **Freshness per source** (`assess_freshness`): injury reports, depth charts, rosters and the schedule/market snapshot are each
   checked against the provider's own Last-Modified time and our last confirmation (append-only `checks.jsonl`). Older than 36 h
   (8 days for rosters) = stale; a stale source is never treated as confirmation. Every release entry stores `data_freshness`.
+  The provider time is the latest Last-Modified logged in `checks.jsonl` for the same content at or before the cutoff
+  (`snapshot_asof`; the first-seen value is kept as `first_http_last_modified`). Fixed 2026-09-28: previously only the
+  first-seen value was used, so unchanged-but-re-uploaded files (nflverse re-publishes daily) turned "stale" 36 h after their
+  content last changed — this discarded the Bears' final report before the 2026 wk 3 Monday game (see PROGRESS.md).
+- **Manual overrides are as-of on entry too**: a row applies only when both `source_published_at_utc` and `entered_at_utc`
+  precede the cutoff (and the cutoff precedes `expires_at_utc`).
 - **Replacement-chain validation**: every QB in line is checked against the latest roster snapshot (RES/CUT/RET/EXE/DEV or
   declared inactive INA => cannot start; not on the roster => cannot start), his injury designation and any override.
   Residual probability after the chain is flagged `replacement_chain_exhausted`.
