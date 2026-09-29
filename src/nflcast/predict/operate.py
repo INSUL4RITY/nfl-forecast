@@ -128,15 +128,21 @@ def run(build_site: bool = True, force: bool = False) -> None:
     from nflcast.predict import archive, export_web, publication, release, score
 
     _log("operate: start")
+    try:
+        offline_since = _last_done()
+    except Exception:  # noqa: BLE001 - alerts never block a cycle
+        offline_since = None
     problems = archive.verify()
     missing_only = all(p.startswith("no manifest") for p in problems)
     if problems and not missing_only:
         _log("operate: INTEGRITY VIOLATION, publishing stopped: " + "; ".join(problems))
+        _alert_failure("integrity", "Archived forecast files changed; publishing is stopped. Ask Claude to investigate.")
         raise RuntimeError("archived forecast files changed: " + "; ".join(problems))
     from nflcast.predict import freeze
     fz = freeze.check()
     if fz:
         _log("operate: MODEL FREEZE VIOLATION, publishing stopped: " + "; ".join(fz))
+        _alert_failure("freeze", "The frozen model or its settings changed; publishing is stopped. Ask Claude to investigate.")
         raise RuntimeError("model freeze violated: " + "; ".join(fz))
     try:
         pipeline.ingest()
@@ -169,6 +175,7 @@ def run(build_site: bool = True, force: bool = False) -> None:
             _log(f"operate: publication evidence update failed: {e}")
         now = utc_now()
         cand = release.build_candidate(now=now)
+        released, pushed = None, None
         if cand is None:
             _log("operate: no upcoming games in window")
         else:
@@ -183,8 +190,10 @@ def run(build_site: bool = True, force: bool = False) -> None:
                 archive.create_manifest(path)
                 ts = archive.timestamp(path)
                 _log(f"operate: release {path}; archived (sha256 manifest; trusted timestamp {'ok' if ts else 'pending retry'})")
+                released = sum(entry_is_valid(g) for g in cand["games"])
         export_web.export()
-        if publish(f"{utc_now().isoformat(timespec='minutes')}"):
+        pushed = publish(f"{utc_now().isoformat(timespec='minutes')}")
+        if pushed:
             for _ in range(6):  # give GitHub a moment to register the push run, then record evidence
                 time.sleep(10)
                 before = json.dumps(publication.load_evidence(), sort_keys=True)
@@ -201,6 +210,7 @@ def run(build_site: bool = True, force: bool = False) -> None:
                 _log(f"operate: archive {a}")
                 export_web.export()
                 publish("archive records")
+        _alerts(cand, now)
         if build_site:
             r = subprocess.run("npx next build", cwd=ROOT / "web", shell=True, capture_output=True, text=True)
             _log(f"operate: site build exit={r.returncode}")
@@ -208,5 +218,53 @@ def run(build_site: bool = True, force: bool = False) -> None:
                 _log(r.stdout[-2000:] + r.stderr[-2000:])
     except Exception:  # noqa: BLE001 - log everything, keep the last good release live
         _log("operate: FAILED\n" + traceback.format_exc())
+        _alert_failure("error", "A scheduled run failed; the site keeps the last published forecasts. See logs/operate.log or ask Claude.")
         raise
+    _caught_up_notice(offline_since, released, pushed)
     _log("operate: done")
+
+
+def _last_done():
+    from nflcast.predict import alerts as AL
+    return AL.last_completed_run(LOG)
+
+
+def _alerts(cand, now) -> None:
+    """Desktop alerts for items needing a human (best effort; never blocks forecasting)."""
+    try:
+        from nflcast.predict import alerts as AL
+        items = AL.attention_items(cand, now)
+        try:
+            from nflcast.data import odds_api as OA
+            items += AL.credit_items(OA.remaining_credits(OA.load_state(), now))
+        except Exception as e:  # noqa: BLE001 - a bad credit log must not hide game alerts
+            _log(f"operate: credit check failed: {e}")
+        shown = AL.notify(items, now)
+        _log(f"operate: alerts open={len(items)} shown={len(shown)}")
+    except Exception as e:  # noqa: BLE001
+        _log(f"operate: alerts failed: {e}")
+
+
+def _alert_failure(kind: str, text: str) -> None:
+    """One key per failure kind, so a serious failure is never hidden behind an earlier generic one."""
+    try:
+        from nflcast.predict import alerts as AL
+        AL.notify([{"key": f"run_failed:{kind}", "game_id": None, "url": AL.SITE, "text": text}], forget_resolved=False)
+    except Exception:  # noqa: BLE001
+        pass
+
+
+def _caught_up_notice(offline_since, released, pushed) -> None:
+    """After >= 6 h without a completed run (PC off/asleep, or failed runs), say what this cycle actually did."""
+    try:
+        from nflcast.predict import alerts as AL
+        if offline_since is None:
+            return
+        gap = (utc_now() - offline_since).total_seconds() / 3600
+        if gap < 6:
+            return
+        title, body = AL.caught_up_text(gap, released, pushed)
+        ok = AL.toast(title, body, AL.SITE)
+        _log(f"operate: caught-up notice ({gap:.1f} h since last completed run) {'shown' if ok else 'NOT SHOWN'}")
+    except Exception as e:  # noqa: BLE001
+        _log(f"operate: caught-up notice failed: {e}")

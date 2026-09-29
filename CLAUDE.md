@@ -35,6 +35,8 @@ Read `PROGRESS.md` first (status, model version, schedule, data locations, next 
 - After any display change, run `scripts/layout_audit.js` in the browser on the local build (widths 1280, 768, 414, 375, 320)
   and on the live site after deploy: 0 issues required. Wrap every table in `.table-wrap` (cells do not wrap by default).
 - The user accepts that updates pause while the PC is off; never recreate or back-date missed forecasts.
+- Desktop alerts (`predict/alerts.py`, `scripts/toast.ps1`) tell the user when a human is needed; never let alert code block a
+  cycle; never send real toasts from tests (use a fake `send`); re-alert on substance, never on the countdown text.
 - Windows Task Scheduler `nflcast-operate` runs `scripts/operate.ps1` every 30 min while the user is logged in.
   Pause it (`Disable-ScheduledTask -TaskName nflcast-operate`) before development work; re-enable afterwards.
 - Tests: `.\.venv\Scripts\python.exe -m pytest -q` (all must pass before pushing). Site: `cd web; npx next build`.

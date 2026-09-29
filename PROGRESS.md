@@ -150,12 +150,22 @@ market lines, QB availability, injury display, weather display). A changed artif
   carry 0.3 was worse on average in 2019-21 (esp. weeks 1-4) but not statistically clear (review: CI depends on the bootstrap
   draw). Exploratory only: NQ lowered early-season total error (not pre-specified; re-check after the season). Independent
   review confirmed features, pairing, seasons and leakage; decision: keep half-life 8 / carry 0.6.
+- Desktop alerts (2026-09-29, user-requested; no model or forecast change): `src/nflcast/predict/alerts.py` +
+  `scripts/toast.ps1`, called from `operate` after publishing (best effort, never blocks a cycle). Flags, for games within
+  48 h: no QB identified / no valid new forecast / injury report not current (<= 36 h; one combined alert if >= 6 teams) /
+  designations pending (<= 24 h) / official Out kept despite unconfirmed data / lead QB < 90% / no line (<= 24 h); plus
+  credits < 60, failed or blocked runs (separate keys per kind) and a "caught up" notice after >= 6 h without a completed run
+  (states whether the upload actually succeeded). Stable keys; re-alert on change (>= 2 h apart) or after 12 h; forgotten
+  after 1 h absent; only shown toasts count, failed ones retried (max 3 per 12 h). Adversarial review (3 reviewers) found 12
+  issues, all fixed; tests 100. Week-3 replay (fake sender, every 30 min): 7 alerts, all genuine (WAS Daniels 70%; CHI Williams 70%, then Bagent 54% / Keenum 46% with 12 h reminders); a first version sent 33 because the countdown text counted as a change (fixed, regression test). Windows reports notifications
+  DisabledForUser on this PC: the user must turn them on (Settings > System > Notifications); until then alerts are logged
+  as NOT SHOWN in logs/alerts.log.
 - Evaluation fix: `metrics.block_bootstrap_diff` resampled season-week blocks in polars' non-deterministic group order, so a
   fixed seed gave slightly different CIs each call (found by the review). Blocks are now sorted; regression test added
   (86 tests). Forecasts are unaffected; stored reports keep their original intervals.
 
 ## 3. Tests and checks (2026-09-25)
-- `pytest`: **86 passed** (leakage, signs, identities, market policy, probabilities, scoring, validation/states, QB availability
+- `pytest`: **101 passed** (leakage, signs, identities, market policy, probabilities, scoring, validation/states, QB availability
   (25), archive integrity, release-path isolation, freeze, public-page wording (2), The Odds API feed (11), picks/results (6)).
 - `python -m nflcast verify-claims`: **38/38 passed** (no internal codes on 272 game pages; retrospective weather + untimed lines labelled in reports and the built
   site; every GitHub push time re-fetched and matching; no publication before generation; 77 exported verification labels

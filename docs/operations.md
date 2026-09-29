@@ -29,6 +29,25 @@ optional inputs never block a forecast: QB availability falls back to documented
 "designation pending" / "report not published yet"), weather is display-only, and the page states what was incomplete.
 Only a failed validation can withhold a combined forecast, and then the football-only fallback is published instead.
 
+## Desktop alerts (from 2026-09-29)
+Each cycle checks games kicking off within 48 h and raises a Windows notification (`src/nflcast/predict/alerts.py`,
+`scripts/toast.ps1`) when a human should look: no QB identified or no valid new forecast; injury report not current within
+36 h (one combined alert if many teams); designations still pending within 24 h; an official Out kept despite unconfirmed
+data; lead QB below 90%; no market line within 24 h; The Odds API credits low; a failed or blocked run; and a "caught up"
+notice after >= 6 h without a completed run. Clicking opens the game page. Each issue alerts once, again if it changes (at
+most every 2 h) or is still open after 12 h. Everything is also written to `logs/alerts.log` ("shown" / "NOT SHOWN").
+**Windows notifications must be on** (Settings > System > Notifications, and allow "Windows PowerShell" in the list of
+senders); otherwise alerts are only logged, marked NOT SHOWN, and retried.
+
+## After the PC has been off
+Nothing to type. The first cycle after login fetches the current state of every source in one pass (about 2 minutes):
+nflverse schedules/scores, play-by-play for every completed game, the current injury file (latest report for every
+player-week), depth charts (nflverse appends each daily update with a timestamp, so their history is complete), weekly
+rosters, one The Odds API request for the whole slate, and weather. It then scores finished games and publishes a new
+forecast for every game whose inputs changed. What cannot be recovered: market lines and injury-report versions that came
+and went while the PC was off (the free API has no line history), and forecasts that would have been made in that time
+(never recreated or back-dated). Games that kicked off while the PC was off keep their last pre-kickoff forecast.
+
 ## Market feed (The Odds API, from 2026-09-25)
 The key lives only in the git-ignored project file `.env` (`ODDS_API_KEY=...`), which every nflcast process loads at start,
 including the scheduled task after a restart. To enter or replace it: open `C:\Users\Craig\NFL MODEL PROJECTIONS\.env` in
