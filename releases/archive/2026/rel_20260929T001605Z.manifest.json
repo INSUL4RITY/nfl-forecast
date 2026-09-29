@@ -1,0 +1,56 @@
+{
+ "game_ids": [
+  "2026_04_PIT_CLE",
+  "2026_04_IND_WAS",
+  "2026_04_ARI_NYG",
+  "2026_04_DAL_HOU",
+  "2026_04_GB_TB",
+  "2026_04_JAX_CIN",
+  "2026_04_LA_PHI",
+  "2026_04_NE_BUF",
+  "2026_04_NYJ_CHI",
+  "2026_04_TEN_BAL",
+  "2026_04_MIA_MIN",
+  "2026_04_DEN_SF",
+  "2026_04_KC_LV",
+  "2026_04_LAC_SEA",
+  "2026_04_DET_CAR",
+  "2026_04_ATL_NO"
+ ],
+ "generated_at_utc": "2026-09-29T00:16:05.158224+00:00",
+ "information_cutoff_utc": "2026-09-29T00:16:05.158224+00:00",
+ "input_snapshots": {
+  "depth_charts": {
+   "content_sha256": "73fc13a9f1fd2698cd3f1a040439675fdcfc49084e90f68173a9837bf96db452",
+   "http_last_modified": "Mon, 28 Sep 2026 15:17:55 GMT",
+   "last_confirmed_at_utc": "2026-09-29T00:15:35.982387+00:00",
+   "observed_at_utc": "2026-09-28T15:45:36.334599+00:00"
+  },
+  "injuries": {
+   "content_sha256": "9c4753c1dce9b4d0f4df80b96665470d4713b3caa385eb6fc460f5c3a36e02b1",
+   "http_last_modified": "Mon, 28 Sep 2026 15:18:13 GMT",
+   "last_confirmed_at_utc": "2026-09-29T00:15:35.165735+00:00",
+   "observed_at_utc": "2026-09-27T06:15:33.703512+00:00"
+  },
+  "schedules": {
+   "content_sha256": "f0ad17a2f3d03621d116c543506af65016088b286a63e7e2c2477e808cbf0ece",
+   "http_last_modified": "Tue, 29 Sep 2026 00:06:51 GMT",
+   "last_confirmed_at_utc": "2026-09-29T00:15:32.146064+00:00",
+   "observed_at_utc": "2026-09-28T23:15:42.871834+00:00"
+  }
+ },
+ "manifest_created_at_utc": "2026-09-29T00:16:07.211971+00:00",
+ "model_version": {
+  "code_hash": "ab66a84a577969c39bc44cd5f252f0d70a3cea40ee873d45f88674038b971272",
+  "oof_source_run": "locked_20260924T234835Z",
+  "production_config_sha256_at_archiving": "93370fd999d74861e7ac08a4d9522756fc384a2be04d04c60dad10fefd9f23f8",
+  "qb_start_rates": "v3_start_practice_listed_through_2025",
+  "stage": "production_v1.1"
+ },
+ "note": "Manifest creation time is when this archive entry was made; it is not a publication time.",
+ "release_path": "releases/2026/week_04/rel_20260929T001605Z.json",
+ "run_id": "rel_20260929T001605Z",
+ "schema_version": 3,
+ "sha256": "30abf5d23d8ffdbfb1280b3068041e420b279718551d6183d54aa1d0b230fca7",
+ "size_bytes": 250641
+}
