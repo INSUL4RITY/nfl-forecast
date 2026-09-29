@@ -48,6 +48,8 @@ const FLAG_TEXT: Record<string, string> = {
   replacement_chain_exhausted: "Every listed QB has some chance of being unavailable; the remaining probability is assigned to the last usable QB (an emergency option).",
   designation_pending: "Game designations (Questionable/Doubtful/Out) for this week are not published yet; a pooled historical rate is used and labelled.",
   override_expired: "A manual override for this game has expired and is no longer applied.",
+  listed_out_despite_stale_report: "A quarterback listed Out on the official report for this game is kept out, even though the report file could not be re-confirmed as current.",
+  listed_doubtful_despite_stale_report: "A quarterback listed Doubtful on the official report for this game keeps the Doubtful rate, even though the report file could not be re-confirmed as current.",
 };
 
 /** Plain-English note for a lineup flag; internal codes and player IDs are never shown. Unknown codes are hidden. */

@@ -256,10 +256,29 @@ def test_override_entered_after_the_cutoff_is_not_used(tmp_path):
     assert QB1 in probs(res) and not res.overrides_used
 
 
+def test_listed_out_qb_stays_out_when_report_is_stale():
+    # 2026 wk 3 PHI@CHI regression guard: a stale report cannot confirm availability, but an official Out stays Out.
+    for state in ("stale_provider", "stale_retrieval"):
+        stale = QA.SourceFreshness("injuries", state, None, None, None)
+        res = resolve(injuries([{"gsis_id": QB1, "report_status": "Out"}]), freshness=[stale])
+        p = probs(res)
+        assert "report_stale" in res.flags and "listed_out_despite_stale_report" in res.flags
+        assert QB1 not in p and res.qbs[0].status == "Out" and res.qbs[0].p_available == 0.0
+        assert res.qbs[1].status == "Unknown" and p[QB2] > 0          # backup still carries the no-report uncertainty
+
+
+def test_listed_doubtful_qb_keeps_doubtful_rate_when_report_is_stale():
+    stale = QA.SourceFreshness("injuries", "stale_provider", None, None, None)
+    res = resolve(injuries([{"gsis_id": QB1, "report_status": "Doubtful"}]), freshness=[stale])
+    assert res.qbs[0].status == "Doubtful" and res.qbs[0].p_available == pytest.approx(RATES["by_status"]["Doubtful"]["p"])
+    assert "listed_doubtful_despite_stale_report" in res.flags
+
+
 def test_final_report_still_stale_when_we_have_not_rechecked_it():
+    # a report we have not re-checked cannot confirm availability: an undesignated QB1 gets the no-report rate
     stale = QA.SourceFreshness("injuries", "stale_retrieval", None, None, None)
-    res = resolve(injuries([{"gsis_id": QB1, "report_status": "Out"}]), freshness=[stale])
-    assert "report_stale" in res.flags and res.qbs[0].status == "Unknown"
+    res = resolve(injuries([{"gsis_id": QB2, "report_status": "Questionable"}]), freshness=[stale])
+    assert "report_stale" in res.flags and res.qbs[0].status == "Unknown" and res.qbs[1].status == "Unknown"
 
 
 def test_stale_provider_depth_chart_flagged():

@@ -96,6 +96,8 @@ const QB_PROBLEM_TEXT: Record<string, string> = {
   roster_stale: "roster out of date",
   replacement_chain_exhausted: "every listed QB carries some risk of missing the game",
   no_candidate_qb_prior_used: "no candidate QB identified; generic estimate used",
+  listed_out_despite_stale_report: "injury report not re-confirmed; official Out kept",
+  listed_doubtful_despite_stale_report: "injury report not re-confirmed; official Doubtful kept",
 };
 const SOURCE_TEXT: Record<string, string> = {
   injuries: "Injury reports", depth_charts: "Depth charts", rosters_weekly: "Rosters", schedules: "Schedule & market line",

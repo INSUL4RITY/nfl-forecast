@@ -125,10 +125,15 @@ market lines, QB availability, injury display, weather display). A changed artif
     time is the latest Last-Modified for the same content seen by our checks up to the cutoff (as-of). Also fixed: overrides now
     also require `entered_at_utc <= cutoff`, so rebuilds never use information entered later. Methodology texts updated.
     Tests 83 (snapshot latest-upload regression; override entry as-of; mid-week stale report still stale).
-  - Earlier versions kept unchanged (superseded). Correction `qb-input:stale-final-report:2026_03_PHI_CHI` appended.
+  - Earlier versions kept unchanged (superseded). Correction `qb-input:stale-final-report:2026_03_PHI_CHI` appended
+    (+ a clarification: Keenum's 100% came from the NFL Network report override, not the official report).
+  - Guard added (2026-09-29): a stale report still cannot confirm availability, but a QB listed Out (or Doubtful) on the
+    official report for that game week keeps that status (flags `listed_out/doubtful_despite_stale_report`). Counterfactual
+    with the original bug re-created: Williams 0% (Bagent 80%, Keenum 20%) instead of 97%. Week-3 replay: no other change.
+    Tests 85.
 
 ## 3. Tests and checks (2026-09-25)
-- `pytest`: **83 passed** (leakage, signs, identities, market policy, probabilities, scoring, validation/states, QB availability
+- `pytest`: **85 passed** (leakage, signs, identities, market policy, probabilities, scoring, validation/states, QB availability
   (25), archive integrity, release-path isolation, freeze, public-page wording (2), The Odds API feed (11), picks/results (6)).
 - `python -m nflcast verify-claims`: **38/38 passed** (no internal codes on 272 game pages; retrospective weather + untimed lines labelled in reports and the built
   site; every GitHub push time re-fetched and matching; no publication before generation; 77 exported verification labels

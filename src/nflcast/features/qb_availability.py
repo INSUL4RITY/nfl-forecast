@@ -503,6 +503,16 @@ def resolve_team_qbs(*, team: str, season: int, week: int, now: datetime,
             p = 0.0 if st == "Out" else rate["p"]
             detail = "; ".join(x for x in (detail, "listed Out" if st == "Out" else rate_note(rate)) if x)
             infos.append(QBInfo(q, rank_of.get(q), st, ev, _iso(injury_observed_at), float(p), detail, rs))
+        elif row.height and row["report_status"][0] in ("Out", "Doubtful"):
+            # Guard: an unusable (stale) report can never CONFIRM availability, but an official Out/Doubtful designation for
+            # THIS game week does not become less true with time. Never let a stale file put a listed-Out QB back in line
+            # (2026 wk 3 PHI@CHI: Williams listed Out, forecast 97% after the file was wrongly judged stale).
+            st = row["report_status"][0]
+            p = 0.0 if st == "Out" else (table.get("Doubtful") or _pooled(table))["p"]
+            flags.append("listed_out_despite_stale_report" if st == "Out" else "listed_doubtful_despite_stale_report")
+            infos.append(QBInfo(q, rank_of.get(q), st, "injury_report", _iso(injury_observed_at), float(p),
+                                f"listed {st} on the official report for this game (older snapshot; an {st} designation is kept "
+                                "even when the report can no longer confirm availability)", rs))
         else:
             if i == 0:
                 key = "all" if previous_share is None else ("finished_prev" if previous_share >= FINISHED_SHARE else "did_not_finish_prev")
