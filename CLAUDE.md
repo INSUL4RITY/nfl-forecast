@@ -32,6 +32,8 @@ Read `PROGRESS.md` first (status, model version, schedule, data locations, next 
 - Venv: `.\.venv\Scripts\python.exe -m nflcast <cmd>` from the project folder (refresh PATH from User+Machine env first in
   PowerShell), or `nflcast.cmd <cmd>` from any folder (give the user this form).
 - Public pages must never show internal codes or player IDs; map them to plain English in `web/` (verify-claims checks this).
+- After any display change, run `scripts/layout_audit.js` in the browser on the local build (widths 1280, 768, 414, 375, 320)
+  and on the live site after deploy: 0 issues required. Wrap every table in `.table-wrap` (cells do not wrap by default).
 - The user accepts that updates pause while the PC is off; never recreate or back-date missed forecasts.
 - Windows Task Scheduler `nflcast-operate` runs `scripts/operate.ps1` every 30 min while the user is logged in.
   Pause it (`Disable-ScheduledTask -TaskName nflcast-operate`) before development work; re-enable afterwards.

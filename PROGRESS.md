@@ -131,6 +131,15 @@ market lines, QB availability, injury display, weather display). A changed artif
     official report for that game week keeps that status (flags `listed_out/doubtful_despite_stale_report`). Counterfactual
     with the original bug re-created: Williams 0% (Bagent 80%, Keenum 20%) instead of 97%. Week-3 replay: no other change.
     Tests 85.
+- Session 11 (2026-09-29, display only): the game page's "Evidence for each quarterback" table (6 columns in a quarter-width
+  column, no scroll wrapper, global no-wrap cells) spilled into the other team's column on every game page; on phones pages
+  scrolled sideways (707 px on a 375 px screen) and "What moved the combined model" overflowed. Fix: "Lineup assumptions" is
+  now a full-width panel; compact 4-column evidence table (QB, chart, status, if next in line) with per-QB explanations as a
+  list; every table on the game page wrapped for horizontal scroll; long feature names wrap; roster wording fixed ("declared
+  inactive for this game"). New `scripts/layout_audit.js` (run in the browser on the site): loads every page in hidden
+  iframes at chosen widths, opens all collapsible sections and reports sideways page scroll or elements sticking out of their
+  panel/card/column. Positive control: it flags the old live page (tables +388/+415 px; 707 px page at 375 px). Fixed build:
+  0 issues on all 295 pages at 1280, 768, 414, 375 and 320 px (1,475 page views).
 
 ## 3. Tests and checks (2026-09-25)
 - `pytest`: **85 passed** (leakage, signs, identities, market policy, probabilities, scoring, validation/states, QB availability

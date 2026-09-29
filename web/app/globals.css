@@ -125,6 +125,7 @@ select.select { border: 1px solid var(--rule); background: var(--surface); color
 table { border-collapse: collapse; width: 100%; font-size: 0.88rem; }
 th, td { padding: 7px 10px; border-bottom: 1px solid var(--rule); text-align: left; white-space: nowrap; }
 th { font-size: 0.76rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--ink-2); border-bottom: 1px solid var(--rule-strong); }
+td.wrap, th.wrap { white-space: normal; }
 td.r, th.r { text-align: right; font-variant-numeric: tabular-nums; }
 tr.hl td { background: #f1f5fb; font-weight: 700; }
 .callout { border-left: 4px solid var(--accent); background: var(--info-bg); padding: 12px 14px; border-radius: 6px; margin: 12px 0; }

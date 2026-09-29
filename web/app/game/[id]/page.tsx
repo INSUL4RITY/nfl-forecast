@@ -52,14 +52,20 @@ const FLAG_TEXT: Record<string, string> = {
   listed_doubtful_despite_stale_report: "A quarterback listed Doubtful on the official report for this game keeps the Doubtful rate, even though the report file could not be re-confirmed as current.",
 };
 
+const ROSTER_PHRASE: Record<string, string> = {
+  RES: "on the reserve list", INA: "declared inactive for this game", DEV: "on the practice squad", CUT: "released",
+  RET: "retired", EXE: "on the exempt list", SUS: "suspended", PUP: "on the PUP list", NON: "on the non-football injury list",
+  NOT_ON_ROSTER: "not on the team's current roster",
+};
+
 /** Plain-English note for a lineup flag; internal codes and player IDs are never shown. Unknown codes are hidden. */
 function flagText(fl: string, side: LineupSide): string | null {
   if (FLAG_TEXT[fl]) return FLAG_TEXT[fl];
   const m = fl.match(/^chain_qb_unavailable_roster:(.+)$/);
   if (m) {
     const q = side.qbs?.find((x) => x.qb_id === m[1]);
-    const where = q?.roster_status ? rosterText(q.roster_status).toLowerCase() : "an inactive roster list";
-    return `${q?.qb ?? "A listed quarterback"} is on the ${where} and cannot start, so he is skipped in the order of replacements.`;
+    const why = ROSTER_PHRASE[q?.roster_status ?? ""] ?? "not on the active roster";
+    return `${q?.qb ?? "A listed quarterback"} is ${why} and cannot start, so he is skipped in the order of replacements.`;
   }
   return null;
 }
@@ -106,29 +112,32 @@ function Lineup({ side, abbr }: { side: LineupSide; abbr: string }) {
         <h3>{abbr}: {side.expected_qb ?? "unknown"}</h3>
         <p className="small ink2">Legacy release: expected starter from {LEGACY_SOURCE[side.source ?? ""] ?? "the available team information"}
           {side.qb1_status ? `; QB1 report status ${side.qb1_status}` : "; missing injury information was treated as available"}.</p>
-        <table><thead><tr><th>Scenario</th><th className="r">Weight</th></tr></thead><tbody>
+        <div className="table-wrap"><table><thead><tr><th>Scenario</th><th className="r">Weight</th></tr></thead><tbody>
           {side.scenarios.map((s) => <tr key={s.qb_id ?? "x"}><td>{s.qb} starts</td><td className="r">{pctP(s.p)}</td></tr>)}
-        </tbody></table>
+        </tbody></table></div>
       </div>
     );
   }
   return (
     <div>
       <h3>{abbr}: {side.expected_qb ?? "unknown"} {pctP(side.scenarios[0]?.p)}</h3>
-      <table><thead><tr><th>Start scenario</th><th className="r">Probability</th></tr></thead><tbody>
+      <div className="table-wrap"><table><thead><tr><th>Start scenario</th><th className="r">Probability</th></tr></thead><tbody>
         {side.scenarios.map((s) => <tr key={s.qb_id ?? "x"}><td>{s.qb ?? "unknown"}</td><td className="r">{pctP(s.p)}</td></tr>)}
-      </tbody></table>
+      </tbody></table></div>
       <details style={{ marginTop: 6 }}>
         <summary className="small">Evidence for each quarterback</summary>
-        <table style={{ marginTop: 6 }}><thead><tr><th>QB</th><th>Chart</th><th>Roster</th><th>Status</th><th>Evidence</th><th className="r">P(starts if next in line)</th></tr></thead><tbody>
-          {side.qbs.map((q) => (
+        <div className="table-wrap" style={{ marginTop: 6 }}><table>
+          <thead><tr><th>QB</th><th>Chart</th><th>Status</th><th className="r" title="Chance he starts if everyone ahead of him on the depth chart does not">If next in line</th></tr></thead>
+          <tbody>{side.qbs.map((q) => (
             <tr key={q.qb_id} title={detailText(q.detail)}><td>{q.qb ?? "Unnamed QB"}</td><td>{q.depth_rank ? `QB${q.depth_rank}` : "—"}</td>
-              <td>{rosterText(q.roster_status)}</td><td>{qbStatusText(q.status)}</td>
-              <td>{EVIDENCE_TEXT[q.evidence] ?? "other evidence"}</td><td className="r">{pctP(q.p_available)}</td></tr>))}
-        </tbody></table>
+              <td>{q.roster_status && q.roster_status !== "ACT" ? rosterText(q.roster_status) : qbStatusText(q.status)}</td>
+              <td className="r">{pctP(q.p_available)}</td></tr>))}</tbody>
+        </table></div>
+        <ul className="small muted" style={{ margin: "6px 0 0", paddingLeft: 18 }}>
+          {side.qbs.map((q) => <li key={q.qb_id}><b>{q.qb ?? "Unnamed QB"}</b> ({EVIDENCE_TEXT[q.evidence] ?? "other evidence"}): {detailText(q.detail)}</li>)}
+        </ul>
         <p className="small muted" style={{ marginTop: 4 }}>
-          {side.qbs.map((q) => `${q.qb ?? "Unnamed QB"}: ${detailText(q.detail)}`).join(" · ")}
-          {side.depth_chart_at ? ` · Depth chart snapshot ${side.depth_chart_at.slice(0, 16).replace("T", " ")} UTC.` : ""}
+          {side.depth_chart_at ? `Depth chart snapshot ${side.depth_chart_at.slice(0, 16).replace("T", " ")} UTC.` : ""}
           {side.injury_snapshot_at ? ` Injury data observed ${side.injury_snapshot_at.slice(0, 16).replace("T", " ")} UTC.` : ""}
         </p>
         {side.overrides_used && side.overrides_used.length > 0 && (
@@ -304,32 +313,33 @@ export default async function GamePage({ params }: { params: Promise<{ id: strin
             )}
           </div>
 
-          <div className="two-col">
-            <div className="panel">
-              <h2>Lineup assumptions</h2>
-              <div className="two-col">
-                <Lineup side={e.lineup.away} abbr={A} />
-                <Lineup side={e.lineup.home} abbr={H} />
-              </div>
-              {e.notable_injuries.length > 0 && (
-                <details style={{ marginTop: 10 }}>
-                  <summary>Listed injuries ({e.notable_injuries.length})</summary>
-                  <table style={{ marginTop: 8 }}><thead><tr><th>Team</th><th>Player</th><th>Pos</th><th>Status</th></tr></thead><tbody>
-                    {e.notable_injuries.map((i) => <tr key={i.team + i.full_name}><td>{i.team}</td><td>{i.full_name}</td><td>{i.position}</td><td>{i.report_status}</td></tr>)}
-                  </tbody></table>
-                  <p className="small muted" style={{ marginTop: 6 }}>
-                    Shown for context. Non-QB injury features were tested and not selected (no measurable gain once the market line is known).
-                  </p>
-                </details>
-              )}
+          <div className="panel">
+            <h2>Lineup assumptions</h2>
+            <div className="two-col">
+              <Lineup side={e.lineup.away} abbr={A} />
+              <Lineup side={e.lineup.home} abbr={H} />
             </div>
+            {e.notable_injuries.length > 0 && (
+              <details style={{ marginTop: 10 }}>
+                <summary>Listed injuries ({e.notable_injuries.length})</summary>
+                <div className="table-wrap" style={{ marginTop: 8 }}><table><thead><tr><th>Team</th><th>Player</th><th>Pos</th><th>Status</th></tr></thead><tbody>
+                  {e.notable_injuries.map((i) => <tr key={i.team + i.full_name}><td>{i.team}</td><td>{i.full_name}</td><td>{i.position}</td><td>{i.report_status}</td></tr>)}
+                </tbody></table></div>
+                <p className="small muted" style={{ marginTop: 6 }}>
+                  Shown for context. Non-QB injury features were tested and not selected (no measurable gain once the market line is known).
+                </p>
+              </details>
+            )}
+          </div>
+
+          <div className="two-col">
             <div className="panel">
               <h2>What moved the combined model</h2>
               {e.contributions.length ? (
                 <>
-                  <table><thead><tr><th>Feature</th><th className="r">Effect on margin (pts)</th></tr></thead><tbody>
-                    {e.contributions.map((c) => <tr key={c.feature}><td>{c.feature}</td><td className="r">{c.margin_points >= 0 ? "+" : ""}{f2(c.margin_points)}</td></tr>)}
-                  </tbody></table>
+                  <div className="table-wrap"><table><thead><tr><th>Feature</th><th className="r">Effect (pts)</th></tr></thead><tbody>
+                    {e.contributions.map((c) => <tr key={c.feature}><td className="wrap">{c.feature}</td><td className="r">{c.margin_points >= 0 ? "+" : ""}{f2(c.margin_points)}</td></tr>)}
+                  </tbody></table></div>
                   <p className="small muted" style={{ marginTop: 8 }}>
                     Largest contributions to the model&apos;s adjustment of the market margin (positive favours {H}). This explains the fitted
                     model, not football cause and effect. The adjustments are small because validation showed the market line is hard to improve on.
@@ -337,10 +347,20 @@ export default async function GamePage({ params }: { params: Promise<{ id: strin
                 </>
               ) : <p className="muted">Not available for the football-only fallback.</p>}
             </div>
+            <div className="panel">
+              <h2>Weather (display only)</h2>
+              {e.weather?.available ? (
+                <>
+                  <p>{e.weather.exposure === 0 ? "Closed roof: weather does not apply." :
+                    `${f1(e.weather.temperature_c)} °C, wind ${f1(e.weather.wind_kmh)} km/h (gusts ${f1(e.weather.gust_kmh)}), precipitation ${f1(e.weather.precip_mm)} mm at kickoff${e.weather.exposure === 0.5 ? " (retractable roof, status unknown)" : ""}.`}</p>
+                  <p className="small muted">Open-Meteo forecast observed {iso16(e.weather.observed_at_utc)}, {f1(e.weather.lead_hours)} h before kickoff.
+                    Weather is not a model input: it did not pass the feature-group evaluation (see Performance).</p>
+                </>
+              ) : <p className="small muted">{e.weather?.note ?? "No weather snapshot for this release version."}</p>}
+            </div>
           </div>
 
-          <div className="two-col">
-            <div className="panel">
+          <div className="panel">
               <h2>Data freshness at this forecast</h2>
               {e.data_freshness ? (
                 <>
@@ -358,18 +378,6 @@ export default async function GamePage({ params }: { params: Promise<{ id: strin
                     provider has not updated it for 36 h (8 days for rosters) or we have not re-checked it for 36 h.</p>
                 </>
               ) : <p className="small muted">Freshness was not recorded for this (older) release version.</p>}
-            </div>
-            <div className="panel">
-              <h2>Weather (display only)</h2>
-              {e.weather?.available ? (
-                <>
-                  <p>{e.weather.exposure === 0 ? "Closed roof: weather does not apply." :
-                    `${f1(e.weather.temperature_c)} °C, wind ${f1(e.weather.wind_kmh)} km/h (gusts ${f1(e.weather.gust_kmh)}), precipitation ${f1(e.weather.precip_mm)} mm at kickoff${e.weather.exposure === 0.5 ? " (retractable roof, status unknown)" : ""}.`}</p>
-                  <p className="small muted">Open-Meteo forecast observed {iso16(e.weather.observed_at_utc)}, {f1(e.weather.lead_hours)} h before kickoff.
-                    Weather is not a model input: it did not pass the feature-group evaluation (see Performance).</p>
-                </>
-              ) : <p className="small muted">{e.weather?.note ?? "No weather snapshot for this release version."}</p>}
-            </div>
           </div>
 
           {e.team_efficiency && (
