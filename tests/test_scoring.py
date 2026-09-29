@@ -31,3 +31,17 @@ def test_final_uses_last_pre_kickoff_version_and_early_respects_72h():
     ear = fz.filter(pl.col("horizon_type") == "early").row(0, named=True)
     assert fin["run_id"] == "r4" and fin["pred_margin"] == 4.0   # never the post-kickoff r5
     assert ear["run_id"] == "r2"                                  # latest version >= 72h before kickoff
+
+
+def test_block_bootstrap_is_reproducible_for_a_fixed_seed():
+    # regression (2026-09-29): polars group_by order varied between calls, so the same seed gave different intervals
+    import numpy as np
+    import polars as pl
+
+    from nflcast.evaluation.metrics import block_bootstrap_diff
+    rng = np.random.default_rng(1)
+    games = [{"game_id": f"g{i}", "season": 2020 + i % 3, "week": 1 + i % 17} for i in range(600)]
+    a = pl.DataFrame([{**g, "se": float(x)} for g, x in zip(games, rng.normal(10, 3, 600))])
+    b = pl.DataFrame([{**g, "se": float(x)} for g, x in zip(games, rng.normal(10, 3, 600))])
+    runs = [block_bootstrap_diff(a, b, "se", reps=500, seed=20260924)["ci95"] for _ in range(6)]
+    assert all(r == runs[0] for r in runs)

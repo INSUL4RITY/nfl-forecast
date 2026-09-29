@@ -43,7 +43,8 @@ def block_bootstrap_diff(a: pl.DataFrame, b: pl.DataFrame, loss: str, reps: int,
     j = a.select("game_id", "season", "week", pl.col(loss).alias("la")).join(
         b.select("game_id", pl.col(loss).alias("lb")), on="game_id", how="inner")
     j = j.with_columns(d=pl.col("la") - pl.col("lb"), block=pl.format("{}-{}", "season", "week"))
-    blocks = j.group_by("block").agg(s=pl.col("d").sum(), n=pl.len())
+    # sorted: polars group_by order is not deterministic, so without it a fixed seed resampled different blocks each call
+    blocks = j.group_by("block").agg(s=pl.col("d").sum(), n=pl.len()).sort("block")
     s, n = blocks["s"].to_numpy(), blocks["n"].to_numpy()
     rng = np.random.default_rng(seed)
     idx = rng.integers(0, len(s), size=(reps, len(s)))

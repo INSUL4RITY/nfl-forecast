@@ -139,10 +139,23 @@ market lines, QB availability, injury display, weather display). A changed artif
   inactive for this game"). New `scripts/layout_audit.js` (run in the browser on the site): loads every page in hidden
   iframes at chosen widths, opens all collapsible sections and reports sideways page scroll or elements sticking out of their
   panel/card/column. Positive control: it flags the old live page (tables +388/+415 px; 707 px page at 375 px). Fixed build:
-  0 issues on all 295 pages at 1280, 768, 414, 375 and 320 px (1,475 page views).
+  0 issues on all 295 pages at 1280, 768, 414, 375 and 320 px (1,475 page views); live site after deploy: also 0 of 1,475.
+- Research (2026-09-29, user question: should 2026 games outweigh 2025 because of coaching changes/trades?). Experiment in
+  `.scratch/weighting/` (git-ignored; production untouched), walk-forward on tune 2019-21 and dev 2022-24 only:
+  carry-over 0.3/0.45/0.75, half-life 12 + carry 0.45, NC (carry 0.3 for teams with a new head coach, from nflverse
+  home_coach/away_coach, known before week 1; 61 team-seasons) and NQ (carry 0.3 when the expected week-1 QB differs from last
+  season's primary starter). Pre-specified rule (combined model, margin loss lower than current in BOTH periods, 95% CI below
+  zero): NO variant passes; none even had a lower mean in both periods. The published forecast barely responds (0.006-0.11 pts
+  per game) because it is anchored to the market line, which already prices coaching/roster changes. Football-only with
+  carry 0.3 was worse on average in 2019-21 (esp. weeks 1-4) but not statistically clear (review: CI depends on the bootstrap
+  draw). Exploratory only: NQ lowered early-season total error (not pre-specified; re-check after the season). Independent
+  review confirmed features, pairing, seasons and leakage; decision: keep half-life 8 / carry 0.6.
+- Evaluation fix: `metrics.block_bootstrap_diff` resampled season-week blocks in polars' non-deterministic group order, so a
+  fixed seed gave slightly different CIs each call (found by the review). Blocks are now sorted; regression test added
+  (86 tests). Forecasts are unaffected; stored reports keep their original intervals.
 
 ## 3. Tests and checks (2026-09-25)
-- `pytest`: **85 passed** (leakage, signs, identities, market policy, probabilities, scoring, validation/states, QB availability
+- `pytest`: **86 passed** (leakage, signs, identities, market policy, probabilities, scoring, validation/states, QB availability
   (25), archive integrity, release-path isolation, freeze, public-page wording (2), The Odds API feed (11), picks/results (6)).
 - `python -m nflcast verify-claims`: **38/38 passed** (no internal codes on 272 game pages; retrospective weather + untimed lines labelled in reports and the built
   site; every GitHub push time re-fetched and matching; no publication before generation; 77 exported verification labels
