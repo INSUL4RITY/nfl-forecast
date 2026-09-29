@@ -33,6 +33,18 @@ def _check(results: list, name: str, ok: bool, detail: str = "") -> None:
     results.append({"check": name, "ok": bool(ok), "detail": detail})
 
 
+def _redownload(url: str, local: bytes, get=requests.get) -> tuple[bool | None, str]:
+    """Re-download an Internet Archive copy: (matches, "") when a copy came back, (None, reason) when archive.org did not
+    serve one (refused, rate-limited, error status). An error page is "could not check", never a content mismatch."""
+    try:
+        r = get(url, timeout=120, headers=A.UA)
+    except requests.RequestException as e:
+        return None, type(e).__name__
+    if r.status_code != 200:
+        return None, f"HTTP {r.status_code}"
+    return hashlib.sha256(r.content).hexdigest() == hashlib.sha256(local).hexdigest(), ""
+
+
 RAW_LABEL_RE = re.compile(r"00-00\d{5}|chain_qb|roster:|_stale\b|stale_(provider|retrieval)|report_not_available|designation_pending|"
                           r"NotListed|nflverse_schedules|replacement_chain|no_candidate|depth_chart_|finished prev\b")
 
@@ -194,6 +206,7 @@ def run(download_web_archive: bool = True) -> list[dict]:
     certs = A._tsa_certs()
     work = A.ARCHIVE_DIR / ".tmp"
     work.mkdir(exist_ok=True)
+    blocked = ""   # once archive.org stops serving, stop asking (repeated requests prolong its rate-limit block)
     for p in release_paths():
         _, evp = A._paths(p)
         recs = A._evidence(evp)
@@ -209,13 +222,20 @@ def run(download_web_archive: bool = True) -> list[dict]:
         else:
             _check(R, f"RFC 3161 token present for {p.name}", False, "no token yet")
         wa = [x for x in recs if x["type"] == "web_archive" and x.get("sha256_matches")]
-        if wa and download_web_archive:
-            try:
-                got = requests.get(wa[0]["archived_copy"], timeout=120, headers=A.UA).content
-                _check(R, f"Web Archive copy matches {p.name}", hashlib.sha256(got).hexdigest() == hashlib.sha256(p.read_bytes()).hexdigest(),
-                       wa[0]["capture_time_utc"])
-            except requests.RequestException as e:   # recorded as a failure, never skipped silently
-                _check(R, f"Web Archive copy matches {p.name}", False, f"could not re-download now ({type(e).__name__}); retry later")
+        if wa and download_web_archive:   # a copy that could not be checked is recorded as a failure, never skipped silently
+            name = f"Web Archive copy matches {p.name}"
+            if blocked:
+                _check(R, name, False, f"not re-downloaded: archive.org stopped serving earlier in this run ({blocked}); retry later")
+            else:
+                ok, why = _redownload(wa[0]["archived_copy"], p.read_bytes())
+                if ok is None:
+                    if why == "HTTP 404":   # about this one capture, not a sign that archive.org stopped serving
+                        _check(R, name, False, "archive.org returned no copy at the recorded address (HTTP 404); retry later")
+                        continue
+                    blocked = why
+                    _check(R, name, False, f"could not re-download now ({why}); retry later")
+                else:
+                    _check(R, name, ok, wa[0]["capture_time_utc"])
         elif not wa:
             _check(R, f"Web Archive copy present for {p.name}", False, "not captured yet (retried each cycle)")
     for f in ("v.tsr", "v.tsq"):

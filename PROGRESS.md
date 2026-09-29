@@ -163,10 +163,20 @@ market lines, QB availability, injury display, weather display). A changed artif
 - Evaluation fix: `metrics.block_bootstrap_diff` resampled season-week blocks in polars' non-deterministic group order, so a
   fixed seed gave slightly different CIs each call (found by the review). Blocks are now sorted; regression test added
   (86 tests). Forecasts are unaffected; stored reports keep their original intervals.
+- Post-outage check (2026-09-29 19:30 UTC, after the Claude app went down): all work committed and pushed (HEAD = origin),
+  task running every 30 min ("operate: done", alerts open=0), freeze-check OK, tests pass, Pages deploys succeeding (the
+  release-commit deploy is cancelled by the evidence commit 30 s later, by design). Fixed verify-claims reporting: an
+  archive.org error page (HTTP 404/429) was hashed and reported as a content mismatch. It is now "could not check, retry
+  later"; after a refusal/rate limit it stops re-downloading for that run (hammering prolongs the block). The flagged
+  rel_20260926T164605Z copy re-downloaded on retry and matches byte-for-byte (the 404 was a temporary playback error).
+  Re-downloading every copy back-to-back trips archive.org's rate limit, so those checks often end "retry later"; all
+  other checks pass. Windows notifications still DisabledForUser (user action). Cosmetic: performance.json's
+  `cumulative` rows come out in varying order (the page looks rows up by model; no effect).
 
 ## 3. Tests and checks (2026-09-25)
-- `pytest`: **101 passed** (leakage, signs, identities, market policy, probabilities, scoring, validation/states, QB availability
-  (25), archive integrity, release-path isolation, freeze, public-page wording (2), The Odds API feed (11), picks/results (6)).
+- `pytest`: **102 passed** (leakage, signs, identities, market policy, probabilities, scoring, validation/states, QB availability
+  (25), archive integrity, release-path isolation, freeze, public-page wording (2), The Odds API feed (11), picks/results (6),
+  alerts (15), verify-claims archive re-download (1)).
 - `python -m nflcast verify-claims`: **38/38 passed** (no internal codes on 272 game pages; retrospective weather + untimed lines labelled in reports and the built
   site; every GitHub push time re-fetched and matching; no publication before generation; 77 exported verification labels
   recomputed from evidence; corrections complete; all RFC 3161 tokens verify against the files; all Web Archive copies match).

@@ -1,6 +1,6 @@
 # Claims verification
 
-Run 2026-09-28T23:45:51.373277+00:00: 145 passed, 16 failed.
+Run 2026-09-29T19:29:42.257791+00:00: 151 passed, 42 failed.
 
 | check | result | detail |
 |---|---|---|
@@ -10,11 +10,11 @@ Run 2026-09-28T23:45:51.373277+00:00: 145 passed, 16 failed.
 | site performance page labels retrospective benchmark + untimed lines + actual-starter proxy | PASS |  |
 | site performance page shows weather inputs as RETROSPECTIVE | PASS |  |
 | methodology page documents approximations | PASS |  |
-| API key absent from repository, logs, site, snapshots and backup | PASS | 2971 files checked |
-| The Odds API snapshots contain point values only (no prices) | PASS | 18 snapshots |
-| The Odds API lines retrieved and provider-updated before kickoff and before the forecast cutoff | PASS | 196 game forecasts |
-| stored pick labels match the published rule | PASS | 181 stored picks |
-| graded picks use the locked version and its own archived line | PASS | 15 graded |
+| API key absent from repository, logs, site, snapshots and backup | PASS | 3228 files checked |
+| The Odds API snapshots contain point values only (no prices) | PASS | 21 snapshots |
+| The Odds API lines retrieved and provider-updated before kickoff and before the forecast cutoff | PASS | 324 game forecasts |
+| stored pick labels match the published rule | PASS | 309 stored picks |
+| graded picks use the locked version and its own archived line | PASS | 16 graded |
 | picks without a stored label are flagged retrospectively derived | PASS |  |
 | weekly records add up (graded = win + loss + tie/push/no-pick/no-lean/no-line) | PASS |  |
 | game pages show no internal codes or player IDs | PASS | 272 pages clean |
@@ -90,7 +90,23 @@ Run 2026-09-28T23:45:51.373277+00:00: 145 passed, 16 failed.
 | publication not before generation: rel_20260928T231615Z.json | PASS |  |
 | GitHub push time matches API: rel_20260928T233941Z.json | PASS | 2026-09-28T23:39:49Z 49a03a6dac |
 | publication not before generation: rel_20260928T233941Z.json | PASS |  |
-| exported verification labels match evidence (348 versions) | PASS |  |
+| GitHub push time matches API: rel_20260929T001605Z.json | PASS | 2026-09-29T00:16:13Z 79f4da0891 |
+| publication not before generation: rel_20260929T001605Z.json | PASS |  |
+| GitHub push time matches API: rel_20260929T034601Z.json | PASS | 2026-09-29T03:46:09Z 1f0f4bd817 |
+| publication not before generation: rel_20260929T034601Z.json | PASS |  |
+| GitHub push time matches API: rel_20260929T044550Z.json | PASS | 2026-09-29T04:45:59Z 97aa9a5d52 |
+| publication not before generation: rel_20260929T044550Z.json | PASS |  |
+| GitHub push time matches API: rel_20260929T054551Z.json | PASS | 2026-09-29T05:45:58Z af349041c5 |
+| publication not before generation: rel_20260929T054551Z.json | PASS |  |
+| GitHub push time matches API: rel_20260929T061550Z.json | PASS | 2026-09-29T06:15:58Z 96c81e191a |
+| publication not before generation: rel_20260929T061550Z.json | PASS |  |
+| GitHub push time matches API: rel_20260929T121551Z.json | PASS | 2026-09-29T12:16:00Z 52e07f9f8a |
+| publication not before generation: rel_20260929T121551Z.json | PASS |  |
+| GitHub push time matches API: rel_20260929T141558Z.json | PASS | 2026-09-29T14:16:06Z 9dd37e02b6 |
+| publication not before generation: rel_20260929T141558Z.json | PASS |  |
+| GitHub push time matches API: rel_20260929T181556Z.json | PASS | 2026-09-29T18:16:05Z cec75ba654 |
+| publication not before generation: rel_20260929T181556Z.json | PASS |  |
+| exported verification labels match evidence (476 versions) | PASS |  |
 | every late publication has a correction | PASS |  |
 | every release matches its write-once manifest | PASS |  |
 | RFC 3161 token verifies against rel_20260924T232247Z.json | PASS | Sep 25 01:39:14 2026 GMT |
@@ -98,70 +114,86 @@ Run 2026-09-28T23:45:51.373277+00:00: 145 passed, 16 failed.
 | RFC 3161 token verifies against rel_20260924T235129Z.json | PASS | Sep 25 01:39:16 2026 GMT |
 | Web Archive copy matches rel_20260924T235129Z.json | PASS | 2026-09-25T01:39:57+00:00 |
 | RFC 3161 token verifies against rel_20260925T000247Z.json | PASS | Sep 25 01:39:17 2026 GMT |
-| Web Archive copy matches rel_20260925T000247Z.json | PASS | 2026-09-25T01:40:05+00:00 |
+| Web Archive copy matches rel_20260925T000247Z.json | FAIL | could not re-download now (ConnectionError); retry later |
 | RFC 3161 token verifies against rel_20260925T011000Z.json | PASS | Sep 25 01:39:18 2026 GMT |
-| Web Archive copy matches rel_20260925T011000Z.json | PASS | 2026-09-25T01:37:46+00:00 |
+| Web Archive copy matches rel_20260925T011000Z.json | FAIL | not re-downloaded: archive.org stopped serving earlier in this run (ConnectionError); retry later |
 | RFC 3161 token verifies against rel_20260925T015111Z.json | PASS | Sep 25 01:51:15 2026 GMT |
-| Web Archive copy matches rel_20260925T015111Z.json | PASS | 2026-09-25T01:57:42+00:00 |
+| Web Archive copy matches rel_20260925T015111Z.json | FAIL | not re-downloaded: archive.org stopped serving earlier in this run (ConnectionError); retry later |
 | RFC 3161 token verifies against rel_20260925T015951Z.json | PASS | Sep 25 01:59:54 2026 GMT |
-| Web Archive copy matches rel_20260925T015951Z.json | PASS | 2026-09-25T02:00:09+00:00 |
+| Web Archive copy matches rel_20260925T015951Z.json | FAIL | not re-downloaded: archive.org stopped serving earlier in this run (ConnectionError); retry later |
 | RFC 3161 token verifies against rel_20260925T021501Z.json | PASS | Sep 25 02:15:03 2026 GMT |
-| Web Archive copy matches rel_20260925T021501Z.json | PASS | 2026-09-25T02:15:20+00:00 |
+| Web Archive copy matches rel_20260925T021501Z.json | FAIL | not re-downloaded: archive.org stopped serving earlier in this run (ConnectionError); retry later |
 | RFC 3161 token verifies against rel_20260925T051555Z.json | PASS | Sep 25 05:15:57 2026 GMT |
-| Web Archive copy matches rel_20260925T051555Z.json | PASS | 2026-09-25T05:16:26+00:00 |
+| Web Archive copy matches rel_20260925T051555Z.json | FAIL | not re-downloaded: archive.org stopped serving earlier in this run (ConnectionError); retry later |
 | RFC 3161 token verifies against rel_20260925T061553Z.json | PASS | Sep 25 06:15:56 2026 GMT |
-| Web Archive copy matches rel_20260925T061553Z.json | PASS | 2026-09-25T06:16:19+00:00 |
+| Web Archive copy matches rel_20260925T061553Z.json | FAIL | not re-downloaded: archive.org stopped serving earlier in this run (ConnectionError); retry later |
 | RFC 3161 token verifies against rel_20260925T121558Z.json | PASS | Sep 25 12:16:01 2026 GMT |
-| Web Archive copy matches rel_20260925T121558Z.json | PASS | 2026-09-25T12:16:18+00:00 |
+| Web Archive copy matches rel_20260925T121558Z.json | FAIL | not re-downloaded: archive.org stopped serving earlier in this run (ConnectionError); retry later |
 | RFC 3161 token verifies against rel_20260925T131600Z.json | PASS | Sep 25 13:16:04 2026 GMT |
-| Web Archive copy matches rel_20260925T131600Z.json | PASS | 2026-09-25T13:16:22+00:00 |
+| Web Archive copy matches rel_20260925T131600Z.json | FAIL | not re-downloaded: archive.org stopped serving earlier in this run (ConnectionError); retry later |
 | RFC 3161 token verifies against rel_20260925T132351Z.json | PASS | Sep 25 13:23:55 2026 GMT |
-| Web Archive copy matches rel_20260925T132351Z.json | PASS | 2026-09-25T13:24:13+00:00 |
+| Web Archive copy matches rel_20260925T132351Z.json | FAIL | not re-downloaded: archive.org stopped serving earlier in this run (ConnectionError); retry later |
 | RFC 3161 token verifies against rel_20260925T194611Z.json | PASS | Sep 25 19:46:14 2026 GMT |
-| Web Archive copy matches rel_20260925T194611Z.json | PASS | 2026-09-25T19:46:33+00:00 |
+| Web Archive copy matches rel_20260925T194611Z.json | FAIL | not re-downloaded: archive.org stopped serving earlier in this run (ConnectionError); retry later |
 | RFC 3161 token verifies against rel_20260926T103448Z.json | PASS | Sep 26 10:34:52 2026 GMT |
-| Web Archive copy matches rel_20260926T103448Z.json | PASS | 2026-09-26T10:35:35+00:00 |
+| Web Archive copy matches rel_20260926T103448Z.json | FAIL | not re-downloaded: archive.org stopped serving earlier in this run (ConnectionError); retry later |
 | RFC 3161 token verifies against rel_20260926T164605Z.json | PASS | Sep 26 16:46:08 2026 GMT |
-| Web Archive copy matches rel_20260926T164605Z.json | PASS | 2026-09-26T16:46:25+00:00 |
+| Web Archive copy matches rel_20260926T164605Z.json | FAIL | not re-downloaded: archive.org stopped serving earlier in this run (ConnectionError); retry later |
 | RFC 3161 token verifies against rel_20260926T224614Z.json | PASS | Sep 26 22:46:18 2026 GMT |
-| Web Archive copy matches rel_20260926T224614Z.json | PASS | 2026-09-26T23:15:58+00:00 |
+| Web Archive copy matches rel_20260926T224614Z.json | FAIL | not re-downloaded: archive.org stopped serving earlier in this run (ConnectionError); retry later |
 | RFC 3161 token verifies against rel_20260927T051547Z.json | PASS | Sep 27 05:15:49 2026 GMT |
-| Web Archive copy matches rel_20260927T051547Z.json | PASS | 2026-09-27T05:16:05+00:00 |
+| Web Archive copy matches rel_20260927T051547Z.json | FAIL | not re-downloaded: archive.org stopped serving earlier in this run (ConnectionError); retry later |
 | RFC 3161 token verifies against rel_20260927T061550Z.json | PASS | Sep 27 06:15:52 2026 GMT |
-| Web Archive copy matches rel_20260927T061550Z.json | PASS | 2026-09-27T06:45:49+00:00 |
+| Web Archive copy matches rel_20260927T061550Z.json | FAIL | not re-downloaded: archive.org stopped serving earlier in this run (ConnectionError); retry later |
 | RFC 3161 token verifies against rel_20260927T114559Z.json | PASS | Sep 27 11:46:02 2026 GMT |
-| Web Archive copy matches rel_20260927T114559Z.json | PASS | 2026-09-27T11:46:18+00:00 |
+| Web Archive copy matches rel_20260927T114559Z.json | FAIL | not re-downloaded: archive.org stopped serving earlier in this run (ConnectionError); retry later |
 | RFC 3161 token verifies against rel_20260927T154559Z.json | PASS | Sep 27 15:46:03 2026 GMT |
-| Web Archive copy matches rel_20260927T154559Z.json | PASS | 2026-09-27T18:16:22+00:00 |
+| Web Archive copy matches rel_20260927T154559Z.json | FAIL | not re-downloaded: archive.org stopped serving earlier in this run (ConnectionError); retry later |
 | RFC 3161 token verifies against rel_20260927T161549Z.json | PASS | Sep 27 16:15:52 2026 GMT |
-| Web Archive copy matches rel_20260927T161549Z.json | FAIL | could not re-download now (ConnectionError); retry later |
+| Web Archive copy matches rel_20260927T161549Z.json | FAIL | not re-downloaded: archive.org stopped serving earlier in this run (ConnectionError); retry later |
 | RFC 3161 token verifies against rel_20260927T164557Z.json | PASS | Sep 27 16:46:00 2026 GMT |
-| Web Archive copy matches rel_20260927T164557Z.json | FAIL | could not re-download now (ConnectionError); retry later |
+| Web Archive copy matches rel_20260927T164557Z.json | FAIL | not re-downloaded: archive.org stopped serving earlier in this run (ConnectionError); retry later |
 | RFC 3161 token verifies against rel_20260927T184611Z.json | PASS | Sep 27 18:46:14 2026 GMT |
-| Web Archive copy matches rel_20260927T184611Z.json | FAIL | could not re-download now (ConnectionError); retry later |
+| Web Archive copy matches rel_20260927T184611Z.json | FAIL | not re-downloaded: archive.org stopped serving earlier in this run (ConnectionError); retry later |
 | RFC 3161 token verifies against rel_20260927T191559Z.json | PASS | Sep 27 19:16:03 2026 GMT |
-| Web Archive copy matches rel_20260927T191559Z.json | FAIL | could not re-download now (ConnectionError); retry later |
+| Web Archive copy matches rel_20260927T191559Z.json | FAIL | not re-downloaded: archive.org stopped serving earlier in this run (ConnectionError); retry later |
 | RFC 3161 token verifies against rel_20260927T194601Z.json | PASS | Sep 27 19:46:05 2026 GMT |
-| Web Archive copy matches rel_20260927T194601Z.json | FAIL | could not re-download now (ConnectionError); retry later |
+| Web Archive copy matches rel_20260927T194601Z.json | FAIL | not re-downloaded: archive.org stopped serving earlier in this run (ConnectionError); retry later |
 | RFC 3161 token verifies against rel_20260927T224554Z.json | PASS | Sep 27 22:45:57 2026 GMT |
-| Web Archive copy matches rel_20260927T224554Z.json | FAIL | could not re-download now (ConnectionError); retry later |
+| Web Archive copy matches rel_20260927T224554Z.json | FAIL | not re-downloaded: archive.org stopped serving earlier in this run (ConnectionError); retry later |
 | RFC 3161 token verifies against rel_20260927T234556Z.json | PASS | Sep 27 23:45:59 2026 GMT |
-| Web Archive copy matches rel_20260927T234556Z.json | FAIL | could not re-download now (ConnectionError); retry later |
+| Web Archive copy matches rel_20260927T234556Z.json | FAIL | not re-downloaded: archive.org stopped serving earlier in this run (ConnectionError); retry later |
 | RFC 3161 token verifies against rel_20260928T051551Z.json | PASS | Sep 28 05:15:55 2026 GMT |
-| Web Archive copy matches rel_20260928T051551Z.json | FAIL | could not re-download now (ConnectionError); retry later |
+| Web Archive copy matches rel_20260928T051551Z.json | FAIL | not re-downloaded: archive.org stopped serving earlier in this run (ConnectionError); retry later |
 | RFC 3161 token verifies against rel_20260928T061549Z.json | PASS | Sep 28 06:15:53 2026 GMT |
-| Web Archive copy matches rel_20260928T061549Z.json | FAIL | could not re-download now (ConnectionError); retry later |
+| Web Archive copy matches rel_20260928T061549Z.json | FAIL | not re-downloaded: archive.org stopped serving earlier in this run (ConnectionError); retry later |
 | RFC 3161 token verifies against rel_20260928T081553Z.json | PASS | Sep 28 08:15:56 2026 GMT |
-| Web Archive copy matches rel_20260928T081553Z.json | FAIL | could not re-download now (ConnectionError); retry later |
+| Web Archive copy matches rel_20260928T081553Z.json | FAIL | not re-downloaded: archive.org stopped serving earlier in this run (ConnectionError); retry later |
 | RFC 3161 token verifies against rel_20260928T084549Z.json | PASS | Sep 28 08:45:52 2026 GMT |
-| Web Archive copy matches rel_20260928T084549Z.json | FAIL | could not re-download now (ConnectionError); retry later |
+| Web Archive copy matches rel_20260928T084549Z.json | FAIL | not re-downloaded: archive.org stopped serving earlier in this run (ConnectionError); retry later |
 | RFC 3161 token verifies against rel_20260928T124550Z.json | PASS | Sep 28 12:45:54 2026 GMT |
-| Web Archive copy matches rel_20260928T124550Z.json | FAIL | could not re-download now (ConnectionError); retry later |
+| Web Archive copy matches rel_20260928T124550Z.json | FAIL | not re-downloaded: archive.org stopped serving earlier in this run (ConnectionError); retry later |
 | RFC 3161 token verifies against rel_20260928T181556Z.json | PASS | Sep 28 18:15:59 2026 GMT |
-| Web Archive copy matches rel_20260928T181556Z.json | FAIL | could not re-download now (ConnectionError); retry later |
+| Web Archive copy matches rel_20260928T181556Z.json | FAIL | not re-downloaded: archive.org stopped serving earlier in this run (ConnectionError); retry later |
 | RFC 3161 token verifies against rel_20260928T224603Z.json | PASS | Sep 28 22:46:06 2026 GMT |
-| Web Archive copy matches rel_20260928T224603Z.json | FAIL | could not re-download now (ConnectionError); retry later |
+| Web Archive copy matches rel_20260928T224603Z.json | FAIL | not re-downloaded: archive.org stopped serving earlier in this run (ConnectionError); retry later |
 | RFC 3161 token verifies against rel_20260928T231615Z.json | PASS | Sep 28 23:16:18 2026 GMT |
-| Web Archive copy matches rel_20260928T231615Z.json | FAIL | could not re-download now (ConnectionError); retry later |
+| Web Archive copy matches rel_20260928T231615Z.json | FAIL | not re-downloaded: archive.org stopped serving earlier in this run (ConnectionError); retry later |
 | RFC 3161 token verifies against rel_20260928T233941Z.json | PASS | Sep 28 23:39:44 2026 GMT |
-| Web Archive copy matches rel_20260928T233941Z.json | FAIL | could not re-download now (ConnectionError); retry later |
+| Web Archive copy matches rel_20260928T233941Z.json | FAIL | not re-downloaded: archive.org stopped serving earlier in this run (ConnectionError); retry later |
+| RFC 3161 token verifies against rel_20260929T001605Z.json | PASS | Sep 29 00:16:08 2026 GMT |
+| Web Archive copy matches rel_20260929T001605Z.json | FAIL | not re-downloaded: archive.org stopped serving earlier in this run (ConnectionError); retry later |
+| RFC 3161 token verifies against rel_20260929T034601Z.json | PASS | Sep 29 03:46:04 2026 GMT |
+| Web Archive copy matches rel_20260929T034601Z.json | FAIL | not re-downloaded: archive.org stopped serving earlier in this run (ConnectionError); retry later |
+| RFC 3161 token verifies against rel_20260929T044550Z.json | PASS | Sep 29 04:45:53 2026 GMT |
+| Web Archive copy matches rel_20260929T044550Z.json | FAIL | not re-downloaded: archive.org stopped serving earlier in this run (ConnectionError); retry later |
+| RFC 3161 token verifies against rel_20260929T054551Z.json | PASS | Sep 29 05:45:54 2026 GMT |
+| Web Archive copy matches rel_20260929T054551Z.json | FAIL | not re-downloaded: archive.org stopped serving earlier in this run (ConnectionError); retry later |
+| RFC 3161 token verifies against rel_20260929T061550Z.json | PASS | Sep 29 06:15:54 2026 GMT |
+| Web Archive copy matches rel_20260929T061550Z.json | FAIL | not re-downloaded: archive.org stopped serving earlier in this run (ConnectionError); retry later |
+| RFC 3161 token verifies against rel_20260929T121551Z.json | PASS | Sep 29 12:15:55 2026 GMT |
+| Web Archive copy matches rel_20260929T121551Z.json | FAIL | not re-downloaded: archive.org stopped serving earlier in this run (ConnectionError); retry later |
+| RFC 3161 token verifies against rel_20260929T141558Z.json | PASS | Sep 29 14:16:01 2026 GMT |
+| Web Archive copy matches rel_20260929T141558Z.json | FAIL | not re-downloaded: archive.org stopped serving earlier in this run (ConnectionError); retry later |
+| RFC 3161 token verifies against rel_20260929T181556Z.json | PASS | Sep 29 18:15:59 2026 GMT |
+| Web Archive copy matches rel_20260929T181556Z.json | FAIL | not re-downloaded: archive.org stopped serving earlier in this run (ConnectionError); retry later |
