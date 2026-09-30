@@ -172,6 +172,11 @@ market lines, QB availability, injury display, weather display). A changed artif
   Re-downloading every copy back-to-back trips archive.org's rate limit, so those checks often end "retry later"; all
   other checks pass. Windows notifications still DisabledForUser (user action). Cosmetic: performance.json's
   `cumulative` rows come out in varying order (the page looks rows up by model; no effect).
+- Notifications ON (2026-09-30 ~14:00 UTC): the user switched on Windows notifications; the PowerShell sender reports
+  Enabled. A test toast (`scripts/toast.ps1`, exit 0) was shown and seen by the user, which also registered "Windows
+  PowerShell" in Settings > System > Notifications (an app is listed only after its first toast). The 13:49 UTC caught-up
+  notice (13.1 h gap) was NOT SHOWN because notifications were still off at that time. The overnight catch-up itself
+  worked: release rel_20260930T134704Z (QB changes PIT@CLE, MIA@MIN; line changes on 4 games), pushed and deployed.
 
 ## 3. Tests and checks (2026-09-25)
 - `pytest`: **102 passed** (leakage, signs, identities, market policy, probabilities, scoring, validation/states, QB availability
