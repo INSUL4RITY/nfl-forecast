@@ -210,6 +210,15 @@ market lines, QB availability, injury display, weather display). A changed artif
     "Then", model to 2 decimals) and, when either has changed, the latest pair ("Now"; "Final pre-game" after kickoff),
     because "Model line PIT -2.9" next to a pick locked at PIT -2.5 looked contradictory (the model moves with the line).
     Display only; layout audit 0 issues (296 pages x 5 widths).
+- Injury report on game pages (2026-10-01, user request; display only, model unchanged): the old "Listed injuries" list showed
+  only players with a game status, so PIT@CLE (Thursday) showed nothing: nflverse had practice rows but none of the
+  Wednesday game statuses that NFL.com already listed (5 Out, 2 Questionable). Each game now exports `injury_report`
+  (`export_web.injury_report_for`/`injury_rows`): every listed player for both teams that week (injury, practice status,
+  game status), from the newest snapshot retrieved before min(now, kickoff), with provider update and last-check times.
+  The game page shows it (most serious first) with a link to the week's official NFL.com report. NFL.com is NOT fetched
+  automatically: its terms (section 1.3) prohibit systematic retrieval to compile a database without written consent
+  (earlier note said "commercial use" only; corrected in docs/data_sources.md). Schefter/Underdog (ESPN/X) stay manual
+  sources for documented QB overrides.
 
 ## 3. Tests and checks (2026-09-25)
 - `pytest`: **107 passed** (leakage, signs, identities, market policy, probabilities, scoring, validation/states, QB availability

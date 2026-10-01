@@ -86,7 +86,10 @@ export default function Methodology() {
             models are therefore validated only at the final-pregame horizon, and they may benefit from information that arrived close to kickoff.
             Live forecasts use the line observed at release time.</li>
           <li><b>Non-QB injuries are display-only.</b> A non-QB availability feature was built and tested; it added nothing once the market line was
-            included, so no current model uses it. Listed injuries are shown for context only.</li>
+            included, so no current model uses it. Game pages from week 3 on show, for context only, the injury report for both teams as
+            carried by the data feed (practice participation, and game status once it reaches the feed) as of the newest retrieval
+            before kickoff, with the time the data last changed and a link to the official report on NFL.com, which can be a day or more
+            ahead of the feed.</li>
           <li><b>Not modelled:</b> weather (archived operational forecasts exist only from about April 2026) and coaching or play-caller changes
             (no free source with dates).</li>
         </ul>

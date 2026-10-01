@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import LocalTime from "@/components/LocalTime";
+import InjuryReportTable from "@/components/InjuryReportTable";
 import TeamBadge from "@/components/TeamBadge";
 import { dataProblems } from "@/components/GameCard";
 import StateLabel from "@/components/StateLabel";
@@ -321,7 +322,9 @@ export default async function GamePage({ params }: { params: Promise<{ id: strin
               <Lineup side={e.lineup.away} abbr={A} />
               <Lineup side={e.lineup.home} abbr={H} />
             </div>
-            {e.notable_injuries.length > 0 && (
+            {g.injury_report ? (
+              <InjuryReportTable r={g.injury_report} season={g.season} week={g.week} gameType={g.game_type} venueTz={g.venue_tz} />
+            ) : e.notable_injuries.length > 0 && (
               <details style={{ marginTop: 10 }}>
                 <summary>Listed injuries ({e.notable_injuries.length})</summary>
                 <div className="table-wrap" style={{ marginTop: 8 }}><table><thead><tr><th>Team</th><th>Player</th><th>Pos</th><th>Status</th></tr></thead><tbody>

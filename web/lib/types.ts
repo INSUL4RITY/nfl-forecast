@@ -154,7 +154,21 @@ export interface WeekGame {
   corrections: Correction[];
   pick?: Pick | null;
   locked_pick?: LockedPick | null;
+  injury_report?: InjuryReport | null;
   result_grade?: ResultGrade | null;
+}
+
+/** Official NFL injury report data (via nflverse) for one game's teams and week, from the newest snapshot we retrieved
+ *  before min(export time, kickoff). Display only (see export_web.injury_report_for). */
+export interface InjuryReport {
+  players: { team: string; full_name: string; position: string | null; injury: string | null;
+             practice_status: string | null; game_status: string | null }[];
+  content_updated_at: string | null;
+  observed_at: string;
+  last_checked_at: string | null;
+  as_of_kickoff: boolean;
+  status_due: string;
+  status_due_passed: boolean;
 }
 
 /** Pick labels from one forecast version and the market line archived with it (see src/nflcast/predict/picks.py). */
