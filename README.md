@@ -1,4 +1,4 @@
-# NFL Forecasting Portfolio (`nflcast`)
+# Insularity NFL Forecast (`nflcast` pipeline)
 
 A reproducible pipeline that forecasts expected scores, margin and total (and, later, outcome
 probabilities) for every NFL regular-season and playoff game. Numbers come from code run on

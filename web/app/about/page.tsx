@@ -3,12 +3,13 @@ export default function About() {
     <>
       <div className="page-head"><div>
         <div className="small muted" style={{ fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase" }}>Project case study</div>
-        <h1>About nflcast</h1>
+        <h1>About Insularity NFL Forecast</h1>
       </div></div>
       <div className="panel" style={{ maxWidth: 820 }}>
-        <p>nflcast is a sports-analytics portfolio project: a reproducible pipeline that forecasts every NFL game and publishes its forecasts before kickoff,
-          then scores them honestly. The aim is prediction quality and transparency, not betting. The site shows projected outcomes and uncertainty,
-          not &quot;picks&quot;, and it has no bookmaker links.</p>
+        <p>Insularity NFL Forecast is a sports-analytics portfolio project: a reproducible pipeline that forecasts every NFL game and publishes its
+          forecasts before kickoff, then scores them honestly. The aim is prediction quality and transparency. The site shows projected outcomes,
+          uncertainty and a model pick against the spread for each game, all graded openly; it has no bookmaker links and gives no staking
+          advice.</p>
         <h2>Design decisions</h2>
         <ul>
           <li><b>Benchmarks first.</b> Market-only, football-only and naive models were built and evaluated before any combined model, on identical games and cutoffs.</li>

@@ -110,6 +110,24 @@ interval below zero) and in the tune seasons; 2025 not used. Results:
 - Prospective collection now runs every cycle: weather forecast snapshots per upcoming game (`data/raw/weather/`) and injury-report
   versions (`data/processed/injury_versions.parquet`). Coaching is deferred.
 
+## Picks and weekly results (display only; `predict/picks.py`)
+Labels per forecast version (rule picks-v1): projected winner (higher win probability) and the model pick against
+the spread (the side of the line on which the unrounded projected margin falls; |difference| < 0.005 = no pick; sizes
+tiny < 0.5 <= small < 1.5 <= moderate < 3 <= large), derived from that version's own forecast and archived line.
+Releases from 25 Sep 2026 store them; for older versions the same rule is applied at export and the labels are flagged
+retrospectively derived.
+Which version counts (`picks.lock_rule`, by kickoff):
+- **Model pick, games kicking off from 2026-10-01 (week 4 on), rule "original-pick"** (the user's decision, made before
+  any week 4 game): locked at the earliest valid version generated before kickoff that has a market line; graded
+  against that version's line. Later line moves and forecasts never change it. The card shows the latest recorded line
+  beside it when the line has moved ("Line now"; "Final pre-game line" once the game has started).
+- **Model pick, earlier games, rule "final-pregame"** (the rule in force when they were played): the final-pregame
+  version with its own line. Finished weeks are not regraded (week 3 stays 8-6-1 among publicly verifiable forecasts;
+  it would have been 9-6 under the new rule; stated on the Method page).
+- **Projected winner and margin error:** always the final-pregame version (latest valid version before kickoff).
+`verify-claims` recomputes, from the release files and the publication evidence, which version each pick comes from,
+its labels (re-deriving unstored ones), line and publication label, every grade, and each week's results table.
+
 ## Historical approximations (backtests)
 - **Actual-starter proxy:** the final-horizon backtest uses the QB who actually started (starters are usually known from
   inactives ~90 min before kickoff). This is optimistic compared with live forecasting, which uses the availability model above.

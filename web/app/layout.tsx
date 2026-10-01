@@ -4,16 +4,16 @@ import Link from "next/link";
 import Nav from "@/components/Nav";
 
 export const metadata: Metadata = {
-  title: "nflcast · NFL game forecasts",
-  description: "Expected scores, margins, totals and win probabilities for every NFL game, with transparent validation.",
+  title: "Insularity NFL Forecast",
+  description: "Model picks, lines, totals, expected scores and win probabilities for every NFL game, with transparent validation.",
 };
 
 function Mark() {
   // Original simple mark: a yard-line grid with a rising forecast line.
   return (
     <svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true">
-      <rect x="1" y="1" width="26" height="26" rx="6" fill="#13213c" />
-      <path d="M7 5v18M14 5v18M21 5v18" stroke="#3a4d73" strokeWidth="1.5" />
+      <rect x="1" y="1" width="26" height="26" rx="6" fill="#1f4e8c" />
+      <path d="M7 5v18M14 5v18M21 5v18" stroke="#3d6db5" strokeWidth="1.5" />
       <path d="M5 19l6-5 5 3 7-9" stroke="#fff" strokeWidth="2.4" fill="none" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
@@ -25,7 +25,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <header className="site-header">
           <div className="container">
-            <Link href="/" className="brand"><Mark /> nflcast <small>NFL forecasts</small></Link>
+            <Link href="/" className="brand"><Mark /> <span className="brand-name">INSULARITY</span> <small>NFL Forecast</small></Link>
             <Nav />
           </div>
         </header>

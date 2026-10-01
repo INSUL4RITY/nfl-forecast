@@ -2,7 +2,8 @@
 
 Read `PROGRESS.md` first (status, model version, schedule, data locations, next steps). Specification:
 `C:\Users\Craig\Downloads\NFL_Forecasting_Claude_Build_Brief.md`. Live site: https://insul4rity.github.io/nfl-forecast/
-(public repo INSUL4RITY/nfl-forecast).
+(public repo INSUL4RITY/nfl-forecast). Public name: **Insularity NFL Forecast** (dark theme only); the internal package and
+CLI stay `nflcast`; keep the URL and repo name (published evidence and links point at them).
 
 ## Non-negotiable rules
 - **Market inputs: point spread and total only.** Never moneylines, prices, implied odds, betting splits, stakes or returns.
@@ -27,6 +28,10 @@ Read `PROGRESS.md` first (status, model version, schedule, data locations, next 
   final-horizon backtest uses the actual starter as a proxy).
 - **Privacy:** never commit secrets; commits use the GitHub noreply address; the data backup repo is PRIVATE.
 - Ask the user before paid services, new external accounts, or changing the scheduled task/system settings.
+- **Model pick = rule "original-pick" for games from 2026-10-01 (user decision):** the spread pick is locked at the earliest
+  valid pregame version with a line and graded on that line; earlier games keep "final-pregame"; projected winner and margin
+  error use final_pregame (`predict/picks.py`). Never regrade finished games under a new rule; record any rule change in
+  PROGRESS.md and state it on the Method page.
 
 ## How things run
 - Venv: `.\.venv\Scripts\python.exe -m nflcast <cmd>` from the project folder (refresh PATH from User+Machine env first in
@@ -38,7 +43,9 @@ Read `PROGRESS.md` first (status, model version, schedule, data locations, next 
 - Desktop alerts (`predict/alerts.py`, `scripts/toast.ps1`) tell the user when a human is needed; never let alert code block a
   cycle; never send real toasts from tests (use a fake `send`); re-alert on substance, never on the countdown text.
 - Windows Task Scheduler `nflcast-operate` runs `scripts/operate.ps1` every 30 min while the user is logged in.
-  Pause it (`Disable-ScheduledTask -TaskName nflcast-operate`) before development work; re-enable afterwards.
+  Pause it (`Disable-ScheduledTask -TaskName nflcast-operate`) before development work; re-enable afterwards. For longer
+  work, develop in a separate git worktree (copy `data/raw` + `data/processed` into it, `npm ci` in its `web/`; never link
+  folders out of the worktree) so forecasts keep publishing, and pause only to merge.
 - Tests: `.\.venv\Scripts\python.exe -m pytest -q` (all must pass before pushing). Site: `cd web; npx next build`.
 - PowerShell 5.1 mangles native args with quotes/spaces (use Python subprocess or files); Git's openssl needs relative paths.
 - Scratch scripts go in `.scratch/` (git-ignored) — the session scratchpad path is too long for Windows.

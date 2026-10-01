@@ -1,9 +1,9 @@
 ﻿import Link from "next/link";
 import type { LineupSide, ReleaseEntry, Team, WeekGame } from "@/lib/types";
-import { f1, fmtDateTime, fmtKickoff, marginText, pct, pctP, problemText, spreadText } from "@/lib/format";
+import { f1, fmtDateTime, fmtKickoff, onDark, pct, pctP, problemText } from "@/lib/format";
 import TeamBadge from "./TeamBadge";
 import StateLabel from "./StateLabel";
-import { gradeText, PickBoxes, RETRO_NOTE } from "./Pick";
+import { gradeText, PredictionSummary, RETRO_NOTE } from "./Pick";
 
 function ProbBar({ pAway, pTie, pHome, away, home, awayColor, homeColor }: {
   pAway: number; pTie: number; pHome: number; away: string; home: string; awayColor: string; homeColor: string;
@@ -12,7 +12,7 @@ function ProbBar({ pAway, pTie, pHome, away, home, awayColor, homeColor }: {
     <div>
       <div className="probbar" role="img" aria-label={`${away} ${pct(pAway)}, tie ${pct(pTie, 1)}, ${home} ${pct(pHome)}`}>
         <span style={{ width: `${pAway * 100}%`, background: awayColor }} />
-        {pTie > 0.0005 && <span style={{ width: `${Math.max(pTie * 100, 0.6)}%`, background: "#9aa3b2" }} />}
+        {pTie > 0.0005 && <span style={{ width: `${Math.max(pTie * 100, 0.6)}%`, background: "var(--tie)" }} />}
         <span style={{ width: `${pHome * 100}%`, background: homeColor }} />
       </div>
       <div className="prob-labels num">
@@ -62,16 +62,11 @@ export default function GameCard({ g, teams, tz }: { g: WeekGame; teams: Record<
       {f && e ? (
         <>
           <ProbBar pAway={f.p_away} pTie={f.p_tie} pHome={f.p_home} away={g.away} home={g.home}
-                   awayColor={away?.color ?? "#555"} homeColor={home?.color ?? "#13213c"} />
-          <dl className="kv" style={{ margin: 0 }}>
-            <div style={{ gridColumn: "1 / -1" }}><dt>Market spread (this forecast)</dt><dd className="v" style={{ margin: 0 }}>{e.market ? spreadText(e.market.home_spread, g.home, g.away) : "none"}</dd></div>
-            <div><dt>Total</dt><dd className="v" style={{ margin: 0 }}>{f1(f.total)}</dd></div>
-            <div><dt>Market total</dt><dd className="v" style={{ margin: 0 }}>{e.market ? f1(e.market.total) : "—"}</dd></div>
-            <div style={{ gridColumn: "1 / -1" }}><dt>80% margin range</dt><dd className="v" style={{ margin: 0 }}>{rangeText(f.intervals.margin_80, g.home, g.away)}</dd></div>
-          </dl>
-          {g.pick && <PickBoxes p={g.pick} id={g.game_id} />}
+                   awayColor={onDark(away?.color)} homeColor={onDark(home?.color)} />
+          <PredictionSummary g={g} lockedAt={g.locked_pick ? fmtDateTime(g.locked_pick.generated_at, tz) : null} />
           {g.result_grade && <div className="small"><b>Result:</b> {gradeText(g.result_grade)}</div>}
-          {g.pick?.retrospectively_derived && <div className="small muted" title={RETRO_NOTE}>* Pick label derived retrospectively from the archived forecast.</div>}
+          {(g.locked_pick?.retrospectively_derived || g.pick?.retrospectively_derived) &&
+            <div className="small muted" title={RETRO_NOTE}>* Pick label derived retrospectively from the archived forecast.</div>}
           <div className="small ink2">
             QBs: {qbText(e.lineup.away)} / {qbText(e.lineup.home)}
           </div>
@@ -114,10 +109,4 @@ function qbText(side: LineupSide): string {
   const lead = side.scenarios?.[0];
   if (!lead) return side.expected_qb ?? "unknown";
   return `${lead.qb ?? "unknown"} ${pctP(lead.p)}`;
-}
-
-function rangeText(r: [number, number] | undefined, home: string, away: string): string {
-  if (!r) return "—";
-  const s = (x: number) => (Math.abs(x) < 0.5 ? "even" : x > 0 ? `${home} by ${Math.round(x)}` : `${away} by ${Math.round(-x)}`);
-  return `${s(r[0])} to ${s(r[1])}`;
 }

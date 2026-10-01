@@ -166,7 +166,7 @@ def notify(items: list[dict], now: datetime | None = None, send=None, forget_res
         state[i["key"]] = {**(s or {}), "last_seen": now.isoformat()}
     shown = False
     if due:
-        title = "nflcast: 1 item needs a look" if len(due) == 1 else f"nflcast: {len(due)} items need a look"
+        title = "NFL Forecast: 1 item needs a look" if len(due) == 1 else f"NFL Forecast: {len(due)} items need a look"
         body = "\n".join(i["text"] for i in due[:3]) + (f"\n+{len(due) - 3} more (see logs/alerts.log)" if len(due) > 3 else "")
         shown = bool(send(title, body, next((i["url"] for i in due if i.get("game_id")), due[0]["url"])))
         LOG.parent.mkdir(exist_ok=True)
@@ -201,7 +201,7 @@ def last_completed_run(log_path=None) -> datetime | None:
 
 def caught_up_text(gap_hours: float, valid_games: int | None, pushed: bool | None) -> tuple[str, str]:
     """Title/body for the notice after >= 6 h without a completed run; states only what actually happened."""
-    title = f"nflcast caught up ({gap_hours:.0f} h since the last completed run)"
+    title = f"NFL Forecast caught up ({gap_hours:.0f} h since the last completed run)"
     body = "Refreshed injuries, depth charts, market lines and results. "
     if not valid_games:
         body += "No forecast inputs had changed."

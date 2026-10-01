@@ -62,13 +62,21 @@ def public_raw_labels(out_dir=None) -> dict[str, list[str]]:
 
 
 def picks_checks() -> list[tuple[str, bool, str]]:
-    """Picks and weekly results: stored picks match the rule; every graded pick uses its locked version and THAT
-    version's archived line; labels for versions without stored picks are flagged retrospective; records add up."""
+    """Picks and weekly results, recomputed from the release files and the publication evidence (never from the exported
+    labels): stored labels match the rule; the projected winner (`pick`) is the final-pregame version's labels; the
+    model pick (`locked_pick`) is the version chosen by the rule in force for the game ("original-pick" from
+    picks.RULE_START: earliest valid pregame version with a line; "final-pregame" before), with that version's labels,
+    line and publication label; versions without stored labels are re-derived and flagged retrospective; every grade is
+    recomputed from the release labels; each week's results table equals the summary recomputed from its games."""
     from nflcast.predict import picks as PK
-    rel_by_run = {}
+    from nflcast.predict.validation import entry_is_valid
+    evidence = PUB.load_evidence()
+    rel_by_run, by_game = {}, {}
     for f in release_paths():
         r = json.loads(f.read_text(encoding="utf-8"))
         rel_by_run[r["run_id"]] = r
+        for g in r.get("games", []):
+            by_game.setdefault(g["game_id"], []).append((datetime.fromisoformat(r["generated_at_utc"]), r["run_id"], g))
     stored_bad, n_stored = [], 0
     for r in rel_by_run.values():
         for g in r.get("games", []):
@@ -77,31 +85,75 @@ def picks_checks() -> list[tuple[str, bool, str]]:
                 again = PK.derive(g.get("forecast"), g.get("market"), g["home_team"], g["away_team"])
                 if {k: g["picks"][k] for k in again} != again:
                     stored_bad.append(f"{r['run_id']}:{g['game_id']}")
-    bad, retro_bad, count_bad, n = [], [], [], 0
+
+    def release_pick(entry: dict, home: str, away: str) -> dict:
+        """Labels as published in the release, or derived now by the same rule when that release stored none."""
+        return entry["picks"] if entry.get("picks") else PK.derive(entry.get("forecast"), entry.get("market"), home, away)
+
+    def matches(exported: dict | None, rp: dict) -> bool:
+        return exported is not None and {k: exported.get(k) for k in rp} == rp
+
+    bad, lock_bad, label_bad, retro_bad, count_bad, n, n_lock = [], [], [], [], [], 0, 0
     for wf in sorted((ROOT / "web" / "public" / "data" / "weeks").glob("*.json")):
         doc = json.loads(wf.read_text(encoding="utf-8"))
         for it in doc["games"]:
-            if not it.get("pick"):
-                continue
-            entry = next((g for g in rel_by_run.get(it["forecast_run_id"], {}).get("games", []) if g["game_id"] == it["game_id"]), None)
-            line = ((entry or {}).get("market") or {}).get("home_spread")
-            if entry is None or it["pick"]["line_home_spread"] != line:
-                bad.append(it["game_id"])
-            if it["pick"]["retrospectively_derived"] != (not (entry or {}).get("picks")):
-                retro_bad.append(it["game_id"])
+            gid, H, A = it["game_id"], it["home"], it["away"]
+            ko = datetime.fromisoformat(it["kickoff_utc"])
+            pre = sorted((c for c in by_game.get(gid, []) if c[0] < ko and entry_is_valid(c[2])), key=lambda c: (c[0], c[1]))
+            final = pre[-1] if pre else None
+            fp = lp_rel = None
+            if (final[1] if final else None) != it.get("forecast_run_id"):
+                bad.append(gid)
+            if final:
+                fp = release_pick(final[2], H, A)
+                if not matches(it.get("pick"), fp) or it["pick"]["retrospectively_derived"] != (not final[2].get("picks")):
+                    bad.append(gid)
+                if it.get("forecast_verification") != PUB.verification_label(final[0], ko, PUB.public_time(final[1], evidence)):
+                    label_bad.append(gid)
+            rule = "original-pick" if ko >= PK.RULE_START else "final-pregame"
+            lock = (next((c for c in pre if (c[2].get("market") or {}).get("home_spread") is not None), None)
+                    if rule == "original-pick" else final)
+            lp = it.get("locked_pick")
+            if lock is None:
+                if lp is not None:
+                    lock_bad.append(gid)
+            else:
+                n_lock += 1
+                t, run, entry = lock
+                lp_rel = release_pick(entry, H, A)
+                if (lp is None or lp["run_id"] != run or datetime.fromisoformat(lp["generated_at"]) != t
+                        or lp.get("rule") != rule or not matches(lp, lp_rel)):
+                    lock_bad.append(gid)
+                else:
+                    if lp.get("verification") != PUB.verification_label(t, ko, PUB.public_time(run, evidence)):
+                        label_bad.append(gid)
+                    if lp["retrospectively_derived"] != (not entry.get("picks")):
+                        retro_bad.append(gid)
             if it.get("result_grade"):
                 n += 1
-                if it["forecast_state"] != "scored" or PK.grade(it["pick"], it["score"]["home"], it["score"]["away"], it["home"], it["away"]) != it["result_grade"]:
-                    bad.append(it["game_id"])
+                h, a = it["score"]["home"], it["score"]["away"]
+                want = PK.grade(fp, h, a, H, A) if fp else None
+                if want is not None:
+                    want["lean"] = PK.grade(lp_rel, h, a, H, A)["lean"] if lp_rel else "no_line"
+                if it["forecast_state"] != "scored" or want != it["result_grade"]:
+                    bad.append(gid)
         res = doc.get("results")
-        if res and res["graded"] != sum(1 for it in doc["games"] if it.get("result_grade")):
+        again = PK.weekly_summary(doc["games"]) if any(it.get("pick") for it in doc["games"]) else None
+        if again != res:
             count_bad.append(wf.name)
-        if res and any(sum(g["winner"].values()) != g["graded"] or sum(g["lean"].values()) != g["graded"] for g in res["groups"].values()):
+        elif res and any(sum(g["winner"].values()) != g["graded"] or sum(g["lean"].values()) != g["pick_graded"]
+                         for g in res["groups"].values()):
             count_bad.append(wf.name)
     return [("stored pick labels match the published rule", not stored_bad, "; ".join(stored_bad[:5]) or f"{n_stored} stored picks"),
-            ("graded picks use the locked version and its own archived line", not bad, "; ".join(bad[:5]) or f"{n} graded"),
+            ("model pick = version chosen by the rule in force (original-pick from 1 Oct 2026, final-pregame before), "
+             "with that version's own labels and line", not lock_bad, "; ".join(lock_bad[:5]) or f"{n_lock} locked picks"),
+            ("publication labels of the projected-winner and model-pick versions match the evidence", not label_bad,
+             "; ".join(label_bad[:5])),
+            ("graded: winner and margin error from the final pregame version, model pick from the locked version (both "
+             "recomputed from the release files)", not bad, "; ".join(bad[:5]) or f"{n} graded"),
             ("picks without a stored label are flagged retrospectively derived", not retro_bad, "; ".join(retro_bad[:5])),
-            ("weekly records add up (graded = win + loss + tie/push/no-pick/no-lean/no-line)", not count_bad, "; ".join(count_bad))]
+            ("weekly results tables equal the summary recomputed from their games, and records add up", not count_bad,
+             "; ".join(count_bad))]
 
 
 def market_feed_checks() -> list[tuple[str, bool, str]]:

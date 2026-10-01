@@ -17,7 +17,7 @@ async function nflcastLayoutAudit({ base = "", widths = [1280, 375], limit = Inf
     }
   }
   pages = pages.slice(0, limit);
-  const CONTAINER = ".panel, .card, .pick-sec, .pick-box, .two-col > *, .three-col > *, .grid > *";
+  const CONTAINER = ".panel, .card, .pred, .pred-pick, .pred-grid > *, .two-col > *, .three-col > *, .grid > *";
   const state = (window.__layoutAudit = { total: pages.length * widths.length, checked: 0, issues: [] });
   const frame = document.createElement("iframe");
   frame.style.cssText = "position:fixed;left:-10000px;top:0;height:900px;border:0;visibility:hidden";

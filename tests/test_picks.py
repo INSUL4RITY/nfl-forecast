@@ -67,7 +67,7 @@ def test_weekly_counts_and_groups():
     assert s["state"] == "week_to_date" and s["pending"] == 1 and s["no_forecast"] == 1 and s["graded"] == 4
     g = s["groups"][pv]
     assert g["graded"] == 3 and g["winner"] == {"win": 2, "loss": 1, "tie": 0, "no_pick": 0}
-    assert g["lean"]["win"] == 1 and g["lean"]["push"] == 1 and g["lean"]["loss"] == 1 and g["retrospectively_derived"] == 1
+    assert g["lean"]["win"] == 1 and g["lean"]["push"] == 1 and g["lean"]["loss"] == 1 and g["retro_winner"] == 1
     assert abs(g["mean_abs_margin_error"] - (0.6 + 0.4 + 6.4) / 3) < 1e-9
     assert s["groups"][late]["graded"] == 1                                # kept separate from publicly verifiable
     assert PK.weekly_summary([_item(pv, True, home3, 24, 20)])["state"] == "final"
@@ -90,3 +90,84 @@ def test_stored_pick_is_used_verbatim_and_not_recomputed():
     entry = {"status": "ok", "forecast": fc(3.4), "market": {"home_spread": -3.5}, "picks": stored}
     p = pick_for(entry, "BUF", "NE")
     assert p["line_home_spread"] == -3.0 and p["retrospectively_derived"] is False
+
+
+# ---------------- locked pick: "original-pick" from 1 Oct 2026 (week 4 on), "final-pregame" before ----------------
+KO4 = datetime(2026, 10, 4, 17, 0, tzinfo=timezone.utc)      # a week 4 kickoff (original-pick rule)
+
+
+def _rel(run, t, entry):
+    return {"run_id": run, "generated_at_utc": t.isoformat()}, entry
+
+
+def _ev(*pairs):
+    return {"files": {f"releases/2026/week_04/{run}.json": {"first_public_evidence_utc": t.isoformat()} for run, t in pairs}}
+
+
+def _two_versions(ko):
+    t0, t1 = ko - timedelta(days=3), ko - timedelta(hours=2)
+    vs = [_rel("rel_a", t0, {"status": "ok", "forecast": fc(6.4), "market": {"home_spread": -7.5}, "game_type": "REG"}),
+          _rel("rel_b", t1, {"status": "ok", "forecast": fc(6.2), "market": {"home_spread": -6.0}, "game_type": "REG"})]
+    return vs, _ev(("rel_a", t0 + timedelta(minutes=1)), ("rel_b", t1 + timedelta(minutes=1)))
+
+
+def test_original_pick_is_locked_when_the_line_moves():
+    # The user's example: BUF opens -7.5 with BUF projected by 6.4 -> pick MIA +7.5. An injury moves the line to BUF -6.0
+    # and the forecast to BUF by 6.2 (now the BUF side). The model pick stays MIA +7.5 and is graded against +7.5.
+    from nflcast.predict.export_web import locked_pick_for
+    vs, ev = _two_versions(KO4)
+    lk = locked_pick_for(vs, KO4, "BUF", "MIA", ev)
+    assert lk["rule"] == "original-pick" and lk["run_id"] == "rel_a"
+    assert lk["lean"]["side"] == "MIA" and lk["lean"]["side_spread"] == 7.5 and lk["line_home_spread"] == -7.5
+    assert lk["verification"] == "publicly_verifiable_pregame"
+    final = pick_for(vs[1][1], "BUF", "MIA")
+    assert final["lean"]["side"] == "BUF" and final["line_home_spread"] == -6.0       # latest would pick BUF -6
+    g = PK.grade_game(final, lk, 27, 20, "BUF", "MIA")                               # BUF by 7: MIA +7.5 covers
+    assert g["lean"] == "win" and g["winner"] == "win" and abs(g["abs_margin_error"] - 0.8) < 1e-9
+    assert PK.grade_game(final, lk, 30, 20, "BUF", "MIA")["lean"] == "loss"          # BUF by 10: MIA +7.5 loses
+
+
+def test_games_before_the_rule_start_keep_the_final_pregame_pick():
+    # Finished weeks are never regraded: a week 3 game keeps the rule in force when it was played.
+    from nflcast.predict.export_web import locked_pick_for
+    assert PK.lock_rule(PK.RULE_START - timedelta(seconds=1)) == "final-pregame"
+    assert PK.lock_rule(PK.RULE_START) == "original-pick"
+    vs, ev = _two_versions(KO)                                   # KO = 28 Sep 2026 (week 3)
+    lk = locked_pick_for(vs, KO, "BUF", "MIA", ev)
+    assert lk["rule"] == "final-pregame" and lk["run_id"] == "rel_b" and lk["line_home_spread"] == -6.0
+    assert lk["lean"]["side"] == "BUF"
+
+
+def test_original_skips_no_line_invalid_and_post_kickoff_versions():
+    no_line = {"status": "ok", "forecast": fc(3.0), "market": None, "game_type": "REG"}
+    invalid = {"status": "rejected_validation_failed", "forecast": fc(3.0), "market": {"home_spread": -3.0}, "game_type": "REG"}
+    good = {"status": "ok", "forecast": fc(3.4), "market": {"home_spread": -3.5}, "game_type": "REG"}
+    later = {"status": "ok", "forecast": fc(3.6), "market": {"home_spread": -2.5}, "game_type": "REG"}
+    post = {"status": "ok", "forecast": fc(9.0), "market": {"home_spread": -7.0}, "game_type": "REG"}
+    t = lambda h: (KO4 - timedelta(hours=h)).isoformat()
+    vs = [(t(80), no_line), (t(70), invalid), (t(60), good), (t(1), later), ((KO4 + timedelta(minutes=1)).isoformat(), post)]
+    assert PK.select_original(vs, KO4)[1] is good and PK.select_locked(vs, KO4)[1] is good
+    assert PK.select_original([(t(80), no_line), ((KO4 + timedelta(minutes=1)).isoformat(), post)], KO4) is None
+    assert PK.select_original(list(reversed(vs)), KO4)[1] is good                    # order of input does not matter
+
+
+def test_no_locked_line_grades_as_no_line_and_winner_still_counts():
+    final = PK.derive(fc(3.4), None, "BUF", "NE")
+    g = PK.grade_game(final, None, 24, 20, "BUF", "NE")
+    assert g["winner"] == "win" and g["lean"] == "no_line"
+    assert PK.grade_game(None, None, 24, 20, "BUF", "NE") is None
+
+
+def test_weekly_summary_groups_and_retro_counts_per_label():
+    pv, nyet = "publicly_verifiable_pregame", "generated_pregame_not_yet_evidenced_public"
+    final = {**PK.derive(fc(3.4), {"home_spread": -3.0}, "H", "A"), "retrospectively_derived": False}
+    lk = {**PK.derive(fc(2.0), {"home_spread": -3.0}, "H", "A"), "retrospectively_derived": True, "verification": nyet,
+          "rule": "original-pick"}
+    it = {"status": "final", "forecast_verification": pv, "pick": final, "locked_pick": lk,
+          "result_grade": PK.grade_game(final, lk, 24, 20, "H", "A")}
+    s = PK.weekly_summary([it])
+    assert s["grading_rule"] == "original-pick"
+    assert s["groups"][pv]["graded"] == 1 and s["groups"][pv]["pick_graded"] == 0
+    assert s["groups"][pv]["retro_winner"] == 0 and s["groups"][nyet]["retro_pick"] == 1      # the winner label was published
+    assert s["groups"][nyet]["graded"] == 0 and s["groups"][nyet]["pick_graded"] == 1
+    assert s["groups"][nyet]["lean"]["loss"] == 1                                      # A +3 loses when H wins by 4

@@ -153,6 +153,7 @@ export interface WeekGame {
   history: HistoryPoint[];
   corrections: Correction[];
   pick?: Pick | null;
+  locked_pick?: LockedPick | null;
   result_grade?: ResultGrade | null;
 }
 
@@ -169,6 +170,16 @@ export interface Pick {
   retrospectively_derived: boolean;
 }
 
+/** The model pick that is shown and graded, from the version chosen by the rule in force for the game:
+ *  "original-pick" (games from 1 Oct 2026): earliest valid version before kickoff with a market line, so later line moves
+ *  never change it; "final-pregame" (earlier games): the last valid version before kickoff. */
+export interface LockedPick extends Pick {
+  run_id: string;
+  generated_at: string;
+  verification: string;
+  rule: "original-pick" | "final-pregame";
+}
+
 export interface ResultGrade {
   winner: "win" | "loss" | "tie" | "no_pick";
   lean: "win" | "loss" | "push" | "no_lean" | "no_line";
@@ -178,10 +189,12 @@ export interface ResultGrade {
 
 export interface GroupResults {
   graded: number;
+  pick_graded?: number;
   winner: { win: number; loss: number; tie: number; no_pick: number };
   lean: { win: number; loss: number; push: number; no_lean: number; no_line: number };
   mean_abs_margin_error: number | null;
-  retrospectively_derived: number;
+  retro_winner?: number;
+  retro_pick?: number;
 }
 
 export interface WeekResults {
@@ -191,6 +204,7 @@ export interface WeekResults {
   graded: number;
   no_forecast: number;
   groups: Record<string, GroupResults>;
+  grading_rule?: string;
 }
 
 export interface WeekDoc {

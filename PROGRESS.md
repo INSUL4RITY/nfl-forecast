@@ -177,11 +177,36 @@ market lines, QB availability, injury display, weather display). A changed artif
   PowerShell" in Settings > System > Notifications (an app is listed only after its first toast). The 13:49 UTC caught-up
   notice (13.1 h gap) was NOT SHOWN because notifications were still off at that time. The overnight catch-up itself
   worked: release rel_20260930T134704Z (QB changes PIT@CLE, MIA@MIN; line changes on 4 games), pushed and deployed.
+- Session 12 (2026-10-01, display/grading rule only; model artifact/configs unchanged). User requests:
+  - **Locked model pick (rule "original-pick", games kicking off from 2026-10-01 = week 4 on)**: the spread pick is
+    locked at the earliest valid version generated before kickoff with a market line and graded against that version's
+    line; later line moves and forecasts never change it. Earlier games keep "final-pregame" (the rule in force when
+    played): finished weeks are NOT regraded (week 3 stays 8-6-1 publicly verifiable; 9-6 under the new rule, stated on
+    the Method page). Projected winner and margin error always use final_pregame. `picks.RULE_START`, `lock_rule`,
+    `select_locked`, `grade_game`, `weekly_summary` (`graded`/`retro_winner` by the final version's publication label,
+    `pick_graded`/`retro_pick` by the locked version's label, `grading_rule`), `export_web.locked_pick_for` (item
+    `locked_pick` with rule, run_id, generated_at, verification). Stored per-release picks (picks-v1) unchanged and
+    used verbatim. verify-claims recomputes everything from the release files + evidence (version, labels incl.
+    re-derived unstored ones, line, publication label, grades, results tables); mutation-tested.
+  - **Card**: model pick first and most prominent ("Locked <time> at <line>", plus "Line now" / "Final pre-game line"
+    when the line moved), then market line, model line (projected margin as a line), market total, model total,
+    projected winner. 80% range removed from the card (still on the game page). Game page: Prediction panel first.
+  - **Dark theme only** (tokens in `web/app/globals.css`; chart series = reference palette dark steps, validator passes
+    on #141a25; team colours lightened on dark via `onDark` for the probability bar; badges keep the team colour with
+    a light inset ring).
+  - **Name: "Insularity NFL Forecast"** (header, title, About, README, alert titles). URL and repo unchanged; the
+    internal package/CLI stays `nflcast`.
+  - Built in a separate git worktree (C:\Users\Craig\nflwt, data copied, own node_modules) so the scheduled task kept
+    publishing; paused only to merge. Layout audit 0 issues (295 pages x 5 widths). Independent 4-reviewer pass found
+    11 distinct issues, all fixed: week 3 regrade (now not regraded), verify-claims gaps (publication label of the locked
+    pick, unstored labels not re-derived, results tables not recomputed), retro footnote over-counting, results counts,
+    "No pick yet" / "Line now" after kickoff, badge text contrast (dark ink on light team colours, e.g. NO 1.85:1 ->
+    dark), a white default 404 page (site-styled not-found added), Method page no-pick threshold (0.005), docs.
 
 ## 3. Tests and checks (2026-09-25)
-- `pytest`: **102 passed** (leakage, signs, identities, market policy, probabilities, scoring, validation/states, QB availability
+- `pytest`: **107 passed** (leakage, signs, identities, market policy, probabilities, scoring, validation/states, QB availability
   (25), archive integrity, release-path isolation, freeze, public-page wording (2), The Odds API feed (11), picks/results (6),
-  alerts (15), verify-claims archive re-download (1)).
+  alerts (15), verify-claims archive re-download (1), locked picks (+5 in test_picks)).
 - `python -m nflcast verify-claims`: **38/38 passed** (no internal codes on 272 game pages; retrospective weather + untimed lines labelled in reports and the built
   site; every GitHub push time re-fetched and matching; no publication before generation; 77 exported verification labels
   recomputed from evidence; corrections complete; all RFC 3161 tokens verify against the files; all Web Archive copies match).

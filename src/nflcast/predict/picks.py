@@ -7,15 +7,27 @@ A pick is derived from ONE forecast version and the market line archived IN THAT
     home team's expected margin implied by the line; project convention home_spread < 0 = home favoured).
     d > 0 leans to the home side of the line, d < 0 to the away side; |d| < NO_LEAN (displays as 0.00) = "No lean".
     The size of |d| is labelled so a tiny difference is never presented as a strong prediction.
-Grading uses the version that scoring uses (final_pregame = latest valid version generated before kickoff), with that
-version's own line, so later runs and line moves cannot change a graded pick. Actual ties, pushes, no-lean and no-line
-cases are counted separately. Releases generated from picks-v1 on store the pick; for older versions the same rule is
-applied now and the pick is flagged `retrospectively_derived`.
+Which version's spread pick is shown and graded (the "locked pick") depends on the rule in force for the game:
+  * "original-pick" (user decision 2026-10-01; games kicking off from RULE_START on, i.e. week 4 onward): the
+    earliest valid version generated before kickoff that has a market line, graded against the line archived in that
+    same version, so later line moves and forecasts never change it (BUF opens -7.5 with BUF projected by 6.4: the
+    pick stays "opponent +7.5" even if the line closes -6.0);
+  * "final-pregame" (games before RULE_START; the rule in force when they were played, so finished weeks are never
+    regraded): the final_pregame version (latest valid version generated before kickoff) with its own line.
+  The PROJECTED WINNER and the margin error always use the final_pregame version, as scoring does.
+Actual ties, pushes, no-lean and no-line cases are counted separately. Releases generated from picks-v1 on store the
+pick of each version (unchanged); for older versions the same labelling rule is applied now and the pick is flagged
+`retrospectively_derived`.
 """
 
 from __future__ import annotations
 
-PICKS_VERSION = "picks-v1"
+from datetime import datetime, timezone
+
+from nflcast.predict.validation import entry_is_valid, select_frozen
+
+PICKS_VERSION = "picks-v1"          # labelling rule stored in each release (unchanged)
+RULE_START = datetime(2026, 10, 1, tzinfo=timezone.utc)   # "original-pick" for games kicking off from here on
 NO_LEAN = 0.005          # points; below this the difference displays as 0.00
 
 
@@ -54,6 +66,23 @@ def derive(forecast: dict | None, market: dict | None, home: str, away: str) -> 
     return out
 
 
+def select_original(versions: list[tuple[str, dict]], kickoff: datetime) -> tuple[str, dict] | None:
+    """The version whose spread pick is locked: the earliest VALID version generated strictly before kickoff that has a
+    market spread. versions: [(generated_at_iso, entry)]."""
+    ok = [(t, e) for t, e in versions if datetime.fromisoformat(t) < kickoff and entry_is_valid(e)
+          and (e.get("market") or {}).get("home_spread") is not None]
+    return min(ok, key=lambda x: datetime.fromisoformat(x[0])) if ok else None
+
+
+def lock_rule(kickoff: datetime) -> str:
+    return "original-pick" if kickoff >= RULE_START else "final-pregame"
+
+
+def select_locked(versions: list[tuple[str, dict]], kickoff: datetime) -> tuple[str, dict] | None:
+    """The version whose spread pick is shown and graded under the rule in force for this game."""
+    return select_original(versions, kickoff) if lock_rule(kickoff) == "original-pick" else select_frozen(versions, kickoff)
+
+
 def grade(pick: dict | None, home_score: int, away_score: int, home: str, away: str) -> dict | None:
     """Grade a pick against the final score, using the line stored in the pick itself."""
     if not pick:
@@ -74,17 +103,30 @@ def grade(pick: dict | None, home_score: int, away_score: int, home: str, away: 
     return {"winner": w, "lean": s, "abs_margin_error": abs(pick["projected_margin"] - a), "actual_margin": a}
 
 
+def grade_game(final_pick: dict | None, locked_pick: dict | None, home_score: int, away_score: int, home: str,
+               away: str) -> dict | None:
+    """Winner and margin error from the final-pregame pick; the model pick (spread) from the locked pick against its
+    own line ("no_line" when there is no locked pick)."""
+    g = grade(final_pick, home_score, away_score, home, away)
+    if g is None:
+        return None
+    o = grade(locked_pick, home_score, away_score, home, away)
+    return {**g, "lean": o["lean"] if o else "no_line"}
+
+
 GROUPS = ("publicly_verifiable_pregame", "generated_pregame_published_after_kickoff", "generated_pregame_not_yet_evidenced_public")
 
 
 def _empty() -> dict:
-    return {"graded": 0, "winner": {"win": 0, "loss": 0, "tie": 0, "no_pick": 0},
+    return {"graded": 0, "pick_graded": 0, "winner": {"win": 0, "loss": 0, "tie": 0, "no_pick": 0},
             "lean": {"win": 0, "loss": 0, "push": 0, "no_lean": 0, "no_line": 0},
-            "abs_margin_error_sum": 0.0, "mean_abs_margin_error": None, "retrospectively_derived": 0}
+            "abs_margin_error_sum": 0.0, "mean_abs_margin_error": None, "retro_winner": 0, "retro_pick": 0}
 
 
 def weekly_summary(items: list[dict]) -> dict:
-    """items: exported game items with `status`, `forecast_verification`, `pick`, `result_grade`."""
+    """items: exported game items with `status`, `forecast_verification`, `pick`, `locked_pick`, `result_grade`.
+    The winner record and margin error are grouped by the final-pregame version's verification label (`graded`,
+    `retro_winner`); the model pick record by the LOCKED version's label (`pick_graded`, `retro_pick`)."""
     groups = {g: _empty() for g in GROUPS}
     pending = no_forecast = 0
     for it in items:
@@ -95,15 +137,20 @@ def weekly_summary(items: list[dict]) -> dict:
         if not gr:
             no_forecast += 1
             continue
+        lk = it.get("locked_pick")
         s = groups.setdefault(it.get("forecast_verification") or "unlabelled", _empty())
+        sp = groups.setdefault((lk or {}).get("verification") or it.get("forecast_verification") or "unlabelled", _empty())
         s["graded"] += 1
         s["winner"][gr["winner"]] += 1
-        s["lean"][gr["lean"]] += 1
         s["abs_margin_error_sum"] += gr["abs_margin_error"]
-        s["retrospectively_derived"] += int(bool(it["pick"].get("retrospectively_derived")))
+        s["retro_winner"] += int(bool(it["pick"].get("retrospectively_derived")))
+        sp["pick_graded"] += 1
+        sp["lean"][gr["lean"]] += 1
+        sp["retro_pick"] += int(bool((lk or {}).get("retrospectively_derived")))
     for s in groups.values():
         if s["graded"]:
             s["mean_abs_margin_error"] = s["abs_margin_error_sum"] / s["graded"]
+    rules = sorted({it["locked_pick"]["rule"] for it in items if it.get("locked_pick")})
     return {"state": "final" if pending == 0 else "week_to_date", "n_games": len(items), "pending": pending,
             "graded": sum(s["graded"] for s in groups.values()), "no_forecast": no_forecast, "groups": groups,
-            "picks_version": PICKS_VERSION}
+            "picks_version": PICKS_VERSION, "grading_rule": "+".join(rules) or None}

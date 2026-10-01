@@ -4,7 +4,7 @@ import LocalTime from "@/components/LocalTime";
 import TeamBadge from "@/components/TeamBadge";
 import { dataProblems } from "@/components/GameCard";
 import StateLabel from "@/components/StateLabel";
-import { gradeText, pickDetail, PickBoxes, RETRO_NOTE } from "@/components/Pick";
+import { gradeText, pickDetail, PredictionSummary, RETRO_NOTE } from "@/components/Pick";
 import { allGames, findGame, getTeams } from "@/lib/data";
 import { f1, f2, f3, marginText, pct, pctP, problemText, qbStatusText, rosterText, spreadText, VERIFY_LABEL } from "@/lib/format";
 import type { Forecast, LineupSide } from "@/lib/types";
@@ -227,6 +227,30 @@ export default async function GamePage({ params }: { params: Promise<{ id: strin
             {g.forecast_public_evidence_at ? <> (first public evidence <LocalTime venueTz={g.venue_tz} iso={g.forecast_public_evidence_at} />)</> : null}
             {g.model_version ? <> · {g.model_frozen ? `model ${g.model_version} (frozen)` : `pre-freeze model build ${g.model_version.replace(/^unfrozen-/, "").slice(0, 8)}`}</> : null}
           </p>
+          {g.pick && (
+            <div className="panel">
+              <h2 style={{ marginTop: 0 }}>Prediction</h2>
+              <PredictionSummary g={g} lockedAt={g.locked_pick ? <LocalTime venueTz={g.venue_tz} iso={g.locked_pick.generated_at} /> : null} />
+              <details style={{ marginTop: 10 }}>
+                <summary className="small">Details: how the model pick works</summary>
+                {g.locked_pick && <p className="small" style={{ margin: "6px 0 0" }}>{pickDetail(g.locked_pick, H, A)}</p>}
+                <p className="small muted" style={{ margin: "6px 0 0" }}>{g.locked_pick?.rule === "final-pregame"
+                  ? <>The model pick is the side of the market spread on which the unrounded projected margin of the last valid forecast
+                    before kickoff fell, graded against that forecast&apos;s line (the rule for games before 1 October 2026; finished
+                    weeks are not regraded).</>
+                  : <>The model pick is the side of the market spread on which the unrounded projected margin fell when it was locked,
+                    at the first forecast with a market line. It stays the same if the line or the forecast changes later, and it is
+                    graded against the line it was locked at.</>}{" "}
+                  Market line, model line, totals and the projected winner are from the latest forecast. The win probability belongs
+                  to the projected winner only; it is not a probability of covering the spread. Not a betting recommendation.</p>
+              </details>
+              {g.result_grade && <p style={{ marginBottom: 0 }}><b>Result:</b> {gradeText(g.result_grade)} (actual margin{" "}
+                {marginText(g.result_grade.actual_margin, H, A)}).</p>}
+              {(g.locked_pick?.retrospectively_derived || g.pick.retrospectively_derived) &&
+                <p className="small muted" style={{ marginBottom: 0 }}>{RETRO_NOTE}</p>}
+            </div>
+          )}
+
           <div className="three-col">
             <div className="panel stat">
               <span className="lbl">Expected score ({e.primary_model})</span>
@@ -245,28 +269,6 @@ export default async function GamePage({ params }: { params: Promise<{ id: strin
             </div>
           </div>
 
-          {g.pick && (
-            <div className="panel">
-              <h2 style={{ marginTop: 0 }}>Prediction</h2>
-              <PickBoxes p={g.pick} id={g.game_id} />
-              <dl className="kv" style={{ margin: "10px 0 0" }}>
-                <div><dt>Market spread with this forecast</dt><dd className="v" style={{ margin: 0 }}>
-                  {g.pick.line_home_spread != null ? spreadText(g.pick.line_home_spread, H, A) : "none"}</dd></div>
-                <div><dt>Forecast updated</dt><dd className="v" style={{ margin: 0 }}><LocalTime venueTz={g.venue_tz} iso={g.forecast_generated_at} /></dd></div>
-              </dl>
-              <details style={{ marginTop: 10 }}>
-                <summary className="small">Details: how the model pick is derived</summary>
-                <p className="small" style={{ margin: "6px 0 0" }}>{pickDetail(g.pick, H, A)}</p>
-                <p className="small muted" style={{ margin: "6px 0 0" }}>The model pick is the side of the market spread recorded with this
-                  forecast version on which the unrounded projected margin falls. The win probability belongs to the projected winner
-                  only; it is not a probability of covering the spread. Not a betting recommendation.
-                  {g.forecast_state === "latest_pregame" ? " Before kickoff this may change with each new forecast version; at kickoff it locks." : ""}</p>
-              </details>
-              {g.result_grade && <p style={{ marginBottom: 0 }}><b>Result:</b> {gradeText(g.result_grade)} (actual margin{" "}
-                {marginText(g.result_grade.actual_margin, H, A)}).</p>}
-              {g.pick.retrospectively_derived && <p className="small muted" style={{ marginBottom: 0 }}>{RETRO_NOTE}</p>}
-            </div>
-          )}
 
           {e.lineup_uncertain && (
             <div className="callout warn"><b>Lineup uncertain.</b> This forecast is a probability-weighted mix of starting-QB scenarios.

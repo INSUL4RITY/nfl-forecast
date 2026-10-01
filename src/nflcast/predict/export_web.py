@@ -139,6 +139,18 @@ def pick_for(entry: dict | None, home: str, away: str) -> dict | None:
     return {**PK.derive(entry["forecast"], entry.get("market"), home, away), "retrospectively_derived": True}
 
 
+def locked_pick_for(vs: list[tuple[dict, dict]], kickoff: datetime, home: str, away: str, evidence: dict) -> dict | None:
+    """The model pick that is shown and graded: pick_for() of the version chosen by the rule in force for this game
+    (picks.lock_rule), plus that rule, when the version was generated and its publication label."""
+    o = PK.select_locked([(r["generated_at_utc"], e) for r, e in vs], kickoff)
+    if not o:
+        return None
+    rel = next(r for r, e in vs if e is o[1])
+    pub = PUB.public_time(rel["run_id"], evidence)
+    return {**pick_for(o[1], home, away), "run_id": rel["run_id"], "generated_at": o[0], "rule": PK.lock_rule(kickoff),
+            "verification": PUB.verification_label(datetime.fromisoformat(o[0]), kickoff, pub)}
+
+
 def _latest(pattern: str) -> Path | None:
     c = sorted(REPORTS_DIR.glob(pattern))
     return c[-1] if c else None
@@ -183,8 +195,10 @@ def export() -> Path:
                 **view,
                 "corrections": [c for c in corrections if c["details"].get("game_id") == g["game_id"]],
             }
-            item["pick"] = pick_for(view["forecast"], g["home_team"], g["away_team"])
-            item["result_grade"] = (PK.grade(item["pick"], g["home_score"], g["away_score"], g["home_team"], g["away_team"])
+            item["pick"] = pick_for(view["forecast"], g["home_team"], g["away_team"])          # projected winner
+            item["locked_pick"] = locked_pick_for(vs, g["kickoff_utc"], g["home_team"], g["away_team"], evidence)
+            item["result_grade"] = (PK.grade_game(item["pick"], item["locked_pick"], g["home_score"], g["away_score"],
+                                                  g["home_team"], g["away_team"])
                                     if g["status"] == "final" and item["pick"] and view["forecast_state"] == "scored" else None)
             items.append(item)
         rel = [r for r in releases if r["season"] == season and r["week"] == week]

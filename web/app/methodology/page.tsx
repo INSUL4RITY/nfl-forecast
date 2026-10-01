@@ -131,16 +131,23 @@ export default function Methodology() {
       <div className="panel">
         <h2>Picks and weekly results</h2>
         <p className="small">Picks are labels derived from one forecast version and the market line recorded in that same version; the
-          model is unchanged. <b>Projected winner</b>: the team with the higher win probability, shown with that probability and the
-          projected winning margin. <b>Model pick</b> (against the recorded spread, e.g. PIT +3.5): the side of the market spread recorded
-          with that forecast on which the unrounded projected margin falls. The win probability belongs to the projected winner only; it is
-          not a probability of covering the spread. The size of the difference (in points; under 0.5 labelled tiny) is on each game&apos;s
-          Details page; a difference below 0.01 points means &quot;No pick&quot;. Not a betting recommendation. <b>Grading</b> uses the same locked
-          version as scoring (the last valid version generated before kickoff) and that version&apos;s own line, so later runs or line moves
-          cannot change it. The winner record and the model pick record (spread) are kept separate; actual ties, pushes, no-pick and
-          no-line games are counted separately. Games whose forecast was generated before but first published after kickoff are reported separately.
-          Forecasts made before pick labels were added (25 September 2026) have their labels derived afterwards by the same fixed rule and
-          are marked as retrospectively derived. Weeks show &quot;Week to date&quot; until every game is final.</p>
+          model is unchanged. <b>Model pick</b> (against the spread, e.g. PIT +3.5): the side of the market spread on which the unrounded
+          projected margin falls. It is <b>locked at the first forecast with a market line</b> and graded against that line: if the line or
+          the forecast moves later, the pick does not change (for example, BUF opens −7.5 with BUF projected to win by 6.4: the pick is the
+          opponent +7.5, and it stays +7.5 even if the line closes at BUF −6.0). When the line has moved, the game card shows the latest
+          recorded line next to the locked pick. <b>Model line</b>: the latest projected margin written as a line. <b>Projected winner</b>: the team
+          with the higher win probability in the latest forecast; the winner record and the margin error use the last valid version
+          generated before kickoff, as scoring does. The win probability belongs to the projected winner only; it is not a probability of
+          covering the spread. The size of the difference (in points; under 0.5 labelled tiny) is on each game&apos;s Details page; a difference
+          that rounds to 0.00 points (below 0.005) means &quot;No pick&quot;. Not a betting recommendation. The winner record and the model pick record (spread) are
+          kept separate; actual ties, pushes, no-pick and no-line games are counted separately. Games whose forecast was generated before
+          but first published after kickoff are reported separately. Forecasts made before pick labels were added (25 September 2026) have
+          their labels derived afterwards by the same fixed rule and are marked as retrospectively derived. Weeks show &quot;Week to
+          date&quot; until every game is final.</p>
+        <p className="small"><b>Rule change, 1 October 2026</b> (decided before any week 4 game): the locked pick applies to games kicking
+          off from 1 October 2026 (week 4 onward). Earlier games keep the rule in force when they were played: the model pick from the last
+          valid forecast before kickoff, graded against that forecast&apos;s line. Finished weeks are not regraded; week 3 stays 8–6 with 1 push
+          among publicly verifiable forecasts (it would have been 9–6 under the new rule).</p>
       </div>
 
       <div className="panel">

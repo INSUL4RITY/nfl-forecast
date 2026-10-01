@@ -6,6 +6,31 @@ export function tzFor(mode: TzMode, venueTz: string): string | undefined {
   return undefined; // viewer's local timezone
 }
 
+const rgbOf = (hex: string | undefined) => {
+  const m = /^#?([0-9a-f]{6})$/i.exec(hex ?? "");
+  return m ? [0, 2, 4].map((i) => parseInt(m[1].slice(i, i + 2), 16)) : null;
+};
+/** WCAG relative luminance of an [r, g, b] colour. */
+const lum = (v: number[]) => v.map((x) => { const s = x / 255; return s <= 0.04045 ? s / 12.92 : ((s + 0.055) / 1.055) ** 2.4; })
+  .reduce((t, x, i) => t + x * [0.2126, 0.7152, 0.0722][i], 0);
+
+/** Badge text colour: white or the page's dark ink, whichever contrasts more with the team colour (e.g. dark on NO gold). */
+export function badgeInk(hex: string | undefined): string {
+  const c = rgbOf(hex);
+  if (!c) return "#fff";
+  const L = lum(c);
+  return 1.05 / (L + 0.05) >= (L + 0.05) / (lum([11, 15, 23]) + 0.05) ? "#fff" : "#0b0f17";
+}
+
+/** Team colour lightened just enough to stay visible on the dark page (black, navy); other colours unchanged. */
+export function onDark(hex: string | undefined, fallback = "#5d6678"): string {
+  let c = rgbOf(hex);
+  if (!c) return fallback;
+  if (lum(c) >= 0.07) return `#${hex!.replace("#", "")}`;
+  for (let k = 0; k < 12 && lum(c) < 0.07; k++) c = c.map((x) => x + (255 - x) * 0.15);
+  return `rgb(${c.map((x) => Math.round(x)).join(", ")})`;
+}
+
 export function fmtKickoff(iso: string, tz?: string, known = true): string {
   const d = new Date(iso);
   const day = new Intl.DateTimeFormat("en-GB", { weekday: "short", day: "numeric", month: "short", timeZone: tz }).format(d);
