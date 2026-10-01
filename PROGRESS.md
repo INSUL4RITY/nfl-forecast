@@ -206,6 +206,10 @@ market lines, QB availability, injury display, weather display). A changed artif
     title "Insularity NFL Forecast", locked picks present; live layout audit 0 issues (296 pages x 5 widths).
     verify-claims: all checks pass except 27 archive.org re-downloads refused by its rate limit ("retry later").
     The user wants this design kept as the main site until they ask for a change.
+  - Follow-up (user-approved, same day): the pick box shows the line AND the model margin at lock time ("At lock" /
+    "Then", model to 2 decimals) and, when either has changed, the latest pair ("Now"; "Final pre-game" after kickoff),
+    because "Model line PIT -2.9" next to a pick locked at PIT -2.5 looked contradictory (the model moves with the line).
+    Display only; layout audit 0 issues (296 pages x 5 widths).
 
 ## 3. Tests and checks (2026-09-25)
 - `pytest`: **107 passed** (leakage, signs, identities, market policy, probabilities, scoring, validation/states, QB availability

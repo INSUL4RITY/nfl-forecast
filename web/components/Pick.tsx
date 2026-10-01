@@ -16,6 +16,12 @@ export function modelLineText(margin: number, home: string, away: string): strin
   return r > 0 ? `${home} −${r.toFixed(1)}` : `${away} −${(-r).toFixed(1)}`;
 }
 
+/** The same with 2 decimals, for comparing with the line inside the pick box (so 2.96 vs 3.0 never displays as equal). */
+function modelLine2(margin: number, home: string, away: string): string {
+  if (Math.abs(margin) < 0.005) return "Pick'em";
+  return margin > 0 ? `${home} −${margin.toFixed(2)}` : `${away} −${(-margin).toFixed(2)}`;
+}
+
 /** Model pick against the spread, e.g. "PIT +3.5"; "No pick" when the projection equals the line or no line. */
 export function pickText(p: Pick): string {
   const l = p.lean;
@@ -49,23 +55,28 @@ export function PredictionSummary({ g, lockedAt }: { g: WeekGame; lockedAt?: Rea
   const old = lp?.rule === "final-pregame";
   const started = g.forecast_state !== "latest_pregame";
   const cur = e.market?.home_spread ?? null;
-  const moved = !!lp && lp.line_home_spread != null && cur != null && cur !== lp.line_home_spread;
+  const locked = !!lp && lp.line_home_spread != null;
+  const lineMoved = locked && cur != null && cur !== lp!.line_home_spread;
+  // "then" vs "now": shown whenever the line or the model has changed since the pick was locked
+  const changed = locked && !old && cur != null && (lineMoved || Math.abs(f.margin - lp!.projected_margin) >= 0.005);
   const explain = old ? PICK_EXPLAIN_OLD : PICK_EXPLAIN;
-  let sub: ReactNode;
-  if (lp && lp.line_home_spread != null) {
-    const at = spreadText(lp.line_home_spread, H, A);
-    sub = <>{lp.lean?.status === "no_lean" ? "Projection equalled the line · " : ""}
-      {old ? <>From the last forecast before kickoff, at {at}</> : <>Locked {lockedAt} at {at}</>}</>;
-  } else {
-    sub = started ? "No market line was recorded before kickoff" : "Locks at the first forecast with a market line";
-  }
+  const pair = (line: number, margin: number) => <>line {spreadText(line, H, A)} · model {modelLine2(margin, H, A)}</>;
   return (
     <section className="pred" aria-label="Model prediction">
       <div className="pred-pick" title={explain} aria-describedby={`pick-explain-${g.game_id}`}>
         <span className="pick-lbl">Model pick</span>
         <span className="pick-main">{lp ? pickText(lp) : started ? "No pick" : "No pick yet"}{lp?.retrospectively_derived ? " *" : ""}</span>
-        <span className="pick-sub">{sub}</span>
-        {moved && <span className="pick-sub moved"><LineLabel state={g.forecast_state} kickoff={g.kickoff_utc} /> {spreadText(cur!, H, A)}</span>}
+        {locked ? (old ? (
+          <span className="pick-sub">{lp!.lean?.status === "no_lean" ? "Projection equalled the line · " : ""}From the last forecast
+            before kickoff: {pair(lp!.line_home_spread!, lp!.projected_margin)}</span>
+        ) : (<>
+          <span className="pick-sub">{lp!.lean?.status === "no_lean" ? "Projection equalled the line · " : ""}Locked {lockedAt}</span>
+          <span className="pick-sub">{changed ? "Then: " : "At lock: "}{pair(lp!.line_home_spread!, lp!.projected_margin)}</span>
+          {changed && <span className={`pick-sub${lineMoved ? " moved" : ""}`}>
+            <LineLabel state={g.forecast_state} kickoff={g.kickoff_utc} before="Now" after="Final pre-game" />: {pair(cur!, f.margin)}</span>}
+        </>)) : (
+          <span className="pick-sub">{started ? "No market line was recorded before kickoff" : "Locks at the first forecast with a market line"}</span>
+        )}
         <span className="sr-only" id={`pick-explain-${g.game_id}`}>{explain}</span>
       </div>
       <dl className="pred-grid">

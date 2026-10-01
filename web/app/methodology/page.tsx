@@ -134,8 +134,9 @@ export default function Methodology() {
           model is unchanged. <b>Model pick</b> (against the spread, e.g. PIT +3.5): the side of the market spread on which the unrounded
           projected margin falls. It is <b>locked at the first forecast with a market line</b> and graded against that line: if the line or
           the forecast moves later, the pick does not change (for example, BUF opens −7.5 with BUF projected to win by 6.4: the pick is the
-          opponent +7.5, and it stays +7.5 even if the line closes at BUF −6.0). When the line has moved, the game card shows the latest
-          recorded line next to the locked pick. <b>Model line</b>: the latest projected margin written as a line. <b>Projected winner</b>: the team
+          opponent +7.5, and it stays +7.5 even if the line closes at BUF −6.0). The game card shows the line and the model&apos;s
+          projected margin at the moment the pick was locked and, once either has changed, the latest line and model (&quot;Then&quot; and
+          &quot;Now&quot;), so the pick can always be checked against the numbers it was made from. <b>Model line</b>: the latest projected margin written as a line. <b>Projected winner</b>: the team
           with the higher win probability in the latest forecast; the winner record and the margin error use the last valid version
           generated before kickoff, as scoring does. The win probability belongs to the projected winner only; it is not a probability of
           covering the spread. The size of the difference (in points; under 0.5 labelled tiny) is on each game&apos;s Details page; a difference

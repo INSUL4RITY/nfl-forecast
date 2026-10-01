@@ -119,8 +119,9 @@ retrospectively derived.
 Which version counts (`picks.lock_rule`, by kickoff):
 - **Model pick, games kicking off from 2026-10-01 (week 4 on), rule "original-pick"** (the user's decision, made before
   any week 4 game): locked at the earliest valid version generated before kickoff that has a market line; graded
-  against that version's line. Later line moves and forecasts never change it. The card shows the latest recorded line
-  beside it when the line has moved ("Line now"; "Final pre-game line" once the game has started).
+  against that version's line. Later line moves and forecasts never change it. The card shows the line and model margin
+  (2 decimals) at lock time ("At lock" / "Then") and, once either has changed, the latest pair ("Now"; "Final pre-game"
+  once the game has started), so the pick can always be checked against the numbers it was made from.
 - **Model pick, earlier games, rule "final-pregame"** (the rule in force when they were played): the final-pregame
   version with its own line. Finished weeks are not regraded (week 3 stays 8-6-1 among publicly verifiable forecasts;
   it would have been 9-6 under the new rule; stated on the Method page).
