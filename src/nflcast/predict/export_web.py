@@ -151,6 +151,40 @@ def locked_pick_for(vs: list[tuple[dict, dict]], kickoff: datetime, home: str, a
             "verification": PUB.verification_label(datetime.fromisoformat(o[0]), kickoff, pub)}
 
 
+GAME_STATUS_ORDER = {"Out": 0, "Doubtful": 1, "Questionable": 2}
+
+
+def injury_rows(inj: pl.DataFrame, week: int, ids: dict[str, str]) -> list[dict]:
+    """Every player on the official injury report for this game's two teams and week: game status when published,
+    otherwise practice status only. Most serious first, away team before home. ids: {injury-data team id: shown abbr},
+    away team first. Display only: injuries other than at quarterback are not model inputs."""
+    order = list(ids)
+    w = inj.filter((pl.col("week") == week) & pl.col("team").is_in(order))
+    rows = [{"team": ids[r["team"]], "full_name": r["full_name"], "position": r["position"],
+             "injury": r.get("report_primary_injury") or r.get("practice_primary_injury"),
+             "practice_status": r.get("practice_status"), "game_status": r.get("report_status"), "_t": order.index(r["team"])}
+            for r in w.iter_rows(named=True)]
+    rows.sort(key=lambda x: (GAME_STATUS_ORDER.get(x["game_status"], 3), x["_t"], x["full_name"] or ""))
+    return [{k: v for k, v in r.items() if k != "_t"} for r in rows]
+
+
+def injury_report_for(g: dict, now: datetime, cache: dict) -> dict | None:
+    """The injury report shown on a game page: from the newest injuries snapshot we retrieved before min(now, kickoff),
+    with when the provider last updated it and when we last confirmed it (never a later snapshot for a past game)."""
+    from email.utils import parsedate_to_datetime
+    when = min(now, g["kickoff_utc"])
+    if when not in cache:
+        cache[when] = S.snapshot_asof("injuries", g["season"], when)
+    df, meta = cache[when]
+    if df is None:
+        return None
+    lm = meta.get("http_last_modified")
+    return {"players": injury_rows(df, g["week"], {g["away_id"]: g["away_team"], g["home_id"]: g["home_team"]}),
+            "provider_updated_at": parsedate_to_datetime(lm).isoformat() if lm else None,
+            "observed_at": meta["observed_at_utc"], "last_checked_at": meta.get("last_confirmed_at_utc"),
+            "as_of_kickoff": g["kickoff_utc"] <= now}
+
+
 def _latest(pattern: str) -> Path | None:
     c = sorted(REPORTS_DIR.glob(pattern))
     return c[-1] if c else None
@@ -178,7 +212,7 @@ def export() -> Path:
     cur = settings()["seasons"]["current"]
     # also export the other weeks of the current season (fixtures, results; forecasts only if archived)
     weeks = sorted(set(weeks) | {(cur, int(w)) for w in games.filter(pl.col("season") == cur)["week"].unique().to_list()})
-    week_index = []
+    week_index, inj_cache = [], {}
     for season, week in weeks:
         wk = games.filter((pl.col("season") == season) & (pl.col("week") == week)).sort("kickoff_utc")
         items = []
@@ -200,6 +234,7 @@ def export() -> Path:
             item["result_grade"] = (PK.grade_game(item["pick"], item["locked_pick"], g["home_score"], g["away_score"],
                                                   g["home_team"], g["away_team"])
                                     if g["status"] == "final" and item["pick"] and view["forecast_state"] == "scored" else None)
+            item["injury_report"] = injury_report_for(g, now, inj_cache) if view["forecast"] else None
             items.append(item)
         rel = [r for r in releases if r["season"] == season and r["week"] == week]
         doc = {"season": season, "week": week,
