@@ -202,6 +202,10 @@ market lines, QB availability, injury display, weather display). A changed artif
     pick, unstored labels not re-derived, results tables not recomputed), retro footnote over-counting, results counts,
     "No pick yet" / "Line now" after kickoff, badge text contrast (dark ink on light team colours, e.g. NO 1.85:1 ->
     dark), a white default 404 page (site-styled not-found added), Method page no-pick threshold (0.005), docs.
+  - Published 2026-10-01 ~01:18 UTC (commits 7b4fbc1 code, 05024d9 site data; Pages deploy success). Live site checked:
+    title "Insularity NFL Forecast", locked picks present; live layout audit 0 issues (296 pages x 5 widths).
+    verify-claims: all checks pass except 27 archive.org re-downloads refused by its rate limit ("retry later").
+    The user wants this design kept as the main site until they ask for a change.
 
 ## 3. Tests and checks (2026-09-25)
 - `pytest`: **107 passed** (leakage, signs, identities, market policy, probabilities, scoring, validation/states, QB availability
