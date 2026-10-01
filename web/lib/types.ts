@@ -163,10 +163,12 @@ export interface WeekGame {
 export interface InjuryReport {
   players: { team: string; full_name: string; position: string | null; injury: string | null;
              practice_status: string | null; game_status: string | null }[];
-  provider_updated_at: string | null;
+  content_updated_at: string | null;
   observed_at: string;
   last_checked_at: string | null;
   as_of_kickoff: boolean;
+  status_due: string;
+  status_due_passed: boolean;
 }
 
 /** Pick labels from one forecast version and the market line archived with it (see src/nflcast/predict/picks.py). */

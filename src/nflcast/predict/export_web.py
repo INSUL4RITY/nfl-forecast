@@ -14,8 +14,10 @@ from __future__ import annotations
 
 import json
 import shutil
-from datetime import datetime
+from datetime import date, datetime, timedelta
+from datetime import time as dtime
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 import numpy as np
 import polars as pl
@@ -152,25 +154,39 @@ def locked_pick_for(vs: list[tuple[dict, dict]], kickoff: datetime, home: str, a
 
 
 GAME_STATUS_ORDER = {"Out": 0, "Doubtful": 1, "Questionable": 2}
+PRACTICE_ORDER = {"Did Not Participate In Practice": 0, "Limited Participation in Practice": 1,
+                  "Full Participation in Practice": 2}
+US_EASTERN = ZoneInfo("America/New_York")
 
 
 def injury_rows(inj: pl.DataFrame, week: int, ids: dict[str, str]) -> list[dict]:
     """Every player on the official injury report for this game's two teams and week: game status when published,
-    otherwise practice status only. Most serious first, away team before home. ids: {injury-data team id: shown abbr},
-    away team first. Display only: injuries other than at quarterback are not model inputs."""
+    otherwise practice status only. Most serious first (game status, then practice participation), away team before
+    home. ids: {injury-data team id: shown abbr}, away team first. Display only: non-QB injuries are not model inputs."""
     order = list(ids)
     w = inj.filter((pl.col("week") == week) & pl.col("team").is_in(order))
     rows = [{"team": ids[r["team"]], "full_name": r["full_name"], "position": r["position"],
              "injury": r.get("report_primary_injury") or r.get("practice_primary_injury"),
              "practice_status": r.get("practice_status"), "game_status": r.get("report_status"), "_t": order.index(r["team"])}
             for r in w.iter_rows(named=True)]
-    rows.sort(key=lambda x: (GAME_STATUS_ORDER.get(x["game_status"], 3), x["_t"], x["full_name"] or ""))
+    rows.sort(key=lambda x: (GAME_STATUS_ORDER.get(x["game_status"], 3), PRACTICE_ORDER.get(x["practice_status"], 3),
+                             x["_t"], x["full_name"] or ""))
     return [{k: v for k, v in r.items() if k != "_t"} for r in rows]
 
 
+def status_due(kickoff: datetime) -> date:
+    """Day (US Eastern) of the final injury report, which carries the game statuses: the day before a Thursday game,
+    two days before any other (Friday for Sunday, Saturday for Monday, Wednesday for Friday, Thursday for Saturday,
+    Monday for Wednesday games)."""
+    d = kickoff.astimezone(US_EASTERN).date()
+    return d - timedelta(days=1 if d.weekday() == 3 else 2)
+
+
 def injury_report_for(g: dict, now: datetime, cache: dict) -> dict | None:
-    """The injury report shown on a game page: from the newest injuries snapshot we retrieved before min(now, kickoff),
-    with when the provider last updated it and when we last confirmed it (never a later snapshot for a past game)."""
+    """The injury report shown on a game page: from the newest injuries snapshot we retrieved before min(now, kickoff)
+    (never a later snapshot for a past game), with when that data content was first published by the provider (the
+    first Last-Modified we saw for it, as in the release freshness records), when we last confirmed it unchanged, and
+    the day the game statuses were due."""
     from email.utils import parsedate_to_datetime
     when = min(now, g["kickoff_utc"])
     if when not in cache:
@@ -178,11 +194,13 @@ def injury_report_for(g: dict, now: datetime, cache: dict) -> dict | None:
     df, meta = cache[when]
     if df is None:
         return None
-    lm = meta.get("http_last_modified")
+    lm = meta.get("first_http_last_modified") or meta.get("http_last_modified")
+    due = status_due(g["kickoff_utc"])
     return {"players": injury_rows(df, g["week"], {g["away_id"]: g["away_team"], g["home_id"]: g["home_team"]}),
-            "provider_updated_at": parsedate_to_datetime(lm).isoformat() if lm else None,
+            "content_updated_at": parsedate_to_datetime(lm).isoformat() if lm else None,
             "observed_at": meta["observed_at_utc"], "last_checked_at": meta.get("last_confirmed_at_utc"),
-            "as_of_kickoff": g["kickoff_utc"] <= now}
+            "as_of_kickoff": g["kickoff_utc"] <= now, "status_due": due.isoformat(),
+            "status_due_passed": now >= datetime.combine(due, dtime(20, 0), US_EASTERN)}
 
 
 def _latest(pattern: str) -> Path | None:

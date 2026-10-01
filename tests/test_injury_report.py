@@ -33,3 +33,27 @@ def test_team_ids_are_shown_with_the_site_abbreviation():
     assert rows == [{"team": "LAR", "full_name": "Some Player", "position": "WR", "injury": "Hamstring",
                      "practice_status": "Full Participation in Practice", "game_status": None}]
     assert injury_rows(inj, 5, {"LA": "LAR", "PHI": "PHI"}) == []
+
+
+def test_practice_participation_breaks_ties_when_no_game_status():
+    inj = _inj([
+        ("PIT", 4, "A Full", "CB", None, "Back", "Full Participation in Practice", None),
+        ("PIT", 4, "B Limited", "CB", None, "Wrist", "Limited Participation in Practice", None),
+        ("PIT", 4, "C Did Not", "RB", None, "Toe", "Did Not Participate In Practice", None),
+        ("CLE", 4, "D Questionable", "WR", "Knee", "Knee", "Full Participation in Practice", "Questionable"),
+    ])
+    assert [r["full_name"] for r in injury_rows(inj, 4, {"PIT": "PIT", "CLE": "CLE"})] == \
+        ["D Questionable", "C Did Not", "B Limited", "A Full"]
+
+
+def test_game_status_due_day_by_kickoff_weekday():
+    from datetime import date, datetime, timezone
+
+    from nflcast.predict.export_web import status_due
+    utc = lambda *a: datetime(*a, tzinfo=timezone.utc)
+    assert status_due(utc(2026, 10, 2, 0, 15)) == date(2026, 9, 30)    # Thursday 20:15 ET -> Wednesday
+    assert status_due(utc(2026, 10, 4, 17, 0)) == date(2026, 10, 2)    # Sunday -> Friday
+    assert status_due(utc(2026, 10, 6, 0, 15)) == date(2026, 10, 3)    # Monday 20:15 ET -> Saturday
+    assert status_due(utc(2026, 11, 27, 20, 0)) == date(2026, 11, 25)  # Friday (Black Friday) -> Wednesday
+    assert status_due(utc(2026, 12, 19, 21, 0)) == date(2026, 12, 17)  # Saturday -> Thursday
+    assert status_due(utc(2026, 9, 10, 0, 20)) == date(2026, 9, 7)     # Wednesday 20:20 ET -> Monday
