@@ -1,0 +1,55 @@
+{
+ "game_ids": [
+  "2026_04_IND_WAS",
+  "2026_04_ARI_NYG",
+  "2026_04_DAL_HOU",
+  "2026_04_GB_TB",
+  "2026_04_JAX_CIN",
+  "2026_04_LA_PHI",
+  "2026_04_NE_BUF",
+  "2026_04_NYJ_CHI",
+  "2026_04_TEN_BAL",
+  "2026_04_MIA_MIN",
+  "2026_04_DEN_SF",
+  "2026_04_KC_LV",
+  "2026_04_LAC_SEA",
+  "2026_04_DET_CAR",
+  "2026_04_ATL_NO"
+ ],
+ "generated_at_utc": "2026-10-04T12:24:17.126187+00:00",
+ "information_cutoff_utc": "2026-10-04T12:24:17.126187+00:00",
+ "input_snapshots": {
+  "depth_charts": {
+   "content_sha256": "d0df2f8ff93d5c4cdac667e25eff679b0df06c391379bd2cab873762ffdfa39b",
+   "http_last_modified": "Sun, 04 Oct 2026 06:02:18 GMT",
+   "last_confirmed_at_utc": "2026-10-04T12:22:58.361107+00:00",
+   "observed_at_utc": "2026-10-04T12:22:58.361107+00:00"
+  },
+  "injuries": {
+   "content_sha256": "87c57a40a40156dc07445d25b72d3eea40b4af1d0f96e1578336efd64293f71a",
+   "http_last_modified": "Sun, 04 Oct 2026 06:01:21 GMT",
+   "last_confirmed_at_utc": "2026-10-04T12:22:57.800933+00:00",
+   "observed_at_utc": "2026-10-04T12:22:57.800933+00:00"
+  },
+  "schedules": {
+   "content_sha256": "6ff8dec16c8ed0652cda9424c39316ccfd0ac0a7aa25cbcefb5626e366c92808",
+   "http_last_modified": "Sun, 04 Oct 2026 12:16:31 GMT",
+   "last_confirmed_at_utc": "2026-10-04T12:22:55.139815+00:00",
+   "observed_at_utc": "2026-10-04T12:22:55.139815+00:00"
+  }
+ },
+ "manifest_created_at_utc": "2026-10-04T12:24:24.118436+00:00",
+ "model_version": {
+  "code_hash": "2e2076fa655c9e52a1c0b496008edcdca4180165f300996fa0e0241fd0f9ff79",
+  "oof_source_run": "locked_20260924T234835Z",
+  "production_config_sha256_at_archiving": "93370fd999d74861e7ac08a4d9522756fc384a2be04d04c60dad10fefd9f23f8",
+  "qb_start_rates": "v3_start_practice_listed_through_2025",
+  "stage": "production_v1.1"
+ },
+ "note": "Manifest creation time is when this archive entry was made; it is not a publication time.",
+ "release_path": "releases/2026/week_04/rel_20261004T122417Z.json",
+ "run_id": "rel_20261004T122417Z",
+ "schema_version": 3,
+ "sha256": "2f84a3c120a7d16b047456c76ca10c40b7647402365d4aa98f42d992f9264f0b",
+ "size_bytes": 249584
+}
