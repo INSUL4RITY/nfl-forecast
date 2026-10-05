@@ -238,6 +238,12 @@ market lines, QB availability, injury display, weather display). A changed artif
 - Divisional tag (2026-10-05, user request; display only): `div_game` exported per game; "Divisional" tag next to the
   kickoff time on cards and "Divisional game" on game pages. Data check 2019-2025: divisional underdogs covered 53.4% (687
   games) vs 51.2% non-divisional (1,273); within chance, not a model feature (no new features this season).
+- Luck and regression watch + depth chart in injury tables (2026-10-05, user request; display only, model unchanged):
+  `predict/luck.py` (expected wins from per-game net EPA/play via a logistic fit on earlier seasons; luck = wins - expected;
+  one-score record, turnover margin, fumble recovery share from our own pbp) shown on the Team ratings page; injury rows
+  carry the player's position/order on the latest depth chart before the report (`export_web.depth_labels`, e.g. WR1, LT2;
+  usual starters bold). Next: test a targeted carry-over adjustment (returning production, then play-caller changes) on
+  2019-2025; adopt only if it helps, dated on the site (user prefers it framed as an adjustment, not a new model).
 
 ## 3. Tests and checks (2026-09-25)
 - `pytest`: **107 passed** (leakage, signs, identities, market policy, probabilities, scoring, validation/states, QB availability

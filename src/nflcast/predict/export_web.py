@@ -159,7 +159,17 @@ PRACTICE_ORDER = {"Did Not Participate In Practice": 0, "Limited Participation i
 US_EASTERN = ZoneInfo("America/New_York")
 
 
-def injury_rows(inj: pl.DataFrame, week: int, ids: dict[str, str]) -> list[dict]:
+def depth_labels(dc: pl.DataFrame | None) -> dict[str, str]:
+    """{gsis_id: position + order on the team's latest depth chart in the snapshot, e.g. "WR1", "LT2"} (a player listed in
+    several slots keeps his best rank)."""
+    if dc is None or dc.height == 0:
+        return {}
+    latest = dc.filter(pl.col("dt") == pl.col("dt").max().over("team")).drop_nulls(["gsis_id", "pos_rank"])
+    best = latest.sort("pos_rank").unique("gsis_id", keep="first")
+    return {r["gsis_id"]: f"{r['pos_abb']}{r['pos_rank']}" for r in best.iter_rows(named=True)}
+
+
+def injury_rows(inj: pl.DataFrame, week: int, ids: dict[str, str], depth: dict[str, str] | None = None) -> list[dict]:
     """Every player on the official injury report for this game's two teams and week: game status when published,
     otherwise practice status only. Most serious first (game status, then practice participation), away team before
     home. ids: {injury-data team id: shown abbr}, away team first. Display only: non-QB injuries are not model inputs."""
@@ -167,7 +177,8 @@ def injury_rows(inj: pl.DataFrame, week: int, ids: dict[str, str]) -> list[dict]
     w = inj.filter((pl.col("week") == week) & pl.col("team").is_in(order))
     rows = [{"team": ids[r["team"]], "full_name": r["full_name"], "position": r["position"],
              "injury": r.get("report_primary_injury") or r.get("practice_primary_injury"),
-             "practice_status": r.get("practice_status"), "game_status": r.get("report_status"), "_t": order.index(r["team"])}
+             "practice_status": r.get("practice_status"), "game_status": r.get("report_status"),
+             "depth": (depth or {}).get(r.get("gsis_id")), "_t": order.index(r["team"])}
             for r in w.iter_rows(named=True)]
     rows.sort(key=lambda x: (GAME_STATUS_ORDER.get(x["game_status"], 3), PRACTICE_ORDER.get(x["practice_status"], 3),
                              x["_t"], x["full_name"] or ""))
@@ -190,13 +201,14 @@ def injury_report_for(g: dict, now: datetime, cache: dict) -> dict | None:
     from email.utils import parsedate_to_datetime
     when = min(now, g["kickoff_utc"])
     if when not in cache:
-        cache[when] = S.snapshot_asof("injuries", g["season"], when)
-    df, meta = cache[when]
+        dc, _ = S.snapshot_asof("depth_charts", g["season"], when)
+        cache[when] = (*S.snapshot_asof("injuries", g["season"], when), depth_labels(dc))
+    df, meta, depth = cache[when]
     if df is None:
         return None
     lm = meta.get("first_http_last_modified") or meta.get("http_last_modified")
     due = status_due(g["kickoff_utc"])
-    return {"players": injury_rows(df, g["week"], {g["away_id"]: g["away_team"], g["home_id"]: g["home_team"]}),
+    return {"players": injury_rows(df, g["week"], {g["away_id"]: g["away_team"], g["home_id"]: g["home_team"]}, depth),
             "content_updated_at": parsedate_to_datetime(lm).isoformat() if lm else None,
             "observed_at": meta["observed_at_utc"], "last_checked_at": meta.get("last_confirmed_at_utc"),
             "as_of_kickoff": g["kickoff_utc"] <= now, "status_due": due.isoformat(),
@@ -360,5 +372,11 @@ def _export_ratings(now) -> None:
                      "def_epa_play": f["def_epa_play"], "off_pts_drive": f["off_pts_drive"], "def_pts_drive": f["def_pts_drive"],
                      "games_this_season": f["games_this_season"], "ess_games": f["ess_games"],
                      "last_starter": names.get(qb), "last_starter_rating": qbm.rating(qb, now_us, season)[0]})
-    _write(WEB_DATA / "ratings.json", {"as_of": now.isoformat(), "season": season, "teams": rows,
+    from nflcast.predict import luck as LK
+    try:
+        luck = LK.team_luck(tg, S.fetch("pbp", season), season, now)
+    except Exception as e:  # noqa: BLE001 - display extra; never blocks the export
+        print(f"[export] luck table skipped: {e}")
+        luck = []
+    _write(WEB_DATA / "ratings.json", {"as_of": now.isoformat(), "season": season, "teams": rows, "luck": luck,
                                        "note": "As-of ratings: exponentially weighted, shrunk, opponent-adjusted; see methodology."})

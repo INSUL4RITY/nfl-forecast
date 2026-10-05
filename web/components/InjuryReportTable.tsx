@@ -7,6 +7,12 @@ const PRACTICE: Record<string, string> = {
   "Full Participation in Practice": "Full",
 };
 
+/** Usual starters: first at the position, or receivers 1-3 (receivers are ranked as one list on the depth chart). */
+function likelyStarter(depth: string): boolean {
+  const m = /^([A-Z]+)(\d+)$/.exec(depth);
+  return !!m && (Number(m[2]) === 1 || (m[1] === "WR" && Number(m[2]) <= 3));
+}
+
 /** Link to the official league report for the game's week (NFL.com is read by people, never harvested automatically). */
 function nflUrl(season: number, week: number, gameType: string): string {
   return gameType === "REG" ? `https://www.nfl.com/injuries/league/${season}/reg${week}` : "https://www.nfl.com/injuries/";
@@ -51,9 +57,10 @@ export default function InjuryReportTable({ r, season, week, gameType, venueTz }
       )}
       {n > 0 && (
         <div className="table-wrap" style={{ marginTop: 8 }}><table>
-          <thead><tr><th>Team</th><th>Player</th><th>Pos</th><th>Injury</th><th>Practice</th><th>Game status</th></tr></thead>
+          <thead><tr><th>Team</th><th>Player</th><th>Pos</th><th>Depth chart</th><th>Injury</th><th>Practice</th><th>Game status</th></tr></thead>
           <tbody>{r.players.map((p, i) => (
             <tr key={`${p.team}-${p.full_name}-${i}`}><td>{p.team}</td><td>{p.full_name}</td><td>{p.position ?? "—"}</td>
+              <td>{p.depth ? (likelyStarter(p.depth) ? <b>{p.depth}</b> : p.depth) : "—"}</td>
               <td className="wrap">{p.injury ?? "—"}</td>
               <td>{p.practice_status ? PRACTICE[p.practice_status] ?? p.practice_status : "—"}</td>
               <td>{p.game_status ? <b>{p.game_status}</b> : "—"}</td></tr>
@@ -63,7 +70,7 @@ export default function InjuryReportTable({ r, season, week, gameType, venueTz }
       <p className="small muted" style={{ marginTop: 6, marginBottom: 0 }}>
         From the official NFL injury report as carried by nflverse
         {times.length > 0 && <> ({times.map((t, i) => <span key={i}>{i ? "; " : ""}{t}</span>)})</>}
-        {r.as_of_kickoff ? ", shown as of kickoff" : ""}. Most serious first. For this game, game statuses (Out, Doubtful,
+        {r.as_of_kickoff ? ", shown as of kickoff" : ""}. Most serious first. Depth chart: position and order on the team's latest depth chart before this report (usual starters in bold: first at the position, receivers 1–3). For this game, game statuses (Out, Doubtful,
         Questionable) come with the final report on {dayText(r.status_due)}. The data feed can lag the league&apos;s own report,
         at times by a day or more, so check the{" "}
         <a href={nflUrl(season, week, gameType)} target="_blank" rel="noopener noreferrer">official injury report on NFL.com</a>{" "}

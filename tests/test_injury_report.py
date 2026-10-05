@@ -31,7 +31,7 @@ def test_team_ids_are_shown_with_the_site_abbreviation():
     inj = _inj([("LA", 4, "Some Player", "WR", "Hamstring", "Hamstring", "Full Participation in Practice", None)])
     rows = injury_rows(inj, 4, {"LA": "LAR", "PHI": "PHI"})
     assert rows == [{"team": "LAR", "full_name": "Some Player", "position": "WR", "injury": "Hamstring",
-                     "practice_status": "Full Participation in Practice", "game_status": None}]
+                     "practice_status": "Full Participation in Practice", "game_status": None, "depth": None}]
     assert injury_rows(inj, 5, {"LA": "LAR", "PHI": "PHI"}) == []
 
 
@@ -57,3 +57,12 @@ def test_game_status_due_day_by_kickoff_weekday():
     assert status_due(utc(2026, 11, 27, 20, 0)) == date(2026, 11, 25)  # Friday (Black Friday) -> Wednesday
     assert status_due(utc(2026, 12, 19, 21, 0)) == date(2026, 12, 17)  # Saturday -> Thursday
     assert status_due(utc(2026, 9, 10, 0, 20)) == date(2026, 9, 7)     # Wednesday 20:20 ET -> Monday
+
+
+def test_depth_labels_use_each_teams_latest_chart_and_best_rank():
+    from nflcast.predict.export_web import depth_labels
+    dc = pl.DataFrame({"dt": ["2026-10-01", "2026-10-03", "2026-10-03", "2026-10-03", "2026-10-03"],
+                       "team": ["PHI"] * 5, "gsis_id": ["a", "a", "b", "b", "c"],
+                       "pos_abb": ["WR", "WR", "LT", "RT", "TE"], "pos_rank": [2, 1, 3, 1, 2]})
+    assert depth_labels(dc) == {"a": "WR1", "b": "RT1", "c": "TE2"}   # older chart row ignored
+    assert depth_labels(None) == {}

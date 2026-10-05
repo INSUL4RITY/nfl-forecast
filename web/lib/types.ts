@@ -163,7 +163,7 @@ export interface WeekGame {
  *  before min(export time, kickoff). Display only (see export_web.injury_report_for). */
 export interface InjuryReport {
   players: { team: string; full_name: string; position: string | null; injury: string | null;
-             practice_status: string | null; game_status: string | null }[];
+             practice_status: string | null; game_status: string | null; depth?: string | null }[];
   content_updated_at: string | null;
   observed_at: string;
   last_checked_at: string | null;
