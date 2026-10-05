@@ -40,6 +40,9 @@ from nflcast.models.combined import ResidualRidge, game_matrix, select_resid_alp
 from nflcast.models.core import FootballRidge, MarketRaw, feature_set, select_alpha_chronologically
 from nflcast.models.probability import OutcomeModel
 from nflcast.predict import picks as PK
+from nflcast.predict import schedule as SCHED
+
+last_skip_reason: str | None = None   # why the last build_candidate() returned None, if it was held back
 from nflcast.predict import validation as V
 
 SCHEMA_VERSION = 3
@@ -240,7 +243,10 @@ def _game_freshness(freshness, market_fresh, market, res, now) -> dict:
 
 
 def build_candidate(now: datetime | None = None, days_ahead: int = 8) -> dict | None:
-    """Compute a complete release for the next week's unplayed games WITHOUT writing it."""
+    """Compute a complete release for the next week's unplayed games WITHOUT writing it (None when there are none,
+    or when that week's weekly publication time has not been reached; see predict/schedule.py)."""
+    global last_skip_reason
+    last_skip_reason = None
     cfg = settings()
     prod = yaml.safe_load((ROOT / "configs" / "production.yaml").read_text(encoding="utf-8"))
     now = now or utc_now()
@@ -254,6 +260,11 @@ def build_candidate(now: datetime | None = None, days_ahead: int = 8) -> dict | 
     first = upcoming.sort("kickoff_utc").row(0, named=True)
     upcoming = upcoming.filter((pl.col("season") == first["season"]) & (pl.col("week") == first["week"]))
     season, week = int(first["season"]), int(first["week"])
+    released_before = any((RELEASES_DIR / str(season) / f"week_{week:02d}").glob("rel_*.json"))
+    hold = SCHED.held_back(first["kickoff_utc"], now, released_before)
+    if hold is not None:                 # weekly publication time not reached yet (predict/schedule.py)
+        last_skip_reason = f"week {week} is held back until {hold.isoformat(timespec='minutes')} (Thursday 09:00 UK)"
+        return None
 
     games = pl.read_parquet(PROCESSED_DIR / "games.parquet")
     tg = pl.read_parquet(PROCESSED_DIR / "team_games.parquet")

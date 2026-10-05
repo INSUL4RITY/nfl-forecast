@@ -219,6 +219,13 @@ market lines, QB availability, injury display, weather display). A changed artif
   automatically: its terms (section 1.3) prohibit systematic retrieval to compile a database without written consent
   (earlier note said "commercial use" only; corrected in docs/data_sources.md). Schefter/Underdog (ESPN/X) stay manual
   sources for documented QB overrides.
+- Weekly publication time (2026-10-05, user decision; operational, model unchanged): from week 5 a week is first
+  published at Thursday 09:00 UK before its first game (`predict/schedule.py`, gate in `release.build_candidate`,
+  logged as "no release: week N is held back until ..."); the locked model pick is set then. Week 4 graded so far
+  (publicly verifiable): 9-6 straight up, 7-7-1 model picks; week 3 8-7 / 8-6-1. Sasser's published week 4 picks graded
+  on the same results: 10-5 / 11-3-1 (his model lines differ from the market by several points; ours stays close by design).
+  The user chose to TEST model options (more 2026 weight, less market anchoring) on 2019-2025 against the spread before
+  any change; a change would be model v1.1 from that week on, with its record kept separate.
 
 ## 3. Tests and checks (2026-09-25)
 - `pytest`: **107 passed** (leakage, signs, identities, market policy, probabilities, scoring, validation/states, QB availability

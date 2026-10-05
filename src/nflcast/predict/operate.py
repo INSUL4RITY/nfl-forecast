@@ -177,7 +177,7 @@ def run(build_site: bool = True, force: bool = False) -> None:
         cand = release.build_candidate(now=now)
         released, pushed = None, None
         if cand is None:
-            _log("operate: no upcoming games in window")
+            _log(f"operate: no release: {release.last_skip_reason or 'no upcoming games in window'}")
         else:
             latest, last_release = published_versions()
             due, reasons = (True, ["forced"]) if force else decide(cand, now, latest, last_release)

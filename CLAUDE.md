@@ -32,6 +32,8 @@ CLI stay `nflcast`; keep the URL and repo name (published evidence and links poi
   valid pregame version with a line and graded on that line; earlier games keep "final-pregame"; projected winner and margin
   error use final_pregame (`predict/picks.py`). Never regrade finished games under a new rule; record any rule change in
   PROGRESS.md and state it on the Method page.
+- **Weekly publication (user decision 2026-10-05):** from week 5 a week is first published at Thursday 09:00 UK before its
+  first game (`predict/schedule.py`); the model pick locks then. Operational only; do not move it without the user.
 
 ## How things run
 - Venv: `.\.venv\Scripts\python.exe -m nflcast <cmd>` from the project folder (refresh PATH from User+Machine env first in

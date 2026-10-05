@@ -218,7 +218,7 @@ export default async function GamePage({ params }: { params: Promise<{ id: strin
         <div className="panel pending">
           {g.forecast_state === "not_archived"
             ? "No valid pregame forecast was archived for this game. Nothing is shown rather than a forecast reconstructed after the fact."
-            : "Forecast pending."}
+            : "Forecast pending: each week's forecasts, lines and model picks are published on the Thursday at 09:00 UK time before its first game."}
         </div>
       ) : (
         <>

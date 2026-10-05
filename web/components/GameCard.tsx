@@ -89,7 +89,7 @@ export default function GameCard({ g, teams, tz }: { g: WeekGame; teams: Record<
         <div className="pending">
           {g.forecast_state === "not_archived"
             ? "No valid pregame forecast was archived for this game."
-            : "Forecast pending: it will appear once a validated release covering this game is published."}
+            : "Forecast pending: each week's forecasts, lines and model picks are published on the Thursday at 09:00 UK time before its first game."}
         </div>
       )}
       <div className="card-foot">
