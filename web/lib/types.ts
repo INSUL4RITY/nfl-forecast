@@ -137,6 +137,7 @@ export interface WeekGame {
   venue_tz: string;
   stadium: string;
   neutral_site: boolean;
+  div_game?: boolean;
   roof: string | null;
   home: string;
   away: string;

@@ -235,6 +235,9 @@ market lines, QB availability, injury display, weather display). A changed artif
 - Weekly page header (2026-10-05, user request, Sasser-style): "Week N Projections." headline, dates/games/update time,
   model-history link, and a season record strip (straight up and against the spread, publicly verifiable pregame forecasts
   only; manifest.season_record from export_web). Layout audit 0 issues (296 pages x 5 widths).
+- Divisional tag (2026-10-05, user request; display only): `div_game` exported per game; "Divisional" tag next to the
+  kickoff time on cards and "Divisional game" on game pages. Data check 2019-2025: divisional underdogs covered 53.4% (687
+  games) vs 51.2% non-divisional (1,273); within chance, not a model feature (no new features this season).
 
 ## 3. Tests and checks (2026-09-25)
 - `pytest`: **107 passed** (leakage, signs, identities, market policy, probabilities, scoring, validation/states, QB availability

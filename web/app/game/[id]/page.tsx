@@ -178,7 +178,7 @@ export default async function GamePage({ params }: { params: Promise<{ id: strin
           </div>
           <div className="meta-line" style={{ marginTop: 8 }}>
             <LocalTime venueTz={g.venue_tz} iso={g.kickoff_utc} kickoff known={g.kickoff_time_known} /> · {g.stadium}{g.neutral_site ? " (neutral site)" : ""}
-            {g.roof ? ` · ${g.roof}` : ""} · {g.game_type === "REG" ? "Regular season" : "Playoffs"}
+            {g.roof ? ` · ${g.roof}` : ""} · {g.game_type === "REG" ? "Regular season" : "Playoffs"}{g.div_game ? " · Divisional game" : ""}
           </div>
         </div>
         {g.score && (

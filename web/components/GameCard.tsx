@@ -36,7 +36,8 @@ export default function GameCard({ g, teams, tz }: { g: WeekGame; teams: Record<
   return (
     <article className="card">
       <div className="card-top">
-        <span className="num">{fmtKickoff(g.kickoff_utc, tz, g.kickoff_time_known)}</span>
+        <span className="num">{fmtKickoff(g.kickoff_utc, tz, g.kickoff_time_known)}
+          {g.div_game && <span className="tag" style={{ marginLeft: 6 }} title="Both teams are in the same division">Divisional</span>}</span>
         <span>{g.neutral_site ? "Neutral · " : ""}{g.stadium}</span>
       </div>
       {rows.map((r) => (

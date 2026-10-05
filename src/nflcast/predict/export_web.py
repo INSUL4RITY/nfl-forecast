@@ -242,7 +242,7 @@ def export() -> Path:
                 "game_id": g["game_id"], "season": season, "week": week, "game_type": g["game_type"],
                 "kickoff_utc": g["kickoff_utc"].isoformat(), "kickoff_time_known": g["kickoff_time_known"],
                 "venue_tz": venue_tz(g["stadium"], g["home_id"]), "stadium": g["stadium"],
-                "neutral_site": g["neutral_site"], "roof": g["roof"], "home": g["home_team"], "away": g["away_team"],
+                "neutral_site": g["neutral_site"], "div_game": bool(g.get("div_game")), "roof": g["roof"], "home": g["home_team"], "away": g["away_team"],
                 "status": g["status"], "score": ({"home": g["home_score"], "away": g["away_score"]}
                                                  if g["status"] == "final" else None),
                 **view,
