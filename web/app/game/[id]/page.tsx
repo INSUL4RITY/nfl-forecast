@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import LocalTime from "@/components/LocalTime";
 import InjuryReportTable from "@/components/InjuryReportTable";
+import CoachingStaff from "@/components/CoachingStaff";
 import TeamBadge from "@/components/TeamBadge";
 import { dataProblems } from "@/components/GameCard";
 import StateLabel from "@/components/StateLabel";
@@ -315,6 +316,8 @@ export default async function GamePage({ params }: { params: Promise<{ id: strin
               </p>
             )}
           </div>
+
+          {g.staff && (g.staff.away || g.staff.home) && <CoachingStaff away={A} home={H} staff={g.staff} />}
 
           <div className="panel">
             <h2>Lineup assumptions</h2>

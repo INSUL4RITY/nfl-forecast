@@ -32,6 +32,8 @@ CLI stay `nflcast`; keep the URL and repo name (published evidence and links poi
   valid pregame version with a line and graded on that line; earlier games keep "final-pregame"; projected winner and margin
   error use final_pregame (`predict/picks.py`). Never regrade finished games under a new rule; record any rule change in
   PROGRESS.md and state it on the Method page.
+- **Final for 2026 (user, 2026-10-05):** after the carry-over test (no variant passed) the model, the pick rule and the
+  publication schedule are final for the season. Only data refreshes and bug fixes; no model, rule or design changes.
 - **Weekly publication (user decision 2026-10-05):** from week 5 a week is first published at Thursday 09:00 UK before its
   first game (`predict/schedule.py`); the model pick locks then. Operational only; do not move it without the user.
 

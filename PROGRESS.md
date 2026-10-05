@@ -244,6 +244,11 @@ market lines, QB availability, injury display, weather display). A changed artif
   carry the player's position/order on the latest depth chart before the report (`export_web.depth_labels`, e.g. WR1, LT2;
   usual starters bold). Next: test a targeted carry-over adjustment (returning production, then play-caller changes) on
   2019-2025; adopt only if it helps, dated on the site (user prefers it framed as an adjustment, not a new model).
+- Targeted carry-over test DONE (2026-10-05; pre-registered; reports/research/carryover_staff_production_2026-10-05.md):
+  staff change (HC/OC/DC, data/manual/coaching_staff.csv from Wikipedia), returning snap share, and both. None passed
+  (combined model differences tiny, CIs span zero; football-only worse in weeks 1-4). MODEL UNCHANGED AND FINAL for 2026
+  (user: "finalise ... then we won't change anything after"). Game pages show each team's head coach and coordinators with
+  seasons in role and a "New this season" tag (display only).
 
 ## 3. Tests and checks (2026-09-25)
 - `pytest`: **107 passed** (leakage, signs, identities, market policy, probabilities, scoring, validation/states, QB availability

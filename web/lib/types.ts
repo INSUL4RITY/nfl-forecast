@@ -156,7 +156,15 @@ export interface WeekGame {
   pick?: Pick | null;
   locked_pick?: LockedPick | null;
   injury_report?: InjuryReport | null;
+  staff?: { away: StaffSide | null; home: StaffSide | null };
   result_grade?: ResultGrade | null;
+}
+
+/** Head coach and coordinators of one team for the game's season (display only; data/manual/coaching_staff.csv). */
+export interface StaffSide {
+  head_coach: { name: string | null; seasons: number | null; known_from_2015: boolean };
+  off_coordinator: { name: string | null; seasons: number | null; known_from_2015: boolean };
+  def_coordinator: { name: string | null; seasons: number | null; known_from_2015: boolean };
 }
 
 /** Official NFL injury report data (via nflverse) for one game's teams and week, from the newest snapshot we retrieved

@@ -215,6 +215,32 @@ def injury_report_for(g: dict, now: datetime, cache: dict) -> dict | None:
             "status_due_passed": now >= datetime.combine(due, dtime(20, 0), US_EASTERN)}
 
 
+def load_staff() -> dict:
+    """{(team, season): row} from data/manual/coaching_staff.csv (Wikipedia, CC BY-SA; display only)."""
+    import csv
+    f = ROOT / "data" / "manual" / "coaching_staff.csv"
+    if not f.exists():
+        return {}
+    return {(r["team"], int(r["season"])): r for r in csv.DictReader(f.open(encoding="utf-8"))}
+
+
+def staff_for(staff: dict, team: str, season: int) -> dict | None:
+    """Head coach and coordinators with their consecutive seasons in that role for this team (1 = new this season).
+    An empty coordinator means none is listed: the head coach is shown as running that side."""
+    r = staff.get((team, season))
+    if r is None:
+        return None
+    out = {}
+    for role in ("head_coach", "off_coordinator", "def_coordinator"):
+        name = r[role].strip()
+        n, y = 0, season
+        while (prev := staff.get((team, y))) is not None and prev[role].strip() == name:
+            n, y = n + 1, y - 1
+        out[role] = {"name": name or None, "seasons": n if name else None,
+                     "known_from_2015": (team, y) not in staff and n > 0}
+    return out
+
+
 def _latest(pattern: str) -> Path | None:
     c = sorted(REPORTS_DIR.glob(pattern))
     return c[-1] if c else None
@@ -242,7 +268,7 @@ def export() -> Path:
     cur = settings()["seasons"]["current"]
     # also export the other weeks of the current season (fixtures, results; forecasts only if archived)
     weeks = sorted(set(weeks) | {(cur, int(w)) for w in games.filter(pl.col("season") == cur)["week"].unique().to_list()})
-    week_index, inj_cache = [], {}
+    week_index, inj_cache, staff = [], {}, load_staff()
     record = {"weeks": [], "straight_up": {"win": 0, "loss": 0, "tie": 0}, "spread": {"win": 0, "loss": 0, "push": 0}}
     for season, week in weeks:
         wk = games.filter((pl.col("season") == season) & (pl.col("week") == week)).sort("kickoff_utc")
@@ -266,6 +292,7 @@ def export() -> Path:
                                                   g["home_team"], g["away_team"])
                                     if g["status"] == "final" and item["pick"] and view["forecast_state"] == "scored" else None)
             item["injury_report"] = injury_report_for(g, now, inj_cache) if view["forecast"] else None
+            item["staff"] = {"away": staff_for(staff, g["away_team"], season), "home": staff_for(staff, g["home_team"], season)}
             items.append(item)
         rel = [r for r in releases if r["season"] == season and r["week"] == week]
         doc = {"season": season, "week": week,
