@@ -1,9 +1,36 @@
 ﻿"use client";
 import { useEffect, useMemo, useState } from "react";
-import type { Manifest, Team, WeekDoc } from "@/lib/types";
+import type { Manifest, SeasonRecord, Team, WeekDoc } from "@/lib/types";
 import { dateRange, dayKey, fmtDateTime, tzFor, type TzMode } from "@/lib/format";
 import GameCard from "./GameCard";
 import { WeekResultsPanel } from "./Pick";
+
+const pctOf = (w: number, l: number) => (w + l ? `${((100 * w) / (w + l)).toFixed(2)}%` : "—");
+
+/** Season record of publicly verifiable pregame forecasts (pushes and ties excluded from the percentage). */
+function RecordStrip({ r }: { r: SeasonRecord }) {
+  const su = r.straight_up, sp = r.spread;
+  const weeks = r.weeks.length > 1 ? `Weeks ${r.weeks[0]}–${r.weeks[r.weeks.length - 1]}` : `Week ${r.weeks[0]}`;
+  return (
+    <section className="record-strip" aria-label="Overall model record">
+      <div className="rec-cell">
+        <span className="caps">Model performance</span>
+        <b>Overall model record</b>
+        <span className="small muted">{weeks} · published before kickoff</span>
+      </div>
+      <div className="rec-cell rec-num">
+        <span className="caps">Straight up</span>
+        <span className="rec-big">{su.win}–{su.loss}{su.tie ? `–${su.tie}` : ""}</span>
+        <span className="small ink2 num">{pctOf(su.win, su.loss)}</span>
+      </div>
+      <div className="rec-cell rec-num">
+        <span className="caps">Against the spread</span>
+        <span className="rec-big">{sp.win}–{sp.loss}{sp.push ? `–${sp.push}` : ""}</span>
+        <span className="small ink2 num">{pctOf(sp.win, sp.loss)}</span>
+      </div>
+    </section>
+  );
+}
 
 export default function WeekBoard({ doc, teams, manifest }: { doc: WeekDoc; teams: Record<string, Team>; manifest: Manifest }) {
   const [tzMode, setTzMode] = useState<TzMode>("local");
@@ -40,29 +67,36 @@ export default function WeekBoard({ doc, teams, manifest }: { doc: WeekDoc; team
 
   return (
     <>
-      <div className="page-head">
+      <header className="hero">
         <div>
-          <div className="small muted" style={{ fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase" }}>
-            {doc.season} season · week {doc.week}
+          <div className="caps">{doc.season} · National Football League</div>
+          <h1 className="hero-title">Week <span className="hero-num">{doc.week}</span><br />Projections.</h1>
+        </div>
+        <div className="hero-side">
+          <p className="lede">Model-projected scores, lines, totals and spread picks for every game this week.</p>
+          <div className="caps">{range && <>{range} · </>}{doc.n_games} games</div>
+          <div className="caps">
+            {doc.last_release_at
+              ? <>Updated {fmtDateTime(doc.last_release_at, mounted && tzMode !== "stadium" ? tzFor(tzMode, "UTC") : "UTC")}</>
+              : "Lines and picks publish Thursday 09:00 UK"}
           </div>
-          <h1>Weekly projections</h1>
-          <div className="meta-line">
-            {range && <>{range} · </>}<b>{doc.n_games}</b> games ·{" "}
-            {doc.last_release_at ? <>last model update <b>{fmtDateTime(doc.last_release_at, mounted && tzMode !== "stadium" ? tzFor(tzMode, "UTC") : "UTC")}</b></> : "no release yet"}
+          <div className="hero-links">
+            <a href={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/performance/`}>Model history</a>
+            <label className="small ink2">
+              Week{" "}
+              <select className="select" value={`${doc.season}-${doc.week}`} onChange={(e) => {
+                const [s, w] = e.target.value.split("-");
+                window.location.href = `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/week/${s}/${w}/`;
+              }}>
+                {weeks.map((w) => (
+                  <option key={w.week} value={`${w.season}-${w.week}`}>Week {w.week}{w.has_forecasts ? "" : " (no forecasts)"}</option>
+                ))}
+              </select>
+            </label>
           </div>
         </div>
-        <label className="small ink2">
-          Week{" "}
-          <select className="select" value={`${doc.season}-${doc.week}`} onChange={(e) => {
-            const [s, w] = e.target.value.split("-");
-            window.location.href = `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/week/${s}/${w}/`;
-          }}>
-            {weeks.map((w) => (
-              <option key={w.week} value={`${w.season}-${w.week}`}>Week {w.week}{w.has_forecasts ? "" : " (no forecasts)"}</option>
-            ))}
-          </select>
-        </label>
-      </div>
+      </header>
+      {manifest.season_record && manifest.season_record.weeks.length > 0 && <RecordStrip r={manifest.season_record} />}
 
       <div className="controls" role="group" aria-label="Filters">
         <button className="chip" aria-pressed={day === "all"} onClick={() => setDay("all")}>All games</button>

@@ -231,6 +231,7 @@ def export() -> Path:
     # also export the other weeks of the current season (fixtures, results; forecasts only if archived)
     weeks = sorted(set(weeks) | {(cur, int(w)) for w in games.filter(pl.col("season") == cur)["week"].unique().to_list()})
     week_index, inj_cache = [], {}
+    record = {"weeks": [], "straight_up": {"win": 0, "loss": 0, "tie": 0}, "spread": {"win": 0, "loss": 0, "push": 0}}
     for season, week in weeks:
         wk = games.filter((pl.col("season") == season) & (pl.col("week") == week)).sort("kickoff_utc")
         items = []
@@ -261,12 +262,20 @@ def export() -> Path:
                "release_count": len(rel), "games": items,
                "results": PK.weekly_summary(items) if any(it["pick"] for it in items) else None}
         _write(WEB_DATA / "weeks" / f"{season}-{week:02d}.json", doc)
+        pv = ((doc["results"] or {}).get("groups") or {}).get("publicly_verifiable_pregame")
+        if season == cur and pv and (pv["graded"] or pv.get("pick_graded")):
+            # season record: publicly verifiable pregame forecasts only (late-published ones are reported separately)
+            record["weeks"].append(week)
+            for k in ("win", "loss", "tie"):
+                record["straight_up"][k] += pv["winner"][k]
+            for k in ("win", "loss", "push"):
+                record["spread"][k] += pv["lean"][k]
         week_index.append({"season": season, "week": week, "n_games": wk.height, "has_forecasts": bool(rel),
                            "date_range": doc["date_range"]})
     with_fc = [w for w in week_index if w["has_forecasts"]]
     latest = with_fc[-1] if with_fc else week_index[-1]
     prod = yaml.safe_load((ROOT / "configs" / "production.yaml").read_text(encoding="utf-8"))
-    _write(WEB_DATA / "manifest.json", {"exported_at": now.isoformat(), "weeks": week_index,
+    _write(WEB_DATA / "manifest.json", {"exported_at": now.isoformat(), "weeks": week_index, "season_record": record,
                                         "latest": {"season": latest["season"], "week": latest["week"]},
                                         "production": prod, "release_count": len(releases),
                                         "corrections": corrections})

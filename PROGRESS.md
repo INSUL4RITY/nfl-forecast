@@ -226,6 +226,15 @@ market lines, QB availability, injury display, weather display). A changed artif
   on the same results: 10-5 / 11-3-1 (his model lines differ from the market by several points; ours stays close by design).
   The user chose to TEST model options (more 2026 weight, less market anchoring) on 2019-2025 against the spread before
   any change; a change would be model v1.1 from that week on, with its record kept separate.
+  - Test result (.scratch/ats_options.py; exploratory; historical lines ~closing; final horizon uses the actual starter):
+    against-the-spread win % (pushes excluded), 2019-21 / 2022-24 / 2025 blind: combined v1.0 48.8 / 51.2 / 51.1;
+    football-only 51.1 / 49.9 / 46.1; football-only only when >= 3 pts from the line 52.2 / 57.5 / 51.5; carry 0.3 (more
+    current-season weight) combined 49.1 / 51.0, football-only 52.6 / 50.1; new-coach carry rule 48.8 / 51.5 and 51.9 / 50.1;
+    half-way blend 50.9 / 50.1. ~800 picks per cell (~280 in 2025). No option beats the line consistently (break-even ~52.4%).
+    Model left at v1.0 pending the user's decision.
+- Weekly page header (2026-10-05, user request, Sasser-style): "Week N Projections." headline, dates/games/update time,
+  model-history link, and a season record strip (straight up and against the spread, publicly verifiable pregame forecasts
+  only; manifest.season_record from export_web). Layout audit 0 issues (296 pages x 5 widths).
 
 ## 3. Tests and checks (2026-09-25)
 - `pytest`: **107 passed** (leakage, signs, identities, market policy, probabilities, scoring, validation/states, QB availability

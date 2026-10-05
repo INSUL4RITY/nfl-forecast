@@ -156,3 +156,27 @@ details summary { cursor: pointer; font-weight: 700; }
 .legend i { display: inline-block; width: 14px; height: 3px; border-radius: 2px; margin-right: 6px; vertical-align: middle; }
 .chart-tip { position: absolute; pointer-events: none; background: var(--surface); border: 1px solid var(--rule); border-radius: 8px;
   padding: 8px 10px; font-size: 0.8rem; box-shadow: 0 4px 14px var(--shadow); white-space: nowrap; z-index: 5; }
+
+/* weekly hero header + season record strip */
+.caps { font-family: ui-monospace, "SFMono-Regular", Consolas, monospace; font-size: 0.74rem; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-2); }
+.hero { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 24px; align-items: end; margin: 6px 0 22px; }
+.hero-title { font-size: clamp(2.6rem, 8vw, 5.2rem); line-height: 0.95; letter-spacing: -0.04em; font-weight: 800; margin: 10px 0 0; }
+.hero-num { color: var(--accent); }
+.hero-side { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.lede { font-size: 1.08rem; color: var(--ink-2); margin: 0 0 4px; }
+.hero-links { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; margin-top: 4px; }
+.hero-links a { font-weight: 700; }
+@media (max-width: 760px) { .hero { grid-template-columns: 1fr; align-items: start; } }
+.record-strip { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--rule-strong);
+  border-bottom: 1px solid var(--rule-strong); margin: 0 0 20px; }
+.rec-cell { display: flex; flex-direction: column; gap: 4px; padding: 14px 16px; min-width: 0; }
+.rec-cell + .rec-cell { border-left: 1px solid var(--rule); }
+.rec-num { align-items: flex-end; text-align: right; }
+.rec-num .caps { align-self: flex-start; }
+.rec-big { font-size: 1.8rem; font-weight: 800; font-variant-numeric: tabular-nums; letter-spacing: -0.02em; line-height: 1.1; }
+@media (max-width: 600px) {
+  .record-strip { grid-template-columns: 1fr; }
+  .rec-cell + .rec-cell { border-left: 0; border-top: 1px solid var(--rule); }
+  .rec-num { flex-direction: row; flex-wrap: wrap; align-items: baseline; justify-content: space-between; text-align: left; }
+}

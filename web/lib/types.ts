@@ -242,8 +242,16 @@ export interface Team {
   division: string;
 }
 
+/** Season record of publicly verifiable pregame forecasts (export_web; late-published forecasts are excluded). */
+export interface SeasonRecord {
+  weeks: number[];
+  straight_up: { win: number; loss: number; tie: number };
+  spread: { win: number; loss: number; push: number };
+}
+
 export interface Manifest {
   exported_at: string;
+  season_record?: SeasonRecord;
   weeks: { season: number; week: number; n_games: number; has_forecasts: boolean; date_range: [string, string] | null }[];
   latest: { season: number; week: number };
   production: Record<string, any>;
