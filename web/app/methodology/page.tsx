@@ -21,7 +21,7 @@ export default function Methodology() {
         <div className="three-col">
           <div><h3>Market only (benchmark)</h3><p className="small">The point spread <i>s</i> (negative when home is favoured) and total <i>t</i> become
             M₀ = −s, T₀ = t, home = (T₀+M₀)/2, away = (T₀−M₀)/2. No prices, moneylines or implied odds are used anywhere in the project.</p></div>
-          <div><h3>Football only</h3><p className="small">Ridge regression on each team&apos;s offence against the opponent&apos;s defence: EPA per play,
+          <div><h3>Football only (&quot;stats-only&quot;)</h3><p className="small">Ridge regression on each team&apos;s offence against the opponent&apos;s defence: EPA per play,
             passing and rushing efficiency, success and explosive-play rates, sacks, turnovers, pace, points per drive, red-zone and field position,
             opponent-adjusted ratings, the expected starting QB&apos;s rating and experience, change versus the QBs behind the team&apos;s recent stats,
             rest, byes, venue and roof. It is also the fallback when no market line exists.</p></div>
@@ -156,6 +156,13 @@ export default function Methodology() {
           off from 1 October 2026 (week 4 onward). Earlier games keep the rule in force when they were played: the model pick from the last
           valid forecast before kickoff, graded against that forecast&apos;s line. Finished weeks are not regraded; week 3 stays 8–6 with 1 push
           among publicly verifiable forecasts (it would have been 9–6 under the new rule).</p>
+        <p className="small"><b>Display additions, 6 October 2026</b> (no forecast, pick or grading change): the pick box shows the size of
+          the edge (tiny under 0.5 points, about a coin flip; small 0.5–1.5; moderate 1.5–3; large 3 or more) and the <b>stats-only</b>
+          line, which is the football-only model with no betting line, at the lock and now. <b>Big gap</b> marks a game where the stats-only
+          margin was at least 3 points from the line when the pick was locked. In the backtests the stats-only side of such games covered
+          52.2% (2019–21), 57.5% (2022–24) and 51.5% (2025) of the time: not a reliable edge, and the 2026 sample is small.
+          It is a prompt to check why the market disagrees, not a pick. From 6 October 2026 releases also store how each group of
+          inputs adds up to the stats-only margin (Details page); earlier releases did not, so older games do not show it.</p>
       </div>
 
       <div className="panel">

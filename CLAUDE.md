@@ -34,6 +34,8 @@ CLI stay `nflcast`; keep the URL and repo name (published evidence and links poi
   PROGRESS.md and state it on the Method page.
 - **Final for 2026 (user, 2026-10-05):** after the carry-over test (no variant passed) the model, the pick rule and the
   publication schedule are final for the season. Only data refreshes and bug fixes; no model, rule or design changes.
+  Exception the user asked for (2026-10-06): stats-only line, "Big gap" tag, edge size and the stats-only breakdown
+  (display only; see PROGRESS.md).
 - **Weekly publication (user decision 2026-10-05):** from week 5 a week is first published at Thursday 09:00 UK before its
   first game (`predict/schedule.py`); the model pick locks then. Operational only; do not move it without the user.
 

@@ -171,3 +171,14 @@ def test_weekly_summary_groups_and_retro_counts_per_label():
     assert s["groups"][pv]["retro_winner"] == 0 and s["groups"][nyet]["retro_pick"] == 1      # the winner label was published
     assert s["groups"][nyet]["graded"] == 0 and s["groups"][nyet]["pick_graded"] == 1
     assert s["groups"][nyet]["lean"]["loss"] == 1                                      # A +3 loses when H wins by 4
+
+
+def test_locked_pick_carries_the_stats_only_numbers_of_the_same_version():
+    from nflcast.predict.export_web import locked_pick_for
+    vs, ev = _two_versions(KO4)
+    vs[0][1]["football_only"] = {"margin": 3.1, "total": 44.0}
+    vs[1][1]["football_only"] = {"margin": 5.0, "total": 46.0}
+    lk = locked_pick_for(vs, KO4, "BUF", "MIA", ev)
+    assert lk["run_id"] == "rel_a" and lk["stats_only"] == {"margin": 3.1, "total": 44.0}
+    del vs[0][1]["football_only"]
+    assert locked_pick_for(vs, KO4, "BUF", "MIA", ev)["stats_only"] is None

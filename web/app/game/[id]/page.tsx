@@ -3,12 +3,13 @@ import { notFound } from "next/navigation";
 import LocalTime from "@/components/LocalTime";
 import InjuryReportTable from "@/components/InjuryReportTable";
 import CoachingStaff from "@/components/CoachingStaff";
+import MarginBreakdown from "@/components/MarginBreakdown";
 import TeamBadge from "@/components/TeamBadge";
 import { dataProblems } from "@/components/GameCard";
 import StateLabel from "@/components/StateLabel";
 import { gradeText, pickDetail, PredictionSummary, RETRO_NOTE } from "@/components/Pick";
 import { allGames, findGame, getTeams } from "@/lib/data";
-import { f1, f2, f3, marginText, pct, pctP, problemText, qbStatusText, rosterText, spreadText, VERIFY_LABEL } from "@/lib/format";
+import { f1, f2, f3, marginText, onDark, pct, pctP, problemText, qbStatusText, rosterText, spreadText, VERIFY_LABEL } from "@/lib/format";
 import type { Forecast, LineupSide } from "@/lib/types";
 
 export function generateStaticParams() {
@@ -163,7 +164,7 @@ export default async function GamePage({ params }: { params: Promise<{ id: strin
   const H = g.home, A = g.away;
   const models: [string, Forecast | null | undefined, string][] = e ? [
     ["Combined (selected)", e.combined, "Market spread & total + football features; residual ridge"],
-    ["Football only", e.football_only, "No market inputs; also the fallback model"],
+    ["Stats-only (football only)", e.football_only, "No market inputs; also the fallback model"],
     ["Market only", e.market_only, "Spread & total mapped to scores (benchmark)"],
   ] : [];
 
@@ -316,6 +317,9 @@ export default async function GamePage({ params }: { params: Promise<{ id: strin
               </p>
             )}
           </div>
+
+          {e.football_breakdown && <MarginBreakdown b={e.football_breakdown} home={H} away={A}
+            homeColor={onDark(teams[H]?.color)} awayColor={onDark(teams[A]?.color)} />}
 
           {g.staff && (g.staff.away || g.staff.home) && <CoachingStaff away={A} home={H} staff={g.staff} />}
 

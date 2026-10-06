@@ -249,6 +249,16 @@ market lines, QB availability, injury display, weather display). A changed artif
   (combined model differences tiny, CIs span zero; football-only worse in weeks 1-4). MODEL UNCHANGED AND FINAL for 2026
   (user: "finalise ... then we won't change anything after"). Game pages show each team's head coach and coordinators with
   seasons in role and a "New this season" tag (display only).
+- Stats-only display additions (2026-10-06, user request "do 1-4" after comparing with another public model; display only,
+  model, forecasts, pick rule and grading unchanged): (1) the pick box shows the stats-only (football-only, no market)
+  line at the lock and now, and the grid shows stats-only line/total; `locked_pick.stats_only` = that version's
+  football_only margin/total (export_web.stats_only_for; verify-claims checks it). (2) "Big gap" tag when the locked
+  version's stats-only margin is >= 3 pts from its line (backtest 52.2 / 57.5 / 51.5% ATS; a prompt, not a pick).
+  (3) Edge size under the pick ("Tiny edge · about a coin flip" under 0.5 pts). (4) New releases store
+  `football_breakdown` (predict/breakdown.py): the football-only margin split exactly into plain groups (home field, rest,
+  QBs, passing, rushing, efficiency, scoring, turnovers/field position, pace, other); omitted unless the groups add up to
+  the published margin within 1e-6 (dry run on week 5: 15/15 exact). Shown on game pages as a bar chart; earlier
+  releases have no breakdown. Method page states all of this.
 
 ## 3. Tests and checks (2026-09-25)
 - `pytest`: **107 passed** (leakage, signs, identities, market policy, probabilities, scoring, validation/states, QB availability

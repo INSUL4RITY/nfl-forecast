@@ -89,6 +89,8 @@ export interface ReleaseEntry {
   lineup_uncertain: boolean;
   notable_injuries: { team: string; full_name: string; position: string; report_status: string }[];
   contributions: { feature: string; margin_points: number }[];
+  /** Football-only (stats-only) margin split into plain groups that add up to it (display only; releases from 6 Oct 2026). */
+  football_breakdown?: { groups: { group: string; label: string; margin_points: number }[]; margin: number } | null;
   team_efficiency?: { home: Record<string, number>; away: Record<string, number> };
   scenario_forecasts?: { p: number; home_qb: string | null; away_qb: string | null; combined_margin: number | null;
     combined_total: number | null; football_margin: number; football_total: number }[];
@@ -201,6 +203,8 @@ export interface LockedPick extends Pick {
   generated_at: string;
   verification: string;
   rule: "original-pick" | "final-pregame";
+  /** Football-only (stats-only, no market input) margin and total from that same version (display only). */
+  stats_only?: { margin: number; total: number } | null;
 }
 
 export interface ResultGrade {

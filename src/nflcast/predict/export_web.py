@@ -150,7 +150,14 @@ def locked_pick_for(vs: list[tuple[dict, dict]], kickoff: datetime, home: str, a
     rel = next(r for r, e in vs if e is o[1])
     pub = PUB.public_time(rel["run_id"], evidence)
     return {**pick_for(o[1], home, away), "run_id": rel["run_id"], "generated_at": o[0], "rule": PK.lock_rule(kickoff),
-            "verification": PUB.verification_label(datetime.fromisoformat(o[0]), kickoff, pub)}
+            "verification": PUB.verification_label(datetime.fromisoformat(o[0]), kickoff, pub),
+            "stats_only": stats_only_for(o[1])}
+
+
+def stats_only_for(entry: dict) -> dict | None:
+    """The football-only (stats-only, no market input) margin and total archived in that same version (display only)."""
+    fo = (entry or {}).get("football_only")
+    return {"margin": fo["margin"], "total": fo["total"]} if fo else None
 
 
 GAME_STATUS_ORDER = {"Out": 0, "Doubtful": 1, "Questionable": 2}

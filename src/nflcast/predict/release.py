@@ -39,6 +39,7 @@ from nflcast.features.asof import AsOfFeatureBuilder
 from nflcast.models.combined import ResidualRidge, game_matrix, select_resid_alphas
 from nflcast.models.core import FootballRidge, MarketRaw, feature_set, select_alpha_chronologically
 from nflcast.models.probability import OutcomeModel
+from nflcast.predict import breakdown as BD
 from nflcast.predict import picks as PK
 from nflcast.predict import schedule as SCHED
 
@@ -359,6 +360,7 @@ def build_candidate(now: datetime | None = None, days_ahead: int = 8) -> dict | 
     preds = {"primary": cmod.predict(fm), "fallback": bmod.predict(feats), "market": MarketRaw().predict(fm)}
     Xc, cnames = game_matrix(fm, cmod.fs)
     contrib = (Xc - cmod.gm[0].mean_) / cmod.gm[0].scale_ * cmod.gm[-1].coef_
+    fb_per, fb_names = BD.per_feature(bmod, feats)        # display only: football-only margin split into groups
     from nflcast.pipeline import code_hash
     model_fp = M["model_version"]
 
@@ -446,6 +448,7 @@ def build_candidate(now: datetime | None = None, days_ahead: int = 8) -> dict | 
             "forecast": headline, "combined": prim, "football_only": fb, "market_only": mo, "market": market,
             "lineup": lineup, "lineup_uncertain": bool(res["home"].uncertain or res["away"].uncertain),
             "notable_injuries": notable, "contributions": top, "team_efficiency": meta[g["game_id"]]["efficiency"],
+            "football_breakdown": BD.football_breakdown(fb_per, fb_names, idx, w, fb["margin"]),
             "scenario_forecasts": [
                 {"p": float(w[k]), "home_qb": name_of.get(feats["scenario"][int(i)].split("|")[0]),
                  "away_qb": name_of.get(feats["scenario"][int(i)].split("|")[1]),
