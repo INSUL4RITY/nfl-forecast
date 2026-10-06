@@ -259,6 +259,9 @@ market lines, QB availability, injury display, weather display). A changed artif
   QBs, passing, rushing, efficiency, scoring, turnovers/field position, pace, other); omitted unless the groups add up to
   the published margin within 1e-6 (dry run on week 5: 15/15 exact). Shown on game pages as a bar chart; earlier
   releases have no breakdown. Method page states all of this.
+- Publication time moved (2026-10-06, user: "thursday is a bit late ... lines have moved a lot ... wednesday evening"):
+  weekly first publication is now Wednesday 18:00 UK (was Thursday 09:00 UK, set 2026-10-05); week 5 released at once on
+  Tue 6 Oct (schedule.EARLY_OPENS). Operational only; the model pick still locks at the first publication.
 
 ## 3. Tests and checks (2026-09-25)
 - `pytest`: **107 passed** (leakage, signs, identities, market policy, probabilities, scoring, validation/states, QB availability

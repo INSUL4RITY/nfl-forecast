@@ -264,7 +264,7 @@ def build_candidate(now: datetime | None = None, days_ahead: int = 8) -> dict | 
     released_before = any((RELEASES_DIR / str(season) / f"week_{week:02d}").glob("rel_*.json"))
     hold = SCHED.held_back(first["kickoff_utc"], now, released_before)
     if hold is not None:                 # weekly publication time not reached yet (predict/schedule.py)
-        last_skip_reason = f"week {week} is held back until {hold.isoformat(timespec='minutes')} (Thursday 09:00 UK)"
+        last_skip_reason = f"week {week} is held back until {hold.isoformat(timespec='minutes')} ({SCHED.SCHEDULE_TEXT})"
         return None
 
     games = pl.read_parquet(PROCESSED_DIR / "games.parquet")

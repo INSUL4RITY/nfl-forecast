@@ -78,7 +78,7 @@ export default function WeekBoard({ doc, teams, manifest }: { doc: WeekDoc; team
           <div className="caps">
             {doc.last_release_at
               ? <>Updated {fmtDateTime(doc.last_release_at, mounted && tzMode !== "stadium" ? tzFor(tzMode, "UTC") : "UTC")}</>
-              : "Lines and picks publish Thursday 09:00 UK"}
+              : "Lines and picks publish Wednesday 18:00 UK"}
           </div>
           <div className="hero-links">
             <a href={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/performance/`}>Model history</a>

@@ -36,8 +36,9 @@ CLI stay `nflcast`; keep the URL and repo name (published evidence and links poi
   publication schedule are final for the season. Only data refreshes and bug fixes; no model, rule or design changes.
   Exception the user asked for (2026-10-06): stats-only line, "Big gap" tag, edge size and the stats-only breakdown
   (display only; see PROGRESS.md).
-- **Weekly publication (user decision 2026-10-05):** from week 5 a week is first published at Thursday 09:00 UK before its
-  first game (`predict/schedule.py`); the model pick locks then. Operational only; do not move it without the user.
+- **Weekly publication (user decisions 2026-10-05, changed 2026-10-06):** a week is first published at Wednesday 18:00 UK
+  before its first game (`predict/schedule.py`; week 5 was released early on 6 Oct at the user's request); the model pick
+  locks then. Operational only; do not move it without the user.
 
 ## How things run
 - Venv: `.\.venv\Scripts\python.exe -m nflcast <cmd>` from the project folder (refresh PATH from User+Machine env first in
