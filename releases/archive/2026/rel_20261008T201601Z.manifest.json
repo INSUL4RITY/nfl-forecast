@@ -1,0 +1,55 @@
+{
+ "game_ids": [
+  "2026_05_TB_DAL",
+  "2026_05_PHI_JAX",
+  "2026_05_CHI_GB",
+  "2026_05_CIN_MIA",
+  "2026_05_CLE_NYJ",
+  "2026_05_HOU_TEN",
+  "2026_05_IND_PIT",
+  "2026_05_LV_NE",
+  "2026_05_MIN_NO",
+  "2026_05_NYG_WAS",
+  "2026_05_DEN_LAC",
+  "2026_05_DET_ARI",
+  "2026_05_SF_SEA",
+  "2026_05_BAL_ATL",
+  "2026_05_BUF_LA"
+ ],
+ "generated_at_utc": "2026-10-08T20:16:01.509337+00:00",
+ "information_cutoff_utc": "2026-10-08T20:16:01.509337+00:00",
+ "input_snapshots": {
+  "depth_charts": {
+   "content_sha256": "e7a371ad2828abb7eb5a6e91a0fa6833947f98eb708babe54a3391da02dc1477",
+   "http_last_modified": "Thu, 08 Oct 2026 14:33:14 GMT",
+   "last_confirmed_at_utc": "2026-10-08T20:15:35.056987+00:00",
+   "observed_at_utc": "2026-10-08T15:15:35.466724+00:00"
+  },
+  "injuries": {
+   "content_sha256": "6790b039365cca5a45428fe2525f5c0430c598839175f122476f54d7be120191",
+   "http_last_modified": "Thu, 08 Oct 2026 14:32:41 GMT",
+   "last_confirmed_at_utc": "2026-10-08T20:15:34.785351+00:00",
+   "observed_at_utc": "2026-10-08T06:15:36.072656+00:00"
+  },
+  "schedules": {
+   "content_sha256": "77c7f5883f8320d17c10040fb4590845681b2e0551471fcedb0b344bfadd5e2c",
+   "http_last_modified": "Thu, 08 Oct 2026 20:06:36 GMT",
+   "last_confirmed_at_utc": "2026-10-08T20:15:32.625499+00:00",
+   "observed_at_utc": "2026-10-08T20:15:32.625499+00:00"
+  }
+ },
+ "manifest_created_at_utc": "2026-10-08T20:16:05.727320+00:00",
+ "model_version": {
+  "code_hash": "c8b217611a4f021bf748d70587ac116bac1ed7e37a23f75d49515112670c302c",
+  "oof_source_run": "locked_20260924T234835Z",
+  "production_config_sha256_at_archiving": "93370fd999d74861e7ac08a4d9522756fc384a2be04d04c60dad10fefd9f23f8",
+  "qb_start_rates": "v3_start_practice_listed_through_2025",
+  "stage": "production_v1.1"
+ },
+ "note": "Manifest creation time is when this archive entry was made; it is not a publication time.",
+ "release_path": "releases/2026/week_05/rel_20261008T201601Z.json",
+ "run_id": "rel_20261008T201601Z",
+ "schema_version": 3,
+ "sha256": "389b01e5388b880af10fc5dafe77eb701c3b69715d68e332e8eb9ccb9dbc63c9",
+ "size_bytes": 255111
+}
