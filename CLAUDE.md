@@ -44,6 +44,9 @@ CLI stay `nflcast`; keep the URL and repo name (published evidence and links poi
 - Venv: `.\.venv\Scripts\python.exe -m nflcast <cmd>` from the project folder (refresh PATH from User+Machine env first in
   PowerShell), or `nflcast.cmd <cmd>` from any folder (give the user this form).
 - Public pages must never show internal codes or player IDs; map them to plain English in `web/` (verify-claims checks this).
+- **Neutral public wording (user, 2026-10-09; the site is on a data-science CV):** no betting/gambling terms on public pages
+  (no "bet", "betting", "pick", "pick'em", "bookmakers", "cover", "push", "against the spread"). Use "model lean vs market",
+  "market line", "even", "level with the line", "vs market line", "for analysis and education only". Internal code names may stay.
 - After any display change, run `scripts/layout_audit.js` in the browser on the local build (widths 1280, 768, 414, 375, 320)
   and on the live site after deploy: 0 issues required. Wrap every table in `.table-wrap` (cells do not wrap by default).
 - The user accepts that updates pause while the PC is off; never recreate or back-date missed forecasts.

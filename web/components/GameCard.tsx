@@ -67,7 +67,7 @@ export default function GameCard({ g, teams, tz }: { g: WeekGame; teams: Record<
           <PredictionSummary g={g} lockedAt={g.locked_pick ? fmtDateTime(g.locked_pick.generated_at, tz) : null} />
           {g.result_grade && <div className="small"><b>Result:</b> {gradeText(g.result_grade)}</div>}
           {(g.locked_pick?.retrospectively_derived || g.pick?.retrospectively_derived) &&
-            <div className="small muted" title={RETRO_NOTE}>* Pick label derived retrospectively from the archived forecast.</div>}
+            <div className="small muted" title={RETRO_NOTE}>* Lean label derived retrospectively from the archived forecast.</div>}
           <div className="small ink2">
             QBs: {qbText(e.lineup.away)} / {qbText(e.lineup.home)}
           </div>
@@ -90,7 +90,7 @@ export default function GameCard({ g, teams, tz }: { g: WeekGame; teams: Record<
         <div className="pending">
           {g.forecast_state === "not_archived"
             ? "No valid pregame forecast was archived for this game."
-            : "Forecast pending: each week's forecasts, lines and model picks are published on the Wednesday at 18:00 UK time before its first game."}
+            : "Forecast pending: each week's forecasts and model leans are published on the Wednesday at 18:00 UK time before its first game."}
         </div>
       )}
       <div className="card-foot">

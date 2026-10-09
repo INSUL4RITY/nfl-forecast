@@ -76,7 +76,7 @@ function flagText(fl: string, side: LineupSide): string | null {
 /** Public name of the market-line source actually recorded in each release (spread and total only). */
 const MARKET_SOURCE: Record<string, string> = {
   nflverse_schedules_archived: "nflverse schedule data (free; snapshot archived by this project)",
-  the_odds_api: "The Odds API (median of US bookmakers)",
+  the_odds_api: "The Odds API (median of US market lines)",
 };
 
 const LEGACY_SOURCE: Record<string, string> = {
@@ -220,7 +220,7 @@ export default async function GamePage({ params }: { params: Promise<{ id: strin
         <div className="panel pending">
           {g.forecast_state === "not_archived"
             ? "No valid pregame forecast was archived for this game. Nothing is shown rather than a forecast reconstructed after the fact."
-            : "Forecast pending: each week's forecasts, lines and model picks are published on the Wednesday at 18:00 UK time before its first game."}
+            : "Forecast pending: each week's forecasts and model leans are published on the Wednesday at 18:00 UK time before its first game."}
         </div>
       ) : (
         <>
@@ -235,17 +235,17 @@ export default async function GamePage({ params }: { params: Promise<{ id: strin
               <h2 style={{ marginTop: 0 }}>Prediction</h2>
               <PredictionSummary g={g} lockedAt={g.locked_pick ? <LocalTime venueTz={g.venue_tz} iso={g.locked_pick.generated_at} /> : null} />
               <details style={{ marginTop: 10 }}>
-                <summary className="small">Details: how the model pick works</summary>
+                <summary className="small">Details: how the model lean works</summary>
                 {g.locked_pick && <p className="small" style={{ margin: "6px 0 0" }}>{pickDetail(g.locked_pick, H, A)}</p>}
                 <p className="small muted" style={{ margin: "6px 0 0" }}>{g.locked_pick?.rule === "final-pregame"
-                  ? <>The model pick is the side of the market spread on which the unrounded projected margin of the last valid forecast
+                  ? <>The model lean is the side of the market line on which the unrounded projected margin of the last valid forecast
                     before kickoff fell, graded against that forecast&apos;s line (the rule for games before 1 October 2026; finished
                     weeks are not regraded).</>
-                  : <>The model pick is the side of the market spread on which the unrounded projected margin fell when it was locked,
+                  : <>The model lean is the side of the market line on which the unrounded projected margin fell when it was locked,
                     at the first forecast with a market line. It stays the same if the line or the forecast changes later, and it is
                     graded against the line it was locked at.</>}{" "}
                   Market line, model line, totals and the projected winner are from the latest forecast. The win probability belongs
-                  to the projected winner only; it is not a probability of covering the spread. Not a betting recommendation.</p>
+                  to the projected winner only; it is not a probability of finishing on that side of the line. For analysis and education only.</p>
               </details>
               {g.result_grade && <p style={{ marginBottom: 0 }}><b>Result:</b> {gradeText(g.result_grade)} (actual margin{" "}
                 {marginText(g.result_grade.actual_margin, H, A)}).</p>}
@@ -307,11 +307,11 @@ export default async function GamePage({ params }: { params: Promise<{ id: strin
               <p className="small ink2" style={{ marginTop: 10 }}>
                 Market inputs: {spreadText(e.market.home_spread, H, A)}, total {f1(e.market.total)} · source:{" "}
                 {e.market.source === "the_odds_api" && e.market.n_bookmakers
-                  ? `The Odds API (median of ${e.market.n_bookmakers} US bookmakers)`
+                  ? `The Odds API (median of ${e.market.n_bookmakers} US market lines)`
                   : MARKET_SOURCE[e.market.source] ?? "recorded in the release file"}
                 {e.market.provider_updated_at ? <> · provider updated <LocalTime venueTz={g.venue_tz} iso={e.market.provider_updated_at} /></> : null}
                 {" "}· retrieved by us <LocalTime venueTz={g.venue_tz} iso={e.market.retrieved_at ?? e.market.snapshot_at} />.
-                These two numbers are inputs to the combined model; no prices or odds are used.
+                These two numbers are inputs to the combined model; nothing else from the market is used.
                 {e.market.source !== "the_odds_api" && e.market.fallback_reason && e.market.feed_version
                   ? <> Fallback line: {e.market.fallback_reason}.</> : null}
               </p>

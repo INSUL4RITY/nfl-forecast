@@ -267,6 +267,9 @@ market lines, QB availability, injury display, weather display). A changed artif
   `manifest.season_record.stats_only` (spread, big gaps >= 3 pts, totals) over publicly verifiable locked picks, shown as a
   second strip under the season record; verify-claims recomputes each game's grade. At creation (weeks 3-5, week 5 to
   date): stats-only ATS 18-12-2, big gaps 6-1, totals 13-19; official model pick 15-15-2.
+- Neutral wording (2026-10-09, user request for a degree-apprenticeship CV): public pages no longer use betting terms
+  ("Model pick" -> "Model lean vs market", "Pick'em" -> "Even", "Against the spread" -> "Vs market line", pushes ->
+  "level with the line", disclaimers -> "For analysis and education only"). Text only; numbers, rules and data unchanged.
 
 ## 3. Tests and checks (2026-09-25)
 - `pytest`: **107 passed** (leakage, signs, identities, market policy, probabilities, scoring, validation/states, QB availability

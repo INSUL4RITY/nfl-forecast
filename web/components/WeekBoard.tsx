@@ -7,7 +7,7 @@ import { WeekResultsPanel } from "./Pick";
 
 const pctOf = (w: number, l: number) => (w + l ? `${((100 * w) / (w + l)).toFixed(2)}%` : "—");
 
-/** Season record of publicly verifiable pregame forecasts (pushes and ties excluded from the percentage). */
+/** Season record of publicly verifiable pregame forecasts (level results and ties excluded from the percentage). */
 const weeksText = (w: number[]) => (w.length > 1 ? `Weeks ${w[0]}–${w[w.length - 1]}` : `Week ${w[0]}`);
 const wlp = (x: WLP) => `${x.win}–${x.loss}${x.push ? `–${x.push}` : ""}`;
 
@@ -21,7 +21,7 @@ function RecCell({ label, x }: { label: string; x: WLP }) {
   );
 }
 
-/** Display-only tracking record of the stats-only (football-only, no betting line) numbers at each pick's lock. */
+/** Display-only tracking record of the stats-only (football-only, no market line) numbers at each lean's lock. */
 function StatsOnlyStrip({ s }: { s: NonNullable<SeasonRecord["stats_only"]> }) {
   return (
     <section className="record-strip four" aria-label="Stats-only tracking record">
@@ -29,9 +29,9 @@ function StatsOnlyStrip({ s }: { s: NonNullable<SeasonRecord["stats_only"]> }) {
         <span className="caps">Tracking only</span>
         <b>Stats-only record</b>
         <span className="small muted">{weeksText(s.weeks)} · side of the locked line and total where the stats-only
-          numbers fell; not the official pick</span>
+          numbers fell; not the official lean</span>
       </div>
-      <RecCell label="Against the spread" x={s.spread} />
+      <RecCell label="Vs market line" x={s.spread} />
       <RecCell label="Big gaps" x={s.big_gap} />
       <RecCell label="Totals (O/U)" x={s.total} />
     </section>
@@ -54,7 +54,7 @@ function RecordStrip({ r }: { r: SeasonRecord }) {
         <span className="small ink2 num">{pctOf(su.win, su.loss)}</span>
       </div>
       <div className="rec-cell rec-num">
-        <span className="caps">Against the spread</span>
+        <span className="caps">Vs market line</span>
         <span className="rec-big">{sp.win}–{sp.loss}{sp.push ? `–${sp.push}` : ""}</span>
         <span className="small ink2 num">{pctOf(sp.win, sp.loss)}</span>
       </div>
@@ -103,12 +103,12 @@ export default function WeekBoard({ doc, teams, manifest }: { doc: WeekDoc; team
           <h1 className="hero-title">Week <span className="hero-num">{doc.week}</span><br />Projections.</h1>
         </div>
         <div className="hero-side">
-          <p className="lede">Model-projected scores, lines, totals and spread picks for every game this week.</p>
+          <p className="lede">Model-projected scores, margins, totals and comparisons with the market for every game this week.</p>
           <div className="caps">{range && <>{range} · </>}{doc.n_games} games</div>
           <div className="caps">
             {doc.last_release_at
               ? <>Updated {fmtDateTime(doc.last_release_at, mounted && tzMode !== "stadium" ? tzFor(tzMode, "UTC") : "UTC")}</>
-              : "Lines and picks publish Wednesday 18:00 UK"}
+              : "Forecasts publish Wednesday 18:00 UK"}
           </div>
           <div className="hero-links">
             <a href={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/performance/`}>Model history</a>

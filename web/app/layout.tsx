@@ -5,7 +5,7 @@ import Nav from "@/components/Nav";
 
 export const metadata: Metadata = {
   title: "Insularity NFL Forecast",
-  description: "Model picks, lines, totals, expected scores and win probabilities for every NFL game, with transparent validation.",
+  description: "Expected scores, win probabilities, margins and totals for every NFL game, compared with the market and validated openly.",
 };
 
 function Mark() {
@@ -33,7 +33,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <footer className="site-footer">
           <div className="container">
             Forecasts are produced by a Python pipeline and published as versioned files; this site only displays them.
-            Only the market point spread and total are used as market inputs; no betting prices. Not betting advice.
+            Only the market point spread and total are used as market inputs; no prices. For analysis and education only.
             Data: <a href="https://github.com/nflverse">nflverse</a> (CC-BY 4.0). Presentation inspired by, but independent of, davidsasser.com/nfl.
           </div>
         </footer>

@@ -8,7 +8,7 @@ export default function About() {
       <div className="panel" style={{ maxWidth: 820 }}>
         <p>Insularity NFL Forecast is a sports-analytics portfolio project: a reproducible pipeline that forecasts every NFL game and publishes its
           forecasts before kickoff, then scores them honestly. The aim is prediction quality and transparency. The site shows projected outcomes,
-          uncertainty and a model pick against the spread for each game, all graded openly; it has no bookmaker links and gives no staking
+          uncertainty and how each forecast compares with the market line, all graded openly; it is for analysis and education and gives no
           advice.</p>
         <h2>Design decisions</h2>
         <ul>

@@ -150,7 +150,7 @@ export function marginText(margin: number, home: string, away: string): string {
 
 /** Market spread in conventional form for the favourite, e.g. "GB −4.5". home_spread < 0 => home favoured. */
 export function spreadText(homeSpread: number, home: string, away: string): string {
-  if (homeSpread === 0) return "Pick'em";
+  if (homeSpread === 0) return "Even";
   return homeSpread < 0 ? `${home} −${Math.abs(homeSpread).toFixed(1)}` : `${away} −${homeSpread.toFixed(1)}`;
 }
 

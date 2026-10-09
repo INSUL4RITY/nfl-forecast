@@ -75,7 +75,7 @@ export default function InjuryReportTable({ r, season, week, gameType, venueTz }
         at times by a day or more, so check the{" "}
         <a href={nflUrl(season, week, gameType)} target="_blank" rel="noopener noreferrer">official injury report on NFL.com</a>{" "}
         and team announcements before kickoff. Display only: injuries other than at quarterback are not model inputs (tested;
-        the betting line usually reflects them).
+        the market line usually reflects them).
       </p>
     </details>
   );
