@@ -160,6 +160,8 @@ export interface WeekGame {
   injury_report?: InjuryReport | null;
   staff?: { away: StaffSide | null; home: StaffSide | null };
   result_grade?: ResultGrade | null;
+  stats_only_grade?: { spread: "win" | "loss" | "push" | null; big_gap: boolean; total: "win" | "loss" | "push" | null;
+                       total_side: "over" | "under" | null } | null;
 }
 
 /** Head coach and coordinators of one team for the game's season (display only; data/manual/coaching_staff.csv). */
@@ -204,7 +206,7 @@ export interface LockedPick extends Pick {
   verification: string;
   rule: "original-pick" | "final-pregame";
   /** Football-only (stats-only, no market input) margin and total from that same version (display only). */
-  stats_only?: { margin: number; total: number } | null;
+  stats_only?: { margin: number; total: number; line_total?: number | null } | null;
 }
 
 export interface ResultGrade {
@@ -260,7 +262,11 @@ export interface SeasonRecord {
   weeks: number[];
   straight_up: { win: number; loss: number; tie: number };
   spread: { win: number; loss: number; push: number };
+  /** Display-only tracking record of the stats-only numbers from each locked version (not the official model pick). */
+  stats_only?: { weeks: number[]; spread: WLP; big_gap: WLP; total: WLP };
 }
+
+export interface WLP { win: number; loss: number; push: number }
 
 export interface Manifest {
   exported_at: string;

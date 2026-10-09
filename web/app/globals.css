@@ -186,8 +186,13 @@ details summary { cursor: pointer; font-weight: 700; }
 .rec-num { align-items: flex-end; text-align: right; }
 .rec-num .caps { align-self: flex-start; }
 .rec-big { font-size: 1.8rem; font-weight: 800; font-variant-numeric: tabular-nums; letter-spacing: -0.02em; line-height: 1.1; }
+.records { margin: 0 0 20px; }
+.records .record-strip { margin: 0; }
+.records .record-strip + .record-strip { border-top: 0; }
+.record-strip.four { grid-template-columns: minmax(0, 1.3fr) repeat(3, minmax(0, 1fr)); }
+@media (max-width: 900px) { .record-strip.four .rec-big { font-size: 1.4rem; } }
 @media (max-width: 600px) {
-  .record-strip { grid-template-columns: 1fr; }
+  .record-strip, .record-strip.four { grid-template-columns: 1fr; }
   .rec-cell + .rec-cell { border-left: 0; border-top: 1px solid var(--rule); }
   .rec-num { flex-direction: row; flex-wrap: wrap; align-items: baseline; justify-content: space-between; text-align: left; }
 }

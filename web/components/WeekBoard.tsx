@@ -1,6 +1,6 @@
 ﻿"use client";
 import { useEffect, useMemo, useState } from "react";
-import type { Manifest, SeasonRecord, Team, WeekDoc } from "@/lib/types";
+import type { Manifest, SeasonRecord, Team, WeekDoc, WLP } from "@/lib/types";
 import { dateRange, dayKey, fmtDateTime, tzFor, type TzMode } from "@/lib/format";
 import GameCard from "./GameCard";
 import { WeekResultsPanel } from "./Pick";
@@ -8,9 +8,39 @@ import { WeekResultsPanel } from "./Pick";
 const pctOf = (w: number, l: number) => (w + l ? `${((100 * w) / (w + l)).toFixed(2)}%` : "—");
 
 /** Season record of publicly verifiable pregame forecasts (pushes and ties excluded from the percentage). */
+const weeksText = (w: number[]) => (w.length > 1 ? `Weeks ${w[0]}–${w[w.length - 1]}` : `Week ${w[0]}`);
+const wlp = (x: WLP) => `${x.win}–${x.loss}${x.push ? `–${x.push}` : ""}`;
+
+function RecCell({ label, x }: { label: string; x: WLP }) {
+  return (
+    <div className="rec-cell rec-num">
+      <span className="caps">{label}</span>
+      <span className="rec-big">{wlp(x)}</span>
+      <span className="small ink2 num">{pctOf(x.win, x.loss)}</span>
+    </div>
+  );
+}
+
+/** Display-only tracking record of the stats-only (football-only, no betting line) numbers at each pick's lock. */
+function StatsOnlyStrip({ s }: { s: NonNullable<SeasonRecord["stats_only"]> }) {
+  return (
+    <section className="record-strip four" aria-label="Stats-only tracking record">
+      <div className="rec-cell">
+        <span className="caps">Tracking only</span>
+        <b>Stats-only record</b>
+        <span className="small muted">{weeksText(s.weeks)} · side of the locked line and total where the stats-only
+          numbers fell; not the official pick</span>
+      </div>
+      <RecCell label="Against the spread" x={s.spread} />
+      <RecCell label="Big gaps" x={s.big_gap} />
+      <RecCell label="Totals (O/U)" x={s.total} />
+    </section>
+  );
+}
+
 function RecordStrip({ r }: { r: SeasonRecord }) {
   const su = r.straight_up, sp = r.spread;
-  const weeks = r.weeks.length > 1 ? `Weeks ${r.weeks[0]}–${r.weeks[r.weeks.length - 1]}` : `Week ${r.weeks[0]}`;
+  const weeks = weeksText(r.weeks);
   return (
     <section className="record-strip" aria-label="Overall model record">
       <div className="rec-cell">
@@ -96,7 +126,13 @@ export default function WeekBoard({ doc, teams, manifest }: { doc: WeekDoc; team
           </div>
         </div>
       </header>
-      {manifest.season_record && manifest.season_record.weeks.length > 0 && <RecordStrip r={manifest.season_record} />}
+      {manifest.season_record && manifest.season_record.weeks.length > 0 && (
+        <div className="records">
+          <RecordStrip r={manifest.season_record} />
+          {manifest.season_record.stats_only && manifest.season_record.stats_only.weeks.length > 0 &&
+            <StatsOnlyStrip s={manifest.season_record.stats_only} />}
+        </div>
+      )}
 
       <div className="controls" role="group" aria-label="Filters">
         <button className="chip" aria-pressed={day === "all"} onClick={() => setDay("all")}>All games</button>

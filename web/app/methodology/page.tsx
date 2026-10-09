@@ -164,6 +164,10 @@ export default function Methodology() {
           52.2% (2019–21), 57.5% (2022–24) and 51.5% (2025) of the time: not a reliable edge, and the 2026 sample is small.
           It is a prompt to check why the market disagrees, not a pick. From 6 October 2026 releases also store how each group of
           inputs adds up to the stats-only margin (Details page); earlier releases did not, so older games do not show it.</p>
+        <p className="small"><b>Stats-only tracking record, 9 October 2026</b> (display only; not the official model pick and not part
+          of the model record): for each publicly verifiable locked pick, the side of the locked line and total on which that same
+          version&apos;s stats-only margin and total fell, graded against that line and total; &quot;Big gaps&quot; counts only games
+          where the stats-only margin was at least 3 points from the line. It starts with week 3, the first week with locked picks.</p>
       </div>
 
       <div className="panel">

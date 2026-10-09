@@ -262,6 +262,11 @@ market lines, QB availability, injury display, weather display). A changed artif
 - Publication time moved (2026-10-06, user: "thursday is a bit late ... lines have moved a lot ... wednesday evening"):
   weekly first publication is now Wednesday 18:00 UK (was Thursday 09:00 UK, set 2026-10-05); week 5 released at once on
   Tue 6 Oct (schedule.EARLY_OPENS). Operational only; the model pick still locks at the first publication.
+- Stats-only tracking record (2026-10-09, user request; display only): `picks.grade_stats_only` grades the locked
+  version's stats-only margin/total against that version's line/total (`locked_pick.stats_only.line_total` added);
+  `manifest.season_record.stats_only` (spread, big gaps >= 3 pts, totals) over publicly verifiable locked picks, shown as a
+  second strip under the season record; verify-claims recomputes each game's grade. At creation (weeks 3-5, week 5 to
+  date): stats-only ATS 18-12-2, big gaps 6-1, totals 13-19; official model pick 15-15-2.
 
 ## 3. Tests and checks (2026-09-25)
 - `pytest`: **107 passed** (leakage, signs, identities, market policy, probabilities, scoring, validation/states, QB availability

@@ -139,6 +139,8 @@ def picks_checks() -> list[tuple[str, bool, str]]:
                     want["lean"] = PK.grade(lp_rel, h, a, H, A)["lean"] if lp_rel else "no_line"
                 if it["forecast_state"] != "scored" or want != it["result_grade"]:
                     bad.append(gid)
+                if it.get("stats_only_grade") != PK.grade_stats_only(lp, h, a):
+                    bad.append(gid)
         res = doc.get("results")
         again = PK.weekly_summary(doc["games"]) if any(it.get("pick") for it in doc["games"]) else None
         if again != res:

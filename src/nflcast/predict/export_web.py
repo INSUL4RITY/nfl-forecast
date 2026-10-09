@@ -157,7 +157,9 @@ def locked_pick_for(vs: list[tuple[dict, dict]], kickoff: datetime, home: str, a
 def stats_only_for(entry: dict) -> dict | None:
     """The football-only (stats-only, no market input) margin and total archived in that same version (display only)."""
     fo = (entry or {}).get("football_only")
-    return {"margin": fo["margin"], "total": fo["total"]} if fo else None
+    if not fo:
+        return None
+    return {"margin": fo["margin"], "total": fo["total"], "line_total": ((entry or {}).get("market") or {}).get("total")}
 
 
 GAME_STATUS_ORDER = {"Out": 0, "Doubtful": 1, "Questionable": 2}
@@ -277,6 +279,8 @@ def export() -> Path:
     weeks = sorted(set(weeks) | {(cur, int(w)) for w in games.filter(pl.col("season") == cur)["week"].unique().to_list()})
     week_index, inj_cache, staff = [], {}, load_staff()
     record = {"weeks": [], "straight_up": {"win": 0, "loss": 0, "tie": 0}, "spread": {"win": 0, "loss": 0, "push": 0}}
+    wlp = lambda: {"win": 0, "loss": 0, "push": 0}
+    record["stats_only"] = {"weeks": [], "spread": wlp(), "big_gap": wlp(), "total": wlp()}
     for season, week in weeks:
         wk = games.filter((pl.col("season") == season) & (pl.col("week") == week)).sort("kickoff_utc")
         items = []
@@ -298,6 +302,8 @@ def export() -> Path:
             item["result_grade"] = (PK.grade_game(item["pick"], item["locked_pick"], g["home_score"], g["away_score"],
                                                   g["home_team"], g["away_team"])
                                     if g["status"] == "final" and item["pick"] and view["forecast_state"] == "scored" else None)
+            item["stats_only_grade"] = (PK.grade_stats_only(item["locked_pick"], g["home_score"], g["away_score"])
+                                        if item["result_grade"] else None)
             item["injury_report"] = injury_report_for(g, now, inj_cache) if view["forecast"] else None
             item["staff"] = {"away": staff_for(staff, g["away_team"], season), "home": staff_for(staff, g["home_team"], season)}
             items.append(item)
@@ -316,6 +322,18 @@ def export() -> Path:
                 record["straight_up"][k] += pv["winner"][k]
             for k in ("win", "loss", "push"):
                 record["spread"][k] += pv["lean"][k]
+        if season == cur:          # stats-only tracking record: publicly verifiable locked versions only (display only)
+            so = record["stats_only"]
+            for it in items:
+                sg, lk = it.get("stats_only_grade"), it.get("locked_pick") or {}
+                if not sg or lk.get("verification") != "publicly_verifiable_pregame":
+                    continue
+                if week not in so["weeks"]:
+                    so["weeks"].append(week)
+                for key, res in (("spread", sg["spread"]), ("big_gap", sg["spread"] if sg["big_gap"] else None),
+                                 ("total", sg["total"])):
+                    if res:
+                        so[key][res] += 1
         week_index.append({"season": season, "week": week, "n_games": wk.height, "has_forecasts": bool(rel),
                            "date_range": doc["date_range"]})
     with_fc = [w for w in week_index if w["has_forecasts"]]

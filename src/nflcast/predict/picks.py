@@ -123,6 +123,29 @@ def _empty() -> dict:
             "abs_margin_error_sum": 0.0, "mean_abs_margin_error": None, "retro_winner": 0, "retro_pick": 0}
 
 
+BIG_GAP = 3.0            # points between the stats-only margin and the line that the site tags "Big gap"
+
+
+def grade_stats_only(locked_pick: dict | None, home_score: int, away_score: int) -> dict | None:
+    """Display-only tracking record (user request 2026-10-09; not the official model pick): the side of the locked
+    version's spread and total on which that same version's stats-only (football-only) numbers fell, graded against that
+    line and total. A difference that rounds to 0.00 is no pick (None)."""
+    so = (locked_pick or {}).get("stats_only")
+    line = (locked_pick or {}).get("line_home_spread")
+    if not so or line is None:
+        return None
+    a, t = home_score - away_score, home_score + away_score
+    d = so["margin"] + line                  # > 0: the stats rate the home team above the line
+    c = a + line                             # > 0: the home team covered
+    spread = None if abs(d) < NO_LEAN else "push" if c == 0 else "win" if (c > 0) == (d > 0) else "loss"
+    lt = so.get("line_total")
+    dt = None if lt is None else so["total"] - lt
+    total = (None if dt is None or abs(dt) < NO_LEAN else "push" if t == lt
+             else "win" if (t > lt) == (dt > 0) else "loss")
+    return {"spread": spread, "big_gap": abs(d) >= BIG_GAP, "total": total,
+            "total_side": None if total is None else ("over" if dt > 0 else "under")}
+
+
 def weekly_summary(items: list[dict]) -> dict:
     """items: exported game items with `status`, `forecast_verification`, `pick`, `locked_pick`, `result_grade`.
     The winner record and margin error are grouped by the final-pregame version's verification label (`graded`,
