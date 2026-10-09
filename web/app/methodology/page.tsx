@@ -168,8 +168,8 @@ export default function Methodology() {
           of the model record): for each publicly verifiable locked lean, the side of the locked line and total on which that same
           version&apos;s stats-only margin and total fell, graded against that line and total; &quot;Big gaps&quot; counts only games
           where the stats-only margin was at least 3 points from the line. It starts with week 3, the first week with locked leans.</p>
-        <p className="small"><b>Wording, 9 October 2026:</b> &quot;model pick&quot; was renamed &quot;model lean vs market&quot; and
-          other wording was made neutral, since the site is a forecasting and analytics project; the numbers and rules did not change.</p>
+        <p className="small"><b>Wording, 9 October 2026:</b> labels were renamed to neutral forecasting terms (for example
+          &quot;model lean vs market&quot;), since the site is a forecasting and analytics project; the numbers and rules did not change.</p>
       </div>
 
       <div className="panel">
