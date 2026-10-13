@@ -21,7 +21,7 @@ function RecCell({ label, x }: { label: string; x: WLP }) {
   );
 }
 
-/** Display-only tracking record of the stats-only (football-only, no market line) numbers at each lean's lock. */
+/** Display-only tracking record of the stats-only (football-only, no market line) numbers at each pick's lock. */
 function StatsOnlyStrip({ s }: { s: NonNullable<SeasonRecord["stats_only"]> }) {
   return (
     <section className="record-strip four" aria-label="Stats-only tracking record">
@@ -29,7 +29,7 @@ function StatsOnlyStrip({ s }: { s: NonNullable<SeasonRecord["stats_only"]> }) {
         <span className="caps">Tracking only</span>
         <b>Stats-only record</b>
         <span className="small muted">{weeksText(s.weeks)} · side of the locked line and total where the stats-only
-          numbers fell; not the official lean</span>
+          numbers fell; not the official model pick</span>
       </div>
       <RecCell label="Vs market line" x={s.spread} />
       <RecCell label="Big gaps" x={s.big_gap} />

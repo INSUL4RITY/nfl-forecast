@@ -26,7 +26,7 @@ export const BIG_GAP = 3;
 
 const STATS_EXPLAIN = "Edge: how far the model's projected margin was from the line (under 0.5 points is about a coin flip). " +
   "Stats-only: the football-only model, which uses no market line. Big gap: the stats-only number was at least 3 points from " +
-  "the line when the lean was locked; a prompt to check why the market disagrees, not a recommendation.";
+  "the line when the pick was locked; a prompt to check why the market disagrees, not a recommendation.";
 
 const EDGE: Record<string, string> = { tiny: "Tiny edge · about a coin flip", small: "Small edge", moderate: "Moderate edge", large: "Large edge" };
 
@@ -46,23 +46,23 @@ export function statsGap(lp: LockedPick | null | undefined): number | null {
 /** Model pick against the spread, e.g. "PIT +3.5"; "No pick" when the projection equals the line or no line. */
 export function pickText(p: Pick): string {
   const l = p.lean;
-  return l && l.status === "lean" ? teamSpread(l.side!, l.side_spread!) : "No lean";
+  return l && l.status === "lean" ? teamSpread(l.side!, l.side_spread!) : "No pick";
 }
 
-export const PICK_EXPLAIN = "Model lean: the side of the market line on which the model's projected margin fell when the lean " +
+export const PICK_EXPLAIN = "Model pick: the side of the market line on which the market-adjusted projected margin fell when the pick " +
   "was locked (the first forecast with a market line). It does not change if the line or the forecast moves later, and it is " +
   "graded against that line. It is not a probability of finishing on that side of the line. " + STATS_EXPLAIN;
 
-const PICK_EXPLAIN_OLD = "Model lean: the side of the market line on which the last forecast before kickoff fell, graded " +
+const PICK_EXPLAIN_OLD = "Model pick: the side of the market line on which the last forecast before kickoff fell, graded " +
   "against that forecast's line (the rule for games before 1 October 2026). It is not a probability of finishing on that side of the line. " + STATS_EXPLAIN;
 
 /** Numerical difference for the version the pick comes from, and its size label (Details page only). */
 export function pickDetail(p: Pick, home: string, away: string): string {
   const l = p.lean;
   const m = (x: number) => (Math.abs(x) < 0.005 ? "even" : x > 0 ? `${home} by ${x.toFixed(2)}` : `${away} by ${(-x).toFixed(2)}`);
-  if (!l || l.status === "no_line" || p.line_home_spread == null) return "No market line was recorded with that forecast, so there is no model lean.";
+  if (!l || l.status === "no_line" || p.line_home_spread == null) return "No market line was recorded with that forecast, so there is no model pick.";
   const base = `Projected margin ${m(p.projected_margin)}; the line implied ${m(-p.line_home_spread)}.`;
-  if (l.status === "no_lean") return `${base} The difference rounds to 0.00 points: no lean.`;
+  if (l.status === "no_lean") return `${base} The difference rounds to 0.00 points: no pick.`;
   return `${base} Difference ${l.difference!.toFixed(2)} points toward ${l.side} (${l.strength}). Differences under 0.5 points are ` +
     "labelled tiny and are within normal noise; 0.5–1.5 small, 1.5–3 moderate, 3 or more large.";
 }
@@ -82,15 +82,15 @@ export function PredictionSummary({ g, lockedAt }: { g: WeekGame; lockedAt?: Rea
   const changed = locked && !old && cur != null && (lineMoved || Math.abs(f.margin - lp!.projected_margin) >= 0.005);
   const explain = old ? PICK_EXPLAIN_OLD : PICK_EXPLAIN;
   const fo = e.football_only;
-  const pair = (line: number, margin: number, stats?: number | null) => <>line {spreadText(line, H, A)} · model {modelLine2(margin, H, A)}
+  const pair = (line: number, margin: number, stats?: number | null) => <>line {spreadText(line, H, A)} · market-adjusted {modelLine2(margin, H, A)}
     {stats != null && <> · stats-only {modelLine2(stats, H, A)}</>}</>;
   const edge = lp ? edgeText(lp) : null;
   const gap = statsGap(lp);
   return (
     <section className="pred" aria-label="Model prediction">
       <div className="pred-pick" title={explain} aria-describedby={`pick-explain-${g.game_id}`}>
-        <span className="pick-lbl">Model lean vs market</span>
-        <span className="pick-main">{lp ? pickText(lp) : started ? "No lean" : "No lean yet"}{lp?.retrospectively_derived ? " *" : ""}</span>
+        <span className="pick-lbl">Model pick</span>
+        <span className="pick-main">{lp ? pickText(lp) : started ? "No pick" : "No pick yet"}{lp?.retrospectively_derived ? " *" : ""}</span>
         {edge && <span className={`pick-edge${lp!.lean?.strength === "tiny" ? " tiny" : ""}`}>{edge}</span>}
         {locked ? (old ? (
           <span className="pick-sub">{lp!.lean?.status === "no_lean" ? "Projection equalled the line · " : ""}From the last forecast
@@ -111,9 +111,9 @@ export function PredictionSummary({ g, lockedAt }: { g: WeekGame; lockedAt?: Rea
       </div>
       <dl className="pred-grid">
         <div><dt>Market line</dt><dd>{cur != null ? spreadText(cur, H, A) : "—"}</dd></div>
-        <div><dt>Model line</dt><dd>{modelLineText(f.margin, H, A)}</dd></div>
+        <div><dt>Market-adjusted line</dt><dd>{modelLineText(f.margin, H, A)}</dd></div>
         <div><dt>Market total</dt><dd>{e.market?.total != null ? f1(e.market.total) : "—"}</dd></div>
-        <div><dt>Model total</dt><dd>{f1(f.total)}</dd></div>
+        <div><dt>Market-adjusted total</dt><dd>{f1(f.total)}</dd></div>
         {fo && <><div><dt>Stats-only line</dt><dd>{modelLineText(fo.margin, H, A)}</dd></div>
           <div><dt>Stats-only total</dt><dd>{f1(fo.total)}</dd></div></>}
         <div className="full"><dt>Projected winner</dt>
@@ -124,13 +124,13 @@ export function PredictionSummary({ g, lockedAt }: { g: WeekGame; lockedAt?: Rea
 }
 
 const W: Record<ResultGrade["winner"], string> = { win: "correct", loss: "wrong", tie: "game tied", no_pick: "no call (toss-up)" };
-const L: Record<ResultGrade["lean"], string> = { win: "correct", loss: "wrong", push: "level with the line", no_lean: "no lean", no_line: "no line" };
+const L: Record<ResultGrade["lean"], string> = { win: "correct", loss: "wrong", push: "level with the line", no_lean: "no pick", no_line: "no line" };
 
 export function gradeText(r: ResultGrade): string {
-  return `Winner ${W[r.winner]} · model lean vs market ${L[r.lean]} · margin error ${r.abs_margin_error.toFixed(1)}`;
+  return `Winner ${W[r.winner]} · model pick ${L[r.lean]} · margin error ${r.abs_margin_error.toFixed(1)}`;
 }
 
-export const RETRO_NOTE = "Lean labels derived retrospectively from the archived forecast and its line (the numbers were published; these labels were not).";
+export const RETRO_NOTE = "Pick labels derived retrospectively from the archived forecast and its line (the numbers were published; these labels were not).";
 
 const GROUP_TITLE: Record<string, string> = {
   publicly_verifiable_pregame: "Publicly verifiable pregame",
@@ -142,14 +142,14 @@ function rec(g: GroupResults) {
   const w = g.winner, l = g.lean, pg = g.pick_graded ?? g.graded;
   return {
     winner: g.graded ? `${w.win}–${w.loss}${w.tie ? `, ${w.tie} tie${w.tie > 1 ? "s" : ""}` : ""}${w.no_pick ? `, ${w.no_pick} toss-up` : ""}` : "—",
-    lean: pg ? `${l.win}–${l.loss}${l.push ? `, ${l.push} level` : ""}${l.no_lean ? `, ${l.no_lean} no lean` : ""}${l.no_line ? `, ${l.no_line} no line` : ""}` +
+    lean: pg ? `${l.win}–${l.loss}${l.push ? `, ${l.push} level` : ""}${l.no_lean ? `, ${l.no_lean} no pick` : ""}${l.no_line ? `, ${l.no_line} no line` : ""}` +
       (pg !== g.graded ? ` (${pg} game${pg > 1 ? "s" : ""})` : "") : "—",
   };
 }
 
 const RULE_TEXT: Record<string, string> = {
-  "original-pick": "The model lean is graded against the line it was locked at (the first forecast with a market line).",
-  "final-pregame": "The model lean is graded on the last valid forecast before kickoff and that forecast's line (the rule for games before 1 October 2026; finished weeks are not regraded).",
+  "original-pick": "The model pick is graded against the line it was locked at (the first forecast with a market line).",
+  "final-pregame": "The model pick is graded on the last valid forecast before kickoff and that forecast's line (the rule for games before 1 October 2026; finished weeks are not regraded).",
 };
 
 export function WeekResultsPanel({ r }: { r: WeekResults }) {
@@ -166,7 +166,7 @@ export function WeekResultsPanel({ r }: { r: WeekResults }) {
       {groups.length === 0 ? <p className="small muted">No finished games yet.</p> : (
         <div className="table-wrap"><table>
           <thead><tr><th>Forecasts</th><th className="r">Graded</th><th className="r">Winner record</th>
-            <th className="r">Lean vs market record</th><th className="r">Avg. margin error</th></tr></thead>
+            <th className="r">Model pick record</th><th className="r">Avg. margin error</th></tr></thead>
           <tbody>{groups.map(([k, g]) => {
             const t = rec(g);
             return (<tr key={k}><td>{GROUP_TITLE[k] ?? k}{g.retro_winner || g.retro_pick ? " *" : ""}</td><td className="r">{g.graded}</td>
@@ -176,12 +176,12 @@ export function WeekResultsPanel({ r }: { r: WeekResults }) {
       )}
       {(rw > 0 || rp > 0) && (
         <p className="small muted" style={{ marginBottom: 0 }}>* Includes {[rw ? `${rw} winner label${rw > 1 ? "s" : ""}` : "",
-          rp ? `${rp} model-lean label${rp > 1 ? "s" : ""}` : ""].filter(Boolean).join(" and ")} derived retrospectively from
-          archived forecasts made before lean labels were published (the forecasts and lines were archived before kickoff; these
+          rp ? `${rp} model-pick label${rp > 1 ? "s" : ""}` : ""].filter(Boolean).join(" and ")} derived retrospectively from
+          archived forecasts made before pick labels were published (the forecasts and lines were archived before kickoff; these
           labels were added later by a fixed rule).</p>
       )}
       <p className="small muted" style={{ marginBottom: 0 }}>Winner record: the projected winner against the result (actual ties listed separately).
-        Lean vs market record: the model lean against the line it was graded on, as described above (level results, no-lean and
+        Model pick record: the model pick against the line it was graded on, as described above (level results, no-pick and
         no-line games listed separately). Win probabilities apply to the projected winner only, not to the line. For analysis and education only.</p>
     </div>
   );

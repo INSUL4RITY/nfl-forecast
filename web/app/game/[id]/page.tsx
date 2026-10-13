@@ -163,7 +163,7 @@ export default async function GamePage({ params }: { params: Promise<{ id: strin
   const f = e?.forecast;
   const H = g.home, A = g.away;
   const models: [string, Forecast | null | undefined, string][] = e ? [
-    ["Combined (selected)", e.combined, "Market spread & total + football features; residual ridge"],
+    ["Market-adjusted (combined)", e.combined, "Market spread & total + football features; residual ridge"],
     ["Stats-only (football only)", e.football_only, "No market inputs; also the fallback model"],
     ["Market only", e.market_only, "Spread & total mapped to scores (benchmark)"],
   ] : [];
@@ -220,7 +220,7 @@ export default async function GamePage({ params }: { params: Promise<{ id: strin
         <div className="panel pending">
           {g.forecast_state === "not_archived"
             ? "No valid pregame forecast was archived for this game. Nothing is shown rather than a forecast reconstructed after the fact."
-            : "Forecast pending: each week's forecasts and model leans are published on the Wednesday at 18:00 UK time before its first game."}
+            : "Forecast pending: each week's forecasts and model picks are published on the Wednesday at 18:00 UK time before its first game."}
         </div>
       ) : (
         <>
@@ -235,16 +235,16 @@ export default async function GamePage({ params }: { params: Promise<{ id: strin
               <h2 style={{ marginTop: 0 }}>Prediction</h2>
               <PredictionSummary g={g} lockedAt={g.locked_pick ? <LocalTime venueTz={g.venue_tz} iso={g.locked_pick.generated_at} /> : null} />
               <details style={{ marginTop: 10 }}>
-                <summary className="small">Details: how the model lean works</summary>
+                <summary className="small">Details: how the model pick works</summary>
                 {g.locked_pick && <p className="small" style={{ margin: "6px 0 0" }}>{pickDetail(g.locked_pick, H, A)}</p>}
                 <p className="small muted" style={{ margin: "6px 0 0" }}>{g.locked_pick?.rule === "final-pregame"
-                  ? <>The model lean is the side of the market line on which the unrounded projected margin of the last valid forecast
+                  ? <>The model pick is the side of the market line on which the unrounded market-adjusted projected margin of the last valid forecast
                     before kickoff fell, graded against that forecast&apos;s line (the rule for games before 1 October 2026; finished
                     weeks are not regraded).</>
-                  : <>The model lean is the side of the market line on which the unrounded projected margin fell when it was locked,
+                  : <>The model pick is the side of the market line on which the unrounded market-adjusted projected margin fell when it was locked,
                     at the first forecast with a market line. It stays the same if the line or the forecast changes later, and it is
                     graded against the line it was locked at.</>}{" "}
-                  Market line, model line, totals and the projected winner are from the latest forecast. The win probability belongs
+                  Market line, market-adjusted line, totals and the projected winner are from the latest forecast. The win probability belongs
                   to the projected winner only; it is not a probability of finishing on that side of the line. For analysis and education only.</p>
               </details>
               {g.result_grade && <p style={{ marginBottom: 0 }}><b>Result:</b> {gradeText(g.result_grade)} (actual margin{" "}
@@ -295,7 +295,7 @@ export default async function GamePage({ params }: { params: Promise<{ id: strin
               <thead><tr><th>Model</th><th className="r">{A}</th><th className="r">{H}</th><th className="r">Margin</th><th className="r">Total</th>
                 <th className="r">P({H} win)</th><th className="r">95% margin range</th><th className="r">80% total range</th></tr></thead>
               <tbody>{models.map(([name, m, desc]) => m ? (
-                <tr key={name} className={name.startsWith("Combined") && e.market_inputs_used ? "hl" : undefined}>
+                <tr key={name} className={name.startsWith("Market-adjusted") && e.market_inputs_used ? "hl" : undefined}>
                   <td title={desc}>{name}</td><td className="r">{f1(m.away_pts)}</td><td className="r">{f1(m.home_pts)}</td>
                   <td className="r">{marginText(m.margin, H, A)}</td><td className="r">{f1(m.total)}</td><td className="r">{pct(m.p_home)}</td>
                   <td className="r">{rangeFmt(m.intervals.margin_95, H, A)}</td>

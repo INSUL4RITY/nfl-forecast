@@ -8,13 +8,13 @@ export interface H2HWeek {
 }
 
 const MODELS: [keyof Keyed, string, string][] = [
-  ["combined", "Combined", "var(--series-1)"],
+  ["combined", "Market-adjusted", "var(--series-1)"],
   ["stats_only", "Stats-only", "var(--series-3)"],
   ["market", "Market", "var(--series-2)"],
 ];
 
 const BEST_TEXT: Record<keyof Keyed, string> =
-  { combined: "the combined forecast", stats_only: "the stats-only forecast", market: "the market line" };
+  { combined: "the market-adjusted forecast", stats_only: "the stats-only forecast", market: "the market line" };
 
 const add = (a: H2HWeek, b: H2HWeek): H2HWeek => {
   const k = (x: Keyed, y: Keyed): Keyed => ({ combined: x.combined + y.combined, stats_only: x.stats_only + y.stats_only, market: x.market + y.market });
@@ -53,7 +53,7 @@ export default function HeadToHead({ weeks }: { weeks: H2HWeek[] }) {
             <th colSpan={2} className="r">Vs market line</th></tr>
           <tr>{MODELS.map(([k, l]) => <th key={`e${k}`} className="r">{l}</th>)}
             {MODELS.map(([k, l]) => <th key={`w${k}`} className="r">{l}</th>)}
-            <th className="r">Lean</th><th className="r">Stats-only</th></tr>
+            <th className="r">Model pick</th><th className="r">Stats-only</th></tr>
         </thead>
         <tbody>
           {weeks.map((r) => (
@@ -76,8 +76,8 @@ export default function HeadToHead({ weeks }: { weeks: H2HWeek[] }) {
         </div>
       )}
       <p className="small muted" style={{ marginBottom: 0 }}>Winner correct counts games where the forecast favoured a side and the game
-        was not tied. Record vs market line: wins–losses–level results for the model lean and for the side of the locked line where the
-        stats-only margin fell (a tracking record, not the official lean). The market line has no record against itself.</p>
+        was not tied. Record vs market line: wins–losses–level results for the model pick and for the side of the locked line where the
+        stats-only margin fell (a tracking record, not the official model pick). The market line has no record against itself.</p>
     </div>
   );
 }

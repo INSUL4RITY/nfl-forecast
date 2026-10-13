@@ -98,8 +98,8 @@ export default function Methodology() {
       <div className="panel">
         <h2>Releases, versions and publication</h2>
         <ul>
-          <li><b>Weekly publication.</b> Each week&apos;s forecasts and model leans are first published on the Wednesday at
-            18:00 UK time before its first game, not as soon as the previous week ends; the model lean locks at that first publication. If the
+          <li><b>Weekly publication.</b> Each week&apos;s forecasts and model picks are first published on the Wednesday at
+            18:00 UK time before its first game, not as soon as the previous week ends; the model pick locks at that first publication. If the
             pipeline is not running at 18:00, the week is published at its next run before kickoff; nothing is back-dated. History: weeks 1–4
             published when the previous week ended; from 5 October 2026 the time was Thursday 09:00 UK; on 6 October 2026 it moved to
             Wednesday 18:00 UK because lines had moved a lot by Thursday, and week 5 was published at once (Tuesday 6 October, evening).</li>
@@ -137,39 +137,41 @@ export default function Methodology() {
       </div>
 
       <div className="panel">
-        <h2>Model leans and weekly results</h2>
-        <p className="small">Leans are labels derived from one forecast version and the market line recorded in that same version; the
-          model is unchanged. <b>Model lean vs market</b> (e.g. PIT +3.5): the side of the market line on which the unrounded
+        <h2>Model picks and weekly results</h2>
+        <p className="small">Picks are labels derived from one forecast version and the market line recorded in that same version; the
+          model is unchanged. <b>Model pick</b> (e.g. PIT +3.5): the side of the market line on which the unrounded market-adjusted
           projected margin falls. It is <b>locked at the first forecast with a market line</b> and graded against that line: if the line or
-          the forecast moves later, the lean does not change (for example, the line is BUF −7.5 with BUF projected to win by 6.4: the lean
+          the forecast moves later, the pick does not change (for example, the line is BUF −7.5 with BUF projected to win by 6.4: the pick
           is the opponent +7.5, and it stays +7.5 even if the line later moves to BUF −6.0). The game card shows the line and the model&apos;s
-          projected margin at the moment the lean was locked and, once either has changed, the latest line and model (&quot;Then&quot; and
-          &quot;Now&quot;), so the lean can always be checked against the numbers it was made from. <b>Model line</b>: the latest projected margin written as a line. <b>Projected winner</b>: the team
+          projected margin at the moment the pick was locked and, once either has changed, the latest line and model (&quot;Then&quot; and
+          &quot;Now&quot;), so the pick can always be checked against the numbers it was made from. <b>Market-adjusted line</b>: the combined model&apos;s latest projected margin written as a line; it starts from the market line and adjusts it using the football data, so by design it stays close to the market. <b>Stats-only line</b>: the football-only model, which uses no market input. <b>Projected winner</b>: the team
           with the higher win probability in the latest forecast; the winner record and the margin error use the last valid version
           generated before kickoff, as scoring does. The win probability belongs to the projected winner only; it is not a probability of
           finishing on one side of the line. The size of the difference (in points; under 0.5 labelled tiny) is on each game&apos;s Details page; a difference
-          that rounds to 0.00 points (below 0.005) means &quot;No lean&quot;. For analysis and education only. The winner record and the lean vs market record are
-          kept separate; actual ties, results exactly level with the line, no-lean and no-line games are counted separately. Games whose forecast was generated before
-          but first published after kickoff are reported separately. Forecasts made before lean labels were added (25 September 2026) have
+          that rounds to 0.00 points (below 0.005) means &quot;No pick&quot;. For analysis and education only. The winner record and the model pick record are
+          kept separate; actual ties, results exactly level with the line, no-pick and no-line games are counted separately. Games whose forecast was generated before
+          but first published after kickoff are reported separately. Forecasts made before pick labels were added (25 September 2026) have
           their labels derived afterwards by the same fixed rule and are marked as retrospectively derived. Weeks show &quot;Week to
           date&quot; until every game is final.</p>
-        <p className="small"><b>Rule change, 1 October 2026</b> (decided before any week 4 game): the locked lean applies to games kicking
-          off from 1 October 2026 (week 4 onward). Earlier games keep the rule in force when they were played: the model lean from the last
+        <p className="small"><b>Rule change, 1 October 2026</b> (decided before any week 4 game): the locked pick applies to games kicking
+          off from 1 October 2026 (week 4 onward). Earlier games keep the rule in force when they were played: the model pick from the last
           valid forecast before kickoff, graded against that forecast&apos;s line. Finished weeks are not regraded; week 3 stays 8–6 with 1 level
           result among publicly verifiable forecasts (it would have been 9–6 under the new rule).</p>
-        <p className="small"><b>Display additions, 6 October 2026</b> (no forecast, lean or grading change): the lean box shows the size of
+        <p className="small"><b>Display additions, 6 October 2026</b> (no forecast, pick or grading change): the pick box shows the size of
           the edge (tiny under 0.5 points, about a coin flip; small 0.5–1.5; moderate 1.5–3; large 3 or more) and the <b>stats-only</b>
           line, which is the football-only model with no market input, at the lock and now. <b>Big gap</b> marks a game where the stats-only
-          margin was at least 3 points from the line when the lean was locked. In the backtests the result finished on the stats-only side of
+          margin was at least 3 points from the line when the pick was locked. In the backtests the result finished on the stats-only side of
           the line in 52.2% (2019–21), 57.5% (2022–24) and 51.5% (2025) of such games: not a reliable edge, and the 2026 sample is small.
           It is a prompt to check why the market disagrees, not a recommendation. From 6 October 2026 releases also store how each group of
           inputs adds up to the stats-only margin (Details page); earlier releases did not, so older games do not show it.</p>
-        <p className="small"><b>Stats-only tracking record, 9 October 2026</b> (display only; not the official model lean and not part
-          of the model record): for each publicly verifiable locked lean, the side of the locked line and total on which that same
+        <p className="small"><b>Stats-only tracking record, 9 October 2026</b> (display only; not the official model pick and not part
+          of the model record): for each publicly verifiable locked pick, the side of the locked line and total on which that same
           version&apos;s stats-only margin and total fell, graded against that line and total; &quot;Big gaps&quot; counts only games
-          where the stats-only margin was at least 3 points from the line. It starts with week 3, the first week with locked leans.</p>
-        <p className="small"><b>Wording, 9 October 2026:</b> labels were renamed to neutral forecasting terms (for example
-          &quot;model lean vs market&quot;), since the site is a forecasting and analytics project; the numbers and rules did not change.</p>
+          where the stats-only margin was at least 3 points from the line. It starts with week 3, the first week with locked picks.</p>
+        <p className="small"><b>Wording, 9 and 13 October 2026:</b> betting terms were replaced with neutral forecasting terms, since the site is a
+          forecasting and analytics project. On 13 October the headline number previously called &quot;Model line&quot; was relabelled
+          &quot;Market-adjusted line&quot;, so a number built from the market line is not mistaken for an independent opinion (the
+          stats-only line is the independent one). The numbers and rules did not change.</p>
       </div>
 
       <div className="panel">

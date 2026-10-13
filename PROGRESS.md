@@ -277,6 +277,11 @@ market lines, QB availability, injury display, weather display). A changed artif
   lean and the stats-only side; `performance.json.live_head_to_head`, Performance page table + cumulative margin-error chart;
   verify-claims recomputes it. After week 5 (46 games): margin error combined 8.23, stats-only 8.29, market 8.22; winner
   26/45, 28/45, 26/45; vs line lean 22-21-3, stats-only 25-18-3.
+- Labels (2026-10-13, user request; text only): "Model lean vs market" -> "Model pick"; "Model line"/"Model total" ->
+  "Market-adjusted line"/"Market-adjusted total" (the combined model sits ~0.1-0.4 pts from the line, so it must not read as
+  an independent opinion). The user considered making stats-only the official pick from week 6 and decided against it
+  mid-season; revisit at week 9 / season end (v2.0 plan). 2026 so far: when the market-adjusted pick and the stats-only side
+  agree 13-9-2; when they disagree the stats-only side 12-9-1.
 - `pytest`: **107 passed** (leakage, signs, identities, market policy, probabilities, scoring, validation/states, QB availability
   (25), archive integrity, release-path isolation, freeze, public-page wording (2), The Odds API feed (11), picks/results (6),
   alerts (15), verify-claims archive re-download (1), locked picks (+5 in test_picks)).

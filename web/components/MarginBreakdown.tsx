@@ -38,7 +38,7 @@ export default function MarginBreakdown({ b, home, away, homeColor, awayColor }:
         Points each group adds to the stats-only projection (the football-only model, which uses no market line), pointing toward
         the team it favours. They add up to the stats-only line: {lead}.{hidden ? ` ${hidden === 1 ? "One group" : `${hidden} groups`} under 0.05 points not shown.` : ""}{" "}
         The groups overlap (a team that passes well also tends to score well), so read them together; this describes the fitted
-        model, not football cause and effect. The published model line starts from the market line and is not split this way.
+        model, not football cause and effect. The market-adjusted line is built from the market line and is not split this way.
       </p>
     </div>
   );
