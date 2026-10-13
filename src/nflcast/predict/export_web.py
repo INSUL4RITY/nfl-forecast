@@ -154,6 +154,56 @@ def locked_pick_for(vs: list[tuple[dict, dict]], kickoff: datetime, home: str, a
             "stats_only": stats_only_for(o[1])}
 
 
+# Matchup percentiles (display only): (team_efficiency key, group, label, higher is better)
+MATCHUP = [
+    ("adj_off_epa", "offence", "Overall (opponent-adjusted)", True),
+    ("off_epa_db", "offence", "Passing (EPA per dropback)", True),
+    ("off_epa_rush", "offence", "Rushing (EPA per carry)", True),
+    ("off_succ_play", "offence", "Success rate", True),
+    ("off_pts_drive", "offence", "Points per drive", True),
+    ("off_sack_rate", "offence", "Avoiding sacks", False),
+    ("adj_def_epa", "defence", "Overall (opponent-adjusted)", True),     # a rating: higher = better defence
+    ("def_epa_db", "defence", "Pass defence (EPA allowed)", False),
+    ("def_epa_rush", "defence", "Run defence (EPA allowed)", False),
+    ("def_succ_play", "defence", "Success rate allowed", False),
+    ("def_pts_drive", "defence", "Points per drive allowed", False),
+    ("def_sack_rate", "defence", "Pass rush (sack rate)", True),
+    ("expected_qb_rating", "quarterback", "Expected starting QB rating", True),
+]
+
+
+def matchup_percentiles(release: dict | None, game_id: str) -> dict | None:
+    """Percentile (0 = worst, 100 = best) of both teams on each MATCHUP measure, among all teams in the SAME release
+    (as of that forecast; teams on a bye or already played are not in it). Display only; None if too few teams."""
+    if not release:
+        return None
+    pool: dict[str, dict] = {}
+    me = None
+    for g in release.get("games", []):
+        te = g.get("team_efficiency")
+        if not te:
+            continue
+        pool[g["home_team"]], pool[g["away_team"]] = te["home"], te["away"]
+        if g["game_id"] == game_id:
+            me = te
+    if me is None or len(pool) < 8:
+        return None
+    metrics = []
+    for key, group, label, higher in MATCHUP:
+        vals = [r[key] for r in pool.values() if r.get(key) is not None]
+        if me["home"].get(key) is None or me["away"].get(key) is None or len(vals) < 8:
+            continue
+
+        def pct(v: float) -> float:
+            better_than = sum(1 for x in vals if (x < v if higher else x > v))
+            ties = sum(1 for x in vals if x == v) - 1
+            return 100.0 * (better_than + ties / 2) / (len(vals) - 1)
+        metrics.append({"key": key, "group": group, "label": label, "higher_is_better": higher,
+                        "home": pct(me["home"][key]), "away": pct(me["away"][key]),
+                        "home_value": me["home"][key], "away_value": me["away"][key]})
+    return {"n_teams": len(pool), "metrics": metrics} if metrics else None
+
+
 def stats_only_for(entry: dict) -> dict | None:
     """The football-only (stats-only, no market input) margin and total archived in that same version (display only)."""
     fo = (entry or {}).get("football_only")
@@ -270,6 +320,7 @@ def export() -> Path:
     evidence = PUB.load_evidence()
     corrections = PUB.load_corrections()
     versions: dict[str, list[tuple[dict, dict]]] = {}
+    run_map = {r["run_id"]: r for r in releases}
     for r in releases:
         for g in r["games"]:
             versions.setdefault(g["game_id"], []).append((r, g))
@@ -303,6 +354,8 @@ def export() -> Path:
             item["result_grade"] = (PK.grade_game(item["pick"], item["locked_pick"], g["home_score"], g["away_score"],
                                                   g["home_team"], g["away_team"])
                                     if g["status"] == "final" and item["pick"] and view["forecast_state"] == "scored" else None)
+            item["matchup"] = (matchup_percentiles(run_map.get(view["forecast_run_id"]), g["game_id"])
+                               if view["forecast_run_id"] else None)
             item["stats_only_grade"] = (PK.grade_stats_only(item["locked_pick"], g["home_score"], g["away_score"])
                                         if item["result_grade"] else None)
             item["injury_report"] = injury_report_for(g, now, inj_cache) if view["forecast"] else None

@@ -49,7 +49,7 @@ export function pickText(p: Pick): string {
   return l && l.status === "lean" ? teamSpread(l.side!, l.side_spread!) : "No pick";
 }
 
-export const PICK_EXPLAIN = "Model pick: the side of the market line on which the market-adjusted projected margin fell when the pick " +
+export const PICK_EXPLAIN = "Model pick: the side of the market line on which the model's projected margin fell when the pick " +
   "was locked (the first forecast with a market line). It does not change if the line or the forecast moves later, and it is " +
   "graded against that line. It is not a probability of finishing on that side of the line. " + STATS_EXPLAIN;
 
@@ -82,7 +82,7 @@ export function PredictionSummary({ g, lockedAt }: { g: WeekGame; lockedAt?: Rea
   const changed = locked && !old && cur != null && (lineMoved || Math.abs(f.margin - lp!.projected_margin) >= 0.005);
   const explain = old ? PICK_EXPLAIN_OLD : PICK_EXPLAIN;
   const fo = e.football_only;
-  const pair = (line: number, margin: number, stats?: number | null) => <>line {spreadText(line, H, A)} · market-adjusted {modelLine2(margin, H, A)}
+  const pair = (line: number, margin: number, stats?: number | null) => <>line {spreadText(line, H, A)} · model {modelLine2(margin, H, A)}
     {stats != null && <> · stats-only {modelLine2(stats, H, A)}</>}</>;
   const edge = lp ? edgeText(lp) : null;
   const gap = statsGap(lp);
@@ -111,9 +111,9 @@ export function PredictionSummary({ g, lockedAt }: { g: WeekGame; lockedAt?: Rea
       </div>
       <dl className="pred-grid">
         <div><dt>Market line</dt><dd>{cur != null ? spreadText(cur, H, A) : "—"}</dd></div>
-        <div><dt>Market-adjusted line</dt><dd>{modelLineText(f.margin, H, A)}</dd></div>
+        <div><dt>Model line</dt><dd>{modelLineText(f.margin, H, A)}</dd></div>
         <div><dt>Market total</dt><dd>{e.market?.total != null ? f1(e.market.total) : "—"}</dd></div>
-        <div><dt>Market-adjusted total</dt><dd>{f1(f.total)}</dd></div>
+        <div><dt>Model total</dt><dd>{f1(f.total)}</dd></div>
         {fo && <><div><dt>Stats-only line</dt><dd>{modelLineText(fo.margin, H, A)}</dd></div>
           <div><dt>Stats-only total</dt><dd>{f1(fo.total)}</dd></div></>}
         <div className="full"><dt>Projected winner</dt>

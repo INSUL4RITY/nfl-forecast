@@ -31,6 +31,34 @@ export function onDark(hex: string | undefined, fallback = "#5d6678"): string {
   return `rgb(${c.map((x) => Math.round(x)).join(", ")})`;
 }
 
+const PANEL_LUM = lum([20, 26, 37]);   // --surface (#141a25)
+const toHex = (c: number[]) => `#${c.map((x) => Math.round(x).toString(16).padStart(2, "0")).join("")}`;
+
+/** A team colour lightened until it has at least 3:1 contrast with the panel (WCAG non-text contrast). */
+function visible(hex: string | undefined): number[] | null {
+  let c = rgbOf(hex);
+  if (!c) return null;
+  for (let k = 0; k < 20 && (lum(c) + 0.05) / (PANEL_LUM + 0.05) < 3; k++) c = c.map((x) => x + (255 - x) * 0.12);
+  return c;
+}
+const chroma = (c: number[]) => Math.max(...c) - Math.min(...c);
+const dist = (a: number[], b: number[]) => Math.hypot(a[0] - b[0], a[1] - b[1], a[2] - b[2]);
+
+/** One identity colour per team for charts on the dark page: each team's more vivid colour (primary or secondary), made
+ *  visible on the panel; if the two teams would look alike, the away team switches to its other colour (or a neutral). */
+export function teamPairColors(home?: { color: string; color2: string }, away?: { color: string; color2: string }): { home: string; away: string } {
+  const opts = (t?: { color: string; color2: string }) =>
+    [t?.color, t?.color2].map(visible).filter((c): c is number[] => !!c).sort((a, b) => chroma(b) - chroma(a));
+  const h = opts(home), a = opts(away);
+  const hc = h[0] ?? [57, 135, 229];
+  let ac = a[0] ?? [217, 89, 38];
+  if (dist(hc, ac) < 110) {
+    const alt = a.find((c) => dist(hc, c) >= 110);
+    ac = alt ?? (dist(hc, [170, 179, 195]) >= 110 ? [170, 179, 195] : [217, 89, 38]);
+  }
+  return { home: toHex(hc), away: toHex(ac) };
+}
+
 export function fmtKickoff(iso: string, tz?: string, known = true): string {
   const d = new Date(iso);
   const day = new Intl.DateTimeFormat("en-GB", { weekday: "short", day: "numeric", month: "short", timeZone: tz }).format(d);

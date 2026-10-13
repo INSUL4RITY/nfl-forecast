@@ -4,12 +4,13 @@ import LocalTime from "@/components/LocalTime";
 import InjuryReportTable from "@/components/InjuryReportTable";
 import CoachingStaff from "@/components/CoachingStaff";
 import MarginBreakdown from "@/components/MarginBreakdown";
+import MatchupPercentiles from "@/components/MatchupPercentiles";
 import TeamBadge from "@/components/TeamBadge";
 import { dataProblems } from "@/components/GameCard";
 import StateLabel from "@/components/StateLabel";
 import { gradeText, pickDetail, PredictionSummary, RETRO_NOTE } from "@/components/Pick";
 import { allGames, findGame, getTeams } from "@/lib/data";
-import { f1, f2, f3, marginText, onDark, pct, pctP, problemText, qbStatusText, rosterText, spreadText, VERIFY_LABEL } from "@/lib/format";
+import { f1, f2, f3, marginText, onDark, pct, teamPairColors, pctP, problemText, qbStatusText, rosterText, spreadText, VERIFY_LABEL } from "@/lib/format";
 import type { Forecast, LineupSide } from "@/lib/types";
 
 export function generateStaticParams() {
@@ -162,8 +163,9 @@ export default async function GamePage({ params }: { params: Promise<{ id: strin
   const e = g.forecast;
   const f = e?.forecast;
   const H = g.home, A = g.away;
+  const pair = teamPairColors(teams[H], teams[A]);
   const models: [string, Forecast | null | undefined, string][] = e ? [
-    ["Market-adjusted (combined)", e.combined, "Market spread & total + football features; residual ridge"],
+    ["Model (combined)", e.combined, "Market spread & total + football features; residual ridge"],
     ["Stats-only (football only)", e.football_only, "No market inputs; also the fallback model"],
     ["Market only", e.market_only, "Spread & total mapped to scores (benchmark)"],
   ] : [];
@@ -238,13 +240,13 @@ export default async function GamePage({ params }: { params: Promise<{ id: strin
                 <summary className="small">Details: how the model pick works</summary>
                 {g.locked_pick && <p className="small" style={{ margin: "6px 0 0" }}>{pickDetail(g.locked_pick, H, A)}</p>}
                 <p className="small muted" style={{ margin: "6px 0 0" }}>{g.locked_pick?.rule === "final-pregame"
-                  ? <>The model pick is the side of the market line on which the unrounded market-adjusted projected margin of the last valid forecast
+                  ? <>The model pick is the side of the market line on which the unrounded projected margin of the last valid forecast
                     before kickoff fell, graded against that forecast&apos;s line (the rule for games before 1 October 2026; finished
                     weeks are not regraded).</>
-                  : <>The model pick is the side of the market line on which the unrounded market-adjusted projected margin fell when it was locked,
+                  : <>The model pick is the side of the market line on which the model&apos;s unrounded projected margin fell when it was locked,
                     at the first forecast with a market line. It stays the same if the line or the forecast changes later, and it is
                     graded against the line it was locked at.</>}{" "}
-                  Market line, market-adjusted line, totals and the projected winner are from the latest forecast. The win probability belongs
+                  Market line, model line, totals and the projected winner are from the latest forecast. The win probability belongs
                   to the projected winner only; it is not a probability of finishing on that side of the line. For analysis and education only.</p>
               </details>
               {g.result_grade && <p style={{ marginBottom: 0 }}><b>Result:</b> {gradeText(g.result_grade)} (actual margin{" "}
@@ -295,7 +297,7 @@ export default async function GamePage({ params }: { params: Promise<{ id: strin
               <thead><tr><th>Model</th><th className="r">{A}</th><th className="r">{H}</th><th className="r">Margin</th><th className="r">Total</th>
                 <th className="r">P({H} win)</th><th className="r">95% margin range</th><th className="r">80% total range</th></tr></thead>
               <tbody>{models.map(([name, m, desc]) => m ? (
-                <tr key={name} className={name.startsWith("Market-adjusted") && e.market_inputs_used ? "hl" : undefined}>
+                <tr key={name} className={name.startsWith("Model") && e.market_inputs_used ? "hl" : undefined}>
                   <td title={desc}>{name}</td><td className="r">{f1(m.away_pts)}</td><td className="r">{f1(m.home_pts)}</td>
                   <td className="r">{marginText(m.margin, H, A)}</td><td className="r">{f1(m.total)}</td><td className="r">{pct(m.p_home)}</td>
                   <td className="r">{rangeFmt(m.intervals.margin_95, H, A)}</td>
@@ -318,8 +320,11 @@ export default async function GamePage({ params }: { params: Promise<{ id: strin
             )}
           </div>
 
-          {e.football_breakdown && <MarginBreakdown b={e.football_breakdown} home={H} away={A}
-            homeColor={onDark(teams[H]?.color)} awayColor={onDark(teams[A]?.color)} />}
+          {e.football_breakdown && <MarginBreakdown b={e.football_breakdown} home={H} away={A} homeColor={pair.home}
+            awayColor={pair.away} homeName={teams[H]?.nick} awayName={teams[A]?.nick} />}
+
+          {g.matchup && <MatchupPercentiles m={g.matchup} home={H} away={A} homeColor={pair.home} awayColor={pair.away}
+            homeName={teams[H]?.nick} awayName={teams[A]?.nick} />}
 
           {g.staff && (g.staff.away || g.staff.home) && <CoachingStaff away={A} home={H} staff={g.staff} />}
 

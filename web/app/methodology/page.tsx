@@ -141,12 +141,12 @@ export default function Methodology() {
       <div className="panel">
         <h2>Model picks and weekly results</h2>
         <p className="small">Picks are labels derived from one forecast version and the market line recorded in that same version; the
-          model is unchanged. <b>Model pick</b> (e.g. PIT +3.5): the side of the market line on which the unrounded market-adjusted
+          model is unchanged. <b>Model pick</b> (e.g. PIT +3.5): the side of the market line on which the model&apos;s unrounded
           projected margin falls. It is <b>locked at the first forecast with a market line</b> and graded against that line: if the line or
           the forecast moves later, the pick does not change (for example, the line is BUF −7.5 with BUF projected to win by 6.4: the pick
           is the opponent +7.5, and it stays +7.5 even if the line later moves to BUF −6.0). The game card shows the line and the model&apos;s
           projected margin at the moment the pick was locked and, once either has changed, the latest line and model (&quot;Then&quot; and
-          &quot;Now&quot;), so the pick can always be checked against the numbers it was made from. <b>Market-adjusted line</b>: the combined model&apos;s latest projected margin written as a line; it starts from the market line and adjusts it using the football data, so by design it stays close to the market. <b>Stats-only line</b>: the football-only model, which uses no market input. <b>Projected winner</b>: the team
+          &quot;Now&quot;), so the pick can always be checked against the numbers it was made from. <b>Model line</b>: the combined model&apos;s latest projected margin written as a line; it starts from the market line and adjusts it using the football data, so by design it stays close to the market. <b>Stats-only line</b>: the football-only model, which uses no market input. <b>Projected winner</b>: the team
           with the higher win probability in the latest forecast; the winner record and the margin error use the last valid version
           generated before kickoff, as scoring does. The win probability belongs to the projected winner only; it is not a probability of
           finishing on one side of the line. The size of the difference (in points; under 0.5 labelled tiny) is on each game&apos;s Details page; a difference
@@ -171,9 +171,8 @@ export default function Methodology() {
           version&apos;s stats-only margin and total fell, graded against that line and total; &quot;Big gaps&quot; counts only games
           where the stats-only margin was at least 3 points from the line. It starts with week 3, the first week with locked picks.</p>
         <p className="small"><b>Wording, 9 and 13 October 2026:</b> betting terms were replaced with neutral forecasting terms, since the site is a
-          forecasting and analytics project. On 13 October the headline number previously called &quot;Model line&quot; was relabelled
-          &quot;Market-adjusted line&quot;, so a number built from the market line is not mistaken for an independent opinion (the
-          stats-only line is the independent one). The numbers and rules did not change.</p>
+          forecasting and analytics project. The model line is built from the market line, so it is not an independent opinion;
+          the stats-only line is the independent one. The numbers and rules did not change.</p>
       </div>
 
       <div className="panel">

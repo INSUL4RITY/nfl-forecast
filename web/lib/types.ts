@@ -160,8 +160,16 @@ export interface WeekGame {
   injury_report?: InjuryReport | null;
   staff?: { away: StaffSide | null; home: StaffSide | null };
   result_grade?: ResultGrade | null;
+  matchup?: Matchup | null;
   stats_only_grade?: { spread: "win" | "loss" | "push" | null; big_gap: boolean; total: "win" | "loss" | "push" | null;
                        total_side: "over" | "under" | null } | null;
+}
+
+/** Percentile (0-100, 100 = best) of both teams on efficiency measures among all teams in the same forecast release. */
+export interface Matchup {
+  n_teams: number;
+  metrics: { key: string; group: "offence" | "defence" | "quarterback"; label: string; higher_is_better: boolean;
+             home: number; away: number; home_value: number; away_value: number }[];
 }
 
 /** Head coach and coordinators of one team for the game's season (display only; data/manual/coaching_staff.csv). */

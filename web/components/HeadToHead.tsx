@@ -8,13 +8,13 @@ export interface H2HWeek {
 }
 
 const MODELS: [keyof Keyed, string, string][] = [
-  ["combined", "Market-adjusted", "var(--series-1)"],
+  ["combined", "Model", "var(--series-1)"],
   ["stats_only", "Stats-only", "var(--series-3)"],
   ["market", "Market", "var(--series-2)"],
 ];
 
 const BEST_TEXT: Record<keyof Keyed, string> =
-  { combined: "the market-adjusted forecast", stats_only: "the stats-only forecast", market: "the market line" };
+  { combined: "the model line", stats_only: "the stats-only forecast", market: "the market line" };
 
 const add = (a: H2HWeek, b: H2HWeek): H2HWeek => {
   const k = (x: Keyed, y: Keyed): Keyed => ({ combined: x.combined + y.combined, stats_only: x.stats_only + y.stats_only, market: x.market + y.market });

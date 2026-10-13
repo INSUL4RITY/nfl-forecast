@@ -214,3 +214,28 @@ def test_head_to_head_compares_the_three_forecasts_on_the_same_games():
     assert h["winner_called"] == {"combined": 2, "stats_only": 2, "market": 2}
     assert h["winner_correct"] == {"combined": 1, "stats_only": 0, "market": 1}
     assert h["vs_line"] == {"lean": {"win": 1, "loss": 1, "push": 1}, "stats_only": {"win": 1, "loss": 1, "push": 0}}
+
+
+def test_matchup_percentiles_rank_within_the_same_release():
+    from nflcast.predict.export_web import matchup_percentiles
+    teams = [f"T{i}" for i in range(10)]
+    games = []
+    for i in range(0, 10, 2):
+        eff = lambda j: {"adj_off_epa": j / 100, "def_epa_db": j / 100, "expected_qb_rating": None}
+        games.append({"game_id": f"g{i}", "home_team": teams[i], "away_team": teams[i + 1],
+                      "team_efficiency": {"home": eff(i), "away": eff(i + 1)}})
+    m = matchup_percentiles({"games": games}, "g8")          # T8 (2nd best offence) vs T9 (best)
+    assert m["n_teams"] == 10
+    off = next(x for x in m["metrics"] if x["key"] == "adj_off_epa")
+    dfn = next(x for x in m["metrics"] if x["key"] == "def_epa_db")
+    assert off["away"] == 100.0 and round(off["home"], 1) == 88.9           # higher is better
+    assert dfn["away"] == 0.0 and round(dfn["home"], 1) == 11.1             # pass defence: lower EPA allowed is better
+    assert all(x["key"] != "expected_qb_rating" for x in m["metrics"])      # missing values are skipped
+    assert matchup_percentiles({"games": games[:2]}, "g0") is None         # too few teams
+    assert matchup_percentiles(None, "g0") is None
+
+
+def test_adjusted_defence_rating_counts_higher_as_better():
+    from nflcast.predict.export_web import MATCHUP
+    assert dict((k, hib) for k, _, _, hib in MATCHUP)["adj_def_epa"] is True     # a rating (corr -0.99 with EPA allowed)
+    assert dict((k, hib) for k, _, _, hib in MATCHUP)["def_epa_db"] is False     # EPA allowed: lower is better

@@ -47,7 +47,8 @@ CLI stay `nflcast`; keep the URL and repo name (published evidence and links poi
 - **Neutral public wording (user, 2026-10-09; the site is on a data-science CV):** no betting/gambling terms on public pages
   (no "bet", "betting", "pick'em", "bookmakers", "cover", "push", "against the spread"). Use "market line", "even", "level with
   the line", "vs market line", "for analysis and education only". Internal code names may stay. Exception (user, 2026-10-13):
-  the headline label is "Model pick"; the combined model's line is labelled "Market-adjusted line" (never "Model line").
+  the headline label is "Model pick" and the combined model's line is "Model line" (user prefers it to "Market-adjusted line");
+  the Method page states that the model line is built from the market line and the stats-only line is the independent one.
 - After any display change, run `scripts/layout_audit.js` in the browser on the local build (widths 1280, 768, 414, 375, 320)
   and on the live site after deploy: 0 issues required. Wrap every table in `.table-wrap` (cells do not wrap by default).
 - The user accepts that updates pause while the PC is off; never recreate or back-date missed forecasts.

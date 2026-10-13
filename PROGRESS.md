@@ -285,6 +285,12 @@ market lines, QB availability, injury display, weather display). A changed artif
 - Publication time moved again (2026-10-13, user: Monday night data is in by Tuesday): weekly first publication is now
   Tuesday 18:00 UK (from week 6), plus a data-completeness hold: the first publication waits (max 24 h, never past 1 h
   before kickoff) while finished games of the previous week are missing from team_games (`schedule.waiting_for_data`).
+- Game-page visuals (2026-10-13, user request after comparing with another public model; display only): "Model line" /
+  "Model total" labels restored (user preference); the stats-only breakdown is redrawn in each team's identity colour
+  (`format.teamPairColors`: the more vivid of primary/secondary, lightened to 3:1 contrast, away switched if the two look
+  alike) with team totals and a total row equal to the stats-only line; new "How they rate" percentile dumbbell chart
+  (`export_web.matchup_percentiles`: 13 efficiency measures, percentile among all teams in the SAME release; note
+  adj_def_epa is a rating where higher = better defence, corr -0.99 with EPA allowed).
 - `pytest`: **107 passed** (leakage, signs, identities, market policy, probabilities, scoring, validation/states, QB availability
   (25), archive integrity, release-path isolation, freeze, public-page wording (2), The Odds API feed (11), picks/results (6),
   alerts (15), verify-claims archive re-download (1), locked picks (+5 in test_picks)).
