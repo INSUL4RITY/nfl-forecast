@@ -266,6 +266,15 @@ def build_candidate(now: datetime | None = None, days_ahead: int = 8) -> dict | 
     if hold is not None:                 # weekly publication time not reached yet (predict/schedule.py)
         last_skip_reason = f"week {week} is held back until {hold.isoformat(timespec='minutes')} ({SCHED.SCHEDULE_TEXT})"
         return None
+    if not released_before:              # first publication: the previous week's finished games must be in the team data
+        done_ids = set(pl.read_parquet(PROCESSED_DIR / "team_games.parquet", columns=["game_id"])["game_id"].to_list())
+        prev = games_all.filter((pl.col("season") == season) & (pl.col("week") == week - 1) & (pl.col("status") == "final"))
+        missing = [gid for gid in prev["game_id"].to_list() if gid not in done_ids]
+        wait = SCHED.waiting_for_data(first["kickoff_utc"], now, released_before, len(missing))
+        if wait is not None:
+            last_skip_reason = (f"week {week} is waiting for nflverse data on {len(missing)} week {week - 1} game(s) "
+                                f"({', '.join(missing[:3])}) until at most {wait.isoformat(timespec='minutes')}")
+            return None
 
     games = pl.read_parquet(PROCESSED_DIR / "games.parquet")
     tg = pl.read_parquet(PROCESSED_DIR / "team_games.parquet")

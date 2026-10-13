@@ -23,10 +23,13 @@ Claude (the app or chat) does not need to be open. Anything that should have hap
 final-hour update) is not recreated afterwards.
 
 ## Full slate before the first kickoff
-A release covers every unplayed game of the upcoming week. A week is first published at Wednesday 18:00 UK before its
-first game (`src/nflcast/predict/schedule.py`; user decisions: Thursday 09:00 UK on 2026-10-05, moved to Wednesday 18:00 UK
-on 2026-10-06 with week 5 released at once via EARLY_OPENS); until then the cycle logs
-"no release: week N is held back until ...". If the PC is off at 18:00, the first cycle after login publishes (games
+A release covers every unplayed game of the upcoming week. A week is first published at Tuesday 18:00 UK before its
+first game (`src/nflcast/predict/schedule.py`; user decisions: Thursday 09:00 UK on 2026-10-05, Wednesday 18:00 UK on
+2026-10-06 with week 5 released at once via EARLY_OPENS, Tuesday 18:00 UK on 2026-10-13 from week 6); until then the cycle
+logs "no release: week N is held back until ...". The first publication also waits (at most 24 h after the publication
+time, never past one hour before kickoff) while finished games of the previous week are missing from
+`data/processed/team_games.parquet`; the log then says "week N is waiting for nflverse data on ... game(s)".
+If the PC is off at 18:00, the first cycle after login publishes (games
 that already kicked off are not back-filled). Weeks 1-4 published as soon as the previous week ended. Missing or stale
 optional inputs never block a forecast: QB availability falls back to documented historical start rates (flagged
 "designation pending" / "report not published yet"), weather is display-only, and the page states what was incomplete.

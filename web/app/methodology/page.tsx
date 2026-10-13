@@ -98,11 +98,13 @@ export default function Methodology() {
       <div className="panel">
         <h2>Releases, versions and publication</h2>
         <ul>
-          <li><b>Weekly publication.</b> Each week&apos;s forecasts and model picks are first published on the Wednesday at
-            18:00 UK time before its first game, not as soon as the previous week ends; the model pick locks at that first publication. If the
-            pipeline is not running at 18:00, the week is published at its next run before kickoff; nothing is back-dated. History: weeks 1–4
-            published when the previous week ended; from 5 October 2026 the time was Thursday 09:00 UK; on 6 October 2026 it moved to
-            Wednesday 18:00 UK because lines had moved a lot by Thursday, and week 5 was published at once (Tuesday 6 October, evening).</li>
+          <li><b>Weekly publication.</b> Each week&apos;s forecasts and model picks are first published on the Tuesday at
+            18:00 UK time before its first game, not as soon as the previous week ends; the model pick locks at that first publication. The
+            first publication also waits, for at most 24 hours, until every finished game of the previous week (including Monday night) is in
+            the team data, so a pick never locks without it. If the pipeline is not running at 18:00, the week is published at its next run
+            before kickoff; nothing is back-dated. History: weeks 1–4 published when the previous week ended; from 5 October 2026 the time was
+            Thursday 09:00 UK; on 6 October 2026 it moved to Wednesday 18:00 UK because lines had moved a lot by Thursday, and week 5 was
+            published at once (Tuesday 6 October, evening); on 13 October 2026 it moved to Tuesday 18:00 UK, from week 6.</li>
           <li>The pipeline checks every 30 minutes. A new release is made when any game&apos;s inputs change (market spread or total, quarterback
             availability, the injury report, team form from newly completed games, or the model version), in the hour before each kickoff, and at least
             daily. Every version is kept; no game is updated after kickoff.</li>

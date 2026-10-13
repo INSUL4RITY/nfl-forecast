@@ -282,6 +282,9 @@ market lines, QB availability, injury display, weather display). A changed artif
   an independent opinion). The user considered making stats-only the official pick from week 6 and decided against it
   mid-season; revisit at week 9 / season end (v2.0 plan). 2026 so far: when the market-adjusted pick and the stats-only side
   agree 13-9-2; when they disagree the stats-only side 12-9-1.
+- Publication time moved again (2026-10-13, user: Monday night data is in by Tuesday): weekly first publication is now
+  Tuesday 18:00 UK (from week 6), plus a data-completeness hold: the first publication waits (max 24 h, never past 1 h
+  before kickoff) while finished games of the previous week are missing from team_games (`schedule.waiting_for_data`).
 - `pytest`: **107 passed** (leakage, signs, identities, market policy, probabilities, scoring, validation/states, QB availability
   (25), archive integrity, release-path isolation, freeze, public-page wording (2), The Odds API feed (11), picks/results (6),
   alerts (15), verify-claims archive re-download (1), locked picks (+5 in test_picks)).
