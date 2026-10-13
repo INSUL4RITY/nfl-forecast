@@ -281,6 +281,7 @@ def export() -> Path:
     record = {"weeks": [], "straight_up": {"win": 0, "loss": 0, "tie": 0}, "spread": {"win": 0, "loss": 0, "push": 0}}
     wlp = lambda: {"win": 0, "loss": 0, "push": 0}
     record["stats_only"] = {"weeks": [], "spread": wlp(), "big_gap": wlp(), "total": wlp()}
+    h2h: list[dict] = []
     for season, week in weeks:
         wk = games.filter((pl.col("season") == season) & (pl.col("week") == week)).sort("kickoff_utc")
         items = []
@@ -322,6 +323,10 @@ def export() -> Path:
                 record["straight_up"][k] += pv["winner"][k]
             for k in ("win", "loss", "push"):
                 record["spread"][k] += pv["lean"][k]
+        if season == cur:          # live head-to-head of the three forecasts (display only)
+            hh = PK.head_to_head(items)
+            if hh["n"] or any(sum(v.values()) for v in hh["vs_line"].values()):
+                h2h.append({"season": season, "week": week, **hh})
         if season == cur:          # stats-only tracking record: publicly verifiable locked versions only (display only)
             so = record["stats_only"]
             for it in items:
@@ -343,14 +348,14 @@ def export() -> Path:
                                         "latest": {"season": latest["season"], "week": latest["week"]},
                                         "production": prod, "release_count": len(releases),
                                         "corrections": corrections})
-    _export_performance()
+    _export_performance(h2h)
     _export_ratings(now)
     print(f"[export] wrote {WEB_DATA} ({len(week_index)} weeks, {len(releases)} releases)")
     return WEB_DATA
 
 
-def _export_performance() -> None:
-    perf: dict = {"generated_at": utc_now().isoformat()}
+def _export_performance(head_to_head: list[dict] | None = None) -> None:
+    perf: dict = {"generated_at": utc_now().isoformat(), "live_head_to_head": head_to_head or []}
     for key, pattern in (("walk_forward", "backtest/bt_*/summary.json"), ("locked", "locked_test/locked_*/summary.json")):
         p = _latest(pattern)
         if p:

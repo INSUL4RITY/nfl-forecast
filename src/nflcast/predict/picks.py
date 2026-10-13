@@ -146,6 +146,42 @@ def grade_stats_only(locked_pick: dict | None, home_score: int, away_score: int)
             "total_side": None if total is None else ("over" if dt > 0 else "under")}
 
 
+PUBLIC = "publicly_verifiable_pregame"
+
+
+def head_to_head(items: list[dict]) -> dict:
+    """Display-only live comparison of the three forecasts on the same finished games (user request 2026-10-13).
+    Margin error and winner accuracy: the final pregame version (publicly verifiable only) that has a combined forecast,
+    a football-only forecast and a market line; the market forecast is the line's margin. Record vs the market line: the
+    locked lean and the locked stats-only side (publicly verifiable locked versions), as graded elsewhere."""
+    keys = ("combined", "stats_only", "market")
+    h = {"n": 0, "abs_error": {k: 0.0 for k in keys}, "winner_called": {k: 0 for k in keys},
+         "winner_correct": {k: 0 for k in keys},
+         "vs_line": {k: {"win": 0, "loss": 0, "push": 0} for k in ("lean", "stats_only")}}
+    for it in items:
+        sc, f = it.get("score"), it.get("forecast") or {}
+        if it.get("status") != "final" or not sc or not it.get("result_grade"):
+            continue
+        a = sc["home"] - sc["away"]
+        if (it.get("forecast_verification") == PUBLIC and it.get("forecast_state") == "scored" and f.get("combined")
+                and f.get("football_only") and (f.get("market") or {}).get("home_spread") is not None):
+            h["n"] += 1
+            for k, m in (("combined", f["combined"]["margin"]), ("stats_only", f["football_only"]["margin"]),
+                         ("market", -f["market"]["home_spread"])):
+                h["abs_error"][k] += abs(m - a)
+                if a != 0 and abs(m) >= NO_LEAN:
+                    h["winner_called"][k] += 1
+                    h["winner_correct"][k] += int((m > 0) == (a > 0))
+        if ((it.get("locked_pick") or {}).get("verification")) == PUBLIC:
+            lean = it["result_grade"]["lean"]
+            if lean in ("win", "loss", "push"):
+                h["vs_line"]["lean"][lean] += 1
+            so = (it.get("stats_only_grade") or {}).get("spread")
+            if so:
+                h["vs_line"]["stats_only"][so] += 1
+    return h
+
+
 def weekly_summary(items: list[dict]) -> dict:
     """items: exported game items with `status`, `forecast_verification`, `pick`, `locked_pick`, `result_grade`.
     The winner record and margin error are grouped by the final-pregame version's verification label (`graded`,

@@ -95,6 +95,10 @@ def picks_checks() -> list[tuple[str, bool, str]]:
         return exported is not None and {k: exported.get(k) for k in rp} == rp
 
     bad, lock_bad, label_bad, retro_bad, count_bad, n, n_lock = [], [], [], [], [], 0, 0
+    perf_file = ROOT / "web" / "public" / "data" / "performance.json"
+    h2h_pub = {(r["season"], r["week"]): r for r in (json.loads(perf_file.read_text(encoding="utf-8")).get("live_head_to_head") or [])
+               } if perf_file.exists() else {}
+    h2h_bad, n_h2h = [], 0
     for wf in sorted((ROOT / "web" / "public" / "data" / "weeks").glob("*.json")):
         doc = json.loads(wf.read_text(encoding="utf-8"))
         for it in doc["games"]:
@@ -141,6 +145,11 @@ def picks_checks() -> list[tuple[str, bool, str]]:
                     bad.append(gid)
                 if it.get("stats_only_grade") != PK.grade_stats_only(lp, h, a):
                     bad.append(gid)
+        if (doc["season"], doc["week"]) in h2h_pub:
+            n_h2h += 1
+            hh = PK.head_to_head(doc["games"])
+            if {k: h2h_pub[(doc["season"], doc["week"])][k] for k in hh} != hh:
+                h2h_bad.append(wf.name)
         res = doc.get("results")
         again = PK.weekly_summary(doc["games"]) if any(it.get("pick") for it in doc["games"]) else None
         if again != res:
@@ -157,7 +166,9 @@ def picks_checks() -> list[tuple[str, bool, str]]:
              "recomputed from the release files)", not bad, "; ".join(bad[:5]) or f"{n} graded"),
             ("picks without a stored label are flagged retrospectively derived", not retro_bad, "; ".join(retro_bad[:5])),
             ("weekly results tables equal the summary recomputed from their games, and records add up", not count_bad,
-             "; ".join(count_bad))]
+             "; ".join(count_bad)),
+            ("live head-to-head (Performance page) equals the comparison recomputed from each week's games",
+             not h2h_bad and n_h2h == len(h2h_pub), "; ".join(h2h_bad) or f"{n_h2h} weeks")]
 
 
 def market_feed_checks() -> list[tuple[str, bool, str]]:

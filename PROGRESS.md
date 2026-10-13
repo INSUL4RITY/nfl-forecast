@@ -272,6 +272,11 @@ market lines, QB availability, injury display, weather display). A changed artif
   "level with the line", disclaimers -> "For analysis and education only"). Text only; numbers, rules and data unchanged.
 
 ## 3. Tests and checks (2026-09-25)
+- Live head-to-head (2026-10-13, user request; display only): `picks.head_to_head` compares combined, stats-only and market
+  on the same finished, publicly verifiable games by week (margin error, winner correct) plus the vs-line records of the
+  lean and the stats-only side; `performance.json.live_head_to_head`, Performance page table + cumulative margin-error chart;
+  verify-claims recomputes it. After week 5 (46 games): margin error combined 8.23, stats-only 8.29, market 8.22; winner
+  26/45, 28/45, 26/45; vs line lean 22-21-3, stats-only 25-18-3.
 - `pytest`: **107 passed** (leakage, signs, identities, market policy, probabilities, scoring, validation/states, QB availability
   (25), archive integrity, release-path isolation, freeze, public-page wording (2), The Odds API feed (11), picks/results (6),
   alerts (15), verify-claims archive re-download (1), locked picks (+5 in test_picks)).
@@ -357,6 +362,15 @@ Note: depth-chart and roster snapshot *history* is not re-downloadable either; i
 - After the Super Bowl (Feb 2027): run `score`; report prospective 2026 results (all generated-pregame and publicly verifiable
   subsets) against market-only and football-only on identical games; then evaluate collected weather, injury-version and line
   data under pre-specified rules; consider an episode-level QB-rate estimator; decide on a v2.0 model for 2027.
+- v2.0 research plan for 2027 (agreed with the user 2026-10-13; pre-register every test and its pass rule first; the
+  2026 season with our own timestamped Wednesday lines is the new untouched test; the 2025 locked season is no longer
+  untouched): (1) stats-only vs the lines we actually lock against (Big gaps 8-1 in 2026 so far vs 52-58% on closing lines);
+  (2) a hybrid allowed to weight the stats more if (1) holds (the v1.0 combined ridge chose the maximum shrinkage, alpha 1e5,
+  i.e. ~market); (3) regression/luck features as model inputs (turnover margin, fumble recovery, one-score record, red
+  zone, 3rd/4th down) without double counting; (4) QB mismatch (user idea): QB quality and experience vs supporting cast,
+  e.g. an elite experienced QB with weak weapons vs a rookie with strong weapons should favour the elite QB; test a QB
+  rating x experience term and QB-vs-receiving-corps interactions; (5) non-QB injuries by depth role (2026 data);
+  (6) stats-only totals (19-27 in 2026: not usable as is).
 - Optional (only if you want to remove the PC dependency): move operation to a cloud runner — needs a decision and setup.
 
 ## 9. Releases so far

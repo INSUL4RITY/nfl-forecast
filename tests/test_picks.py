@@ -195,3 +195,22 @@ def test_stats_only_tracking_grade_uses_the_locked_line_and_total():
         {"spread": None, "big_gap": False, "total": None, "total_side": None}
     assert PK.grade_stats_only({"line_home_spread": None, "stats_only": lk["stats_only"]}, 16, 24) is None
     assert PK.grade_stats_only({**lk, "stats_only": {"margin": 4.9, "total": 48.8, "line_total": None}}, 16, 24)["total"] is None
+
+
+def test_head_to_head_compares_the_three_forecasts_on_the_same_games():
+    pv = "publicly_verifiable_pregame"
+    def it(home, away, comb, fo, spread, lean, so, ver=pv, state="scored"):
+        return {"status": "final", "score": {"home": home, "away": away}, "forecast_verification": ver, "forecast_state": state,
+                "forecast": {"combined": {"margin": comb}, "football_only": {"margin": fo}, "market": {"home_spread": spread}},
+                "result_grade": {"lean": lean}, "locked_pick": {"verification": ver}, "stats_only_grade": {"spread": so}}
+    items = [it(16, 24, 8.0, 4.9, -8.0, "loss", "win"),            # TB @ DAL: TB won by 8
+             it(30, 20, 3.0, -1.0, -3.0, "win", "loss"),           # home won by 10
+             it(20, 20, 1.0, 2.0, -1.0, "push", None),             # tie: no winner calls count; stats no pick
+             it(10, 0, 1.0, 1.0, -1.0, "win", "win", ver="generated_pregame_published_after_kickoff"),
+             {"status": "scheduled", "score": None}]
+    h = PK.head_to_head(items)
+    assert h["n"] == 3
+    assert h["abs_error"] == {"combined": 16.0 + 7.0 + 1.0, "stats_only": 12.9 + 11.0 + 2.0, "market": 16.0 + 7.0 + 1.0}
+    assert h["winner_called"] == {"combined": 2, "stats_only": 2, "market": 2}
+    assert h["winner_correct"] == {"combined": 1, "stats_only": 0, "market": 1}
+    assert h["vs_line"] == {"lean": {"win": 1, "loss": 1, "push": 1}, "stats_only": {"win": 1, "loss": 1, "push": 0}}
