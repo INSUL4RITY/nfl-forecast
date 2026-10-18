@@ -235,6 +235,9 @@ def test_matchup_percentiles_rank_within_the_same_release():
     assert dfn["away"] == 0.0 and round(dfn["home"], 1) == 11.1             # pass defence: lower EPA allowed is better
     assert all(x["key"] != "expected_qb_rating" for x in m["metrics"])      # missing values are skipped
     assert matchup_percentiles({"games": games[:2]}, "g0") is None         # too few teams
+    # a late release with only the last game still ranks against every team that played that week (earlier releases)
+    late = matchup_percentiles({"games": games[4:]}, "g8", [{"games": games}])
+    assert late["n_teams"] == 10 and late["metrics"] == m["metrics"]
     assert matchup_percentiles(None, "g0") is None
 
 

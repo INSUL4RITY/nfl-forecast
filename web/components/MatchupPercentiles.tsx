@@ -3,14 +3,14 @@ import type { Matchup } from "@/lib/types";
 const GROUPS: [string, string][] = [["offence", "Offence"], ["defence", "Defence"], ["quarterback", "Quarterback"]];
 const ord = (n: number) => `${n}${n % 10 === 1 && n % 100 !== 11 ? "st" : n % 10 === 2 && n % 100 !== 12 ? "nd" : n % 10 === 3 && n % 100 !== 13 ? "rd" : "th"}`;
 
-/** How the two teams rate on each measure: percentile (100 = best) among all teams in the same forecast release, as a
+/** How the two teams rate on each measure: percentile (100 = best) among the teams playing that week, as a
  *  dumbbell per measure with one dot per team in its identity colour. Display only (export_web.matchup_percentiles). */
 export default function MatchupPercentiles({ m, home, away, homeColor, awayColor, homeName, awayName }:
   { m: Matchup; home: string; away: string; homeColor: string; awayColor: string; homeName?: string; awayName?: string }) {
   return (
     <div className="panel">
       <h2 style={{ marginTop: 0 }}>How they rate</h2>
-      <p className="small ink2" style={{ marginTop: 0 }}>Percentile among the {m.n_teams} teams in this forecast: 100 is the best in that
+      <p className="small ink2" style={{ marginTop: 0 }}>Percentile among the {m.n_teams} teams playing this week, as of this forecast: 100 is the best in that
         measure, 50 is average. Defence measures are turned round so that higher is always better.</p>
       <div className="mp-legend">
         <span><i className="swatch" style={{ background: awayColor }} />{awayName ?? away} ({away})</span>

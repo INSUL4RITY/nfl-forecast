@@ -172,20 +172,23 @@ MATCHUP = [
 ]
 
 
-def matchup_percentiles(release: dict | None, game_id: str) -> dict | None:
-    """Percentile (0 = worst, 100 = best) of both teams on each MATCHUP measure, among all teams in the SAME release
-    (as of that forecast; teams on a bye or already played are not in it). Display only; None if too few teams."""
+def matchup_percentiles(release: dict | None, game_id: str, earlier: list[dict] | None = None) -> dict | None:
+    """Percentile (0 = worst, 100 = best) of both teams on each MATCHUP measure, among every team playing that week, each
+    at its latest values in this release or in `earlier` releases of the same week (late releases only contain the games
+    not yet kicked off, so teams that already played keep their last pregame values; teams on a bye are not included).
+    Display only; None if too few teams."""
     if not release:
         return None
     pool: dict[str, dict] = {}
     me = None
+    for r in [*(earlier or []), release]:
+        for g in r.get("games", []):
+            te = g.get("team_efficiency")
+            if te:
+                pool[g["home_team"]], pool[g["away_team"]] = te["home"], te["away"]
     for g in release.get("games", []):
-        te = g.get("team_efficiency")
-        if not te:
-            continue
-        pool[g["home_team"]], pool[g["away_team"]] = te["home"], te["away"]
-        if g["game_id"] == game_id:
-            me = te
+        if g["game_id"] == game_id and g.get("team_efficiency"):
+            me = g["team_efficiency"]
     if me is None or len(pool) < 8:
         return None
     metrics = []
@@ -354,8 +357,10 @@ def export() -> Path:
             item["result_grade"] = (PK.grade_game(item["pick"], item["locked_pick"], g["home_score"], g["away_score"],
                                                   g["home_team"], g["away_team"])
                                     if g["status"] == "final" and item["pick"] and view["forecast_state"] == "scored" else None)
-            item["matchup"] = (matchup_percentiles(run_map.get(view["forecast_run_id"]), g["game_id"])
-                               if view["forecast_run_id"] else None)
+            fr = run_map.get(view["forecast_run_id"]) if view["forecast_run_id"] else None
+            item["matchup"] = (matchup_percentiles(fr, g["game_id"], [
+                r for r in releases if r["season"] == fr["season"] and r["week"] == fr["week"]
+                and r["generated_at_utc"] < fr["generated_at_utc"]]) if fr else None)
             item["stats_only_grade"] = (PK.grade_stats_only(item["locked_pick"], g["home_score"], g["away_score"])
                                         if item["result_grade"] else None)
             item["injury_report"] = injury_report_for(g, now, inj_cache) if view["forecast"] else None
