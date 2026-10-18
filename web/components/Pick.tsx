@@ -23,10 +23,11 @@ function modelLine2(margin: number, home: string, away: string): string {
 }
 
 export const BIG_GAP = 3;
+export const BIGGEST_GAP = 4;
 
 const STATS_EXPLAIN = "Edge: how far the model's projected margin was from the line (under 0.5 points is about a coin flip). " +
   "Stats-only: the football-only model, which uses no market line. Big gap: the stats-only number was at least 3 points from " +
-  "the line when the pick was locked; a prompt to check why the market disagrees, not a recommendation.";
+  "the line when the pick was locked (Biggest gap: at least 4 points); a prompt to check why the market disagrees, not a recommendation.";
 
 const EDGE: Record<string, string> = { tiny: "Tiny edge · about a coin flip", small: "Small edge", moderate: "Moderate edge", large: "Large edge" };
 
@@ -104,7 +105,8 @@ export function PredictionSummary({ g, lockedAt }: { g: WeekGame; lockedAt?: Rea
           <span className="pick-sub">{started ? "No market line was recorded before kickoff" : "Locks at the first forecast with a market line"}</span>
         )}
         {gap != null && Math.abs(gap) >= BIG_GAP && (
-          <span className="pick-gap"><span className="tag warn">Big gap</span> Stats-only was {Math.abs(gap).toFixed(1)} pts from the
+          <span className="pick-gap">{Math.abs(gap) >= BIGGEST_GAP
+            ? <span className="tag warn strong">Biggest gap</span> : <span className="tag warn">Big gap</span>} Stats-only was {Math.abs(gap).toFixed(1)} pts from the
             line, toward {gap > 0 ? H : A}. Check why the market disagrees.</span>
         )}
         <span className="sr-only" id={`pick-explain-${g.game_id}`}>{explain}</span>
@@ -123,11 +125,10 @@ export function PredictionSummary({ g, lockedAt }: { g: WeekGame; lockedAt?: Rea
   );
 }
 
-const W: Record<ResultGrade["winner"], string> = { win: "correct", loss: "wrong", tie: "game tied", no_pick: "no call (toss-up)" };
 const L: Record<ResultGrade["lean"], string> = { win: "correct", loss: "wrong", push: "level with the line", no_lean: "no pick", no_line: "no line" };
 
 export function gradeText(r: ResultGrade): string {
-  return `Winner ${W[r.winner]} · model pick ${L[r.lean]} · margin error ${r.abs_margin_error.toFixed(1)}`;
+  return `Model pick ${L[r.lean]} · margin error ${r.abs_margin_error.toFixed(1)}`;
 }
 
 export const RETRO_NOTE = "Pick labels derived retrospectively from the archived forecast and its line (the numbers were published; these labels were not).";
@@ -139,9 +140,8 @@ const GROUP_TITLE: Record<string, string> = {
 };
 
 function rec(g: GroupResults) {
-  const w = g.winner, l = g.lean, pg = g.pick_graded ?? g.graded;
+  const l = g.lean, pg = g.pick_graded ?? g.graded;
   return {
-    winner: g.graded ? `${w.win}–${w.loss}${w.tie ? `, ${w.tie} tie${w.tie > 1 ? "s" : ""}` : ""}${w.no_pick ? `, ${w.no_pick} toss-up` : ""}` : "—",
     lean: pg ? `${l.win}–${l.loss}${l.push ? `, ${l.push} level` : ""}${l.no_lean ? `, ${l.no_lean} no pick` : ""}${l.no_line ? `, ${l.no_line} no line` : ""}` +
       (pg !== g.graded ? ` (${pg} game${pg > 1 ? "s" : ""})` : "") : "—",
   };
@@ -154,35 +154,33 @@ const RULE_TEXT: Record<string, string> = {
 
 export function WeekResultsPanel({ r }: { r: WeekResults }) {
   const groups = Object.entries(r.groups).filter(([, g]) => g.graded > 0 || (g.pick_graded ?? 0) > 0);
-  const rw = groups.reduce((s, [, g]) => s + (g.retro_winner ?? 0), 0), rp = groups.reduce((s, [, g]) => s + (g.retro_pick ?? 0), 0);
+  const rp = groups.reduce((s, [, g]) => s + (g.retro_pick ?? 0), 0);
   return (
     <div className="panel" style={{ marginBottom: 16 }}>
       <h2 style={{ marginTop: 0 }}>{r.state === "final" ? "Week results (final)" : "Week to date"}</h2>
       <p className="small ink2" style={{ marginTop: 0 }}>
         {r.graded} graded · {r.pending} pending{r.no_forecast ? ` · ${r.no_forecast} without an archived forecast` : ""}.{" "}
-        {(r.grading_rule ?? "").split("+").map((k) => RULE_TEXT[k]).filter(Boolean).join(" ")} The projected winner and margin
-        error use the last valid forecast before kickoff.
+        {(r.grading_rule ?? "").split("+").map((k) => RULE_TEXT[k]).filter(Boolean).join(" ")} The margin error uses the last
+        valid forecast before kickoff.
       </p>
       {groups.length === 0 ? <p className="small muted">No finished games yet.</p> : (
         <div className="table-wrap"><table>
-          <thead><tr><th>Forecasts</th><th className="r">Graded</th><th className="r">Winner record</th>
-            <th className="r">Model pick record</th><th className="r">Avg. margin error</th></tr></thead>
+          <thead><tr><th>Forecasts</th><th className="r">Graded</th><th className="r">Model pick vs market line</th>
+            <th className="r">Avg. margin error</th></tr></thead>
           <tbody>{groups.map(([k, g]) => {
             const t = rec(g);
-            return (<tr key={k}><td>{GROUP_TITLE[k] ?? k}{g.retro_winner || g.retro_pick ? " *" : ""}</td><td className="r">{g.graded}</td>
-              <td className="r">{t.winner}</td><td className="r">{t.lean}</td>
+            return (<tr key={k}><td>{GROUP_TITLE[k] ?? k}{g.retro_pick ? " *" : ""}</td><td className="r">{g.graded}</td>
+              <td className="r">{t.lean}</td>
               <td className="r">{g.mean_abs_margin_error != null ? `${g.mean_abs_margin_error.toFixed(1)} pts` : "—"}</td></tr>);
           })}</tbody></table></div>
       )}
-      {(rw > 0 || rp > 0) && (
-        <p className="small muted" style={{ marginBottom: 0 }}>* Includes {[rw ? `${rw} winner label${rw > 1 ? "s" : ""}` : "",
-          rp ? `${rp} model-pick label${rp > 1 ? "s" : ""}` : ""].filter(Boolean).join(" and ")} derived retrospectively from
+      {rp > 0 && (
+        <p className="small muted" style={{ marginBottom: 0 }}>* Includes {rp} model-pick label{rp > 1 ? "s" : ""} derived retrospectively from
           archived forecasts made before pick labels were published (the forecasts and lines were archived before kickoff; these
           labels were added later by a fixed rule).</p>
       )}
-      <p className="small muted" style={{ marginBottom: 0 }}>Winner record: the projected winner against the result (actual ties listed separately).
-        Model pick record: the model pick against the line it was graded on, as described above (level results, no-pick and
-        no-line games listed separately). Win probabilities apply to the projected winner only, not to the line. For analysis and education only.</p>
+      <p className="small muted" style={{ marginBottom: 0 }}>Model pick vs market line: the model pick against the line it was graded on, as
+        described above (level results, no-pick and no-line games listed separately). For analysis and education only.</p>
     </div>
   );
 }

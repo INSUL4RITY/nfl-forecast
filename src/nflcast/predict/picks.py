@@ -124,6 +124,7 @@ def _empty() -> dict:
 
 
 BIG_GAP = 3.0            # points between the stats-only margin and the line that the site tags "Big gap"
+BIGGEST_GAP = 4.0        # "Biggest gap" tier (user request 2026-10-18): about the top 10% of 2019-2024 walk-forward games
 
 
 def grade_stats_only(locked_pick: dict | None, home_score: int, away_score: int) -> dict | None:
@@ -142,7 +143,7 @@ def grade_stats_only(locked_pick: dict | None, home_score: int, away_score: int)
     dt = None if lt is None else so["total"] - lt
     total = (None if dt is None or abs(dt) < NO_LEAN else "push" if t == lt
              else "win" if (t > lt) == (dt > 0) else "loss")
-    return {"spread": spread, "big_gap": abs(d) >= BIG_GAP, "total": total,
+    return {"spread": spread, "big_gap": abs(d) >= BIG_GAP, "biggest_gap": abs(d) >= BIGGEST_GAP, "total": total,
             "total_side": None if total is None else ("over" if dt > 0 else "under")}
 
 

@@ -270,6 +270,15 @@ market lines, QB availability, injury display, weather display). A changed artif
 - Neutral wording (2026-10-09, user request for a degree-apprenticeship CV): public pages no longer use betting terms
   ("Model pick" -> "Model lean vs market", "Pick'em" -> "Even", "Against the spread" -> "Vs market line", pushes ->
   "level with the line", disclaimers -> "For analysis and education only"). Text only; numbers, rules and data unchanged.
+- Spreads only + Biggest gap (2026-10-18, user: "remove winner record and ensure we only track spreads. add a biggest
+  gap ... choose a suitable number"; display only, model, forecasts, pick rule and grading unchanged): public pages no
+  longer show the projected-winner record (home strip, week results table, game results, head-to-head) or winner-accuracy
+  columns (Performance), nor the stats-only totals record; the backend still computes them (manifest straight_up,
+  stats_only.total) for verification. Home strip = model pick vs market line for the season and for the week on screen
+  ("This week"; "ATS" not used per the neutral-wording rule). "Biggest gap" = stats-only margin >= 4 pts from the locked
+  line (picks.BIGGEST_GAP; chosen as ~top 10% of 2019-24 walk-forward games, ~1-2 a week, before looking at 2026 4+
+  results); own tracking record `stats_only.biggest_gap`. Backtest at 4+ (final horizon, incl. playoffs): 49.1% (2019-21),
+  53.7% (2022-24), 47.1% (2025) on the stats-only side, i.e. no better than 3+. At creation: big gaps 7-1, biggest 0-1.
 
 ## 3. Tests and checks (2026-09-25)
 - Live head-to-head (2026-10-13, user request; display only): `picks.head_to_head` compares combined, stats-only and market

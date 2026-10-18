@@ -147,11 +147,11 @@ export default function Methodology() {
           is the opponent +7.5, and it stays +7.5 even if the line later moves to BUF −6.0). The game card shows the line and the model&apos;s
           projected margin at the moment the pick was locked and, once either has changed, the latest line and model (&quot;Then&quot; and
           &quot;Now&quot;), so the pick can always be checked against the numbers it was made from. <b>Model line</b>: the combined model&apos;s latest projected margin written as a line; it starts from the market line and adjusts it using the football data, so by design it stays close to the market. <b>Stats-only line</b>: the football-only model, which uses no market input. <b>Projected winner</b>: the team
-          with the higher win probability in the latest forecast; the winner record and the margin error use the last valid version
-          generated before kickoff, as scoring does. The win probability belongs to the projected winner only; it is not a probability of
+          with the higher win probability in the latest forecast (shown as a forecast, not tracked as a record); the margin error uses
+          the last valid version generated before kickoff, as scoring does. The win probability belongs to the projected winner only; it is not a probability of
           finishing on one side of the line. The size of the difference (in points; under 0.5 labelled tiny) is on each game&apos;s Details page; a difference
-          that rounds to 0.00 points (below 0.005) means &quot;No pick&quot;. For analysis and education only. The winner record and the model pick record are
-          kept separate; actual ties, results exactly level with the line, no-pick and no-line games are counted separately. Games whose forecast was generated before
+          that rounds to 0.00 points (below 0.005) means &quot;No pick&quot;. For analysis and education only. Only results against the market line are tracked as a
+          record; results exactly level with the line, no-pick and no-line games are counted separately. Games whose forecast was generated before
           but first published after kickoff are reported separately. Forecasts made before pick labels were added (25 September 2026) have
           their labels derived afterwards by the same fixed rule and are marked as retrospectively derived. Weeks show &quot;Week to
           date&quot; until every game is final.</p>
@@ -170,6 +170,13 @@ export default function Methodology() {
           of the model record): for each publicly verifiable locked pick, the side of the locked line and total on which that same
           version&apos;s stats-only margin and total fell, graded against that line and total; &quot;Big gaps&quot; counts only games
           where the stats-only margin was at least 3 points from the line. It starts with week 3, the first week with locked picks.</p>
+        <p className="small"><b>Display changes, 18 October 2026</b> (no forecast, pick or grading change): the site now tracks results
+          against the market line only. The projected-winner record and winner-accuracy columns were removed, as was the stats-only
+          totals record; the home page shows the model pick record for the season and for the week on screen. <b>Biggest gap</b> marks
+          a game where the stats-only margin was at least 4 points from the locked line (about 1 game in 10 in the backtests), with its
+          own tracking record. Larger gaps were not more accurate in the backtests: the result finished on the stats-only side in 49.1%
+          (2019–21), 53.7% (2022–24) and 47.1% (2025) of such games. Like Big gap, it is a prompt to check why the market disagrees, not a
+          recommendation.</p>
         <p className="small"><b>Wording, 9 and 13 October 2026:</b> betting terms were replaced with neutral forecasting terms, since the site is a
           forecasting and analytics project. The model line is built from the market line, so it is not an independent opinion;
           the stats-only line is the independent one. The numbers and rules did not change.</p>

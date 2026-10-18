@@ -35,7 +35,8 @@ CLI stay `nflcast`; keep the URL and repo name (published evidence and links poi
 - **Final for 2026 (user, 2026-10-05):** after the carry-over test (no variant passed) the model, the pick rule and the
   publication schedule are final for the season. Only data refreshes and bug fixes; no model, rule or design changes.
   Exception the user asked for (2026-10-06): stats-only line, "Big gap" tag, edge size and the stats-only breakdown
-  (display only; see PROGRESS.md).
+  (display only; see PROGRESS.md). 2026-10-18 (user): only spread results are tracked publicly (no winner record, no
+  stats-only totals record) and a "Biggest gap" tier (stats-only >= 4 pts from the locked line) was added (display only).
 - **Weekly publication (user decisions 2026-10-05, changed 2026-10-06 and 2026-10-13):** a week is first published at
   Tuesday 18:00 UK before its first game (`predict/schedule.py`), and waits up to 24 h if the previous week's finished
   games are not yet in the team data; the model pick locks then. Operational only; do not move it without the user.

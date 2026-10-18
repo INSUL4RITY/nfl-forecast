@@ -24,7 +24,6 @@ const add = (a: H2HWeek, b: H2HWeek): H2HWeek => {
     vs_line: { lean: w(a.vs_line.lean, b.vs_line.lean), stats_only: w(a.vs_line.stats_only, b.vs_line.stats_only) } };
 };
 const mae = (r: H2HWeek, m: keyof Keyed) => (r.n ? (r.abs_error[m] / r.n).toFixed(2) : "—");
-const win = (r: H2HWeek, m: keyof Keyed) => (r.winner_called[m] ? `${r.winner_correct[m]}/${r.winner_called[m]}` : "—");
 const wlp = (x: WLP) => (x.win + x.loss + x.push ? `${x.win}–${x.loss}${x.push ? `–${x.push}` : ""}` : "—");
 
 /** Live 2026 head-to-head of the combined forecast, the stats-only forecast and the market line on the same finished games
@@ -42,29 +41,26 @@ export default function HeadToHead({ weeks }: { weeks: H2HWeek[] }) {
     <div className="panel">
       <h2>Live head-to-head, {weeks[0].season}</h2>
       <p className="small ink2">The three forecasts on the same finished games, using only forecasts that were publicly verifiable before
-        kickoff. Margin error and winner use the last forecast before kickoff (the market forecast is the line&apos;s own margin); the
+        kickoff. Margin error uses the last forecast before kickoff (the market forecast is the line&apos;s own margin); the
         record vs the market line uses the version locked at the weekly publication. Lower margin error is better. So far the lowest
         season-to-date margin error is <b>{BEST_TEXT[best]}</b> ({mae(total, best)} points over {total.n} games):
         too few games to separate the forecasts with confidence.</p>
       <div className="table-wrap"><table>
         <thead>
           <tr><th rowSpan={2}>Week</th><th rowSpan={2} className="r">Games</th>
-            <th colSpan={3} className="r">Average margin error (points)</th><th colSpan={3} className="r">Winner correct</th>
+            <th colSpan={3} className="r">Average margin error (points)</th>
             <th colSpan={2} className="r">Vs market line</th></tr>
           <tr>{MODELS.map(([k, l]) => <th key={`e${k}`} className="r">{l}</th>)}
-            {MODELS.map(([k, l]) => <th key={`w${k}`} className="r">{l}</th>)}
             <th className="r">Model pick</th><th className="r">Stats-only</th></tr>
         </thead>
         <tbody>
           {weeks.map((r) => (
             <tr key={r.week}><td>Week {r.week}</td><td className="r">{r.n}</td>
               {MODELS.map(([k]) => <td key={`e${k}`} className="r">{mae(r, k)}</td>)}
-              {MODELS.map(([k]) => <td key={`w${k}`} className="r">{win(r, k)}</td>)}
               <td className="r">{wlp(r.vs_line.lean)}</td><td className="r">{wlp(r.vs_line.stats_only)}</td></tr>
           ))}
           <tr className="hl"><td><b>Season to date</b></td><td className="r"><b>{total.n}</b></td>
             {MODELS.map(([k]) => <td key={`e${k}`} className="r"><b>{mae(total, k)}</b></td>)}
-            {MODELS.map(([k]) => <td key={`w${k}`} className="r"><b>{win(total, k)}</b></td>)}
             <td className="r"><b>{wlp(total.vs_line.lean)}</b></td><td className="r"><b>{wlp(total.vs_line.stats_only)}</b></td></tr>
         </tbody>
       </table></div>
@@ -75,8 +71,7 @@ export default function HeadToHead({ weeks }: { weeks: H2HWeek[] }) {
             yTitle="Cumulative average margin error (points)" />
         </div>
       )}
-      <p className="small muted" style={{ marginBottom: 0 }}>Winner correct counts games where the forecast favoured a side and the game
-        was not tied. Record vs market line: wins–losses–level results for the model pick and for the side of the locked line where the
+      <p className="small muted" style={{ marginBottom: 0 }}>Record vs market line: wins–losses–level results for the model pick and for the side of the locked line where the
         stats-only margin fell (a tracking record, not the official model pick). The market line has no record against itself.</p>
     </div>
   );

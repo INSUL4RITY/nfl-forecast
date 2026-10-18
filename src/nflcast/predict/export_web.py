@@ -331,7 +331,7 @@ def export() -> Path:
     week_index, inj_cache, staff = [], {}, load_staff()
     record = {"weeks": [], "straight_up": {"win": 0, "loss": 0, "tie": 0}, "spread": {"win": 0, "loss": 0, "push": 0}}
     wlp = lambda: {"win": 0, "loss": 0, "push": 0}
-    record["stats_only"] = {"weeks": [], "spread": wlp(), "big_gap": wlp(), "total": wlp()}
+    record["stats_only"] = {"weeks": [], "spread": wlp(), "big_gap": wlp(), "biggest_gap": wlp(), "total": wlp()}
     h2h: list[dict] = []
     for season, week in weeks:
         wk = games.filter((pl.col("season") == season) & (pl.col("week") == week)).sort("kickoff_utc")
@@ -389,7 +389,7 @@ def export() -> Path:
                 if week not in so["weeks"]:
                     so["weeks"].append(week)
                 for key, res in (("spread", sg["spread"]), ("big_gap", sg["spread"] if sg["big_gap"] else None),
-                                 ("total", sg["total"])):
+                                 ("biggest_gap", sg["spread"] if sg["biggest_gap"] else None), ("total", sg["total"])):
                     if res:
                         so[key][res] += 1
         week_index.append({"season": season, "week": week, "n_games": wk.height, "has_forecasts": bool(rel),

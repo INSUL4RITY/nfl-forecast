@@ -170,6 +170,7 @@ select.select { border: 1px solid var(--rule); background: var(--surface); color
 .tags { display: flex; flex-wrap: wrap; gap: 6px; }
 .tag { font-size: 0.74rem; font-weight: 700; padding: 2px 8px; border-radius: 999px; background: var(--surface-2); border: 1px solid var(--rule); color: var(--ink-2); }
 .tag.warn { background: var(--warn-bg); border-color: var(--warn-border); color: var(--warn-ink); }
+.tag.warn.strong { background: var(--warn-ink); border-color: var(--warn-ink); color: var(--surface); }
 .tag.info { background: var(--info-bg); border-color: var(--info-border); color: var(--accent); }
 .card-foot { display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; color: var(--muted); border-top: 1px solid var(--rule); padding-top: 8px; }
 .pending { color: var(--ink-2); font-size: 0.9rem; background: var(--surface-2); border: 1px dashed var(--rule); border-radius: 8px; padding: 10px; }
