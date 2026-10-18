@@ -28,36 +28,33 @@ function StatsOnlyStrip({ s }: { s: NonNullable<SeasonRecord["stats_only"]> }) {
       <div className="rec-cell">
         <span className="caps">Tracking only</span>
         <b>Stats-only record</b>
-        <span className="small muted">{weeksText(s.weeks)} · side of the locked line and total where the stats-only
-          numbers fell; not the official model pick</span>
+        <span className="small muted">{weeksText(s.weeks)} · side of the locked line where the stats-only margin fell;
+          not the official model pick</span>
       </div>
       <RecCell label="Vs market line" x={s.spread} />
-      <RecCell label="Big gaps" x={s.big_gap} />
-      <RecCell label="Totals (O/U)" x={s.total} />
+      <RecCell label="Big gaps (3+ pts)" x={s.big_gap} />
+      <RecCell label="Biggest gaps (4+ pts)" x={s.biggest_gap ?? { win: 0, loss: 0, push: 0 }} />
     </section>
   );
 }
 
-function RecordStrip({ r }: { r: SeasonRecord }) {
-  const su = r.straight_up, sp = r.spread;
-  const weeks = weeksText(r.weeks);
+/** Model pick record vs the market line: season to date and the week on screen (publicly verifiable pregame only). */
+function RecordStrip({ r, week, weekLabel }: { r: SeasonRecord; week: WLP | null; weekLabel: string }) {
   return (
-    <section className="record-strip" aria-label="Overall model record">
+    <section className="record-strip" aria-label="Model pick record vs market line">
       <div className="rec-cell">
         <span className="caps">Model performance</span>
-        <b>Overall model record</b>
-        <span className="small muted">{weeks} · published before kickoff</span>
+        <b>Model pick vs market line</b>
+        <span className="small muted">{weeksText(r.weeks)} · published before kickoff</span>
       </div>
-      <div className="rec-cell rec-num">
-        <span className="caps">Straight up</span>
-        <span className="rec-big">{su.win}–{su.loss}{su.tie ? `–${su.tie}` : ""}</span>
-        <span className="small ink2 num">{pctOf(su.win, su.loss)}</span>
-      </div>
-      <div className="rec-cell rec-num">
-        <span className="caps">Vs market line</span>
-        <span className="rec-big">{sp.win}–{sp.loss}{sp.push ? `–${sp.push}` : ""}</span>
-        <span className="small ink2 num">{pctOf(sp.win, sp.loss)}</span>
-      </div>
+      <RecCell label="Season · vs market line" x={r.spread} />
+      {week ? <RecCell label={`${weekLabel} · vs market line`} x={week} /> : (
+        <div className="rec-cell rec-num">
+          <span className="caps">{weekLabel} · vs market line</span>
+          <span className="rec-big">—</span>
+          <span className="small ink2">No finished games yet</span>
+        </div>
+      )}
     </section>
   );
 }
@@ -94,6 +91,10 @@ export default function WeekBoard({ doc, teams, manifest }: { doc: WeekDoc; team
   const range = dateRange(byKickoff.map((g) => [g.kickoff_utc, tzOf(g.venue_tz)] as const));
   const changeMode = (m: TzMode) => { changeTz(m); setDay("all"); };
   const weeks = manifest.weeks.filter((w) => w.season === doc.season);
+  const isLatest = manifest.latest.season === doc.season && manifest.latest.week === doc.week;
+  const pv = doc.results?.groups?.publicly_verifiable_pregame;
+  const weekRec: WLP | null = pv && (pv.pick_graded ?? pv.graded)
+    ? { win: pv.lean.win, loss: pv.lean.loss, push: pv.lean.push } : null;
 
   return (
     <>
@@ -128,7 +129,7 @@ export default function WeekBoard({ doc, teams, manifest }: { doc: WeekDoc; team
       </header>
       {manifest.season_record && manifest.season_record.weeks.length > 0 && (
         <div className="records">
-          <RecordStrip r={manifest.season_record} />
+          <RecordStrip r={manifest.season_record} week={weekRec} weekLabel={isLatest ? "This week" : `Week ${doc.week}`} />
           {manifest.season_record.stats_only && manifest.season_record.stats_only.weeks.length > 0 &&
             <StatsOnlyStrip s={manifest.season_record.stats_only} />}
         </div>

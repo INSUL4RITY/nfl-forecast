@@ -187,12 +187,15 @@ def test_locked_pick_carries_the_stats_only_numbers_of_the_same_version():
 def test_stats_only_tracking_grade_uses_the_locked_line_and_total():
     lk = {"line_home_spread": -8.0, "stats_only": {"margin": 4.9, "total": 48.8, "line_total": 49.5}}
     g = PK.grade_stats_only(lk, 16, 24)            # TB @ DAL: DAL -8, stats DAL by 4.9 -> TB side; 40 pts -> under
-    assert g == {"spread": "win", "big_gap": True, "total": "win", "total_side": "under"}
+    assert g == {"spread": "win", "big_gap": True, "biggest_gap": False, "total": "win", "total_side": "under"}
     assert PK.grade_stats_only(lk, 30, 20)["spread"] == "loss"           # DAL by 10 covers -8
     assert PK.grade_stats_only(lk, 28, 20)["spread"] == "push"
     assert PK.grade_stats_only({**lk, "stats_only": {**lk["stats_only"], "margin": 6.0}}, 16, 24)["big_gap"] is False
+    big = PK.grade_stats_only({**lk, "stats_only": {**lk["stats_only"], "margin": 3.9}}, 16, 24)   # 4.1 pts toward TB
+    assert big["big_gap"] is True and big["biggest_gap"] is True
+    assert PK.grade_stats_only({**lk, "stats_only": {**lk["stats_only"], "margin": 12.0}}, 16, 24)["biggest_gap"] is True
     assert PK.grade_stats_only({**lk, "stats_only": {"margin": 8.0, "total": 49.5, "line_total": 49.5}}, 16, 24) == \
-        {"spread": None, "big_gap": False, "total": None, "total_side": None}
+        {"spread": None, "big_gap": False, "biggest_gap": False, "total": None, "total_side": None}
     assert PK.grade_stats_only({"line_home_spread": None, "stats_only": lk["stats_only"]}, 16, 24) is None
     assert PK.grade_stats_only({**lk, "stats_only": {"margin": 4.9, "total": 48.8, "line_total": None}}, 16, 24)["total"] is None
 

@@ -102,10 +102,10 @@ export default function PerformancePage() {
                 {rowsP.length ? (
                   <div className="table-wrap"><table>
                     <thead><tr><th>Horizon</th><th className="r">Games</th><th className="r">Margin MAE</th><th className="r">Market MAE</th>
-                      <th className="r">Football MAE</th><th className="r">Total MAE</th><th className="r">Winner acc.</th><th className="r">Log loss</th><th className="r">80% coverage</th></tr></thead>
+                      <th className="r">Football MAE</th><th className="r">Total MAE</th><th className="r">Log loss</th><th className="r">80% coverage</th></tr></thead>
                     <tbody>{rowsP.map((r: any) => (
                       <tr key={r.horizon_type}><td>{r.horizon_type}</td><td className="r">{r.n}</td><td className="r">{f2(r.margin_mae)}</td><td className="r">{f2(r.market_margin_mae)}</td>
-                        <td className="r">{f2(r.football_margin_mae)}</td><td className="r">{f2(r.total_mae)}</td><td className="r">{pct(r.winner_acc, 1)}</td>
+                        <td className="r">{f2(r.football_margin_mae)}</td><td className="r">{f2(r.total_mae)}</td>
                         <td className="r">{r.log_loss?.toFixed(4)}</td><td className="r">{pct(r.cover_m80)}</td></tr>))}</tbody></table></div>
                 ) : <p className="small muted">None yet.</p>}
               </div>))}
@@ -129,11 +129,11 @@ export default function PerformancePage() {
         <h2>Point-forecast accuracy (final pregame horizon)</h2>
         <div className="table-wrap"><table>
           <thead><tr><th>Seasons</th><th>Model</th><th className="r">Games</th><th className="r">Margin MAE</th><th className="r">Margin RMSE</th>
-            <th className="r">Total MAE</th><th className="r">Total RMSE</th><th className="r">Winner acc.</th></tr></thead>
+            <th className="r">Total MAE</th><th className="r">Total RMSE</th></tr></thead>
           <tbody>{["tune", "dev", "locked"].flatMap((p) => KEY_MODELS.map((m) => get(p, m)).filter(Boolean).map((r: any) => (
             <tr key={r.period + r.model} className={r.model === "C_resid_noinj" ? "hl" : undefined}>
               <td>{PERIOD[r.period]}</td><td>{MODEL_NAMES[r.model]}</td><td className="r">{r.n_games}</td><td className="r">{f2(r.margin_mae)}</td>
-              <td className="r">{f2(r.margin_rmse)}</td><td className="r">{f2(r.total_mae)}</td><td className="r">{f2(r.total_rmse)}</td><td className="r">{pct(r.winner_accuracy, 1)}</td></tr>)))}
+              <td className="r">{f2(r.margin_rmse)}</td><td className="r">{f2(r.total_mae)}</td><td className="r">{f2(r.total_rmse)}</td></tr>)))}
           </tbody></table></div>
         <p className="small muted" style={{ marginTop: 8 }}>Walk-forward: each season is predicted by models trained only on earlier seasons. Historical market lines are a single
           untimed line per game (approximately closing), so market comparisons apply to the final-pregame horizon. The early (72-hour) horizon can only be

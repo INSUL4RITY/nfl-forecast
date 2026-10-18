@@ -161,7 +161,7 @@ export interface WeekGame {
   staff?: { away: StaffSide | null; home: StaffSide | null };
   result_grade?: ResultGrade | null;
   matchup?: Matchup | null;
-  stats_only_grade?: { spread: "win" | "loss" | "push" | null; big_gap: boolean; total: "win" | "loss" | "push" | null;
+  stats_only_grade?: { spread: "win" | "loss" | "push" | null; big_gap: boolean; biggest_gap?: boolean; total: "win" | "loss" | "push" | null;
                        total_side: "over" | "under" | null } | null;
 }
 
@@ -271,7 +271,7 @@ export interface SeasonRecord {
   straight_up: { win: number; loss: number; tie: number };
   spread: { win: number; loss: number; push: number };
   /** Display-only tracking record of the stats-only numbers from each locked version (not the official model pick). */
-  stats_only?: { weeks: number[]; spread: WLP; big_gap: WLP; total: WLP };
+  stats_only?: { weeks: number[]; spread: WLP; big_gap: WLP; biggest_gap?: WLP; total: WLP };
 }
 
 export interface WLP { win: number; loss: number; push: number }
