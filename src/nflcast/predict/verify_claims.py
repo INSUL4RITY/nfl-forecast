@@ -64,7 +64,8 @@ def public_raw_labels(out_dir=None) -> dict[str, list[str]]:
 def picks_checks() -> list[tuple[str, bool, str]]:
     """Picks and weekly results, recomputed from the release files and the publication evidence (never from the exported
     labels): stored labels match the rule; the projected winner (`pick`) is the final-pregame version's labels; the
-    model pick (`locked_pick`) is the version chosen by the rule in force for the game ("original-pick" from
+    model pick (`locked_pick`) is the version chosen by the rule in force for the game ("lock-24h" from
+    picks.LOCK24_START: latest valid version with a line at or before kickoff - 24 h; "original-pick" from
     picks.RULE_START: earliest valid pregame version with a line; "final-pregame" before), with that version's labels,
     line and publication label; versions without stored labels are re-derived and flagged retrospective; every grade is
     recomputed from the release labels; each week's results table equals the summary recomputed from its games."""
@@ -115,9 +116,13 @@ def picks_checks() -> list[tuple[str, bool, str]]:
                     bad.append(gid)
                 if it.get("forecast_verification") != PUB.verification_label(final[0], ko, PUB.public_time(final[1], evidence)):
                     label_bad.append(gid)
-            rule = "original-pick" if ko >= PK.RULE_START else "final-pregame"
-            lock = (next((c for c in pre if (c[2].get("market") or {}).get("home_spread") is not None), None)
-                    if rule == "original-pick" else final)
+            rule = PK.lock_rule(ko)
+            lined = [c for c in pre if (c[2].get("market") or {}).get("home_spread") is not None]
+            if rule == "lock-24h":          # latest lined version at or before kickoff - 24 h, else the first lined one
+                cut = [c for c in lined if c[0] <= PK.lock_time(ko)]
+                lock = cut[-1] if cut else (lined[0] if lined else None)
+            else:
+                lock = (lined[0] if lined else None) if rule == "original-pick" else final
             lp = it.get("locked_pick")
             if lock is None:
                 if lp is not None:
@@ -158,7 +163,8 @@ def picks_checks() -> list[tuple[str, bool, str]]:
                          for g in res["groups"].values()):
             count_bad.append(wf.name)
     return [("stored pick labels match the published rule", not stored_bad, "; ".join(stored_bad[:5]) or f"{n_stored} stored picks"),
-            ("model pick = version chosen by the rule in force (original-pick from 1 Oct 2026, final-pregame before), "
+            ("model pick = version chosen by the rule in force (24 h before kickoff from 21 Oct 2026, original-pick from 1 Oct, "
+             "final-pregame before), "
              "with that version's own labels, line and stats-only numbers", not lock_bad, "; ".join(lock_bad[:5]) or f"{n_lock} locked picks"),
             ("publication labels of the projected-winner and model-pick versions match the evidence", not label_bad,
              "; ".join(label_bad[:5])),

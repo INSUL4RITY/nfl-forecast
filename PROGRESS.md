@@ -280,6 +280,16 @@ market lines, QB availability, injury display, weather display). A changed artif
   results); own tracking record `stats_only.biggest_gap`. Backtest at 4+ (final horizon, incl. playoffs): 49.1% (2019-21),
   53.7% (2022-24), 47.1% (2025) on the stats-only side, i.e. no better than 3+. At creation: big gaps 7-1, biggest 0-1.
 
+- Pick lock 24 h before kickoff (2026-10-19, user: "so which day would u suggest" -> "Yes, do that"; grading rule only,
+  model/forecasts/publication time unchanged): rule "lock-24h" for games kicking off from `picks.LOCK24_START`
+  (2026-10-21, week 7 on): the latest valid version with a market line generated at or before kickoff - 24 h
+  (`picks.select_lock24`; if none, the earliest valid lined pregame version), graded on that version's line;
+  `locked_pick.locks_at` + `provisional` (True until the lock time; the card says "Provisional · locks <time>" and "Now:").
+  Big gap / stats-only record use the same locked version. Evidence (weeks 4-6, Sunday day games): line still to move
+  from 18:00 UK Tue 0.77 / Wed 0.64 / Thu 0.40 / Fri 0.31 / Sat 0.21 pts (n 24-36). Weeks 4-6 keep "original-pick":
+  all 61 existing locked picks and the season record (25-29-4) were unchanged by the switch. verify-claims recomputes
+  the rule. Forecasts still first publish Tuesday 18:00 UK.
+
 ## 3. Tests and checks (2026-09-25)
 - Live head-to-head (2026-10-13, user request; display only): `picks.head_to_head` compares combined, stats-only and market
   on the same finished, publicly verifiable games by week (margin error, winner correct) plus the vs-line records of the

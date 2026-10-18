@@ -142,8 +142,9 @@ export default function Methodology() {
         <h2>Model picks and weekly results</h2>
         <p className="small">Picks are labels derived from one forecast version and the market line recorded in that same version; the
           model is unchanged. <b>Model pick</b> (e.g. PIT +3.5): the side of the market line on which the model&apos;s unrounded
-          projected margin falls. It is <b>locked at the first forecast with a market line</b> and graded against that line: if the line or
-          the forecast moves later, the pick does not change (for example, the line is BUF −7.5 with BUF projected to win by 6.4: the pick
+          projected margin falls. It is <b>locked 24 hours before kickoff</b>, at the latest forecast with a market line at that moment,
+          and graded against that line; until then it is shown as provisional and follows the latest forecast and line. Once locked, if
+          the line or the forecast moves, the pick does not change (for example, the line is BUF −7.5 with BUF projected to win by 6.4: the pick
           is the opponent +7.5, and it stays +7.5 even if the line later moves to BUF −6.0). The game card shows the line and the model&apos;s
           projected margin at the moment the pick was locked and, once either has changed, the latest line and model (&quot;Then&quot; and
           &quot;Now&quot;), so the pick can always be checked against the numbers it was made from. <b>Model line</b>: the combined model&apos;s latest projected margin written as a line; it starts from the market line and adjusts it using the football data, so by design it stays close to the market. <b>Stats-only line</b>: the football-only model, which uses no market input. <b>Projected winner</b>: the team
@@ -155,6 +156,13 @@ export default function Methodology() {
           but first published after kickoff are reported separately. Forecasts made before pick labels were added (25 September 2026) have
           their labels derived afterwards by the same fixed rule and are marked as retrospectively derived. Weeks show &quot;Week to
           date&quot; until every game is final.</p>
+        <p className="small"><b>Rule change, 19 October 2026</b> (decided after week 6, before any week 7 forecast): the pick locks 24
+          hours before each game&apos;s kickoff instead of at the first forecast with a market line, for games kicking off from 21 October
+          2026 (week 7 onward). Forecasts are still first published on Tuesday at 18:00 UK; the later lock lets injury news and the
+          final injury reports into the pick (in weeks 4–6 the line moved on average 0.77 points between Tuesday evening and kickoff,
+          and 0.21 points after Saturday evening). It does not change the model. Weeks 4–6 keep the rule in force when they were played
+          (locked at the first forecast with a market line) and are not regraded. If no forecast with a market line exists 24 hours
+          before kickoff (for example, if publication was delayed), the pick locks at the first forecast with a market line after that.</p>
         <p className="small"><b>Rule change, 1 October 2026</b> (decided before any week 4 game): the locked pick applies to games kicking
           off from 1 October 2026 (week 4 onward). Earlier games keep the rule in force when they were played: the model pick from the last
           valid forecast before kickoff, graded against that forecast&apos;s line. Finished weeks are not regraded; week 3 stays 8–6 with 1 level

@@ -141,17 +141,24 @@ def pick_for(entry: dict | None, home: str, away: str) -> dict | None:
     return {**PK.derive(entry["forecast"], entry.get("market"), home, away), "retrospectively_derived": True}
 
 
-def locked_pick_for(vs: list[tuple[dict, dict]], kickoff: datetime, home: str, away: str, evidence: dict) -> dict | None:
+def locked_pick_for(vs: list[tuple[dict, dict]], kickoff: datetime, home: str, away: str, evidence: dict,
+                    now: datetime | None = None) -> dict | None:
     """The model pick that is shown and graded: pick_for() of the version chosen by the rule in force for this game
-    (picks.lock_rule), plus that rule, when the version was generated and its publication label."""
+    (picks.lock_rule), plus that rule, when the version was generated and its publication label. Under "lock-24h"
+    `locks_at` is kickoff - 24 h, and `provisional` is True until then (the pick can still change)."""
     o = PK.select_locked([(r["generated_at_utc"], e) for r, e in vs], kickoff)
     if not o:
         return None
     rel = next(r for r, e in vs if e is o[1])
     pub = PUB.public_time(rel["run_id"], evidence)
-    return {**pick_for(o[1], home, away), "run_id": rel["run_id"], "generated_at": o[0], "rule": PK.lock_rule(kickoff),
-            "verification": PUB.verification_label(datetime.fromisoformat(o[0]), kickoff, pub),
-            "stats_only": stats_only_for(o[1])}
+    rule = PK.lock_rule(kickoff)
+    out = {**pick_for(o[1], home, away), "run_id": rel["run_id"], "generated_at": o[0], "rule": rule,
+           "verification": PUB.verification_label(datetime.fromisoformat(o[0]), kickoff, pub),
+           "stats_only": stats_only_for(o[1])}
+    if rule == "lock-24h":
+        out["locks_at"] = PK.lock_time(kickoff).isoformat()
+        out["provisional"] = (now or utc_now()) < PK.lock_time(kickoff)
+    return out
 
 
 # Matchup percentiles (display only): (team_efficiency key, group, label, higher is better)
@@ -353,7 +360,7 @@ def export() -> Path:
                 "corrections": [c for c in corrections if c["details"].get("game_id") == g["game_id"]],
             }
             item["pick"] = pick_for(view["forecast"], g["home_team"], g["away_team"])          # projected winner
-            item["locked_pick"] = locked_pick_for(vs, g["kickoff_utc"], g["home_team"], g["away_team"], evidence)
+            item["locked_pick"] = locked_pick_for(vs, g["kickoff_utc"], g["home_team"], g["away_team"], evidence, now)
             item["result_grade"] = (PK.grade_game(item["pick"], item["locked_pick"], g["home_score"], g["away_score"],
                                                   g["home_team"], g["away_team"])
                                     if g["status"] == "final" and item["pick"] and view["forecast_state"] == "scored" else None)

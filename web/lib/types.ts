@@ -212,7 +212,10 @@ export interface LockedPick extends Pick {
   run_id: string;
   generated_at: string;
   verification: string;
-  rule: "original-pick" | "final-pregame";
+  rule: "lock-24h" | "original-pick" | "final-pregame";
+  /** "lock-24h" only: kickoff - 24 h, and whether that time is still ahead (the pick can still change). */
+  locks_at?: string;
+  provisional?: boolean;
   /** Football-only (stats-only, no market input) margin and total from that same version (display only). */
   stats_only?: { margin: number; total: number; line_total?: number | null } | null;
 }

@@ -42,7 +42,7 @@ export default function HeadToHead({ weeks }: { weeks: H2HWeek[] }) {
       <h2>Live head-to-head, {weeks[0].season}</h2>
       <p className="small ink2">The three forecasts on the same finished games, using only forecasts that were publicly verifiable before
         kickoff. Margin error uses the last forecast before kickoff (the market forecast is the line&apos;s own margin); the
-        record vs the market line uses the version locked at the weekly publication. Lower margin error is better. So far the lowest
+        record vs the market line uses the locked version of each pick. Lower margin error is better. So far the lowest
         season-to-date margin error is <b>{BEST_TEXT[best]}</b> ({mae(total, best)} points over {total.n} games):
         too few games to separate the forecasts with confidence.</p>
       <div className="table-wrap"><table>

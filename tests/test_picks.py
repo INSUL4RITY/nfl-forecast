@@ -151,6 +151,55 @@ def test_original_skips_no_line_invalid_and_post_kickoff_versions():
     assert PK.select_original(list(reversed(vs)), KO4)[1] is good                    # order of input does not matter
 
 
+KO7 = datetime(2026, 10, 25, 17, 0, tzinfo=timezone.utc)     # a week 7 kickoff (lock-24h rule)
+
+
+def test_rule_boundaries_keep_finished_weeks_on_their_own_rule():
+    assert PK.lock_rule(datetime(2026, 10, 20, 0, 15, tzinfo=timezone.utc)) == "original-pick"   # week 6 Monday game
+    assert PK.lock_rule(PK.LOCK24_START - timedelta(seconds=1)) == "original-pick"
+    assert PK.lock_rule(PK.LOCK24_START) == "lock-24h"
+    assert PK.lock_rule(datetime(2026, 10, 23, 0, 15, tzinfo=timezone.utc)) == "lock-24h"       # week 7 Thursday game
+    vs, ev = _two_versions(KO4)                     # a week 4 game is still locked at its first lined version
+    from nflcast.predict.export_web import locked_pick_for
+    lk = locked_pick_for(vs, KO4, "BUF", "MIA", ev, now=KO4 + timedelta(days=30))
+    assert lk["rule"] == "original-pick" and lk["run_id"] == "rel_a" and "provisional" not in lk
+
+
+def test_lock24_takes_the_latest_lined_version_at_or_before_24h():
+    t = lambda h: (KO7 - timedelta(hours=h)).isoformat()
+    tue = {"status": "ok", "forecast": fc(6.4), "market": {"home_spread": -7.5}, "game_type": "REG"}
+    thu = {"status": "ok", "forecast": fc(6.0), "market": {"home_spread": -5.5}, "game_type": "REG"}
+    no_line = {"status": "ok", "forecast": fc(6.0), "market": None, "game_type": "REG"}
+    invalid = {"status": "rejected_validation_failed", "forecast": fc(3.0), "market": {"home_spread": -3.0}, "game_type": "REG"}
+    at_cut = {"status": "ok", "forecast": fc(5.8), "market": {"home_spread": -6.0}, "game_type": "REG"}
+    after = {"status": "ok", "forecast": fc(5.0), "market": {"home_spread": -4.0}, "game_type": "REG"}
+    post = {"status": "ok", "forecast": fc(9.0), "market": {"home_spread": -7.0}, "game_type": "REG"}
+    ko_plus = (KO7 + timedelta(minutes=1)).isoformat()
+    vs = [(t(119), tue), (t(70), thu), (t(30), no_line), (t(25), invalid), (t(24), at_cut), (t(3), after), (ko_plus, post)]
+    assert PK.select_locked(vs, KO7)[1] is at_cut                        # exactly 24 h before counts
+    assert PK.select_locked(list(reversed(vs)), KO7)[1] is at_cut        # order of input does not matter
+    assert PK.select_locked([v for v in vs if v[1] is not at_cut], KO7)[1] is thu   # skips no-line and invalid
+    # nothing before the lock time (e.g. the PC was off): the first lined pregame version after it
+    assert PK.select_locked([(t(3), after), (t(10), no_line), (ko_plus, post)], KO7)[1] is after
+    assert PK.select_locked([(t(10), no_line), (ko_plus, post)], KO7) is None
+
+
+def test_lock24_is_provisional_until_24h_before_kickoff():
+    from nflcast.predict.export_web import locked_pick_for
+    t0, t1, t2 = KO7 - timedelta(days=5), KO7 - timedelta(hours=40), KO7 - timedelta(hours=2)
+    vs = [_rel("rel_a", t0, {"status": "ok", "forecast": fc(6.4), "market": {"home_spread": -7.5}, "game_type": "REG"}),
+          _rel("rel_b", t1, {"status": "ok", "forecast": fc(6.2), "market": {"home_spread": -6.0}, "game_type": "REG"}),
+          _rel("rel_c", t2, {"status": "ok", "forecast": fc(3.0), "market": {"home_spread": -3.0}, "game_type": "REG"})]
+    ev = _ev(("rel_a", t0 + timedelta(minutes=1)), ("rel_b", t1 + timedelta(minutes=1)), ("rel_c", t2 + timedelta(minutes=1)))
+    early = locked_pick_for(vs[:1], KO7, "BUF", "MIA", ev, now=t0 + timedelta(hours=1))      # Tuesday: provisional
+    assert early["provisional"] is True and early["run_id"] == "rel_a" and early["rule"] == "lock-24h"
+    assert early["locks_at"] == (KO7 - timedelta(hours=24)).isoformat()
+    lk = locked_pick_for(vs, KO7, "BUF", "MIA", ev, now=KO7 - timedelta(hours=1))           # after the lock
+    assert lk["provisional"] is False and lk["run_id"] == "rel_b" and lk["line_home_spread"] == -6.0
+    assert lk["lean"]["side"] == "BUF" and lk["lean"]["side_spread"] == -6.0                # 6.2 beats -6.0
+    assert PK.grade_game(pick_for(vs[2][1], "BUF", "MIA"), lk, 24, 20, "BUF", "MIA")["lean"] == "loss"   # graded on -6.0
+
+
 def test_no_locked_line_grades_as_no_line_and_winner_still_counts():
     final = PK.derive(fc(3.4), None, "BUF", "NE")
     g = PK.grade_game(final, None, 24, 20, "BUF", "NE")

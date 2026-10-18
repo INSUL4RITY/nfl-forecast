@@ -12,6 +12,10 @@ Which version's spread pick is shown and graded (the "locked pick") depends on t
     earliest valid version generated before kickoff that has a market line, graded against the line archived in that
     same version, so later line moves and forecasts never change it (BUF opens -7.5 with BUF projected by 6.4: the
     pick stays "opponent +7.5" even if the line closes -6.0);
+  * "lock-24h" (user decision 2026-10-19; games kicking off from LOCK24_START on, i.e. week 7 onward): the latest
+    valid version with a market line generated at or before kickoff - LOCK_HOURS (24 h), graded against that version's
+    line; if no such version exists (e.g. the week was first published later), the earliest valid pregame version with a
+    line. Until the lock time the same selection gives the current version, shown as "provisional";
   * "final-pregame" (games before RULE_START; the rule in force when they were played, so finished weeks are never
     regraded): the final_pregame version (latest valid version generated before kickoff) with its own line.
   The PROJECTED WINNER and the margin error always use the final_pregame version, as scoring does.
@@ -22,12 +26,14 @@ pick of each version (unchanged); for older versions the same labelling rule is 
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 
 from nflcast.predict.validation import entry_is_valid, select_frozen
 
 PICKS_VERSION = "picks-v1"          # labelling rule stored in each release (unchanged)
 RULE_START = datetime(2026, 10, 1, tzinfo=timezone.utc)   # "original-pick" for games kicking off from here on
+LOCK24_START = datetime(2026, 10, 21, tzinfo=timezone.utc)  # "lock-24h" from here on (after week 6's last game, before week 7)
+LOCK_HOURS = 24
 NO_LEAN = 0.005          # points; below this the difference displays as 0.00
 
 
@@ -74,13 +80,31 @@ def select_original(versions: list[tuple[str, dict]], kickoff: datetime) -> tupl
     return min(ok, key=lambda x: datetime.fromisoformat(x[0])) if ok else None
 
 
+def lock_time(kickoff: datetime) -> datetime:
+    return kickoff - timedelta(hours=LOCK_HOURS)
+
+
+def select_lock24(versions: list[tuple[str, dict]], kickoff: datetime) -> tuple[str, dict] | None:
+    """"lock-24h": the latest VALID version with a market spread generated at or before kickoff - 24 h; if there is none,
+    the earliest valid version with a spread generated before kickoff."""
+    ok = sorted(((t, e) for t, e in versions if datetime.fromisoformat(t) < kickoff and entry_is_valid(e)
+                 and (e.get("market") or {}).get("home_spread") is not None), key=lambda x: datetime.fromisoformat(x[0]))
+    before = [x for x in ok if datetime.fromisoformat(x[0]) <= lock_time(kickoff)]
+    return before[-1] if before else (ok[0] if ok else None)
+
+
 def lock_rule(kickoff: datetime) -> str:
+    if kickoff >= LOCK24_START:
+        return "lock-24h"
     return "original-pick" if kickoff >= RULE_START else "final-pregame"
 
 
 def select_locked(versions: list[tuple[str, dict]], kickoff: datetime) -> tuple[str, dict] | None:
     """The version whose spread pick is shown and graded under the rule in force for this game."""
-    return select_original(versions, kickoff) if lock_rule(kickoff) == "original-pick" else select_frozen(versions, kickoff)
+    rule = lock_rule(kickoff)
+    if rule == "lock-24h":
+        return select_lock24(versions, kickoff)
+    return select_original(versions, kickoff) if rule == "original-pick" else select_frozen(versions, kickoff)
 
 
 def grade(pick: dict | None, home_score: int, away_score: int, home: str, away: str) -> dict | None:

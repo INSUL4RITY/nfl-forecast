@@ -235,7 +235,8 @@ export default async function GamePage({ params }: { params: Promise<{ id: strin
           {g.pick && (
             <div className="panel">
               <h2 style={{ marginTop: 0 }}>Prediction</h2>
-              <PredictionSummary g={g} lockedAt={g.locked_pick ? <LocalTime venueTz={g.venue_tz} iso={g.locked_pick.generated_at} /> : null} />
+              <PredictionSummary g={g} lockedAt={g.locked_pick ? <LocalTime venueTz={g.venue_tz} iso={g.locked_pick.generated_at} /> : null}
+                locksAt={g.locked_pick?.locks_at ? <LocalTime venueTz={g.venue_tz} iso={g.locked_pick.locks_at} /> : null} />
               <details style={{ marginTop: 10 }}>
                 <summary className="small">Details: how the model pick works</summary>
                 {g.locked_pick && <p className="small" style={{ margin: "6px 0 0" }}>{pickDetail(g.locked_pick, H, A)}</p>}
@@ -243,9 +244,13 @@ export default async function GamePage({ params }: { params: Promise<{ id: strin
                   ? <>The model pick is the side of the market line on which the unrounded projected margin of the last valid forecast
                     before kickoff fell, graded against that forecast&apos;s line (the rule for games before 1 October 2026; finished
                     weeks are not regraded).</>
-                  : <>The model pick is the side of the market line on which the model&apos;s unrounded projected margin fell when it was locked,
-                    at the first forecast with a market line. It stays the same if the line or the forecast changes later, and it is
-                    graded against the line it was locked at.</>}{" "}
+                  : g.locked_pick?.rule === "original-pick"
+                  ? <>The model pick is the side of the market line on which the model&apos;s unrounded projected margin fell when it was locked,
+                    at the first forecast with a market line (the rule for games from 1 to 20 October 2026). It stays the same if the line
+                    or the forecast changes later, and it is graded against the line it was locked at.</>
+                  : <>The model pick is the side of the market line on which the model&apos;s unrounded projected margin falls in the latest
+                    forecast 24 hours before kickoff. Until then it is provisional and follows the latest forecast and line; from then on it
+                    stays the same, and it is graded against the line it was locked at.</>}{" "}
                   Market line, model line, totals and the projected winner are from the latest forecast. The win probability belongs
                   to the projected winner only; it is not a probability of finishing on that side of the line. For analysis and education only.</p>
               </details>

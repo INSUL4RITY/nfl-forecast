@@ -1,7 +1,8 @@
 """Weekly publication time (user decisions; operational only, no model change).
 
 A week's forecasts, lines and model picks are first published at a fixed weekly time before that week's first game, not
-as soon as the previous week ends. The model pick locks at that first publication (picks rule "original-pick"). If the
+as soon as the previous week ends. Until week 6 the model pick locked at that first publication (picks rule
+"original-pick"); from week 7 it locks 24 h before each kickoff (picks rule "lock-24h", user decision 2026-10-19). If the
 PC is off at that time, the first cycle after login publishes, as long as games remain; games that kicked off meanwhile
 are never back-filled. Weeks whose first game kicks off before GATE_FROM, or that already have a release, are not held.
 A week is also held while games of the previous week are still missing from the processed team data (nflverse lag), for

@@ -28,18 +28,20 @@ CLI stay `nflcast`; keep the URL and repo name (published evidence and links poi
   final-horizon backtest uses the actual starter as a proxy).
 - **Privacy:** never commit secrets; commits use the GitHub noreply address; the data backup repo is PRIVATE.
 - Ask the user before paid services, new external accounts, or changing the scheduled task/system settings.
-- **Model pick = rule "original-pick" for games from 2026-10-01 (user decision):** the spread pick is locked at the earliest
-  valid pregame version with a line and graded on that line; earlier games keep "final-pregame"; projected winner and margin
-  error use final_pregame (`predict/picks.py`). Never regrade finished games under a new rule; record any rule change in
+- **Model pick = rule "lock-24h" for games from 2026-10-21 (week 7; user decision 2026-10-19):** the spread pick is the
+  latest valid version with a line at or before kickoff - 24 h (else the first lined pregame version), graded on that line,
+  shown as "provisional" until then. Games 2026-10-01 to 10-20 keep "original-pick" (earliest valid pregame version with a
+  line); earlier games keep "final-pregame"; margin error uses final_pregame (`predict/picks.py`). Never regrade finished games under a new rule; record any rule change in
   PROGRESS.md and state it on the Method page.
 - **Final for 2026 (user, 2026-10-05):** after the carry-over test (no variant passed) the model, the pick rule and the
   publication schedule are final for the season. Only data refreshes and bug fixes; no model, rule or design changes.
   Exception the user asked for (2026-10-06): stats-only line, "Big gap" tag, edge size and the stats-only breakdown
   (display only; see PROGRESS.md). 2026-10-18 (user): only spread results are tracked publicly (no winner record, no
   stats-only totals record) and a "Biggest gap" tier (stats-only >= 4 pts from the locked line) was added (display only).
+  2026-10-19 (user): the pick rule changed to "lock-24h" from week 7 (see above); the model is unchanged.
 - **Weekly publication (user decisions 2026-10-05, changed 2026-10-06 and 2026-10-13):** a week is first published at
   Tuesday 18:00 UK before its first game (`predict/schedule.py`), and waits up to 24 h if the previous week's finished
-  games are not yet in the team data; the model pick locks then. Operational only; do not move it without the user.
+  games are not yet in the team data; from week 7 the model pick locks 24 h before each kickoff (see above). Operational only; do not move it without the user.
 
 ## How things run
 - Venv: `.\.venv\Scripts\python.exe -m nflcast <cmd>` from the project folder (refresh PATH from User+Machine env first in

@@ -50,9 +50,14 @@ export function pickText(p: Pick): string {
   return l && l.status === "lean" ? teamSpread(l.side!, l.side_spread!) : "No pick";
 }
 
-export const PICK_EXPLAIN = "Model pick: the side of the market line on which the model's projected margin fell when the pick " +
-  "was locked (the first forecast with a market line). It does not change if the line or the forecast moves later, and it is " +
-  "graded against that line. It is not a probability of finishing on that side of the line. " + STATS_EXPLAIN;
+export const PICK_EXPLAIN = "Model pick: the side of the market line on which the model's projected margin fell 24 hours " +
+  "before kickoff (the latest forecast at that moment). Until then it is provisional and follows the latest forecast and " +
+  "line; after that it does not change, and it is graded against the line it was locked at. It is not a probability of " +
+  "finishing on that side of the line. " + STATS_EXPLAIN;
+
+const PICK_EXPLAIN_ORIGINAL = "Model pick: the side of the market line on which the model's projected margin fell at the " +
+  "first forecast with a market line (the rule for games from 1 to 20 October 2026), graded against that line. It is not " +
+  "a probability of finishing on that side of the line. " + STATS_EXPLAIN;
 
 const PICK_EXPLAIN_OLD = "Model pick: the side of the market line on which the last forecast before kickoff fell, graded " +
   "against that forecast's line (the rule for games before 1 October 2026). It is not a probability of finishing on that side of the line. " + STATS_EXPLAIN;
@@ -70,18 +75,19 @@ export function pickDetail(p: Pick, home: string, away: string): string {
 
 /** Prediction block for game cards and game pages: the locked model pick (most prominent), then the current market and
  *  model lines and totals, then the projected winner. `lockedAt` is the formatted time the pick was locked. */
-export function PredictionSummary({ g, lockedAt }: { g: WeekGame; lockedAt?: ReactNode }) {
+export function PredictionSummary({ g, lockedAt, locksAt }: { g: WeekGame; lockedAt?: ReactNode; locksAt?: ReactNode }) {
   const e = g.forecast, f = e?.forecast;
   if (!e || !f) return null;
   const lp = g.locked_pick, p = g.pick, H = g.home, A = g.away;
   const old = lp?.rule === "final-pregame";
+  const prov = !!lp?.provisional;
   const started = g.forecast_state !== "latest_pregame";
   const cur = e.market?.home_spread ?? null;
   const locked = !!lp && lp.line_home_spread != null;
   const lineMoved = locked && cur != null && cur !== lp!.line_home_spread;
   // "then" vs "now": shown whenever the line or the model has changed since the pick was locked
-  const changed = locked && !old && cur != null && (lineMoved || Math.abs(f.margin - lp!.projected_margin) >= 0.005);
-  const explain = old ? PICK_EXPLAIN_OLD : PICK_EXPLAIN;
+  const changed = locked && !old && !prov && cur != null && (lineMoved || Math.abs(f.margin - lp!.projected_margin) >= 0.005);
+  const explain = old ? PICK_EXPLAIN_OLD : lp?.rule === "original-pick" ? PICK_EXPLAIN_ORIGINAL : PICK_EXPLAIN;
   const fo = e.football_only;
   const pair = (line: number, margin: number, stats?: number | null) => <>line {spreadText(line, H, A)} · model {modelLine2(margin, H, A)}
     {stats != null && <> · stats-only {modelLine2(stats, H, A)}</>}</>;
@@ -97,16 +103,17 @@ export function PredictionSummary({ g, lockedAt }: { g: WeekGame; lockedAt?: Rea
           <span className="pick-sub">{lp!.lean?.status === "no_lean" ? "Projection equalled the line · " : ""}From the last forecast
             before kickoff: {pair(lp!.line_home_spread!, lp!.projected_margin, lp!.stats_only?.margin)}</span>
         ) : (<>
-          <span className="pick-sub">{lp!.lean?.status === "no_lean" ? "Projection equalled the line · " : ""}Locked {lockedAt}</span>
-          <span className="pick-sub">{changed ? "Then: " : "At lock: "}{pair(lp!.line_home_spread!, lp!.projected_margin, lp!.stats_only?.margin)}</span>
+          <span className="pick-sub">{lp!.lean?.status === "no_lean" ? "Projection equals the line · " : ""}{prov
+            ? <>Provisional · locks {locksAt}</> : <>Locked {lockedAt}</>}</span>
+          <span className="pick-sub">{prov ? "Now: " : changed ? "Then: " : "At lock: "}{pair(lp!.line_home_spread!, lp!.projected_margin, lp!.stats_only?.margin)}</span>
           {changed && <span className={`pick-sub${lineMoved ? " moved" : ""}`}>
             <LineLabel state={g.forecast_state} kickoff={g.kickoff_utc} before="Now" after="Final pre-game" />: {pair(cur!, f.margin, fo?.margin)}</span>}
         </>)) : (
-          <span className="pick-sub">{started ? "No market line was recorded before kickoff" : "Locks at the first forecast with a market line"}</span>
+          <span className="pick-sub">{started ? "No market line was recorded before kickoff" : "Appears with the first forecast that has a market line"}</span>
         )}
         {gap != null && Math.abs(gap) >= BIG_GAP && (
           <span className="pick-gap">{Math.abs(gap) >= BIGGEST_GAP
-            ? <span className="tag warn strong">Biggest gap</span> : <span className="tag warn">Big gap</span>} Stats-only was {Math.abs(gap).toFixed(1)} pts from the
+            ? <span className="tag warn strong">Biggest gap</span> : <span className="tag warn">Big gap</span>} Stats-only {prov ? "is" : "was"} {Math.abs(gap).toFixed(1)} pts from the
             line, toward {gap > 0 ? H : A}. Check why the market disagrees.</span>
         )}
         <span className="sr-only" id={`pick-explain-${g.game_id}`}>{explain}</span>
@@ -148,7 +155,8 @@ function rec(g: GroupResults) {
 }
 
 const RULE_TEXT: Record<string, string> = {
-  "original-pick": "The model pick is graded against the line it was locked at (the first forecast with a market line).",
+  "lock-24h": "The model pick locks 24 hours before kickoff (the latest forecast then) and is graded against that line.",
+  "original-pick": "The model pick is graded against the line it was locked at (the first forecast with a market line; the rule for games from 1 to 20 October 2026).",
   "final-pregame": "The model pick is graded on the last valid forecast before kickoff and that forecast's line (the rule for games before 1 October 2026; finished weeks are not regraded).",
 };
 

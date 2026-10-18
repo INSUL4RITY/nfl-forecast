@@ -64,7 +64,8 @@ export default function GameCard({ g, teams, tz }: { g: WeekGame; teams: Record<
         <>
           <ProbBar pAway={f.p_away} pTie={f.p_tie} pHome={f.p_home} away={g.away} home={g.home}
                    awayColor={onDark(away?.color)} homeColor={onDark(home?.color)} />
-          <PredictionSummary g={g} lockedAt={g.locked_pick ? fmtDateTime(g.locked_pick.generated_at, tz) : null} />
+          <PredictionSummary g={g} lockedAt={g.locked_pick ? fmtDateTime(g.locked_pick.generated_at, tz) : null}
+            locksAt={g.locked_pick?.locks_at ? fmtDateTime(g.locked_pick.locks_at, tz) : null} />
           {g.result_grade && <div className="small"><b>Result:</b> {gradeText(g.result_grade)}</div>}
           {(g.locked_pick?.retrospectively_derived || g.pick?.retrospectively_derived) &&
             <div className="small muted" title={RETRO_NOTE}>* Pick label derived retrospectively from the archived forecast.</div>}
