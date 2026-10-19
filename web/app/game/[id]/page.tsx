@@ -162,11 +162,12 @@ export default async function GamePage({ params }: { params: Promise<{ id: strin
   const teams = getTeams();
   const e = g.forecast;
   const f = e?.forecast;
+  const m = e?.football_only ?? f;          // the model line (stats only); the combined forecast only if it is missing
   const H = g.home, A = g.away;
   const pair = teamPairColors(teams[H], teams[A]);
   const models: [string, Forecast | null | undefined, string][] = e ? [
-    ["Model (combined)", e.combined, "Market spread & total + football features; residual ridge"],
-    ["Stats-only (football only)", e.football_only, "No market inputs; also the fallback model"],
+    ["Model (stats only)", e.football_only, "Football data only, no market input; the model pick follows it from week 7"],
+    ["Market-adjusted (combined)", e.combined, "Market spread & total + football features; residual ridge"],
     ["Market only", e.market_only, "Spread & total mapped to scores (benchmark)"],
   ] : [];
 
@@ -241,20 +242,20 @@ export default async function GamePage({ params }: { params: Promise<{ id: strin
                 <summary className="small">Details: how the model pick works</summary>
                 {g.locked_pick && <p className="small" style={{ margin: "6px 0 0" }}>{pickDetail(g.locked_pick, H, A)}</p>}
                 <p className="small muted" style={{ margin: "6px 0 0" }}>{g.locked_pick?.rule === "final-pregame"
-                  ? <>The model pick is the side of the market line on which the unrounded projected margin of the last valid forecast
-                    before kickoff fell, graded against that forecast&apos;s line (the rule for games before 1 October 2026; finished
+                  ? <>The model pick is the side of the market line on which the unrounded market-adjusted margin of the last valid
+                    forecast before kickoff fell, graded against that forecast&apos;s line (the rule for games before 1 October 2026; finished
                     weeks are not regraded).</>
                   : g.locked_pick?.rule === "original-pick"
-                  ? <>The model pick is the side of the market line on which the model&apos;s unrounded projected margin fell when it was locked,
+                  ? <>The model pick is the side of the market line on which the unrounded market-adjusted margin fell when it was locked,
                     at the first forecast with a market line (the rule for games from 1 to 20 October 2026). It stays the same if the line
                     or the forecast changes later, and it is graded against the line it was locked at.</>
-                  : <>The model pick is the side of the market line on which the model&apos;s unrounded projected margin falls in the latest
-                    forecast 24 hours before kickoff. Until then it is provisional and follows the latest forecast and line; from then on it
+                  : <>The model pick is the side of the market line on which the unrounded model line (stats only, no market input) falls
+                    in the latest forecast 24 hours before kickoff. Until then it is provisional and follows the latest forecast and line; from then on it
                     stays the same, and it is graded against the line it was locked at.</>}{" "}
-                  Market line, model line, totals and the projected winner are from the latest forecast. The win probability belongs
+                  Market line, model line, market-adjusted line, totals and the projected winner are from the latest forecast. The win probability belongs
                   to the projected winner only; it is not a probability of finishing on that side of the line. For analysis and education only.</p>
               </details>
-              {g.result_grade && <p style={{ marginBottom: 0 }}><b>Result:</b> {gradeText(g.result_grade)} (actual margin{" "}
+              {g.result_grade && <p style={{ marginBottom: 0 }}><b>Result:</b> {gradeText(g.result_grade, g)} (actual margin{" "}
                 {marginText(g.result_grade.actual_margin, H, A)}).</p>}
               {(g.locked_pick?.retrospectively_derived || g.pick.retrospectively_derived) &&
                 <p className="small muted" style={{ marginBottom: 0 }}>{RETRO_NOTE}</p>}
@@ -263,19 +264,19 @@ export default async function GamePage({ params }: { params: Promise<{ id: strin
 
           <div className="three-col">
             <div className="panel stat">
-              <span className="lbl">Expected score ({e.primary_model})</span>
-              <span className="big">{A} {f1(f.away_pts)} – {f1(f.home_pts)} {H}</span>
+              <span className="lbl">Expected score (model, stats only)</span>
+              <span className="big">{A} {f1(m!.away_pts)} – {f1(m!.home_pts)} {H}</span>
               <span className="small muted">Means, not a predicted final score.</span>
             </div>
             <div className="panel stat">
               <span className="lbl">Projected winner</span>
-              <span className="big">{f.p_home >= f.p_away ? `${H} ${pct(f.p_home)}` : `${A} ${pct(f.p_away)}`}</span>
-              <span className="small ink2">{f.p_home >= f.p_away ? `${A} ${pct(f.p_away)}` : `${H} ${pct(f.p_home)}`} · tie {pct(f.p_tie, 1)}</span>
+              <span className="big">{m!.p_home >= m!.p_away ? `${H} ${pct(m!.p_home)}` : `${A} ${pct(m!.p_away)}`}</span>
+              <span className="small ink2">{m!.p_home >= m!.p_away ? `${A} ${pct(m!.p_away)}` : `${H} ${pct(m!.p_home)}`} · tie {pct(m!.p_tie, 1)}</span>
             </div>
             <div className="panel stat">
-              <span className="lbl">Projected margin · total</span>
-              <span className="big">{marginText(f.margin, H, A)} · {f1(f.total)}</span>
-              <span className="small ink2">80%: {rangeFmt(f.intervals.margin_80, H, A)} · total {f1(f.intervals.total_80[0])}–{f1(f.intervals.total_80[1])}</span>
+              <span className="lbl">Projected margin · total (model)</span>
+              <span className="big">{marginText(m!.margin, H, A)} · {f1(m!.total)}</span>
+              <span className="small ink2">80%: {rangeFmt(m!.intervals.margin_80, H, A)} · total {f1(m!.intervals.total_80[0])}–{f1(m!.intervals.total_80[1])}</span>
             </div>
           </div>
 
@@ -454,8 +455,9 @@ export default async function GamePage({ params }: { params: Promise<{ id: strin
       {g.score && f && (
         <div className="panel">
           <h2>Result vs forecast</h2>
-          <p>Actual margin {marginText(g.score.home - g.score.away, H, A)} (forecast {marginText(f.margin, H, A)}, error {f1(Math.abs(f.margin - (g.score.home - g.score.away)))} pts);
-            actual total {g.score.home + g.score.away} (forecast {f1(f.total)}, error {f1(Math.abs(f.total - (g.score.home + g.score.away)))}).</p>
+          <p>Actual margin {marginText(g.score.home - g.score.away, H, A)} (model {marginText(m!.margin, H, A)}, error {f1(Math.abs(m!.margin - (g.score.home - g.score.away)))} pts;
+            market-adjusted {marginText(f.margin, H, A)}, error {f1(Math.abs(f.margin - (g.score.home - g.score.away)))} pts);
+            actual total {g.score.home + g.score.away} (model {f1(m!.total)}, error {f1(Math.abs(m!.total - (g.score.home + g.score.away)))}).</p>
         </div>
       )}
     </>

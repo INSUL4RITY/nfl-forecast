@@ -101,8 +101,8 @@ export default function PerformancePage() {
                 <h3>{title}</h3>
                 {rowsP.length ? (
                   <div className="table-wrap"><table>
-                    <thead><tr><th>Horizon</th><th className="r">Games</th><th className="r">Margin MAE</th><th className="r">Market MAE</th>
-                      <th className="r">Football MAE</th><th className="r">Total MAE</th><th className="r">Log loss</th><th className="r">80% coverage</th></tr></thead>
+                    <thead><tr><th>Horizon</th><th className="r">Games</th><th className="r">Market-adj. MAE</th><th className="r">Market MAE</th>
+                      <th className="r">Model (stats-only) MAE</th><th className="r">Total MAE</th><th className="r">Log loss</th><th className="r">80% coverage</th></tr></thead>
                     <tbody>{rowsP.map((r: any) => (
                       <tr key={r.horizon_type}><td>{r.horizon_type}</td><td className="r">{r.n}</td><td className="r">{f2(r.margin_mae)}</td><td className="r">{f2(r.market_margin_mae)}</td>
                         <td className="r">{f2(r.football_margin_mae)}</td><td className="r">{f2(r.total_mae)}</td>

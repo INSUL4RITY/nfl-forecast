@@ -4,24 +4,26 @@ type WLP = { win: number; loss: number; push: number };
 type Keyed = { combined: number; stats_only: number; market: number };
 export interface H2HWeek {
   season: number; week: number; n: number; abs_error: Keyed; winner_called: Keyed; winner_correct: Keyed;
-  vs_line: { lean: WLP; stats_only: WLP };
+  vs_line: { lean: WLP; stats_only: WLP; market_adjusted?: WLP };
 }
 
 const MODELS: [keyof Keyed, string, string][] = [
-  ["combined", "Model", "var(--series-1)"],
-  ["stats_only", "Stats-only", "var(--series-3)"],
+  ["stats_only", "Model (stats only)", "var(--series-3)"],
+  ["combined", "Market-adjusted", "var(--series-1)"],
   ["market", "Market", "var(--series-2)"],
 ];
 
 const BEST_TEXT: Record<keyof Keyed, string> =
-  { combined: "the model line", stats_only: "the stats-only forecast", market: "the market line" };
+  { combined: "the market-adjusted line", stats_only: "the model line (stats only)", market: "the market line" };
 
+const Z: WLP = { win: 0, loss: 0, push: 0 };
 const add = (a: H2HWeek, b: H2HWeek): H2HWeek => {
   const k = (x: Keyed, y: Keyed): Keyed => ({ combined: x.combined + y.combined, stats_only: x.stats_only + y.stats_only, market: x.market + y.market });
   const w = (x: WLP, y: WLP): WLP => ({ win: x.win + y.win, loss: x.loss + y.loss, push: x.push + y.push });
   return { season: b.season, week: b.week, n: a.n + b.n, abs_error: k(a.abs_error, b.abs_error),
     winner_called: k(a.winner_called, b.winner_called), winner_correct: k(a.winner_correct, b.winner_correct),
-    vs_line: { lean: w(a.vs_line.lean, b.vs_line.lean), stats_only: w(a.vs_line.stats_only, b.vs_line.stats_only) } };
+    vs_line: { lean: w(a.vs_line.lean, b.vs_line.lean), stats_only: w(a.vs_line.stats_only, b.vs_line.stats_only),
+      market_adjusted: w(a.vs_line.market_adjusted ?? Z, b.vs_line.market_adjusted ?? Z) } };
 };
 const mae = (r: H2HWeek, m: keyof Keyed) => (r.n ? (r.abs_error[m] / r.n).toFixed(2) : "—");
 const wlp = (x: WLP) => (x.win + x.loss + x.push ? `${x.win}–${x.loss}${x.push ? `–${x.push}` : ""}` : "—");
@@ -49,19 +51,21 @@ export default function HeadToHead({ weeks }: { weeks: H2HWeek[] }) {
         <thead>
           <tr><th rowSpan={2}>Week</th><th rowSpan={2} className="r">Games</th>
             <th colSpan={3} className="r">Average margin error (points)</th>
-            <th colSpan={2} className="r">Vs market line</th></tr>
+            <th colSpan={3} className="r">Vs market line</th></tr>
           <tr>{MODELS.map(([k, l]) => <th key={`e${k}`} className="r">{l}</th>)}
-            <th className="r">Model pick</th><th className="r">Stats-only</th></tr>
+            <th className="r">Model pick</th><th className="r">Model line</th><th className="r">Market-adj.</th></tr>
         </thead>
         <tbody>
           {weeks.map((r) => (
             <tr key={r.week}><td>Week {r.week}</td><td className="r">{r.n}</td>
               {MODELS.map(([k]) => <td key={`e${k}`} className="r">{mae(r, k)}</td>)}
-              <td className="r">{wlp(r.vs_line.lean)}</td><td className="r">{wlp(r.vs_line.stats_only)}</td></tr>
+              <td className="r">{wlp(r.vs_line.lean)}</td><td className="r">{wlp(r.vs_line.stats_only)}</td>
+              <td className="r">{wlp(r.vs_line.market_adjusted ?? Z)}</td></tr>
           ))}
           <tr className="hl"><td><b>Season to date</b></td><td className="r"><b>{total.n}</b></td>
             {MODELS.map(([k]) => <td key={`e${k}`} className="r"><b>{mae(total, k)}</b></td>)}
-            <td className="r"><b>{wlp(total.vs_line.lean)}</b></td><td className="r"><b>{wlp(total.vs_line.stats_only)}</b></td></tr>
+            <td className="r"><b>{wlp(total.vs_line.lean)}</b></td><td className="r"><b>{wlp(total.vs_line.stats_only)}</b></td>
+            <td className="r"><b>{wlp(total.vs_line.market_adjusted ?? Z)}</b></td></tr>
         </tbody>
       </table></div>
       {cum.length > 1 && (
@@ -71,8 +75,9 @@ export default function HeadToHead({ weeks }: { weeks: H2HWeek[] }) {
             yTitle="Cumulative average margin error (points)" />
         </div>
       )}
-      <p className="small muted" style={{ marginBottom: 0 }}>Record vs market line: wins–losses–level results for the model pick and for the side of the locked line where the
-        stats-only margin fell (a tracking record, not the official model pick). The market line has no record against itself.</p>
+      <p className="small muted" style={{ marginBottom: 0 }}>Record vs market line: wins–losses–level results for the model pick and for the side of
+        the locked line where each line fell (the model pick follows the model line from week 7 and the market-adjusted line
+        before). The market line has no record against itself.</p>
     </div>
   );
 }

@@ -19,6 +19,9 @@ Which version's spread pick is shown and graded (the "locked pick") depends on t
   * "final-pregame" (games before RULE_START; the rule in force when they were played, so finished weeks are never
     regraded): the final_pregame version (latest valid version generated before kickoff) with its own line.
   The PROJECTED WINNER and the margin error always use the final_pregame version, as scoring does.
+Which margin the official pick compares with the line (pick_basis; user decision 2026-10-19): from STATS_PICK_START
+(week 7) the stats-only (football-only, no market input) margin of the locked version ("stats_only"; releases store it
+as `stats_picks`); before that the combined, market-adjusted margin ("combined"; releases store it as `picks`).
 Actual ties, pushes, no-lean and no-line cases are counted separately. Releases generated from picks-v1 on store the
 pick of each version (unchanged); for older versions the same labelling rule is applied now and the pick is flagged
 `retrospectively_derived`.
@@ -34,6 +37,7 @@ PICKS_VERSION = "picks-v1"          # labelling rule stored in each release (unc
 RULE_START = datetime(2026, 10, 1, tzinfo=timezone.utc)   # "original-pick" for games kicking off from here on
 LOCK24_START = datetime(2026, 10, 21, tzinfo=timezone.utc)  # "lock-24h" from here on (after week 6's last game, before week 7)
 LOCK_HOURS = 24
+STATS_PICK_START = LOCK24_START   # official pick from the stats-only margin from here on (week 7)
 NO_LEAN = 0.005          # points; below this the difference displays as 0.00
 
 
@@ -91,6 +95,18 @@ def select_lock24(versions: list[tuple[str, dict]], kickoff: datetime) -> tuple[
                  and (e.get("market") or {}).get("home_spread") is not None), key=lambda x: datetime.fromisoformat(x[0]))
     before = [x for x in ok if datetime.fromisoformat(x[0]) <= lock_time(kickoff)]
     return before[-1] if before else (ok[0] if ok else None)
+
+
+def pick_basis(kickoff: datetime) -> str:
+    """Which margin of the locked version the official pick compares with its line."""
+    return "stats_only" if kickoff >= STATS_PICK_START else "combined"
+
+
+def side_result(margin: float, line_home_spread: float, home_score: int, away_score: int) -> str | None:
+    """Side of the line on which `margin` fell, graded against the result: win/loss/push, None when it equals the line."""
+    d = margin + line_home_spread           # > 0: the margin rates the home team above the line
+    c = home_score - away_score + line_home_spread
+    return None if abs(d) < NO_LEAN else "push" if c == 0 else "win" if (c > 0) == (d > 0) else "loss"
 
 
 def lock_rule(kickoff: datetime) -> str:
@@ -159,16 +175,17 @@ def grade_stats_only(locked_pick: dict | None, home_score: int, away_score: int)
     line = (locked_pick or {}).get("line_home_spread")
     if not so or line is None:
         return None
-    a, t = home_score - away_score, home_score + away_score
+    t = home_score + away_score
     d = so["margin"] + line                  # > 0: the stats rate the home team above the line
-    c = a + line                             # > 0: the home team covered
-    spread = None if abs(d) < NO_LEAN else "push" if c == 0 else "win" if (c > 0) == (d > 0) else "loss"
+    spread = side_result(so["margin"], line, home_score, away_score)
     lt = so.get("line_total")
     dt = None if lt is None else so["total"] - lt
     total = (None if dt is None or abs(dt) < NO_LEAN else "push" if t == lt
              else "win" if (t > lt) == (dt > 0) else "loss")
+    ma = locked_pick.get("market_adjusted_margin")
     return {"spread": spread, "big_gap": abs(d) >= BIG_GAP, "biggest_gap": abs(d) >= BIGGEST_GAP, "total": total,
-            "total_side": None if total is None else ("over" if dt > 0 else "under")}
+            "total_side": None if total is None else ("over" if dt > 0 else "under"),
+            "market_adjusted": None if ma is None else side_result(ma, line, home_score, away_score)}
 
 
 PUBLIC = "publicly_verifiable_pregame"
@@ -182,7 +199,7 @@ def head_to_head(items: list[dict]) -> dict:
     keys = ("combined", "stats_only", "market")
     h = {"n": 0, "abs_error": {k: 0.0 for k in keys}, "winner_called": {k: 0 for k in keys},
          "winner_correct": {k: 0 for k in keys},
-         "vs_line": {k: {"win": 0, "loss": 0, "push": 0} for k in ("lean", "stats_only")}}
+         "vs_line": {k: {"win": 0, "loss": 0, "push": 0} for k in ("lean", "stats_only", "market_adjusted")}}
     for it in items:
         sc, f = it.get("score"), it.get("forecast") or {}
         if it.get("status") != "final" or not sc or not it.get("result_grade"):
@@ -201,9 +218,10 @@ def head_to_head(items: list[dict]) -> dict:
             lean = it["result_grade"]["lean"]
             if lean in ("win", "loss", "push"):
                 h["vs_line"]["lean"][lean] += 1
-            so = (it.get("stats_only_grade") or {}).get("spread")
-            if so:
-                h["vs_line"]["stats_only"][so] += 1
+            for k, key in (("stats_only", "spread"), ("market_adjusted", "market_adjusted")):
+                res = (it.get("stats_only_grade") or {}).get(key)
+                if res:
+                    h["vs_line"][k][res] += 1
     return h
 
 

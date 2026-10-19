@@ -47,8 +47,8 @@ export default function MatchupPercentiles({ m, home, away, homeColor, awayColor
       })}
       <div className="mp-row mp-axis" aria-hidden="true"><span /><span><span>0 worst</span><span>50</span><span>100 best</span></span><span /></div>
       <p className="small muted" style={{ marginBottom: 0 }}>Per-play efficiency entering the game (EPA = expected points added), weighted
-        towards recent games and, early in the season, still partly last season. These are the same football inputs the stats-only
-        line is built from. Display only.</p>
+        towards recent games and, early in the season, still partly last season. These are the same football inputs the model line
+        (stats only) is built from. Display only.</p>
     </div>
   );
 }

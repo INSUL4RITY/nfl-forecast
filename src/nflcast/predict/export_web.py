@@ -131,14 +131,19 @@ def game_view(vs: list[tuple[dict, dict]], kickoff: datetime, is_final: bool, no
     }
 
 
-def pick_for(entry: dict | None, home: str, away: str) -> dict | None:
+def pick_for(entry: dict | None, home: str, away: str, basis: str = "combined") -> dict | None:
     """The pick shown/graded for a forecast version: the one published in the release if present (never recomputed),
-    otherwise derived now by the same rule from that version's own forecast and line, flagged as retrospective."""
+    otherwise derived now by the same rule from that version's own forecast and line, flagged as retrospective.
+    basis "stats_only" uses the version's stats-only (football-only) forecast (`stats_picks`) instead."""
     if not entry or not entry.get("forecast"):
         return None
-    if entry.get("picks"):
-        return {**entry["picks"], "retrospectively_derived": False}
-    return {**PK.derive(entry["forecast"], entry.get("market"), home, away), "retrospectively_derived": True}
+    src, stored = ((entry.get("football_only"), entry.get("stats_picks")) if basis == "stats_only"
+                   else (entry["forecast"], entry.get("picks")))
+    if not src:
+        return None
+    if stored:
+        return {**stored, "retrospectively_derived": False}
+    return {**PK.derive(src, entry.get("market"), home, away), "retrospectively_derived": True}
 
 
 def locked_pick_for(vs: list[tuple[dict, dict]], kickoff: datetime, home: str, away: str, evidence: dict,
@@ -151,8 +156,12 @@ def locked_pick_for(vs: list[tuple[dict, dict]], kickoff: datetime, home: str, a
         return None
     rel = next(r for r, e in vs if e is o[1])
     pub = PUB.public_time(rel["run_id"], evidence)
-    rule = PK.lock_rule(kickoff)
-    out = {**pick_for(o[1], home, away), "run_id": rel["run_id"], "generated_at": o[0], "rule": rule,
+    rule, basis = PK.lock_rule(kickoff), PK.pick_basis(kickoff)
+    p = pick_for(o[1], home, away, basis)
+    if not p:
+        return None
+    out = {**p, "run_id": rel["run_id"], "generated_at": o[0], "rule": rule, "basis": basis,
+           "market_adjusted_margin": o[1]["forecast"]["margin"],
            "verification": PUB.verification_label(datetime.fromisoformat(o[0]), kickoff, pub),
            "stats_only": stats_only_for(o[1])}
     if rule == "lock-24h":
@@ -341,7 +350,8 @@ def export() -> Path:
     week_index, inj_cache, staff = [], {}, load_staff()
     record = {"weeks": [], "straight_up": {"win": 0, "loss": 0, "tie": 0}, "spread": {"win": 0, "loss": 0, "push": 0}}
     wlp = lambda: {"win": 0, "loss": 0, "push": 0}
-    record["stats_only"] = {"weeks": [], "spread": wlp(), "big_gap": wlp(), "biggest_gap": wlp(), "total": wlp()}
+    record["stats_only"] = {"weeks": [], "spread": wlp(), "big_gap": wlp(), "biggest_gap": wlp(), "total": wlp(),
+                            "market_adjusted": wlp()}      # same games: the locked market-adjusted margin vs that line
     h2h: list[dict] = []
     for season, week in weeks:
         wk = games.filter((pl.col("season") == season) & (pl.col("week") == week)).sort("kickoff_utc")
@@ -401,7 +411,8 @@ def export() -> Path:
                 if week not in so["weeks"]:
                     so["weeks"].append(week)
                 for key, res in (("spread", sg["spread"]), ("big_gap", sg["spread"] if sg["big_gap"] else None),
-                                 ("biggest_gap", sg["spread"] if sg["biggest_gap"] else None), ("total", sg["total"])):
+                                 ("biggest_gap", sg["spread"] if sg["biggest_gap"] else None), ("total", sg["total"]),
+                                 ("market_adjusted", sg.get("market_adjusted"))):
                     if res:
                         so[key][res] += 1
         week_index.append({"season": season, "week": week, "n_games": wk.height, "has_forecasts": bool(rel),

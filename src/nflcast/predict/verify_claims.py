@@ -87,9 +87,17 @@ def picks_checks() -> list[tuple[str, bool, str]]:
                 again = PK.derive(g.get("forecast"), g.get("market"), g["home_team"], g["away_team"])
                 if {k: g["picks"][k] for k in again} != again:
                     stored_bad.append(f"{r['run_id']}:{g['game_id']}")
+            if g.get("stats_picks"):
+                n_stored += 1
+                again = PK.derive(g.get("football_only"), g.get("market"), g["home_team"], g["away_team"])
+                if {k: g["stats_picks"][k] for k in again} != again:
+                    stored_bad.append(f"{r['run_id']}:{g['game_id']} (stats)")
 
-    def release_pick(entry: dict, home: str, away: str) -> dict:
+    def release_pick(entry: dict, home: str, away: str, basis: str = "combined") -> dict:
         """Labels as published in the release, or derived now by the same rule when that release stored none."""
+        if basis == "stats_only":
+            return entry["stats_picks"] if entry.get("stats_picks") else PK.derive(
+                entry.get("football_only"), entry.get("market"), home, away)
         return entry["picks"] if entry.get("picks") else PK.derive(entry.get("forecast"), entry.get("market"), home, away)
 
     def matches(exported: dict | None, rp: dict) -> bool:
@@ -130,15 +138,17 @@ def picks_checks() -> list[tuple[str, bool, str]]:
             else:
                 n_lock += 1
                 t, run, entry = lock
-                lp_rel = release_pick(entry, H, A)
+                basis = PK.pick_basis(ko)
+                lp_rel = release_pick(entry, H, A, basis)
                 if (lp is None or lp["run_id"] != run or datetime.fromisoformat(lp["generated_at"]) != t
-                        or lp.get("rule") != rule or not matches(lp, lp_rel)
+                        or lp.get("rule") != rule or lp.get("basis") != basis or not matches(lp, lp_rel)
+                        or lp.get("market_adjusted_margin") != entry["forecast"]["margin"]
                         or lp.get("stats_only") != stats_only_for(entry)):
                     lock_bad.append(gid)
                 else:
                     if lp.get("verification") != PUB.verification_label(t, ko, PUB.public_time(run, evidence)):
                         label_bad.append(gid)
-                    if lp["retrospectively_derived"] != (not entry.get("picks")):
+                    if lp["retrospectively_derived"] != (not entry.get("stats_picks" if basis == "stats_only" else "picks")):
                         retro_bad.append(gid)
             if it.get("result_grade"):
                 n += 1
@@ -163,8 +173,8 @@ def picks_checks() -> list[tuple[str, bool, str]]:
                          for g in res["groups"].values()):
             count_bad.append(wf.name)
     return [("stored pick labels match the published rule", not stored_bad, "; ".join(stored_bad[:5]) or f"{n_stored} stored picks"),
-            ("model pick = version chosen by the rule in force (24 h before kickoff from 21 Oct 2026, original-pick from 1 Oct, "
-             "final-pregame before), "
+            ("model pick = version chosen by the rule in force (24 h before kickoff from 21 Oct 2026, from the stats-only "
+             "line; original-pick from 1 Oct, final-pregame before), "
              "with that version's own labels, line and stats-only numbers", not lock_bad, "; ".join(lock_bad[:5]) or f"{n_lock} locked picks"),
             ("publication labels of the projected-winner and model-pick versions match the evidence", not label_bad,
              "; ".join(label_bad[:5])),

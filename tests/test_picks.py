@@ -187,17 +187,44 @@ def test_lock24_takes_the_latest_lined_version_at_or_before_24h():
 def test_lock24_is_provisional_until_24h_before_kickoff():
     from nflcast.predict.export_web import locked_pick_for
     t0, t1, t2 = KO7 - timedelta(days=5), KO7 - timedelta(hours=40), KO7 - timedelta(hours=2)
-    vs = [_rel("rel_a", t0, {"status": "ok", "forecast": fc(6.4), "market": {"home_spread": -7.5}, "game_type": "REG"}),
-          _rel("rel_b", t1, {"status": "ok", "forecast": fc(6.2), "market": {"home_spread": -6.0}, "game_type": "REG"}),
-          _rel("rel_c", t2, {"status": "ok", "forecast": fc(3.0), "market": {"home_spread": -3.0}, "game_type": "REG"})]
+    e = lambda comb, fo, hs: {"status": "ok", "forecast": fc(comb), "football_only": fc(fo), "market": {"home_spread": hs},
+                              "game_type": "REG"}
+    vs = [_rel("rel_a", t0, e(6.4, 9.0, -7.5)), _rel("rel_b", t1, e(6.2, 6.8, -6.0)), _rel("rel_c", t2, e(3.0, 2.0, -3.0))]
     ev = _ev(("rel_a", t0 + timedelta(minutes=1)), ("rel_b", t1 + timedelta(minutes=1)), ("rel_c", t2 + timedelta(minutes=1)))
     early = locked_pick_for(vs[:1], KO7, "BUF", "MIA", ev, now=t0 + timedelta(hours=1))      # Tuesday: provisional
     assert early["provisional"] is True and early["run_id"] == "rel_a" and early["rule"] == "lock-24h"
     assert early["locks_at"] == (KO7 - timedelta(hours=24)).isoformat()
     lk = locked_pick_for(vs, KO7, "BUF", "MIA", ev, now=KO7 - timedelta(hours=1))           # after the lock
     assert lk["provisional"] is False and lk["run_id"] == "rel_b" and lk["line_home_spread"] == -6.0
-    assert lk["lean"]["side"] == "BUF" and lk["lean"]["side_spread"] == -6.0                # 6.2 beats -6.0
+    assert lk["lean"]["side"] == "BUF" and lk["lean"]["side_spread"] == -6.0                # stats 6.8 beats -6.0
+    assert lk["basis"] == "stats_only" and lk["projected_margin"] == 6.8 and lk["market_adjusted_margin"] == 6.2
     assert PK.grade_game(pick_for(vs[2][1], "BUF", "MIA"), lk, 24, 20, "BUF", "MIA")["lean"] == "loss"   # graded on -6.0
+
+
+def test_week7_pick_follows_the_stats_only_line_not_the_market_adjusted_one():
+    from nflcast.predict.export_web import locked_pick_for
+    assert PK.pick_basis(PK.STATS_PICK_START - timedelta(seconds=1)) == "combined"
+    assert PK.pick_basis(PK.STATS_PICK_START) == "stats_only"
+    t0 = KO7 - timedelta(days=3)
+    # market-adjusted BUF by 7.6 vs BUF -7.5 (BUF side, tiny); stats-only BUF by 4.0 -> MIA +7.5 (3.5 pts, Big gap)
+    entry = {"status": "ok", "forecast": fc(7.6), "football_only": fc(4.0), "market": {"home_spread": -7.5}, "game_type": "REG"}
+    lk = locked_pick_for([_rel("rel_a", t0, entry)], KO7, "BUF", "MIA", _ev(("rel_a", t0 + timedelta(minutes=1))),
+                         now=KO7 + timedelta(days=1))
+    assert lk["lean"]["side"] == "MIA" and lk["lean"]["side_spread"] == 7.5 and lk["lean"]["strength"] == "large"
+    assert lk["retrospectively_derived"] is True                                   # no stored stats_picks in this release
+    sg = PK.grade_stats_only(lk, 24, 20)                                           # BUF by 4: MIA +7.5 side wins
+    assert sg["spread"] == "win" and sg["market_adjusted"] == "loss" and sg["big_gap"] is True
+    assert PK.grade_game(pick_for(entry, "BUF", "MIA"), lk, 24, 20, "BUF", "MIA")["lean"] == "win"
+    # a release that stored stats_picks is used verbatim
+    stored = {**PK.derive(fc(4.0), {"home_spread": -7.5}, "BUF", "MIA"), "published_with_forecast": True}
+    lk2 = locked_pick_for([_rel("rel_a", t0, {**entry, "stats_picks": stored})], KO7, "BUF", "MIA",
+                          _ev(("rel_a", t0 + timedelta(minutes=1))), now=KO7 + timedelta(days=1))
+    assert lk2["retrospectively_derived"] is False and lk2["lean"] == lk["lean"]
+    # earlier weeks keep the market-adjusted basis
+    ko6 = datetime(2026, 10, 18, 17, 0, tzinfo=timezone.utc)
+    t6 = ko6 - timedelta(days=5)
+    old = locked_pick_for([_rel("rel_b", t6, entry)], ko6, "BUF", "MIA", _ev(("rel_b", t6 + timedelta(minutes=1))))
+    assert old["basis"] == "combined" and old["lean"]["side"] == "BUF"
 
 
 def test_no_locked_line_grades_as_no_line_and_winner_still_counts():
@@ -236,7 +263,9 @@ def test_locked_pick_carries_the_stats_only_numbers_of_the_same_version():
 def test_stats_only_tracking_grade_uses_the_locked_line_and_total():
     lk = {"line_home_spread": -8.0, "stats_only": {"margin": 4.9, "total": 48.8, "line_total": 49.5}}
     g = PK.grade_stats_only(lk, 16, 24)            # TB @ DAL: DAL -8, stats DAL by 4.9 -> TB side; 40 pts -> under
-    assert g == {"spread": "win", "big_gap": True, "biggest_gap": False, "total": "win", "total_side": "under"}
+    assert g == {"spread": "win", "big_gap": True, "biggest_gap": False, "total": "win", "total_side": "under",
+                 "market_adjusted": None}
+    assert PK.grade_stats_only({**lk, "market_adjusted_margin": 8.5}, 16, 24)["market_adjusted"] == "loss"
     assert PK.grade_stats_only(lk, 30, 20)["spread"] == "loss"           # DAL by 10 covers -8
     assert PK.grade_stats_only(lk, 28, 20)["spread"] == "push"
     assert PK.grade_stats_only({**lk, "stats_only": {**lk["stats_only"], "margin": 6.0}}, 16, 24)["big_gap"] is False
@@ -244,7 +273,7 @@ def test_stats_only_tracking_grade_uses_the_locked_line_and_total():
     assert big["big_gap"] is True and big["biggest_gap"] is True
     assert PK.grade_stats_only({**lk, "stats_only": {**lk["stats_only"], "margin": 12.0}}, 16, 24)["biggest_gap"] is True
     assert PK.grade_stats_only({**lk, "stats_only": {"margin": 8.0, "total": 49.5, "line_total": 49.5}}, 16, 24) == \
-        {"spread": None, "big_gap": False, "biggest_gap": False, "total": None, "total_side": None}
+        {"spread": None, "big_gap": False, "biggest_gap": False, "total": None, "total_side": None, "market_adjusted": None}
     assert PK.grade_stats_only({"line_home_spread": None, "stats_only": lk["stats_only"]}, 16, 24) is None
     assert PK.grade_stats_only({**lk, "stats_only": {"margin": 4.9, "total": 48.8, "line_total": None}}, 16, 24)["total"] is None
 
@@ -254,7 +283,8 @@ def test_head_to_head_compares_the_three_forecasts_on_the_same_games():
     def it(home, away, comb, fo, spread, lean, so, ver=pv, state="scored"):
         return {"status": "final", "score": {"home": home, "away": away}, "forecast_verification": ver, "forecast_state": state,
                 "forecast": {"combined": {"margin": comb}, "football_only": {"margin": fo}, "market": {"home_spread": spread}},
-                "result_grade": {"lean": lean}, "locked_pick": {"verification": ver}, "stats_only_grade": {"spread": so}}
+                "result_grade": {"lean": lean}, "locked_pick": {"verification": ver},
+                "stats_only_grade": {"spread": so, "market_adjusted": lean if lean != "push" else None}}
     items = [it(16, 24, 8.0, 4.9, -8.0, "loss", "win"),            # TB @ DAL: TB won by 8
              it(30, 20, 3.0, -1.0, -3.0, "win", "loss"),           # home won by 10
              it(20, 20, 1.0, 2.0, -1.0, "push", None),             # tie: no winner calls count; stats no pick
@@ -265,7 +295,8 @@ def test_head_to_head_compares_the_three_forecasts_on_the_same_games():
     assert h["abs_error"] == {"combined": 16.0 + 7.0 + 1.0, "stats_only": 12.9 + 11.0 + 2.0, "market": 16.0 + 7.0 + 1.0}
     assert h["winner_called"] == {"combined": 2, "stats_only": 2, "market": 2}
     assert h["winner_correct"] == {"combined": 1, "stats_only": 0, "market": 1}
-    assert h["vs_line"] == {"lean": {"win": 1, "loss": 1, "push": 1}, "stats_only": {"win": 1, "loss": 1, "push": 0}}
+    assert h["vs_line"] == {"lean": {"win": 1, "loss": 1, "push": 1}, "stats_only": {"win": 1, "loss": 1, "push": 0},
+                            "market_adjusted": {"win": 1, "loss": 1, "push": 0}}
 
 
 def test_matchup_percentiles_rank_within_the_same_release():

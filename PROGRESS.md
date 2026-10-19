@@ -290,6 +290,19 @@ market lines, QB availability, injury display, weather display). A changed artif
   all 61 existing locked picks and the season record (25-29-4) were unchanged by the switch. verify-claims recomputes
   the rule. Forecasts still first publish Tuesday 18:00 UK.
 
+- Model pick follows the stats-only line (2026-10-19, user: "yea, i think u can do that. model line is quite inefficient.
+  we can use it as a baseline but i wouldnt dedicate the pick solely around it"; pick rule/display only, frozen model
+  unchanged): for games from `picks.STATS_PICK_START` (= LOCK24_START, 2026-10-21, week 7) the official pick compares the
+  locked version's football-only margin with its line (`picks.pick_basis` -> "stats_only"; `locked_pick.basis`,
+  `market_adjusted_margin`). New releases store `stats_picks` (derive(football_only, market)) next to `picks`; older
+  versions are derived and flagged retrospective. verify-claims checks basis, stored stats_picks and the
+  market-adjusted margin. Display: "Model line"/"Model total"/projected scores/win probability = stats-only forecast;
+  the combined line is "Market-adjusted line" (baseline row); tracking strip shows both lines' records (+ Big/Biggest
+  gaps); head-to-head adds a market-adjusted vs-line column. Evidence: 2019-2025 backtest vs line, stats-only 49.9%
+  (912-915), combined 49.9% (911-913): no accuracy reason either way; the user wants an independent line like other
+  public models. At the switch (week 6 MNF pending): official/market-adjusted 25-30-4, stats-only 32-23-4. Weeks 3-6
+  keep the market-adjusted pick (all 61 locked picks unchanged).
+
 ## 3. Tests and checks (2026-09-25)
 - Live head-to-head (2026-10-13, user request; display only): `picks.head_to_head` compares combined, stats-only and market
   on the same finished, publicly verifiable games by week (margin error, winner correct) plus the vs-line records of the

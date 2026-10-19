@@ -467,6 +467,9 @@ def build_candidate(now: datetime | None = None, days_ahead: int = 8) -> dict | 
                 for k, i in enumerate(idx)],
             "picks": ({**PK.derive(headline, market, g["home_team"], g["away_team"]), "published_with_forecast": True}
                       if headline else None),
+            # the same labels from the stats-only margin: the official pick's basis from week 7 (picks.pick_basis)
+            "stats_picks": ({**PK.derive(fb, market, g["home_team"], g["away_team"]), "published_with_forecast": True}
+                            if fb else None),
             "input_fingerprint": fingerprint,
             "data_freshness": _game_freshness(freshness, _market_freshness(market, market_fresh, now), market, res, now),
             "weather": _weather_display(g, now),

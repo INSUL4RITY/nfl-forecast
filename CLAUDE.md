@@ -30,7 +30,8 @@ CLI stay `nflcast`; keep the URL and repo name (published evidence and links poi
 - Ask the user before paid services, new external accounts, or changing the scheduled task/system settings.
 - **Model pick = rule "lock-24h" for games from 2026-10-21 (week 7; user decision 2026-10-19):** the spread pick is the
   latest valid version with a line at or before kickoff - 24 h (else the first lined pregame version), graded on that line,
-  shown as "provisional" until then. Games 2026-10-01 to 10-20 keep "original-pick" (earliest valid pregame version with a
+  shown as "provisional" until then; from week 7 the pick compares the STATS-ONLY (football-only) margin with the line
+  (`picks.pick_basis`, user decision 2026-10-19), earlier weeks the combined margin. Games 2026-10-01 to 10-20 keep "original-pick" (earliest valid pregame version with a
   line); earlier games keep "final-pregame"; margin error uses final_pregame (`predict/picks.py`). Never regrade finished games under a new rule; record any rule change in
   PROGRESS.md and state it on the Method page.
 - **Final for 2026 (user, 2026-10-05):** after the carry-over test (no variant passed) the model, the pick rule and the
@@ -38,7 +39,8 @@ CLI stay `nflcast`; keep the URL and repo name (published evidence and links poi
   Exception the user asked for (2026-10-06): stats-only line, "Big gap" tag, edge size and the stats-only breakdown
   (display only; see PROGRESS.md). 2026-10-18 (user): only spread results are tracked publicly (no winner record, no
   stats-only totals record) and a "Biggest gap" tier (stats-only >= 4 pts from the locked line) was added (display only).
-  2026-10-19 (user): the pick rule changed to "lock-24h" from week 7 (see above); the model is unchanged.
+  2026-10-19 (user): the pick rule changed to "lock-24h" from week 7 and the pick follows the stats-only line (see
+  above); the model is unchanged.
 - **Weekly publication (user decisions 2026-10-05, changed 2026-10-06 and 2026-10-13):** a week is first published at
   Tuesday 18:00 UK before its first game (`predict/schedule.py`), and waits up to 24 h if the previous week's finished
   games are not yet in the team data; from week 7 the model pick locks 24 h before each kickoff (see above). Operational only; do not move it without the user.
@@ -49,9 +51,9 @@ CLI stay `nflcast`; keep the URL and repo name (published evidence and links poi
 - Public pages must never show internal codes or player IDs; map them to plain English in `web/` (verify-claims checks this).
 - **Neutral public wording (user, 2026-10-09; the site is on a data-science CV):** no betting/gambling terms on public pages
   (no "bet", "betting", "pick'em", "bookmakers", "cover", "push", "against the spread"). Use "market line", "even", "level with
-  the line", "vs market line", "for analysis and education only". Internal code names may stay. Exception (user, 2026-10-13):
-  the headline label is "Model pick" and the combined model's line is "Model line" (user prefers it to "Market-adjusted line");
-  the Method page states that the model line is built from the market line and the stats-only line is the independent one.
+  the line", "vs market line", "for analysis and education only". Internal code names may stay. Labels (user, 2026-10-13, changed
+  2026-10-19): the headline label is "Model pick"; "Model line"/"Model total" are the STATS-ONLY (independent) numbers and
+  the combined model's line is "Market-adjusted line" (a baseline row); the Method page explains both.
 - After any display change, run `scripts/layout_audit.js` in the browser on the local build (widths 1280, 768, 414, 375, 320)
   and on the live site after deploy: 0 issues required. Wrap every table in `.table-wrap` (cells do not wrap by default).
 - The user accepts that updates pause while the PC is off; never recreate or back-date missed forecasts.

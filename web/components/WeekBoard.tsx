@@ -21,19 +21,23 @@ function RecCell({ label, x }: { label: string; x: WLP }) {
   );
 }
 
-/** Display-only tracking record of the stats-only (football-only, no market line) numbers at each pick's lock. */
+const NONE: WLP = { win: 0, loss: 0, push: 0 };
+
+/** Tracking records of both lines at each pick's lock, all season: the model line (stats only; the official pick from
+ *  week 7) and the market-adjusted line (the official pick before week 7), plus the Big/Biggest gap games. */
 function StatsOnlyStrip({ s }: { s: NonNullable<SeasonRecord["stats_only"]> }) {
   return (
-    <section className="record-strip four" aria-label="Stats-only tracking record">
+    <section className="record-strip five" aria-label="Line tracking records">
       <div className="rec-cell">
-        <span className="caps">Tracking only</span>
-        <b>Stats-only record</b>
-        <span className="small muted">{weeksText(s.weeks)} · side of the locked line where the stats-only margin fell;
-          not the official model pick</span>
+        <span className="caps">Tracking</span>
+        <b>Both lines vs market line</b>
+        <span className="small muted">{weeksText(s.weeks)} · side of the locked line each one fell on. The model pick
+          follows the model line from week 7 (the market-adjusted line before)</span>
       </div>
-      <RecCell label="Vs market line" x={s.spread} />
+      <RecCell label="Model line (stats only)" x={s.spread} />
+      <RecCell label="Market-adjusted line" x={s.market_adjusted ?? NONE} />
       <RecCell label="Big gaps (3+ pts)" x={s.big_gap} />
-      <RecCell label="Biggest gaps (4+ pts)" x={s.biggest_gap ?? { win: 0, loss: 0, push: 0 }} />
+      <RecCell label="Biggest gaps (4+ pts)" x={s.biggest_gap ?? NONE} />
     </section>
   );
 }

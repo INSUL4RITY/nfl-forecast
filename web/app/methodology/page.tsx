@@ -141,21 +141,32 @@ export default function Methodology() {
       <div className="panel">
         <h2>Model picks and weekly results</h2>
         <p className="small">Picks are labels derived from one forecast version and the market line recorded in that same version; the
-          model is unchanged. <b>Model pick</b> (e.g. PIT +3.5): the side of the market line on which the model&apos;s unrounded
-          projected margin falls. It is <b>locked 24 hours before kickoff</b>, at the latest forecast with a market line at that moment,
+          model is unchanged. <b>Model pick</b> (e.g. PIT +3.5): the side of the market line on which the unrounded model line
+          (stats only) falls. It is <b>locked 24 hours before kickoff</b>, at the latest forecast with a market line at that moment,
           and graded against that line; until then it is shown as provisional and follows the latest forecast and line. Once locked, if
           the line or the forecast moves, the pick does not change (for example, the line is BUF −7.5 with BUF projected to win by 6.4: the pick
           is the opponent +7.5, and it stays +7.5 even if the line later moves to BUF −6.0). The game card shows the line and the model&apos;s
           projected margin at the moment the pick was locked and, once either has changed, the latest line and model (&quot;Then&quot; and
-          &quot;Now&quot;), so the pick can always be checked against the numbers it was made from. <b>Model line</b>: the combined model&apos;s latest projected margin written as a line; it starts from the market line and adjusts it using the football data, so by design it stays close to the market. <b>Stats-only line</b>: the football-only model, which uses no market input. <b>Projected winner</b>: the team
-          with the higher win probability in the latest forecast (shown as a forecast, not tracked as a record); the margin error uses
-          the last valid version generated before kickoff, as scoring does. The win probability belongs to the projected winner only; it is not a probability of
+          &quot;Now&quot;), so the pick can always be checked against the numbers it was made from. <b>Model line</b>: the stats-only (football-only) model&apos;s projected margin written as a line; it uses no market input, so
+          it can disagree with the market, and the gap between the two is shown on every game. <b>Market-adjusted line</b>: the combined
+          model, which starts from the market line and adjusts it using the football data, so by design it stays close to the market; it is
+          shown as a baseline. Both come from the same frozen model. <b>Projected winner</b>: the team with the higher win probability in
+          the model line&apos;s latest forecast (shown as a forecast, not tracked as a record); the weekly margin error is the
+          market-adjusted line&apos;s, from the last valid version generated before kickoff, as scoring does. The win probability belongs to the projected winner only; it is not a probability of
           finishing on one side of the line. The size of the difference (in points; under 0.5 labelled tiny) is on each game&apos;s Details page; a difference
           that rounds to 0.00 points (below 0.005) means &quot;No pick&quot;. For analysis and education only. Only results against the market line are tracked as a
           record; results exactly level with the line, no-pick and no-line games are counted separately. Games whose forecast was generated before
           but first published after kickoff are reported separately. Forecasts made before pick labels were added (25 September 2026) have
           their labels derived afterwards by the same fixed rule and are marked as retrospectively derived. Weeks show &quot;Week to
           date&quot; until every game is final.</p>
+        <p className="small"><b>Rule change, 19 October 2026: the model pick follows the model line (stats only)</b> (decided after
+          week 6, before any week 7 forecast). From week 7 the model pick is the side of the market line on which the stats-only line
+          falls, instead of the market-adjusted line. The market-adjusted line copies the market closely, so its picks were nearly always
+          a fraction of a point from the line and could not show where the football data disagrees with the market; the stats-only line
+          can. This is a choice of which existing output the pick uses, not a model change, and it is not expected to raise accuracy: in
+          the 2019–2025 backtests both were close to 50% against the market line. Releases from 19 October store the stats-only pick
+          labels alongside the market-adjusted ones. Weeks 3–6 keep the market-adjusted pick and are not regraded; both lines keep their
+          own tracking records all season.</p>
         <p className="small"><b>Rule change, 19 October 2026</b> (decided after week 6, before any week 7 forecast): the pick locks 24
           hours before each game&apos;s kickoff instead of at the first forecast with a market line, for games kicking off from 21 October
           2026 (week 7 onward). Forecasts are still first published on Tuesday at 18:00 UK; the later lock lets injury news and the
@@ -186,8 +197,9 @@ export default function Methodology() {
           (2019–21), 53.7% (2022–24) and 47.1% (2025) of such games. Like Big gap, it is a prompt to check why the market disagrees, not a
           recommendation.</p>
         <p className="small"><b>Wording, 9 and 13 October 2026:</b> betting terms were replaced with neutral forecasting terms, since the site is a
-          forecasting and analytics project. The model line is built from the market line, so it is not an independent opinion;
-          the stats-only line is the independent one. The numbers and rules did not change.</p>
+          forecasting and analytics project. The numbers and rules did not change. From 19 October &quot;Model line&quot; means the stats-only
+          line (the independent one) and the line built from the market line is called the &quot;Market-adjusted line&quot;; before
+          that, &quot;Model line&quot; meant the market-adjusted line.</p>
       </div>
 
       <div className="panel">

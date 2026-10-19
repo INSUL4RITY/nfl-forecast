@@ -37,11 +37,11 @@ export default function MarginBreakdown({ b, home, away, homeColor, awayColor, h
     <div className="panel">
       <div className="mb-head">
         <div>
-          <h2 style={{ margin: 0 }}>Where the stats-only margin comes from</h2>
+          <h2 style={{ margin: 0 }}>Where the model line comes from</h2>
           <p className="small ink2" style={{ margin: "4px 0 0" }}>Points each part of the football data adds, in the colour of the team it favours.</p>
         </div>
         <div className="mb-result">
-          <span className="caps">Stats-only line</span>
+          <span className="caps">Model line</span>
           <b>{lineText(b.margin, home, away)}</b>
         </div>
       </div>
@@ -60,7 +60,7 @@ export default function MarginBreakdown({ b, home, away, homeColor, awayColor, h
           </div>
         ))}
         <div className="mbar-row mbar-net" role="listitem">
-          <span>Total = stats-only line</span>
+          <span>Total = model line</span>
           <Bar v={b.margin} max={max} homeColor={homeColor} awayColor={awayColor} net />
           <span className="mb-val">{Math.abs(b.margin) < 0.05 ? "Even" : val(b.margin)}</span>
         </div>
@@ -68,10 +68,10 @@ export default function MarginBreakdown({ b, home, away, homeColor, awayColor, h
           <span><span>{max.toFixed(1)} pts</span><span>0</span><span>{max.toFixed(1)} pts</span></span><span /></div>
       </div>
       <p className="small muted" style={{ marginTop: 14, marginBottom: 0 }}>
-        From the football-only model, which uses no market line. Each bar points toward the team that part of the data favours;
-        together they add up to the stats-only line.{hidden ? ` ${hidden === 1 ? "One group" : `${hidden} groups`} under 0.05 points not shown.` : ""}{" "}
+        From the model line (stats only), which uses no market input. Each bar points toward the team that part of the data
+        favours; together they add up to the model line.{hidden ? ` ${hidden === 1 ? "One group" : `${hidden} groups`} under 0.05 points not shown.` : ""}{" "}
         The groups overlap (a team that passes well also tends to score well), so read them together; this describes the fitted
-        model, not football cause and effect. The model line is built from the market line and is not split this way.
+        model, not football cause and effect. The market-adjusted line is built from the market line and is not split this way.
       </p>
     </div>
   );

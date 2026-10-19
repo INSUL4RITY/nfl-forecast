@@ -222,9 +222,11 @@ details summary { cursor: pointer; font-weight: 700; }
 .records .record-strip { margin: 0; }
 .records .record-strip + .record-strip { border-top: 0; }
 .record-strip.four { grid-template-columns: minmax(0, 1.3fr) repeat(3, minmax(0, 1fr)); }
+.record-strip.five { grid-template-columns: minmax(0, 1.3fr) repeat(4, minmax(0, 1fr)); }
+@media (max-width: 1100px) { .record-strip.five .rec-big { font-size: 1.4rem; } }
 @media (max-width: 900px) { .record-strip.four .rec-big { font-size: 1.4rem; } }
 @media (max-width: 600px) {
-  .record-strip, .record-strip.four { grid-template-columns: 1fr; }
+  .record-strip, .record-strip.four, .record-strip.five { grid-template-columns: 1fr; }
   .rec-cell + .rec-cell { border-left: 0; border-top: 1px solid var(--rule); }
   .rec-num { flex-direction: row; flex-wrap: wrap; align-items: baseline; justify-content: space-between; text-align: left; }
 }

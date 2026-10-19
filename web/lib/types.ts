@@ -161,7 +161,7 @@ export interface WeekGame {
   staff?: { away: StaffSide | null; home: StaffSide | null };
   result_grade?: ResultGrade | null;
   matchup?: Matchup | null;
-  stats_only_grade?: { spread: "win" | "loss" | "push" | null; big_gap: boolean; biggest_gap?: boolean; total: "win" | "loss" | "push" | null;
+  stats_only_grade?: { spread: "win" | "loss" | "push" | null; big_gap: boolean; biggest_gap?: boolean; market_adjusted?: "win" | "loss" | "push" | null; total: "win" | "loss" | "push" | null;
                        total_side: "over" | "under" | null } | null;
 }
 
@@ -213,6 +213,10 @@ export interface LockedPick extends Pick {
   generated_at: string;
   verification: string;
   rule: "lock-24h" | "original-pick" | "final-pregame";
+  /** Which margin the pick compares with the line: "stats_only" (model line, from week 7) or "combined" (market-adjusted). */
+  basis?: "stats_only" | "combined";
+  /** The locked version's market-adjusted (combined) margin. */
+  market_adjusted_margin?: number;
   /** "lock-24h" only: kickoff - 24 h, and whether that time is still ahead (the pick can still change). */
   locks_at?: string;
   provisional?: boolean;
@@ -274,7 +278,7 @@ export interface SeasonRecord {
   straight_up: { win: number; loss: number; tie: number };
   spread: { win: number; loss: number; push: number };
   /** Display-only tracking record of the stats-only numbers from each locked version (not the official model pick). */
-  stats_only?: { weeks: number[]; spread: WLP; big_gap: WLP; biggest_gap?: WLP; total: WLP };
+  stats_only?: { weeks: number[]; spread: WLP; big_gap: WLP; biggest_gap?: WLP; total: WLP; market_adjusted?: WLP };
 }
 
 export interface WLP { win: number; loss: number; push: number }

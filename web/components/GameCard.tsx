@@ -27,11 +27,12 @@ function ProbBar({ pAway, pTie, pHome, away, home, awayColor, homeColor }: {
 export default function GameCard({ g, teams, tz }: { g: WeekGame; teams: Record<string, Team>; tz?: string }) {
   const e = g.forecast;
   const f = e?.forecast;
+  const m = e?.football_only ?? f;          // scores and probabilities from the model line (stats only)
   const home = teams[g.home], away = teams[g.away];
   const final = g.status === "final" && g.score;
   const rows = [
-    { side: "away" as const, abbr: g.away, t: away, rec: e?.away_record, pts: f?.away_pts, fin: g.score?.away },
-    { side: "home" as const, abbr: g.home, t: home, rec: e?.home_record, pts: f?.home_pts, fin: g.score?.home },
+    { side: "away" as const, abbr: g.away, t: away, rec: e?.away_record, pts: m?.away_pts, fin: g.score?.away },
+    { side: "home" as const, abbr: g.home, t: home, rec: e?.home_record, pts: m?.home_pts, fin: g.score?.home },
   ];
   return (
     <article className="card">
@@ -62,11 +63,11 @@ export default function GameCard({ g, teams, tz }: { g: WeekGame; teams: Record<
       ))}
       {f && e ? (
         <>
-          <ProbBar pAway={f.p_away} pTie={f.p_tie} pHome={f.p_home} away={g.away} home={g.home}
+          <ProbBar pAway={m!.p_away} pTie={m!.p_tie} pHome={m!.p_home} away={g.away} home={g.home}
                    awayColor={onDark(away?.color)} homeColor={onDark(home?.color)} />
           <PredictionSummary g={g} lockedAt={g.locked_pick ? fmtDateTime(g.locked_pick.generated_at, tz) : null}
             locksAt={g.locked_pick?.locks_at ? fmtDateTime(g.locked_pick.locks_at, tz) : null} />
-          {g.result_grade && <div className="small"><b>Result:</b> {gradeText(g.result_grade)}</div>}
+          {g.result_grade && <div className="small"><b>Result:</b> {gradeText(g.result_grade, g)}</div>}
           {(g.locked_pick?.retrospectively_derived || g.pick?.retrospectively_derived) &&
             <div className="small muted" title={RETRO_NOTE}>* Pick label derived retrospectively from the archived forecast.</div>}
           <div className="small ink2">
