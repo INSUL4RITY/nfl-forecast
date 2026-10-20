@@ -147,7 +147,8 @@ export function PredictionSummary({ g, lockedAt, locksAt }: { g: WeekGame; locke
         {fo && <><div><dt>Market-adjusted line</dt><dd>{modelLineText(f.margin, H, A)}</dd></div>
           <div><dt>Market-adjusted total</dt><dd>{f1(f.total)}</dd></div></>}
         {e.football_only_inj && <div className="full" title={INJ_EXPLAIN}><dt>Model line + injuries (trial)</dt>
-          <dd>{modelLineText(e.football_only_inj.margin, H, A)}{noInjuryReport(e) ? " · no injury report this week yet" : ""}</dd></div>}
+          <dd>{modelLineText(e.football_only_inj.margin, H, A)}
+            {noInjuryReport(e) && <span className="dd-note">No injury report this week yet</span>}</dd></div>}
         <div className="full"><dt>Projected winner (model)</dt>
           <dd>{Math.abs(mdl.margin) < 0.05 ? "Toss-up"
             : `${winHome ? H : A} ${pct(winHome ? mdl.p_home : mdl.p_away)} · by ${Math.abs(mdl.margin).toFixed(1)}`}</dd></div>

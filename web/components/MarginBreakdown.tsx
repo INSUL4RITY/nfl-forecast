@@ -7,6 +7,27 @@ const MIN_SHOWN = 0.05;
 const lineText = (m: number, home: string, away: string) =>
   Math.abs(m) < 0.05 ? "Even" : m > 0 ? `${home} −${m.toFixed(1)}` : `${away} −${(-m).toFixed(1)}`;
 
+/** The model line in whole tenths of a point, rounded half away from zero (as `lineText` shows it). */
+const tenths = (m: number) => Math.sign(m) * Math.round(Math.abs(m) * 10);
+
+/** Each shown group's value in tenths of a point, rounded so that the parts add up exactly to the model line as
+ *  displayed (largest-remainder rounding, as when percentages are made to sum to 100). Groups too small to show count
+ *  as 0; the parts whose rounding moved them furthest the other way give up or gain the missing tenths. */
+export function roundedParts(values: number[], margin: number): number[] {
+  const x = values.map((v) => v * 10);
+  const r = x.map((v) => Math.sign(v) * Math.round(Math.abs(v)));
+  let diff = tenths(margin) - r.reduce((a, b) => a + b, 0);
+  while (diff !== 0 && r.length) {
+    const step = diff > 0 ? 1 : -1;
+    const cand = r.map((_, j) => j).filter((j) => r[j] + step !== 0);   // never round a shown part to zero
+    const pool = cand.length ? cand : r.map((_, j) => j);
+    const i = pool.reduce((best, j) => ((x[j] - r[j]) * step > (x[best] - r[best]) * step ? j : best), pool[0]);
+    r[i] += step;
+    diff -= step;
+  }
+  return r;
+}
+
 function Bar({ v, max, homeColor, awayColor, net }: { v: number; max: number; homeColor: string; awayColor: string; net?: boolean }) {
   const w = (Math.abs(v) / max) * 50;
   const right = v > 0;
@@ -27,11 +48,14 @@ export default function MarginBreakdown({ b, home, away, homeColor, awayColor, h
   const hidden = b.groups.length - shown.length;
   const max = Math.max(...shown.map((x) => Math.abs(x.margin_points)), Math.abs(b.margin), 0.5);
 
-  const toHome = shown.filter((x) => x.margin_points > 0).reduce((t, x) => t + x.margin_points, 0);
-  const toAway = -shown.filter((x) => x.margin_points < 0).reduce((t, x) => t + x.margin_points, 0);
-  const val = (v: number) => {
-    const team = v > 0 ? home : away;
-    return <><i className="swatch" style={{ background: v > 0 ? homeColor : awayColor }} />{team} +{Math.abs(v).toFixed(1)}</>;
+  // displayed values (tenths) that add up exactly to the displayed model line; bar lengths use the exact values
+  const parts = roundedParts(shown.map((x) => x.margin_points), b.margin);
+  const net = tenths(b.margin);
+  const toHome = parts.filter((p) => p > 0).reduce((t, p) => t + p, 0) / 10;
+  const toAway = -parts.filter((p) => p < 0).reduce((t, p) => t + p, 0) / 10;
+  const val = (t: number) => {
+    const team = t > 0 ? home : away;
+    return <><i className="swatch" style={{ background: t > 0 ? homeColor : awayColor }} />{team} +{(Math.abs(t) / 10).toFixed(1)}</>;
   };
   return (
     <div className="panel">
@@ -42,7 +66,7 @@ export default function MarginBreakdown({ b, home, away, homeColor, awayColor, h
         </div>
         <div className="mb-result">
           <span className="caps">Model line</span>
-          <b>{lineText(b.margin, home, away)}</b>
+          <b>{lineText(net / 10, home, away)}</b>
         </div>
       </div>
       <div className="mb-totals">
@@ -51,25 +75,26 @@ export default function MarginBreakdown({ b, home, away, homeColor, awayColor, h
       </div>
       <div className="mb-rows" role="list">
         <div className="mbar-ends" aria-hidden="true"><span /><span><span>← {away}</span><span>{home} →</span></span><span /></div>
-        {shown.map((x) => (
+        {shown.map((x, i) => (
           <div className="mbar-row" key={x.group} role="listitem"
             title={`${x.label}: ${Math.abs(x.margin_points).toFixed(2)} pts toward ${x.margin_points > 0 ? home : away}`}>
             <span className="ink2">{x.label}</span>
             <Bar v={x.margin_points} max={max} homeColor={homeColor} awayColor={awayColor} />
-            <span className="mb-val"><span className="sr-only">{x.label}: </span>{val(x.margin_points)}</span>
+            <span className="mb-val"><span className="sr-only">{x.label}: </span>{val(parts[i])}</span>
           </div>
         ))}
         <div className="mbar-row mbar-net" role="listitem">
           <span>Total = model line</span>
           <Bar v={b.margin} max={max} homeColor={homeColor} awayColor={awayColor} net />
-          <span className="mb-val">{Math.abs(b.margin) < 0.05 ? "Even" : val(b.margin)}</span>
+          <span className="mb-val">{net === 0 ? "Even" : val(net)}</span>
         </div>
         <div className="mbar-ends mbar-axis" aria-hidden="true"><span />
           <span><span>{max.toFixed(1)} pts</span><span>0</span><span>{max.toFixed(1)} pts</span></span><span /></div>
       </div>
       <p className="small muted" style={{ marginTop: 14, marginBottom: 0 }}>
         From the model line (stats only), which uses no market input. Each bar points toward the team that part of the data
-        favours; together they add up to the model line.{hidden ? ` ${hidden === 1 ? "One group" : `${hidden} groups`} under 0.05 points not shown.` : ""}{" "}
+        favours; together they add up to the model line.{hidden ? ` ${hidden === 1 ? "One group" : `${hidden} groups`} under 0.05 points not shown.` : ""} Values are rounded to the nearest 0.1 so that
+        they add up to the model line.{" "}
         The groups overlap (a team that passes well also tends to score well), so read them together; this describes the fitted
         model, not football cause and effect. The market-adjusted line is built from the market line and is not split this way.
       </p>
