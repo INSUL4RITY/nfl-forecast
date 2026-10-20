@@ -41,6 +41,9 @@ CLI stay `nflcast`; keep the URL and repo name (published evidence and links poi
   stats-only totals record) and a "Biggest gap" tier (stats-only >= 4 pts from the locked line) was added (display only).
   2026-10-19 (user): the pick rule changed to "lock-24h" from week 7 and the pick follows the stats-only line (see
   above); the model is unchanged.
+- **Trial injury line (user, 2026-10-20):** `predict/shadow.py` adds "model line + injuries" (stats-only + non-QB injury
+  inputs) for display and tracking only. Its artifact is frozen (`configs/shadow_injury.yaml`, sha256-checked): never
+  refit or retune it this season, and it never sets the official pick. A failure must never block a release.
 - **Weekly publication (user decisions 2026-10-05, changed 2026-10-06 and 2026-10-13):** a week is first published at
   Tuesday 18:00 UK before its first game (`predict/schedule.py`), and waits up to 24 h if the previous week's finished
   games are not yet in the team data; from week 7 the model pick locks 24 h before each kickoff (see above). Operational only; do not move it without the user.

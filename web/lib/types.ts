@@ -79,6 +79,10 @@ export interface ReleaseEntry {
   forecast: Forecast;
   combined: Forecast | null;
   football_only: Forecast;
+  /** Trial (display and tracking only, from 20 Oct 2026): the stats-only model with non-QB injury inputs. */
+  football_only_inj?: Forecast | null;
+  /** Expected lost snap share by unit behind the trial line (lost_ol, lost_skill, lost_front, lost_db). */
+  injury_inputs?: { home: Record<string, number>; away: Record<string, number> } | null;
   market_only: Forecast | null;
   market: {
     home_spread: number; total: number; source: string; timing: string; snapshot_at: string;
@@ -161,7 +165,7 @@ export interface WeekGame {
   staff?: { away: StaffSide | null; home: StaffSide | null };
   result_grade?: ResultGrade | null;
   matchup?: Matchup | null;
-  stats_only_grade?: { spread: "win" | "loss" | "push" | null; big_gap: boolean; biggest_gap?: boolean; market_adjusted?: "win" | "loss" | "push" | null; total: "win" | "loss" | "push" | null;
+  stats_only_grade?: { spread: "win" | "loss" | "push" | null; big_gap: boolean; biggest_gap?: boolean; market_adjusted?: "win" | "loss" | "push" | null; injury_adjusted?: "win" | "loss" | "push" | null; total: "win" | "loss" | "push" | null;
                        total_side: "over" | "under" | null } | null;
 }
 
@@ -222,6 +226,8 @@ export interface LockedPick extends Pick {
   provisional?: boolean;
   /** Football-only (stats-only, no market input) margin and total from that same version (display only). */
   stats_only?: { margin: number; total: number; line_total?: number | null } | null;
+  /** The trial injury-adjusted model line of the same version (display and tracking only). */
+  stats_inj?: { margin: number; total: number } | null;
 }
 
 export interface ResultGrade {
@@ -278,7 +284,7 @@ export interface SeasonRecord {
   straight_up: { win: number; loss: number; tie: number };
   spread: { win: number; loss: number; push: number };
   /** Display-only tracking record of the stats-only numbers from each locked version (not the official model pick). */
-  stats_only?: { weeks: number[]; spread: WLP; big_gap: WLP; biggest_gap?: WLP; total: WLP; market_adjusted?: WLP };
+  stats_only?: { weeks: number[]; spread: WLP; big_gap: WLP; biggest_gap?: WLP; total: WLP; market_adjusted?: WLP; injury_adjusted?: WLP };
 }
 
 export interface WLP { win: number; loss: number; push: number }

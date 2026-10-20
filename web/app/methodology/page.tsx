@@ -159,6 +159,15 @@ export default function Methodology() {
           but first published after kickoff are reported separately. Forecasts made before pick labels were added (25 September 2026) have
           their labels derived afterwards by the same fixed rule and are marked as retrospectively derived. Weeks show &quot;Week to
           date&quot; until every game is final.</p>
+        <p className="small"><b>Trial from 20 October 2026: model line + injuries</b> (display and tracking only; the model pick and
+          the frozen model are unchanged). Game pages also show the stats-only model with the non-QB injury report added: for each
+          team, the expected share of snaps lost by its offensive line, skill players, defensive front and secondary (each listed
+          player&apos;s recent snap share times the historical chance that a player with that game status misses the game). This is the
+          injury model from the pre-season evaluation, which was not adopted then: with the market-adjusted model it added nothing,
+          and with the stats-only model it was slightly better (2022–24 margin error 12.72 → 12.69 points) but not clearly so. It was
+          fitted once on exactly the frozen model&apos;s training games and is itself frozen. Its record against the market line and
+          its margin error are tracked on the Performance page, on the same games as the model line, so it can be judged after the
+          season. The injury report is final only shortly before each game, so the line is most meaningful at the 24-hour lock.</p>
         <p className="small"><b>Rule change, 19 October 2026: the model pick follows the model line (stats only)</b> (decided after
           week 6, before any week 7 forecast). From week 7 the model pick is the side of the market line on which the stats-only line
           falls, instead of the market-adjusted line. The market-adjusted line copies the market closely, so its picks were nearly always

@@ -42,6 +42,7 @@ from nflcast.models.probability import OutcomeModel
 from nflcast.predict import breakdown as BD
 from nflcast.predict import picks as PK
 from nflcast.predict import schedule as SCHED
+from nflcast.predict import shadow as SH
 
 last_skip_reason: str | None = None   # why the last build_candidate() returned None, if it was held back
 from nflcast.predict import validation as V
@@ -370,11 +371,18 @@ def build_candidate(now: datetime | None = None, days_ahead: int = 8) -> dict | 
     Xc, cnames = game_matrix(fm, cmod.fs)
     contrib = (Xc - cmod.gm[0].mean_) / cmod.gm[0].scale_ * cmod.gm[-1].coef_
     fb_per, fb_names = BD.per_feature(bmod, feats)        # display only: football-only margin split into groups
+    shadow = None                 # display/tracking only: stats-only line with non-QB injuries (predict/shadow.py)
+    try:
+        shadow = SH.release_inputs(feats, upcoming, inj_now, season, week)
+    except Exception as e:  # noqa: BLE001 - a display-only trial forecast never blocks a release
+        print(f"[release] shadow injury line skipped: {type(e).__name__}: {e}")
+    if shadow:
+        preds["shadow"] = shadow["preds"]
     from nflcast.pipeline import code_hash
     model_fp = M["model_version"]
 
     def summarise(key: str, idx: np.ndarray, weights: np.ndarray, playoff: bool) -> dict:
-        p, c = preds[key], calib[key]
+        p, c = preds[key], (shadow["calib"] if key == "shadow" else calib[key])
         w = weights / weights.sum()
         H, A = float((w * p["home_pts"][idx]).sum()), float((w * p["away_pts"][idx]).sum())
         pr = c["outcome"].predict(p["margin"][idx], np.full(len(idx), playoff))
@@ -404,6 +412,15 @@ def build_candidate(now: datetime | None = None, days_ahead: int = 8) -> dict | 
         prim = summarise("primary", idx, w, playoff) if mkt_ok else None
         fb = summarise("fallback", idx, w, playoff)
         mo = summarise("market", idx, w, playoff) if mkt_ok else None
+        fb_inj = None
+        if shadow:
+            try:
+                fb_inj = summarise("shadow", idx, w, playoff)
+                if V.check_forecast(fb_inj, playoff):
+                    fb_inj = None
+            except Exception as e:  # noqa: BLE001 - display only
+                print(f"[release] shadow injury line skipped for {g['game_id']}: {type(e).__name__}: {e}")
+                fb_inj = None
         problems = {"combined": V.check_forecast(prim, playoff) if mkt_ok else None, "football_only": V.check_forecast(fb, playoff)}
         if mkt_ok and not problems["combined"]:
             headline, status, model_label = prim, "ok", prod["primary"]["label"]
@@ -455,6 +472,9 @@ def build_candidate(now: datetime | None = None, days_ahead: int = 8) -> dict | 
             "validation_problems": {k: v for k, v in problems.items() if v},
             "primary_model": model_label, "market_inputs_used": bool(mkt_ok and status == "ok"),
             "forecast": headline, "combined": prim, "football_only": fb, "market_only": mo, "market": market,
+            # display/tracking only (trial from 2026-10-20): the stats-only line with non-QB injury inputs
+            "football_only_inj": fb_inj,
+            "injury_inputs": (shadow["inputs"].get(g["game_id"]) if shadow and fb_inj else None),
             "lineup": lineup, "lineup_uncertain": bool(res["home"].uncertain or res["away"].uncertain),
             "notable_injuries": notable, "contributions": top, "team_efficiency": meta[g["game_id"]]["efficiency"],
             "football_breakdown": BD.football_breakdown(fb_per, fb_names, idx, w, fb["margin"]),
@@ -490,11 +510,14 @@ def build_candidate(now: datetime | None = None, days_ahead: int = 8) -> dict | 
                                        "outcome_params": v["outcome"].params()} for k, v in calib.items()},
                    "oof_source_run": M["oof_source_run"], "qb_start_rates": all_rates["key"],
                    "model_version": M["model_version"], "frozen": M["frozen"],
-                   "model_artifact_sha256": M.get("artifact_sha256")},
+                   "model_artifact_sha256": M.get("artifact_sha256"),
+                   "shadow_injury": ({"version": shadow["version"], "feature_set": SH.FEATURE_SET,
+                                      "purpose": "display and tracking only; never the official pick"} if shadow else None)},
         "notes": [prod["early_horizon_note"].strip(),
                   "Contributions explain the fitted model's adjustment to the market line; they are not causal claims.",
                   "Probabilities: P(home/away/tie). Intervals: 80%/95% ranges from out-of-fold residuals.",
-                  "Non-QB injuries are displayed for context only; they are not model inputs. Weather and coaching are not modelled."],
+                  "Non-QB injuries are not inputs of the frozen models. A separate trial line (football_only_inj, display and "
+                  "tracking only) adds them to the stats-only model. Weather and coaching are not modelled."],
         "code_hash": code_hash(),
         "games": out_games,
     }

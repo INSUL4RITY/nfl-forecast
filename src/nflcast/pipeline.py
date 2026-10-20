@@ -65,6 +65,10 @@ def ingest() -> None:
     for src in ("injuries", "depth_charts", "rosters_weekly"):
         print(f"[ingest] {src} {cur} (refresh, archived for prospective as-of use)")
         S.fetch(src, cur, refresh=True)
+    try:                         # inputs of the display-only injury trial line (predict/shadow.py): never blocks a cycle
+        S.fetch("snap_counts", cur, refresh=True)
+    except Exception as e:  # noqa: BLE001
+        print(f"[ingest] snap_counts {cur} refresh failed (kept the last snapshot): {type(e).__name__}: {e}")
 
 
 # ---------------------------------------------------------------- build

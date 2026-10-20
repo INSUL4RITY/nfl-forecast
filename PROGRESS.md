@@ -303,6 +303,18 @@ market lines, QB availability, injury display, weather display). A changed artif
   public models. At the switch (week 6 MNF pending): official/market-adjusted 25-30-4, stats-only 32-23-4. Weeks 3-6
   keep the market-adjusted pick (all 61 locked picks unchanged).
 
+- Trial "model line + injuries" (2026-10-20, user: "yeah sure" to a shadow injury-adjusted stats-only line; display and
+  tracking only, frozen v1.0 model and official pick unchanged): `predict/shadow.py`. Football-only ridge with feature set
+  core_qb_inj (= backtest B_qb_inj, the pre-season non-QB injury feature: expected lost snap share by unit), fitted ONCE on
+  exactly the frozen model's 2,793 training games (refitting core_qb on that set reproduces the frozen model to 0.005 pts)
+  and frozen: artifacts/shadow/shadow-inj-2026-10-20/shadow.joblib, sha256 + alpha (100) + P(play | status) from 2021-25
+  in configs/shadow_injury.yaml. Calibration from B_qb_inj OOF (locked run, 1,960 games). Live inputs reuse
+  personnel.Availability on the current week's injury report; replaying weeks 4-6 reproduced the training features
+  exactly (44 games, max diff 1e-16). Releases store `football_only_inj` + `injury_inputs` (try/except: never blocks a
+  release); locked_pick.stats_inj; tracking: stats_only_grade.injury_adjusted, record stats_only.injury_adjusted,
+  head-to-head `inj` (paired errors on games that have it). ingest now refreshes 2026 snap_counts (inputs to this line).
+  Pre-season evidence: football-only + injuries 2022-24 margin RMSE 12.717 -> 12.686 (CI spans zero). Judge after the season.
+
 ## 3. Tests and checks (2026-09-25)
 - Live head-to-head (2026-10-13, user request; display only): `picks.head_to_head` compares combined, stats-only and market
   on the same finished, publicly verifiable games by week (margin error, winner correct) plus the vs-line records of the

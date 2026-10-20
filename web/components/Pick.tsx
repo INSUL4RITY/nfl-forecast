@@ -31,6 +31,16 @@ const STATS_EXPLAIN = "Model line: the stats-only model, built from football dat
   "line was at least 3 points from the line when the pick was locked (Biggest gap: at least 4 points); a prompt to check " +
   "why the market disagrees, not a recommendation.";
 
+export const INJ_EXPLAIN = "Model line + injuries (trial): the same stats-only model with the non-QB injury report added " +
+  "(expected share of snaps each unit loses). Shown and tracked for comparison only; it never sets the model pick. Most " +
+  "meaningful once the final injury report is out.";
+
+/** True when the trial line's injury inputs are all zero (no injury report for this week yet). */
+export function noInjuryReport(e: { injury_inputs?: { home: Record<string, number>; away: Record<string, number> } | null }): boolean {
+  const ii = e.injury_inputs;
+  return !!ii && [...Object.values(ii.home), ...Object.values(ii.away)].every((v) => v === 0);
+}
+
 const EDGE: Record<string, string> = { tiny: "Tiny edge · about a coin flip", small: "Small edge", moderate: "Moderate edge", large: "Large edge" };
 
 /** Size of the model pick's edge over the line, e.g. "Tiny edge · about a coin flip (0.10 pts)"; null without a pick. */
@@ -136,6 +146,8 @@ export function PredictionSummary({ g, lockedAt, locksAt }: { g: WeekGame; locke
         <div><dt>Model total</dt><dd>{f1(mdl.total)}</dd></div>
         {fo && <><div><dt>Market-adjusted line</dt><dd>{modelLineText(f.margin, H, A)}</dd></div>
           <div><dt>Market-adjusted total</dt><dd>{f1(f.total)}</dd></div></>}
+        {e.football_only_inj && <div className="full" title={INJ_EXPLAIN}><dt>Model line + injuries (trial)</dt>
+          <dd>{modelLineText(e.football_only_inj.margin, H, A)}{noInjuryReport(e) ? " · no injury report this week yet" : ""}</dd></div>}
         <div className="full"><dt>Projected winner (model)</dt>
           <dd>{Math.abs(mdl.margin) < 0.05 ? "Toss-up"
             : `${winHome ? H : A} ${pct(winHome ? mdl.p_home : mdl.p_away)} · by ${Math.abs(mdl.margin).toFixed(1)}`}</dd></div>

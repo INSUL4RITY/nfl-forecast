@@ -1,0 +1,38 @@
+version: shadow-inj-2026-10-20
+fitted_at_utc: '2026-10-20T04:06:46.499923+00:00'
+purpose: display and tracking only
+artifact: artifacts/shadow/shadow-inj-2026-10-20/shadow.joblib
+artifact_sha256: f678a226283d9f77958f40f52447fd86e9e4fcf6f715052aedeb35134a7a230b
+feature_set: core_qb_inj
+alpha: 100.0
+alpha_scores:
+  '1': 9.933893956709795
+  '3': 9.93125291032779
+  '10': 9.927130829496523
+  '30': 9.923771893776696
+  '100': 9.922039889237169
+  '300': 9.923400162452786
+  '1000': 9.926955112800737
+  '3000': 9.93612591221185
+  '10000': 9.980840307017374
+  '30000': 10.081166201026443
+training:
+  games: 2793
+  same_as: configs/model_freeze.yaml training games
+calibration:
+  oof_model: B_qb_inj
+  oof_source_run: locked_20260924T234835Z
+  n: 1960
+p_play_by_status:
+  None: 0.8651177799290094
+  Questionable: 0.5999189298743413
+  Doubtful: 0.0038560411311053984
+  Out: 0.00036643459142543056
+p_play_seasons:
+- 2021
+- 2022
+- 2023
+- 2024
+- 2025
+rules: Fitted once; do not refit or retune this season. Never used for the official
+  pick.

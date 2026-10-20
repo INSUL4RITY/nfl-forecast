@@ -264,7 +264,8 @@ def test_stats_only_tracking_grade_uses_the_locked_line_and_total():
     lk = {"line_home_spread": -8.0, "stats_only": {"margin": 4.9, "total": 48.8, "line_total": 49.5}}
     g = PK.grade_stats_only(lk, 16, 24)            # TB @ DAL: DAL -8, stats DAL by 4.9 -> TB side; 40 pts -> under
     assert g == {"spread": "win", "big_gap": True, "biggest_gap": False, "total": "win", "total_side": "under",
-                 "market_adjusted": None}
+                 "market_adjusted": None, "injury_adjusted": None}
+    assert PK.grade_stats_only({**lk, "stats_inj": {"margin": 9.0, "total": 48.0}}, 16, 24)["injury_adjusted"] == "loss"
     assert PK.grade_stats_only({**lk, "market_adjusted_margin": 8.5}, 16, 24)["market_adjusted"] == "loss"
     assert PK.grade_stats_only(lk, 30, 20)["spread"] == "loss"           # DAL by 10 covers -8
     assert PK.grade_stats_only(lk, 28, 20)["spread"] == "push"
@@ -273,7 +274,8 @@ def test_stats_only_tracking_grade_uses_the_locked_line_and_total():
     assert big["big_gap"] is True and big["biggest_gap"] is True
     assert PK.grade_stats_only({**lk, "stats_only": {**lk["stats_only"], "margin": 12.0}}, 16, 24)["biggest_gap"] is True
     assert PK.grade_stats_only({**lk, "stats_only": {"margin": 8.0, "total": 49.5, "line_total": 49.5}}, 16, 24) == \
-        {"spread": None, "big_gap": False, "biggest_gap": False, "total": None, "total_side": None, "market_adjusted": None}
+        {"spread": None, "big_gap": False, "biggest_gap": False, "total": None, "total_side": None, "market_adjusted": None,
+         "injury_adjusted": None}
     assert PK.grade_stats_only({"line_home_spread": None, "stats_only": lk["stats_only"]}, 16, 24) is None
     assert PK.grade_stats_only({**lk, "stats_only": {"margin": 4.9, "total": 48.8, "line_total": None}}, 16, 24)["total"] is None
 
@@ -296,7 +298,16 @@ def test_head_to_head_compares_the_three_forecasts_on_the_same_games():
     assert h["winner_called"] == {"combined": 2, "stats_only": 2, "market": 2}
     assert h["winner_correct"] == {"combined": 1, "stats_only": 0, "market": 1}
     assert h["vs_line"] == {"lean": {"win": 1, "loss": 1, "push": 1}, "stats_only": {"win": 1, "loss": 1, "push": 0},
-                            "market_adjusted": {"win": 1, "loss": 1, "push": 0}}
+                            "market_adjusted": {"win": 1, "loss": 1, "push": 0},
+                            "injury_adjusted": {"win": 0, "loss": 0, "push": 0}}
+    assert h["inj"] == {"n": 0, "abs_error": {"stats_inj": 0.0, "stats_only": 0.0, "market": 0.0}}
+    # the trial injury line is compared only on games that have it, paired with the stats-only line and the market
+    g = it(16, 24, 8.0, 4.9, -8.0, "loss", "win")
+    g["forecast"]["football_only_inj"] = {"margin": 3.0}
+    g["stats_only_grade"]["injury_adjusted"] = "win"
+    h2 = PK.head_to_head([g, items[1]])
+    assert h2["inj"]["n"] == 1 and h2["inj"]["abs_error"] == {"stats_inj": 11.0, "stats_only": 12.9, "market": 16.0}
+    assert h2["vs_line"]["injury_adjusted"] == {"win": 1, "loss": 0, "push": 0}
 
 
 def test_matchup_percentiles_rank_within_the_same_release():
@@ -325,3 +336,40 @@ def test_adjusted_defence_rating_counts_higher_as_better():
     from nflcast.predict.export_web import MATCHUP
     assert dict((k, hib) for k, _, _, hib in MATCHUP)["adj_def_epa"] is True     # a rating (corr -0.99 with EPA allowed)
     assert dict((k, hib) for k, _, _, hib in MATCHUP)["def_epa_db"] is False     # EPA allowed: lower is better
+
+
+def test_locked_pick_carries_the_trial_injury_line_of_the_same_version():
+    from nflcast.predict.export_web import locked_pick_for
+    t0 = KO7 - timedelta(days=3)
+    e = {"status": "ok", "forecast": fc(7.6), "football_only": fc(4.0), "football_only_inj": fc(3.2),
+         "market": {"home_spread": -7.5}, "game_type": "REG"}
+    lk = locked_pick_for([_rel("rel_a", t0, e)], KO7, "BUF", "MIA", _ev(("rel_a", t0 + timedelta(minutes=1))),
+                         now=KO7 + timedelta(days=1))
+    assert lk["stats_inj"]["margin"] == 3.2 and lk["lean"]["side"] == "MIA"        # the pick still follows stats-only
+    del e["football_only_inj"]
+    assert locked_pick_for([_rel("rel_a", t0, e)], KO7, "BUF", "MIA", _ev(("rel_a", t0 + timedelta(minutes=1))))["stats_inj"] is None
+
+
+def test_shadow_inputs_keep_release_row_order_and_fill_missing_teams(monkeypatch):
+    import numpy as np
+    import polars as pl
+    from nflcast.predict import shadow as SH
+
+    class Fake:
+        def predict(self, df):
+            m = df["home_lost_db"].to_numpy() * 10 - df["away_lost_ol"].to_numpy() * 10
+            return {"home_pts": 20 + m / 2, "away_pts": 20 - m / 2, "margin": m, "total": np.full(len(m), 40.0)}
+
+    monkeypatch.setattr(SH, "load", lambda: {"mod": Fake(), "calib": {"x": 1}, "p_play": {}, "version": "test"})
+    L = pl.DataFrame({"game_id": ["g2", "g1"], "team": ["H2", "A1"], "lost_ol": [0.0, 0.5], "lost_skill": [0.0, 0.0],
+                      "lost_front": [0.0, 0.0], "lost_db": [0.3, 0.0]})
+    monkeypatch.setattr(SH, "live_losses", lambda *a, **k: L)
+    feats = pl.DataFrame({"game_id": ["g1", "g1", "g2"], "home_id": ["H1", "H1", "H2"], "away_id": ["A1", "A1", "A2"],
+                          "scenario_p": [0.7, 0.3, 1.0]})
+    up = pl.DataFrame({"game_id": ["g1", "g2"], "home_id": ["H1", "H2"], "away_id": ["A1", "A2"]})
+    out = SH.release_inputs(feats, up, pl.DataFrame(), 2026, 7)
+    assert list(out["preds"]["margin"]) == [-5.0, -5.0, 3.0]          # g1: away OL loss; g2: home DB loss (row order kept)
+    assert out["inputs"]["g1"]["away"]["lost_ol"] == 0.5 and out["inputs"]["g1"]["home"]["lost_db"] == 0.0
+    assert out["inputs"]["g2"]["home"]["lost_db"] == 0.3 and out["version"] == "test"
+    monkeypatch.setattr(SH, "load", lambda: None)
+    assert SH.release_inputs(feats, up, pl.DataFrame(), 2026, 7) is None
