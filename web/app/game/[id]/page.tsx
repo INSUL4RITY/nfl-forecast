@@ -4,7 +4,7 @@ import LocalTime from "@/components/LocalTime";
 import InjuryReportTable from "@/components/InjuryReportTable";
 import CoachingStaff from "@/components/CoachingStaff";
 import MarginBreakdown from "@/components/MarginBreakdown";
-import MatchupPercentiles from "@/components/MatchupPercentiles";
+import MatchupDetail from "@/components/MatchupDetail";
 import TeamBadge from "@/components/TeamBadge";
 import { dataProblems } from "@/components/GameCard";
 import StateLabel from "@/components/StateLabel";
@@ -330,8 +330,8 @@ export default async function GamePage({ params }: { params: Promise<{ id: strin
           {e.football_breakdown && <MarginBreakdown b={e.football_breakdown} home={H} away={A} homeColor={pair.home}
             awayColor={pair.away} homeName={teams[H]?.nick} awayName={teams[A]?.nick} />}
 
-          {g.matchup && <MatchupPercentiles m={g.matchup} home={H} away={A} homeColor={pair.home} awayColor={pair.away}
-            homeName={teams[H]?.nick} awayName={teams[A]?.nick} />}
+          {g.matchup_detail && <MatchupDetail d={g.matchup_detail} home={H} away={A} homeColor={pair.home} awayColor={pair.away}
+            homeName={teams[H]?.name} awayName={teams[A]?.name} />}
 
           {g.staff && (g.staff.away || g.staff.home) && <CoachingStaff away={A} home={H} staff={g.staff} />}
 

@@ -159,6 +159,13 @@ export default function Methodology() {
           but first published after kickoff are reported separately. Forecasts made before pick labels were added (25 September 2026) have
           their labels derived afterwards by the same fixed rule and are marked as retrospectively derived. Weeks show &quot;Week to
           date&quot; until every game is final.</p>
+        <p className="small"><b>Matchup section, 22 October 2026</b> (display only; not a model input). Each game page shows both teams&apos;
+          season-to-date statistics as of that game&apos;s kickoff (only games played before it), with league ranks: EPA per play on
+          offence and defence (also adjusted for the opponents faced), passing and rushing efficiency, success rate, explosive plays,
+          sack rate, third down, red zone and points per drive, each offence set against the defence it faces with an edge label when
+          one side ranks at least 8 places better, play style in neutral situations, and a game log naming each game&apos;s starting
+          quarterback (marked when it was not this week&apos;s expected starter). Definitions follow the standard nflverse play-by-play
+          conventions and are listed under the section. It replaces the earlier &quot;How they rate&quot; percentile chart.</p>
         <p className="small"><b>Trial from 20 October 2026: model line + injuries</b> (display and tracking only; the model pick and
           the frozen model are unchanged). Game pages also show the stats-only model with the non-QB injury report added: for each
           team, the expected share of snaps lost by its offensive line, skill players, defensive front and secondary (each listed

@@ -165,6 +165,8 @@ export interface WeekGame {
   staff?: { away: StaffSide | null; home: StaffSide | null };
   result_grade?: ResultGrade | null;
   matchup?: Matchup | null;
+  /** Season-to-date matchup detail as of kickoff (display only; predict/matchup.py). */
+  matchup_detail?: MatchupDetail | null;
   stats_only_grade?: { spread: "win" | "loss" | "push" | null; big_gap: boolean; biggest_gap?: boolean; market_adjusted?: "win" | "loss" | "push" | null; injury_adjusted?: "win" | "loss" | "push" | null; total: "win" | "loss" | "push" | null;
                        total_side: "over" | "under" | null } | null;
 }
@@ -297,4 +299,30 @@ export interface Manifest {
   production: Record<string, any>;
   release_count: number;
   corrections?: Correction[];
+}
+
+/** Matchup detail for one game: both teams' season-to-date unit statistics as of kickoff (display only). Rates are
+ *  fractions (0.449 = 44.9%), EPA values are per play; ranks run 1 (best) to n_teams. */
+export interface MatchupTeam {
+  team: string; games: number; record: [number, number, number];
+  net_epa: number; off_epa: number; def_epa: number; ppd: number; def_ppd: number;
+  adj_net_epa: number; adj_off_epa: number; adj_def_epa: number;
+  last3_net_epa: number | null; neutral_db: number | null; tempo: number | null;
+  ranks: Record<string, number>;
+  qb_starts: { qb: string; games: number }[]; expected_qb: string | null;
+}
+export interface MatchupUnitRow {
+  key: string; label: string; unit: string; off_value: number | null; off_rank: number | null;
+  def_value: number | null; def_rank: number | null; edge: "offence" | "defence" | "even" | "none";
+}
+export interface MatchupLogRow {
+  week: number; opp: string; home: boolean; net_epa: number; margin: number; pf: number; pa: number;
+  qb: string | null; other_qb: boolean;
+}
+export interface MatchupDetail {
+  available: boolean; n_teams: number;
+  league?: Record<string, number | null>;
+  teams?: { home: MatchupTeam; away: MatchupTeam };
+  units?: { away_offence: MatchupUnitRow[]; home_offence: MatchupUnitRow[] };
+  log?: { home: MatchupLogRow[]; away: MatchupLogRow[] };
 }

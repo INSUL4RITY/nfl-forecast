@@ -315,6 +315,17 @@ market lines, QB availability, injury display, weather display). A changed artif
   head-to-head `inj` (paired errors on games that have it). ingest now refreshes 2026 snap_counts (inputs to this line).
   Pre-season evidence: football-only + injuries 2022-24 margin RMSE 12.717 -> 12.686 (CI spans zero). Judge after the season.
 
+- Matchup section on game pages (2026-10-22, user: "yes, add it ... for every game and double check"; display only, not a
+  model input): `predict/matchup.py` builds per team-game sums from the current season's nflverse pbp and, for each
+  game with a forecast or result, season-to-date stats as of kickoff (only earlier games), 32-team ranks, opponent-adjusted
+  EPA, unit-vs-unit rows with an edge label (>= 8 rank places), neutral pass rate and tempo, and a game log with each
+  game's starting QB (qb_games) flagged when not this week's expected starter. Export: item.matchup_detail; component
+  MatchupDetail.tsx replaces MatchupPercentiles (removed). Checks: hand-built pbp tests (tests/test_matchup.py); NE@CHI week
+  7 matched an independent public matchup page on all 28 unit values and ranks (definitions aligned: explosive = pass
+  attempts 20+ or runs incl. scrambles 10+; third-down conversions exclude penalty first downs); tempo uses running-clock
+  snaps (NE 32.8 vs their 31.4); all 32 teams agree with pipeline team_games on games and points exactly and on EPA,
+  success and sack rate within 0.01.
+
 ## 3. Tests and checks (2026-09-25)
 - Live head-to-head (2026-10-13, user request; display only): `picks.head_to_head` compares combined, stats-only and market
   on the same finished, publicly verifiable games by week (margin error, winner correct) plus the vs-line records of the

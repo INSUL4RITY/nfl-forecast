@@ -29,6 +29,7 @@ from nflcast.data.games import build_games, franchise
 from nflcast.features.asof import AsOfFeatureBuilder
 from nflcast.features.personnel import QBModel
 from nflcast.predict import archive as ARCH
+from nflcast.predict import matchup as MU
 from nflcast.predict import picks as PK
 from nflcast.predict import publication as PUB
 from nflcast.predict.validation import entry_is_valid, select_frozen
@@ -354,6 +355,13 @@ def export() -> Path:
     # also export the other weeks of the current season (fixtures, results; forecasts only if archived)
     weeks = sorted(set(weeks) | {(cur, int(w)) for w in games.filter(pl.col("season") == cur)["week"].unique().to_list()})
     week_index, inj_cache, staff = [], {}, load_staff()
+    mu_tg = mu_starters = None             # matchup detail (display only): current season's play-by-play
+    try:
+        names = dict(S.fetch("players").select("gsis_id", "display_name").iter_rows())
+        mu_tg, mu_starters = MU.build(cur, games, S.fetch("pbp", cur),
+                                      pl.read_parquet(PROCESSED_DIR / "qb_games.parquet"), names)
+    except Exception as e:  # noqa: BLE001 - a display extra never blocks the export
+        print(f"[export] matchup detail skipped: {type(e).__name__}: {e}")
     record = {"weeks": [], "straight_up": {"win": 0, "loss": 0, "tie": 0}, "spread": {"win": 0, "loss": 0, "push": 0}}
     wlp = lambda: {"win": 0, "loss": 0, "push": 0}
     record["stats_only"] = {"weeks": [], "spread": wlp(), "big_gap": wlp(), "biggest_gap": wlp(), "total": wlp(),
@@ -389,6 +397,14 @@ def export() -> Path:
                                         if item["result_grade"] else None)
             item["injury_report"] = injury_report_for(g, now, inj_cache) if view["forecast"] else None
             item["staff"] = {"away": staff_for(staff, g["away_team"], season), "home": staff_for(staff, g["home_team"], season)}
+            item["matchup_detail"] = None
+            if mu_tg is not None and season == cur and g["game_type"] == "REG" and (view["forecast"] or g["status"] == "final"):
+                lu = ((view["forecast"] or {}).get("lineup") or {})
+                exp = {s: (lu.get(s) or {}).get("expected_qb") for s in ("home", "away")} if lu else None
+                try:
+                    item["matchup_detail"] = MU.game_detail(mu_tg, g, mu_starters, exp)
+                except Exception as e:  # noqa: BLE001 - display only
+                    print(f"[export] matchup detail for {g['game_id']} skipped: {type(e).__name__}: {e}")
             items.append(item)
         rel = [r for r in releases if r["season"] == season and r["week"] == week]
         doc = {"season": season, "week": week,

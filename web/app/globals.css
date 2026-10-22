@@ -144,21 +144,8 @@ select.select { border: 1px solid var(--rule); background: var(--surface); color
 .mbar-ends { display: grid; grid-template-columns: minmax(0, 12rem) 1fr 5.2rem; gap: 12px; font-size: 0.78rem; color: var(--ink-2); }
 .mbar-ends > span:nth-child(2) { display: flex; justify-content: space-between; }
 .mbar-axis { margin-top: -2px; font-variant-numeric: tabular-nums; }
-.mp-legend { display: flex; gap: 18px; flex-wrap: wrap; font-size: 0.86rem; margin: 4px 0 2px; }
-.mp-row { display: grid; grid-template-columns: minmax(0, 13rem) 1fr 5.6rem; align-items: center; gap: 12px; font-size: 0.86rem; min-height: 26px; }
-.mp-track { position: relative; height: 8px; border-radius: 4px; background: var(--surface-2); margin: 0 7px; }
-.mp-mid { position: absolute; left: 50%; top: -4px; bottom: -4px; width: 1px; background: var(--rule); }
-.mp-span { position: absolute; top: 3px; height: 2px; background: var(--ink-2); opacity: 0.5; }
-.mp-dot { position: absolute; top: 50%; width: 14px; height: 14px; border-radius: 50%; transform: translate(-50%, -50%);
-  box-shadow: 0 0 0 2px var(--surface); }
-.mp-vals { display: flex; justify-content: flex-end; gap: 10px; font-variant-numeric: tabular-nums; font-weight: 700; white-space: nowrap; }
-.mp-vals .swatch { margin-right: 4px; }
-.mp-axis { font-size: 0.78rem; color: var(--ink-2); margin: 4px 0 10px; }
-.mp-axis > span:nth-child(2) { display: flex; justify-content: space-between; }
 @media (max-width: 560px) {
   .mbar-row, .mbar-ends { grid-template-columns: minmax(0, 7.5rem) 1fr 4.4rem; gap: 8px; }
-  .mp-row { grid-template-columns: minmax(0, 7.5rem) 1fr 4.8rem; gap: 8px; }
-  .mp-vals { gap: 6px; }
 }
 .pred-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 14px; margin: 0; }
 .pred-grid div { display: flex; justify-content: space-between; gap: 8px; font-size: 0.88rem; min-width: 0; }
@@ -230,4 +217,83 @@ details summary { cursor: pointer; font-weight: 700; }
   .record-strip, .record-strip.four, .record-strip.five { grid-template-columns: 1fr; }
   .rec-cell + .rec-cell { border-left: 0; border-top: 1px solid var(--rule); }
   .rec-num { flex-direction: row; flex-wrap: wrap; align-items: baseline; justify-content: space-between; text-align: left; }
+}
+
+/* ---- Matchup section (components/MatchupDetail.tsx) ---- */
+.mu-head { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; align-items: end; margin-bottom: 14px; }
+.mu-cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.mu-card { background: var(--surface-2); border: 1px solid var(--rule); border-top: 3px solid var(--rule-strong);
+  border-radius: 10px; padding: 14px 16px; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.mu-card-head { display: flex; gap: 10px; align-items: center; margin-bottom: 8px; }
+.mu-card-head > div { display: flex; flex-direction: column; min-width: 0; }
+.mu-chip { display: inline-flex; align-items: center; justify-content: center; min-width: 42px; height: 26px; padding: 0 6px;
+  border-radius: 6px; font-weight: 800; font-size: 0.8rem; color: var(--on-ink); letter-spacing: 0.02em; }
+.mu-big { font-size: 2.3rem; font-weight: 800; font-variant-numeric: tabular-nums; line-height: 1.1; display: flex;
+  align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.mu-rank { font-size: 0.85rem; font-weight: 700; color: var(--ink-2); }
+.mu-mini { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin: 12px 0 0; padding-top: 10px;
+  border-top: 1px solid var(--rule); }
+.mu-mini div { display: flex; flex-direction: column; min-width: 0; }
+.mu-mini dt { font-size: 0.74rem; color: var(--muted); }
+.mu-mini dd { margin: 2px 0 0; font-weight: 700; font-variant-numeric: tabular-nums; font-size: 1.05rem; }
+.mu-mini span { font-size: 0.74rem; color: var(--ink-2); }
+.mu-qb { margin: 10px 0 0; }
+.mu-warn { color: var(--warn-ink); }
+.mu-up { color: var(--good); }
+.mu-down { color: var(--warn-ink); }
+.mu-sub { margin: 24px 0 8px; font-size: 1.05rem; }
+.mu-tabs { display: flex; border-bottom: 1px solid var(--rule); }
+.mu-tab { flex: 1; background: none; border: 0; border-bottom: 3px solid transparent; color: var(--ink-2); padding: 10px 8px;
+  font: inherit; font-weight: 700; cursor: pointer; display: inline-flex; gap: 6px; align-items: center; justify-content: center; }
+.mu-tab[aria-pressed="true"] { color: var(--ink); border-bottom-color: var(--accent); }
+.mu-tabs.compact { border: 1px solid var(--rule); border-radius: 8px; overflow: hidden; }
+.mu-tabs.compact .mu-tab { padding: 6px 10px; font-size: 0.82rem; border-bottom: 0; }
+.mu-tabs.compact .mu-tab[aria-pressed="true"] { background: var(--surface-2); }
+.mu-units { display: flex; flex-direction: column; }
+.mu-unit { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 2fr) auto; gap: 12px; align-items: center;
+  padding: 12px 0; border-bottom: 1px solid var(--rule); }
+.mu-unit-label { display: flex; flex-direction: column; min-width: 0; }
+.mu-unit-bars { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.mu-bar-row { display: grid; grid-template-columns: 104px minmax(0, 1fr) 34px 60px; gap: 8px; align-items: center; }
+.mu-bar-team { color: var(--ink-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.mu-track { height: 10px; background: var(--rule); border-radius: 5px; overflow: hidden; }
+.mu-track span { display: block; height: 100%; border-radius: 5px; }
+.mu-rank-sm { font-size: 0.78rem; color: var(--ink-2); text-align: right; font-variant-numeric: tabular-nums; }
+.mu-val { font-weight: 700; font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
+.mu-edge { font-size: 0.74rem; font-weight: 700; padding: 3px 8px; border-radius: 999px; border: 1px solid var(--rule);
+  color: var(--ink); white-space: nowrap; min-width: 72px; text-align: center; }
+.mu-edge.even, .mu-edge.none { color: var(--muted); }
+.mu-style { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.mu-style > div { display: flex; flex-direction: column; gap: 8px; background: var(--surface-2); border: 1px solid var(--rule);
+  border-radius: 10px; padding: 12px 14px; min-width: 0; }
+.mu-split { display: grid; grid-template-columns: 40px minmax(0, 1fr) 60px; gap: 8px; align-items: center; }
+.mu-split-team { font-weight: 700; }
+.mu-split-bar { position: relative; height: 12px; background: var(--rule); border-radius: 6px; }
+.mu-split-bar span { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 6px; }
+.mu-split-bar i, .mu-tempo i { position: absolute; top: -3px; bottom: -3px; width: 2px; background: var(--ink); opacity: 0.7; }
+.mu-tempo { position: relative; height: 12px; background: linear-gradient(var(--rule-strong), var(--rule-strong)) center / 100% 2px no-repeat; }
+.mu-tempo b { position: absolute; top: 50%; width: 14px; height: 14px; border-radius: 50%; transform: translate(-50%, -50%);
+  border: 2px solid var(--surface-2); }
+.mu-log-head-row { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin: 24px 0 8px; }
+.mu-log { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+.mu-log-col { min-width: 0; }
+.mu-log-head { margin-bottom: 4px; }
+.mu-log-row { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) 74px; gap: 8px; align-items: center;
+  padding: 6px 0; border-bottom: 1px solid var(--rule); }
+.mu-log-game { display: flex; flex-direction: column; min-width: 0; font-size: 0.88rem; }
+.mu-log-qb { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+.mu-tag { font-size: 0.66rem; padding: 0 6px; }
+.mu-div { position: relative; height: 12px; background: linear-gradient(var(--rule-strong), var(--rule-strong)) center / 1px 100% no-repeat; }
+.mu-div span { position: absolute; top: 1px; bottom: 1px; border-radius: 3px; }
+.mu-defs { margin-top: 14px; }
+@media (max-width: 760px) {
+  .mu-head, .mu-cards, .mu-style, .mu-log { grid-template-columns: minmax(0, 1fr); }
+  .mu-unit { grid-template-columns: minmax(0, 1fr) auto; }
+  .mu-unit-bars { grid-column: 1 / -1; grid-row: 2; }
+  .mu-bar-row { grid-template-columns: 92px minmax(0, 1fr) 30px 56px; }
+}
+@media (max-width: 360px) {
+  .mu-big { font-size: 1.9rem; }
+  .mu-bar-row { grid-template-columns: 80px minmax(0, 1fr) 28px 52px; gap: 6px; }
+  .mu-log-row { grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) 64px; }
 }
