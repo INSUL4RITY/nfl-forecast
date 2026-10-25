@@ -1,0 +1,1523 @@
+{
+ "schema_version": 3,
+ "run_id": "rel_20261025T234725Z",
+ "generated_at_utc": "2026-10-25T23:47:25.161410+00:00",
+ "information_cutoff_utc": "2026-10-25T23:47:25.161410+00:00",
+ "season": 2026,
+ "week": 7,
+ "stage": "production_v1.1",
+ "input_snapshots": {
+  "schedules": {
+   "observed_at_utc": "2026-10-25T23:45:38.288519+00:00",
+   "last_confirmed_at_utc": "2026-10-25T23:45:38.288519+00:00",
+   "http_last_modified": "Sun, 25 Oct 2026 23:41:45 GMT",
+   "content_sha256": "b18028c9a433336645703832e3516d196eca7818551ff34359b530f0e363f3e3"
+  },
+  "injuries": {
+   "observed_at_utc": "2026-10-25T06:15:37.639902+00:00",
+   "last_confirmed_at_utc": "2026-10-25T23:45:41.206783+00:00",
+   "http_last_modified": "Sun, 25 Oct 2026 12:30:27 GMT",
+   "content_sha256": "58bb847e5120c5098a0bde04bc2db68431a6b70911d0dcc370b71441e04705b5"
+  },
+  "depth_charts": {
+   "observed_at_utc": "2026-10-25T12:45:35.509413+00:00",
+   "last_confirmed_at_utc": "2026-10-25T23:45:41.588772+00:00",
+   "http_last_modified": "Sun, 25 Oct 2026 12:30:59 GMT",
+   "content_sha256": "8b35395e190b6be000f14858a51f066fae7adf5965fce4f29c5bd4dab77e15ad"
+  }
+ },
+ "market_feed": {
+  "feed_version": "market-feed-v2 (2026-09-25): The Odds API primary, nflverse schedule fallback",
+  "key_configured": true,
+  "last_success_utc": "2026-10-25T23:46:07.532607+00:00"
+ },
+ "publication_note": "Publication time is not recorded here. It is established from independent evidence in releases/publication_evidence.json (GitHub server timestamps).",
+ "models": {
+  "primary": {
+   "model": "C_resid",
+   "feature_set": "core_qb",
+   "label": "Combined (market spread/total + football)",
+   "alpha_margin": 100000.0,
+   "alpha_total": 100000.0
+  },
+  "fallback": {
+   "model": "B_football_ridge",
+   "feature_set": "core_qb",
+   "label": "Football-only fallback",
+   "alpha": 100.0
+  },
+  "benchmark": {
+   "model": "A_market_raw",
+   "label": "Market-only benchmark"
+  },
+  "calibration": {
+   "primary": {
+    "oof_model": "C_resid_noinj",
+    "n_oof": 1960,
+    "oof_seasons": [
+     2019,
+     2025
+    ],
+    "outcome_params": {
+     "intercept": -0.05664244928645003,
+     "slope": 0.14666605639148508,
+     "p_tie_regular_season": 0.0035654362416107383,
+     "ties": 8,
+     "games": 2383,
+     "through_season": 2025
+    }
+   },
+   "fallback": {
+    "oof_model": "B_qb",
+    "n_oof": 1960,
+    "oof_seasons": [
+     2019,
+     2025
+    ],
+    "outcome_params": {
+     "intercept": -0.0616957072334304,
+     "slope": 0.1540940646304356,
+     "p_tie_regular_season": 0.0035654362416107383,
+     "ties": 8,
+     "games": 2383,
+     "through_season": 2025
+    }
+   },
+   "market": {
+    "oof_model": "A_market_raw",
+    "n_oof": 1960,
+    "oof_seasons": [
+     2019,
+     2025
+    ],
+    "outcome_params": {
+     "intercept": -0.07228684461269327,
+     "slope": 0.14885235710376793,
+     "p_tie_regular_season": 0.0035654362416107383,
+     "ties": 8,
+     "games": 2383,
+     "through_season": 2025
+    }
+   }
+  },
+  "oof_source_run": "locked_20260924T234835Z",
+  "qb_start_rates": "v3_start_practice_listed_through_2025",
+  "model_version": "v1.0-2026-rest-of-season",
+  "frozen": true,
+  "model_artifact_sha256": "66e9d500c8b4a8c14fe8b0d2c69a5ce56cd8b7388d458fc8b64fe681ae48063f",
+  "shadow_injury": {
+   "version": "shadow-inj-2026-10-20",
+   "feature_set": "core_qb_inj",
+   "purpose": "display and tracking only; never the official pick"
+  }
+ },
+ "notes": [
+  "No free timestamped historical lines exist, so the combined model is validated only at the final horizon. Early releases apply it to the line observed at release time and are labelled accordingly; early-horizon accuracy is measured prospectively.",
+  "Contributions explain the fitted model's adjustment to the market line; they are not causal claims.",
+  "Probabilities: P(home/away/tie). Intervals: 80%/95% ranges from out-of-fold residuals.",
+  "Non-QB injuries are not inputs of the frozen models. A separate trial line (football_only_inj, display and tracking only) adds them to the stats-only model. Weather and coaching are not modelled."
+ ],
+ "code_hash": "b4a7f3e7a1dde1863bad979de7a5d4da5413ef7bd1438a36c64350ecb68dea51",
+ "games": [
+  {
+   "game_id": "2026_07_KC_SEA",
+   "season": 2026,
+   "week": 7,
+   "game_type": "REG",
+   "kickoff_utc": "2026-10-26T00:20:00+00:00",
+   "kickoff_time_known": true,
+   "home_team": "SEA",
+   "away_team": "KC",
+   "home_record": "3-3",
+   "away_record": "5-0",
+   "neutral_site": false,
+   "stadium": "Lumen Field",
+   "roof": "outdoors",
+   "release_label": "final",
+   "hours_to_kickoff": 0.54,
+   "status": "ok",
+   "validation_problems": {},
+   "primary_model": "Combined (market spread/total + football)",
+   "market_inputs_used": true,
+   "forecast": {
+    "home_pts": 23.608149026300385,
+    "away_pts": 20.38943977847206,
+    "margin": 3.2187092478283255,
+    "total": 43.99758880477245,
+    "p_home": 0.6002420677500798,
+    "p_away": 0.39619249600830947,
+    "p_tie": 0.003565436241610738,
+    "intervals": {
+     "margin_80": [
+      -12.566564096840242,
+      19.881524298425262
+     ],
+     "margin_95": [
+      -21.0782008221082,
+      29.978116551771468
+     ],
+     "total_80": [
+      28.722951045578274,
+      61.685574091170736
+     ],
+     "total_95": [
+      20.78402557923946,
+      72.55765847983362
+     ]
+    },
+    "scenario_disagreement_margin": 0.007259575253859275
+   },
+   "combined": {
+    "home_pts": 23.608149026300385,
+    "away_pts": 20.38943977847206,
+    "margin": 3.2187092478283255,
+    "total": 43.99758880477245,
+    "p_home": 0.6002420677500798,
+    "p_away": 0.39619249600830947,
+    "p_tie": 0.003565436241610738,
+    "intervals": {
+     "margin_80": [
+      -12.566564096840242,
+      19.881524298425262
+     ],
+     "margin_95": [
+      -21.0782008221082,
+      29.978116551771468
+     ],
+     "total_80": [
+      28.722951045578274,
+      61.685574091170736
+     ],
+     "total_95": [
+      20.78402557923946,
+      72.55765847983362
+     ]
+    },
+    "scenario_disagreement_margin": 0.007259575253859275
+   },
+   "football_only": {
+    "home_pts": 22.684166562648162,
+    "away_pts": 21.482316008995518,
+    "margin": 1.201850553652644,
+    "total": 44.166482571643684,
+    "p_home": 0.5287419212537302,
+    "p_away": 0.4676926425046589,
+    "p_tie": 0.003565436241610738,
+    "intervals": {
+     "margin_80": [
+      -14.958507629759596,
+      18.47516226787006
+     ],
+     "margin_95": [
+      -23.984653191821906,
+      28.285131617342905
+     ],
+     "total_80": [
+      28.013783397255168,
+      61.50385048594836
+     ],
+     "total_95": [
+      19.608703565519498,
+      71.7551797544836
+     ]
+    },
+    "scenario_disagreement_margin": 0.6261638030061817
+   },
+   "market_only": {
+    "home_pts": 23.25,
+    "away_pts": 20.25,
+    "margin": 3.0,
+    "total": 43.5,
+    "p_home": 0.590377924571623,
+    "p_away": 0.4060566391867664,
+    "p_tie": 0.003565436241610738,
+    "intervals": {
+     "margin_80": [
+      -13.0,
+      19.5
+     ],
+     "margin_95": [
+      -21.5,
+      29.500000003223548
+     ],
+     "total_80": [
+      28.5,
+      61.5
+     ],
+     "total_95": [
+      20.0,
+      72.0
+     ]
+    },
+    "scenario_disagreement_margin": 0.0
+   },
+   "market": {
+    "home_spread": -3.0,
+    "total": 43.5,
+    "source": "the_odds_api",
+    "timing": "timestamped",
+    "snapshot_at": "2026-10-25T23:46:07.532607+00:00",
+    "retrieved_at": "2026-10-25T23:46:07.532607+00:00",
+    "provider_updated_at": "2026-10-25T23:45:58+00:00",
+    "n_bookmakers": 9,
+    "fallback_reason": null,
+    "feed_version": "market-feed-v2 (2026-09-25): The Odds API primary, nflverse schedule fallback"
+   },
+   "football_only_inj": {
+    "home_pts": 22.69556196279218,
+    "away_pts": 21.606380707464567,
+    "margin": 1.0891812553276132,
+    "total": 44.30194267025675,
+    "p_home": 0.524027319123134,
+    "p_away": 0.4724072446352551,
+    "p_tie": 0.003565436241610738,
+    "intervals": {
+     "margin_80": [
+      -15.149699389711822,
+      18.158691541549405
+     ],
+     "margin_95": [
+      -23.99462029480886,
+      28.288500796812045
+     ],
+     "total_80": [
+      28.26386871778201,
+      61.61172162709894
+     ],
+     "total_95": [
+      19.74442065573337,
+      72.0436704384292
+     ]
+    },
+    "scenario_disagreement_margin": 0.6206582442758157
+   },
+   "injury_inputs": {
+    "home": {
+     "lost_ol": 0.0674,
+     "lost_skill": 0.0719,
+     "lost_front": 1.2096,
+     "lost_db": 0.226
+    },
+    "away": {
+     "lost_ol": 0.8621,
+     "lost_skill": 0.6325,
+     "lost_front": 0.028,
+     "lost_db": 0.3032
+    }
+   },
+   "lineup": {
+    "home": {
+     "scenarios": [
+      {
+       "p": 0.9964114832535885,
+       "qb_id": "00-0034869",
+       "qb": "Sam Darnold"
+      },
+      {
+       "p": 0.0035885167464114742,
+       "qb_id": "00-0035704",
+       "qb": "Drew Lock"
+      }
+     ],
+     "qbs": [
+      {
+       "qb_id": "00-0034869",
+       "qb": "Sam Darnold",
+       "depth_rank": 1,
+       "status": "NotListed",
+       "evidence": "not_on_published_report",
+       "evidence_at": "2026-10-25T23:45:41.206783+00:00",
+       "p_available": 0.9964114832535885,
+       "detail": "not on the team's published report; historical start rate 0.996 (416/417, 90% interval 0.99-1.00; daily depth charts)",
+       "roster_status": "ACT"
+      },
+      {
+       "qb_id": "00-0035704",
+       "qb": "Drew Lock",
+       "depth_rank": 2,
+       "status": "Questionable",
+       "evidence": "injury_report",
+       "evidence_at": "2026-10-25T23:45:41.206783+00:00",
+       "p_available": 0.5357142857142857,
+       "detail": "practice: Limited Participation in Practice; historical start rate 0.536 (7/13, 90% interval 0.32-0.75; weekly depth charts)",
+       "roster_status": "ACT"
+      },
+      {
+       "qb_id": "00-0040673",
+       "qb": "Jalen Milroe",
+       "depth_rank": 3,
+       "status": "NotListed",
+       "evidence": "not_on_published_report",
+       "evidence_at": "2026-10-25T23:45:41.206783+00:00",
+       "p_available": 0.9857142857142858,
+       "detail": "not on the team's published report; historical start rate 0.986 (34/34, 90% interval 0.95-1.00; daily depth charts)",
+       "roster_status": "ACT"
+      }
+     ],
+     "flags": [],
+     "folded_probability": 0.0016660970608338987,
+     "chain_residual": 2.3801386583341237e-05,
+     "depth_chart_at": "2026-10-25T12:30:46+00:00",
+     "injury_snapshot_at": "2026-10-25T23:45:41.206783+00:00",
+     "freshness": [
+      {
+       "source": "injuries",
+       "state": "fresh",
+       "observed_at": "2026-10-25T06:15:37.639902+00:00",
+       "last_confirmed_at": "2026-10-25T23:45:41.206783+00:00",
+       "provider_last_modified": "2026-10-25T12:30:27+00:00",
+       "detail": ""
+      },
+      {
+       "source": "depth_charts",
+       "state": "fresh",
+       "observed_at": "2026-10-25T12:45:35.509413+00:00",
+       "last_confirmed_at": "2026-10-25T23:45:41.588772+00:00",
+       "provider_last_modified": "2026-10-25T12:30:59+00:00",
+       "detail": ""
+      },
+      {
+       "source": "rosters_weekly",
+       "state": "fresh",
+       "observed_at": "2026-10-25T12:45:35.797591+00:00",
+       "last_confirmed_at": "2026-10-25T23:45:41.798215+00:00",
+       "provider_last_modified": "2026-10-25T12:34:24+00:00",
+       "detail": ""
+      }
+     ],
+     "overrides_used": [],
+     "team": "SEA",
+     "expected_qb_id": "00-0034869",
+     "expected_qb": "Sam Darnold",
+     "uncertain": false
+    },
+    "away": {
+     "scenarios": [
+      {
+       "p": 0.9875683301005114,
+       "qb_id": "00-0033873",
+       "qb": "Patrick Mahomes"
+      },
+      {
+       "p": 0.012431669899488629,
+       "qb_id": "00-0036945",
+       "qb": "Justin Fields"
+      }
+     ],
+     "qbs": [
+      {
+       "qb_id": "00-0033873",
+       "qb": "Patrick Mahomes",
+       "depth_rank": 1,
+       "status": "None",
+       "evidence": "injury_report",
+       "evidence_at": "2026-10-25T23:45:41.206783+00:00",
+       "p_available": 0.9875683301005114,
+       "detail": "practice: Full Participation in Practice; historical start rate 0.988 (96/97, 90% interval 0.97-1.00; daily depth charts; by final practice (Full))",
+       "roster_status": "ACT"
+      },
+      {
+       "qb_id": "00-0036945",
+       "qb": "Justin Fields",
+       "depth_rank": 2,
+       "status": "NotListed",
+       "evidence": "not_on_published_report",
+       "evidence_at": "2026-10-25T23:45:41.206783+00:00",
+       "p_available": 0.9857142857142858,
+       "detail": "not on the team's published report; historical start rate 0.986 (34/34, 90% interval 0.95-1.00; daily depth charts)",
+       "roster_status": "ACT"
+      },
+      {
+       "qb_id": "00-0040906",
+       "qb": "Garrett Nussmeier",
+       "depth_rank": 3,
+       "status": "NotListed",
+       "evidence": "not_on_published_report",
+       "evidence_at": "2026-10-25T23:45:41.206783+00:00",
+       "p_available": 0.9857142857142858,
+       "detail": "not on the team's published report; historical start rate 0.986 (34/34, 90% interval 0.95-1.00; daily depth charts)",
+       "roster_status": "ACT"
+      }
+     ],
+     "flags": [],
+     "folded_probability": 0.00017759528427840898,
+     "chain_residual": 2.5370754896915577e-06,
+     "depth_chart_at": "2026-10-25T12:30:46+00:00",
+     "injury_snapshot_at": "2026-10-25T23:45:41.206783+00:00",
+     "freshness": [
+      {
+       "source": "injuries",
+       "state": "fresh",
+       "observed_at": "2026-10-25T06:15:37.639902+00:00",
+       "last_confirmed_at": "2026-10-25T23:45:41.206783+00:00",
+       "provider_last_modified": "2026-10-25T12:30:27+00:00",
+       "detail": ""
+      },
+      {
+       "source": "depth_charts",
+       "state": "fresh",
+       "observed_at": "2026-10-25T12:45:35.509413+00:00",
+       "last_confirmed_at": "2026-10-25T23:45:41.588772+00:00",
+       "provider_last_modified": "2026-10-25T12:30:59+00:00",
+       "detail": ""
+      },
+      {
+       "source": "rosters_weekly",
+       "state": "fresh",
+       "observed_at": "2026-10-25T12:45:35.797591+00:00",
+       "last_confirmed_at": "2026-10-25T23:45:41.798215+00:00",
+       "provider_last_modified": "2026-10-25T12:34:24+00:00",
+       "detail": ""
+      }
+     ],
+     "overrides_used": [],
+     "team": "KC",
+     "expected_qb_id": "00-0033873",
+     "expected_qb": "Patrick Mahomes",
+     "uncertain": false
+    }
+   },
+   "lineup_uncertain": false,
+   "notable_injuries": [
+    {
+     "team": "KC",
+     "full_name": "Brashard Smith",
+     "position": "RB",
+     "report_status": "Out"
+    },
+    {
+     "team": "KC",
+     "full_name": "Jaylon Moore",
+     "position": "T",
+     "report_status": "Out"
+    },
+    {
+     "team": "KC",
+     "full_name": "Rashee Rice",
+     "position": "WR",
+     "report_status": "Out"
+    },
+    {
+     "team": "KC",
+     "full_name": "Cooper McDonald",
+     "position": "LB",
+     "report_status": "Questionable"
+    },
+    {
+     "team": "KC",
+     "full_name": "L'Jarius Sneed",
+     "position": "CB",
+     "report_status": "Questionable"
+    },
+    {
+     "team": "SEA",
+     "full_name": "Chazz Surratt",
+     "position": "LB",
+     "report_status": "Out"
+    },
+    {
+     "team": "SEA",
+     "full_name": "Drake Thomas",
+     "position": "LB",
+     "report_status": "Out"
+    },
+    {
+     "team": "SEA",
+     "full_name": "Zach Charbonnet",
+     "position": "RB",
+     "report_status": "Out"
+    },
+    {
+     "team": "SEA",
+     "full_name": "Connor O'Toole",
+     "position": "LB",
+     "report_status": "Questionable"
+    },
+    {
+     "team": "SEA",
+     "full_name": "DeMarcus Lawrence",
+     "position": "LB",
+     "report_status": "Questionable"
+    },
+    {
+     "team": "SEA",
+     "full_name": "Drew Lock",
+     "position": "QB",
+     "report_status": "Questionable"
+    },
+    {
+     "team": "SEA",
+     "full_name": "Nick Emmanwori",
+     "position": "S",
+     "report_status": "Questionable"
+    },
+    {
+     "team": "SEA",
+     "full_name": "Uchenna Nwosu",
+     "position": "LB",
+     "report_status": "Questionable"
+    }
+   ],
+   "contributions": [
+    {
+     "feature": "SEA offensive starting field position (yds to goal)",
+     "margin_points": 0.026790708124025765
+    },
+    {
+     "feature": "SEA explosive runs allowed",
+     "margin_points": 0.026735871317006568
+    },
+    {
+     "feature": "SEA points allowed per game",
+     "margin_points": 0.013704630676349156
+    },
+    {
+     "feature": "KC defense success rate allowed",
+     "margin_points": 0.01362365718219163
+    },
+    {
+     "feature": "KC rushing EPA/rush",
+     "margin_points": -0.013158233558781714
+    }
+   ],
+   "team_efficiency": {
+    "home": {
+     "off_epa_play": -0.028592767152067388,
+     "def_epa_play": -0.1091684008424932,
+     "off_epa_db": 0.050938542739485726,
+     "def_epa_db": -0.08185677731444421,
+     "off_epa_rush": -0.13354848907950098,
+     "def_epa_rush": -0.14563415248309974,
+     "off_succ_play": 0.42791634984605864,
+     "def_succ_play": 0.39157631667126186,
+     "off_pts_drive": 2.1025721706204976,
+     "def_pts_drive": 1.558935583541145,
+     "off_sack_rate": 0.06892459905239066,
+     "def_sack_rate": 0.06998212193124642,
+     "adj_off_epa": -0.014733162897730365,
+     "adj_def_epa": 0.08122291046553962,
+     "games_this_season": 6.0,
+     "ess_games": 15.965871218774385,
+     "expected_qb_rating": -0.011065628577050788
+    },
+    "away": {
+     "off_epa_play": 0.05202601521839065,
+     "def_epa_play": -0.05450928948541433,
+     "off_epa_db": 0.07562200039933559,
+     "def_epa_db": -0.0115871788841689,
+     "off_epa_rush": 0.010011823114498284,
+     "def_epa_rush": -0.11809405832372391,
+     "off_succ_play": 0.4544486427591896,
+     "def_succ_play": 0.4099957333283056,
+     "off_pts_drive": 2.2054058987846985,
+     "def_pts_drive": 1.7930748665399028,
+     "off_sack_rate": 0.05899588062407312,
+     "def_sack_rate": 0.052235205807671006,
+     "adj_off_epa": 0.03367460197984782,
+     "adj_def_epa": 0.022148572607487652,
+     "games_this_season": 5.0,
+     "ess_games": 15.496551555497147,
+     "expected_qb_rating": 0.08003334081023442
+    }
+   },
+   "football_breakdown": {
+    "groups": [
+     {
+      "group": "home_field",
+      "label": "Home field",
+      "margin_points": 1.8835471248312152
+     },
+     {
+      "group": "rest",
+      "label": "Rest and schedule",
+      "margin_points": 0.8418351084084448
+     },
+     {
+      "group": "qb",
+      "label": "Quarterbacks",
+      "margin_points": -1.1921787034146718
+     },
+     {
+      "group": "passing",
+      "label": "Passing game",
+      "margin_points": 0.693947378614364
+     },
+     {
+      "group": "rushing",
+      "label": "Running game",
+      "margin_points": -0.4766539876398842
+     },
+     {
+      "group": "efficiency",
+      "label": "Overall efficiency",
+      "margin_points": 0.07009878582197349
+     },
+     {
+      "group": "scoring",
+      "label": "Scoring and red zone",
+      "margin_points": -1.2184209890953295
+     },
+     {
+      "group": "turnovers",
+      "label": "Turnovers and field position",
+      "margin_points": 0.6960142073263574
+     },
+     {
+      "group": "pace",
+      "label": "Pace and play style",
+      "margin_points": -0.10432077522285074
+     },
+     {
+      "group": "other",
+      "label": "Other",
+      "margin_points": 0.007982404023022641
+     }
+    ],
+    "margin": 1.201850553652644
+   },
+   "scenario_forecasts": [
+    {
+     "p": 0.9840244246097201,
+     "home_qb": "Sam Darnold",
+     "away_qb": "Patrick Mahomes",
+     "combined_margin": 3.2179382566899335,
+     "combined_total": 43.997331613221434,
+     "football_margin": 1.141307541882206,
+     "football_total": 44.24316768136481
+    },
+    {
+     "p": 0.012387058643868454,
+     "home_qb": "Sam Darnold",
+     "away_qb": "Justin Fields",
+     "combined_margin": 3.2831790191949324,
+     "combined_total": 44.04274814551694,
+     "football_margin": 6.660603123290933,
+     "football_total": 38.72387209995608
+    },
+    {
+     "p": 0.0035439054907913,
+     "home_qb": "Drew Lock",
+     "away_qb": "Patrick Mahomes",
+     "combined_margin": 3.206774734852438,
+     "combined_total": 43.91166619539418,
+     "football_margin": -1.1078247725806918,
+     "football_total": 41.99403536690191
+    },
+    {
+     "p": 4.461125562017439e-05,
+     "home_qb": "Drew Lock",
+     "away_qb": "Justin Fields",
+     "combined_margin": 3.2720154973574367,
+     "combined_total": 43.95708272768969,
+     "football_margin": 4.411470808828035,
+     "football_total": 36.474739785493185
+    }
+   ],
+   "picks": {
+    "picks_version": "picks-v1",
+    "winner": "SEA",
+    "winner_p": 0.6002420677500798,
+    "projected_margin": 3.2187092478283255,
+    "winning_margin": 3.2187092478283255,
+    "line_home_spread": -3.0,
+    "lean": {
+     "side": "SEA",
+     "side_spread": -3.0,
+     "status": "lean",
+     "difference": 0.21870924782832546,
+     "strength": "tiny"
+    },
+    "published_with_forecast": true
+   },
+   "stats_picks": {
+    "picks_version": "picks-v1",
+    "winner": "SEA",
+    "winner_p": 0.5287419212537302,
+    "projected_margin": 1.201850553652644,
+    "winning_margin": 1.201850553652644,
+    "line_home_spread": -3.0,
+    "lean": {
+     "side": "KC",
+     "side_spread": 3.0,
+     "status": "lean",
+     "difference": 1.798149446347356,
+     "strength": "moderate"
+    },
+    "published_with_forecast": true
+   },
+   "input_fingerprint": {
+    "market": "e990d672934e616a",
+    "quarterbacks": "714d327bd7951498",
+    "injury_report": "d3c13be5e8936d6c",
+    "team_form": "0d66a7f76a3d47ef",
+    "model": "v1.0-2026-rest-of-season"
+   },
+   "data_freshness": {
+    "sources": [
+     {
+      "source": "injuries",
+      "state": "fresh",
+      "observed_at": "2026-10-25T06:15:37.639902+00:00",
+      "last_confirmed_at": "2026-10-25T23:45:41.206783+00:00",
+      "provider_last_modified": "2026-10-25T12:30:27+00:00",
+      "detail": ""
+     },
+     {
+      "source": "depth_charts",
+      "state": "fresh",
+      "observed_at": "2026-10-25T12:45:35.509413+00:00",
+      "last_confirmed_at": "2026-10-25T23:45:41.588772+00:00",
+      "provider_last_modified": "2026-10-25T12:30:59+00:00",
+      "detail": ""
+     },
+     {
+      "source": "rosters_weekly",
+      "state": "fresh",
+      "observed_at": "2026-10-25T12:45:35.797591+00:00",
+      "last_confirmed_at": "2026-10-25T23:45:41.798215+00:00",
+      "provider_last_modified": "2026-10-25T12:34:24+00:00",
+      "detail": ""
+     },
+     {
+      "source": "the_odds_api",
+      "state": "fresh",
+      "observed_at": "2026-10-25T23:46:07.532607+00:00",
+      "last_confirmed_at": "2026-10-25T23:46:07.532607+00:00",
+      "provider_last_modified": "2026-10-25T23:45:58+00:00",
+      "detail": "9 US bookmakers; retrieved 0.0 h before the cutoff"
+     }
+    ],
+    "market_line_age_hours": 0.0,
+    "qb_flags": {
+     "home": [],
+     "away": []
+    },
+    "problems": [],
+    "all_fresh": true
+   },
+   "weather": {
+    "available": true,
+    "model_input": false,
+    "observed_at_utc": "2026-10-25T21:46:16.254087+00:00",
+    "lead_hours": 2.56,
+    "exposure": 1.0,
+    "temperature_c": 11.7,
+    "wind_kmh": 2.8,
+    "gust_kmh": 6.1,
+    "precip_mm": 0.0,
+    "source": "Open-Meteo forecast API",
+    "note": "Display only: weather did not pass the feature-group evaluation, so it is not used by the model."
+   }
+  },
+  {
+   "game_id": "2026_07_DAL_PHI",
+   "season": 2026,
+   "week": 7,
+   "game_type": "REG",
+   "kickoff_utc": "2026-10-27T00:15:00+00:00",
+   "kickoff_time_known": true,
+   "home_team": "PHI",
+   "away_team": "DAL",
+   "home_record": "2-4",
+   "away_record": "2-4",
+   "neutral_site": false,
+   "stadium": "Lincoln Financial Field",
+   "roof": "outdoors",
+   "release_label": "update",
+   "hours_to_kickoff": 24.46,
+   "status": "ok",
+   "validation_problems": {},
+   "primary_model": "Combined (market spread/total + football)",
+   "market_inputs_used": true,
+   "forecast": {
+    "home_pts": 19.75521867909672,
+    "away_pts": 24.42712221329237,
+    "margin": -4.67190353419565,
+    "total": 44.18234089238909,
+    "p_home": 0.3214490833548029,
+    "p_away": 0.6749854804035863,
+    "p_tie": 0.0035654362416107387,
+    "intervals": {
+     "margin_80": [
+      -20.456339804612956,
+      11.991273894035624
+     ],
+     "margin_95": [
+      -28.96836813510089,
+      22.10518167322331
+     ],
+     "total_80": [
+      28.90091494713447,
+      61.83008465399223
+     ],
+     "total_95": [
+      20.9827386804549,
+      72.74286295445832
+     ]
+    },
+    "scenario_disagreement_margin": 0.00500713370936303
+   },
+   "combined": {
+    "home_pts": 19.75521867909672,
+    "away_pts": 24.42712221329237,
+    "margin": -4.67190353419565,
+    "total": 44.18234089238909,
+    "p_home": 0.3214490833548029,
+    "p_away": 0.6749854804035863,
+    "p_tie": 0.0035654362416107387,
+    "intervals": {
+     "margin_80": [
+      -20.456339804612956,
+      11.991273894035624
+     ],
+     "margin_95": [
+      -28.96836813510089,
+      22.10518167322331
+     ],
+     "total_80": [
+      28.90091494713447,
+      61.83008465399223
+     ],
+     "total_95": [
+      20.9827386804549,
+      72.74286295445832
+     ]
+    },
+    "scenario_disagreement_margin": 0.00500713370936303
+   },
+   "football_only": {
+    "home_pts": 21.07882475371876,
+    "away_pts": 23.45567576962099,
+    "margin": -2.376851015902229,
+    "total": 44.534500523339744,
+    "p_home": 0.39323965653727644,
+    "p_away": 0.6031949072211128,
+    "p_tie": 0.0035654362416107387,
+    "intervals": {
+     "margin_80": [
+      -18.514929464335523,
+      14.845428758708096
+     ],
+     "margin_95": [
+      -27.555977769682112,
+      24.7273035247342
+     ],
+     "total_80": [
+      28.37828171796512,
+      61.8458157553263
+     ],
+     "total_95": [
+      19.966965406170598,
+      72.08224306694943
+     ]
+    },
+    "scenario_disagreement_margin": 0.4639581923427096
+   },
+   "market_only": {
+    "home_pts": 19.749999999999996,
+    "away_pts": 24.25,
+    "margin": -4.5000000000000036,
+    "total": 44.0,
+    "p_home": 0.3213901999957258,
+    "p_away": 0.6750443637626633,
+    "p_tie": 0.0035654362416107387,
+    "intervals": {
+     "margin_80": [
+      -20.5,
+      12.0
+     ],
+     "margin_95": [
+      -29.0,
+      22.000000011136883
+     ],
+     "total_80": [
+      29.0,
+      62.0
+     ],
+     "total_95": [
+      20.50000000003138,
+      72.5
+     ]
+    },
+    "scenario_disagreement_margin": 3.552713678800501e-15
+   },
+   "market": {
+    "home_spread": 4.5,
+    "total": 44.0,
+    "source": "the_odds_api",
+    "timing": "timestamped",
+    "snapshot_at": "2026-10-25T23:46:07.532607+00:00",
+    "retrieved_at": "2026-10-25T23:46:07.532607+00:00",
+    "provider_updated_at": "2026-10-25T23:45:58+00:00",
+    "n_bookmakers": 9,
+    "fallback_reason": null,
+    "feed_version": "market-feed-v2 (2026-09-25): The Odds API primary, nflverse schedule fallback"
+   },
+   "football_only_inj": {
+    "home_pts": 20.575295887819504,
+    "away_pts": 24.222342132965483,
+    "margin": -3.6470462451459795,
+    "total": 44.79763802078499,
+    "p_home": 0.3478391014272783,
+    "p_away": 0.6485954623311109,
+    "p_tie": 0.0035654362416107387,
+    "intervals": {
+     "margin_80": [
+      -19.85021951153813,
+      13.414091267087498
+     ],
+     "margin_95": [
+      -28.67781440805014,
+      23.58975808576002
+     ],
+     "total_80": [
+      28.745058377356024,
+      62.16027174182631
+     ],
+     "total_95": [
+      20.26225334616286,
+      72.5125642907537
+     ]
+    },
+    "scenario_disagreement_margin": 0.46128020705348144
+   },
+   "injury_inputs": {
+    "home": {
+     "lost_ol": 0.3146,
+     "lost_skill": 1.5558,
+     "lost_front": 1.4805,
+     "lost_db": 0.2832
+    },
+    "away": {
+     "lost_ol": 0.1493,
+     "lost_skill": 0.2623,
+     "lost_front": 0.6566,
+     "lost_db": 0.1229
+    }
+   },
+   "lineup": {
+    "home": {
+     "scenarios": [
+      {
+       "p": 0.9964114832535885,
+       "qb_id": "00-0038400",
+       "qb": "Tanner McKee"
+      },
+      {
+       "p": 0.0035885167464114742,
+       "qb_id": "00-0040891",
+       "qb": "Cole Payton"
+      }
+     ],
+     "qbs": [
+      {
+       "qb_id": "00-0038400",
+       "qb": "Tanner McKee",
+       "depth_rank": 1,
+       "status": "NotListed",
+       "evidence": "not_on_published_report",
+       "evidence_at": "2026-10-25T23:45:41.206783+00:00",
+       "p_available": 0.9964114832535885,
+       "detail": "not on the team's published report; historical start rate 0.996 (416/417, 90% interval 0.99-1.00; daily depth charts)",
+       "roster_status": "ACT"
+      },
+      {
+       "qb_id": "00-0040891",
+       "qb": "Cole Payton",
+       "depth_rank": 2,
+       "status": "NotListed",
+       "evidence": "not_on_published_report",
+       "evidence_at": "2026-10-25T23:45:41.206783+00:00",
+       "p_available": 0.9857142857142858,
+       "detail": "not on the team's published report; historical start rate 0.986 (34/34, 90% interval 0.95-1.00; daily depth charts)",
+       "roster_status": "ACT"
+      },
+      {
+       "qb_id": "00-0039398",
+       "qb": "Joe Milton III",
+       "depth_rank": 3,
+       "status": "NotListed",
+       "evidence": "not_on_published_report",
+       "evidence_at": "2026-10-25T23:45:41.206783+00:00",
+       "p_available": 0.9857142857142858,
+       "detail": "not on the team's published report; historical start rate 0.986 (34/34, 90% interval 0.95-1.00; daily depth charts)",
+       "roster_status": "ACT"
+      },
+      {
+       "qb_id": "00-0036389",
+       "qb": "Jalen Hurts",
+       "depth_rank": 4,
+       "status": "roster:RES",
+       "evidence": "roster",
+       "evidence_at": "2026-10-25T23:45:41.798215+00:00",
+       "p_available": 0.0,
+       "detail": "reserve list (e.g. injured reserve); cannot start unless re-signed/elevated",
+       "roster_status": "RES"
+      }
+     ],
+     "flags": [
+      "chain_qb_unavailable_roster:00-0036389"
+     ],
+     "folded_probability": 5.126452494873517e-05,
+     "chain_residual": 7.323503564105017e-07,
+     "depth_chart_at": "2026-10-25T12:30:46+00:00",
+     "injury_snapshot_at": "2026-10-25T23:45:41.206783+00:00",
+     "freshness": [
+      {
+       "source": "injuries",
+       "state": "fresh",
+       "observed_at": "2026-10-25T06:15:37.639902+00:00",
+       "last_confirmed_at": "2026-10-25T23:45:41.206783+00:00",
+       "provider_last_modified": "2026-10-25T12:30:27+00:00",
+       "detail": ""
+      },
+      {
+       "source": "depth_charts",
+       "state": "fresh",
+       "observed_at": "2026-10-25T12:45:35.509413+00:00",
+       "last_confirmed_at": "2026-10-25T23:45:41.588772+00:00",
+       "provider_last_modified": "2026-10-25T12:30:59+00:00",
+       "detail": ""
+      },
+      {
+       "source": "rosters_weekly",
+       "state": "fresh",
+       "observed_at": "2026-10-25T12:45:35.797591+00:00",
+       "last_confirmed_at": "2026-10-25T23:45:41.798215+00:00",
+       "provider_last_modified": "2026-10-25T12:34:24+00:00",
+       "detail": ""
+      }
+     ],
+     "overrides_used": [],
+     "team": "PHI",
+     "expected_qb_id": "00-0038400",
+     "expected_qb": "Tanner McKee",
+     "uncertain": false
+    },
+    "away": {
+     "scenarios": [
+      {
+       "p": 0.9964114832535885,
+       "qb_id": "00-0033077",
+       "qb": "Dak Prescott"
+      },
+      {
+       "p": 0.0035885167464114742,
+       "qb_id": "00-0037077",
+       "qb": "Sam Howell"
+      }
+     ],
+     "qbs": [
+      {
+       "qb_id": "00-0033077",
+       "qb": "Dak Prescott",
+       "depth_rank": 1,
+       "status": "NotListed",
+       "evidence": "not_on_published_report",
+       "evidence_at": "2026-10-25T23:45:41.206783+00:00",
+       "p_available": 0.9964114832535885,
+       "detail": "not on the team's published report; historical start rate 0.996 (416/417, 90% interval 0.99-1.00; daily depth charts)",
+       "roster_status": "ACT"
+      },
+      {
+       "qb_id": "00-0037077",
+       "qb": "Sam Howell",
+       "depth_rank": 2,
+       "status": "NotListed",
+       "evidence": "not_on_published_report",
+       "evidence_at": "2026-10-25T23:45:41.206783+00:00",
+       "p_available": 0.9857142857142858,
+       "detail": "not on the team's published report; historical start rate 0.986 (34/34, 90% interval 0.95-1.00; daily depth charts)",
+       "roster_status": "ACT"
+      }
+     ],
+     "flags": [],
+     "folded_probability": 0.0,
+     "chain_residual": 5.126452494873517e-05,
+     "depth_chart_at": "2026-10-25T12:30:46+00:00",
+     "injury_snapshot_at": "2026-10-25T23:45:41.206783+00:00",
+     "freshness": [
+      {
+       "source": "injuries",
+       "state": "fresh",
+       "observed_at": "2026-10-25T06:15:37.639902+00:00",
+       "last_confirmed_at": "2026-10-25T23:45:41.206783+00:00",
+       "provider_last_modified": "2026-10-25T12:30:27+00:00",
+       "detail": ""
+      },
+      {
+       "source": "depth_charts",
+       "state": "fresh",
+       "observed_at": "2026-10-25T12:45:35.509413+00:00",
+       "last_confirmed_at": "2026-10-25T23:45:41.588772+00:00",
+       "provider_last_modified": "2026-10-25T12:30:59+00:00",
+       "detail": ""
+      },
+      {
+       "source": "rosters_weekly",
+       "state": "fresh",
+       "observed_at": "2026-10-25T12:45:35.797591+00:00",
+       "last_confirmed_at": "2026-10-25T23:45:41.798215+00:00",
+       "provider_last_modified": "2026-10-25T12:34:24+00:00",
+       "detail": ""
+      }
+     ],
+     "overrides_used": [],
+     "team": "DAL",
+     "expected_qb_id": "00-0033077",
+     "expected_qb": "Dak Prescott",
+     "uncertain": false
+    }
+   },
+   "lineup_uncertain": false,
+   "notable_injuries": [
+    {
+     "team": "DAL",
+     "full_name": "Dee Winters",
+     "position": "LB",
+     "report_status": "Out"
+    },
+    {
+     "team": "DAL",
+     "full_name": "Drew Shelton",
+     "position": "T",
+     "report_status": "Out"
+    },
+    {
+     "team": "DAL",
+     "full_name": "KaVontae Turpin",
+     "position": "WR",
+     "report_status": "Out"
+    },
+    {
+     "team": "DAL",
+     "full_name": "Marist Liufau",
+     "position": "LB",
+     "report_status": "Questionable"
+    },
+    {
+     "team": "DAL",
+     "full_name": "P.J. Locke",
+     "position": "S",
+     "report_status": "Questionable"
+    },
+    {
+     "team": "PHI",
+     "full_name": "DeVonta Smith",
+     "position": "WR",
+     "report_status": "Out"
+    },
+    {
+     "team": "PHI",
+     "full_name": "Dontayvion Wicks",
+     "position": "WR",
+     "report_status": "Out"
+    },
+    {
+     "team": "PHI",
+     "full_name": "Michael Carter II",
+     "position": "CB",
+     "report_status": "Out"
+    },
+    {
+     "team": "PHI",
+     "full_name": "Nolan Smith",
+     "position": "LB",
+     "report_status": "Out"
+    },
+    {
+     "team": "PHI",
+     "full_name": "Eli Stowers",
+     "position": "TE",
+     "report_status": "Questionable"
+    },
+    {
+     "team": "PHI",
+     "full_name": "Grant Calcaterra",
+     "position": "TE",
+     "report_status": "Questionable"
+    },
+    {
+     "team": "PHI",
+     "full_name": "Jakorian Bennett",
+     "position": "CB",
+     "report_status": "Questionable"
+    },
+    {
+     "team": "PHI",
+     "full_name": "Jalyx Hunt",
+     "position": "LB",
+     "report_status": "Questionable"
+    },
+    {
+     "team": "PHI",
+     "full_name": "Jonathan Greenard",
+     "position": "LB",
+     "report_status": "Questionable"
+    },
+    {
+     "team": "PHI",
+     "full_name": "Landon Dickerson",
+     "position": "G",
+     "report_status": "Questionable"
+    },
+    {
+     "team": "PHI",
+     "full_name": "Saquon Barkley",
+     "position": "RB",
+     "report_status": "Questionable"
+    }
+   ],
+   "contributions": [
+    {
+     "feature": "DAL pass defense EPA/dropback allowed",
+     "margin_points": -0.03280511575858497
+    },
+    {
+     "feature": "DAL points per drive allowed",
+     "margin_points": -0.027914876865724428
+    },
+    {
+     "feature": "DAL defense EPA/play allowed",
+     "margin_points": -0.022164770427633568
+    },
+    {
+     "feature": "DAL defense success rate allowed",
+     "margin_points": -0.021444979379190453
+    },
+    {
+     "feature": "DAL opponent-adjusted defense rating",
+     "margin_points": -0.0194382753132541
+    }
+   ],
+   "team_efficiency": {
+    "home": {
+     "off_epa_play": -0.05681257766267076,
+     "def_epa_play": 0.00943497221683396,
+     "off_epa_db": -0.026550728932068612,
+     "def_epa_db": 0.04261167111346281,
+     "off_epa_rush": -0.10078150950715371,
+     "def_epa_rush": -0.04055811004261846,
+     "off_succ_play": 0.4021126501681924,
+     "def_succ_play": 0.4337223903101398,
+     "off_pts_drive": 1.8520009015137666,
+     "def_pts_drive": 1.9504640126901076,
+     "off_sack_rate": 0.06317011040698668,
+     "def_sack_rate": 0.051658803718288834,
+     "adj_off_epa": -0.043916616151122245,
+     "adj_def_epa": 0.007452360453162533,
+     "games_this_season": 6.0,
+     "ess_games": 15.803110168715612,
+     "expected_qb_rating": -0.09684152727530575
+    },
+    "away": {
+     "off_epa_play": 0.050731688658417894,
+     "def_epa_play": 0.12838077769793274,
+     "off_epa_db": 0.08841523297288952,
+     "def_epa_db": 0.2306223335667902,
+     "off_epa_rush": -0.02445585415163342,
+     "def_epa_rush": -0.02303958407419324,
+     "off_succ_play": 0.45747896915378267,
+     "def_succ_play": 0.4741901458094416,
+     "off_pts_drive": 2.4242570488760173,
+     "def_pts_drive": 2.5863648701777255,
+     "off_sack_rate": 0.040653749115462955,
+     "def_sack_rate": 0.05262230014880645,
+     "adj_off_epa": 0.034922049832034216,
+     "adj_def_epa": -0.08570420013740968,
+     "games_this_season": 6.0,
+     "ess_games": 15.631324722779889,
+     "expected_qb_rating": 0.057943489333109235
+    }
+   },
+   "football_breakdown": {
+    "groups": [
+     {
+      "group": "home_field",
+      "label": "Home field",
+      "margin_points": 1.8835471248312154
+     },
+     {
+      "group": "rest",
+      "label": "Rest and schedule",
+      "margin_points": 0.0
+     },
+     {
+      "group": "qb",
+      "label": "Quarterbacks",
+      "margin_points": -3.1414094019717558
+     },
+     {
+      "group": "passing",
+      "label": "Passing game",
+      "margin_points": 0.5228790720455979
+     },
+     {
+      "group": "rushing",
+      "label": "Running game",
+      "margin_points": 0.2478103225753585
+     },
+     {
+      "group": "efficiency",
+      "label": "Overall efficiency",
+      "margin_points": -0.5059894545654342
+     },
+     {
+      "group": "scoring",
+      "label": "Scoring and red zone",
+      "margin_points": -1.2816366625455622
+     },
+     {
+      "group": "turnovers",
+      "label": "Turnovers and field position",
+      "margin_points": 0.562383381691493
+     },
+     {
+      "group": "pace",
+      "label": "Pace and play style",
+      "margin_points": -0.6644353979631342
+     },
+     {
+      "group": "other",
+      "label": "Other",
+      "margin_points": 0.0
+     }
+    ],
+    "margin": -2.376851015902229
+   },
+   "scenario_forecasts": [
+    {
+     "p": 0.9928358439596163,
+     "home_qb": "Tanner McKee",
+     "away_qb": "Dak Prescott",
+     "combined_margin": -4.67214552305667,
+     "combined_total": 44.18262789590831,
+     "football_margin": -2.394197980668608,
+     "football_total": 44.56984956678875
+    },
+    {
+     "p": 0.003575639293972199,
+     "home_qb": "Tanner McKee",
+     "away_qb": "Sam Howell",
+     "combined_margin": -4.589755858865736,
+     "combined_total": 44.241461246731916,
+     "football_margin": 4.948112497341384,
+     "football_total": 37.227539088778755
+    },
+    {
+     "p": 0.003575639293972199,
+     "home_qb": "Cole Payton",
+     "away_qb": "Dak Prescott",
+     "combined_margin": -4.687100957976938,
+     "combined_total": 44.04381623106332,
+     "football_margin": -4.902487610447565,
+     "football_total": 42.06155993700978
+    },
+    {
+     "p": 1.2877452439275593e-05,
+     "home_qb": "Cole Payton",
+     "away_qb": "Sam Howell",
+     "combined_margin": -4.604711293786011,
+     "combined_total": 44.10264958188692,
+     "football_margin": 2.4398228675624196,
+     "football_total": 34.7192494589998
+    }
+   ],
+   "picks": {
+    "picks_version": "picks-v1",
+    "winner": "DAL",
+    "winner_p": 0.6749854804035863,
+    "projected_margin": -4.67190353419565,
+    "winning_margin": 4.67190353419565,
+    "line_home_spread": 4.5,
+    "lean": {
+     "side": "DAL",
+     "side_spread": -4.5,
+     "status": "lean",
+     "difference": 0.17190353419564985,
+     "strength": "tiny"
+    },
+    "published_with_forecast": true
+   },
+   "stats_picks": {
+    "picks_version": "picks-v1",
+    "winner": "DAL",
+    "winner_p": 0.6031949072211128,
+    "projected_margin": -2.376851015902229,
+    "winning_margin": 2.376851015902229,
+    "line_home_spread": 4.5,
+    "lean": {
+     "side": "PHI",
+     "side_spread": 4.5,
+     "status": "lean",
+     "difference": 2.123148984097771,
+     "strength": "moderate"
+    },
+    "published_with_forecast": true
+   },
+   "input_fingerprint": {
+    "market": "7f69181ba8bc61a2",
+    "quarterbacks": "10ac0884b0b55b55",
+    "injury_report": "62348a6a1b644c8a",
+    "team_form": "3e684d1f95cf58ca",
+    "model": "v1.0-2026-rest-of-season"
+   },
+   "data_freshness": {
+    "sources": [
+     {
+      "source": "injuries",
+      "state": "fresh",
+      "observed_at": "2026-10-25T06:15:37.639902+00:00",
+      "last_confirmed_at": "2026-10-25T23:45:41.206783+00:00",
+      "provider_last_modified": "2026-10-25T12:30:27+00:00",
+      "detail": ""
+     },
+     {
+      "source": "depth_charts",
+      "state": "fresh",
+      "observed_at": "2026-10-25T12:45:35.509413+00:00",
+      "last_confirmed_at": "2026-10-25T23:45:41.588772+00:00",
+      "provider_last_modified": "2026-10-25T12:30:59+00:00",
+      "detail": ""
+     },
+     {
+      "source": "rosters_weekly",
+      "state": "fresh",
+      "observed_at": "2026-10-25T12:45:35.797591+00:00",
+      "last_confirmed_at": "2026-10-25T23:45:41.798215+00:00",
+      "provider_last_modified": "2026-10-25T12:34:24+00:00",
+      "detail": ""
+     },
+     {
+      "source": "the_odds_api",
+      "state": "fresh",
+      "observed_at": "2026-10-25T23:46:07.532607+00:00",
+      "last_confirmed_at": "2026-10-25T23:46:07.532607+00:00",
+      "provider_last_modified": "2026-10-25T23:45:58+00:00",
+      "detail": "9 US bookmakers; retrieved 0.0 h before the cutoff"
+     }
+    ],
+    "market_line_age_hours": 0.0,
+    "qb_flags": {
+     "home": [],
+     "away": []
+    },
+    "problems": [],
+    "all_fresh": true
+   },
+   "weather": {
+    "available": true,
+    "model_input": false,
+    "observed_at_utc": "2026-10-25T20:46:10.997396+00:00",
+    "lead_hours": 27.48,
+    "exposure": 1.0,
+    "temperature_c": 14.1,
+    "wind_kmh": 8.6,
+    "gust_kmh": 19.1,
+    "precip_mm": 0.0,
+    "source": "Open-Meteo forecast API",
+    "note": "Display only: weather did not pass the feature-group evaluation, so it is not used by the model."
+   }
+  }
+ ]
+}
