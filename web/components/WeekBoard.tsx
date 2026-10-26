@@ -1,14 +1,15 @@
 ﻿"use client";
 import { useEffect, useMemo, useState } from "react";
 import type { Manifest, SeasonRecord, Team, WeekDoc, WLP } from "@/lib/types";
-import { dateRange, dayKey, fmtDateTime, tzFor, type TzMode } from "@/lib/format";
+import { dateRange, dayKey, fmtDateTime, isPlayoffWeek, tzFor, weekName, type TzMode } from "@/lib/format";
 import GameCard from "./GameCard";
 import { WeekResultsPanel } from "./Pick";
 
 const pctOf = (w: number, l: number) => (w + l ? `${((100 * w) / (w + l)).toFixed(2)}%` : "—");
 
 /** Season record of publicly verifiable pregame forecasts (level results and ties excluded from the percentage). */
-const weeksText = (w: number[]) => (w.length > 1 ? `Weeks ${w[0]}–${w[w.length - 1]}` : `Week ${w[0]}`);
+const weeksText = (w: number[]) => (w.length < 2 ? weekName(w[0])
+  : isPlayoffWeek(w[w.length - 1]) ? `Week ${w[0]} – ${weekName(w[w.length - 1])}` : `Weeks ${w[0]}–${w[w.length - 1]}`);
 const wlp = (x: WLP) => `${x.win}–${x.loss}${x.push ? `–${x.push}` : ""}`;
 
 function RecCell({ label, x }: { label: string; x: WLP }) {
@@ -105,7 +106,9 @@ export default function WeekBoard({ doc, teams, manifest }: { doc: WeekDoc; team
       <header className="hero">
         <div>
           <div className="caps">{doc.season} · National Football League</div>
-          <h1 className="hero-title">Week <span className="hero-num">{doc.week}</span><br />Projections.</h1>
+          <h1 className="hero-title">{isPlayoffWeek(doc.week)
+            ? <span className="hero-num">{weekName(doc.week)}</span>
+            : <>Week <span className="hero-num">{doc.week}</span></>}<br />Projections.</h1>
         </div>
         <div className="hero-side">
           <p className="lede">Model-projected scores, margins, totals and comparisons with the market for every game this week.</p>
@@ -124,7 +127,7 @@ export default function WeekBoard({ doc, teams, manifest }: { doc: WeekDoc; team
                 window.location.href = `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/week/${s}/${w}/`;
               }}>
                 {weeks.map((w) => (
-                  <option key={w.week} value={`${w.season}-${w.week}`}>Week {w.week}{w.has_forecasts ? "" : " (no forecasts)"}</option>
+                  <option key={w.week} value={`${w.season}-${w.week}`}>{weekName(w.week)}{w.has_forecasts ? "" : " (no forecasts)"}</option>
                 ))}
               </select>
             </label>
@@ -133,7 +136,7 @@ export default function WeekBoard({ doc, teams, manifest }: { doc: WeekDoc; team
       </header>
       {manifest.season_record && manifest.season_record.weeks.length > 0 && (
         <div className="records">
-          <RecordStrip r={manifest.season_record} week={weekRec} weekLabel={isLatest ? "This week" : `Week ${doc.week}`} />
+          <RecordStrip r={manifest.season_record} week={weekRec} weekLabel={isLatest ? "This week" : weekName(doc.week)} />
           {manifest.season_record.stats_only && manifest.season_record.stats_only.weeks.length > 0 &&
             <StatsOnlyStrip s={manifest.season_record.stats_only} />}
         </div>

@@ -315,6 +315,12 @@ market lines, QB availability, injury display, weather display). A changed artif
   head-to-head `inj` (paired errors on games that have it). ingest now refreshes 2026 snap_counts (inputs to this line).
   Pre-season evidence: football-only + injuries 2022-24 margin RMSE 12.717 -> 12.686 (CI spans zero). Judge after the season.
 
+- Playoffs + team colours (2026-10-26, user request; display only): playoff weeks 19-22 are named Wild Card / Divisional
+  round / Conference championships / Super Bowl (`weekName`/`weekShort` in web/lib/format.ts); the matchup section now
+  also covers playoff games (season to date = every earlier game of the season); game cards get a two-team colour stripe,
+  the pick box an edge in the picked team's colour, game pages a team-colour header (teamPairColors). No team logos
+  (trademarks; the site is independent). Trial rows in Model comparison only appear when the trial line exists.
+
 - Line movement after the lock + key numbers (2026-10-26, user: "use key numbers too"; display only): `predict/linemove.py`,
   configs/key_numbers.yaml (fitted once: 2,761 games 2016-2025, sd 12.70 around the line; weights by |margin|, e.g. 3: 2.65,
   7: 1.69, 14: 1.46, 6: 1.30, 0: 0.15). Each finished game with a publicly verifiable lock gets `line_move` (lock line vs the

@@ -91,6 +91,18 @@ select.select { border: 1px solid var(--rule); background: var(--surface); color
 @media (max-width: 720px) { .grid { grid-template-columns: 1fr; } }
 .card { background: var(--surface); border: 1px solid var(--rule); border-radius: 12px; padding: 14px 16px; display: flex; flex-direction: column; gap: 10px; }
 .card a.stretch:hover { text-decoration: none; }
+/* team identity accents (colours from teamPairColors: distinct and visible on the dark panel) */
+.card.teamed { position: relative; }
+.card.teamed::before { content: ""; position: absolute; top: -1px; left: -1px; right: -1px; height: 4px;
+  border-radius: 12px 12px 0 0; background: linear-gradient(90deg, var(--c-away) 0 50%, var(--c-home) 50% 100%); }
+.pred-pick { border-left: 4px solid var(--c-pick, var(--pick-border)); }
+.game-hero { padding: 16px 18px; border: 1px solid var(--rule); border-radius: 14px; position: relative; overflow: hidden;
+  background:
+    linear-gradient(100deg, color-mix(in srgb, var(--c-away) 24%, transparent) 0%, transparent 46%),
+    linear-gradient(280deg, color-mix(in srgb, var(--c-home) 24%, transparent) 0%, transparent 46%),
+    var(--surface); }
+.game-hero::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+  background: linear-gradient(90deg, var(--c-away) 0 50%, var(--c-home) 50% 100%); }
 .card-top { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; font-size: 0.82rem; color: var(--ink-2); }
 .team-row { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 10px; }
 .team-name { font-weight: 700; }

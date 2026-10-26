@@ -1,6 +1,7 @@
 ﻿import Link from "next/link";
 import type { LineupSide, ReleaseEntry, Team, WeekGame } from "@/lib/types";
-import { f1, fmtDateTime, fmtKickoff, onDark, pct, pctP, problemText } from "@/lib/format";
+import type { CSSProperties } from "react";
+import { f1, fmtDateTime, fmtKickoff, pct, pctP, problemText, teamPairColors } from "@/lib/format";
 import TeamBadge from "./TeamBadge";
 import StateLabel from "./StateLabel";
 import { gradeText, PredictionSummary, RETRO_NOTE } from "./Pick";
@@ -30,12 +31,16 @@ export default function GameCard({ g, teams, tz }: { g: WeekGame; teams: Record<
   const m = e?.football_only ?? f;          // scores and probabilities from the model line (stats only)
   const home = teams[g.home], away = teams[g.away];
   const final = g.status === "final" && g.score;
+  const pair = teamPairColors(home, away);             // distinct, visible identity colours for the two teams
+  const pickSide = g.locked_pick?.lean?.status === "lean" ? g.locked_pick.lean.side : null;
+  const accent = { "--c-away": pair.away, "--c-home": pair.home,
+    "--c-pick": pickSide === g.home ? pair.home : pickSide === g.away ? pair.away : undefined } as CSSProperties;
   const rows = [
     { side: "away" as const, abbr: g.away, t: away, rec: e?.away_record, pts: m?.away_pts, fin: g.score?.away },
     { side: "home" as const, abbr: g.home, t: home, rec: e?.home_record, pts: m?.home_pts, fin: g.score?.home },
   ];
   return (
-    <article className="card">
+    <article className="card teamed" style={accent}>
       <div className="card-top">
         <span className="num">{fmtKickoff(g.kickoff_utc, tz, g.kickoff_time_known)}
           {g.div_game && <span className="tag" style={{ marginLeft: 6 }} title="Both teams are in the same division">Divisional</span>}</span>
@@ -64,7 +69,7 @@ export default function GameCard({ g, teams, tz }: { g: WeekGame; teams: Record<
       {f && e ? (
         <>
           <ProbBar pAway={m!.p_away} pTie={m!.p_tie} pHome={m!.p_home} away={g.away} home={g.home}
-                   awayColor={onDark(away?.color)} homeColor={onDark(home?.color)} />
+                   awayColor={pair.away} homeColor={pair.home} />
           <PredictionSummary g={g} lockedAt={g.locked_pick ? fmtDateTime(g.locked_pick.generated_at, tz) : null}
             locksAt={g.locked_pick?.locks_at ? fmtDateTime(g.locked_pick.locks_at, tz) : null} />
           {g.result_grade && <div className="small"><b>Result:</b> {gradeText(g.result_grade, g)}</div>}

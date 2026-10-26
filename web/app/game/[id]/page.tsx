@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import LocalTime from "@/components/LocalTime";
@@ -10,7 +11,7 @@ import { dataProblems } from "@/components/GameCard";
 import StateLabel from "@/components/StateLabel";
 import { gradeText, pickDetail, PredictionSummary, RETRO_NOTE } from "@/components/Pick";
 import { allGames, findGame, getTeams } from "@/lib/data";
-import { f1, f2, f3, marginText, onDark, pct, teamPairColors, pctP, problemText, qbStatusText, rosterText, spreadText, VERIFY_LABEL } from "@/lib/format";
+import { f1, f2, f3, marginText, onDark, pct, teamPairColors, pctP, problemText, qbStatusText, rosterText, spreadText, VERIFY_LABEL, weekName } from "@/lib/format";
 import type { Forecast, LineupSide } from "@/lib/types";
 
 export function generateStaticParams() {
@@ -165,18 +166,22 @@ export default async function GamePage({ params }: { params: Promise<{ id: strin
   const m = e?.football_only ?? f;          // the model line (stats only); the combined forecast only if it is missing
   const H = g.home, A = g.away;
   const pair = teamPairColors(teams[H], teams[A]);
-  const models: [string, Forecast | null | undefined, string][] = e ? [
+  const pickSide = g.locked_pick?.lean?.status === "lean" ? g.locked_pick.lean.side : null;
+  const accent = { "--c-away": pair.away, "--c-home": pair.home,
+    "--c-pick": pickSide === H ? pair.home : pickSide === A ? pair.away : undefined } as CSSProperties;
+  type Row = [string, Forecast | null | undefined, string];
+  const models: Row[] = (e ? ([
     ["Model (stats only)", e.football_only, "Football data only, no market input; the model pick follows it from week 7"],
     ["Market-adjusted (combined)", e.combined, "Market spread & total + football features; residual ridge"],
     ["Model + injuries (trial)", e.football_only_inj ?? null, "Stats-only model plus the non-QB injury report; display and tracking only"],
     ["Model v2.1 (trial)", e.football_only_v2 ?? null, "Stats-only model plus penalties, special teams, injuries, regression inputs and weather; display and tracking only"],
     ["Market only", e.market_only, "Spread & total mapped to scores (benchmark)"],
-  ] : [];
+  ] as Row[]) : []).filter(([name, m]) => m || !name.includes("(trial)"));   // trial rows only where they exist
 
   return (
     <>
-      <p className="small"><Link href={`/week/${g.season}/${g.week}/`}>← Week {g.week}</Link></p>
-      <div className="page-head">
+      <p className="small"><Link href={`/week/${g.season}/${g.week}/`}>← {weekName(g.week)}</Link></p>
+      <div className="page-head game-hero" style={accent}>
         <div>
           <div style={{ display: "flex", gap: 12, alignItems: "center", flexWrap: "wrap" }}>
             <TeamBadge team={teams[A]} abbr={A} large /><span className="muted" style={{ fontWeight: 700 }}>at</span>
@@ -185,7 +190,7 @@ export default async function GamePage({ params }: { params: Promise<{ id: strin
           </div>
           <div className="meta-line" style={{ marginTop: 8 }}>
             <LocalTime venueTz={g.venue_tz} iso={g.kickoff_utc} kickoff known={g.kickoff_time_known} /> · {g.stadium}{g.neutral_site ? " (neutral site)" : ""}
-            {g.roof ? ` · ${g.roof}` : ""} · {g.game_type === "REG" ? "Regular season" : "Playoffs"}{g.div_game ? " · Divisional game" : ""}
+            {g.roof ? ` · ${g.roof}` : ""} · {g.game_type === "REG" ? "Regular season" : `Playoffs · ${weekName(g.week)}`}{g.div_game ? " · Divisional game" : ""}
           </div>
         </div>
         {g.score && (
@@ -236,7 +241,7 @@ export default async function GamePage({ params }: { params: Promise<{ id: strin
             {g.model_version ? <> · {g.model_frozen ? `model ${g.model_version} (frozen)` : `pre-freeze model build ${g.model_version.replace(/^unfrozen-/, "").slice(0, 8)}`}</> : null}
           </p>
           {g.pick && (
-            <div className="panel">
+            <div className="panel" style={accent}>
               <h2 style={{ marginTop: 0 }}>Prediction</h2>
               <PredictionSummary g={g} lockedAt={g.locked_pick ? <LocalTime venueTz={g.venue_tz} iso={g.locked_pick.generated_at} /> : null}
                 locksAt={g.locked_pick?.locks_at ? <LocalTime venueTz={g.venue_tz} iso={g.locked_pick.locks_at} /> : null} />

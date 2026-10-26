@@ -81,7 +81,7 @@ def plays_frame(pbp: pl.DataFrame) -> pl.DataFrame:
 
 def team_games(pbp: pl.DataFrame, games: pl.DataFrame) -> pl.DataFrame:
     """One row per (game_id, team) with offensive sums and the opponent's offensive sums as defensive sums.
-    games: game_id, season, week, game_type, kickoff_utc, home_team, away_team (final regular-season games)."""
+    games: game_id, season, week, game_type, kickoff_utc, home_team, away_team (final games of the season)."""
     p = plays_frame(pbp)
     g = p.filter(pl.col("is_play"))
     off = g.group_by("game_id", "posteam").agg(
@@ -239,8 +239,9 @@ def game_detail(tg: pl.DataFrame, game: dict, starters: dict, expected_qb: dict 
 
 
 def build(season: int, games: pl.DataFrame, pbp: pl.DataFrame, qb_games: pl.DataFrame, names: dict) -> tuple[pl.DataFrame, dict]:
-    """Per-team-game table for `season` (completed regular-season games) and {(game_id, team): starting QB name}."""
-    done = games.filter((pl.col("season") == season) & (pl.col("game_type") == "REG") & (pl.col("status") == "final"))
+    """Per-team-game table for `season` (completed games, playoffs included: a playoff game's season to date is every
+    earlier game) and {(game_id, team): starting QB name}."""
+    done = games.filter((pl.col("season") == season) & (pl.col("status") == "final"))
     tg = team_games(pbp.filter(pl.col("game_id").is_in(done["game_id"].to_list())), done)
     st = qb_games.filter(pl.col("is_starter") == True)  # noqa: E712
     starters = {(r["game_id"], r["team"]): names.get(r["qb_id"]) for r in st.iter_rows(named=True)}   # never show an ID

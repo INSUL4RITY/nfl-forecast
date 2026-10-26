@@ -410,7 +410,7 @@ def export() -> Path:
             item["injury_report"] = injury_report_for(g, now, inj_cache) if view["forecast"] else None
             item["staff"] = {"away": staff_for(staff, g["away_team"], season), "home": staff_for(staff, g["home_team"], season)}
             item["matchup_detail"] = None
-            if mu_tg is not None and season == cur and g["game_type"] == "REG" and (view["forecast"] or g["status"] == "final"):
+            if mu_tg is not None and season == cur and (view["forecast"] or g["status"] == "final"):
                 lu = ((view["forecast"] or {}).get("lineup") or {})
                 exp = {s: (lu.get(s) or {}).get("expected_qb") for s in ("home", "away")} if lu else None
                 try:

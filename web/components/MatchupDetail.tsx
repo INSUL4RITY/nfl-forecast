@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import type { MatchupDetail as Detail, MatchupLogRow, MatchupTeam, MatchupUnitRow } from "@/lib/types";
+import { weekName, weekShort } from "@/lib/format";
 
 const MINUS = "−";
 const sgn = (x: number | null | undefined, d = 2) =>
@@ -88,7 +89,7 @@ function LogColumn({ t, rows, color, metric, max }: { t: string; rows: MatchupLo
         const w = Math.min(50, (Math.abs(v) / max) * 50);
         return (
           <div className="mu-log-row" key={r.week}>
-            <span className="mu-log-game"><b>Wk {r.week}</b> {r.home ? "vs" : "@"} {r.opp}
+            <span className="mu-log-game"><b>{weekShort(r.week)}</b> {r.home ? "vs" : "@"} {r.opp}
               <span className="small muted mu-log-qb">{r.qb ?? "QB unknown"}{r.other_qb && <span className="tag warn mu-tag">Other QB</span>}</span></span>
             <span className="mu-div" aria-hidden="true">
               <span style={{ background: color, width: `${w}%`, left: v >= 0 ? "50%" : `${50 - w}%`, opacity: v >= 0 ? 1 : 0.55 }} />
@@ -110,7 +111,7 @@ export default function MatchupDetail({ d, home, away, homeColor, awayColor, hom
   if (!d.available || !d.teams || !d.units || !d.log || !d.league) {
     return (
       <div className="panel"><h2 style={{ marginTop: 0 }}>The matchup</h2>
-        <p className="small muted" style={{ margin: 0 }}>No regular-season games before this one yet, so there are no season numbers to compare.</p></div>);
+        <p className="small muted" style={{ margin: 0 }}>No games before this one yet this season, so there are no season numbers to compare.</p></div>);
   }
   const T = d.teams, n = d.n_teams, L = d.league;
   const weeks = [...d.log.away, ...d.log.home].map((r) => r.week);
@@ -126,7 +127,7 @@ export default function MatchupDetail({ d, home, away, homeColor, awayColor, hom
     <section className="panel mu" aria-labelledby="mu-title">
       <div className="mu-head">
         <div>
-          <span className="caps">Season to date before kickoff · through week {through} · ranks out of {n} (1 = best)</span>
+          <span className="caps">Season to date before kickoff · through {weekName(through).replace(/^Week/, "week")} · ranks out of {n} (1 = best)</span>
           <h2 id="mu-title" style={{ margin: "4px 0 0" }}>The matchup</h2>
         </div>
         <p className="small ink2" style={{ margin: 0 }}>Efficiency on both sides of the ball. EPA (expected points added) measures how much

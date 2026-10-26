@@ -1,4 +1,5 @@
 import { LineChart, type Series } from "@/components/charts";
+import { weekName } from "@/lib/format";
 
 type WLP = { win: number; loss: number; push: number };
 type Keyed = { combined: number; stats_only: number; market: number };
@@ -73,7 +74,7 @@ export default function HeadToHead({ weeks }: { weeks: H2HWeek[] }) {
         </thead>
         <tbody>
           {weeks.map((r) => (
-            <tr key={r.week}><td>Week {r.week}</td><td className="r">{r.n}</td>
+            <tr key={r.week}><td>{weekName(r.week)}</td><td className="r">{r.n}</td>
               {MODELS.map(([k]) => <td key={`e${k}`} className="r">{mae(r, k)}</td>)}
               <td className="r">{wlp(r.vs_line.lean)}</td><td className="r">{wlp(r.vs_line.stats_only)}</td>
               <td className="r">{wlp(r.vs_line.market_adjusted ?? Z)}</td></tr>
@@ -122,7 +123,7 @@ export default function HeadToHead({ weeks }: { weeks: H2HWeek[] }) {
       {cum.length > 1 && (
         <div style={{ marginTop: 14 }}>
           <h3 style={{ margin: "0 0 4px" }}>Cumulative average margin error</h3>
-          <LineChart series={series} xLabels={cum.map((c) => `Week ${c.week}`)} xTickIdx={cum.map((_, i) => i)} yDecimals={2}
+          <LineChart series={series} xLabels={cum.map((c) => weekName(c.week))} xTickIdx={cum.map((_, i) => i)} yDecimals={2}
             yTitle="Cumulative average margin error (points)" />
         </div>
       )}

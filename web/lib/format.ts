@@ -44,6 +44,15 @@ function visible(hex: string | undefined): number[] | null {
 const chroma = (c: number[]) => Math.max(...c) - Math.min(...c);
 const dist = (a: number[], b: number[]) => Math.hypot(a[0] - b[0], a[1] - b[1], a[2] - b[2]);
 
+const PLAYOFF: Record<number, [string, string]> = {
+  19: ["Wild Card", "WC"], 20: ["Divisional round", "DIV"], 21: ["Conference championships", "CONF"], 22: ["Super Bowl", "SB"],
+};
+/** "Week 7", or the playoff round's name (nflverse numbers the rounds as weeks 19-22). */
+export const weekName = (week: number): string => PLAYOFF[week]?.[0] ?? `Week ${week}`;
+/** Short form for tight spaces: "Wk 7", "WC", "DIV", "CONF", "SB". */
+export const weekShort = (week: number): string => PLAYOFF[week]?.[1] ?? `Wk ${week}`;
+export const isPlayoffWeek = (week: number): boolean => week in PLAYOFF;
+
 /** One identity colour per team for charts on the dark page: each team's more vivid colour (primary or secondary), made
  *  visible on the panel; if the two teams would look alike, the away team switches to its other colour (or a neutral). */
 export function teamPairColors(home?: { color: string; color2: string }, away?: { color: string; color2: string }): { home: string; away: string } {
