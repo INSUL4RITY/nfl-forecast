@@ -1,0 +1,41 @@
+{
+ "game_ids": [
+  "2026_07_DAL_PHI"
+ ],
+ "generated_at_utc": "2026-10-26T05:16:32.618626+00:00",
+ "information_cutoff_utc": "2026-10-26T05:16:32.618626+00:00",
+ "input_snapshots": {
+  "depth_charts": {
+   "content_sha256": "8b35395e190b6be000f14858a51f066fae7adf5965fce4f29c5bd4dab77e15ad",
+   "http_last_modified": "Sun, 25 Oct 2026 12:30:59 GMT",
+   "last_confirmed_at_utc": "2026-10-26T05:15:37.034158+00:00",
+   "observed_at_utc": "2026-10-25T12:45:35.509413+00:00"
+  },
+  "injuries": {
+   "content_sha256": "58bb847e5120c5098a0bde04bc2db68431a6b70911d0dcc370b71441e04705b5",
+   "http_last_modified": "Sun, 25 Oct 2026 12:30:27 GMT",
+   "last_confirmed_at_utc": "2026-10-26T05:15:36.622530+00:00",
+   "observed_at_utc": "2026-10-25T06:15:37.639902+00:00"
+  },
+  "schedules": {
+   "content_sha256": "15ab42a37f3bd719a541f7d6473c5e3a99c470a05583a398fcb386e5bead9b09",
+   "http_last_modified": "Mon, 26 Oct 2026 05:15:24 GMT",
+   "last_confirmed_at_utc": "2026-10-26T05:15:33.985871+00:00",
+   "observed_at_utc": "2026-10-26T05:15:33.985871+00:00"
+  }
+ },
+ "manifest_created_at_utc": "2026-10-26T05:16:40.090853+00:00",
+ "model_version": {
+  "code_hash": "b4a7f3e7a1dde1863bad979de7a5d4da5413ef7bd1438a36c64350ecb68dea51",
+  "oof_source_run": "locked_20260924T234835Z",
+  "production_config_sha256_at_archiving": "93370fd999d74861e7ac08a4d9522756fc384a2be04d04c60dad10fefd9f23f8",
+  "qb_start_rates": "v3_start_practice_listed_through_2025",
+  "stage": "production_v1.1"
+ },
+ "note": "Manifest creation time is when this archive entry was made; it is not a publication time.",
+ "release_path": "releases/2026/week_07/rel_20261026T051632Z.json",
+ "run_id": "rel_20261026T051632Z",
+ "schema_version": 3,
+ "sha256": "5f8e25c3ceb709b92180cd626f834209e83c5f861005410cc96cdec2c5d9b295",
+ "size_bytes": 24481
+}
