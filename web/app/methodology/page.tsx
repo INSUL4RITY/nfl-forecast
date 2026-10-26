@@ -166,6 +166,13 @@ export default function Methodology() {
           one side ranks at least 8 places better, play style in neutral situations, and a game log naming each game&apos;s starting
           quarterback (marked when it was not this week&apos;s expected starter). Definitions follow the standard nflverse play-by-play
           conventions and are listed under the section. It replaces the earlier &quot;How they rate&quot; percentile chart.</p>
+        <p className="small"><b>Line movement after the lock, 26 October 2026</b> (display only). The Performance page tracks how the
+          market line moved between each pick&apos;s lock and the last line recorded before kickoff, from the side the model pick, the
+          model line and the v2.1 trial line were on at the lock: in points, and as the change in the chance that the result lands on
+          that side. That chance uses key numbers: in 2,761 games from 2016–2025, final margins of 3 (2.7 times), 7 (1.7), 14, 6 and 10
+          were more common than a smooth curve around the line predicts, so moves through them are worth more. We also tested whether
+          key numbers could sharpen the picks themselves: in the 2019–2025 backtests, model lines that crossed 3 or 7 relative to the
+          market line were not clearly better (51.3% vs 49.3%), so the pick rule does not use them.</p>
         <p className="small"><b>Model v2 test and trial line, 26 October 2026</b> (the model pick and the frozen model are
           unchanged). We tested a larger stats-only model (v2.0) that adds a garbage-time filter (efficiency counted only while the
           offence&apos;s win probability is 10–90%), penalties, special teams, non-QB injuries, turnover and close-game regression,

@@ -29,6 +29,7 @@ from nflcast.data.games import build_games, franchise
 from nflcast.features.asof import AsOfFeatureBuilder
 from nflcast.features.personnel import QBModel
 from nflcast.predict import archive as ARCH
+from nflcast.predict import linemove as LM
 from nflcast.predict import matchup as MU
 from nflcast.predict import picks as PK
 from nflcast.predict import publication as PUB
@@ -375,6 +376,7 @@ def export() -> Path:
                             "injury_adjusted": wlp(),      # trial: the locked injury-adjusted stats-only margin (from week 7)
                             "v2_trial": wlp()}             # trial: the locked model v2.1 stats-only margin (from week 8)
     h2h: list[dict] = []
+    lm_items: list[dict] = []
     for season, week in weeks:
         wk = games.filter((pl.col("season") == season) & (pl.col("week") == week)).sort("kickoff_utc")
         items = []
@@ -402,6 +404,9 @@ def export() -> Path:
                 and r["generated_at_utc"] < fr["generated_at_utc"]]) if fr else None)
             item["stats_only_grade"] = (PK.grade_stats_only(item["locked_pick"], g["home_score"], g["away_score"])
                                         if item["result_grade"] else None)
+            item["line_move"] = LM.game_moves(item) if season == cur else None     # display only (predict/linemove.py)
+            if item["line_move"]:
+                lm_items.append(item)
             item["injury_report"] = injury_report_for(g, now, inj_cache) if view["forecast"] else None
             item["staff"] = {"away": staff_for(staff, g["away_team"], season), "home": staff_for(staff, g["home_team"], season)}
             item["matchup_detail"] = None
@@ -455,14 +460,15 @@ def export() -> Path:
                                         "latest": {"season": latest["season"], "week": latest["week"]},
                                         "production": prod, "release_count": len(releases),
                                         "corrections": corrections})
-    _export_performance(h2h)
+    _export_performance(h2h, LM.summary(lm_items))
     _export_ratings(now)
     print(f"[export] wrote {WEB_DATA} ({len(week_index)} weeks, {len(releases)} releases)")
     return WEB_DATA
 
 
-def _export_performance(head_to_head: list[dict] | None = None) -> None:
-    perf: dict = {"generated_at": utc_now().isoformat(), "live_head_to_head": head_to_head or []}
+def _export_performance(head_to_head: list[dict] | None = None, line_movement: dict | None = None) -> None:
+    perf: dict = {"generated_at": utc_now().isoformat(), "live_head_to_head": head_to_head or [],
+                  "line_movement": line_movement}
     for key, pattern in (("walk_forward", "backtest/bt_*/summary.json"), ("locked", "locked_test/locked_*/summary.json")):
         p = _latest(pattern)
         if p:

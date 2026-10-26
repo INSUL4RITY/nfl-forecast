@@ -315,6 +315,15 @@ market lines, QB availability, injury display, weather display). A changed artif
   head-to-head `inj` (paired errors on games that have it). ingest now refreshes 2026 snap_counts (inputs to this line).
   Pre-season evidence: football-only + injuries 2022-24 margin RMSE 12.717 -> 12.686 (CI spans zero). Judge after the season.
 
+- Line movement after the lock + key numbers (2026-10-26, user: "use key numbers too"; display only): `predict/linemove.py`,
+  configs/key_numbers.yaml (fitted once: 2,761 games 2016-2025, sd 12.70 around the line; weights by |margin|, e.g. 3: 2.65,
+  7: 1.69, 14: 1.46, 6: 1.30, 0: 0.15). Each finished game with a publicly verifiable lock gets `line_move` (lock line vs the
+  final pregame version's line; points toward and key-number-weighted chance gained for the model pick, model line and v2.1
+  trial sides); performance.json `line_movement` (+ model line by gap band); Performance panel "Line movement after the
+  lock"; Method note. Tested first whether key numbers sharpen picks (2019-2025 B_qb OOF vs historical lines): gap-vs-result
+  slope 0.016 (corr 0.003); crossing 3/7 51.3% vs 49.3% (noise); 3+ pt gaps 54.3% (weak). So no per-game "chance" display
+  and no rule change. Weeks 3-7: model line 3+ pt gaps, line moved toward 8 / away 2 / none 3, +0.50 pts, +2.5% value per game.
+
 - Model v2 test + v2.1 trial line (2026-10-26, user: add rest/travel/body clock, QB, injuries, regression, coaching,
   special teams, penalties, garbage-time filter (rbsdm-style) etc. "for week 8"; then chose "official if it tests better",
   and after the result "v2.1 trial"). Pre-registered before any result: reports/research/v2_preregistration_2026-10-26.md.
