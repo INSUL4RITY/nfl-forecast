@@ -166,6 +166,18 @@ export default function Methodology() {
           one side ranks at least 8 places better, play style in neutral situations, and a game log naming each game&apos;s starting
           quarterback (marked when it was not this week&apos;s expected starter). Definitions follow the standard nflverse play-by-play
           conventions and are listed under the section. It replaces the earlier &quot;How they rate&quot; percentile chart.</p>
+        <p className="small"><b>Model v2 test and trial line, 26 October 2026</b> (the model pick and the frozen model are
+          unchanged). We tested a larger stats-only model (v2.0) that adds a garbage-time filter (efficiency counted only while the
+          offence&apos;s win probability is 10–90%), penalties, special teams, non-QB injuries, turnover and close-game regression,
+          3rd- and 4th-down rates, QB scrambles, 4th-down decisions, travel and body-clock kickoff time, divisional games and
+          weather. The pass rule was written down before the test: v2.0 would become the model line from week 8 only if its
+          2019–2025 walk-forward margin error was no worse than the current model&apos;s on the same 1,960 games. It failed (13.03 vs
+          12.98 points; totals were better, 13.22 vs 13.31), so the model line stays on the frozen model. Removing one group at a time
+          showed the garbage-time filter and travel / body clock made it worse. A version without those two (v2.1) matched the current
+          model (12.977 vs 12.980), but it was chosen after seeing those results, so it is shown as a trial line only: frozen, fitted
+          once on games through week 7, displayed on game pages and tracked on the Performance page from week 8 on unseen games. Its
+          weather history is retrospective (reanalysis for 2016–18, archived forecasts from 2019). Pressure, blitz and coverage data
+          and coaching quality are not included: no adequate free, dated source.</p>
         <p className="small"><b>Trial from 20 October 2026: model line + injuries</b> (display and tracking only; the model pick and
           the frozen model are unchanged). Game pages also show the stats-only model with the non-QB injury report added: for each
           team, the expected share of snaps lost by its offensive line, skill players, defensive front and secondary (each listed

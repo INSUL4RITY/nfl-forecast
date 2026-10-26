@@ -264,8 +264,9 @@ def test_stats_only_tracking_grade_uses_the_locked_line_and_total():
     lk = {"line_home_spread": -8.0, "stats_only": {"margin": 4.9, "total": 48.8, "line_total": 49.5}}
     g = PK.grade_stats_only(lk, 16, 24)            # TB @ DAL: DAL -8, stats DAL by 4.9 -> TB side; 40 pts -> under
     assert g == {"spread": "win", "big_gap": True, "biggest_gap": False, "total": "win", "total_side": "under",
-                 "market_adjusted": None, "injury_adjusted": None}
+                 "market_adjusted": None, "injury_adjusted": None, "v2_trial": None}
     assert PK.grade_stats_only({**lk, "stats_inj": {"margin": 9.0, "total": 48.0}}, 16, 24)["injury_adjusted"] == "loss"
+    assert PK.grade_stats_only({**lk, "stats_v2": {"margin": 3.0, "total": 47.0}}, 16, 24)["v2_trial"] == "win"
     assert PK.grade_stats_only({**lk, "market_adjusted_margin": 8.5}, 16, 24)["market_adjusted"] == "loss"
     assert PK.grade_stats_only(lk, 30, 20)["spread"] == "loss"           # DAL by 10 covers -8
     assert PK.grade_stats_only(lk, 28, 20)["spread"] == "push"
@@ -275,7 +276,7 @@ def test_stats_only_tracking_grade_uses_the_locked_line_and_total():
     assert PK.grade_stats_only({**lk, "stats_only": {**lk["stats_only"], "margin": 12.0}}, 16, 24)["biggest_gap"] is True
     assert PK.grade_stats_only({**lk, "stats_only": {"margin": 8.0, "total": 49.5, "line_total": 49.5}}, 16, 24) == \
         {"spread": None, "big_gap": False, "biggest_gap": False, "total": None, "total_side": None, "market_adjusted": None,
-         "injury_adjusted": None}
+         "injury_adjusted": None, "v2_trial": None}
     assert PK.grade_stats_only({"line_home_spread": None, "stats_only": lk["stats_only"]}, 16, 24) is None
     assert PK.grade_stats_only({**lk, "stats_only": {"margin": 4.9, "total": 48.8, "line_total": None}}, 16, 24)["total"] is None
 
@@ -299,8 +300,10 @@ def test_head_to_head_compares_the_three_forecasts_on_the_same_games():
     assert h["winner_correct"] == {"combined": 1, "stats_only": 0, "market": 1}
     assert h["vs_line"] == {"lean": {"win": 1, "loss": 1, "push": 1}, "stats_only": {"win": 1, "loss": 1, "push": 0},
                             "market_adjusted": {"win": 1, "loss": 1, "push": 0},
-                            "injury_adjusted": {"win": 0, "loss": 0, "push": 0}}
+                            "injury_adjusted": {"win": 0, "loss": 0, "push": 0},
+                            "v2_trial": {"win": 0, "loss": 0, "push": 0}}
     assert h["inj"] == {"n": 0, "abs_error": {"stats_inj": 0.0, "stats_only": 0.0, "market": 0.0}}
+    assert h["v2"] == {"n": 0, "abs_error": {"stats_v2": 0.0, "stats_only": 0.0, "market": 0.0}}
     # the trial injury line is compared only on games that have it, paired with the stats-only line and the market
     g = it(16, 24, 8.0, 4.9, -8.0, "loss", "win")
     g["forecast"]["football_only_inj"] = {"margin": 3.0}

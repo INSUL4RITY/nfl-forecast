@@ -184,9 +184,11 @@ def grade_stats_only(locked_pick: dict | None, home_score: int, away_score: int)
              else "win" if (t > lt) == (dt > 0) else "loss")
     ma = locked_pick.get("market_adjusted_margin")
     si = (locked_pick.get("stats_inj") or {}).get("margin")
+    sv = (locked_pick.get("stats_v2") or {}).get("margin")         # trial model v2.1 line (from week 8)
     return {"injury_adjusted": None if si is None else side_result(si, line, home_score, away_score), "spread": spread, "big_gap": abs(d) >= BIG_GAP, "biggest_gap": abs(d) >= BIGGEST_GAP, "total": total,
             "total_side": None if total is None else ("over" if dt > 0 else "under"),
-            "market_adjusted": None if ma is None else side_result(ma, line, home_score, away_score)}
+            "market_adjusted": None if ma is None else side_result(ma, line, home_score, away_score),
+            "v2_trial": None if sv is None else side_result(sv, line, home_score, away_score)}
 
 
 PUBLIC = "publicly_verifiable_pregame"
@@ -200,9 +202,12 @@ def head_to_head(items: list[dict]) -> dict:
     keys = ("combined", "stats_only", "market")
     h = {"n": 0, "abs_error": {k: 0.0 for k in keys}, "winner_called": {k: 0 for k in keys},
          "winner_correct": {k: 0 for k in keys},
-         "vs_line": {k: {"win": 0, "loss": 0, "push": 0} for k in ("lean", "stats_only", "market_adjusted", "injury_adjusted")},
+         "vs_line": {k: {"win": 0, "loss": 0, "push": 0}
+                     for k in ("lean", "stats_only", "market_adjusted", "injury_adjusted", "v2_trial")},
          # trial injury-adjusted stats-only line: paired with the stats-only line and the market on the games that have it
-         "inj": {"n": 0, "abs_error": {k: 0.0 for k in ("stats_inj", "stats_only", "market")}}}
+         "inj": {"n": 0, "abs_error": {k: 0.0 for k in ("stats_inj", "stats_only", "market")}},
+         # trial model v2.1 stats-only line (from week 8), paired the same way
+         "v2": {"n": 0, "abs_error": {k: 0.0 for k in ("stats_v2", "stats_only", "market")}}}
     for it in items:
         sc, f = it.get("score"), it.get("forecast") or {}
         if it.get("status") != "final" or not sc or not it.get("result_grade"):
@@ -222,12 +227,17 @@ def head_to_head(items: list[dict]) -> dict:
                 for k, m in (("stats_inj", f["football_only_inj"]["margin"]), ("stats_only", f["football_only"]["margin"]),
                              ("market", -f["market"]["home_spread"])):
                     h["inj"]["abs_error"][k] += abs(m - a)
+            if f.get("football_only_v2"):
+                h["v2"]["n"] += 1
+                for k, m in (("stats_v2", f["football_only_v2"]["margin"]), ("stats_only", f["football_only"]["margin"]),
+                             ("market", -f["market"]["home_spread"])):
+                    h["v2"]["abs_error"][k] += abs(m - a)
         if ((it.get("locked_pick") or {}).get("verification")) == PUBLIC:
             lean = it["result_grade"]["lean"]
             if lean in ("win", "loss", "push"):
                 h["vs_line"]["lean"][lean] += 1
             for k, key in (("stats_only", "spread"), ("market_adjusted", "market_adjusted"),
-                           ("injury_adjusted", "injury_adjusted")):
+                           ("injury_adjusted", "injury_adjusted"), ("v2_trial", "v2_trial")):
                 res = (it.get("stats_only_grade") or {}).get(key)
                 if res:
                     h["vs_line"][k][res] += 1

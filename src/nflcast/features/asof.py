@@ -42,9 +42,10 @@ MAX_HISTORY_GAMES = 48
 LEAGUE_WINDOW_ROWS = 544  # ~ one season of team-games, used for as-of league means
 
 
-def team_long(tg: pl.DataFrame) -> pl.DataFrame:
+def team_long(tg: pl.DataFrame, metrics=None) -> pl.DataFrame:
     """One row per (game, team) with offensive sums (off_*) and allowed sums (def_*)."""
-    num_cols = sorted({m[1] for m in METRICS} | {m[2] for m in METRICS if m[2]})
+    metrics = metrics or METRICS
+    num_cols = sorted({m[1] for m in metrics} | {m[2] for m in metrics if m[2]})
     base = tg.select(["game_id", "season", "kickoff_utc", "team", "opp", "is_home", "neutral_site"] + num_cols)
     opp = tg.select(["game_id", pl.col("team").alias("opp")] + [pl.col(c).alias(f"def_{c}") for c in num_cols])
     out = base.rename({c: f"off_{c}" for c in num_cols}).join(opp, on=["game_id", "opp"], how="left")
@@ -52,13 +53,18 @@ def team_long(tg: pl.DataFrame) -> pl.DataFrame:
 
 
 class AsOfFeatureBuilder:
-    def __init__(self, tg: pl.DataFrame):
+    """`metrics` / `rating_cols` default to the v1.0 definitions (frozen model); v2.0 passes its own (features/v2.py)."""
+
+    def __init__(self, tg: pl.DataFrame, metrics=None, rating_cols=("epa_play", "points_pg")):
         cfg = settings()
+        self.metrics = metrics = metrics or METRICS
+        names = [m[0] for m in metrics]
+        self.rating_idx = (("epa", names.index(rating_cols[0])), ("pts", names.index(rating_cols[1])))
         self.lag = timedelta(hours=cfg["pbp_available_after_kickoff_hours"])
         self.half_life = float(cfg["features"]["half_life_games"])
         self.carry = float(cfg["features"]["season_carryover"])
         self.alpha = float(cfg["features"]["ridge_rating_alpha"])
-        long = team_long(tg).with_columns(avail_utc=pl.col("kickoff_utc") + self.lag).sort(["avail_utc", "game_id", "team"])
+        long = team_long(tg, metrics).with_columns(avail_utc=pl.col("kickoff_utc") + self.lag).sort(["avail_utc", "game_id", "team"])
         self.long = long
         self.avail = long["avail_utc"].dt.epoch("us").to_numpy()
         self.season = long["season"].to_numpy()
@@ -70,13 +76,13 @@ class AsOfFeatureBuilder:
         # numerators / denominators per side
         self.num, self.den = {}, {}
         for side in ("off", "def"):
-            N = np.column_stack([long[f"{side}_{m[1]}"].fill_null(0).to_numpy().astype(float) for m in METRICS])
+            N = np.column_stack([long[f"{side}_{m[1]}"].fill_null(0).to_numpy().astype(float) for m in metrics])
             D = np.column_stack([
                 long[f"{side}_{m[2]}"].fill_null(0).to_numpy().astype(float) if m[2] else np.ones(long.height)
-                for m in METRICS])
+                for m in metrics])
             self.num[side], self.den[side] = N, D
-        self.cum_num = {s: np.vstack([np.zeros(len(METRICS)), np.cumsum(self.num[s], axis=0)]) for s in ("off", "def")}
-        self.cum_den = {s: np.vstack([np.zeros(len(METRICS)), np.cumsum(self.den[s], axis=0)]) for s in ("off", "def")}
+        self.cum_num = {s: np.vstack([np.zeros(len(metrics)), np.cumsum(self.num[s], axis=0)]) for s in ("off", "def")}
+        self.cum_den = {s: np.vstack([np.zeros(len(metrics)), np.cumsum(self.den[s], axis=0)]) for s in ("off", "def")}
         self.rows_by_team = {t: np.where(self.team == t)[0] for t in self.teams}
         self._rating_cache: dict[int, dict] = {}
 
@@ -110,9 +116,10 @@ class AsOfFeatureBuilder:
         X[np.arange(len(idx)), [self.tidx[t] for t in self.team[idx]]] = 1.0
         X[np.arange(len(idx)), [T + self.tidx[t] for t in self.opp[idx]]] = -1.0
         X[:, -1] = self.venue[idx]
-        for name, col in (("epa", 0), ("pts", 14)):  # METRICS[0]=epa_play, METRICS[14]=points_pg
+        for name, col in self.rating_idx:  # v1.0: METRICS[0]=epa_play (play-weighted), METRICS[14]=points_pg
+            per_game = self.metrics[col][2] is None
             y = self.num["off"][idx, col] / np.maximum(self.den["off"][idx, col], 1.0)
-            sw = w * (self.den["off"][idx, col] if col == 0 else 1.0)
+            sw = w * (1.0 if per_game else self.den["off"][idx, col])
             sw = sw / sw.mean()
             m = Ridge(alpha=self.alpha, fit_intercept=True).fit(X, y, sample_weight=sw)
             res[name] = (m.coef_[:T], m.coef_[T:2 * T], float(m.coef_[-1]))
@@ -133,7 +140,7 @@ class AsOfFeatureBuilder:
         out["ess_games"] = float(w.sum() ** 2 / (w ** 2).sum()) if len(rows) else 0.0
         for side in ("off", "def"):
             mu = self._league_mean(side, n_av)
-            for j, (name, _, _, m) in enumerate(METRICS):
+            for j, (name, _, _, m) in enumerate(self.metrics):
                 if len(rows):
                     wn = float((w * self.num[side][rows, j]).sum())
                     wd = float((w * self.den[side][rows, j]).sum())

@@ -164,7 +164,7 @@ def locked_pick_for(vs: list[tuple[dict, dict]], kickoff: datetime, home: str, a
     out = {**p, "run_id": rel["run_id"], "generated_at": o[0], "rule": rule, "basis": basis,
            "market_adjusted_margin": o[1]["forecast"]["margin"],
            "verification": PUB.verification_label(datetime.fromisoformat(o[0]), kickoff, pub),
-           "stats_only": stats_only_for(o[1]), "stats_inj": stats_inj_for(o[1])}
+           "stats_only": stats_only_for(o[1]), "stats_inj": stats_inj_for(o[1]), "stats_v2": stats_v2_for(o[1])}
     if rule == "lock-24h":
         out["locks_at"] = PK.lock_time(kickoff).isoformat()
         out["provisional"] = (now or utc_now()) < PK.lock_time(kickoff)
@@ -230,6 +230,12 @@ def stats_only_for(entry: dict) -> dict | None:
     if not fo:
         return None
     return {"margin": fo["margin"], "total": fo["total"], "line_total": ((entry or {}).get("market") or {}).get("total")}
+
+
+def stats_v2_for(entry: dict) -> dict | None:
+    """The trial model v2.1 stats-only margin archived in that same version (display and tracking only, from week 8)."""
+    fv = (entry or {}).get("football_only_v2")
+    return {"margin": fv["margin"], "total": fv["total"]} if fv else None
 
 
 def stats_inj_for(entry: dict) -> dict | None:
@@ -366,7 +372,8 @@ def export() -> Path:
     wlp = lambda: {"win": 0, "loss": 0, "push": 0}
     record["stats_only"] = {"weeks": [], "spread": wlp(), "big_gap": wlp(), "biggest_gap": wlp(), "total": wlp(),
                             "market_adjusted": wlp(),      # same games: the locked market-adjusted margin vs that line
-                            "injury_adjusted": wlp()}      # trial: the locked injury-adjusted stats-only margin (from week 7)
+                            "injury_adjusted": wlp(),      # trial: the locked injury-adjusted stats-only margin (from week 7)
+                            "v2_trial": wlp()}             # trial: the locked model v2.1 stats-only margin (from week 8)
     h2h: list[dict] = []
     for season, week in weeks:
         wk = games.filter((pl.col("season") == season) & (pl.col("week") == week)).sort("kickoff_utc")
@@ -436,7 +443,7 @@ def export() -> Path:
                 for key, res in (("spread", sg["spread"]), ("big_gap", sg["spread"] if sg["big_gap"] else None),
                                  ("biggest_gap", sg["spread"] if sg["biggest_gap"] else None), ("total", sg["total"]),
                                  ("market_adjusted", sg.get("market_adjusted")),
-                                 ("injury_adjusted", sg.get("injury_adjusted"))):
+                                 ("injury_adjusted", sg.get("injury_adjusted")), ("v2_trial", sg.get("v2_trial"))):
                     if res:
                         so[key][res] += 1
         week_index.append({"season": season, "week": week, "n_games": wk.height, "has_forecasts": bool(rel),

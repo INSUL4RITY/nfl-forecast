@@ -4,8 +4,9 @@ type WLP = { win: number; loss: number; push: number };
 type Keyed = { combined: number; stats_only: number; market: number };
 export interface H2HWeek {
   season: number; week: number; n: number; abs_error: Keyed; winner_called: Keyed; winner_correct: Keyed;
-  vs_line: { lean: WLP; stats_only: WLP; market_adjusted?: WLP; injury_adjusted?: WLP };
+  vs_line: { lean: WLP; stats_only: WLP; market_adjusted?: WLP; injury_adjusted?: WLP; v2_trial?: WLP };
   inj?: { n: number; abs_error: { stats_inj: number; stats_only: number; market: number } };
+  v2?: { n: number; abs_error: { stats_v2: number; stats_only: number; market: number } };
 }
 
 const MODELS: [keyof Keyed, string, string][] = [
@@ -23,6 +24,11 @@ const addInj = (x?: Inj, y?: Inj): Inj => {
   const e = (k: keyof Inj["abs_error"]) => (x?.abs_error[k] ?? 0) + (y?.abs_error[k] ?? 0);
   return { n: (x?.n ?? 0) + (y?.n ?? 0), abs_error: { stats_inj: e("stats_inj"), stats_only: e("stats_only"), market: e("market") } };
 };
+type V2 = NonNullable<H2HWeek["v2"]>;
+const addV2 = (x?: V2, y?: V2): V2 => {
+  const e = (k: keyof V2["abs_error"]) => (x?.abs_error[k] ?? 0) + (y?.abs_error[k] ?? 0);
+  return { n: (x?.n ?? 0) + (y?.n ?? 0), abs_error: { stats_v2: e("stats_v2"), stats_only: e("stats_only"), market: e("market") } };
+};
 const add = (a: H2HWeek, b: H2HWeek): H2HWeek => {
   const k = (x: Keyed, y: Keyed): Keyed => ({ combined: x.combined + y.combined, stats_only: x.stats_only + y.stats_only, market: x.market + y.market });
   const w = (x: WLP, y: WLP): WLP => ({ win: x.win + y.win, loss: x.loss + y.loss, push: x.push + y.push });
@@ -30,8 +36,9 @@ const add = (a: H2HWeek, b: H2HWeek): H2HWeek => {
     winner_called: k(a.winner_called, b.winner_called), winner_correct: k(a.winner_correct, b.winner_correct),
     vs_line: { lean: w(a.vs_line.lean, b.vs_line.lean), stats_only: w(a.vs_line.stats_only, b.vs_line.stats_only),
       market_adjusted: w(a.vs_line.market_adjusted ?? Z, b.vs_line.market_adjusted ?? Z),
-      injury_adjusted: w(a.vs_line.injury_adjusted ?? Z, b.vs_line.injury_adjusted ?? Z) },
-    inj: addInj(a.inj, b.inj) };
+      injury_adjusted: w(a.vs_line.injury_adjusted ?? Z, b.vs_line.injury_adjusted ?? Z),
+      v2_trial: w(a.vs_line.v2_trial ?? Z, b.vs_line.v2_trial ?? Z) },
+    inj: addInj(a.inj, b.inj), v2: addV2(a.v2, b.v2) };
 };
 const sum = (x?: WLP) => (x ? x.win + x.loss + x.push : 0);
 const mae = (r: H2HWeek, m: keyof Keyed) => (r.n ? (r.abs_error[m] / r.n).toFixed(2) : "—");
@@ -89,6 +96,24 @@ export default function HeadToHead({ weeks }: { weeks: H2HWeek[] }) {
               {(["stats_inj", "stats_only", "market"] as const).map((k) => <td key={k} className="r">
                 {total.inj && total.inj.n ? (total.inj.abs_error[k] / total.inj.n).toFixed(2) : "—"}</td>)}
               <td className="r">{wlp(total.vs_line.injury_adjusted ?? Z)}</td></tr></tbody>
+          </table></div>
+          <p className="small muted" style={{ margin: "6px 0 0" }}>Average margin error in points (lower is better), last forecast
+            before kickoff; record vs the market line from the locked version.</p>
+        </div>
+      )}
+      {((total.v2?.n ?? 0) > 0 || sum(total.vs_line.v2_trial) > 0) && (
+        <div style={{ marginTop: 14 }}>
+          <h3 style={{ margin: "0 0 4px" }}>Trial: model v2.1 line</h3>
+          <p className="small ink2" style={{ marginTop: 0 }}>The stats-only model with penalties, special teams, non-QB injuries,
+            regression inputs and weather added, from week 8. Compared on the same games only. Display and tracking only; it
+            never sets the model pick.</p>
+          <div className="table-wrap"><table>
+            <thead><tr><th className="r">Games</th><th className="r">Model v2.1</th><th className="r">Model line</th>
+              <th className="r">Market</th><th className="r">Vs market line</th></tr></thead>
+            <tbody><tr><td className="r">{total.v2?.n ?? 0}</td>
+              {(["stats_v2", "stats_only", "market"] as const).map((k) => <td key={k} className="r">
+                {total.v2 && total.v2.n ? (total.v2.abs_error[k] / total.v2.n).toFixed(2) : "—"}</td>)}
+              <td className="r">{wlp(total.vs_line.v2_trial ?? Z)}</td></tr></tbody>
           </table></div>
           <p className="small muted" style={{ margin: "6px 0 0" }}>Average margin error in points (lower is better), last forecast
             before kickoff; record vs the market line from the locked version.</p>

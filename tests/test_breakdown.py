@@ -28,7 +28,8 @@ def test_groups_add_up_to_the_scenario_weighted_football_margin():
     per, names = BD.per_feature(m, df)
     b = BD.football_breakdown(per, names, np.arange(3), w, margin)
     assert b is not None and abs(sum(g["margin_points"] for g in b["groups"]) - margin) < 1e-9
-    assert [g["group"] for g in b["groups"]] == [k for k, _ in BD.GROUPS]
+    # only the groups the model has inputs for: the v1.0 groups (v2 adds penalties, special teams, injuries, ...)
+    assert [g["group"] for g in b["groups"]] == [k for k, _ in BD.GROUPS[:9]] + ["other"]
     assert BD.football_breakdown(per, names, np.arange(3), w, margin + 0.01) is None    # mismatch: not shown
 
 

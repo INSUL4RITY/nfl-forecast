@@ -97,6 +97,12 @@ def build() -> None:
     qbg = P.qb_games(pbp, games)
     qbg.write_parquet(PROCESSED_DIR / "qb_games.parquet")
     print(f"[build] team-games: {tg.height} rows from {pbp.height} plays; qb-games {qbg.height}")
+    try:                         # model v2.0 inputs (features/v2.py); a failure leaves the stats-only line on v1.0
+        from nflcast.features import v2 as V2
+        pbp2 = pl.concat([S.fetch("pbp", s).select(V2.PBP_COLS_V2) for s in all_s], how="diagonal_relaxed")
+        V2.team_game_extra(pbp2, tg).write_parquet(PROCESSED_DIR / "team_games_v2.parquet")
+    except Exception as e:  # noqa: BLE001
+        print(f"[build] model v2.0 team-games failed (kept the last file): {type(e).__name__}: {e}")
     feats = build_feature_snapshots(games, tg, feat_s)
     qbm, dcs, avail = personnel_objects(games, tg, qbg)
     feats = P.add_personnel_features(feats, games, qbm, dcs, avail)

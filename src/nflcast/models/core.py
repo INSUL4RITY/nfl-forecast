@@ -105,6 +105,13 @@ def feature_set(name: str) -> dict:
     if name.endswith("_wx"):
         fs = feature_set(name[:-3])
         return {**fs, "context": fs["context"] + WX_CONTEXT}
+    if name == "v2":                       # model v2.0 stats-only line (features/v2.py)
+        from nflcast.features import v2 as V2
+        return {"team": list(V2.V2_TEAM), "opp": list(V2.V2_OPP), "context": list(V2.V2_CONTEXT)}
+    if name == "v2.1":                     # trial line from week 8 of 2026: v2.0 without travel (and v1.0 efficiency stats)
+        from nflcast.features import v2 as V2
+        return {"team": [f for f in V2.V2_TEAM if f not in V2.TRAVEL], "opp": [f for f in V2.V2_OPP if f not in V2.TRAVEL],
+                "context": list(V2.V2_CONTEXT)}
     core = {"team": list(TEAM_FEATS), "opp": list(OPP_FEATS), "context": list(CONTEXT)}
     if name == "core":
         return core

@@ -169,6 +169,7 @@ export default async function GamePage({ params }: { params: Promise<{ id: strin
     ["Model (stats only)", e.football_only, "Football data only, no market input; the model pick follows it from week 7"],
     ["Market-adjusted (combined)", e.combined, "Market spread & total + football features; residual ridge"],
     ["Model + injuries (trial)", e.football_only_inj ?? null, "Stats-only model plus the non-QB injury report; display and tracking only"],
+    ["Model v2.1 (trial)", e.football_only_v2 ?? null, "Stats-only model plus penalties, special teams, injuries, regression inputs and weather; display and tracking only"],
     ["Market only", e.market_only, "Spread & total mapped to scores (benchmark)"],
   ] : [];
 

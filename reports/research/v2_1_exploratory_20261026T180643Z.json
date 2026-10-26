@@ -1,0 +1,105 @@
+{
+ "status": "EXPLORATORY: v2.1 was chosen after seeing the v2.0 test on these seasons; its numbers are optimistic",
+ "folds": [
+  2019,
+  2020,
+  2021,
+  2022,
+  2023,
+  2024,
+  2025
+ ],
+ "se_margin_diff_v21_minus_v1": {
+  "n_games": 1960,
+  "n_blocks": 152,
+  "mean_diff": -0.06890850323013362,
+  "ci95": [
+   -1.136082803832554,
+   1.0233025681492145
+  ]
+ },
+ "se_total_diff": {
+  "n_games": 1960,
+  "n_blocks": 152,
+  "mean_diff": -2.920552563054118,
+  "ci95": [
+   -4.796730454664375,
+   -1.0740001307322082
+  ]
+ },
+ "v1": {
+  "n_games": 1960,
+  "margin_mae": 10.057815997270321,
+  "margin_rmse": 12.979713683520137,
+  "total_mae": 10.529809807629407,
+  "total_rmse": 13.309411290781442,
+  "home_pts_mae": 7.402058111403219,
+  "away_pts_mae": 7.362823520440989,
+  "margin_bias": -0.17260439790361742,
+  "total_bias": 0.10045216024994313,
+  "winner_accuracy": 0.6494370522006141,
+  "n_decided": 1954,
+  "side": {
+   "n": 1917,
+   "right": 956,
+   "rate": 0.4986958789775691
+  }
+ },
+ "v21": {
+  "n_games": 1960,
+  "margin_mae": 10.066549492613786,
+  "margin_rmse": 12.977058942723877,
+  "total_mae": 10.447285879318684,
+  "total_rmse": 13.199237718297463,
+  "home_pts_mae": 7.389444093172849,
+  "away_pts_mae": 7.323833409717826,
+  "margin_bias": -0.33506016330377203,
+  "total_bias": 0.284205615485129,
+  "winner_accuracy": 0.654042988741044,
+  "n_decided": 1954,
+  "side": {
+   "n": 1917,
+   "right": 990,
+   "rate": 0.5164319248826291
+  }
+ },
+ "season_2026": {
+  "v1": {
+   "n_games": 106,
+   "margin_mae": 9.686769432136133,
+   "margin_rmse": 12.27529529455393,
+   "total_mae": 10.758386872058795,
+   "total_rmse": 13.332263381515107,
+   "home_pts_mae": 7.138564427953259,
+   "away_pts_mae": 7.549405461870617,
+   "margin_bias": 2.3937846266990137,
+   "total_bias": 0.231937842021741,
+   "winner_accuracy": 0.5904761904761905,
+   "n_decided": 105,
+   "side": {
+    "n": 101,
+    "right": 45,
+    "rate": 0.44554455445544555
+   }
+  },
+  "v21": {
+   "n_games": 106,
+   "margin_mae": 9.702018842612398,
+   "margin_rmse": 12.327990047817218,
+   "total_mae": 10.82606466509138,
+   "total_rmse": 13.32613726588056,
+   "home_pts_mae": 7.170824683100226,
+   "away_pts_mae": 7.54344724507038,
+   "margin_bias": 2.262747161114321,
+   "total_bias": 0.2967299732906151,
+   "winner_accuracy": 0.6285714285714286,
+   "n_decided": 105,
+   "side": {
+    "n": 101,
+    "right": 51,
+    "rate": 0.504950495049505
+   }
+  }
+ },
+ "generated_at_utc": "2026-10-26T18:06:43.655715+00:00"
+}

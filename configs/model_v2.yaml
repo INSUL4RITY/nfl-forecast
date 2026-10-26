@@ -1,0 +1,47 @@
+version: v2.1-trial-2026-10-26
+fitted_at_utc: '2026-10-26T18:07:10.942480+00:00'
+feature_set: v2.1
+artifact: artifacts/v2/v2.1-trial-2026-10-26/model.joblib
+artifact_sha256: 6b48063872fce4fa20d93dcb19d860dd8804355f177c87d8d508e9e14b90150a
+alpha: 1000.0
+alpha_scores:
+  '1': 9.088794310988469
+  '3': 9.087210625343724
+  '10': 9.084120231119249
+  '30': 9.079920692887065
+  '100': 9.075115175372591
+  '300': 9.072774842466654
+  '1000': 9.07161396329119
+  '3000': 9.075354816347119
+  '10000': 9.114308696175256
+  '30000': 9.209537681790835
+training:
+  games: 2867
+  first_season: 2016
+  last_training_game: 2026_07_KC_SEA
+calibration:
+  oof_predictions: reports/research/v2_1_exploratory_20261026T180643Z_predictions.parquet
+  oof_seasons:
+  - 2019
+  - 2025
+  n: 1960
+p_play_by_status:
+  Questionable: 0.5999189298743413
+  Doubtful: 0.0038560411311053984
+  None: 0.8651177799290094
+  Out: 0.00036643459142543056
+p_play_seasons:
+- 2021
+- 2022
+- 2023
+- 2024
+- 2025
+preregistered_v2_0_test:
+  report: reports/research/v2_evaluation_20261026T180357Z.json
+  pass: false
+  se_margin_diff_v2_minus_v1: 1.2981125460034784
+official: false
+official_from: '2026-10-27T00:00:00+00:00'
+rules: 'Fitted once; do not refit or retune this season. Trial line: display and tracking
+  only, never the official pick (v2.1 was chosen after seeing the v2.0 test; weeks
+  8-18 of 2026 are its clean test).'

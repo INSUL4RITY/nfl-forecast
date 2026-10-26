@@ -315,6 +315,25 @@ market lines, QB availability, injury display, weather display). A changed artif
   head-to-head `inj` (paired errors on games that have it). ingest now refreshes 2026 snap_counts (inputs to this line).
   Pre-season evidence: football-only + injuries 2022-24 margin RMSE 12.717 -> 12.686 (CI spans zero). Judge after the season.
 
+- Model v2 test + v2.1 trial line (2026-10-26, user: add rest/travel/body clock, QB, injuries, regression, coaching,
+  special teams, penalties, garbage-time filter (rbsdm-style) etc. "for week 8"; then chose "official if it tests better",
+  and after the result "v2.1 trial"). Pre-registered before any result: reports/research/v2_preregistration_2026-10-26.md.
+  `features/v2.py` (team_game_extra -> data/processed/team_games_v2.parquet, rebuilt by `build`; METRICS_V2 / METRICS_V21
+  via the parametrised AsOfFeatureBuilder (v1.0 defaults unchanged); travel_features; weather_history), feature sets
+  "v2" / "v2.1" (models/core.py), `evaluation/v2_eval.py`. Result (walk-forward 2019-2025, 1,960 identical games,
+  reports/research/v2_evaluation_20261026T180357Z.json): **v2.0 FAILED** - margin RMSE 13.03 vs v1.0 12.98 (SE diff +1.30,
+  95% CI [+0.05, +2.65]); totals better (13.22 vs 13.31, CI below 0); side of the line 51.4% vs 49.9%. Drop-one: garbage-time
+  filter (-0.80) and travel/body clock (-0.57) hurt; penalties (+0.43), special teams (+0.39), injuries (+0.24), luck (+0.18)
+  helped. v2.1 = v2.0 without those two: 12.977 vs 12.980, side 51.6% - EXPLORATORY (chosen after seeing the result;
+  reports/research/v2_1_exploratory_*.json). v2.1 is a frozen TRIAL line (`predict/model_v2.py`, configs/model_v2.yaml,
+  artifacts/v2/v2.1-trial-2026-10-26, alpha 1000, 2,867 games through 2026_07_KC_SEA, official: false): releases store
+  `football_only_v2`, `stats_model` ("v1.0"), `football_only_v1`, models.stats_only_v2; locked_pick.stats_v2;
+  stats_only_grade.v2_trial; record stats_only.v2_trial; head-to-head `v2`. Game page row "Model v2.1 line (trial)",
+  Performance table "Trial: model v2.1 line", Method note. Never blocks a release; never the official pick. Weather history:
+  2016-18 Open-Meteo ERA5 archive (data/processed/weather_reanalysis_2016_2018.parquet, retrospective), 2019+ historical
+  forecast cache (retrospective), 2026 prospective snapshots. Judge v2.1 on weeks 8-18 for the 2027 model. Not included:
+  pressure/blitz/coverage (FTN charting only 2022+), coaching quality beyond the 4th-down go-rate proxy.
+
 - Matchup section on game pages (2026-10-22, user: "yes, add it ... for every game and double check"; display only, not a
   model input): `predict/matchup.py` builds per team-game sums from the current season's nflverse pbp and, for each
   game with a forecast or result, season-to-date stats as of kickoff (only earlier games), 32-team ranks, opponent-adjusted

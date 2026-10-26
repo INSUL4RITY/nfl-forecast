@@ -17,14 +17,24 @@ from nflcast.models.core import stack_team_rows
 GROUPS = [("home_field", "Home field"), ("rest", "Rest and schedule"), ("qb", "Quarterbacks"),
           ("passing", "Passing game"), ("rushing", "Running game"), ("efficiency", "Overall efficiency"),
           ("scoring", "Scoring and red zone"), ("turnovers", "Turnovers and field position"),
-          ("pace", "Pace and play style"), ("other", "Other")]
+          ("pace", "Pace and play style"), ("penalties", "Penalties"), ("special_teams", "Special teams"),
+          ("luck", "Close games and luck"), ("coaching", "4th-down decisions"), ("injuries", "Injuries (non-QB)"),
+          ("travel", "Travel and body clock"), ("weather", "Weather"), ("other", "Other")]
 _METRIC_GROUP = {"epa_db": "passing", "expl_db": "passing", "sack_rate": "passing",
                  "epa_rush": "rushing", "expl_rush": "rushing",
                  "epa_play": "efficiency", "succ_play": "efficiency", "adj_off_epa": "efficiency", "adj_def_epa": "efficiency",
                  "pts_drive": "scoring", "rz_td": "scoring", "points_pg": "scoring", "adj_off_pts": "scoring",
                  "adj_def_pts": "scoring",
                  "int_rate": "turnovers", "fum_rate": "turnovers", "start_fp": "turnovers",
-                 "plays_pg": "pace", "neutral_pass": "pace"}
+                 "plays_pg": "pace", "neutral_pass": "pace",
+                 # model v2.0 (features/v2.py)
+                 "fum_all": "turnovers", "third": "efficiency", "fourth": "efficiency", "scr_epa": "qb",
+                 "pen_off": "penalties", "pen_def": "penalties", "st": "special_teams", "close": "luck",
+                 "go_rate": "coaching", "lost_ol": "injuries", "lost_skill": "injuries", "lost_front": "injuries",
+                 "lost_db": "injuries", "travel_k": "travel", "tz_shift": "travel", "bc_early": "travel",
+                 "bc_late": "travel", "road_streak": "travel", "div_game": "other",
+                 "wx_wind": "weather", "wx_gust": "weather", "wx_cold": "weather", "wx_precip": "weather",
+                 "wx_exposed": "weather"}
 TOLERANCE = 1e-6
 
 
@@ -61,4 +71,6 @@ def football_breakdown(per: np.ndarray, names: list[str], idx: np.ndarray, weigh
         tot[group_of(nm)] += float(ci[j])
     if abs(sum(tot.values()) - margin) > TOLERANCE:
         return None
-    return {"groups": [{"group": k, "label": lbl, "margin_points": tot[k]} for k, lbl in GROUPS], "margin": margin}
+    present = {group_of(nm) for nm in names}          # only groups the model has inputs for (v1.0 has fewer than v2.0)
+    return {"groups": [{"group": k, "label": lbl, "margin_points": tot[k]} for k, lbl in GROUPS if k in present],
+            "margin": margin}

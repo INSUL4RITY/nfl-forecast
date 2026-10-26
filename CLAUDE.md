@@ -44,6 +44,10 @@ CLI stay `nflcast`; keep the URL and repo name (published evidence and links poi
 - **Trial injury line (user, 2026-10-20):** `predict/shadow.py` adds "model line + injuries" (stats-only + non-QB injury
   inputs) for display and tracking only. Its artifact is frozen (`configs/shadow_injury.yaml`, sha256-checked): never
   refit or retune it this season, and it never sets the official pick. A failure must never block a release.
+- **Model v2 (user, 2026-10-26):** the pre-registered v2.0 test FAILED, so the official Model line / pick stays v1.0. The
+  v2.1 trial line (`predict/model_v2.py`, `configs/model_v2.yaml`, sha256-checked, `official: false`) is display and
+  tracking only from week 8: never refit or retune it this season, never let it set the pick, and a failure must never
+  block a release. It is the leading candidate for the 2027 model, judged on weeks 8-18.
 - **Weekly publication (user decisions 2026-10-05, changed 2026-10-06 and 2026-10-13):** a week is first published at
   Tuesday 18:00 UK before its first game (`predict/schedule.py`), and waits up to 24 h if the previous week's finished
   games are not yet in the team data; from week 7 the model pick locks 24 h before each kickoff (see above). Operational only; do not move it without the user.

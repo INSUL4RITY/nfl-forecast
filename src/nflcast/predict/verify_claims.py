@@ -70,7 +70,7 @@ def picks_checks() -> list[tuple[str, bool, str]]:
     line and publication label; versions without stored labels are re-derived and flagged retrospective; every grade is
     recomputed from the release labels; each week's results table equals the summary recomputed from its games."""
     from nflcast.predict import picks as PK
-    from nflcast.predict.export_web import stats_inj_for, stats_only_for
+    from nflcast.predict.export_web import stats_inj_for, stats_only_for, stats_v2_for
     from nflcast.predict.validation import entry_is_valid
     evidence = PUB.load_evidence()
     rel_by_run, by_game = {}, {}
@@ -143,7 +143,8 @@ def picks_checks() -> list[tuple[str, bool, str]]:
                 if (lp is None or lp["run_id"] != run or datetime.fromisoformat(lp["generated_at"]) != t
                         or lp.get("rule") != rule or lp.get("basis") != basis or not matches(lp, lp_rel)
                         or lp.get("market_adjusted_margin") != entry["forecast"]["margin"]
-                        or lp.get("stats_only") != stats_only_for(entry) or lp.get("stats_inj") != stats_inj_for(entry)):
+                        or lp.get("stats_only") != stats_only_for(entry) or lp.get("stats_inj") != stats_inj_for(entry)
+                        or lp.get("stats_v2") != stats_v2_for(entry)):
                     lock_bad.append(gid)
                 else:
                     if lp.get("verification") != PUB.verification_label(t, ko, PUB.public_time(run, evidence)):
