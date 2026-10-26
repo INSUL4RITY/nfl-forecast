@@ -66,6 +66,15 @@ export function pickText(p: Pick): string {
   return l && l.status === "lean" ? teamSpread(l.side!, l.side_spread!) : "No pick";
 }
 
+const RES: Record<string, string> = { win: "correct", loss: "wrong", push: "level with the line" };
+
+/** The side a trial line falls on against a line, e.g. "pick DAL −4.5" (+ the result once graded); null if level. */
+function trialPick(margin: number, homeSpread: number, home: string, away: string, res?: string | null): string | null {
+  const d = margin + homeSpread;
+  if (Math.abs(d) < 0.005) return null;
+  return `pick ${d > 0 ? teamSpread(home, homeSpread) : teamSpread(away, -homeSpread)}${res && RES[res] ? ` (${RES[res]})` : ""}`;
+}
+
 export const PICK_EXPLAIN = "Model pick: the side of the market line on which the model line (stats only) fell 24 hours " +
   "before kickoff (the latest forecast at that moment). Until then it is provisional and follows the latest forecast and " +
   "line; after that it does not change, and it is graded against the line it was locked at. It is not a probability of " +
@@ -92,7 +101,7 @@ export function pickDetail(p: LockedPick, home: string, away: string): string {
 }
 
 /** Prediction block for game cards and game pages: the locked model pick (most prominent), then the current market line,
- *  model line (stats only) and market-adjusted line with totals, then the projected winner from the model line.
+ *  model line (stats only) with totals and the trial lines with the side they imply, then the projected winner.
  *  `lockedAt` / `locksAt` are the formatted times the pick was / will be locked. */
 export function PredictionSummary({ g, lockedAt, locksAt }: { g: WeekGame; lockedAt?: ReactNode; locksAt?: ReactNode }) {
   const e = g.forecast, f = e?.forecast;
@@ -113,8 +122,19 @@ export function PredictionSummary({ g, lockedAt, locksAt }: { g: WeekGame; locke
   const explain = old ? PICK_EXPLAIN_OLD : lp?.rule === "original-pick" ? PICK_EXPLAIN_ORIGINAL : PICK_EXPLAIN;
   const pair = (line: number, model?: number | null, adj?: number | null) => <>line {spreadText(line, H, A)}
     {model != null && <> · model {modelLine2(model, H, A)}</>}{adj != null && <> · market-adj. {modelLine2(adj, H, A)}</>}</>;
+  // the market-adjusted line is shown only where it made the pick (weeks before the stats-only basis)
+  const statsBasis = lp?.basis === "stats_only";
   const lockPair = () => pair(lp!.line_home_spread!, lp!.stats_only?.margin,
-    lp!.market_adjusted_margin ?? (lp!.basis === "stats_only" ? null : lp!.projected_margin));
+    statsBasis ? null : lp!.market_adjusted_margin ?? lp!.projected_margin);
+  // trial lines: the margin and side from the same version and line as the model pick (current ones before any lock)
+  const pickLine = locked ? lp!.line_home_spread! : cur;
+  const trial = (lockedMargin: number | null | undefined, current: number | null | undefined, res?: string | null) => {
+    const m = locked ? lockedMargin ?? current : current;
+    if (m == null) return null;
+    const p = pickLine != null ? trialPick(m, pickLine, H, A, res) : null;
+    return <>{modelLineText(m, H, A)}{p && <span className="dd-note">{p[0].toUpperCase() + p.slice(1)}</span>}</>;
+  };
+  const sg = g.stats_only_grade;
   const edge = lp ? edgeText(lp) : null;
   const gap = statsGap(lp);
   const winHome = mdl.p_home >= mdl.p_away;
@@ -132,7 +152,7 @@ export function PredictionSummary({ g, lockedAt, locksAt }: { g: WeekGame; locke
             ? <>Provisional · locks {locksAt}</> : <>Locked {lockedAt}</>}{lp!.basis !== "stats_only" ? " · from the market-adjusted line" : ""}</span>
           <span className="pick-sub">{prov ? "Now: " : changed ? "Then: " : "At lock: "}{lockPair()}</span>
           {changed && <span className={`pick-sub${lineMoved ? " moved" : ""}`}>
-            <LineLabel state={g.forecast_state} kickoff={g.kickoff_utc} before="Now" after="Final pre-game" />: {pair(cur!, fo?.margin, f.margin)}</span>}
+            <LineLabel state={g.forecast_state} kickoff={g.kickoff_utc} before="Now" after="Final pre-game" />: {pair(cur!, fo?.margin, statsBasis ? null : f.margin)}</span>}
         </>)) : (
           <span className="pick-sub">{started ? "No market line was recorded before kickoff" : "Appears with the first forecast that has a market line"}</span>
         )}
@@ -148,13 +168,11 @@ export function PredictionSummary({ g, lockedAt, locksAt }: { g: WeekGame; locke
         <div><dt>Model line</dt><dd>{modelLineText(mdl.margin, H, A)}</dd></div>
         <div><dt>Market total</dt><dd>{e.market?.total != null ? f1(e.market.total) : "—"}</dd></div>
         <div><dt>Model total</dt><dd>{f1(mdl.total)}</dd></div>
-        {fo && <><div><dt>Market-adjusted line</dt><dd>{modelLineText(f.margin, H, A)}</dd></div>
-          <div><dt>Market-adjusted total</dt><dd>{f1(f.total)}</dd></div></>}
         {e.football_only_inj && <div className="full" title={INJ_EXPLAIN}><dt>Model line + injuries (trial)</dt>
-          <dd>{modelLineText(e.football_only_inj.margin, H, A)}
+          <dd>{trial(lp?.stats_inj?.margin, e.football_only_inj.margin, sg?.injury_adjusted)}
             {noInjuryReport(e) && <span className="dd-note">No injury report this week yet</span>}</dd></div>}
         {e.football_only_v2 && <div className="full" title={V2_EXPLAIN}><dt>Model v2.1 line (trial)</dt>
-          <dd>{modelLineText(e.football_only_v2.margin, H, A)}</dd></div>}
+          <dd>{trial(lp?.stats_v2?.margin, e.football_only_v2.margin, sg?.v2_trial)}</dd></div>}
         <div className="full"><dt>Projected winner (model)</dt>
           <dd>{Math.abs(mdl.margin) < 0.05 ? "Toss-up"
             : `${winHome ? H : A} ${pct(winHome ? mdl.p_home : mdl.p_away)} · by ${Math.abs(mdl.margin).toFixed(1)}`}</dd></div>

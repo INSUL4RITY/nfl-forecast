@@ -60,7 +60,9 @@ CLI stay `nflcast`; keep the URL and repo name (published evidence and links poi
   (no "bet", "betting", "pick'em", "bookmakers", "cover", "push", "against the spread"). Use "market line", "even", "level with
   the line", "vs market line", "for analysis and education only". Internal code names may stay. Labels (user, 2026-10-13, changed
   2026-10-19): the headline label is "Model pick"; "Model line"/"Model total" are the STATS-ONLY (independent) numbers and
-  the combined model's line is "Market-adjusted line" (a baseline row); the Method page explains both.
+  the combined model's line is "Market-adjusted line"; the Method page explains both. 2026-10-26 (user): the
+  market-adjusted line/total are no longer on the prediction card (still in the game page's Model comparison table and on
+  Performance); trial rows on the card show the side they imply ("Pick NYG +10.5", + result when graded).
 - After any display change, run `scripts/layout_audit.js` in the browser on the local build (widths 1280, 768, 414, 375, 320)
   and on the live site after deploy: 0 issues required. Wrap every table in `.table-wrap` (cells do not wrap by default).
 - The user accepts that updates pause while the PC is off; never recreate or back-date missed forecasts.
