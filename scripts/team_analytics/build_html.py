@@ -755,7 +755,6 @@ def main():
         C("off_rz_td_rate", "Red-zone TD%", "pct", 1), C("off_g2g_td_rate", "Goal-to-go TD%", "pct", 1),
         C("off_expl_rate", "Explosive rate", "pct", 1),
         C("off_epa_nonto", "EPA/play excl. turnover plays", "epa", 1), C("off_to_epa_play", "Turnover EPA per play", "epa", 1),
-        C("dvoa", "DVOA", "str", 0, "Not available: FTN's DVOA is proprietary and was not used"),
     ], "off_adj_epa", "Raw values are unadjusted; 'Adj.' columns are opponent-adjusted (see Method)."))
     tables.append(table("eff_def", "Defensive efficiency", [
         C("def_epa_play", "EPA/play allowed", "epa", -1), C("def_adj_epa", "Adj. EPA/play", "epa", -1),
@@ -768,7 +767,6 @@ def main():
         C("def_rz_td_rate", "Red-zone TD% allowed", "pct", -1), C("def_expl_rate", "Explosive rate allowed", "pct", -1),
         C("def_epa_vs_pass_heavy", "EPA vs pass-heavy offences", "epa", -1, "Opponents in the top half of neutral early-down pass rate over expected"),
         C("def_epa_vs_run_heavy", "EPA vs run-heavy offences", "epa", -1),
-        C("dvoa", "DVOA", "str", 0, "Not available"),
     ], "def_adj_epa", "Lower is better for every allowed-rate column.", desc=False))
     tables.append(table("drives_off", "Offensive drives", [
         C("off_drives", "Drives", "int", 0), C("off_ppd", "Points/drive", "n2", 1), C("off_td_pd", "TD/drive", "pct", 1),
@@ -1045,8 +1043,7 @@ def main():
     # B: consolidated comparison, consistent team order
     B = [
         ("Record and ratings", [C("record", "Record", "str", 0), C("rating_pg", "Overall rating", "s1", 1), C("stab_rating_pg", "With 2025 prior", "s1", 1),
-                                C("off_composite", "Off. composite", "s2", 1), C("def_composite", "Def. composite", "s2", 1), C("st_epa_pg", "ST EPA/g", "s2", 1),
-                                C("off_dvoa", "Off. DVOA", "str", 0, "Not available"), C("def_dvoa", "Def. DVOA", "str", 0, "Not available")]),
+                                C("off_composite", "Off. composite", "s2", 1), C("def_composite", "Def. composite", "s2", 1), C("st_epa_pg", "ST EPA/g", "s2", 1)]),
         ("Efficiency", [C("off_epa_play", "Off. EPA/play", "epa", 1), C("off_adj_epa", "Off. adj.", "epa", 1), C("def_epa_play", "Def. EPA/play", "epa", -1),
                         C("def_adj_epa", "Def. adj.", "epa", -1), C("off_sr", "Off. SR", "pct", 1), C("def_sr", "Def. SR", "pct", -1),
                         C("off_adj_epa_db", "Pass O", "epa", 1), C("off_adj_epa_rush", "Rush O", "epa", 1), C("def_adj_epa_db", "Pass D", "epa", -1), C("def_adj_epa_rush", "Run D", "epa", -1)]),
@@ -1141,7 +1138,7 @@ def main():
         r = T.loc[t]
         rec = {k: (None if (isinstance(v, float) and math.isnan(v)) else (v.item() if hasattr(v, "item") else v)) for k, v in r.items()}
         rec["team"] = t
-        rec["dvoa"] = rec["off_dvoa"] = rec["def_dvoa"] = rec["cov"] = "n/a"
+        rec["cov"] = "n/a"
         teams_js.append(rec)
     qcols = ["name_full", "team", "teams", "games", "dropbacks", "epa_db", "adj_epa_db", "sr", "cpoe", "ypa", "adot", "sack_rate", "int_rate",
              "int_worthy_rate", "pressure_rate", "p2s", "epa_clean", "epa_hit_sack", "epa_vs_blitz", "epa_no_blitz", "blitzed_rate",
@@ -1255,7 +1252,7 @@ away team's home clock. Relocated franchises use their city at the time; a few h
 Status comes from each team's latest weekly roster (reserve list) and latest injury report (game status, or practice participation before game statuses are published). Team-level tables are not changed.</p>
 <h3>Not available, and proxies used</h3>
 <ul>
-<li><b>DVOA</b>: FTN's proprietary metric. It is not in nflverse and was not used, so every DVOA column reads n/a. The closest computed analogues here are opponent-adjusted EPA and success rate. They are not DVOA.</li>
+<li><b>DVOA</b>: FTN's proprietary metric. It is not in nflverse and is not used or shown in this report. The closest computed analogues here are opponent-adjusted EPA and success rate. They are not DVOA.</li>
 <li><b>Coverage (man/zone), time to pressure, pressure by play</b>: not in free data. PFR pressures are game-level, so pressure-when-blitzing uses the hit-or-sack proxy.</li>
 <li><b>Pressure coverage</b>: PFR advanced stats are available for {T.off_pfr_games.sum()/2:.0f} of {meta['games']} games; pressure rates use only those games.</li>
 <li><b>FTN charting</b> is missing one game (week 7 DAL at PHI), so blitz and expected-INT figures for those two teams have one fewer game.</li>
