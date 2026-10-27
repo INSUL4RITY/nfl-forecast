@@ -70,6 +70,7 @@ def table(tid, title, cols, sort, note="", desc=None, rows="teams", order=None):
 # --------------------------------------------------------------------------------------- derived data
 def derive(T: pd.DataFrame, G: pd.DataFrame, meta: dict):
     T = T.copy()
+    T[[c for c in T.columns if c.startswith("pd_")]] = T[[c for c in T.columns if c.startswith("pd_")]].fillna(0)
     T["record"] = T.w.astype(int).astype(str) + "-" + T.l.astype(int).astype(str) + np.where(T.t > 0, "-" + T.t.astype(int).astype(str), "")
     T["one_score"] = T.one_w.astype(int).astype(str) + "-" + T.one_l.astype(int).astype(str)
     T["three_pt"] = T.three_w.astype(int).astype(str) + "-" + T.three_l.astype(int).astype(str)
@@ -380,6 +381,322 @@ def build_matchups(T, nxt, MM, A, mm, notes):
     return games
 
 
+# ----------------------------------------------------------------------- structured matchup report
+def _rk(T, col, higher_is_good):
+    return rank(T[col], higher_is_good)
+
+
+def _w(MM, key, side, team):
+    return MM[key][side]["w"][team] if key in MM else None
+
+
+def finding_conf(ranks_extreme, weights):
+    ws = [w for w in weights if w is not None]
+    wmin = min(ws) if ws else 0.0
+    if ranks_extreme and wmin >= 0.5:
+        return "strong"
+    if wmin >= 0.35 or (ranks_extreme and wmin >= 0.2):
+        return "moderate"
+    return "limited"
+
+
+def find_mismatches(o, d, T, MM, QBX):
+    """Rule-based scan of eleven mismatch types for offence o against defence d. Each finding keeps the
+    evidence, the mechanism, what could neutralise it, whether a matchup-specific split supports it, and a
+    confidence level. Ranks: 1 = best unit for the measure."""
+    F = []
+    r = lambda col, hb: int(_rk(T, col, hb)[o])
+    rd = lambda col, hb: int(_rk(T, col, hb)[d])
+    v = lambda t, col, f: fmt(T.loc[t, col], f)
+    lg = lambda col: T[col].mean()
+
+    def add(kind, fav, evidence, mechanism, neutral, specific, conf):
+        F.append({"kind": kind, "favours": fav, "evidence": evidence, "mechanism": mechanism,
+                  "neutralisers": [n for n in neutral if n], "specific": specific, "conf": conf})
+
+    # 1 rushing offence vs run defence
+    ro, rdd = r("off_adj_epa_rush", True), rd("def_adj_epa_rush", False)
+    if (ro <= 10 and rdd >= 23) or (ro >= 23 and rdd <= 10):
+        fav = o if ro <= 10 else d
+        share = T.loc[o, "run_inside_share"]
+        pref = "inside" if share >= 0.55 else ("outside" if share <= 0.45 else None)
+        spec = None
+        if pref:
+            de = T.loc[d, f"def_epa_{pref}"]
+            spec = (f"{o} runs {pref} on {fmt(share if pref == 'inside' else 1 - share, 'pct')} of non-QB runs; {d} allows "
+                    f"{fmt(de, 'epa')} EPA per {pref} run (league {fmt(lg(f'def_epa_{pref}'), 'epa')}).")
+            spec_ok = (de > lg(f"def_epa_{pref}")) == (fav == o)
+            spec = ("Supported: " if spec_ok else "Not supported: ") + spec
+        add("Rushing offence vs run defence", fav,
+            f"{o} rushing {ordinal(ro)} (adj. EPA/rush {v(o, 'off_adj_epa_rush', 'epa')}, {v(o, 'off_ypc', 'n2')} yds/carry); "
+            f"{d} run defence {ordinal(rdd)} (allows {v(d, 'def_adj_epa_rush', 'epa')}, {v(d, 'def_ypc', 'n2')} yds/carry).",
+            "Designed runs that keep the offence on schedule, shorter third downs and more play-action." if fav == o else
+            "The defence can stop the run with its base front, leave the offence facing long third downs and make it one-dimensional.",
+            [f"Run-defence EPA has no reliable team-to-team signal yet (shrinkage keeps {MM['epa_rush']['def']['w'][d]:.0%} of {d}'s record)."
+             if MM["epa_rush"]["def"]["w"][d] < 0.35 else None,
+             f"{o} offensive-line regulars out: {int(T.loc[o, 'absent_OL'])}." if T.loc[o, "absent_OL"] > 0 else None,
+             f"{o} offence has faced {'easier' if T.loc[o, 'sos_off'] > 0 else 'tougher'} defences than average ({T.loc[o, 'sos_off']:+.3f})."
+             if abs(T.loc[o, "sos_off"]) > 0.02 else None,
+             f"Blocking indicator: {o} yards before contact {v(o, 'ybc_per_att', 'n2')} ({ordinal(r('ybc_per_att', True))}); {d} allows "
+             f"{v(d, 'def_ybc_allowed', 'n2')} ({ordinal(rd('def_ybc_allowed', False))})."],
+            spec, finding_conf(min(ro, rdd) <= 5 and max(ro, rdd) >= 28, [MM["epa_rush"]["off"]["w"][o], MM["epa_rush"]["def"]["w"][d]]))
+    # 2 passing offence vs pass defence
+    po, pdd = r("off_adj_epa_db", True), rd("def_adj_epa_db", False)
+    if (po <= 10 and pdd >= 23) or (po >= 23 and pdd <= 10):
+        fav = o if po <= 10 else d
+        q = QBX.get(o, {})
+        spec = q.get("text")
+        add("Passing offence vs pass defence", fav,
+            f"{o} passing {ordinal(po)} (adj. EPA/dropback {v(o, 'off_adj_epa_db', 'epa')}, {v(o, 'off_ypa', 'n2')} Y/A); "
+            f"{d} pass defence {ordinal(pdd)} (allows {v(d, 'def_adj_epa_db', 'epa')}, {v(d, 'def_ypa', 'n2')} Y/A).",
+            "Efficient early-down passing and third-down conversions through the air." if fav == o else
+            "Coverage that limits completions and forces the offence to sustain long drives without big gains.",
+            [q.get("caution"),
+             f"{d} pass rush {ordinal(rd('def_pressure_rate', True))} in pressure rate could disrupt the passing game." if fav == o and rd("def_pressure_rate", True) <= 10 else None,
+             f"{d} defensive-back regulars out: {int(T.loc[d, 'absent_DB'])}." if T.loc[d, "absent_DB"] > 0 else None],
+            spec, finding_conf(min(po, pdd) <= 5 and max(po, pdd) >= 28, [MM["epa_db"]["off"]["w"][o], MM["epa_db"]["def"]["w"][d]]))
+    # 3/4 protection vs pass rush
+    pa, pr = r("off_pressure_rate", False), rd("def_pressure_rate", True)
+    if pa <= 8 and pr >= 25:
+        add("Strong protection vs weak pass rush", o,
+            f"{o} allows pressure on {v(o, 'off_pressure_rate', 'pct')} of dropbacks ({ordinal(pa)}); {d} generates {v(d, 'def_pressure_rate', 'pct')} ({ordinal(pr)}).",
+            "Clean pockets: more time for intermediate and deep concepts, fewer sacks and fewer drive-killing negative plays.",
+            [f"{d} may blitz more to compensate (blitz rate {v(d, 'def_blitz_rate', 'pct')})."], None,
+            finding_conf(pa <= 4 and pr >= 29, [MM["pressure"]["off"]["w"][o], MM["pressure"]["def"]["w"][d]]))
+    if pa >= 25 and pr <= 8:
+        add("Weak protection vs elite pass rush", d,
+            f"{o} allows pressure on {v(o, 'off_pressure_rate', 'pct')} ({ordinal(pa)} in protection); {d} generates {v(d, 'def_pressure_rate', 'pct')} ({ordinal(pr)}).",
+            "Pressure that shortens dropbacks, creates sacks and forces hurried throws on obvious passing downs.",
+            [f"{o} quarterback time to throw {v(o, 'time_to_throw', 'n2')} s ({ordinal(rank(T.time_to_throw, False)[o])} quickest): a quick game can blunt the rush."
+             if rank(T.time_to_throw, False)[o] <= 10 else None,
+             "PFR pressure data is missing most week 7 games."],
+            None, finding_conf(pa >= 29 and pr <= 4, [MM["pressure"]["off"]["w"][o], MM["pressure"]["def"]["w"][d]]))
+    # 5 mobile QB vs QB-run containment
+    qb_runs_pg = (T.off_scrambles + T.off_qb_runs) / T.games
+    mob = int(rank(qb_runs_pg, True)[o])
+    cont_rank = int(rank(T.def_scr_epa.fillna(T.def_scr_epa.mean()), False)[d])
+    if mob <= 8 and cont_rank >= 23:
+        add("Mobile quarterback vs scramble/QB-run containment", o,
+            f"{o} quarterback runs and scrambles {qb_runs_pg[o]:.1f} per game ({ordinal(mob)}); {d} allows {v(d, 'def_scr_epa', 'epa')} EPA per scramble "
+            f"({ordinal(cont_rank)}) and {v(d, 'def_qb_run_epa', 'epa')} per designed QB run ({int(T.loc[d, 'def_qb_runs'] or 0)} faced).",
+            "Extended plays when coverage holds, and designed QB runs that add a blocker in the run game.",
+            ["Scramble and QB-run samples are small (a few dozen plays per defence)."], None, "limited")
+    # 6 explosive passing vs deep vulnerability
+    eo = r("off_expl_pass_rate", True)
+    ed1, ed2 = rd("def_expl_pass_rate", False), rd("def_deep_epa", False)
+    if eo <= 8 and (ed1 >= 24 or ed2 >= 24):
+        add("Explosive passing vs deep-ball vulnerability", o,
+            f"{o} completes 20+ yard passes on {v(o, 'off_expl_pass_rate', 'pct')} of attempts ({ordinal(eo)}); {d} allows {v(d, 'def_expl_pass_rate', 'pct')} "
+            f"({ordinal(ed1)}) and {v(d, 'def_deep_epa', 'epa')} EPA on throws of 20+ air yards ({ordinal(ed2)}, {int(T.loc[d, 'def_deep_att'])} faced).",
+            "Shot plays off play-action and vertical routes against the coverage's weakest depth.",
+            ["Explosive rates are the noisiest passing measure (shrinkage keeps about a third of each team's record)."],
+            f"{o} attempts {int(T.loc[o, 'off_deep_att'])} deep passes ({v(o, 'off_deep_epa', 'epa')} EPA each).", "limited")
+    # 7 four-man pressure vs poor protection
+    h4 = rd("def_hs_noblitz", True)
+    if h4 <= 8 and pa >= 22:
+        add("Four-man pressure vs poor protection", d,
+            f"{d} hits or sacks the quarterback on {v(d, 'def_hs_noblitz', 'pct')} of dropbacks without blitzing ({ordinal(h4)}); "
+            f"{o} allows pressure on {v(o, 'off_pressure_rate', 'pct')} ({ordinal(pa)} in protection).",
+            "Pressure without extra rushers, so the defence keeps seven in coverage and the quarterback has fewer open targets.",
+            ["Hit-or-sack is a play-level proxy for pressure; free data has no play-level pressure."], None,
+            "moderate" if h4 <= 4 and pa >= 27 else "limited")
+    # 8 blitz-heavy defence vs QB against the blitz
+    bz = int(rank(T.def_blitz_rate, True)[d])
+    vb = r("off_epa_blitz", True)
+    if bz <= 8 and (vb >= 24 or vb <= 8):
+        fav = d if vb >= 24 else o
+        add("Blitz-heavy defence vs quarterback against the blitz", fav,
+            f"{d} sends five or more on {v(d, 'def_blitz_rate', 'pct')} of dropbacks ({ordinal(bz)} highest); {o} averages {v(o, 'off_epa_blitz', 'epa')} "
+            f"EPA per dropback against five-plus rushers ({ordinal(vb)}) and {v(o, 'off_epa_noblitz', 'epa')} against four or fewer.",
+            "The blitz forces quick decisions; quarterbacks who handle it find the vacated zones for big gains." if fav == o else
+            "Extra rushers get home against a passing game that has struggled to adjust protections or throw hot.",
+            [QBX.get(o, {}).get("caution"), f"Samples: about {int(T.loc[o, 'off_n_blitz'])} blitzed dropbacks for {o}."], None, "limited")
+    # 9 red zone
+    zo, zd = r("off_rz_td_rate", True), rd("def_rz_td_rate", False)
+    if (zo <= 8 and zd >= 25) or (zo >= 25 and zd <= 8):
+        fav = o if zo <= 8 else d
+        add("Red-zone offence vs red-zone defence", fav,
+            f"{o} scores touchdowns on {v(o, 'off_rz_td_rate', 'pct')} of red-zone trips ({ordinal(zo)}, {int(T.loc[o, 'off_rz_trips'])} trips); "
+            f"{d} allows {v(d, 'def_rz_td_rate', 'pct')} ({ordinal(zd)}, {int(T.loc[d, 'def_rz_trips'])} trips).",
+            "Converting trips into touchdowns rather than field goals: a four-point swing per trip.",
+            ["Offensive red-zone TD rate has no reliable team-to-team signal yet; it regresses strongly towards the league average."], None, "limited")
+    # 10 turnovers
+    gv = r("giveaway_rate", False)
+    iw = r("int_worthy_rate", False)
+    tk = rd("takeaway_rate", True)
+    fw = rd("def_int_worthy_rate", True)
+    if (gv >= 25 or iw >= 25) and (tk <= 8 or fw <= 8):
+        add("Turnover-prone offence vs ball-hawking defence", d,
+            f"{o} gives the ball away on {v(o, 'giveaway_rate', 'pct')} of plays ({ordinal(gv)}) and throws interception-worthy passes on "
+            f"{v(o, 'int_worthy_rate', 'pct')} of attempts ({ordinal(iw)}); {d} takes it away on {v(d, 'takeaway_rate', 'pct')} of plays ({ordinal(tk)}) and forces "
+            f"interception-worthy throws on {v(d, 'def_int_worthy_rate', 'pct')} ({ordinal(fw)}).",
+            "Short fields and lost possessions, the biggest single-play swings in expected points.",
+            ["Takeaways per drive show no reliable team-to-team signal after seven weeks; forced interception-worthy throws are the more repeatable part.",
+             QBX.get(o, {}).get("caution")], None, "limited")
+    # 11 tackling vs yards after contact / catch
+    mt, ya = rd("def_missed_tackle_pct", False), rd("def_yac_allowed", False)
+    yo, yc = r("yac_per_att", True), r("off_yacoe", True)
+    if (mt >= 25 or ya >= 25) and (yo <= 8 or yc <= 8):
+        add("Poor tackling vs yards after contact and catch", o,
+            f"{d} misses {v(d, 'def_missed_tackle_pct', 'pct')} of tackle attempts ({ordinal(mt)}) and allows {v(d, 'def_yac_allowed', 'n2')} rushing yards after contact ({ordinal(ya)}); "
+            f"{o} gains {v(o, 'yac_per_att', 'n2')} yards after contact per carry ({ordinal(yo)}) and {v(o, 'off_yacoe', 'n2')} YAC over expected per catch ({ordinal(yc)}).",
+            "Short throws and runs that turn into chunk gains after the first contact.",
+            ["PFR tackling data is missing most week 7 games."], None, "limited")
+    return F
+
+
+def qb_context(t, d_team, MM, qbs, T, hsign):
+    """Expected EPA per dropback against this defence under each quarterback scenario (shrunk)."""
+    info = qbs.get(t, {})
+    m = MM["epa_db"]
+    tau2, rv = m["off"]["tau2"], m["resid_var"]
+    wd, ed = m["def"]["w"][d_team], m["def"]["eff"][d_team]
+    rows = []
+    for q in info.get("qbs", []):
+        if q["adj_epa_db"] is None:
+            continue
+        eff = q["adj_epa_db"] - m["mean"]
+        w = tau2 / (tau2 + rv / q["dropbacks"])
+        rows.append({**q, "exp_db": m["mean"] + w * eff + wd * ed + m["home"] * hsign, "w": w})
+    text = caution = None
+    flags = info.get("flags", [])
+    if len(rows) > 1:
+        lat = next((r for r in rows if r["latest_starter"]), rows[0])
+        oth = [r for r in rows if r is not lat and r["starts"] >= 2]
+        if oth:
+            lab = lambda r: r["name"] + (" (on the reserve list; reference only)" if r.get("roster_status") == "RES" else "")
+            text = "; ".join([f"expected EPA/dropback vs {d_team} with {lab(lat)} {lat['exp_db']:+.3f}"] +
+                             [f"with {lab(r)} {r['exp_db']:+.3f}" for r in oth]) + "."
+    if len(flags) > 1 or any("likely to start" in f for f in flags):
+        caution = " ".join(flags[1:]) if len(flags) > 1 else flags[0]
+    return {"rows": rows, "flags": flags, "text": text, "caution": caution}
+
+
+def penalty_hypotheses(o, d, T, g_home, roof):
+    H = []
+    rk = lambda col, t: int(rank(T[col], True)[t])          # 1 = highest rate
+    away_o = o != g_home
+    if (away_o and rk("pd_fs_away_per100", o) <= 8 and T.loc[o, "pd_fs_away_per100"] > T.loc[o, "pd_fs_home_per100"]):
+        H.append({"team": o, "risk": "False starts on the road",
+                  "evidence": f"{o} false starts {T.loc[o, 'pd_fs_away_per100']:.2f} per 100 road snaps ({ordinal(rk('pd_fs_away_per100', o))} most) vs {T.loc[o, 'pd_fs_home_per100']:.2f} at home.",
+                  "caveat": f"Crowd effect depends on the venue ({roof or 'roof not listed'}); road samples are three or four games."})
+    if rk("pd_off_holding_per100db", o) <= 8 and rk("def_pressure_rate", d) <= 10:
+        H.append({"team": o, "risk": "Holding against a strong pass rush",
+                  "evidence": f"{o} offensive holding {T.loc[o, 'pd_off_holding_per100db']:.2f} per 100 dropbacks ({ordinal(rk('pd_off_holding_per100db', o))} most); {d} pressure rate {fmt(T.loc[d, 'def_pressure_rate'], 'pct')} ({ordinal(rk('def_pressure_rate', d))}); {d} draws {T.loc[d, 'pd_off_holding_drawn_per100db']:.2f} holds per 100 dropbacks.",
+                  "caveat": "Holding is called at the officials' discretion and varies by crew."})
+    if rk("pd_cover_fouls_per100db", d) <= 8 and rank(T.off_adj_epa_db, True)[o] <= 12:
+        H.append({"team": d, "risk": "Coverage fouls against a strong passing offence",
+                  "evidence": f"{d} commits DPI, holding or illegal contact {T.loc[d, 'pd_cover_fouls_per100db']:.2f} times per 100 dropbacks faced ({ordinal(rk('pd_cover_fouls_per100db', d))} most); {o} passing {ordinal(rank(T.off_adj_epa_db, True)[o])} and draws {T.loc[o, 'pd_dpi_drawn_per100db']:.2f} DPIs per 100 dropbacks.",
+                  "caveat": "Coverage fouls partly reflect the quality of receivers faced."})
+    if T.loc[d, "pen_rtp"] >= 2 and rank(T.def_blitz_rate, True)[d] <= 12:
+        H.append({"team": d, "risk": "Roughing the passer from an aggressive rush",
+                  "evidence": f"{d} has {int(T.loc[d, 'pen_rtp'])} roughing-the-passer penalties ({T.loc[d, 'pd_rtp_per100db']:.2f} per 100 dropbacks) with a {fmt(T.loc[d, 'def_blitz_rate'], 'pct')} blitz rate; {o} time to throw {fmt(T.loc[o, 'time_to_throw'], 'n2')} s.",
+                  "caveat": "A quick release reduces late hits but also the number of rushes that reach the quarterback; counts are small."})
+    if rk("pd_def_jump_per100", d) <= 8 and rk("pd_def_jump_drawn_per100", o) <= 10:
+        H.append({"team": d, "risk": "Neutral-zone, offside and encroachment fouls against an offence that draws them",
+                  "evidence": f"{d} jumps {T.loc[d, 'pd_def_jump_per100']:.2f} times per 100 snaps ({ordinal(rk('pd_def_jump_per100', d))} most); {o} draws {T.loc[o, 'pd_def_jump_drawn_per100']:.2f} ({ordinal(rk('pd_def_jump_drawn_per100', o))} most), a hard-count proxy.",
+                  "caveat": "Snap-count use is not charted; drawn fouls are an indirect measure."})
+    if rk("pd_off_presnap_per100", o) <= 8 and rk("pd_off_presnap_drawn_per100", d) <= 10:
+        H.append({"team": o, "risk": "Pre-snap penalties against a defence that induces them",
+                  "evidence": f"{o} pre-snap fouls {T.loc[o, 'pd_off_presnap_per100']:.2f} per 100 snaps ({ordinal(rk('pd_off_presnap_per100', o))} most); {d} draws {T.loc[d, 'pd_off_presnap_drawn_per100']:.2f} ({ordinal(rk('pd_off_presnap_drawn_per100', d))} most).",
+                  "caveat": "Alignment disguise is not charted; this uses fouls drawn as the only available proxy."})
+    return H
+
+
+def st_hypothesis(a, h, T):
+    out = []
+    for t, opp in [(a, h), (h, a)]:
+        if rank(T.pen_st_n, True)[t] <= 8 and rank(T.st_epa_pg, True)[opp] <= 10:
+            out.append({"team": t, "risk": "Special-teams penalties against a strong field-position unit",
+                        "evidence": f"{t} has {int(T.loc[t, 'pen_st_n'])} special-teams penalties ({ordinal(rank(T.pen_st_n, True)[t])} most); {opp} special teams {ordinal(rank(T.st_epa_pg, True)[opp])} ({fmt(T.loc[opp, 'st_epa_pg'], 's2')} EPA/game).",
+                        "caveat": "Special-teams penalty counts are small (two to twelve per team)."})
+    return out
+
+
+def workload_view(t, T, trv_row):
+    r = T.loc[t]
+    heavy_last = rank(T.def_snaps_last, True)[t] <= 8
+    exposed = rank(T.off_three_out_rate, True)[t] <= 8 or rank(T.def_quick_pg, True)[t] <= 8
+    rest = trv_row.get("rest") if trv_row else None
+    short = rest is not None and rest <= 5
+    lines = [f"Defence played {int(r.def_snaps_last)} snaps in its last game (week {int(r.last_week_played)}; season average {r.def_snaps_pg:.1f}, "
+             f"{ordinal(rank(T.def_snaps_last, True)[t])} most last week).",
+             f"Offence three-and-out rate {fmt(r.off_three_out_rate, 'pct')} ({ordinal(rank(T.off_three_out_rate, True)[t])} highest); "
+             f"{r.def_quick_pg:.1f} quick turnarounds per game for the defence ({ordinal(rank(T.def_quick_pg, True)[t])} most); "
+             f"median {r.def_rest_min_median:.1f} real minutes between defensive drives."]
+    level = "none"
+    if heavy_last and short:
+        level = "plausible"
+    elif heavy_last or (exposed and short):
+        level = "minor"
+    return {"lines": lines, "level": level, "heavy_last": bool(heavy_last), "exposed": bool(exposed), "short": bool(short)}
+
+
+def travel_view(t, trv, study):
+    if not trv:
+        return None
+    lines = []
+    rest = trv.get("rest")
+    lines.append(f"{int(rest) if rest == rest else 'n/a'} days of rest (previous game {trv.get('prev_weekday') or 'n/a'}"
+                 f"{', international: ' + str(trv.get('prev_stadium')) if trv.get('prev_intl') in (True, 'True') else ''}).")
+    if trv.get("side") == "away":
+        km = trv.get("km")
+        lines.append(f"Travels {km:,.0f} km; time-zone change {trv.get('tz_diff'):+.0f} h; kickoff {trv.get('local_time')} local, "
+                     f"{trv.get('body_clock')} on the team's home clock; road game {int(trv.get('road_streak'))} in a row.")
+        h = trv.get("hist")
+        if isinstance(h, str):
+            try:
+                import ast
+                h = ast.literal_eval(h)
+            except Exception:
+                h = None
+        if h:
+            lines.append(f"History ({study['seasons'][0]}-{study['seasons'][1]}): away teams in this situation ({h['group']}) did "
+                         f"{h['vs_same']:+.1f} points vs same-time-zone trips (95% CI {h['vs_lo']:+.1f} to {h['vs_hi']:+.1f}; {h['n']} games).")
+    else:
+        lines.append("Home game; no travel.")
+    if rest == rest and rest is not None:
+        if rest >= 13:
+            lines.append("Coming off a bye: teams after a bye beat their expected margin by about 1.2 points in 2002-25 (95% CI +0.3 to +2.1).")
+        elif rest <= 5:
+            lines.append("Short week: in 2002-25 short-week teams performed in line with expectation (no measurable effect), but both teams share the short week in Thursday games.")
+    return lines
+
+
+def structured_reports(T, nxt, MM, games, qbs, trv, study, fat):
+    out = {}
+    tr_by = {r["team"]: r for r in trv}
+    for g in games:
+        a, h = g["away"], g["home"]
+        roof = next((x for x in [g["venue"]] if x), "")
+        parts = {"mismatches": [], "workload": {}, "travel": {}, "penalties": [], "qb": {}, "counter": [], "confidence": ""}
+        for o, d in [(a, h), (h, a)]:
+            hsign = 0 if g["neutral"] else (1 if o == h else -1)
+            qx = qb_context(o, d, MM, qbs, T, hsign)
+            parts["qb"][o] = qx
+            parts["mismatches"] += [dict(f, offence=o, defence=d) for f in find_mismatches(o, d, T, MM, {o: qx})]
+            parts["penalties"] += penalty_hypotheses(o, d, T, h, roof)
+        parts["penalties"] += st_hypothesis(a, h, T)
+        order = {"strong": 0, "moderate": 1, "limited": 2}
+        parts["mismatches"].sort(key=lambda f: order[f["conf"]])
+        for t in (a, h):
+            parts["workload"][t] = workload_view(t, T, tr_by.get(t))
+            parts["travel"][t] = travel_view(t, tr_by.get(t), study)
+        cn = []
+        for f in parts["mismatches"]:
+            cn += [f"{f['kind']} ({f['favours']}): {n}" for n in f["neutralisers"]]
+        cn.append(f"League-wide fatigue check ({fat['seasons'][0]}-{fat['seasons'][-1]}): ten extra defensive plays earlier in a game changed EPA allowed per play by "
+                  f"{fat['play_epa']['coef']:+.4f} (95% CI {fat['play_epa']['coef'] - 1.96 * fat['play_epa']['se']:+.3f} to {fat['play_epa']['coef'] + 1.96 * fat['play_epa']['se']:+.3f}), "
+                  "so workload concerns are context, not an expected effect.")
+        parts["counter"] = cn
+        ns = sum(f["conf"] == "strong" for f in parts["mismatches"])
+        nm = sum(f["conf"] == "moderate" for f in parts["mismatches"])
+        parts["confidence"] = (f"{len(parts['mismatches'])} potential mismatch(es): {ns} strong, {nm} moderate, "
+                               f"{len(parts['mismatches']) - ns - nm} limited. Seven weeks of data; every rank carries wide uncertainty.")
+        out[g["id"]] = parts
+    return out
+
+
 # ------------------------------------------------------------------------------------------ page
 def main():
     ap = argparse.ArgumentParser()
@@ -399,6 +716,9 @@ def main():
     profiles = {t: profile(t, T, U, G, meta) for t in T.index}
     mm = mismatches(T, nxt)
     MM = json.loads((d / "matchup_models.json").read_text())
+    CTX = json.loads((d / "context.json").read_text())
+    TRV = pd.read_csv(d / "travel_next_week.csv").replace({np.nan: None}).to_dict("records")
+    PEN_T = pd.read_csv(d / "penalties_by_type.csv")
     order = list(T.sort_values("rating_pg", ascending=False).index)
 
     # ---------------- tables
@@ -640,6 +960,76 @@ def main():
         C("blocks_made", "Kicks blocked", "int", 1), C("blocks_allowed", "Kicks blocked against", "int", -1),
         C("pen_st_n", "ST penalties", "int", -1), C("pen_st_yds", "ST penalty yds", "int", -1),
     ], "st_epa_pg"))
+    tables.append(table("work_off", "Offensive workload and possession", [
+        C("off_snaps_pg", "Off. snaps/game", "n1", 0, "Team offensive snaps from snap counts (includes no-play penalties)"),
+        C("off_snaps_per_drive", "Snaps/drive", "n2", 0), C("off_top_pg", "Possession min/game", "n1", 0),
+        C("off_drive_sec", "Avg drive (s)", "n1", 0), C("off_plays_pd", "Plays/drive", "n1", 0),
+        C("off_three_out_rate", "Three-and-out rate", "pct", -1, "Drives ending in a punt without a first down"),
+        C("off_no_fd_rate", "No first down, no score", "pct", -1), C("off_to_pd", "Turnovers/drive", "pct", -1),
+        C("off_series_success", "Drive (series) success", "pct", 1, "Share of first-and-10 series that gain a first down or touchdown"),
+        C("off_sustained_pg", "Sustained drives/game", "n2", 1, "8+ plays or 4:00+"),
+        C("pts_per_min_poss", "Points per possession minute", "n2", 1),
+        C("off_short_poss_pg", "Short possessions/game", "n2", -1, "3 plays or fewer, or 90 s or less, ending in a punt, turnover or downs"),
+        C("off_snaps_last", "Off. snaps last game", "int", 0),
+    ], "off_three_out_rate", "Possession time and snaps describe workload, not quality. Raw per-game values depend on pace and opponents.", desc=False))
+    tables.append(table("work_def", "Defensive workload", [
+        C("def_snaps_pg", "Def. snaps/game", "n1", 0), C("def_snaps_last", "Def. snaps last game", "int", 0),
+        C("def_snaps_last2", "Avg last 2 games", "n1", 0), C("def_snaps_max", "Most in a game", "int", 0),
+        C("def_snaps_per_drive", "Snaps/drive faced", "n2", -1), C("def_top_pg", "Minutes defending/game", "n1", 0),
+        C("def_drives_pg", "Drives faced/game", "n2", 0), C("def_drive_sec", "Opp. drive length (s)", "n1", -1),
+        C("def_three_out_rate", "Three-and-outs forced", "pct", 1), C("def_stops_pg", "Stops/game", "n2", 1, "Drives faced ending in a punt, turnover, downs or missed FG"),
+        C("takeaways", "Takeaways", "int", 1), C("def_series_success", "Series success allowed", "pct", -1),
+        C("def_quick_pg", "Quick turnarounds/game", "n2", 0, "Defensive drives starting after the team's own offence held the ball for 3 plays or fewer, or 90 s or less"),
+        C("def_rest_min_median", "Median real rest (min)", "n1", 0, "Wall-clock minutes between the end of one defensive drive and the start of the next (same half)"),
+        C("def_rest_under8_share", "Drives with under 8 min rest", "pct", 0),
+        C("def_max_stretch_avg", "Longest stretch (plays)", "n1", 0, "Average per game of the most defensive plays faced with only short own possessions in between"),
+        C("def_short_field_after_to_pg", "Short fields after own turnovers/game", "n2", -1),
+        C("def_dropbacks_pg", "Dropbacks faced/game", "n1", 0),
+    ], "def_snaps_pg", "Intensity: dropbacks faced per game (pass-rush load). Workload columns are context: see the fatigue study before reading them as fatigue."))
+    tables.append(table("fatigue", "Defence through the game (2026)", [
+        C("def_epa_q1", "EPA allowed Q1", "epa", -1), C("def_epa_q2", "Q2", "epa", -1), C("def_epa_q3", "Q3", "epa", -1), C("def_epa_q4", "Q4", "epa", -1),
+        C("def_epa_close_h1", "1st half, score within 8", "epa", -1), C("def_epa_close_h2", "2nd half, score within 8", "epa", -1),
+        C("def_close_h2_minus_h1", "Change (close only)", "epa", -1, "Second-half minus first-half EPA allowed in close-score situations, which removes most game-script effects"),
+        C("def_expl_rate_h1", "Explosive allowed H1", "pct", -1), C("def_expl_rate_h2", "Explosive allowed H2", "pct", -1),
+        C("def_rush_epa_h1", "Rush EPA allowed H1", "epa", -1), C("def_rush_epa_q4", "Rush EPA allowed Q4", "epa", -1), C("def_ypc_q4", "YPC allowed Q4", "n2", -1),
+        C("def_hs_h1", "Hit/sack rate H1", "pct", 1), C("def_hs_h2", "Hit/sack rate H2", "pct", 1),
+        C("def_epa_after_three_out", "EPA after own three-and-out", "epa", -1), C("def_n_after_three_out", "Plays", "int", 0),
+        C("def_epa_after_to", "EPA after own turnover", "epa", -1), C("def_n_after_to", "Plays", "int", 0),
+        C("def_epa_quick", "EPA on quick-turnaround drives", "epa", -1), C("def_epa_not_quick", "EPA on other drives", "epa", -1),
+        C("def_ppd_short_field", "Pts/drive on short fields", "n2", -1), C("def_ppd_long_field", "Pts/drive on long fields", "n2", -1),
+        C("def_q4_pts_pg", "4th-quarter pts allowed/game", "n2", -1),
+    ], "def_close_h2_minus_h1", "Split samples are small (often under 100 plays). Late-game numbers mix fatigue with game script, opponent play-calling and personnel.", desc=False))
+    tables.append(table("pen_detail", "Penalty impact and situations", [
+        C("pd_total_pg", "Penalties/game", "n2", -1), C("pd_off_pg", "Offence/game", "n2", -1), C("pd_def_pg", "Defence/game", "n2", -1), C("pd_st_pg", "Special teams/game", "n2", -1),
+        C("pd_total_yds_pg", "Yards/game", "n1", -1), C("pd_off_yds_per_snap", "Off. yds/snap", "n2", -1), C("pd_def_yds_per_snap", "Def. yds/snap", "n2", -1),
+        C("pen_auto_fd", "Auto 1st downs given", "int", -1), C("pd_drive_extending", "3rd/4th-down fouls extending drives", "int", -1),
+        C("pd_negated_fd", "Negated 1st downs/TDs", "int", -1, "No-play offensive fouls where the wiped-out play reached the line to gain (text-parsed)"),
+        C("pd_negated_success", "Negated successful plays", "int", -1), C("pen_negated_expl", "Negated explosives/TDs", "int", -1),
+        C("pd_out_of_fg_range", "Pushed out of FG range", "int", -1, "Offensive fouls from inside the opponent's 37 that moved the ball beyond it"),
+        C("pd_created_long", "Created 15+ to go", "int", -1), C("pd_high_leverage", "Q4/OT, score within 8", "int", -1),
+        C("pd_while_leading_late", "Q4 while leading by 1-8", "int", -1), C("pd_while_trailing_late", "Q4 while trailing by 1-8", "int", -1),
+        C("rz_td_with_off_pen", "RZ TD% with an off. foul", "pct", 1), C("rz_trips_with_off_pen", "Trips", "int", 0), C("rz_td_without_off_pen", "RZ TD% without", "pct", 1),
+        C("pd_np_epa_off", "Off. EPA lost (no-play)", "n1", -1), C("pd_np_epa_def", "Def. EPA given (no-play)", "n1", -1),
+        C("pd_live_epa_est_off", "Off. EPA lost (live, est.)", "n1", -1, "Accepted fouls on live plays, valued at 0.07 EP per penalty yard (approximation)"),
+        C("pd_live_epa_est_def", "Def. EPA given (live, est.)", "n1", -1), C("pd_epa_cost_total", "Total EPA cost/game", "n2", -1),
+        C("pd_accepted", "Accepted", "int", 0), C("pd_declined", "Declined", "int", 0), C("pd_offsetting", "Offsetting", "int", 0), C("pd_multi_plays", "Plays with 2+ fouls", "int", 0),
+    ], "pd_epa_cost_total", desc=False))
+    tables.append(table("pen_tend", "Penalty tendencies and penalties drawn (per opportunity)", [
+        C("pd_off_presnap_per100", "Off. pre-snap per 100 snaps", "n2", -1), C("pd_fs_home_per100", "False starts per 100, home", "n2", -1),
+        C("pd_fs_away_per100", "per 100, away", "n2", -1), C("pd_off_holding_per100db", "Off. holding per 100 dropbacks", "n2", -1),
+        C("pd_cover_fouls_per100db", "Def. DPI/holding/contact per 100 db", "n2", -1), C("pd_rtp_per100db", "Roughing per 100 db", "n2", -1),
+        C("pd_def_jump_per100", "Def. offside/NZI/encroach per 100", "n2", -1),
+        C("pd_drawn_def_pg", "Def. fouls drawn/game", "n2", 1), C("pd_dpi_drawn_per100db", "DPI drawn per 100 db", "n2", 1),
+        C("pd_def_jump_drawn_per100", "Offside/NZI drawn per 100", "n2", 1, "Proxy for hard counts and tempo"),
+        C("pd_off_holding_drawn_per100db", "Holds drawn by pass rush per 100 db", "n2", 1),
+        C("pd_off_presnap_drawn_per100", "Off. pre-snap drawn per 100", "n2", 1),
+    ], "pd_cover_fouls_per100db", "Rates per relevant opportunity (snaps or dropbacks). Drawn rates describe the opponent's fouls in the team's games.", desc=False))
+    tables.append(table("run_style", "Run style: inside and outside runs", [
+        C("run_inside_share", "Inside share (non-QB runs)", "pct", 0, "Inside = middle or guard gap; outside = tackle or end"),
+        C("off_epa_inside", "Off. EPA inside", "epa", 1), C("off_n_inside", "n", "int", 0), C("off_epa_outside", "Off. EPA outside", "epa", 1), C("off_n_outside", "n", "int", 0),
+        C("def_epa_inside", "Def. EPA allowed inside", "epa", -1), C("def_n_inside", "n", "int", 0),
+        C("def_epa_outside", "Def. EPA allowed outside", "epa", -1), C("def_n_outside", "n", "int", 0),
+    ], "run_inside_share", "Run direction comes from the play-by-play gap and location fields; scheme names (zone, gap, power) are not available."))
     tables.append(table("depth", "Availability and depth", [
         C("qb_starts", "QB starts", "str", 0), C("qb_changed_since_prior", "New primary QB vs 2025", "str", 0),
         C("regulars", "Regulars", "int", 0, "Players averaging 50%+ of offensive or defensive snaps in 2+ games"),
@@ -744,6 +1134,8 @@ def main():
         "blitz_vuln": [t for t in T.index if rank(T.off_epa_blitz)[t] >= 25],
     }
 
+    games = build_matchups(T, nxt, MM, A, mm, notes)
+    pen_types_js = PEN_T.to_dict("records")
     teams_js = []
     for t in T.index:
         r = T.loc[t]
@@ -759,7 +1151,9 @@ def main():
     absn = A.replace({np.nan: None}).to_dict("records")
 
     data = {"teams": teams_js, "qbs": qbs, "absences": absn, "tables": tables, "meta": meta, "profiles": profiles,
-            "mismatch": mm, "games": build_matchups(T, nxt, MM, A, mm, notes), "cats": cats, "D": D, "E": E, "F": F, "dis": dis, "notes": notes, "order": order,
+            "mismatch": mm, "games": games, "reports": structured_reports(T, nxt, MM, games, CTX["qb"], TRV, CTX["travel"], CTX["fatigue"]),
+            "ctx": {"fatigue": CTX["fatigue"], "travel": CTX["travel"], "qb": CTX["qb"], "penalty_groups": CTX["penalty_groups"]},
+            "trv": TRV, "pen_types": pen_types_js, "cats": cats, "D": D, "E": E, "F": F, "dis": dis, "notes": notes, "order": order,
             "names": T.team_name.to_dict()}
     page = TEMPLATE.replace("/*DATA*/", json.dumps(data, default=str).replace("</", "<\\/"))
     page = page.replace("{{METHOD}}", method_html(meta, T))
@@ -839,6 +1233,26 @@ drives or PFR team-games. Each team effect is then shrunk by w = τ² / (τ² + 
 effects minus their average sampling variance (method of moments). Expected value = league mean + w<sub>off</sub> × offence effect + w<sub>def</sub> × defence effect ± home effect.
 When τ² is close to zero, the measure has no reliable team-to-team signal yet and the expectation stays at the league average. After seven weeks that applies to run-defence EPA,
 offensive red-zone TD rate and takeaways per drive. Earlier seasons are not used, and no score or result is forecast.</p>
+<h3>Matchup report rules</h3>
+<p>Eleven mismatch types are scanned in both directions for every game: rushing vs run defence, passing vs pass defence, strong protection vs weak rush, weak protection vs elite rush,
+mobile quarterback vs scramble containment, explosive passing vs deep-ball defence, four-man pressure vs protection, blitz rate vs passing against five-plus rushers, red zone, turnovers,
+and tackling vs yards after contact and catch. A finding needs one unit in roughly the top 8-10 and the other in the bottom 8-10 for that pairing. Each finding lists its evidence, the mechanism,
+what could neutralise it, and whether a more specific split supports it: run direction (inside vs outside), deep attempts, or the likely quarterback's own numbers. Confidence is
+<i>strong</i> only when both ranks are extreme and the shrinkage step keeps at least half of each team's record, <i>moderate</i> when it keeps at least a third, otherwise <i>limited</i>.
+Penalty vulnerabilities are hypotheses built from rates per opportunity (per 100 snaps or dropbacks) and fouls drawn by the opponent. Workload levels: <i>plausible</i> = a top-8 defensive snap count
+in the last game plus a short week; <i>minor</i> = one of those, or a top-8 three-and-out or quick-turnaround rate on a short week.</p>
+<h3>Workload and fatigue</h3>
+<p>Team snaps come from PFR snap counts (the most snaps any player on the unit played). Possession time, plays and three-and-outs come from nflfastR drives. Real rest is wall-clock time between the
+last play of one defensive drive and the first play of the next in the same half, so it includes kicks and stoppages. The fatigue study pools {meta['history_seasons'][0]}-{meta['season']} play-by-play. It regresses EPA (and success)
+allowed on workload measures with defence-season and offence-season fixed effects (two-way demeaning), quarter and score-state controls, and game-clustered standard errors.</p>
+<h3>Rest, travel and body clock</h3>
+<p>Each team's home stadium sets its home time zone (zone rules applied on the game date, including the end of daylight saving time and Arizona's exception). Neutral-site international venues
+are mapped by stadium name. The historical study uses 2002-{meta['season'] - 1} regular-season games at home venues: each game's margin is compared with a leave-one-game-out season rating of both teams plus home field,
+and the away team's residual is averaged by time-zone direction (2+ zones east or west, one zone, same zone) and kickoff slot (early before 3pm ET, late, night from 7pm ET), and by kickoff time on the
+away team's home clock. Relocated franchises use their city at the time; a few home games played away from the usual stadium are not corrected.</p>
+<h3>Quarterback scenarios</h3>
+<p>Per-quarterback opponent-adjusted EPA per dropback is shrunk with the same method as team effects, using his own dropbacks as the sample size, then combined with the opposing defence's effect.
+Status comes from each team's latest weekly roster (reserve list) and latest injury report (game status, or practice participation before game statuses are published). Team-level tables are not changed.</p>
 <h3>Not available, and proxies used</h3>
 <ul>
 <li><b>DVOA</b>: FTN's proprietary metric. It is not in nflverse and was not used, so every DVOA column reads n/a. The closest computed analogues here are opponent-adjusted EPA and success rate. They are not DVOA.</li>

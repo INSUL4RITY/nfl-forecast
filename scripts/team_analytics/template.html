@@ -118,6 +118,21 @@ td.conf-moderate { color: var(--ink); }
 td.conf-low { color: var(--ink-2); }
 td.conf-very-low, td.conf-no-signal-yet { color: var(--muted); font-style: italic; }
 .muted { color: var(--muted); }
+.report { border: 1px solid var(--rule-strong); border-radius: 8px; padding: 4px 16px 12px; margin: 14px 0; background: var(--surface); }
+h3.part { font-size: 1.05rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-2); margin-top: 18px; }
+h4.rh { margin: 16px 0 6px; font-size: 0.95rem; }
+.find { border-top: 1px solid var(--rule); padding: 10px 0; display: grid; gap: 4px; }
+.find p { margin: 0; font-size: 0.9rem; max-width: none; }
+.find .fh { display: flex; flex-wrap: wrap; gap: 8px; align-items: baseline; }
+.lbl { display: inline-block; min-width: 9.5em; color: var(--muted); font-size: 0.76rem; text-transform: uppercase; letter-spacing: 0.05em; margin-right: 6px; }
+.tag { font-size: 0.72rem; color: var(--muted); border: 1px dashed var(--rule-strong); border-radius: 4px; padding: 0 6px; }
+.tag.spec { color: var(--accent); border-color: var(--accent); }
+.pill.conf-p-strong { border-color: var(--good); color: var(--good); }
+.pill.conf-p-moderate { border-color: var(--accent); color: var(--accent); }
+.pill.conf-p-limited { color: var(--muted); }
+.pill.wl-plausible { border-color: var(--warn-ink); color: var(--warn-ink); }
+.pill.wl-minor { border-color: var(--rule-strong); color: var(--ink-2); }
+.pill.wl-none { color: var(--muted); }
 footer { color: var(--muted); font-size: 0.82rem; border-top: 1px solid var(--rule); padding-block: 20px 40px; }
 @media (max-width: 640px) {
   .profile div { grid-template-columns: 1fr; gap: 2px; }
@@ -134,7 +149,7 @@ footer { color: var(--muted); font-size: 0.82rem; border-top: 1px solid var(--ru
 <nav class="sections" aria-label="Sections"><div class="wrap">
   <a href="#summary">Takeaways</a><a href="#matchups">Week 8 matchups</a><a href="#method">Method</a><a href="#rankings">Rankings</a><a href="#efficiency">EPA &amp; DVOA</a>
   <a href="#drives">Drives</a><a href="#passing">Passing</a><a href="#rushing">Rushing</a><a href="#explosive">Explosives</a>
-  <a href="#penalties">Penalties</a><a href="#turnovers">Turnovers</a><a href="#luck">Luck</a><a href="#pressure">Pressure</a>
+  <a href="#workload">Workload</a><a href="#travel">Rest &amp; travel</a><a href="#penalties">Penalties</a><a href="#turnovers">Turnovers</a><a href="#luck">Luck</a><a href="#pressure">Pressure</a>
   <a href="#qbs">Quarterbacks</a><a href="#schedule">Schedule</a><a href="#coaching">Coaching</a><a href="#specialteams">Special teams</a>
   <a href="#depth">Depth</a><a href="#identity">Team identity</a><a href="#comparison">Comparison</a>
   <a href="#overunder">Over/under</a><a href="#sustainable">Sustainable</a><a href="#exploitable">Exploitable</a>
@@ -208,7 +223,24 @@ footer { color: var(--muted); font-size: 0.82rem; border-top: 1px solid var(--ru
   <p class="lead">Designed runs, quarterback designed runs and scrambles are kept apart. Yards before contact points to blocking; yards after contact and rush yards over expected point to the ball carrier. Both are imperfect splits.</p>
   <div data-table="rush_off"></div>
   <div data-table="rush_def"></div>
+  <div data-table="run_style"></div>
   <div id="dis-rush"></div>
+</section>
+
+<section id="workload">
+  <div class="sec-head"><span class="sec-num">6b</span><h2>Workload, possession and defensive fatigue</h2></div>
+  <p class="lead">How much each offence leaves its defence on the field, and whether that has measurably hurt defences. Total workload (snaps, minutes), consecutive workload (quick turnarounds, real minutes of rest, longest stretches) and intensity (dropbacks faced) are reported separately.</p>
+  <div id="fatigue-study"></div>
+  <div data-table="work_off"></div>
+  <div data-table="work_def"></div>
+  <div data-table="fatigue"></div>
+</section>
+
+<section id="travel">
+  <div class="sec-head"><span class="sec-num">6c</span><h2>Rest, travel and body clock</h2></div>
+  <p class="lead">Week 8 schedule context for every team, then the historical evidence (2002-25 regular seasons) behind it. Effects are measured as points beyond what each team's season strength predicts, using leave-one-game-out ratings.</p>
+  <div id="trv-table"></div>
+  <div id="travel-study"></div>
 </section>
 
 <section id="explosive">
@@ -222,6 +254,11 @@ footer { color: var(--muted); font-size: 0.82rem; border-top: 1px solid var(--ru
   <p class="lead">Counts are accepted penalties. Pre-snap fouls are the most clearly controllable. Pass interference, holding and illegal contact also come with aggressive coverage, and some calls are judgement calls by the officials, so a high count is not automatically a lack of discipline.</p>
   <div data-table="pen_off"></div>
   <div data-table="pen_def"></div>
+  <div data-table="pen_detail"></div>
+  <div data-table="pen_tend"></div>
+  <div class="controls"><label for="pen-phase">Penalty types for</label><select id="pen-phase"><option value="off">offence</option><option value="def">defence</option><option value="st">special teams</option></select></div>
+  <div id="pen-types"></div>
+  <div id="pen-groups"></div>
 </section>
 
 <section id="turnovers">
@@ -250,6 +287,9 @@ footer { color: var(--muted); font-size: 0.82rem; border-top: 1px solid var(--ru
   <div class="controls"><button class="btn" id="qb-all" aria-pressed="false" type="button">Show all passers</button><span class="meta" id="qb-count"></span></div>
   <div id="qb-table"></div>
   <div id="qb-notes"></div>
+  <h3>Quarterback situations: where team figures mix passers</h3>
+  <p class="tnote">Team passing figures elsewhere include every quarterback who played. This table splits them, so a returning starter or a backup can be judged on his own games. Status comes from the latest roster and injury report.</p>
+  <div id="qb-sit"></div>
 </section>
 
 <section id="schedule">
@@ -514,6 +554,40 @@ const gameSel = document.getElementById("game-sel");
 gameSel.innerHTML = GAMES.map(g => `<option value="${esc(g.id)}">${esc(g.label)} · ${esc(g.when)}</option>`).join("");
 const leanPill = l => l ? `<span class="pill lean-${l}">${l === "even" ? "even" : "favours " + l}</span>` : "";
 const rk = n => n ? `<span class="rk">${ord(n)}</span>` : "";
+const confPill = c => `<span class="pill conf-p-${c}">${esc(c)} evidence</span>`;
+function specLabel(f) {
+  if (!f.specific) return `<span class="tag">general statistical advantage</span>`;
+  if (/^Not supported/.test(f.specific)) return `<span class="tag">general advantage; the specific split does not back it</span>`;
+  return `<span class="tag spec">matchup-specific support</span>`;
+}
+function renderReport(g) {
+  const R = DATA.reports[g.id]; if (!R) return "";
+  const A = g.away, H = g.home;
+  let h = `<div class="report"><h3 class="part">Matchup report</h3><p class="tnote">Interpretation of the supporting data below: hypotheses about how the game could unfold, not predictions of a result.</p>`;
+  h += `<h4 class="rh">1. Primary tactical mismatches</h4>`;
+  h += R.mismatches.length ? R.mismatches.map(f => `<div class="find"><div class="fh"><b>${esc(f.kind)}</b> <span class="v">${esc(f.offence)} offence vs ${esc(f.defence)} defence · potential edge to ${esc(f.favours)}</span> ${confPill(f.conf)} ${specLabel(f)}</div>
+      <p><span class="lbl">Evidence</span>${esc(f.evidence)}</p>
+      <p><span class="lbl">Mechanism</span>${esc(f.mechanism)}</p>
+      ${f.specific ? `<p><span class="lbl">Specific split</span>${esc(f.specific)}</p>` : ""}
+      ${f.neutralisers.length ? `<p><span class="lbl">Could be neutralised by</span>${f.neutralisers.map(esc).join(" ")}</p>` : ""}</div>`).join("")
+    : `<p class="meta">No unit pairing meets the thresholds (one side in the top 8-10 and the other in the bottom 8-10 for the same matchup type). The game rates as broadly even by units.</p>`;
+  h += `<h4 class="rh">2. Workload concerns</h4><ul>${[A, H].map(t => { const w = R.workload[t]; return `<li><b>${t}</b> <span class="pill wl-${w.level}">${w.level === "none" ? "no concern" : w.level + " concern"}</span> ${w.lines.map(esc).join(" ")}</li>`; }).join("")}</ul>`;
+  h += `<h4 class="rh">3. Rest and travel</h4><ul>${[A, H].map(t => `<li><b>${t}</b> ${(R.travel[t] || ["n/a"]).map(esc).join(" ")}</li>`).join("")}</ul>`;
+  h += `<h4 class="rh">4. Penalty vulnerabilities</h4>` + (R.penalties.length ? `<ul>${R.penalties.map(p => `<li><b>${esc(p.team)}: ${esc(p.risk)}.</b> ${esc(p.evidence)} <span class="muted">Caveat: ${esc(p.caveat)}</span></li>`).join("")}</ul>` : `<p class="meta">No penalty tendency meets the thresholds for this pairing.</p>`);
+  h += `<h4 class="rh">5. Quarterback situation</h4>`;
+  for (const t of [A, H]) {
+    const q = R.qb[t];
+    const rows = q.rows || [];
+    h += `<p><b>${t}</b> ${q.flags.length ? q.flags.map(esc).join(" ") : "One starting quarterback all season; team figures describe him."}</p>`;
+    if (rows.length > 1) h += `<div class="table-wrap"><table class="mt"><thead><tr><th>Quarterback</th><th>Starts (weeks)</th><th>Dropbacks</th><th>Adj. EPA/db</th><th>Team EPA/play in his starts</th><th>Sack rate</th><th>INT-worthy</th><th>Status</th><th>Expected EPA/db in this matchup</th></tr></thead><tbody>${rows.map(r =>
+      `<tr><td>${esc(r.name)}${r.latest_starter ? " <small>latest starter</small>" : ""}</td><td>${r.starts} (${r.start_weeks.join(", ")})</td><td>${r.dropbacks}</td><td>${fmt(r.adj_epa_db, "epa")}</td><td>${fmt(r.team_epa_play_in_starts, "epa")} <span class="rk">${r.team_plays_in_starts} plays</span></td><td>${fmt(r.sack_rate, "pct")}</td><td>${fmt(r.int_worthy, "pct")}</td><td style="text-align:left">${esc(r.roster_status === "RES" ? "reserve list" : (r.report_status ? r.report_status + " (wk " + r.report_week + ")" : (r.practice_status ? r.practice_status : "active")))}</td><td><b>${fmt(r.exp_db, "epa")}</b> <span class="rk">${(r.w * 100).toFixed(0)}% kept</span></td></tr>`).join("")}</tbody></table></div>
+      <p class="tnote">Expected EPA per dropback uses each quarterback's own opponent-adjusted record, shrunk by his number of dropbacks, plus this defence's effect. A backup with few dropbacks stays close to the league average. The team rows elsewhere on this page are unchanged and still mix quarterbacks.</p>`;
+  }
+  h += `<h4 class="rh">6. Supporting evidence</h4><p>The unit tables under Supporting data list every number used above, with ranks and sample sizes. Season-long team pages (efficiency, passing, rushing, penalties, workload, travel) give the league context.</p>`;
+  h += `<h4 class="rh">7. Counterarguments</h4><ul>${R.counter.map(c => `<li>${esc(c)}</li>`).join("")}</ul>`;
+  h += `<h4 class="rh">8. Confidence and uncertainty</h4><p>${esc(R.confidence)}</p></div>`;
+  return h;
+}
 function renderGame(id) {
   const g = GBY[id]; if (!g) return;
   const S = g.summary, A = g.away, H = g.home;
@@ -524,7 +598,9 @@ function renderGame(id) {
     `<tr><td class="tm">${t}${t === H ? "<small>home</small>" : ""}</td><td>${esc(S[t].record)}</td><td>${fmt(S[t].rating, "s1")}${rk(S[t].rating_rank)}</td><td>${ord(S[t].stab_rank)}</td><td>${ord(S[t].off_rank)}</td><td>${ord(S[t].def_rank)}</td><td>${ord(S[t].st_rank)}</td><td style="text-align:left">${esc(S[t].qb)}</td></tr>`).join("")}</tbody></table></div>`;
   if (g.note) h += `<div class="callout">${g.note}</div>`;
   if (g.post) h += `<div class="callout"><b>After the game.</b> ${g.post}</div>`;
-  h += `<div class="split"><div class="card"><h4>What to expect, from the numbers</h4><ul>${g.expect.map(e => `<li>${esc(e)}</li>`).join("")}</ul></div>
+  h += renderReport(g);
+  h += `<h3 class="part">Supporting data</h3><p class="tnote">What has happened so far. The report above interprets these numbers; the tables below do not.</p>`;
+  h += `<div class="split"><div class="card"><h4>Expected values, from the numbers</h4><ul>${g.expect.map(e => `<li>${esc(e)}</li>`).join("")}</ul></div>
     <div class="card warnc"><h4>Be careful with</h4><ul>${g.cautions.map(e => `<li>${esc(e)}</li>`).join("")}</ul></div></div>`;
   for (const sd of g.sides) {
     h += `<h3>${esc(sd.off)} offence vs ${esc(sd.def)} defence${sd.home ? " (offence at home)" : ""}</h3><div class="table-wrap"><table class="mt"><thead><tr><th>Measure</th><th>${esc(sd.off)} offence</th><th>${esc(sd.def)} defence allows</th><th>Expected in this matchup</th><th>League average</th><th>Leans</th><th>Confidence</th></tr></thead><tbody>`;
@@ -568,6 +644,66 @@ document.querySelectorAll("[data-game]").forEach(b => b.addEventListener("click"
 let savedGame = null; try { savedGame = localStorage.getItem("w8-game"); } catch (e) {}
 gameSel.value = savedGame && GBY[savedGame] ? savedGame : GAMES[0].id;
 renderGame(gameSel.value);
+
+// fatigue study
+const FS = DATA.ctx.fatigue;
+const ci = (c, s, d = 3) => `${c >= 0 ? "+" : "−"}${Math.abs(c).toFixed(d)} (95% CI ${(c - 1.96 * s).toFixed(d)} to ${(c + 1.96 * s).toFixed(d)})`;
+document.getElementById("fatigue-study").innerHTML = `<div class="callout"><b>Does workload measurably hurt defences? Not in ${FS.seasons[0]}-${FS.seasons[FS.seasons.length - 1]} data.</b>
+  Each test controls for defence and offence quality in that season (team-season fixed effects), quarter and score state, with game-clustered errors.
+  <ul>
+  <li>Ten more defensive plays faced earlier in the same game: EPA allowed per play ${ci(FS.play_epa.coef, FS.play_epa.se, 4)}; success allowed ${ci(FS.play_success.coef, FS.play_success.se, 4)} (${FS.play_epa.n.toLocaleString()} plays).</li>
+  <li>Drive straight after the team's own short possession (3 plays or fewer, or 90 s or less): EPA/play allowed ${ci(FS.drive_quick.coef, FS.drive_quick.se)} (${FS.drive_quick.n.toLocaleString()} drives, ${(100 * FS.drive_quick.share).toFixed(0)}% of them quick turnarounds).</li>
+  <li>Drive after less than 8 real minutes of rest: ${ci(FS.drive_rest_under8.coef, FS.drive_rest_under8.se)} (${FS.drive_rest_under8.n.toLocaleString()} drives with wall-clock times).</li>
+  <li>Ten more defensive plays in the previous game: next game's EPA/play allowed ${ci(FS.game_prev_plays.coef, FS.game_prev_plays.se, 4)} (${FS.game_prev_plays.n.toLocaleString()} team-games).</li>
+  </ul>
+  Every estimate is close to zero, and its confidence interval rules out effects bigger than about 0.01-0.03 EPA per play. Late-game changes in a defence's numbers are better explained by game script and play-calling than by accumulated workload, at least at the league level.
+  Individual players (for example a thin defensive line on a short week) can still tire; these data cannot see that. League EPA allowed by quarter: ${FS.by_quarter.map(q => `Q${q.qtr} ${fmt(q.epa_all, "epa")} (close score ${fmt(q.epa_close, "epa")})`).join(", ")}.</div>`;
+
+// week 8 travel table and historical study
+const TRV = DATA.trv.map(r => Object.assign({}, r, {record: r.side === "home" ? "home" : "at " + r.opp,
+  hist_txt: (() => { let h = r.hist; if (typeof h === "string") { try { h = JSON.parse(h.replace(/'/g, '"')); } catch (e) { h = null; } } return h ? `${h.vs_same >= 0 ? "+" : "−"}${Math.abs(h.vs_same).toFixed(1)} (${h.n} games)` : ""; })(),
+  prev_txt: `${r.prev_weekday || "n/a"}${r.prev_intl === true || r.prev_intl === "True" ? " · international (" + r.prev_stadium + ")" : ""}`}));
+renderTable({id: "trv", title: "Week 8 rest and travel", sort: "rest", desc: false, cols: [
+  {k: "opp", l: "Opponent", f: "str", d: 0}, {k: "rest", l: "Rest days", f: "int", d: 0}, {k: "prev_txt", l: "Previous game", f: "str", d: 0},
+  {k: "road_streak", l: "Road games in a row", f: "int", d: 0}, {k: "km", l: "Travel (km)", f: "int", d: 0}, {k: "tz_diff", l: "Time-zone change (h)", f: "s1", d: 0},
+  {k: "dir", l: "Direction", f: "str", d: 0}, {k: "local_time", l: "Local kickoff", f: "str", d: 0}, {k: "body_clock", l: "Home body clock", f: "str", d: 0},
+  {k: "slot", l: "Slot (ET)", f: "str", d: 0}, {k: "hist_txt", l: "Historical effect, pts", f: "str", d: 0, t: "Away teams only: average margin vs expectation in this direction and slot, relative to same-time-zone trips"}],
+  note: "Body clock = kickoff time in the team's home time zone. 1 November is the end of daylight saving time; Arizona does not observe it."}, document.getElementById("trv-table"), TRV);
+const TS = DATA.ctx.travel;
+const stRow = r => `<tr><td style="text-align:left">${esc(r.group)}</td><td>${r.n}</td><td>${fmt(r.mean, "s2")}</td><td>${fmt(r.lo, "s1")} to ${fmt(r.hi, "s1")}</td>${r.vs_same !== undefined ? `<td><b>${fmt(r.vs_same, "s2")}</b></td><td>${fmt(r.vs_lo, "s1")} to ${fmt(r.vs_hi, "s1")}</td>` : "<td></td><td></td>"}</tr>`;
+const stTab = (title, rows) => `<h3>${esc(title)}</h3><div class="table-wrap"><table class="mt"><thead><tr><th>Group</th><th>Games</th><th>Avg vs expected (pts)</th><th>95% CI</th><th>Difference vs same zone</th><th>95% CI</th></tr></thead><tbody>${rows.map(stRow).join("")}</tbody></table></div>`;
+document.getElementById("travel-study").innerHTML = `<div class="callout"><b>What history says about travel and kickoff time (${TS.seasons[0]}-${TS.seasons[1]}, ${TS.games.toLocaleString()} games).</b>
+  Away teams travelling <b>two or more time zones east for an early (1pm ET) kickoff</b>, a 10am body-clock start for West Coast teams, did about 1.5 points worse than their strength predicts, relative to same-zone trips. The interval excludes zero.
+  The same eastward trip for a <b>night</b> game showed no penalty (small sample, interval includes zero). Going <b>west</b>, the afternoon games show nothing, but <b>night</b> games did about 2 points worse, consistent with a late body-clock kickoff for East and Central teams.
+  So the early-kickoff effect is real going east; going west, the late kickoff is the one that shows up. Teams after a bye did about 1.2 points better. Short weeks, consecutive road games and the first game after an international trip showed no measurable effect.
+  Twelve direction-and-slot groups were tested, so one or two intervals excluding zero could occur by chance; treat these as context worth about one to two points, not as adjustments.</div>
+  ${stTab("Away teams by travel direction and kickoff slot (ET)", TS.by_dir_slot)}${stTab("Away teams by kickoff time on their home body clock", TS.by_body_clock)}
+  ${stTab("Rest and road trips (both teams)", TS.rest)}`;
+
+// penalty types by phase
+const PT = DATA.pen_types;
+function drawPenTypes() {
+  const ph = document.getElementById("pen-phase").value;
+  const sub = PT.filter(r => r.phase === ph);
+  const cats = [...new Set(sub.map(r => r.category))].sort((a, b) => a === "Other" ? 1 : b === "Other" ? -1 : a.localeCompare(b));
+  const rows = TEAMS.map(t => { const o = {team: t.team, record: t.record, total: 0, yds: 0};
+    sub.filter(r => r.team === t.team).forEach(r => { o["c_" + r.category] = r.n; o.total += r.n; o.yds += r.yds; });
+    cats.forEach(c => { if (o["c_" + c] === undefined) o["c_" + c] = 0; }); o.pg = o.total / t.games; o.ypg = o.yds / t.games; return o; });
+  renderTable({id: "pt", title: `Accepted ${ph === "off" ? "offensive" : ph === "def" ? "defensive" : "special-teams"} penalties by type`, sort: "pg", desc: false,
+    cols: [{k: "pg", l: "Per game", f: "n2", d: -1}, {k: "ypg", l: "Yards/game", f: "n1", d: -1}, {k: "total", l: "Total", f: "int", d: -1}].concat(cats.map(c => ({k: "c_" + c, l: c, f: "int", d: -1}))),
+    note: "Counts are accepted penalties through week 7. Most-to-least penalised by sorting any column; the type columns show which fouls drive each team's total."}, document.getElementById("pen-types"), rows);
+}
+document.getElementById("pen-phase").addEventListener("change", drawPenTypes);
+drawPenTypes();
+const PG = DATA.ctx.penalty_groups;
+document.getElementById("pen-groups").innerHTML = `<details><summary>How nflverse penalty types were grouped</summary>${["off", "def", "st"].map(ph =>
+  `<p><b>${ph === "off" ? "Offence" : ph === "def" ? "Defence" : "Special teams"}:</b> ${Object.entries(PG.grouping[ph]).filter(([c, t]) => t.length).map(([c, t]) => `${esc(c)} = ${t.map(esc).join(", ")}`).join("; ")}. <i>Other</i> = ${PG.other[ph].map(esc).join(", ") || "none"}.</p>`).join("")}
+  <p>Phase follows the play: special teams if it was a kick, otherwise offence or defence by the penalised team. nflfastR keeps one penalty per play, so a second foul on the same play is not counted (the "plays with 2+ fouls" column shows how often that happens). Live-ball penalty EPA uses ${PG.ep_yard} EP per yard, an approximation; no-play penalties use nflfastR's EPA directly.</p></details>`;
+
+// quarterback situations
+const QS = DATA.ctx.qb;
+document.getElementById("qb-sit").innerHTML = `<div class="table-wrap"><table class="mt"><thead><tr><th>Team</th><th>Quarterback</th><th>Starts (weeks)</th><th>Dropbacks</th><th>Adj. EPA/db</th><th>Team EPA/play in his starts</th><th>Status</th><th style="text-align:left">Notes</th></tr></thead><tbody>${DATA.order.filter(t => QS[t] && QS[t].qbs.length > 1).map(t =>
+  QS[t].qbs.map((q, i) => `<tr><td class="tm">${i === 0 ? t : ""}</td><td>${esc(q.name)}${q.latest_starter ? " <small>latest starter</small>" : ""}</td><td>${q.starts}${q.start_weeks.length ? " (" + q.start_weeks.join(", ") + ")" : ""}</td><td>${q.dropbacks}</td><td>${fmt(q.adj_epa_db, "epa")}</td><td>${fmt(q.team_epa_play_in_starts, "epa")}</td><td style="text-align:left">${esc(q.roster_status === "RES" ? "reserve list" : (q.report_status ? q.report_status + " (wk " + q.report_week + ")" : (q.practice_status || "active")))}</td><td style="text-align:left">${i === 0 ? QS[t].flags.map(esc).join(" ") : ""}</td></tr>`).join("")).join("")}</tbody></table></div>`;
 
 // categories
 function catItems(list, cls) {

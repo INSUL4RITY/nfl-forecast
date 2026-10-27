@@ -34,6 +34,9 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "src"))
 from nflcast.data.policy import banned_columns  # noqa: E402
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import context as ctx  # noqa: E402
+
 BASE = "https://github.com/nflverse/nflverse-data/releases/download/"
 CACHE = ROOT / "data" / "cache" / "team_analytics"
 MANIFEST: list[dict] = []
@@ -84,7 +87,8 @@ PBP_COLS = [
     "season", "cpoe", "special_teams_play", "fixed_drive", "fixed_drive_result", "drive_play_count",
     "drive_time_of_possession", "drive_start_transition", "home_score", "away_score", "location", "result",
     "success", "passer_id", "passer", "rusher_id", "pass", "rush", "first_down", "xyac_mean_yardage", "pass_oe",
-    "kickoff_inside_twenty", "kickoff_in_endzone",
+    "kickoff_inside_twenty", "kickoff_in_endzone", "drive_first_downs", "series", "series_success", "time_of_day",
+    "run_location", "run_gap",
 ]
 
 
@@ -205,6 +209,9 @@ def build_drives(p: pd.DataFrame) -> pd.DataFrame:
         "plays": first.loc[fs.index, "drive_play_count"].values, "yards": first.loc[fs.index, "ydsnet"].values,
         "top_sec": [top_seconds(x) for x in first.loc[fs.index, "drive_time_of_possession"].values],
         "home_pre": first.loc[fs.index, "home_pre"].values, "away_pre": first.loc[fs.index, "away_pre"].values,
+        "first_downs": first.loc[fs.index, "drive_first_downs"].values,
+        "start_wall": first.loc[fs.index, "time_of_day"].values,
+        "end_wall": d.groupby(key).time_of_day.last().reindex(fs.index).values,
     })
     dr = dr.join(agg, on=key)
     dr = dr.sort_values(key).reset_index(drop=True)
@@ -838,6 +845,38 @@ def main():
                                        "roof", "surface", "stadium", "away_coach", "home_coach", "away_rest", "home_rest",
                                        "away_score", "home_score", "div_game"]]
     MM = matchup_models(p, dr, tg, teams)
+
+    # ---- matchup context: workload, fatigue, travel, penalties, QB scenarios, run style
+    snaps = fetch(f"snap_counts/snap_counts_{S}.parquet")
+    wl, dq = ctx.workload(p, dr, snaps, teams, W)
+    T = T.join(wl)
+    T["pts_per_min_poss"] = T.pf / (T.off_top_pg * T.games)
+    T = T.join(ctx.fatigue_descriptives(p, dq, teams))
+    pdet, pen_by_type, pen_groups, pen_rows = ctx.penalty_detail(p, teams)
+    T = T.join(pdet)
+    rzp = ctx.rz_penalty_effect(dr, pen_rows)
+    T["rz_td_with_off_pen"] = rzp[("mean", True)] if ("mean", True) in rzp else np.nan
+    T["rz_td_without_off_pen"] = rzp[("mean", False)] if ("mean", False) in rzp else np.nan
+    T["rz_trips_with_off_pen"] = rzp[("size", True)] if ("size", True) in rzp else np.nan
+    T = T.join(ctx.run_style(p, teams))
+    ros = fetch(f"weekly_rosters/roster_weekly_{S}.parquet")
+    ros_cur = ros[ros.week == ros.groupby("team").week.transform("max")]     # teams on a bye may lack the newest week
+    inj = fetch(f"injuries/injuries_{S}.parquet")
+    inj_last = inj[inj.week == inj.groupby("team").week.transform("max")]
+    qbs = ctx.qb_scenarios(p, Q, ros_cur, inj_last, teams)
+    print("fatigue study", flush=True)
+    seasons_pbp = {s: H_p for s, H_p in ((s, add_unit_flags(load_pbp(s))) for s in hist_seasons)}
+    seasons_pbp[S] = p
+    fat = ctx.fatigue_study(seasons_pbp, build_drives)
+    del seasons_pbp
+    print("travel study", flush=True)
+    sched_all = fetch("schedules/games.parquet")
+    trv = ctx.travel_study(sched_all, 2002, S - 1)
+    wk_trv = ctx.week_travel(sched[sched.season == S], W + 1, trv)
+    pen_by_type.to_csv(out_dir / "penalties_by_type.csv", index=False)
+    wk_trv.to_csv(out_dir / "travel_next_week.csv", index=False)
+    (out_dir / "context.json").write_text(json.dumps({"fatigue": fat, "travel": trv, "qb": qbs, "penalty_groups": pen_groups},
+                                                     indent=1, default=str))
 
     # ---- output
     T.index.name = "team"

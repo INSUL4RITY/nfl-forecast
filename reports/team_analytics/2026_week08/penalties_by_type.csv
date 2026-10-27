@@ -1,0 +1,593 @@
+team,phase,category,n,yds,per_game
+ARI,def,DPI,6,124.0,0.8571428571428571
+ARI,def,Defensive holding,4,20.0,0.5714285714285714
+ARI,def,Encroachment,1,5.0,0.14285714285714285
+ARI,def,Face mask,1,15.0,0.14285714285714285
+ARI,def,Illegal use of hands,2,10.0,0.2857142857142857
+ARI,def,Neutral zone,1,5.0,0.14285714285714285
+ARI,def,Offside,1,5.0,0.14285714285714285
+ARI,def,Other,1,10.0,0.14285714285714285
+ARI,def,Roughing the passer,1,6.0,0.14285714285714285
+ARI,def,Unnecessary roughness,2,19.0,0.2857142857142857
+ARI,off,Delay of game,2,10.0,0.2857142857142857
+ARI,off,False start,8,39.0,1.1428571428571428
+ARI,off,Illegal block,1,10.0,0.14285714285714285
+ARI,off,Illegal shift/motion,2,10.0,0.2857142857142857
+ARI,off,OPI,1,10.0,0.14285714285714285
+ARI,off,Offensive holding,6,60.0,0.8571428571428571
+ARI,off,Personal foul,2,23.0,0.2857142857142857
+ARI,st,Block in the back / illegal block,3,19.0,0.42857142857142855
+ARI,st,Kickoff rules,1,0.0,0.14285714285714285
+ARI,st,Personal foul,3,45.0,0.42857142857142855
+ATL,def,DPI,6,135.0,0.8571428571428571
+ATL,def,Defensive holding,2,10.0,0.2857142857142857
+ATL,def,Encroachment,2,10.0,0.2857142857142857
+ATL,def,Face mask,1,15.0,0.14285714285714285
+ATL,def,Neutral zone,4,20.0,0.5714285714285714
+ATL,def,Roughing the passer,2,18.0,0.2857142857142857
+ATL,def,Unnecessary roughness,1,15.0,0.14285714285714285
+ATL,off,Delay of game,3,14.0,0.42857142857142855
+ATL,off,False start,2,10.0,0.2857142857142857
+ATL,off,Intentional grounding,1,10.0,0.14285714285714285
+ATL,off,Offensive holding,8,74.0,1.1428571428571428
+ATL,off,Other,1,1.0,0.14285714285714285
+ATL,off,Other pre-snap,1,5.0,0.14285714285714285
+ATL,off,Personal foul,1,6.0,0.14285714285714285
+ATL,st,Block in the back / illegal block,1,9.0,0.14285714285714285
+ATL,st,Holding,5,43.0,0.7142857142857143
+ATL,st,Kickoff rules,2,5.0,0.2857142857142857
+ATL,st,Personal foul,2,25.0,0.2857142857142857
+BAL,def,DPI,6,92.0,0.8571428571428571
+BAL,def,Defensive holding,2,6.0,0.2857142857142857
+BAL,def,Face mask,1,13.0,0.14285714285714285
+BAL,def,Illegal contact,1,5.0,0.14285714285714285
+BAL,def,Illegal use of hands,1,5.0,0.14285714285714285
+BAL,def,Offside,2,10.0,0.2857142857142857
+BAL,def,Other personal foul,1,15.0,0.14285714285714285
+BAL,def,Roughing the passer,2,18.0,0.2857142857142857
+BAL,def,Unnecessary roughness,1,15.0,0.14285714285714285
+BAL,off,Delay of game,5,25.0,0.7142857142857143
+BAL,off,False start,18,86.0,2.5714285714285716
+BAL,off,Illegal formation,1,5.0,0.14285714285714285
+BAL,off,Illegal shift/motion,3,15.0,0.42857142857142855
+BAL,off,Ineligible downfield,3,15.0,0.42857142857142855
+BAL,off,Offensive holding,9,90.0,1.2857142857142858
+BAL,off,Personal foul,1,15.0,0.14285714285714285
+BAL,st,Block in the back / illegal block,1,10.0,0.14285714285714285
+BAL,st,Holding,1,10.0,0.14285714285714285
+BAL,st,Offside on kick,1,5.0,0.14285714285714285
+BUF,def,DPI,6,89.0,1.0
+BUF,def,Defensive holding,9,48.0,1.5
+BUF,def,Neutral zone,1,5.0,0.16666666666666666
+BUF,def,Offside,1,5.0,0.16666666666666666
+BUF,def,Other personal foul,1,13.0,0.16666666666666666
+BUF,def,Roughing the passer,2,30.0,0.3333333333333333
+BUF,def,Unnecessary roughness,1,15.0,0.16666666666666666
+BUF,off,False start,7,35.0,1.1666666666666667
+BUF,off,Illegal block,1,10.0,0.16666666666666666
+BUF,off,Illegal shift/motion,2,10.0,0.3333333333333333
+BUF,off,Ineligible downfield,1,5.0,0.16666666666666666
+BUF,off,OPI,1,10.0,0.16666666666666666
+BUF,off,Offensive holding,9,90.0,1.5
+BUF,off,Other pre-snap,2,10.0,0.3333333333333333
+BUF,st,Block in the back / illegal block,1,14.0,0.16666666666666666
+BUF,st,Holding,3,30.0,0.5
+BUF,st,Kickoff rules,1,0.0,0.16666666666666666
+BUF,st,Personal foul,1,15.0,0.16666666666666666
+CAR,def,DPI,5,88.0,0.8333333333333334
+CAR,def,Defensive holding,1,5.0,0.16666666666666666
+CAR,def,Neutral zone,1,5.0,0.16666666666666666
+CAR,def,Offside,1,0.0,0.16666666666666666
+CAR,def,Roughing the passer,4,55.0,0.6666666666666666
+CAR,off,Delay of game,3,14.0,0.5
+CAR,off,False start,9,46.0,1.5
+CAR,off,Illegal block,1,10.0,0.16666666666666666
+CAR,off,Illegal formation,1,5.0,0.16666666666666666
+CAR,off,Illegal shift/motion,3,14.0,0.5
+CAR,off,Ineligible downfield,2,10.0,0.3333333333333333
+CAR,off,Intentional grounding,2,20.0,0.3333333333333333
+CAR,off,OPI,2,19.0,0.3333333333333333
+CAR,off,Offensive holding,7,69.0,1.1666666666666667
+CAR,off,Personal foul,1,15.0,0.16666666666666666
+CAR,st,Block in the back / illegal block,1,15.0,0.16666666666666666
+CAR,st,Holding,3,30.0,0.5
+CAR,st,Kickoff rules,1,5.0,0.16666666666666666
+CAR,st,Personal foul,2,30.0,0.3333333333333333
+CHI,def,DPI,3,62.0,0.42857142857142855
+CHI,def,Defensive holding,2,10.0,0.2857142857142857
+CHI,def,Illegal substitution / 12 men,1,6.0,0.14285714285714285
+CHI,def,Illegal use of hands,1,2.0,0.14285714285714285
+CHI,def,Kicker contact,1,15.0,0.14285714285714285
+CHI,def,Neutral zone,1,5.0,0.14285714285714285
+CHI,def,Offside,2,5.0,0.2857142857142857
+CHI,def,Roughing the passer,1,1.0,0.14285714285714285
+CHI,off,Delay of game,3,15.0,0.42857142857142855
+CHI,off,False start,9,44.0,1.2857142857142858
+CHI,off,Illegal formation,1,5.0,0.14285714285714285
+CHI,off,Illegal shift/motion,2,10.0,0.2857142857142857
+CHI,off,Intentional grounding,1,13.0,0.14285714285714285
+CHI,off,OPI,1,10.0,0.14285714285714285
+CHI,off,Offensive holding,13,129.0,1.8571428571428572
+CHI,off,Other,1,5.0,0.14285714285714285
+CHI,st,Block in the back / illegal block,2,16.0,0.2857142857142857
+CHI,st,Holding,2,20.0,0.2857142857142857
+CHI,st,Kickoff rules,3,0.0,0.42857142857142855
+CHI,st,Other,1,15.0,0.14285714285714285
+CHI,st,Personal foul,1,15.0,0.14285714285714285
+CIN,def,DPI,2,31.0,0.3333333333333333
+CIN,def,Defensive holding,4,18.0,0.6666666666666666
+CIN,def,Face mask,3,32.0,0.5
+CIN,def,Illegal contact,1,5.0,0.16666666666666666
+CIN,def,Illegal substitution / 12 men,1,5.0,0.16666666666666666
+CIN,def,Kicker contact,1,15.0,0.16666666666666666
+CIN,def,Neutral zone,1,5.0,0.16666666666666666
+CIN,def,Offside,4,20.0,0.6666666666666666
+CIN,def,Other,1,15.0,0.16666666666666666
+CIN,def,Unnecessary roughness,2,21.0,0.3333333333333333
+CIN,off,Delay of game,2,10.0,0.3333333333333333
+CIN,off,False start,8,40.0,1.3333333333333333
+CIN,off,Illegal block,1,10.0,0.16666666666666666
+CIN,off,Illegal formation,1,5.0,0.16666666666666666
+CIN,off,Offensive holding,4,40.0,0.6666666666666666
+CIN,st,Block in the back / illegal block,1,10.0,0.16666666666666666
+CIN,st,Holding,3,30.0,0.5
+CIN,st,Kickoff rules,1,15.0,0.16666666666666666
+CLE,def,DPI,1,8.0,0.14285714285714285
+CLE,def,Defensive holding,3,14.0,0.42857142857142855
+CLE,def,Encroachment,2,10.0,0.2857142857142857
+CLE,def,Illegal contact,1,5.0,0.14285714285714285
+CLE,def,Illegal substitution / 12 men,2,10.0,0.2857142857142857
+CLE,def,Illegal use of hands,1,5.0,0.14285714285714285
+CLE,def,Neutral zone,7,35.0,1.0
+CLE,def,Offside,2,6.0,0.2857142857142857
+CLE,def,Roughing the passer,3,38.0,0.42857142857142855
+CLE,off,Delay of game,5,25.0,0.7142857142857143
+CLE,off,False start,12,60.0,1.7142857142857142
+CLE,off,Illegal block,1,2.0,0.14285714285714285
+CLE,off,Illegal formation,3,14.0,0.42857142857142855
+CLE,off,Illegal shift/motion,1,5.0,0.14285714285714285
+CLE,off,Offensive holding,9,85.0,1.2857142857142858
+CLE,st,Block in the back / illegal block,2,14.0,0.2857142857142857
+CLE,st,Holding,6,54.0,0.8571428571428571
+CLE,st,Personal foul,1,15.0,0.14285714285714285
+DAL,def,DPI,7,121.0,1.0
+DAL,def,Defensive holding,2,10.0,0.2857142857142857
+DAL,def,Encroachment,1,5.0,0.14285714285714285
+DAL,def,Face mask,2,30.0,0.2857142857142857
+DAL,def,Illegal contact,1,5.0,0.14285714285714285
+DAL,def,Illegal use of hands,1,5.0,0.14285714285714285
+DAL,def,Neutral zone,5,25.0,0.7142857142857143
+DAL,def,Offside,3,15.0,0.42857142857142855
+DAL,def,Other personal foul,1,7.0,0.14285714285714285
+DAL,def,Roughing the passer,1,4.0,0.14285714285714285
+DAL,def,Unnecessary roughness,2,23.0,0.2857142857142857
+DAL,off,Delay of game,3,14.0,0.42857142857142855
+DAL,off,False start,3,15.0,0.42857142857142855
+DAL,off,Illegal block,1,10.0,0.14285714285714285
+DAL,off,Ineligible downfield,1,5.0,0.14285714285714285
+DAL,off,Intentional grounding,1,14.0,0.14285714285714285
+DAL,off,Offensive holding,7,70.0,1.0
+DAL,off,Personal foul,2,30.0,0.2857142857142857
+DAL,st,Block in the back / illegal block,1,11.0,0.14285714285714285
+DAL,st,Holding,5,50.0,0.7142857142857143
+DAL,st,Kickoff rules,3,0.0,0.42857142857142855
+DEN,def,DPI,6,50.0,0.8571428571428571
+DEN,def,Defensive delay,1,5.0,0.14285714285714285
+DEN,def,Defensive holding,2,10.0,0.2857142857142857
+DEN,def,Encroachment,2,10.0,0.2857142857142857
+DEN,def,Illegal contact,2,10.0,0.2857142857142857
+DEN,def,Neutral zone,1,5.0,0.14285714285714285
+DEN,def,Offside,2,10.0,0.2857142857142857
+DEN,def,Other personal foul,1,8.0,0.14285714285714285
+DEN,def,Unnecessary roughness,2,5.0,0.2857142857142857
+DEN,off,Delay of game,7,35.0,1.0
+DEN,off,False start,7,34.0,1.0
+DEN,off,Illegal formation,2,10.0,0.2857142857142857
+DEN,off,Illegal shift/motion,2,10.0,0.2857142857142857
+DEN,off,Ineligible downfield,1,5.0,0.14285714285714285
+DEN,off,OPI,3,30.0,0.42857142857142855
+DEN,off,Offensive holding,7,66.0,1.0
+DEN,st,Block in the back / illegal block,2,20.0,0.2857142857142857
+DEN,st,Holding,2,20.0,0.2857142857142857
+DEN,st,Kickoff rules,1,0.0,0.14285714285714285
+DET,def,DPI,3,54.0,0.5
+DET,def,Defensive holding,3,12.0,0.5
+DET,def,Face mask,2,17.0,0.3333333333333333
+DET,def,Illegal contact,1,5.0,0.16666666666666666
+DET,def,Illegal use of hands,1,5.0,0.16666666666666666
+DET,def,Offside,1,5.0,0.16666666666666666
+DET,def,Roughing the passer,1,16.0,0.16666666666666666
+DET,def,Unnecessary roughness,1,15.0,0.16666666666666666
+DET,off,Delay of game,3,15.0,0.5
+DET,off,False start,12,59.0,2.0
+DET,off,Ineligible downfield,1,5.0,0.16666666666666666
+DET,off,Offensive holding,5,45.0,0.8333333333333334
+DET,st,Holding,2,20.0,0.3333333333333333
+DET,st,Kickoff rules,2,5.0,0.3333333333333333
+DET,st,Other,1,15.0,0.16666666666666666
+GB,def,DPI,3,46.0,0.42857142857142855
+GB,def,Defensive holding,2,8.0,0.2857142857142857
+GB,def,Encroachment,1,5.0,0.14285714285714285
+GB,def,Illegal contact,3,15.0,0.42857142857142855
+GB,def,Neutral zone,5,25.0,0.7142857142857143
+GB,def,Roughing the passer,8,102.0,1.1428571428571428
+GB,def,Unnecessary roughness,3,42.0,0.42857142857142855
+GB,def,Unsportsmanlike,1,15.0,0.14285714285714285
+GB,off,Delay of game,5,25.0,0.7142857142857143
+GB,off,False start,9,44.0,1.2857142857142858
+GB,off,Illegal block,1,10.0,0.14285714285714285
+GB,off,Illegal formation,2,10.0,0.2857142857142857
+GB,off,Ineligible downfield,1,5.0,0.14285714285714285
+GB,off,Intentional grounding,1,11.0,0.14285714285714285
+GB,off,OPI,2,20.0,0.2857142857142857
+GB,off,Offensive holding,11,104.0,1.5714285714285714
+GB,off,Other pre-snap,1,5.0,0.14285714285714285
+GB,off,Personal foul,1,15.0,0.14285714285714285
+GB,st,Holding,2,17.0,0.2857142857142857
+GB,st,Kickoff rules,1,5.0,0.14285714285714285
+GB,st,Personal foul,2,17.0,0.2857142857142857
+HOU,def,DPI,3,63.0,0.42857142857142855
+HOU,def,Defensive holding,3,12.0,0.42857142857142855
+HOU,def,Encroachment,1,5.0,0.14285714285714285
+HOU,def,Illegal contact,1,5.0,0.14285714285714285
+HOU,def,Illegal substitution / 12 men,1,5.0,0.14285714285714285
+HOU,def,Illegal use of hands,1,5.0,0.14285714285714285
+HOU,def,Neutral zone,1,5.0,0.14285714285714285
+HOU,def,Offside,2,10.0,0.2857142857142857
+HOU,off,Delay of game,3,14.0,0.42857142857142855
+HOU,off,False start,11,55.0,1.5714285714285714
+HOU,off,Illegal formation,1,5.0,0.14285714285714285
+HOU,off,Ineligible downfield,1,5.0,0.14285714285714285
+HOU,off,Intentional grounding,1,13.0,0.14285714285714285
+HOU,off,Offensive holding,10,100.0,1.4285714285714286
+HOU,off,Personal foul,3,45.0,0.42857142857142855
+HOU,st,Block in the back / illegal block,2,17.0,0.2857142857142857
+HOU,st,Holding,3,25.0,0.42857142857142855
+HOU,st,Kickoff rules,1,5.0,0.14285714285714285
+HOU,st,Other,1,5.0,0.14285714285714285
+HOU,st,Personal foul,5,74.0,0.7142857142857143
+IND,def,DPI,3,60.0,0.42857142857142855
+IND,def,Defensive holding,2,10.0,0.2857142857142857
+IND,def,Encroachment,1,5.0,0.14285714285714285
+IND,def,Face mask,1,9.0,0.14285714285714285
+IND,def,Illegal contact,1,5.0,0.14285714285714285
+IND,def,Offside,2,10.0,0.2857142857142857
+IND,off,Delay of game,5,25.0,0.7142857142857143
+IND,off,False start,5,25.0,0.7142857142857143
+IND,off,Illegal formation,1,5.0,0.14285714285714285
+IND,off,Illegal shift/motion,1,5.0,0.14285714285714285
+IND,off,Offensive holding,5,49.0,0.7142857142857143
+IND,st,Block in the back / illegal block,2,20.0,0.2857142857142857
+IND,st,Holding,6,43.0,0.8571428571428571
+IND,st,Kickoff rules,1,0.0,0.14285714285714285
+JAX,def,DPI,5,63.0,0.8333333333333334
+JAX,def,Defensive holding,1,5.0,0.16666666666666666
+JAX,def,Face mask,1,15.0,0.16666666666666666
+JAX,def,Illegal substitution / 12 men,1,5.0,0.16666666666666666
+JAX,def,Illegal use of hands,1,5.0,0.16666666666666666
+JAX,def,Neutral zone,1,5.0,0.16666666666666666
+JAX,def,Offside,1,5.0,0.16666666666666666
+JAX,def,Roughing the passer,1,15.0,0.16666666666666666
+JAX,def,Unnecessary roughness,1,15.0,0.16666666666666666
+JAX,def,Unsportsmanlike,1,15.0,0.16666666666666666
+JAX,off,Delay of game,4,20.0,0.6666666666666666
+JAX,off,False start,7,34.0,1.1666666666666667
+JAX,off,Illegal block,2,20.0,0.3333333333333333
+JAX,off,Illegal shift/motion,2,10.0,0.3333333333333333
+JAX,off,OPI,1,10.0,0.16666666666666666
+JAX,off,Offensive holding,12,117.0,2.0
+JAX,off,Other,1,5.0,0.16666666666666666
+JAX,off,Personal foul,1,6.0,0.16666666666666666
+JAX,st,Block in the back / illegal block,1,10.0,0.16666666666666666
+JAX,st,Holding,1,10.0,0.16666666666666666
+KC,def,DPI,3,64.0,0.5
+KC,def,Defensive holding,3,15.0,0.5
+KC,def,Illegal use of hands,2,10.0,0.3333333333333333
+KC,def,Neutral zone,1,5.0,0.16666666666666666
+KC,def,Offside,2,10.0,0.3333333333333333
+KC,def,Other,2,10.0,0.3333333333333333
+KC,def,Roughing the passer,4,45.0,0.6666666666666666
+KC,def,Unnecessary roughness,2,25.0,0.3333333333333333
+KC,off,Delay of game,1,5.0,0.16666666666666666
+KC,off,False start,1,5.0,0.16666666666666666
+KC,off,Illegal block,3,30.0,0.5
+KC,off,Illegal formation,2,10.0,0.3333333333333333
+KC,off,Illegal shift/motion,1,5.0,0.16666666666666666
+KC,off,Offensive holding,7,66.0,1.1666666666666667
+KC,off,Personal foul,1,15.0,0.16666666666666666
+KC,st,Holding,2,13.0,0.3333333333333333
+KC,st,Kick-catch interference,1,5.0,0.16666666666666666
+KC,st,Kickoff rules,1,5.0,0.16666666666666666
+KC,st,Personal foul,1,6.0,0.16666666666666666
+LA,def,DPI,7,111.0,1.0
+LA,def,Defensive holding,1,2.0,0.14285714285714285
+LA,def,Encroachment,1,0.0,0.14285714285714285
+LA,def,Face mask,2,21.0,0.2857142857142857
+LA,def,Illegal contact,1,5.0,0.14285714285714285
+LA,def,Illegal use of hands,1,3.0,0.14285714285714285
+LA,def,Offside,3,12.0,0.42857142857142855
+LA,def,Other personal foul,1,15.0,0.14285714285714285
+LA,def,Roughing the passer,1,15.0,0.14285714285714285
+LA,def,Unnecessary roughness,1,15.0,0.14285714285714285
+LA,off,Delay of game,4,20.0,0.5714285714285714
+LA,off,False start,9,44.0,1.2857142857142858
+LA,off,Illegal block,1,15.0,0.14285714285714285
+LA,off,OPI,1,10.0,0.14285714285714285
+LA,off,Offensive holding,8,80.0,1.1428571428571428
+LA,off,Personal foul,2,28.0,0.2857142857142857
+LA,off,Unsportsmanlike,2,28.0,0.2857142857142857
+LA,st,Holding,2,20.0,0.2857142857142857
+LA,st,Kickoff rules,1,0.0,0.14285714285714285
+LA,st,Offside on kick,1,5.0,0.14285714285714285
+LA,st,Personal foul,1,15.0,0.14285714285714285
+LAC,def,DPI,4,90.0,0.6666666666666666
+LAC,def,Defensive holding,3,15.0,0.5
+LAC,def,Face mask,1,2.0,0.16666666666666666
+LAC,def,Illegal contact,2,10.0,0.3333333333333333
+LAC,def,Illegal use of hands,1,5.0,0.16666666666666666
+LAC,def,Offside,2,10.0,0.3333333333333333
+LAC,def,Other,2,30.0,0.3333333333333333
+LAC,def,Roughing the passer,1,6.0,0.16666666666666666
+LAC,def,Unnecessary roughness,1,15.0,0.16666666666666666
+LAC,off,Delay of game,2,5.0,0.3333333333333333
+LAC,off,False start,15,68.0,2.5
+LAC,off,Illegal block,2,20.0,0.3333333333333333
+LAC,off,Illegal formation,1,5.0,0.16666666666666666
+LAC,off,OPI,1,10.0,0.16666666666666666
+LAC,off,Offensive holding,10,95.0,1.6666666666666667
+LAC,off,Personal foul,1,10.0,0.16666666666666666
+LAC,st,Holding,4,40.0,0.6666666666666666
+LAC,st,Kickoff rules,1,5.0,0.16666666666666666
+LV,def,DPI,8,98.0,1.1428571428571428
+LV,def,Defensive holding,1,5.0,0.14285714285714285
+LV,def,Illegal contact,1,5.0,0.14285714285714285
+LV,def,Illegal substitution / 12 men,2,11.0,0.2857142857142857
+LV,def,Illegal use of hands,1,5.0,0.14285714285714285
+LV,def,Neutral zone,1,0.0,0.14285714285714285
+LV,def,Offside,1,5.0,0.14285714285714285
+LV,def,Other personal foul,1,4.0,0.14285714285714285
+LV,def,Unnecessary roughness,2,18.0,0.2857142857142857
+LV,off,Delay of game,1,5.0,0.14285714285714285
+LV,off,False start,8,38.0,1.1428571428571428
+LV,off,Ineligible downfield,1,5.0,0.14285714285714285
+LV,off,Intentional grounding,1,10.0,0.14285714285714285
+LV,off,Offensive holding,6,58.0,0.8571428571428571
+LV,off,Other pre-snap,3,13.0,0.42857142857142855
+LV,st,Holding,1,10.0,0.14285714285714285
+LV,st,Kickoff rules,2,5.0,0.2857142857142857
+LV,st,Personal foul,2,30.0,0.2857142857142857
+MIA,def,DPI,1,6.0,0.16666666666666666
+MIA,def,Defensive holding,2,10.0,0.3333333333333333
+MIA,def,Encroachment,1,5.0,0.16666666666666666
+MIA,def,Illegal contact,3,15.0,0.5
+MIA,def,Illegal use of hands,1,5.0,0.16666666666666666
+MIA,def,Offside,4,20.0,0.6666666666666666
+MIA,def,Unnecessary roughness,1,0.0,0.16666666666666666
+MIA,def,Unsportsmanlike,1,15.0,0.16666666666666666
+MIA,off,Delay of game,3,15.0,0.5
+MIA,off,False start,5,25.0,0.8333333333333334
+MIA,off,Illegal block,1,6.0,0.16666666666666666
+MIA,off,Illegal formation,1,5.0,0.16666666666666666
+MIA,off,Illegal shift/motion,1,5.0,0.16666666666666666
+MIA,off,Ineligible downfield,2,5.0,0.3333333333333333
+MIA,off,Offensive holding,8,80.0,1.3333333333333333
+MIA,st,Block in the back / illegal block,2,19.0,0.3333333333333333
+MIA,st,Holding,3,30.0,0.5
+MIA,st,Kickoff rules,2,5.0,0.3333333333333333
+MIN,def,Face mask,1,15.0,0.16666666666666666
+MIN,def,Illegal substitution / 12 men,1,5.0,0.16666666666666666
+MIN,def,Neutral zone,1,5.0,0.16666666666666666
+MIN,def,Offside,2,10.0,0.3333333333333333
+MIN,def,Roughing the passer,1,15.0,0.16666666666666666
+MIN,def,Unnecessary roughness,2,30.0,0.3333333333333333
+MIN,off,Delay of game,3,15.0,0.5
+MIN,off,False start,8,39.0,1.3333333333333333
+MIN,off,Illegal block,1,10.0,0.16666666666666666
+MIN,off,Illegal formation,2,10.0,0.3333333333333333
+MIN,off,Illegal shift/motion,1,5.0,0.16666666666666666
+MIN,off,OPI,1,10.0,0.16666666666666666
+MIN,off,Offensive holding,7,70.0,1.1666666666666667
+MIN,st,Block in the back / illegal block,1,15.0,0.16666666666666666
+MIN,st,Kickoff rules,1,5.0,0.16666666666666666
+MIN,st,Personal foul,1,15.0,0.16666666666666666
+NE,def,DPI,3,36.0,0.42857142857142855
+NE,def,Defensive delay,1,5.0,0.14285714285714285
+NE,def,Defensive holding,3,15.0,0.42857142857142855
+NE,def,Encroachment,3,16.0,0.42857142857142855
+NE,def,Face mask,1,3.0,0.14285714285714285
+NE,def,Illegal contact,1,5.0,0.14285714285714285
+NE,def,Illegal use of hands,1,5.0,0.14285714285714285
+NE,def,Neutral zone,3,15.0,0.42857142857142855
+NE,def,Roughing the passer,1,15.0,0.14285714285714285
+NE,off,Delay of game,3,15.0,0.42857142857142855
+NE,off,False start,9,44.0,1.2857142857142858
+NE,off,Illegal block,1,10.0,0.14285714285714285
+NE,off,Ineligible downfield,1,5.0,0.14285714285714285
+NE,off,Intentional grounding,1,10.0,0.14285714285714285
+NE,off,OPI,2,20.0,0.2857142857142857
+NE,off,Offensive holding,10,96.0,1.4285714285714286
+NE,off,Personal foul,1,15.0,0.14285714285714285
+NE,st,Block in the back / illegal block,3,32.0,0.42857142857142855
+NE,st,Holding,3,26.0,0.42857142857142855
+NE,st,Kickoff rules,1,5.0,0.14285714285714285
+NE,st,Personal foul,1,15.0,0.14285714285714285
+NO,def,DPI,2,14.0,0.2857142857142857
+NO,def,Defensive holding,3,14.0,0.42857142857142855
+NO,def,Illegal contact,1,5.0,0.14285714285714285
+NO,def,Offside,2,6.0,0.2857142857142857
+NO,def,Other,1,14.0,0.14285714285714285
+NO,def,Roughing the passer,2,17.0,0.2857142857142857
+NO,def,Unnecessary roughness,1,7.0,0.14285714285714285
+NO,off,Delay of game,5,25.0,0.7142857142857143
+NO,off,False start,11,55.0,1.5714285714285714
+NO,off,Illegal formation,1,5.0,0.14285714285714285
+NO,off,Illegal shift/motion,2,10.0,0.2857142857142857
+NO,off,Intentional grounding,1,13.0,0.14285714285714285
+NO,off,Offensive holding,6,60.0,0.8571428571428571
+NO,off,Other pre-snap,1,5.0,0.14285714285714285
+NO,off,Personal foul,1,15.0,0.14285714285714285
+NO,off,Unsportsmanlike,1,15.0,0.14285714285714285
+NO,st,Holding,1,10.0,0.14285714285714285
+NO,st,Kickoff rules,2,0.0,0.2857142857142857
+NO,st,Personal foul,1,15.0,0.14285714285714285
+NYG,def,DPI,7,119.0,1.0
+NYG,def,Defensive holding,3,12.0,0.42857142857142855
+NYG,def,Encroachment,1,6.0,0.14285714285714285
+NYG,def,Face mask,1,15.0,0.14285714285714285
+NYG,def,Illegal use of hands,1,5.0,0.14285714285714285
+NYG,def,Roughing the passer,1,15.0,0.14285714285714285
+NYG,def,Unnecessary roughness,1,15.0,0.14285714285714285
+NYG,def,Unsportsmanlike,1,10.0,0.14285714285714285
+NYG,off,Delay of game,4,20.0,0.5714285714285714
+NYG,off,False start,16,79.0,2.2857142857142856
+NYG,off,Illegal shift/motion,3,15.0,0.42857142857142855
+NYG,off,Offensive holding,5,47.0,0.7142857142857143
+NYG,off,Personal foul,1,13.0,0.14285714285714285
+NYG,st,Block in the back / illegal block,1,10.0,0.14285714285714285
+NYG,st,Holding,2,20.0,0.2857142857142857
+NYG,st,Kick-catch interference,1,15.0,0.14285714285714285
+NYJ,def,DPI,4,79.0,0.5714285714285714
+NYJ,def,Defensive holding,3,15.0,0.42857142857142855
+NYJ,def,Face mask,3,45.0,0.42857142857142855
+NYJ,def,Illegal contact,1,5.0,0.14285714285714285
+NYJ,def,Illegal use of hands,3,15.0,0.42857142857142855
+NYJ,def,Neutral zone,3,16.0,0.42857142857142855
+NYJ,def,Offside,1,5.0,0.14285714285714285
+NYJ,def,Roughing the passer,2,18.0,0.2857142857142857
+NYJ,def,Unnecessary roughness,2,28.0,0.2857142857142857
+NYJ,off,Delay of game,7,30.0,1.0
+NYJ,off,False start,9,43.0,1.2857142857142858
+NYJ,off,Illegal formation,1,5.0,0.14285714285714285
+NYJ,off,Illegal shift/motion,1,5.0,0.14285714285714285
+NYJ,off,OPI,2,20.0,0.2857142857142857
+NYJ,off,Offensive holding,8,79.0,1.1428571428571428
+NYJ,off,Other,1,5.0,0.14285714285714285
+NYJ,off,Unsportsmanlike,1,15.0,0.14285714285714285
+NYJ,st,Block in the back / illegal block,1,10.0,0.14285714285714285
+NYJ,st,Holding,2,20.0,0.2857142857142857
+NYJ,st,Kick-catch interference,2,20.0,0.2857142857142857
+NYJ,st,Out of bounds on kick,1,5.0,0.14285714285714285
+PHI,def,DPI,2,21.0,0.2857142857142857
+PHI,def,Defensive holding,3,16.0,0.42857142857142855
+PHI,def,Encroachment,1,2.0,0.14285714285714285
+PHI,def,Illegal contact,5,25.0,0.7142857142857143
+PHI,def,Kicker contact,1,5.0,0.14285714285714285
+PHI,def,Neutral zone,2,10.0,0.2857142857142857
+PHI,def,Offside,1,5.0,0.14285714285714285
+PHI,def,Roughing the passer,1,12.0,0.14285714285714285
+PHI,def,Unnecessary roughness,2,28.0,0.2857142857142857
+PHI,off,Delay of game,4,20.0,0.5714285714285714
+PHI,off,False start,8,36.0,1.1428571428571428
+PHI,off,Illegal formation,2,10.0,0.2857142857142857
+PHI,off,Intentional grounding,1,10.0,0.14285714285714285
+PHI,off,OPI,1,3.0,0.14285714285714285
+PHI,off,Offensive holding,10,97.0,1.4285714285714286
+PHI,off,Other,1,5.0,0.14285714285714285
+PHI,st,Block in the back / illegal block,1,10.0,0.14285714285714285
+PHI,st,Holding,5,50.0,0.7142857142857143
+PIT,def,DPI,1,22.0,0.14285714285714285
+PIT,def,Defensive holding,3,15.0,0.42857142857142855
+PIT,def,Face mask,1,15.0,0.14285714285714285
+PIT,def,Offside,3,14.0,0.42857142857142855
+PIT,def,Roughing the passer,1,15.0,0.14285714285714285
+PIT,def,Unnecessary roughness,2,30.0,0.2857142857142857
+PIT,def,Unsportsmanlike,1,15.0,0.14285714285714285
+PIT,off,Delay of game,3,14.0,0.42857142857142855
+PIT,off,False start,4,20.0,0.5714285714285714
+PIT,off,Illegal shift/motion,2,10.0,0.2857142857142857
+PIT,off,Ineligible downfield,1,5.0,0.14285714285714285
+PIT,off,OPI,2,20.0,0.2857142857142857
+PIT,off,Offensive holding,7,67.0,1.0
+PIT,off,Personal foul,4,47.0,0.5714285714285714
+PIT,st,Block in the back / illegal block,1,10.0,0.14285714285714285
+PIT,st,Holding,3,23.0,0.42857142857142855
+PIT,st,Kickoff rules,1,5.0,0.14285714285714285
+SEA,def,DPI,6,90.0,0.8571428571428571
+SEA,def,Face mask,2,30.0,0.2857142857142857
+SEA,def,Kicker contact,1,15.0,0.14285714285714285
+SEA,def,Offside,1,5.0,0.14285714285714285
+SEA,def,Roughing the passer,2,30.0,0.2857142857142857
+SEA,def,Unnecessary roughness,4,60.0,0.5714285714285714
+SEA,off,Delay of game,5,25.0,0.7142857142857143
+SEA,off,False start,13,64.0,1.8571428571428572
+SEA,off,Illegal formation,1,5.0,0.14285714285714285
+SEA,off,Illegal shift/motion,1,5.0,0.14285714285714285
+SEA,off,Intentional grounding,1,10.0,0.14285714285714285
+SEA,off,Offensive holding,4,40.0,0.5714285714285714
+SEA,off,Other pre-snap,1,4.0,0.14285714285714285
+SEA,off,Personal foul,2,30.0,0.2857142857142857
+SEA,st,Block in the back / illegal block,1,10.0,0.14285714285714285
+SEA,st,Holding,3,30.0,0.42857142857142855
+SEA,st,Kickoff rules,2,0.0,0.2857142857142857
+SEA,st,Personal foul,1,15.0,0.14285714285714285
+SF,def,DPI,2,36.0,0.2857142857142857
+SF,def,Defensive delay,1,5.0,0.14285714285714285
+SF,def,Encroachment,1,5.0,0.14285714285714285
+SF,def,Illegal contact,3,15.0,0.42857142857142855
+SF,def,Illegal substitution / 12 men,1,5.0,0.14285714285714285
+SF,def,Neutral zone,1,5.0,0.14285714285714285
+SF,def,Offside,2,9.0,0.2857142857142857
+SF,def,Other,2,19.0,0.2857142857142857
+SF,def,Roughing the passer,2,24.0,0.2857142857142857
+SF,def,Unnecessary roughness,1,15.0,0.14285714285714285
+SF,off,Delay of game,1,5.0,0.14285714285714285
+SF,off,False start,6,30.0,0.8571428571428571
+SF,off,Illegal formation,1,5.0,0.14285714285714285
+SF,off,Intentional grounding,2,29.0,0.2857142857142857
+SF,off,OPI,1,10.0,0.14285714285714285
+SF,off,Offensive holding,10,100.0,1.4285714285714286
+SF,st,Holding,1,10.0,0.14285714285714285
+SF,st,Kick-catch interference,1,15.0,0.14285714285714285
+SF,st,Personal foul,1,15.0,0.14285714285714285
+TB,def,DPI,3,17.0,0.42857142857142855
+TB,def,Defensive holding,2,10.0,0.2857142857142857
+TB,def,Encroachment,1,5.0,0.14285714285714285
+TB,def,Face mask,1,15.0,0.14285714285714285
+TB,def,Illegal use of hands,1,5.0,0.14285714285714285
+TB,def,Neutral zone,2,10.0,0.2857142857142857
+TB,def,Offside,2,9.0,0.2857142857142857
+TB,def,Roughing the passer,1,15.0,0.14285714285714285
+TB,def,Unnecessary roughness,2,16.0,0.2857142857142857
+TB,off,Delay of game,3,15.0,0.42857142857142855
+TB,off,False start,12,60.0,1.7142857142857142
+TB,off,Illegal shift/motion,1,5.0,0.14285714285714285
+TB,off,Offensive holding,12,117.0,1.7142857142857142
+TB,off,Other pre-snap,1,5.0,0.14285714285714285
+TB,off,Personal foul,1,14.0,0.14285714285714285
+TB,st,Holding,3,26.0,0.42857142857142855
+TB,st,Kickoff rules,1,5.0,0.14285714285714285
+TB,st,Personal foul,1,15.0,0.14285714285714285
+TEN,def,DPI,2,38.0,0.2857142857142857
+TEN,def,Illegal contact,1,5.0,0.14285714285714285
+TEN,def,Illegal use of hands,1,5.0,0.14285714285714285
+TEN,def,Kicker contact,1,5.0,0.14285714285714285
+TEN,def,Offside,8,40.0,1.1428571428571428
+TEN,off,Delay of game,2,9.0,0.2857142857142857
+TEN,off,False start,3,15.0,0.42857142857142855
+TEN,off,Illegal formation,1,5.0,0.14285714285714285
+TEN,off,OPI,2,20.0,0.2857142857142857
+TEN,off,Offensive holding,8,80.0,1.1428571428571428
+TEN,off,Personal foul,1,15.0,0.14285714285714285
+TEN,st,Holding,6,56.0,0.8571428571428571
+TEN,st,Kickoff rules,4,5.0,0.5714285714285714
+TEN,st,Personal foul,2,30.0,0.2857142857142857
+WAS,def,DPI,1,9.0,0.16666666666666666
+WAS,def,Defensive holding,3,15.0,0.5
+WAS,def,Face mask,2,30.0,0.3333333333333333
+WAS,def,Offside,1,5.0,0.16666666666666666
+WAS,def,Unnecessary roughness,3,36.0,0.5
+WAS,def,Unsportsmanlike,1,15.0,0.16666666666666666
+WAS,off,Delay of game,4,20.0,0.6666666666666666
+WAS,off,False start,10,50.0,1.6666666666666667
+WAS,off,Illegal formation,1,5.0,0.16666666666666666
+WAS,off,Illegal shift/motion,1,5.0,0.16666666666666666
+WAS,off,Ineligible downfield,1,5.0,0.16666666666666666
+WAS,off,Intentional grounding,1,12.0,0.16666666666666666
+WAS,off,OPI,2,18.0,0.3333333333333333
+WAS,off,Offensive holding,5,49.0,0.8333333333333334
+WAS,off,Personal foul,1,15.0,0.16666666666666666
+WAS,off,Unsportsmanlike,1,15.0,0.16666666666666666
+WAS,st,Block in the back / illegal block,2,23.0,0.3333333333333333
+WAS,st,Holding,2,20.0,0.3333333333333333
+WAS,st,Kickoff rules,1,0.0,0.16666666666666666
+WAS,st,Out of bounds on kick,1,5.0,0.16666666666666666
