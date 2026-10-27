@@ -166,9 +166,17 @@ export default function Methodology() {
           one side ranks at least 8 places better, play style in neutral situations, and a game log naming each game&apos;s starting
           quarterback (marked when it was not this week&apos;s expected starter). Definitions follow the standard nflverse play-by-play
           conventions and are listed under the section. It replaces the earlier &quot;How they rate&quot; percentile chart.</p>
+        <p className="small"><b>Trial line updated to model v2.2, 27 October 2026</b> (before its first tracked week; the model
+          pick is unchanged). Version 2.2 adds time of possession (each offence&apos;s possession time and each defence&apos;s
+          average time on the field) and fatigue from the previous game: plays the defence faced, plays faced per game over its
+          last three, whether it went to overtime, and extra plays faced (above 65) when the next game is on a short week. The rule
+          was written down first: replace v2.1 only if the 2019–2025 walk-forward margin error was no worse on the same 1,960
+          games. It was slightly better (12.970 vs 12.977 points; within noise). The clearest new effect is the short-week one:
+          about 0.2 points to the opponent for each extra play a defence faced in its previous game. The trial line is now
+          labelled &quot;Model v2 line (trial)&quot;; the Monday 26 October forecasts that used v2.1 stay as published.</p>
         <p className="small"><b>Line movement after the lock, 26 October 2026</b> (display only). The Performance page tracks how the
           market line moved between each pick&apos;s lock and the last line recorded before kickoff, from the side the model pick, the
-          model line and the v2.1 trial line were on at the lock: in points, and as the change in the chance that the result lands on
+          model line and the v2 trial line were on at the lock: in points, and as the change in the chance that the result lands on
           that side. That chance uses key numbers: in 2,761 games from 2016–2025, final margins of 3 (2.7 times), 7 (1.7), 14, 6 and 10
           were more common than a smooth curve around the line predicts, so moves through them are worth more. We also tested whether
           key numbers could sharpen the picks themselves: in the 2019–2025 backtests, model lines that crossed 3 or 7 relative to the

@@ -17,7 +17,7 @@ export default function LineMovement({ lm }: { lm?: LineMove | null }) {
     ["· model line under 1.5 pts from the line", lm.model_line_bands.under_1_5, true],
     ["· 1.5 to 3 pts", lm.model_line_bands["1_5_to_3"], true],
     ["· 3 pts or more", lm.model_line_bands["3_plus"], true],
-    ...(lm.v2_trial.n ? [["Model v2.1 line (trial)", lm.v2_trial, false] as [string, Acc, boolean]] : []),
+    ...(lm.v2_trial.n ? [["Model v2 line (trial)", lm.v2_trial, false] as [string, Acc, boolean]] : []),
   ];
   return (
     <div className="panel">

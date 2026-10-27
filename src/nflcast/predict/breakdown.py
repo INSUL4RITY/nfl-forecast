@@ -19,7 +19,8 @@ GROUPS = [("home_field", "Home field"), ("rest", "Rest and schedule"), ("qb", "Q
           ("scoring", "Scoring and red zone"), ("turnovers", "Turnovers and field position"),
           ("pace", "Pace and play style"), ("penalties", "Penalties"), ("special_teams", "Special teams"),
           ("luck", "Close games and luck"), ("coaching", "4th-down decisions"), ("injuries", "Injuries (non-QB)"),
-          ("travel", "Travel and body clock"), ("weather", "Weather"), ("other", "Other")]
+          ("travel", "Travel and body clock"), ("fatigue", "Fatigue and time of possession"), ("weather", "Weather"),
+          ("other", "Other")]
 _METRIC_GROUP = {"epa_db": "passing", "expl_db": "passing", "sack_rate": "passing",
                  "epa_rush": "rushing", "expl_rush": "rushing",
                  "epa_play": "efficiency", "succ_play": "efficiency", "adj_off_epa": "efficiency", "adj_def_epa": "efficiency",
@@ -34,7 +35,8 @@ _METRIC_GROUP = {"epa_db": "passing", "expl_db": "passing", "sack_rate": "passin
                  "lost_db": "injuries", "travel_k": "travel", "tz_shift": "travel", "bc_early": "travel",
                  "bc_late": "travel", "road_streak": "travel", "div_game": "other",
                  "wx_wind": "weather", "wx_gust": "weather", "wx_cold": "weather", "wx_precip": "weather",
-                 "wx_exposed": "weather"}
+                 "wx_exposed": "weather",
+                 "top": "fatigue", "last_plays": "fatigue", "plays3": "fatigue", "short_load": "fatigue", "last_ot": "fatigue"}
 TOLERANCE = 1e-6
 
 

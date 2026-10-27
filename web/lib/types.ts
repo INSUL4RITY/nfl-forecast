@@ -83,7 +83,7 @@ export interface ReleaseEntry {
   football_only_inj?: Forecast | null;
   /** Expected lost snap share by unit behind the trial line (lost_ol, lost_skill, lost_front, lost_db). */
   injury_inputs?: { home: Record<string, number>; away: Record<string, number> } | null;
-  /** Trial (display and tracking only, from week 8 of 2026): the model v2.1 stats-only line. */
+  /** Trial (display and tracking only, from week 8 of 2026): the model v2 stats-only line (version 2.2). */
   football_only_v2?: Forecast | null;
   /** Which model made the stats-only "Model line" ("v1.0" for all of 2026). */
   stats_model?: string;
@@ -234,7 +234,7 @@ export interface LockedPick extends Pick {
   stats_only?: { margin: number; total: number; line_total?: number | null } | null;
   /** The trial injury-adjusted model line of the same version (display and tracking only). */
   stats_inj?: { margin: number; total: number } | null;
-  /** The trial model v2.1 line of the same version (display and tracking only). */
+  /** The trial model v2 line of the same version (display and tracking only). */
   stats_v2?: { margin: number; total: number } | null;
 }
 

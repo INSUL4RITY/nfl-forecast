@@ -104,12 +104,12 @@ export default function HeadToHead({ weeks }: { weeks: H2HWeek[] }) {
       )}
       {((total.v2?.n ?? 0) > 0 || sum(total.vs_line.v2_trial) > 0) && (
         <div style={{ marginTop: 14 }}>
-          <h3 style={{ margin: "0 0 4px" }}>Trial: model v2.1 line</h3>
+          <h3 style={{ margin: "0 0 4px" }}>Trial: model v2 line</h3>
           <p className="small ink2" style={{ marginTop: 0 }}>The stats-only model with penalties, special teams, non-QB injuries,
-            regression inputs and weather added, from week 8. Compared on the same games only. Display and tracking only; it
+            regression inputs, fatigue, time of possession and weather added, from week 8. Compared on the same games only. Display and tracking only; it
             never sets the model pick.</p>
           <div className="table-wrap"><table>
-            <thead><tr><th className="r">Games</th><th className="r">Model v2.1</th><th className="r">Model line</th>
+            <thead><tr><th className="r">Games</th><th className="r">Model v2</th><th className="r">Model line</th>
               <th className="r">Market</th><th className="r">Vs market line</th></tr></thead>
             <tbody><tr><td className="r">{total.v2?.n ?? 0}</td>
               {(["stats_v2", "stats_only", "market"] as const).map((k) => <td key={k} className="r">

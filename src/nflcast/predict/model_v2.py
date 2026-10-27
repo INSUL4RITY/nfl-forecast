@@ -7,6 +7,10 @@ It is a football-only ridge fitted once on all completed final-horizon games fro
 (artifacts/v2/<version>/model.joblib, sha256 in configs/model_v2.yaml); probabilities and intervals use its walk-forward
 out-of-fold predictions (2019-2025). The `official` switch exists for a future version that passes a pre-registered
 test; it is false here. Any failure leaves the trial line out: it never blocks a release.
+
+2026-10-27 (user, before the trial's first tracked pick): v2.2 = v2.1 + time of possession + previous-game fatigue
+replaced v2.1 after passing its pre-registered test (reports/research/v2_2_*). The v2.1 record is kept under `replaces`
+in configs/model_v2.yaml and its artifact stays in artifacts/v2/.
 """
 
 from __future__ import annotations
@@ -24,8 +28,8 @@ from nflcast.config import PROCESSED_DIR, ROOT, settings, utc_now
 
 V2_FILE = ROOT / "configs" / "model_v2.yaml"
 ART_DIR = ROOT / "artifacts" / "v2"
-FEATURE_SET = "v2.1"
-SNAPSHOTS = "feature_snapshots_v21.parquet"
+FEATURE_SET = "v2.2"
+SNAPSHOTS = "feature_snapshots_v22.parquet"
 _CACHE: dict = {}
 
 
@@ -41,14 +45,16 @@ def training_frame() -> pl.DataFrame:
     return hist.filter((pl.col("horizon") == "final") & (pl.col("season") >= settings()["seasons"]["core_start"]))
 
 
-def fit(version: str, evaluation: Path, oof: Path, official: bool, official_from: str) -> Path:
-    """evaluation: the pre-registered v2.0 report; oof: walk-forward predictions of this feature set (model "B_v2")."""
+def fit(version: str, evaluation: Path, oof: Path, official: bool, official_from: str, replaces: dict | None = None) -> Path:
+    """evaluation: the pre-registered v2.0 report; oof: walk-forward predictions of this feature set (model "B_v2").
+    replaces: {"reason", "test"} to supersede the recorded trial (its record is kept under `replaces`)."""
     import json
     from nflcast.features import personnel as P
     from nflcast.models.core import FootballRidge, feature_set, select_alpha_chronologically
     from nflcast.models.probability import OutcomeModel
-    if V2_FILE.exists():
-        raise SystemExit(f"Model v2 already recorded ({yaml.safe_load(V2_FILE.read_text())['version']}).")
+    previous = record()
+    if previous and not replaces:
+        raise SystemExit(f"Model v2 already recorded ({previous['version']}).")
     train = training_frame()
     fs = feature_set(FEATURE_SET)
     alpha, scores = select_alpha_chronologically(train, feature_set=fs)
@@ -81,6 +87,8 @@ def fit(version: str, evaluation: Path, oof: Path, official: bool, official_from
            "official": bool(official), "official_from": official_from,
            "rules": ("Fitted once; do not refit or retune this season. Trial line: display and tracking only, never the "
                      "official pick (v2.1 was chosen after seeing the v2.0 test; weeks 8-18 of 2026 are its clean test).")}
+    if previous:
+        rec["replaces"] = {**replaces, "record": previous}
     V2_FILE.write_text(yaml.safe_dump(rec, sort_keys=False), encoding="utf-8")
     return V2_FILE
 
@@ -116,7 +124,7 @@ def release_frame(feats: pl.DataFrame, upcoming: pl.DataFrame, games_all: pl.Dat
     from nflcast.features import weather as W
     from nflcast.predict import shadow as SH
     tg2 = pl.read_parquet(PROCESSED_DIR / "team_games_v2.parquet")
-    b = V2.builder(tg2, V2.METRICS_V21)
+    b = V2.builder(tg2, V2.METRICS_V22)
     now_us = int(now.timestamp() * 1_000_000)
     form = []
     for g in upcoming.iter_rows(named=True):
@@ -137,12 +145,15 @@ def release_frame(feats: pl.DataFrame, upcoming: pl.DataFrame, games_all: pl.Dat
                        "exposure": float(s["exposure"])})
     wxf = (W.weather_features(pl.DataFrame(wx)).select(["game_id"] + W.WX_FEATURES) if wx
            else pl.DataFrame(schema={"game_id": pl.Utf8, **{c: pl.Float64 for c in W.WX_FEATURES}}))
+    fat = V2.fatigue_features(games_all, pl.read_parquet(PROCESSED_DIR / "team_games.parquet")).filter(
+        pl.col("game_id").is_in(upcoming["game_id"].to_list()))
     L = SH.live_losses(upcoming, inj_now, season, week, p_play)
     lost = [f"lost_{u}" for u in SH.UNITS]
     drop = [c for c in feats.columns if c.startswith(("home_off_", "home_def_", "away_off_", "away_def_", "home_adj_",
                                                        "away_adj_")) and not c.endswith("_off_bye")]
     f = feats.drop(drop).with_row_index("_row").join(form, on="game_id", how="left").join(trav, on="game_id", how="left")
     f = f.join(wxf, on="game_id", how="left").join(upcoming.select("game_id", "div_game"), on="game_id", how="left")
+    f = f.join(fat, on="game_id", how="left")
     for side in ("home", "away"):
         part = L.select("game_id", pl.col("team").alias(f"{side}_id"), *[pl.col(c).alias(f"{side}_{c}") for c in lost])
         f = f.join(part, on=["game_id", f"{side}_id"], how="left")

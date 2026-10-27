@@ -14,7 +14,7 @@ def _play(**kw):
     base = {"game_id": "G", "posteam": "KC", "defteam": "DEN", "play_type": "pass", "qb_dropback": 1, "qb_spike": 0,
             "qb_kneel": 0, "rush": 0, "wp": 0.5, "epa": 0.0, "yards_gained": 0, "qb_scramble": 0, "down": 1,
             "ydstogo": 10, "yardline_100": 75, "third_down_converted": 0, "fourth_down_converted": 0, "fumble": 0,
-            "penalty": 0, "penalty_team": None}
+            "penalty": 0, "penalty_team": None, "fixed_drive": 1.0, "drive_time_of_possession": "2:30"}
     return {**base, **kw}
 
 
@@ -76,10 +76,29 @@ def test_trial_artifact_is_recorded_frozen_and_never_official():
     from datetime import datetime, timezone
     from nflcast.predict import model_v2 as MV2
     rec = MV2.record()
-    assert rec and rec["official"] is False and rec["feature_set"] == "v2.1"
+    assert rec and rec["official"] is False and rec["feature_set"] == "v2.2"
+    assert rec["replaces"]["record"]["feature_set"] == "v2.1"           # the superseded trial record is kept
     assert rec["preregistered_v2_0_test"]["pass"] is False
     m = MV2.load()                           # sha256 matches the recorded artifact
     assert m is not None and m["version"] == rec["version"]
     assert not MV2.is_official_for(datetime(2027, 1, 1, tzinfo=timezone.utc))
-    fs = feature_set("v2.1")
+    fs = feature_set("v2.2")
     assert not set(V2.TRAVEL) & set(fs["team"] + fs["opp"])
+    assert set(V2.FATIGUE) <= set(fs["opp"]) and "off_top" in fs["team"] and "def_top" in fs["opp"]
+
+
+def test_fatigue_uses_only_the_previous_completed_game():
+    t = lambda d: datetime(2026, 10, d, 17, tzinfo=timezone.utc)
+    games = pl.DataFrame({"game_id": ["G1", "G2", "G3"], "kickoff_utc": [t(4), t(11), t(15)],
+                          "home_id": ["PHI", "PHI", "NYG"], "away_id": ["DAL", "WAS", "PHI"],
+                          "home_rest": [7, 7, 4], "away_rest": [7, 7, 4], "overtime": [0, 1, 0]})
+    tg = pl.DataFrame({"game_id": ["G1", "G1", "G2", "G2"], "team": ["PHI", "DAL", "PHI", "WAS"],
+                       "opp": ["DAL", "PHI", "WAS", "PHI"], "kickoff_utc": [t(4), t(4), t(11), t(11)],
+                       "plays": [55, 70, 50, 80]})
+    f = V2.fatigue_features(games, tg)
+    g3 = f.filter(pl.col("game_id") == "G3").row(0, named=True)       # PHI away on a short week after facing 80 plays in OT
+    assert g3["away_def_last_plays"] == 80 and g3["away_last_ot"] == 1.0
+    assert g3["away_def_plays3"] == pytest.approx(75.0) and g3["away_def_short_load"] == pytest.approx(15.0)
+    assert g3["home_def_last_plays"] == 63.0 and g3["home_def_short_load"] == 0.0     # NYG: no earlier game -> league mean
+    g1 = f.filter(pl.col("game_id") == "G1").row(0, named=True)
+    assert g1["home_def_last_plays"] == 63.0                                           # never the game itself

@@ -315,6 +315,17 @@ market lines, QB availability, injury display, weather display). A changed artif
   head-to-head `inj` (paired errors on games that have it). ingest now refreshes 2026 snap_counts (inputs to this line).
   Pre-season evidence: football-only + injuries 2022-24 margin RMSE 12.717 -> 12.686 (CI spans zero). Judge after the season.
 
+- Trial line v2.1 -> v2.2 (2026-10-27, user: add fatigue spots and time of possession "before we actually finalise it";
+  the trial had no tracked pick yet). Pre-registered (reports/research/v2_2_preregistration_2026-10-27.md): v2.2 = v2.1 +
+  off_top / def_top (possession minutes from nflverse drive_time_of_possession, METRICS_V22) + previous-game fatigue
+  (`features/v2.fatigue_features`: def_last_plays, def_plays3, last_ot, def_short_load = plays faced above 65 x rest <= 5);
+  replace v2.1 only if pooled 2019-2025 margin SE <= v2.1's. PASSED (reports/research/v2_2_evaluation_20261027T025629Z.json):
+  12.970 vs 12.977 RMSE, SE diff -0.18 [-0.77, +0.37]; totals equal; side 51.4% vs 51.7%; 2026 wks 1-7 12.37 vs 12.33.
+  Frozen v2.2-trial-2026-10-27 (alpha 100, 2,867 games through 2026_07_KC_SEA); configs/model_v2.yaml keeps v2.1 under
+  `replaces`. Per-unit effects: short-week load +0.19 pts per extra play faced, last game plays +0.02, 3-game plays +0.03,
+  defence time on field -0.23/min, opponent off OT -1.05 (last two likely noise). Site label "Model v2 line (trial)";
+  Method note. Week 7 MNF releases keep v2.1 numbers (immutable).
+
 - Playoffs + team colours (2026-10-26, user request; display only): playoff weeks 19-22 are named Wild Card / Divisional
   round / Conference championships / Super Bowl (`weekName`/`weekShort` in web/lib/format.ts); the matchup section now
   also covers playoff games (season to date = every earlier game of the season); game cards get a two-team colour stripe,

@@ -30,7 +30,7 @@ WP_LO, WP_HI = 0.10, 0.90
 ST_TYPES = ["kickoff", "punt", "field_goal", "extra_point"]
 PBP_COLS_V2 = ["game_id", "posteam", "defteam", "play_type", "qb_dropback", "qb_spike", "qb_kneel", "rush", "wp", "epa",
                "yards_gained", "qb_scramble", "down", "ydstogo", "yardline_100", "third_down_converted",
-               "fourth_down_converted", "fumble", "penalty", "penalty_team"]
+               "fourth_down_converted", "fumble", "penalty", "penalty_team", "fixed_drive", "drive_time_of_possession"]
 
 _V1 = {m[0]: m for m in METRICS}
 METRICS_V2: list[tuple[str, str, str | None, float]] = [
@@ -57,6 +57,11 @@ METRICS_V2: list[tuple[str, str, str | None, float]] = [
 # (efficiency stats as in v1.0) and without travel / body clock, the two groups whose removal improved the test.
 # Chosen after seeing those results, so it runs as a trial line only; weeks 8-18 of 2026 are its clean test.
 METRICS_V21 = [_V1[k] for k in ("epa_play", "epa_db", "epa_rush", "succ_play", "expl_db", "expl_rush")] + METRICS_V2[6:]
+# v2.2 (user request 2026-10-27; reports/research/v2_2_preregistration_2026-10-27.md): v2.1 + time of possession
+# (off_top = own possession minutes per game, def_top = the defence's average time on the field) + previous-game fatigue
+METRICS_V22 = METRICS_V21 + [("top", "top_min", None, 4.0)]
+FATIGUE = ["def_last_plays", "def_plays3", "def_short_load", "last_ot"]
+SHORT_LOAD_FROM = 65.0           # plays faced above this in the previous game count as extra load on a short week
 
 # Feature lists (team row = own offence vs the opponent's defence; "opp" items read the opponent's columns)
 _OFF = [m[0] for m in METRICS_V2]
@@ -130,10 +135,17 @@ def team_game_extra(pbp: pl.DataFrame, tg: pl.DataFrame) -> pl.DataFrame:
         pen_def_epa_sum=(pl.col("epa0") * (pl.col("pen_team") == pl.col("defteam"))).sum())
     st = (base.filter(pl.col("play_type").is_in(ST_TYPES)).group_by(["game_id", "posteam"])
           .agg(st_pos=pl.col("epa0").sum()))
+    # time of possession: each drive's possession time once (nflverse drive_time_of_possession, "m:ss")
+    top = (base.filter(pl.col("fixed_drive").is_not_null() & pl.col("drive_time_of_possession").is_not_null())
+           .group_by(["game_id", "posteam", "fixed_drive"]).agg(t=pl.col("drive_time_of_possession").first())
+           .with_columns(mm=pl.col("t").str.split(":").list.get(0, null_on_oob=True).cast(pl.Int32, strict=False),
+                         ss=pl.col("t").str.split(":").list.get(1, null_on_oob=True).cast(pl.Int32, strict=False))
+           .group_by(["game_id", "posteam"]).agg(top_min=(pl.col("mm") * 60 + pl.col("ss")).sum() / 60.0))
     out = (tg.join(agg.rename({"posteam": "team"}), on=["game_id", "team"], how="left")
            .join(go.rename({"posteam": "team"}), on=["game_id", "team"], how="left")
            .join(pen.rename({"posteam": "team"}), on=["game_id", "team"], how="left")
-           .join(st.rename({"posteam": "team"}), on=["game_id", "team"], how="left"))
+           .join(st.rename({"posteam": "team"}), on=["game_id", "team"], how="left")
+           .join(top.rename({"posteam": "team"}), on=["game_id", "team"], how="left"))
     opp = out.select("game_id", pl.col("team").alias("opp"), pl.col("st_pos").alias("st_opp"))
     out = out.join(opp, on=["game_id", "opp"], how="left").with_columns(
         st_net=pl.col("st_pos").fill_null(0.0) - pl.col("st_opp").fill_null(0.0),
@@ -146,6 +158,34 @@ def team_game_extra(pbp: pl.DataFrame, tg: pl.DataFrame) -> pl.DataFrame:
 
 def builder(tg_v2: pl.DataFrame, metrics=None) -> AsOfFeatureBuilder:
     return AsOfFeatureBuilder(tg_v2, metrics=metrics or METRICS_V2)
+
+
+# ------------------------------------------------------------------ fatigue (v2.2)
+def fatigue_features(games: pl.DataFrame, tg: pl.DataFrame) -> pl.DataFrame:
+    """Per game: home_/away_ def_last_plays (plays that team's defence faced in its previous game), def_plays3 (per game
+    over its last 3), last_ot (previous game went to overtime), def_short_load (plays faced above SHORT_LOAD_FROM in the
+    previous game when this game is on <= 5 days' rest). Only completed games before kickoff count."""
+    faced = tg.select("game_id", pl.col("opp").alias("team"), pl.col("plays").alias("faced"))
+    hist = (tg.select("game_id", "team", "kickoff_utc").join(faced, on=["game_id", "team"], how="inner")
+            .join(games.select("game_id", pl.col("overtime").fill_null(0).cast(pl.Float64).alias("ot")), on="game_id",
+                  how="left")
+            .sort("team", "kickoff_utc")
+            .with_columns(def_plays3=pl.col("faced").cast(pl.Float64).rolling_mean(3, min_samples=1).over("team"))
+            .select("team", pl.col("kickoff_utc").alias("prev_ko"), pl.col("faced").cast(pl.Float64).alias("def_last_plays"),
+                    "def_plays3", pl.col("ot").alias("last_ot")).sort("prev_ko"))
+    out = games.select("game_id", "kickoff_utc", "home_id", "away_id", "home_rest", "away_rest")
+    for side in ("home", "away"):
+        q = (out.select("game_id", "kickoff_utc", pl.col(f"{side}_id").alias("team"), pl.col(f"{side}_rest").alias("rest"))
+             .sort("kickoff_utc"))
+        j = q.join_asof(hist, left_on="kickoff_utc", right_on="prev_ko", by="team", strategy="backward",
+                        allow_exact_matches=False, check_sortedness=False)
+        j = j.with_columns(def_last_plays=pl.col("def_last_plays").fill_null(63.0),
+                           def_plays3=pl.col("def_plays3").fill_null(63.0),
+                           last_ot=pl.col("last_ot").fill_null(0.0)).with_columns(
+            def_short_load=((pl.col("def_last_plays") - SHORT_LOAD_FROM).clip(0, None)
+                            * (pl.col("rest").fill_null(7) <= 5).cast(pl.Float64)))
+        out = out.join(j.select("game_id", *[pl.col(c).alias(f"{side}_{c}") for c in FATIGUE]), on="game_id", how="left")
+    return out.select(["game_id"] + [f"{s}_{c}" for s in ("home", "away") for c in FATIGUE])
 
 
 # ------------------------------------------------------------------ travel and body clock
@@ -234,7 +274,7 @@ def weather_history(games: pl.DataFrame) -> pl.DataFrame:
 
 # ------------------------------------------------------------------ assembled snapshots (history)
 def build_snapshots(v1_feats: pl.DataFrame, games: pl.DataFrame, tg_v2: pl.DataFrame, metrics=None,
-                    version: str = "v2.0") -> pl.DataFrame:
+                    version: str = "v2.0", fatigue: bool = False) -> pl.DataFrame:
     """Final-horizon v2.0 feature rows for every game in the v1.0 snapshots: v1.0 QB / schedule / injury / context
     columns, v2.0 team form at the same cutoff, travel, weather, QB experience term."""
     b = builder(tg_v2, metrics)
@@ -251,6 +291,8 @@ def build_snapshots(v1_feats: pl.DataFrame, games: pl.DataFrame, tg_v2: pl.DataF
         recs.append(rec)
     out = base.select(keep).join(pl.DataFrame(recs), on="game_id", how="left")
     out = out.join(travel_features(games, venue_coords()), on="game_id", how="left")
+    if fatigue:
+        out = out.join(fatigue_features(games, tg_v2), on="game_id", how="left")
     wx = weather_history(games)
     out = out.join(wx, on="game_id", how="left").with_columns([pl.col(c).fill_null(0.0) for c in WX])
     return add_qb_exp(out).with_columns(feature_version=pl.lit(version))

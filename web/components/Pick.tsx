@@ -35,9 +35,10 @@ export const INJ_EXPLAIN = "Model line + injuries (trial): the same stats-only m
   "(expected share of snaps each unit loses). Shown and tracked for comparison only; it never sets the model pick. Most " +
   "meaningful once the final injury report is out.";
 
-export const V2_EXPLAIN = "Model v2.1 line (trial): the stats-only model with penalties, special teams, non-QB injuries, " +
-  "turnover and close-game regression, 3rd/4th-down rates, QB scrambles, 4th-down decisions, divisional games and weather " +
-  "added. Tracked from week 8 against the model line; it never sets the model pick.";
+export const V2_EXPLAIN = "Model v2 line (trial, version 2.2): the stats-only model with penalties, special teams, non-QB " +
+  "injuries, turnover and close-game regression, 3rd/4th-down rates, QB scrambles, 4th-down decisions, time of possession, " +
+  "fatigue from the previous game (plays faced, overtime, short week), divisional games and weather added. Tracked from " +
+  "week 8 against the model line; it never sets the model pick.";
 
 /** True when the trial line's injury inputs are all zero (no injury report for this week yet). */
 export function noInjuryReport(e: { injury_inputs?: { home: Record<string, number>; away: Record<string, number> } | null }): boolean {
@@ -171,7 +172,7 @@ export function PredictionSummary({ g, lockedAt, locksAt }: { g: WeekGame; locke
         {e.football_only_inj && <div className="full" title={INJ_EXPLAIN}><dt>Model line + injuries (trial)</dt>
           <dd>{trial(lp?.stats_inj?.margin, e.football_only_inj.margin, sg?.injury_adjusted)}
             {noInjuryReport(e) && <span className="dd-note">No injury report this week yet</span>}</dd></div>}
-        {e.football_only_v2 && <div className="full" title={V2_EXPLAIN}><dt>Model v2.1 line (trial)</dt>
+        {e.football_only_v2 && <div className="full" title={V2_EXPLAIN}><dt>Model v2 line (trial)</dt>
           <dd>{trial(lp?.stats_v2?.margin, e.football_only_v2.margin, sg?.v2_trial)}</dd></div>}
         <div className="full"><dt>Projected winner (model)</dt>
           <dd>{Math.abs(mdl.margin) < 0.05 ? "Toss-up"
