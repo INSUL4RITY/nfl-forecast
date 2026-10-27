@@ -1,0 +1,42 @@
+{
+ "summary": [
+  "<b>The top of the league is built three different ways.</b> Minnesota (6-0) rates first on 2026 data alone: the best adjusted defence (−0.206 EPA/play), the best pass rush (34.2% pressure rate, from a 71% blitz rate) and +5.5 special-teams EPA per game, but the 29th-ranked adjusted offence. Jacksonville (2nd) and Cincinnati (3rd) are the most balanced teams near the top: no main unit ranks below 13th and 15th. San Francisco has the second-best offence and the second-best run defence, a fraction behind Minnesota's.",
+  "<b>Adding 2025 changes the order.</b> With the prior-season stabilisation the top five become Buffalo, Seattle, Chicago, Jacksonville and Detroit, and Minnesota drops to sixth. Two things drive it: Minnesota has a new primary quarterback, and its edge leans on special teams (+8.2 field-goal points over expected), which repeats less reliably than offence. Buffalo is the cleanest example of a split profile: 1st in adjusted offence (+0.224 EPA/play) and 31st in adjusted defence (+0.175 allowed).",
+  "<b>Records that outrun the underlying numbers:</b> Cleveland (5-2, 20th in rating; 5-1 in one-score games and 4-0 in games decided by three points or fewer), the New York Giants (4-2-1 against the easiest schedule to date, 24th in rating) and Denver (4-0 in one-score games). <b>Records that undersell the team:</b> Tampa Bay (2-5 but 8th in rating, with the 2nd-ranked adjusted defence and a 1-5 one-score record) and the Rams (3-4, 0-2 in games decided by three or fewer, −7.4 field-goal points over expected).",
+  "<b>Defensive rankings deserve less confidence than offensive ones.</b> In 2021-25, seven-week defensive efficiency explained about 11% of a defence's rest-of-season performance, against about 37% for offences. Expect more movement in the defensive tables."
+ ],
+ "sections": {
+  "rankings": [
+   "Kansas City shows why opponent adjustment matters. Its defence ranks 5th on raw EPA allowed but 18th once the offences it faced are accounted for (13 places lower, the largest fall in the league), because it has faced the third-easiest schedule. Houston and New England's defences move 9 places the other way after tougher schedules."
+  ],
+  "efficiency": [
+   "Opponent adjustment moves offences by up to nine places. The Giants fall 9 (the easiest schedule in the league); Miami rises 7 (the hardest schedule). Where raw and adjusted ranks differ by five or more, the adjusted rank is the better guide to quality, but it still rests on six or seven games."
+  ],
+  "qbs": [
+   "<b>Production supported by circumstances:</b> Brock Purdy (adjusted +0.288 EPA/dropback) plays behind the league's lowest pressure rate (15.7%, level with the Rams). Patrick Mahomes's receivers add the most yards after catch over expected among qualified passers (+1.72 per completion), which flatters his efficiency. <b>Producing despite a difficult situation:</b> Bryce Young has positive adjusted efficiency (+0.125) while pressured on 30.6% of dropbacks, second only to Sam Darnold (33.9%) among qualified passers. Caleb Williams's adjusted +0.411 leads the league, but it rests on only four starts, and Chicago has used three starting quarterbacks.",
+   "Several teams' season numbers mix quarterbacks: Baltimore (Jackson 4 starts, Huntley 3; Jackson was listed Out in week 7), Philadelphia (Hurts 5, McKee 2; Hurts is now on the reserve list), Tampa Bay (Mayfield 4, Jalon Daniels 3), Minnesota (Murray 4, Wentz 2), Chicago, Washington and the Giants (three starters each). Their team passing rows describe the mix, not the current starter."
+  ],
+  "sustainable": [
+   "Jacksonville, San Francisco and Cincinnati are the genuinely well-rounded teams near the top: no main unit ranks worse than 13th, 19th and 15th. Buffalo, Seattle, Chicago, Detroit and Minnesota are elite in one area but exposed in another: Buffalo's pass and run defence (30th and 31st), Seattle's pass protection (30.1% pressure allowed, 31st), Detroit's pass defence (27th) and explosive plays allowed (32nd), Minnesota's offence (29th). San Francisco's sustainability depends most on health: four regulars (Bosa, Evans, Samuel, Sigle) were listed Out or Doubtful in the latest report."
+  ],
+  "method": [
+   "<b>Independent checks run for this report.</b> Team EPA/play recomputed separately from the project's own raw snapshot matches to within 0.00001. Interceptions thrown, sacks taken and fumbles lost match nflverse player stats exactly for all 32 teams. Records and points match the schedule. Accepted-penalty counts agree with a count parsed from the play text to within ±3 per team; the small gaps are plays with two penalties, where nflfastR keeps one. nflverse's player-level penalty totals are not a usable cross-check (they diverge for several teams in both directions)."
+  ]
+ },
+ "cats": {
+  "CLE": "The strongest overperformance signal: 3.1 Pythagorean and 4.3 EPA-based expected wins against 5 actual, and 4-0 in games decided by three points or fewer. Turnovers are not the cause (margin 0, expected −0.3). Alternative explanation: a top-11 adjusted defence keeps games close, and late-game execution is partly a skill. Uncertainty: high, with seven games and a ±1-win standard error on each expected-win estimate.",
+  "DEN": "4-0 in one-score games and +4 turnover margin against an expected +0.9. The defence (6th adjusted) is real and the schedule has been the second hardest, which tempers the case: the efficiency gap is smaller than Cleveland's. Close-late defensive EPA (−0.226) is strong, but it rests on a small number of plays.",
+  "PIT": "4-1 in one-score games with an offence and defence that both rank mid-table (15th and 13th adjusted). The turnover margin (+4) matches its expected margin (+4.2), so this is close-game results rather than turnover luck. Its close-late defence (−0.338 EPA/play) has been very good; whether that repeats is the main uncertainty.",
+  "BUF": "The gap is mostly Pythagorean: 3.5 expected wins from points, but 5.0 from EPA, against 5 actual. Buffalo's efficiency supports the record better than its points do. The defence (31st adjusted) is the vulnerability that could cost close games. Low confidence: this is the weakest of the five overperformance cases.",
+  "KC": "Fumble recovery of 83% (10 of 12) and a turnover margin of +5 against an expected +0.2 are the clearest signs of variance, alongside the third-easiest schedule. Against that: the offence ranks 5th adjusted, and field-goal points over expected (−7.2) have cost it, which runs the other way. Moderate confidence that the record overstates the team slightly.",
+  "TB": "The strongest underperformance case: 8th in rating but 2-5, 1-5 in one-score games, against the 4th-hardest schedule. The defence is 2nd adjusted. The offence (27th) is the honest limitation, and its close-late offence (−0.349 EPA/play) may reflect quarterback changes (Mayfield 4 starts, Jalon Daniels 3) as much as luck. Turnover margin +1 against an expected −3.0 runs the other way, which strengthens the case that close-game results, not turnovers, explain the record.",
+  "LA": "0-2 in games decided by three points or fewer, turnover margin −5 against an expected −1.6, fumble recovery 36%, and −7.4 field-goal points over expected. Four separate sources of variance point the same way. The 5th-ranked adjusted defence and a well-rounded profile support a record nearer .500 or better. Kicking may be a real weakness rather than variance, which is the main alternative explanation.",
+  "NO": "A marginal case (luck index −0.75). Fumble recovery of 39% and a turnover margin of −4 against an expected −0.7 explain most of it. Even with neutral turnovers, New Orleans rates 26th, with the 27th-ranked defence and the worst run defence, so any positive regression would move it towards mid-table, not into contention."
+ },
+ "teams": {
+  "MIN": "First on 2026 data alone, but the profile is lopsided: defence 1st, special teams 1st, offence 29th. Sixth once the 2025 prior is included (new primary quarterback; special-teams results are less stable than offence).",
+  "BUF": "First once the 2025 prior is included. The league's most efficient offence (adjusted +0.224 EPA/play) carries a defence that ranks 31st.",
+  "TB": "Eighth in rating with a 2-5 record. The record is driven by a 1-5 one-score record and an offence that has used two starting quarterbacks.",
+  "NYG": "4-2-1 against the easiest schedule to date (opponents −0.075 net EPA/play). The offence falls 9 places after opponent adjustment."
+ }
+}

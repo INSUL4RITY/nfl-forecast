@@ -1,0 +1,142 @@
+team,player,position,group,unit,games,share,status_class,reason,last_report_injury
+ARI,Paris Johnson,OL,OL,off,4,0.995,unconfirmed,did not play in the team's latest game; no injury designation,
+ARI,Budda Baker,S,DB,def,7,0.9928571428571429,listed Questionable,week 7 report: Questionable,Groin
+ARI,Will Johnson,CB,DB,def,2,0.895,confirmed: reserve list,reserve list (week 8 roster),
+ARI,Isaiah Adams,OL,OL,off,3,0.8066666666666666,unconfirmed,did not play in the team's latest game; no injury designation,
+ARI,Andrew Wingard,S,DB,def,4,0.76,listed Out/Doubtful,week 7 report: Out,Knee
+ARI,Marvin Harrison Jr.,WR,WR/TE,off,4,0.7375,unconfirmed,did not play in the team's latest game; no injury designation,
+ARI,Max Melton,CB,DB,def,6,0.66,listed Questionable,week 7 report: Questionable,Knee
+ARI,Walter Nolen,DL,DL/EDGE,def,6,0.6166666666666667,listed Out/Doubtful,week 7 report: Out,Ankle
+ARI,Jon Gaines,OL,OL,off,6,0.5966666666666667,unconfirmed,did not play in the team's latest game; no injury designation,
+ARI,Dante Stills,DT,DL/EDGE,def,3,0.5766666666666667,unconfirmed,did not play in the team's latest game; no injury designation,
+ATL,Divine Deablo,LB,LB,def,6,0.8250000000000001,listed Out/Doubtful,week 7 report: Out,Forearm
+ATL,C.J. Henderson,CB,DB,def,6,0.7083333333333334,listed Questionable,week 7 report: Questionable,Groin
+ATL,AJ Terrell,CB,DB,def,3,0.6666666666666666,listed Questionable,week 7 report: Questionable,Groin
+ATL,Kendal Daniels,LB,LB,def,7,0.6128571428571429,listed Questionable,week 7 report: Questionable,Neck
+ATL,Gervon Dexter,DT,DL/EDGE,def,7,0.5657142857142857,listed Questionable,week 7 report: Questionable,Hamstring
+BAL,Jovaughn Gwyn,OL,OL,off,3,0.9066666666666666,unconfirmed,did not play in the team's latest game; no injury designation,
+BAL,Lamar Jackson,QB,QB,off,4,0.88,listed Out/Doubtful,week 7 report: Out,Ankle
+BAL,Jaylinn Hawkins,S,DB,def,6,0.8133333333333334,listed Out/Doubtful,week 7 report: Out,Knee
+BAL,Tavius Robinson,LB,LB,def,6,0.7216666666666667,confirmed: reserve list,reserve list (week 8 roster),Pectoral
+BUF,C.J. Gardner-Johnson,S,DB,def,6,0.8933333333333334,confirmed: reserve list,reserve list (week 8 roster),
+BUF,DeAundre Alford,CB,DB,def,2,0.595,listed Questionable,week 6 report: Questionable,Ankle
+BUF,T.J. Sanders,DL,DL/EDGE,def,2,0.535,listed Questionable,week 6 report: Questionable,Shoulder
+BUF,D.J. Moore,WR,WR/TE,off,4,0.525,listed Questionable,week 6 report: Questionable,Shoulder
+BUF,Ed Oliver,DL,DL/EDGE,def,3,0.5166666666666666,listed Questionable,week 6 report: Questionable,Knee
+CAR,Jaycee Horn,CB,DB,def,3,0.8733333333333334,confirmed: reserve list,reserve list (week 8 roster),
+CAR,Michael Jackson,CB,DB,def,3,0.69,confirmed: reserve list,reserve list (week 8 roster),
+CAR,Jaelan Phillips,LB,LB,def,5,0.642,listed Out/Doubtful,week 7 report: Out,Hamstring
+CAR,Xavier Legette,WR,WR/TE,off,2,0.515,confirmed: reserve list,reserve list (week 8 roster),
+CHI,T.J. Edwards,LB,LB,def,5,0.876,listed Out/Doubtful,week 7 report: Doubtful,Hamstring
+CHI,Montez Sweat,DL,DL/EDGE,def,5,0.694,unconfirmed,did not play in the team's latest game; no injury designation,
+CHI,Braxton Jones,OL,OL,off,3,0.65,unconfirmed,did not play in the team's latest game; no injury designation,
+CHI,Tyrique Stevenson,DB,DB,def,6,0.65,listed Questionable,week 7 report: Questionable,Hip
+CHI,Xavier Woods,DB,DB,def,4,0.635,unconfirmed,did not play in the team's latest game; no injury designation,
+CHI,Cole Kmet,TE,WR/TE,off,7,0.6142857142857142,confirmed: reserve list,reserve list (week 8 roster),
+CHI,Dayo Odeyingbo,DL,DL/EDGE,def,5,0.564,confirmed: reserve list,reserve list (week 8 roster),
+CIN,Jalen Davis,CB,DB,def,3,0.6133333333333334,confirmed: reserve list,reserve list (week 8 roster),
+CIN,Andrei Iosivas,WR,WR/TE,off,2,0.5700000000000001,confirmed: reserve list,reserve list (week 8 roster),
+CLE,Denzel Ward,CB,DB,def,7,0.9914285714285713,listed Questionable,week 7 report: Questionable,Hand
+CLE,Quincy Williams,LB,LB,def,7,0.9614285714285715,listed Questionable,week 7 report: Questionable,Neck
+DAL,Jalen Thompson,S,DB,def,3,0.8066666666666666,confirmed: reserve list,reserve list (week 8 roster),
+DAL,Dee Winters,LB,LB,def,6,0.6116666666666667,listed Out/Doubtful,week 7 report: Out,Calf
+DEN,Talanoa Hufanga,S,DB,def,5,0.9259999999999999,listed Out/Doubtful,week 7 report: Out,Ankle
+DEN,Patrick Surtain II,CB,DB,def,4,0.86,listed Questionable,week 7 report: Questionable,Ankle
+DEN,Jonah Elliss,LB,LB,def,6,0.5833333333333334,confirmed: reserve list,reserve list (week 8 roster),Ankle
+DEN,Pat Bryant,WR,WR/TE,off,4,0.5775,confirmed: reserve list,reserve list (week 8 roster),
+DET,Ben Bartch,OL,OL,off,2,0.9299999999999999,unconfirmed,did not play in the team's latest game; no injury designation,
+DET,Avonte Maddox,DB,DB,def,2,0.6499999999999999,confirmed: reserve list,reserve list (week 8 roster),
+DET,Thomas Harper,S,DB,def,2,0.525,confirmed: reserve list,reserve list (week 8 roster),
+GB,Travis Glover,T,OL,off,2,1.0,unconfirmed,did not play in the team's latest game; no injury designation,
+GB,Zaire Franklin,LB,LB,def,6,0.9883333333333333,listed Out/Doubtful,week 7 report: Out,Shin
+GB,Edgerrin Cooper,LB,LB,def,4,0.825,confirmed: reserve list,reserve list (week 8 roster),
+GB,Anthony Belton,T,OL,off,5,0.8019999999999999,unconfirmed,did not play in the team's latest game; no injury designation,
+GB,Jager Burton,C,OL,off,2,0.6950000000000001,unconfirmed,did not play in the team's latest game; no injury designation,
+GB,Zach Bako-Bewele,OL,OL,off,2,0.525,unconfirmed,did not play in the team's latest game; no injury designation,
+HOU,Jalen Pitre,S,DB,def,5,0.9199999999999999,listed Out/Doubtful,week 7 report: Out,Shoulder
+HOU,Reed Blankenship,S,DB,def,6,0.855,listed Out/Doubtful,week 7 report: Out,Concussion
+IND,Tyler Warren,TE,WR/TE,off,5,0.9099999999999999,listed Out/Doubtful,week 7 report: Out,Groin
+IND,Sauce Gardner,CB,DB,def,6,0.8866666666666667,listed Out/Doubtful,week 7 report: Out,Calf
+IND,Justin Walley,CB,DB,def,7,0.7214285714285714,listed Questionable,week 7 report: Questionable,Knee
+IND,Arden Key,DE,DL/EDGE,def,4,0.6475,confirmed: reserve list,reserve list (week 8 roster),
+JAX,Anton Harrison,OL,OL,off,5,0.916,unconfirmed,did not play in the team's latest game; no injury designation,
+JAX,Montaric Brown,CB,DB,def,4,0.53,listed Out/Doubtful,week 6 report: Out,Hamstring
+KC,Jaylon Moore,OL,OL,off,5,0.8939999999999999,unconfirmed,did not play in the team's latest game; no injury designation,
+KC,L'Jarius Sneed,CB,DB,def,6,0.6366666666666666,listed Questionable,week 7 report: Questionable,Knee
+KC,Rashee Rice,WR,WR/TE,off,4,0.6225,listed Out/Doubtful,week 7 report: Out,Hamstring
+KC,Tyquan Thornton,WR,WR/TE,off,4,0.5900000000000001,confirmed: reserve list,reserve list (week 8 roster),
+LA,Trent McDuffie,CB,DB,def,5,0.998,listed Questionable,week 7 report: Questionable,Groin
+LA,Nathan Landman,LB,LB,def,6,0.9183333333333333,listed Out/Doubtful,week 7 report: Out,Concussion
+LA,Puka Nacua,WR,WR/TE,off,5,0.8400000000000001,listed Questionable,week 7 report: Questionable,Calf
+LA,Davante Adams,WR,WR/TE,off,6,0.7399999999999999,confirmed: reserve list,reserve list (week 8 roster),
+LA,Kobie Turner,DE,DL/EDGE,def,6,0.6066666666666667,confirmed: reserve list,reserve list (week 8 roster),
+LAC,Rashawn Slater,T,OL,off,4,0.9625,unconfirmed,did not play in the team's latest game; no injury designation,
+LAC,Derwin James,S,DB,def,3,0.9433333333333334,listed Out/Doubtful,week 6 report: Out,Hamstring
+LAC,Daiyan Henley,LB,LB,def,6,0.8933333333333334,listed Questionable,week 6 report: Questionable,Knee
+LAC,Joe Alt,T,OL,off,4,0.8425,unconfirmed,did not play in the team's latest game; no injury designation,
+LAC,Tre Harris,WR,WR/TE,off,5,0.706,listed Out/Doubtful,week 6 report: Out,Hamstring
+LAC,Kayode Awosika,G,OL,off,2,0.69,unconfirmed,did not play in the team's latest game; no injury designation,
+LAC,Trevor Penning,OL,OL,off,3,0.68,unconfirmed,did not play in the team's latest game; no injury designation,
+LAC,Jamaree Caldwell,DL,DL/EDGE,def,5,0.564,listed Questionable,week 6 report: Questionable,Knee
+LV,Quay Walker,LB,LB,def,7,0.9942857142857143,listed Questionable,week 7 report: Questionable,Chest
+MIA,De'Von Achane,RB,RB,off,3,0.5566666666666666,confirmed: reserve list,reserve list (week 8 roster),
+MIA,Willie Gay Jr.,LB,LB,def,5,0.516,listed Questionable,week 7 report: Questionable,Illness
+MIN,Donovan Jackson,G,OL,off,4,0.7725,unconfirmed,did not play in the team's latest game; no injury designation,
+MIN,Josh Oliver,TE,WR/TE,off,3,0.5533333333333333,confirmed: reserve list,reserve list (week 8 roster),
+MIN,Jordan Mason,RB,RB,off,2,0.545,listed Questionable,week 7 report: Questionable,Thumb
+NE,Christian Gonzalez,CB,DB,def,5,0.968,listed Questionable,week 7 report: Questionable,Illness
+NE,Christian Elliss,LB,LB,def,7,0.9614285714285715,listed Questionable,week 7 report: Questionable,Chest
+NE,Kevin Byard,S,DB,def,7,0.96,listed Questionable,week 7 report: Questionable,Chest
+NE,Carlton Davis,CB,DB,def,3,0.9500000000000001,listed Out/Doubtful,week 7 report: Out,Neck
+NE,Craig Woodson,S,DB,def,6,0.915,listed Questionable,week 7 report: Questionable,Shoulder
+NE,Alijah Vera-Tucker,G,OL,off,6,0.8866666666666667,unconfirmed,did not play in the team's latest game; no injury designation,
+NE,Mack Hollins,WR,WR/TE,off,4,0.645,confirmed: reserve list,reserve list (week 8 roster),
+NE,Michael Onwenu,OL,OL,off,2,0.635,unconfirmed,did not play in the team's latest game; no injury designation,
+NE,Ben Brown,C,OL,off,5,0.596,unconfirmed,did not play in the team's latest game; no injury designation,
+NE,Romeo Doubs,WR,WR/TE,off,6,0.5766666666666667,confirmed: reserve list,reserve list (week 8 roster),
+NO,Cesar Ruiz,C,OL,off,5,1.0,unconfirmed,did not play in the team's latest game; no injury designation,
+NO,Kelvin Banks,T,OL,off,2,0.7949999999999999,unconfirmed,did not play in the team's latest game; no injury designation,
+NO,Nathan Shepherd,DL,DL/EDGE,def,4,0.6625,listed Questionable,week 7 report: Questionable,Illness
+NO,Travis Etienne,RB,RB,off,3,0.5033333333333333,unconfirmed,did not play in the team's latest game; no injury designation,
+NYG,Tremaine Edmunds,LB,LB,def,6,1.0,listed Out/Doubtful,week 7 report: Out,Shoulder
+NYG,Jevon Holland,S,DB,def,6,1.0,listed Out/Doubtful,week 7 report: Out,Concussion
+NYG,Greg Newsome II,CB,DB,def,6,0.9066666666666666,listed Out/Doubtful,week 7 report: Out,Concussion
+NYG,Tyler Nubin,S,DB,def,5,0.67,listed Questionable,week 7 report: Questionable,Neck
+NYG,Brian Burns,LB,LB,def,3,0.6466666666666666,unconfirmed,did not play in the team's latest game; no injury designation,
+NYG,Paulson Adebo,CB,DB,def,2,0.585,listed Questionable,week 7 report: Questionable,Knee
+NYG,Chauncey Golston,DL,DL/EDGE,def,4,0.5175,unconfirmed,did not play in the team's latest game; no injury designation,
+NYJ,Dylan Parham,OL,OL,off,3,0.86,unconfirmed,did not play in the team's latest game; no injury designation,
+NYJ,Jarvis Brownlee,DB,DB,def,6,0.6316666666666667,unconfirmed,did not play in the team's latest game; no injury designation,
+NYJ,Breece Hall,RB,RB,off,3,0.57,listed Questionable,week 7 report: Questionable,Quadricep
+PHI,Lane Johnson,T,OL,off,3,1.0,unconfirmed,did not play in the team's latest game; no injury designation,
+PHI,Cam Jurgens,C,OL,off,4,1.0,unconfirmed,did not play in the team's latest game; no injury designation,
+PHI,Jake Majors,C,OL,off,2,1.0,unconfirmed,did not play in the team's latest game; no injury designation,
+PHI,Jalen Hurts,QB,QB,off,5,0.984,confirmed: reserve list,reserve list (week 8 roster),
+PHI,DeVonta Smith,WR,WR/TE,off,4,0.8725,listed Out/Doubtful,week 7 report: Out,Hamstring
+PHI,Dontayvion Wicks,WR,WR/TE,off,6,0.7983333333333333,listed Out/Doubtful,week 7 report: Out,Ankle
+PHI,Jalyx Hunt,LB,LB,def,6,0.64,listed Questionable,week 7 report: Questionable,Knee
+PHI,Nolan Smith,LB,LB,def,6,0.6333333333333334,listed Out/Doubtful,week 7 report: Out,Concussion
+PIT,Michael Pittman Jr.,WR,WR/TE,off,3,0.7766666666666667,confirmed: reserve list,reserve list (week 8 roster),
+SEA,Drew Lock,QB,QB,off,2,0.95,listed Questionable,week 7 report: Questionable,Elbow
+SEA,Drake Thomas,LB,LB,def,5,0.866,listed Out/Doubtful,week 7 report: Out,Ankle
+SEA,Nick Emmanwori,S,DB,def,6,0.7316666666666666,listed Questionable,week 7 report: Questionable,Hip
+SEA,Byron Murphy,DE,DL/EDGE,def,5,0.666,unconfirmed,did not play in the team's latest game; no injury designation,
+SEA,DeMarcus Lawrence,LB,LB,def,7,0.6185714285714285,listed Questionable,week 7 report: Questionable,Knee
+SEA,Uchenna Nwosu,LB,LB,def,7,0.51,listed Questionable,week 7 report: Questionable,Hip
+SF,Marques Sigle,S,DB,def,4,0.8775,listed Out/Doubtful,week 7 report: Out,Ankle
+SF,Nick Bosa,DL,DL/EDGE,def,2,0.635,listed Out/Doubtful,week 7 report: Out,Knee
+SF,Deebo Samuel,WR,WR/TE,off,5,0.576,listed Out/Doubtful,week 7 report: Out,Hamstring
+SF,Upton Stout,CB,DB,def,6,0.5416666666666666,listed Questionable,week 7 report: Questionable,Shoulder
+SF,Mike Evans,WR,WR/TE,off,6,0.54,listed Out/Doubtful,week 7 report: Out,Ribs
+TB,Luke Goedeke,T,OL,off,6,1.0,unconfirmed,did not play in the team's latest game; no injury designation,
+TB,Antoine Winfield Jr.,S,DB,def,4,0.9725,listed Out/Doubtful,week 7 report: Out,Rib
+TB,Baker Mayfield,QB,QB,off,4,0.96,listed Questionable,week 7 report: Questionable,Thumb
+TB,Emeka Egbuka,WR,WR/TE,off,6,0.8583333333333334,listed Out/Doubtful,week 7 report: Out,Concussion
+TEN,Kevin Winston,S,DB,def,5,1.0,listed Questionable,week 7 report: Questionable,Quadricep
+TEN,Alontae Taylor,CB,DB,def,5,0.9960000000000001,unconfirmed,did not play in the team's latest game; no injury designation,
+TEN,Fernando Carmona,G,OL,off,3,0.6733333333333333,unconfirmed,did not play in the team's latest game; no injury designation,
+TEN,Calvin Ridley,WR,WR/TE,off,6,0.5383333333333333,listed Questionable,week 7 report: Questionable,Hip
+WAS,Nick Cross,S,DB,def,3,0.9566666666666667,listed Questionable,week 6 report: Questionable,Illness
+WAS,Javon Kinlaw,DT,DL/EDGE,def,6,0.6016666666666667,listed Questionable,week 6 report: Questionable,Ankle
+WAS,Stefon Diggs,WR,WR/TE,off,5,0.6,listed Questionable,week 6 report: Questionable,Hamstring
+WAS,Marcus Mariota,QB,QB,off,3,0.5366666666666666,listed Out/Doubtful,week 6 report: Out,Knee
