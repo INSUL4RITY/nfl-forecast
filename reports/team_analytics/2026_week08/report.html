@@ -66,6 +66,22 @@ td.tm small { font-weight: 400; color: var(--muted); margin-left: 6px; }
 table.mini { width: auto; min-width: 0; margin: 8px 0 12px; border: 1px solid var(--rule); }
 table.mini td, table.mini th { position: static; text-align: left; }
 .grid { display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+.scatter { position: relative; background: var(--surface); border: 1px solid var(--rule); border-radius: 8px; margin: 8px 0 14px; max-width: 900px; }
+.scatter svg { display: block; width: 100%; height: auto; }
+.scatter .grid { stroke: var(--rule); stroke-width: 1; }
+.scatter .avg { stroke: var(--rule-strong); stroke-width: 1.5; stroke-dasharray: 4 4; }
+.scatter .tick { fill: var(--muted); font-size: 11px; font-variant-numeric: tabular-nums; }
+.scatter .axis { fill: var(--ink-2); font-size: 12px; font-weight: 600; }
+.scatter .quad { fill: var(--muted); font-size: 11px; font-weight: 600; letter-spacing: 0.02em; }
+.scatter .dot { fill: var(--accent); stroke: var(--surface); stroke-width: 2; }
+.scatter .lbl { fill: var(--ink-2); font-weight: 600; pointer-events: none; }
+.scatter .hit { fill: transparent; cursor: pointer; }
+.scatter .hit:focus { outline: none; }
+.scatter g.on .dot { fill: var(--ink); }
+.scatter g.on .lbl { fill: var(--ink); }
+.scatter .tip { position: absolute; pointer-events: none; background: var(--surface-2); border: 1px solid var(--rule-strong); border-radius: 6px; padding: 7px 9px; font-size: 0.8rem; line-height: 1.4; white-space: nowrap; display: none; z-index: 3; }
+.scatter .tip b { color: var(--ink); }
+.scatter .tip span { color: var(--ink-2); }
 .card { background: var(--surface); border: 1px solid var(--rule); border-radius: 8px; padding: 12px 14px; min-width: 0; }
 .card h4 { margin: 0 0 6px; font-size: 0.9rem; color: var(--ink-2); font-weight: 600; letter-spacing: 0.02em; }
 .card ol, .card ul { margin: 0; padding-left: 20px; }
@@ -299,6 +315,9 @@ No market data is read: spread, total and price columns are dropped on load.</p>
   from down, distance, field position and time. It is open, play-by-play and unadjusted unless an adjustment is applied. DVOA (FTN) compares each play's success with a league baseline
   for the same situation, then adjusts for opponent and removes some luck-driven outcomes (for example, fumble recovery is treated as random). DVOA is proprietary, is not in nflverse and is not shown here.
   The opponent-adjusted columns below are EPA and success rate adjusted by a published regression (Method), not DVOA.</div>
+  <h3>Offence vs defence, opponent-adjusted EPA per play</h3>
+  <p class="lead">Right = better offence; up = better defence (the defence axis is flipped, so less EPA allowed sits higher). Dashed lines mark the league average. Hover or tap a team for its values; the tables below hold the same numbers.</p>
+  <div id="eff-scatter" class="scatter"></div>
   <div data-table="eff_off"></div>
   <div data-table="eff_def"></div>
   <div id="dis-eff"></div>
@@ -573,7 +592,90 @@ document.getElementById("dis-rank").innerHTML = `<div class="callout"><b>Record 
  ${lst(DIS.rec_better, ([t, d]) => `${tm(t)} (${d} places)`)}. Records rank worse than the rating: ${lst(DIS.rec_worse, ([t, d]) => `${tm(t)} (${-d} places)`)}.</div>${para((NOTES.sections || {}).rankings)}`;
 document.getElementById("dis-eff").innerHTML = `<div class="callout"><b>Where raw and adjusted EPA disagree.</b> Offences that rise after adjusting for opponents (tougher defences faced): ${lst(DIS.adj_up, ([t, d]) => `${tm(t)} +${d}`)}.
  Offences that fall (easier defences faced): ${lst(DIS.adj_down, ([t, d]) => `${tm(t)} ${d}`)}. Defences that rise: ${lst(DIS.def_up, ([t, d]) => `${tm(t)} +${d}`)}. Defences that fall: ${lst(DIS.def_down, ([t, d]) => `${tm(t)} ${d}`)}.</div>${para((NOTES.sections || {}).efficiency)}`;
-document.getElementById("dis-drives").innerHTML = `<div class="callout"><b>Moves the ball but struggles to finish</b> (top-12 yards per drive, bottom-15 points over start EP): ${lst(DIS.move_not_finish, tm)}.
+// offence vs defence scatter: x = adjusted offence EPA/play, y = adjusted defence EPA/play allowed (flipped, lower = higher on the chart)
+(function scatter() {
+  const box = document.getElementById("eff-scatter");
+  const pts = TEAMS.filter(t => num(t.off_adj_epa) && num(t.def_adj_epa));
+  const mean = a => a.reduce((s, v) => s + v, 0) / a.length;
+  const mx = mean(pts.map(t => t.off_adj_epa)), my = mean(pts.map(t => t.def_adj_epa));
+  const ticks = (lo, hi) => { const step = (hi - lo) > 0.3 ? 0.1 : 0.05, out = []; for (let v = Math.ceil(lo / step) * step; v <= hi + 1e-9; v += step) out.push(+v.toFixed(2)); return out; };
+  const tip = document.createElement("div"); tip.className = "tip";
+  function draw() {
+    const W = Math.max(300, box.clientWidth), small = W < 520;
+    const H = Math.round(small ? Math.max(360, W * 1.15) : Math.min(560, W * 0.72)), m = {l: small ? 44 : 56, r: 16, t: 16, b: small ? 40 : 46};
+    const xs = pts.map(t => t.off_adj_epa), ys = pts.map(t => t.def_adj_epa);
+    const pad = v => v * 0.08;
+    const x0 = Math.min(...xs), x1 = Math.max(...xs), y0 = Math.min(...ys), y1 = Math.max(...ys);
+    const X = [x0 - pad(x1 - x0), x1 + pad(x1 - x0)], Y = [y0 - pad(y1 - y0), y1 + pad(y1 - y0)];
+    const sx = v => m.l + (v - X[0]) / (X[1] - X[0]) * (W - m.l - m.r);
+    const sy = v => m.t + (v - Y[0]) / (Y[1] - Y[0]) * (H - m.t - m.b);   // low EPA allowed at the top
+    const f2 = v => (v > 0 ? "+" : v < 0 ? "&#8722;" : "") + Math.abs(v).toFixed(2);
+    let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Scatter chart of opponent-adjusted offensive EPA per play against defensive EPA per play allowed for all 32 teams">`;
+    for (const v of ticks(X[0], X[1])) s += `<line class="grid" x1="${sx(v)}" x2="${sx(v)}" y1="${m.t}" y2="${H - m.b}"/><text class="tick" x="${sx(v)}" y="${H - m.b + 15}" text-anchor="middle">${f2(v)}</text>`;
+    for (const v of ticks(Y[0], Y[1])) s += `<line class="grid" x1="${m.l}" x2="${W - m.r}" y1="${sy(v)}" y2="${sy(v)}"/><text class="tick" x="${m.l - 6}" y="${sy(v) + 4}" text-anchor="end">${f2(v)}</text>`;
+    s += `<line class="avg" x1="${sx(mx)}" x2="${sx(mx)}" y1="${m.t}" y2="${H - m.b}"/><line class="avg" x1="${m.l}" x2="${W - m.r}" y1="${sy(my)}" y2="${sy(my)}"/>`;
+    s += `<text class="axis" x="${(m.l + W - m.r) / 2}" y="${H - 6}" text-anchor="middle">Offence: adj. EPA/play (better &#8594;)</text>`;
+    s += `<text class="axis" transform="translate(13 ${(m.t + H - m.b) / 2}) rotate(-90)" text-anchor="middle">Defence: adj. EPA/play allowed (better &#8593;)</text>`;
+    if (!small) {
+      const q = (x, y, a, t) => `<text class="quad" x="${x}" y="${y}" text-anchor="${a}">${t}</text>`;
+      s += q(W - m.r - 8, m.t + 14, "end", "Good offence, good defence") + q(m.l + 8, m.t + 14, "start", "Defence-led")
+         + q(W - m.r - 8, H - m.b - 8, "end", "Offence-led") + q(m.l + 8, H - m.b - 8, "start", "Below average at both");
+    }
+    // labels: try right, left, above, below; skip a label that would overlap another label or dot (the tooltip still names it)
+    const placed = pts.map(t => ({x: sx(t.off_adj_epa), y: sy(t.def_adj_epa)}));
+    const boxes = placed.map(p => ({x0: p.x - 6, x1: p.x + 6, y0: p.y - 6, y1: p.y + 6}));
+    const hit = (a, b) => a.x0 < b.x1 && b.x0 < a.x1 && a.y0 < b.y1 && b.y0 < a.y1;
+    // measure each label as the browser will draw it (browsers can enforce a minimum font size)
+    const fs = small ? 9.5 : 10.5, NS = "http://www.w3.org/2000/svg";
+    const ms = document.createElementNS(NS, "svg"); ms.setAttribute("style", "position:absolute;visibility:hidden;left:0;top:0");
+    box.appendChild(ms);
+    const size = pts.map(t => { const e = document.createElementNS(NS, "text"); e.setAttribute("class", "lbl"); e.setAttribute("font-size", fs); e.textContent = t.team; ms.appendChild(e); const bb = e.getBBox(); return {w: bb.width + 2, top: bb.y - 1, bot: bb.y + bb.height + 1}; });
+    ms.remove();
+    const order = pts.map((t, i) => i).sort((a, b) => Math.abs(pts[b].off_adj_epa - mx) + Math.abs(pts[b].def_adj_epa - my) - Math.abs(pts[a].off_adj_epa - mx) - Math.abs(pts[a].def_adj_epa - my));
+    const lbl = {};
+    for (const i of order) {
+      const p = placed[i], lw = size[i].w;
+      const cands = [[p.x + 8, p.y + 4, "start"], [p.x - 8, p.y + 4, "end"], [p.x, p.y - 9, "middle"], [p.x, p.y + 17, "middle"],
+                     [p.x + 6, p.y + 15, "start"], [p.x - 6, p.y + 15, "end"], [p.x + 6, p.y - 7, "start"], [p.x - 6, p.y - 7, "end"]];
+      for (const [x, y, a] of cands) {
+        const bx = a === "start" ? x : a === "end" ? x - lw : x - lw / 2;
+        const b = {x0: bx, x1: bx + lw, y0: y + size[i].top, y1: y + size[i].bot};
+        if (b.x0 < m.l || b.x1 > W - m.r || b.y0 < m.t || b.y1 > H - m.b) continue;
+        if (boxes.some((o, j) => j !== i && hit(b, o))) continue;
+        boxes.push(b); lbl[i] = [x, y, a]; break;
+      }
+    }
+    pts.forEach((t, i) => {
+      const p = placed[i], L = lbl[i];
+      s += `<g data-t="${t.team}"><circle class="dot" cx="${p.x}" cy="${p.y}" r="5"/>${L ? `<text class="lbl" x="${L[0]}" y="${L[1]}" text-anchor="${L[2]}" font-size="${fs}">${t.team}</text>` : ""}<circle class="hit" cx="${p.x}" cy="${p.y}" r="12" tabindex="0" aria-label="${esc(NAME[t.team])}: offence ${fmt(t.off_adj_epa, "epa")}, defence ${fmt(t.def_adj_epa, "epa")} allowed"/></g>`;
+    });
+    box.innerHTML = s + "</svg>";
+    box.appendChild(tip);
+    const show = g => {
+      box.querySelectorAll("g.on").forEach(e => e.classList.remove("on"));
+      if (!g) { tip.style.display = "none"; return; }
+      g.classList.add("on");
+      const t = BY[g.dataset.t], c = g.querySelector(".dot");
+      tip.innerHTML = `<b>${esc(t.team)} &#183; ${esc(NAME[t.team])}</b> <span>(${esc(t.record)})</span><br>Offence ${fmt(t.off_adj_epa, "epa")} <span>${ord(t.off_adj_rank)}</span><br>Defence ${fmt(t.def_adj_epa, "epa")} allowed <span>${ord(t.def_adj_rank)}</span>`;
+      tip.style.display = "block";
+      const k = box.clientWidth / W, cx = +c.getAttribute("cx") * k, cy = +c.getAttribute("cy") * k;
+      const tw = tip.offsetWidth, th = tip.offsetHeight;
+      tip.style.left = Math.max(4, Math.min(box.clientWidth - tw - 4, cx + 12)) + "px";
+      tip.style.top = (cy - th - 10 < 4 ? cy + 14 : cy - th - 10) + "px";
+    };
+    box.querySelectorAll("g[data-t]").forEach(g => {
+      const h = g.querySelector(".hit");
+      h.addEventListener("pointerenter", () => show(g));
+      h.addEventListener("pointerdown", () => show(g));
+      h.addEventListener("focus", () => show(g));
+      h.addEventListener("blur", () => show(null));
+    });
+    box.querySelector("svg").addEventListener("pointerleave", () => show(null));
+  }
+  draw();
+  let rt; window.addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(draw, 120); });
+})();
+document.getElementById("dis-drives").innerHTML =`<div class="callout"><b>Moves the ball but struggles to finish</b> (top-12 yards per drive, bottom-15 points over start EP): ${lst(DIS.move_not_finish, tm)}.
  <b>Points-allowed rank flattered by field position</b> (points-per-drive rank at least 6 places better than the field-position-adjusted rank): ${lst(DIS.def_fp, tm)}.</div>${para((NOTES.sections || {}).drives)}`;
 document.getElementById("dis-rush").innerHTML = `<div class="callout"><b>Blocking-driven</b> (top-8 yards before contact): ${lst(DIS.run_block, tm)}. <b>Ball-carrier-driven</b> (top-8 yards after contact, bottom-16 before contact): ${lst(DIS.run_talent, tm)}.</div>${para((NOTES.sections || {}).rushing)}`;
 document.getElementById("dis-expl").innerHTML = `<div class="callout"><b>Explosive-dependent offences</b> (top-6 share of EPA from explosives, bottom-16 success rate): ${lst(DIS.expl_dependent, tm)}.
