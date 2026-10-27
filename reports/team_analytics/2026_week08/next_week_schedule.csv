@@ -1,15 +1,15 @@
-game_id,gameday,gametime,home_team,away_team
-2026_08_CAR_GB,2026-10-29,20:15,GB,CAR
-2026_08_BAL_BUF,2026-11-01,13:00,BUF,BAL
-2026_08_TEN_CIN,2026-11-01,13:00,CIN,TEN
-2026_08_ARI_DAL,2026-11-01,13:00,DAL,ARI
-2026_08_MIN_DET,2026-11-01,13:00,DET,MIN
-2026_08_IND_JAX,2026-11-01,13:00,JAX,IND
-2026_08_LV_NYJ,2026-11-01,13:00,NYJ,LV
-2026_08_CLE_PIT,2026-11-01,13:00,PIT,CLE
-2026_08_ATL_TB,2026-11-01,13:00,TB,ATL
-2026_08_LAC_LA,2026-11-01,16:05,LA,LAC
-2026_08_KC_DEN,2026-11-01,16:25,DEN,KC
-2026_08_NE_MIA,2026-11-01,16:25,MIA,NE
-2026_08_PHI_WAS,2026-11-01,20:20,WAS,PHI
-2026_08_CHI_SEA,2026-11-02,20:15,SEA,CHI
+game_id,gameday,weekday,gametime,away_team,home_team,location,roof,surface,stadium,away_coach,home_coach,away_rest,home_rest,away_score,home_score,div_game
+2026_08_CAR_GB,2026-10-29,Thursday,20:15,CAR,GB,Home,outdoors,grass,Lambeau Field,Dave Canales,Matt LaFleur,4,4,,,0
+2026_08_BAL_BUF,2026-11-01,Sunday,13:00,BAL,BUF,Home,outdoors,a_turf,Highmark Stadium,Jesse Minter,Sean McDermott,7,14,,,0
+2026_08_TEN_CIN,2026-11-01,Sunday,13:00,TEN,CIN,Home,outdoors,fieldturf,Paycor Stadium,Robert Saleh,Zac Taylor,7,7,,,0
+2026_08_ARI_DAL,2026-11-01,Sunday,13:00,ARI,DAL,Home,,matrixturf,AT&T Stadium,Jonathan Gannon,Brian Schottenheimer,7,6,,,0
+2026_08_MIN_DET,2026-11-01,Sunday,13:00,MIN,DET,Home,dome,fieldturf,Ford Field,Kevin O'Connell,Dan Campbell,7,7,,,1
+2026_08_IND_JAX,2026-11-01,Sunday,13:00,IND,JAX,Home,outdoors,grass,EverBank Stadium,Shane Steichen,Liam Coen,7,14,,,1
+2026_08_LV_NYJ,2026-11-01,Sunday,13:00,LV,NYJ,Home,outdoors,fieldturf,MetLife Stadium,Klint Kubliak,Aaron Glenn,7,7,,,0
+2026_08_CLE_PIT,2026-11-01,Sunday,13:00,CLE,PIT,Home,outdoors,grass,Acrisure Stadium,Todd Monken,Mike McCarthy,7,7,,,1
+2026_08_ATL_TB,2026-11-01,Sunday,13:00,ATL,TB,Home,outdoors,grass,Raymond James Stadium,Raheem Morris,Todd Bowles,7,7,,,1
+2026_08_LAC_LA,2026-11-01,Sunday,16:05,LAC,LA,Home,dome,matrixturf,SoFi Stadium,Jim Harbaugh,Sean McVay,14,7,,,0
+2026_08_KC_DEN,2026-11-01,Sunday,16:25,KC,DEN,Home,outdoors,grass,Empower Field at Mile High,Andy Reid,Sean Payton,7,7,,,1
+2026_08_NE_MIA,2026-11-01,Sunday,16:25,NE,MIA,Home,outdoors,grass,Hard Rock Stadium,Mike Vrabel,Jeff Hafley,10,7,,,1
+2026_08_PHI_WAS,2026-11-01,Sunday,20:20,PHI,WAS,Home,outdoors,grass,Northwest Stadium,Nick Sirianni,Dan Quinn,6,13,,,1
+2026_08_CHI_SEA,2026-11-02,Monday,20:15,CHI,SEA,Home,outdoors,fieldturf,Lumen Field,Ben Johnson,Mike Macdonald,11,8,,,0

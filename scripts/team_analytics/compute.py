@@ -783,6 +783,17 @@ def main():
     ngs_p["opp"] = [_opp_of(played, t, w) for t, w in zip(ngs_p.team, ngs_p.week)]
     T["def_time_to_throw"] = ngs_p.groupby("opp").ttt_x.sum() / ngs_p.groupby("opp").attempts.sum()
 
+    # raw volume per game (context only: depends on pace and game script)
+    live_sc = p[p.sc & p.live]
+    for side, key in [("off", "posteam"), ("def", "defteam")]:
+        rush_y = live_sc[live_sc["rush"] == 1].groupby(key).yards_gained.sum() + live_sc[live_sc.scr].groupby(key).yards_gained.sum()
+        pass_y = live_sc[live_sc.att].groupby(key).passing_yards.sum() + live_sc[live_sc.sackp].groupby(key).yards_gained.sum()
+        T[f"{side}_rush_yds_pg"] = rush_y / T.games
+        T[f"{side}_pass_yds_pg"] = pass_y / T.games
+        T[f"{side}_yds_pg"] = (rush_y + pass_y) / T.games
+    T["off_pts_pg"] = T.pf / T.games
+    T["def_pts_pg"] = T.pa / T.games
+
     # defence vs offensive styles: opponents' neutral pass rate over expected
     proe = p[p.neutral & p.early & p.pass_oe.notna()].groupby("posteam").pass_oe.mean()
     T["off_proe"] = proe
@@ -823,7 +834,10 @@ def main():
     T["qb_changed_since_prior"] = [prev_qb.get(t) != cur_qb.get(t) for t in teams]
 
     # ---- week 8 slate
-    nxt = sched[sched.week == W + 1][["game_id", "gameday", "gametime", "home_team", "away_team"]]
+    nxt = sched[sched.week == W + 1][["game_id", "gameday", "weekday", "gametime", "away_team", "home_team", "location",
+                                       "roof", "surface", "stadium", "away_coach", "home_coach", "away_rest", "home_rest",
+                                       "away_score", "home_score", "div_game"]]
+    MM = matchup_models(p, dr, tg, teams)
 
     # ---- output
     T.index.name = "team"
@@ -838,6 +852,7 @@ def main():
     ol_tbl.to_csv(out_dir / "offensive_line.csv", index=False)
     absences.to_csv(out_dir / "absences.csv", index=False)
     nxt.to_csv(out_dir / "next_week_schedule.csv", index=False)
+    (out_dir / "matchup_models.json").write_text(json.dumps(MM, indent=1))
     meta = {
         "season": S, "through_week": W, "generated_utc": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds"),
         "games": n_games_pbp, "plays": int(p.sc.sum()), "drives": int((~dr.excluded).sum()),
@@ -856,6 +871,58 @@ def main():
     (out_dir / "bundle_meta.json").write_text(json.dumps(meta, indent=1, default=str))
     print("\n".join(qc))
     print("wrote", out_dir)
+
+
+# ------------------------------------------------------------------------------------- matchup models
+MATCHUP_METRICS = [
+    # name, frame, mask column, y column
+    ("epa_play", "plays", "sc", "epa"), ("sr", "plays", "sc", "success"),
+    ("epa_db", "plays", "db", "epa"), ("sr_db", "plays", "db", "success"), ("ypa", "plays", "att", "passing_yards"),
+    ("sack_rate", "plays", "db", "sackp"), ("expl_pass", "plays", "att", "expl_pass"),
+    ("epa_rush", "plays", "drush", "epa"), ("sr_rush", "plays", "drush", "success"),
+    ("ypc", "plays", "drush_live", "yards_gained"), ("expl_run", "plays", "drush_live", "expl_run"),
+    ("stuff", "plays", "drush_live", "stuffed"), ("d3_conv", "plays", "d3_flag", "third_down_converted"),
+    ("ppd", "drives", None, "pts"), ("rz_td", "drives", "rz_trip", "td"), ("to_pd", "drives", None, "turnover"),
+    ("pressure", "pfr", None, "rate"),
+]
+
+
+def matchup_models(p, dr, tg, teams):
+    """Additive offence + defence + home models with empirical-Bayes shrinkage of each team effect.
+
+    Shrinkage weight w = tau2 / (tau2 + resid_var / n), with tau2 the between-team variance of the
+    unshrunk effects minus their average sampling variance (method of moments). Small samples are
+    pulled towards the league average; nothing from earlier seasons is used here."""
+    frames = {"plays": p, "drives": dr[~dr.excluded].assign(
+        is_home=lambda x: np.where(x.posteam == x.home_team, 1, -1)),
+        "pfr": tg.dropna(subset=["db"]).assign(posteam=lambda x: x.team, defteam=lambda x: x.opp,
+                                               rate=lambda x: x.pressured / x.db)}
+    homes = p.groupby("game_id").agg(home=("home_team", "first"), loc=("location", "first"))
+    frames["pfr"]["is_home"] = [0 if homes.loc[g, "loc"] == "Neutral" else (1 if homes.loc[g, "home"] == t else -1)
+                                for g, t in zip(frames["pfr"].game_id, frames["pfr"].team)]
+    out = {}
+    for name, fr, mask, y in MATCHUP_METRICS:
+        d = frames[fr]
+        if mask:
+            d = d[d[mask].astype(bool)]
+        d = d[d[y].notna()].copy()
+        d[y] = d[y].astype(float)
+        a = adjust(d, y, teams)
+        res = {"mean": a["mean"], "home": a["home"], "resid_var": a["resid_var"]}
+        for side, key, eff in [("off", "posteam", "off_eff"), ("def", "defteam", "def_eff")]:
+            n = d.groupby(key).size().reindex(teams).fillna(0)
+            if fr == "pfr":      # one row per team-game: use dropbacks as the sample size
+                n = d.groupby(key).db.sum().reindex(teams).fillna(0)
+                noise = (a["mean"] * (1 - a["mean"])) / n
+            else:
+                noise = a["resid_var"] / n
+            e = a[eff].reindex(teams)
+            tau2 = max(float(e.var(ddof=1) - noise.mean()), 1e-9)
+            w = tau2 / (tau2 + noise)
+            res[side] = {"eff": e.round(5).to_dict(), "w": w.round(3).to_dict(), "n": n.astype(int).to_dict(),
+                         "tau2": tau2}
+        out[name] = res
+    return out
 
 
 def _opp_of(played, team, week):
@@ -1059,6 +1126,7 @@ def personnel(S, W, p, teams):
     reg["status_abbr"] = reg.pfr_player_id.map(cur.drop_duplicates("pfr_id").set_index("pfr_id").status_description_abbr)
     rep = last_inj.drop_duplicates("gsis_id").set_index("gsis_id")
     reg["last_report_status"] = reg.gsis_id.map(rep.report_status)
+    reg["last_practice_status"] = reg.gsis_id.map(rep.practice_status)
     reg["last_report_week"] = reg.gsis_id.map(rep.week)
     reg["last_report_injury"] = reg.gsis_id.map(rep.report_primary_injury)
     reg["missed_last_game"] = reg.last_week < reg.team.map(team_last)
@@ -1067,15 +1135,21 @@ def personnel(S, W, p, teams):
     reg["left_team"] = reg.roster_team_now.notna() & reg.roster_team_now.ne(reg.team)
     reg["out_or_doubtful"] = reg.last_report_status.isin(["Out", "Doubtful"])
     reg["questionable"] = reg.last_report_status.eq("Questionable")
+    # midweek reports carry practice participation but no game status until the final report
+    reg["dnp"] = (reg.last_report_status.isna() & reg.last_practice_status.fillna("").str.startswith("Did Not"))
+    reg["limited"] = (reg.last_report_status.isna() & reg.last_practice_status.fillna("").str.startswith("Limited"))
     unconfirmed = reg.missed_last_game & ~reg.left_team & reg.position.ne("QB")
-    ab = reg[reg.on_reserve | reg.out_or_doubtful | reg.questionable | unconfirmed].copy()
+    ab = reg[reg.on_reserve | reg.out_or_doubtful | reg.questionable | reg.dnp | reg.limited | unconfirmed].copy()
     ab["status_class"] = np.where(ab.on_reserve, "confirmed: reserve list",
                                   np.where(ab.out_or_doubtful, "listed Out/Doubtful",
-                                           np.where(ab.questionable, "listed Questionable", "unconfirmed")))
+                                           np.where(ab.questionable, "listed Questionable",
+                                                    np.where(ab.dnp, "did not practise",
+                                                             np.where(ab.limited, "limited in practice", "unconfirmed")))))
+    wk = "week " + ab.last_report_week.astype("Int64").astype(str) + " report: "
     ab["reason"] = np.where(ab.on_reserve, "reserve list (week " + str(cur_week) + " roster)",
-                            np.where(ab.out_or_doubtful | ab.questionable,
-                                     "week " + ab.last_report_week.astype("Int64").astype(str) + " report: " + ab.last_report_status.fillna(""),
-                                     "did not play in the team's latest game; no injury designation"))
+                            np.where(ab.out_or_doubtful | ab.questionable, wk + ab.last_report_status.fillna(""),
+                                     np.where(ab.dnp | ab.limited, wk + ab.last_practice_status.fillna("") + " (no game status yet)",
+                                              "did not play in the team's latest game; no injury designation")))
     conf = ab[ab.status_class.isin(["confirmed: reserve list", "listed Out/Doubtful"])]
     out["regulars"] = reg.groupby("team").size()
     out["reg_on_reserve"] = reg[reg.on_reserve].groupby("team").size()
@@ -1085,8 +1159,9 @@ def personnel(S, W, p, teams):
     out["absent_snap_weighted"] = conf.groupby("team").share.sum()
     out["absent_n"] = conf.groupby("team").size()
     out["questionable_n"] = ab[ab.status_class == "listed Questionable"].groupby("team").size()
+    out["practice_concern_n"] = ab[ab.status_class.isin(["did not practise", "limited in practice"])].groupby("team").size()
     out["unconfirmed_n"] = ab[ab.status_class == "unconfirmed"].groupby("team").size()
-    out = out.fillna({c: 0 for c in out.columns if c.startswith(("absent_", "reg_on", "questionable", "unconfirmed"))})
+    out = out.fillna({c: 0 for c in out.columns if c.startswith(("absent_", "reg_on", "questionable", "unconfirmed", "practice_concern"))})
     # concentration
     tgt = p[p.att & p.passer_id.notna()]
     rec_col = "receiver_player_id" if "receiver_player_id" in p.columns else None
@@ -1097,7 +1172,7 @@ def personnel(S, W, p, teams):
     out["def_players_25pct"] = snaps[snaps.defense_pct >= 0.25].groupby("team").pfr_player_id.nunique()
     out["snap_week"] = cur_week
     ab_out = ab[["team", "player", "position", "group", "unit", "games", "share", "status_class", "reason",
-                 "last_report_injury"]]
+                 "last_report_injury", "last_practice_status", "last_report_week"]]
     ab_out.attrs["roster_week"] = cur_week
     return out, ol_tbl, ab_out.sort_values(["team", "share"], ascending=[True, False])
 

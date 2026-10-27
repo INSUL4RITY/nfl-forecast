@@ -210,6 +210,176 @@ def mismatches(T, nxt):
     return rows
 
 
+# ------------------------------------------------------------------------------------- matchup pages
+# label, model key (None = raw context only), offence column, defence column, format, +1 if higher helps the offence
+MATCH_ROWS = {
+    "Passing": [
+        ("EPA per dropback", "epa_db", "off_epa_db", "def_epa_db", "epa", 1),
+        ("Dropback success rate", "sr_db", "off_sr_db", "def_sr_db", "pct", 1),
+        ("Yards per attempt", "ypa", "off_ypa", "def_ypa", "n2", 1),
+        ("20+ yard pass rate", "expl_pass", "off_expl_pass_rate", "def_expl_pass_rate", "pct", 1),
+        ("Sack rate", "sack_rate", "off_sack_rate", "def_sack_rate", "pct", -1),
+        ("Pressure rate (PFR)", "pressure", "off_pressure_rate", "def_pressure_rate", "pct", -1),
+        ("Passing yards per game (raw)", None, "off_pass_yds_pg", "def_pass_yds_pg", "n1", 1),
+    ],
+    "Rushing": [
+        ("EPA per designed rush", "epa_rush", "off_epa_rush", "def_epa_rush", "epa", 1),
+        ("Rush success rate", "sr_rush", "off_sr_rush", "def_sr_rush", "pct", 1),
+        ("Yards per carry", "ypc", "off_ypc", "def_ypc", "n2", 1),
+        ("10+ yard run rate", "expl_run", "off_expl_run_rate", "def_expl_run_rate", "pct", 1),
+        ("Stuff rate (0 or fewer yards)", "stuff", "off_stuff_rate", "def_stuff_rate", "pct", -1),
+        ("Yards before contact (PFR)", None, "ybc_per_att", "def_ybc_allowed", "n2", 1),
+        ("Rushing yards per game (raw)", None, "off_rush_yds_pg", "def_rush_yds_pg", "n1", 1),
+    ],
+    "Overall and situational": [
+        ("EPA per play", "epa_play", "off_epa_play", "def_epa_play", "epa", 1),
+        ("Success rate", "sr", "off_sr", "def_sr", "pct", 1),
+        ("Third-down conversion", "d3_conv", "off_d3_conv", "def_d3_conv", "pct", 1),
+        ("Points per drive", "ppd", "off_ppd", "def_ppd", "n2", 1),
+        ("Red-zone TD rate per trip", "rz_td", "off_rz_td_rate", "def_rz_td_rate", "pct", 1),
+        ("Turnovers per drive", "to_pd", "off_to_pd", "def_to_pd", "pct", -1),
+        ("Points per game (raw)", None, "off_pts_pg", "def_pts_pg", "n1", 1),
+        ("Yards per game (raw)", None, "off_yds_pg", "def_yds_pg", "n1", 1),
+    ],
+}
+ST_ROWS = [("Special-teams EPA per game", "st_epa_pg", "s2", 1), ("Field-goal %", "fg_pct", "pct", 1),
+           ("FG points over expected", "fg_pts_oe", "s1", 1), ("FG 50+ (made/att.)", "fg_50p", "str", 0),
+           ("Extra-point %", "xp_pct", "pct", 1), ("Punt net average", "punt_net", "n1", 1),
+           ("Opponents' punt net", "opp_punt_net", "n1", -1), ("Kick return average", "ko_ret_avg", "n1", 1),
+           ("Kick return allowed", "ko_ret_avg_allowed", "n1", -1), ("Start after kickoff (own yd line)", "start_after_ko", "n1", 1),
+           ("Opp. start after kickoff", "opp_start_after_ko", "n1", -1), ("Punt return average", "punt_ret_avg", "n1", 1),
+           ("Return TDs / allowed", "st_td_pair", "str", 0), ("Kicks blocked / blocked against", "blocks_pair", "str", 0),
+           ("Special-teams penalties", "pen_st_n", "int", -1)]
+
+
+def conf_label(w):
+    return "moderate" if w >= 0.6 else ("low" if w >= 0.35 else ("very low" if w > 0.02 else "no signal yet"))
+
+
+def coaching_profile(t, T):
+    r = T.loc[t]
+    zgo = (r.fd_go_rate - T.fd_go_rate.mean()) / T.fd_go_rate.std()
+    agg = "aggressive" if zgo >= 0.75 else ("conservative" if zgo <= -0.75 else "typical")
+    lean = "pass-leaning" if r.neutral_proe >= 3 else ("run-leaning" if r.neutral_proe <= -3 else "balanced")
+    zb = (r.def_blitz_rate - T.def_blitz_rate.mean()) / T.def_blitz_rate.std()
+    bl = "blitz-heavy" if zb >= 0.75 else ("rarely blitzes" if zb <= -0.75 else "average blitz rate")
+    nn = lambda v: None if pd.isna(v) else float(v)
+    return {"agg": agg, "lean": lean, "blitz": bl, "go": nn(r.fd_go_rate), "n4": int(r.fd_decisions),
+            "clear_n": nn(r.fd_clear_go_n), "clear": nn(r.fd_clear_go_rate), "agree": nn(r.fd_agree_rate),
+            "proe": nn(r.neutral_proe), "pace": nn(r.pace_sec), "blitz_rate": nn(r.def_blitz_rate),
+            "pen_pg": float((r.pen_off_n + r.pen_def_n + r.pen_st_n) / r.games), "h2": nn(r.net_h2_minus_h1),
+            "one_score": r.one_score}
+
+
+def build_matchups(T, nxt, MM, A, mm, notes):
+    games = []
+    mm_by = {m["game"]: m for m in mm}
+    lg_go = T.fd_go_rate.mean()
+    for _, g in nxt.iterrows():
+        h, a = g.home_team, g.away_team
+        neutral = str(g.location) == "Neutral"
+        label = f"{a} at {h}"
+        sides, cautions = [], []
+        for o, d in [(a, h), (h, a)]:
+            hsign = 0 if neutral else (1 if o == h else -1)
+            groups = []
+            for gname, rows in MATCH_ROWS.items():
+                out = []
+                for lab, key, oc, dc, f, sgn in rows:
+                    ov, dv = T.loc[o, oc], T.loc[d, dc]
+                    row = {"lab": lab, "f": f, "o": None if pd.isna(ov) else float(ov), "o_rank": int(rank(T[oc], sgn == 1)[o]),
+                           "d": None if pd.isna(dv) else float(dv), "d_rank": int(rank(T[dc], sgn == -1)[d])}   # 1 = best unit
+                    if key:
+                        m = MM[key]
+                        eo, ed = m["off"]["eff"][o], m["def"]["eff"][d]
+                        wo, wd = m["off"]["w"][o], m["def"]["w"][d]
+                        exp = m["mean"] + wo * eo + wd * ed + m["home"] * hsign
+                        scale = math.sqrt(m["off"]["tau2"] + m["def"]["tau2"])
+                        z = sgn * (exp - m["mean"]) / scale if scale > 0 else 0
+                        row.update({"exp": exp, "lg": m["mean"], "lean": "offence" if z >= 0.5 else ("defence" if z <= -0.5 else "even"),
+                                    "z": round(z, 2), "conf": conf_label((wo + wd) / 2), "wo": wo, "wd": wd,
+                                    "no": m["off"]["n"][o], "nd": m["def"]["n"][d]})
+                    out.append(row)
+                groups.append({"name": gname, "rows": out})
+            ex = {r["lab"]: r for grp in groups for r in grp["rows"]}
+            sides.append({"off": o, "def": d, "home": o == h, "groups": groups, "exp_epa": ex["EPA per play"]["exp"],
+                          "exp_ppd": ex["Points per drive"]["exp"], "conf_epa": ex["EPA per play"]["conf"]})
+        st = []
+        for lab, col, f, dd in ST_ROWS:
+            def val(t):
+                r = T.loc[t]
+                if col == "st_td_pair":
+                    return f"{int(r.st_td)} / {int(r.st_td_allowed)}"
+                if col == "blocks_pair":
+                    return f"{int(r.blocks_made)} / {int(r.blocks_allowed)}"
+                v = r[col]
+                return None if (not isinstance(v, str) and pd.isna(v)) else (v if isinstance(v, str) else float(v))
+            row = {"lab": lab, "f": f, "a": val(a), "h": val(h)}
+            if dd != 0:
+                rk = rank(T[col], dd == 1)
+                row["a_rank"], row["h_rank"] = int(rk[a]), int(rk[h])
+            st.append(row)
+        coach = {a: coaching_profile(a, T), h: coaching_profile(h, T)}
+        coach[a]["name"], coach[h]["name"] = str(g.away_coach), str(g.home_coach)
+        # what to expect: unit-level expectations, never a score or a winner
+        exp = []
+        for sd in sides:
+            exp.append(f"{sd['off']} offence against the {sd['def']} defence: expected {sd['exp_epa']:+.3f} EPA per play and "
+                       f"{sd['exp_ppd']:.2f} points per drive (league {MM['epa_play']['mean']:+.3f} and {MM['ppd']['mean']:.2f}); "
+                       f"confidence {sd['conf_epa']}.")
+        for e in mm_by.get(label, {}).get("edges", []):
+            if abs(e["score"]) >= 1.5:
+                exp.append(f"{e['what']}: edge to {e['favours']} ({e['detail']}).")
+        for t, opp in [(a, h), (h, a)]:
+            c = coach[t]
+            if c["lean"] != "balanced":
+                exp.append(f"{t} is {c['lean']} on neutral early downs (pass rate over expected {c['proe']:+.1f} points); "
+                           f"{opp} ranks {ordinal(rank(T.def_adj_epa_db, False)[opp])} against the pass and "
+                           f"{ordinal(rank(T.def_adj_epa_rush, False)[opp])} against the run (adjusted).")
+            if c["agg"] != "typical":
+                tail = ("More fourth-down attempts mean more high-variance possessions." if c["agg"] == "aggressive"
+                        else "Expect more punts and field goals in borderline spots.")
+                exp.append(f"{t} has been {c['agg']} on fourth down: went for it on {fmt(c['go'], 'pct')} of {c['n4']} "
+                           f"neutral fourth downs (league {fmt(lg_go, 'pct')}). {tail}")
+        low = sorted({r["lab"] for sd in sides for grp in sd["groups"] for r in grp["rows"]
+                      if r.get("conf") in ("no signal yet", "very low")})
+        if low:
+            cautions.append("Weak evidence so far, so the expected value stays close to the league average: " + ", ".join(low) + ".")
+        for t in (a, h):
+            r = T.loc[t]
+            if int(r.qb_starters_n) > 1:
+                cautions.append(f"{t} season figures mix quarterbacks ({r.qb_starts}).")
+            outs = A[(A.team == t) & A.status_class.isin(["confirmed: reserve list", "listed Out/Doubtful"])]
+            if len(outs):
+                cautions.append(f"{t} regulars out: " + ", ".join(f"{x.player} ({x.position}, {x.share:.0%} of snaps)" for x in outs.itertuples()) + ".")
+            q = A[(A.team == t) & (A.status_class == "listed Questionable")]
+            if len(q):
+                cautions.append(f"{t} questionable: " + ", ".join(f"{x.player} ({x.position})" for x in q.itertuples()) + ".")
+            pr = A[(A.team == t) & A.status_class.isin(["did not practise", "limited in practice"])]
+            if len(pr):
+                cautions.append(f"{t} practice report (no game status yet): " + ", ".join(
+                    f"{x.player} ({x.position}, {'DNP' if x.status_class == 'did not practise' else 'limited'})" for x in pr.itertuples()) + ".")
+        if T.off_pfr_games.min() < T.games.min():
+            cautions.append("Pressure and yards-before-contact figures use PFR data, which is missing some recent games.")
+        final = None
+        if pd.notna(g.home_score) and pd.notna(g.away_score):
+            final = f"Final: {a} {int(g.away_score)}, {h} {int(g.home_score)}"
+        games.append({
+            "id": g.game_id, "label": label, "away": a, "home": h,
+            "when": f"{g.weekday} {g.gameday}, {g.gametime} ET", "venue": f"{g.stadium} ({g.roof if isinstance(g.roof, str) and g.roof else 'roof not listed'})",
+            "neutral": neutral, "div": bool(g.div_game == 1),
+            "rest": {a: None if pd.isna(g.away_rest) else int(g.away_rest), h: None if pd.isna(g.home_rest) else int(g.home_rest)},
+            "sides": sides, "st": st, "coach": coach, "expect": exp, "cautions": cautions, "final": final,
+            "summary": {t: {"record": T.loc[t, "record"], "rating": float(T.loc[t, "rating_pg"]), "rating_rank": int(T.loc[t, "rating_rank"]),
+                            "stab_rank": int(T.loc[t, "stab_rank"]), "off_rank": int(T.loc[t, "off_adj_rank"]),
+                            "def_rank": int(T.loc[t, "def_adj_rank"]), "st_rank": int(rank(T.st_epa_pg)[t]),
+                            "qb": str(T.loc[t, "qb_starts"])} for t in (a, h)},
+            "edges": mm_by.get(label, {}).get("edges", []),
+            "note": notes.get("games", {}).get(label), "post": notes.get("postgame", {}).get(label),
+        })
+    return games
+
+
 # ------------------------------------------------------------------------------------------ page
 def main():
     ap = argparse.ArgumentParser()
@@ -228,6 +398,7 @@ def main():
     U = unit_ranks(T)
     profiles = {t: profile(t, T, U, G, meta) for t in T.index}
     mm = mismatches(T, nxt)
+    MM = json.loads((d / "matchup_models.json").read_text())
     order = list(T.sort_values("rating_pg", ascending=False).index)
 
     # ---------------- tables
@@ -476,7 +647,7 @@ def main():
         C("absent_snap_weighted", "Snap-weighted absences", "n2", -1, "Sum of absent regulars' snap shares; 1.0 = one full-time starter"),
         C("absent_QB", "QB", "int", -1), C("absent_OL", "OL", "int", -1), C("absent_WR/TE", "WR/TE", "int", -1), C("absent_RB", "RB", "int", -1),
         C("absent_DL/EDGE", "DL/EDGE", "int", -1), C("absent_LB", "LB", "int", -1), C("absent_DB", "DB", "int", -1),
-        C("questionable_n", "Questionable", "int", -1), C("unconfirmed_n", "Missed last game, no designation", "int", -1),
+        C("questionable_n", "Questionable", "int", -1), C("practice_concern_n", "DNP/limited, no status yet", "int", -1),C("unconfirmed_n", "Missed last game, no designation", "int", -1),
         C("ol_starters_used", "OL starters used", "int", -1), C("ol_w1_starters_in_last", "Week-1 OL starters in latest game", "int", 1),
         C("top_rb_carry_share", "Top RB carry share", "pct", 0), C("def_top11_snap_share", "Top-11 share of def. snaps", "pct", 0),
         C("def_players_25pct", "Defenders with 25%+ snaps in a game", "int", 0),
@@ -588,7 +759,7 @@ def main():
     absn = A.replace({np.nan: None}).to_dict("records")
 
     data = {"teams": teams_js, "qbs": qbs, "absences": absn, "tables": tables, "meta": meta, "profiles": profiles,
-            "mismatch": mm, "cats": cats, "D": D, "E": E, "F": F, "dis": dis, "notes": notes, "order": order,
+            "mismatch": mm, "games": build_matchups(T, nxt, MM, A, mm, notes), "cats": cats, "D": D, "E": E, "F": F, "dis": dis, "notes": notes, "order": order,
             "names": T.team_name.to_dict()}
     page = TEMPLATE.replace("/*DATA*/", json.dumps(data, default=str).replace("</", "<\\/"))
     page = page.replace("{{METHOD}}", method_html(meta, T))
@@ -662,6 +833,12 @@ expected points after that choice in the same distance × field-position bucket 
 <p>nflfastR records one penalty per play, so no play is counted twice. Declined and offsetting penalties are excluded from the counts. Phase: special teams if the play was a
 kick, otherwise offence or defence by the penalised team. The EPA cost counts no-play penalties only; for accepted penalties on live plays the penalty and the play cannot be separated.
 Negated explosive plays and TDs are parsed from the play text.</p>
+<h3>Week 8 matchup expectations</h3>
+<p>For each measure in the matchup tables, the same additive fit as the opponent adjustment (offence + defence + home, sum-to-zero) is run on 2026 plays,
+drives or PFR team-games. Each team effect is then shrunk by w = τ² / (τ² + σ²/n), where σ²/n is its sampling variance and τ² the between-team variance of the
+effects minus their average sampling variance (method of moments). Expected value = league mean + w<sub>off</sub> × offence effect + w<sub>def</sub> × defence effect ± home effect.
+When τ² is close to zero, the measure has no reliable team-to-team signal yet and the expectation stays at the league average. After seven weeks that applies to run-defence EPA,
+offensive red-zone TD rate and takeaways per drive. Earlier seasons are not used, and no score or result is forecast.</p>
 <h3>Not available, and proxies used</h3>
 <ul>
 <li><b>DVOA</b>: FTN's proprietary metric. It is not in nflverse and was not used, so every DVOA column reads n/a. The closest computed analogues here are opponent-adjusted EPA and success rate. They are not DVOA.</li>

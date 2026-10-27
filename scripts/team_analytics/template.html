@@ -97,6 +97,27 @@ select, .btn { background: var(--surface-2); color: var(--ink); border: 1px soli
 .mm .det { display: block; color: var(--muted); font-size: 0.8rem; }
 .notes p { color: var(--ink); }
 .notes { display: grid; gap: 4px; }
+.linkbtn { all: unset; cursor: pointer; color: var(--accent); font-weight: 700; }
+.linkbtn:hover { text-decoration: underline; }
+.linkbtn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.game-head { display: grid; gap: 2px; margin: 10px 0 4px; }
+.game-head h3 { margin: 0; font-size: 1.15rem; }
+.final { font-weight: 700; color: var(--ink); margin: 4px 0 0; }
+.split { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); margin: 12px 0; }
+.split .card ul { padding-left: 18px; display: grid; gap: 4px; }
+.card.warnc { background: var(--warn-bg); border-color: var(--warn-border); }
+.card.warnc h4 { color: var(--warn-ink); }
+table.mt td:first-child { font-weight: 600; }
+table.mt tr.grp td { background: var(--surface-2); color: var(--ink-2); font-size: 0.74rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; text-align: left; }
+.pill.lean-offence { border-color: var(--accent); color: var(--accent); }
+.pill.lean-defence { border-color: var(--warn-ink); color: var(--warn-ink); }
+.pill.lean-even { color: var(--muted); }
+.pill.agg-aggressive { border-color: var(--bad); color: var(--bad); }
+.pill.agg-conservative { border-color: var(--accent); color: var(--accent); }
+td.conf-moderate { color: var(--ink); }
+td.conf-low { color: var(--ink-2); }
+td.conf-very-low, td.conf-no-signal-yet { color: var(--muted); font-style: italic; }
+.muted { color: var(--muted); }
 footer { color: var(--muted); font-size: 0.82rem; border-top: 1px solid var(--rule); padding-block: 20px 40px; }
 @media (max-width: 640px) {
   .profile div { grid-template-columns: 1fr; gap: 2px; }
@@ -111,11 +132,11 @@ footer { color: var(--muted); font-size: 0.82rem; border-top: 1px solid var(--ru
   <div class="meta" id="meta-line"></div>
 </div></header>
 <nav class="sections" aria-label="Sections"><div class="wrap">
-  <a href="#summary">Takeaways</a><a href="#method">Method</a><a href="#rankings">Rankings</a><a href="#efficiency">EPA &amp; DVOA</a>
+  <a href="#summary">Takeaways</a><a href="#matchups">Week 8 matchups</a><a href="#method">Method</a><a href="#rankings">Rankings</a><a href="#efficiency">EPA &amp; DVOA</a>
   <a href="#drives">Drives</a><a href="#passing">Passing</a><a href="#rushing">Rushing</a><a href="#explosive">Explosives</a>
   <a href="#penalties">Penalties</a><a href="#turnovers">Turnovers</a><a href="#luck">Luck</a><a href="#pressure">Pressure</a>
   <a href="#qbs">Quarterbacks</a><a href="#schedule">Schedule</a><a href="#coaching">Coaching</a><a href="#specialteams">Special teams</a>
-  <a href="#depth">Depth</a><a href="#identity">Team identity</a><a href="#matchups">Week 8 matchups</a><a href="#comparison">Comparison</a>
+  <a href="#depth">Depth</a><a href="#identity">Team identity</a><a href="#comparison">Comparison</a>
   <a href="#overunder">Over/under</a><a href="#sustainable">Sustainable</a><a href="#exploitable">Exploitable</a>
 </div></nav>
 
@@ -126,6 +147,20 @@ footer { color: var(--muted); font-size: 0.82rem; border-top: 1px solid var(--ru
   <p class="lead">Statistical assessments built from play-by-play efficiency, not from records or market expectations. Seven weeks is a real sample but a small one: treat every ranking below as an estimate with wide error bars.</p>
   <div class="notes" id="notes-summary"></div>
   <div class="grid" id="f-grid"></div>
+</section>
+
+<section id="matchups">
+  <div class="sec-head"><span class="sec-num">W8</span><h2>Week 8 matchups</h2></div>
+  <p class="lead">Each game side by side: every offence against the defence it faces, special teams, and coaching tendencies. Pick a game, or use the cards at the bottom of this section.</p>
+  <div class="callout warn"><b>How to read the expected values.</b> "Expected in this matchup" adds the offence's and the defence's opponent-adjusted effects to the league average, plus home field.
+  Each effect is first pulled towards the league average in proportion to how little data supports it (empirical-Bayes shrinkage), so a unit with few plays or noisy results moves the expectation very little.
+  Confidence describes how much of each team's own record survives that shrinkage: moderate, low, very low, or no signal yet. Nothing here is a score or a result forecast,
+  and nothing from earlier seasons is used. Coaching labels describe what each staff has done in 2026 on small samples: 20-40 fourth-down decisions per team.</div>
+  <div class="controls"><label for="game-sel">Game</label><select id="game-sel"></select></div>
+  <div id="game"></div>
+  <h3>All week 8 games at a glance</h3>
+  <p class="tnote">The three largest unit-versus-unit gaps in each game (sum of the two units' z-scores; 2 or more is notable). Select a card to open the game.</p>
+  <div class="mm" id="mm"></div>
 </section>
 
 <section id="method">
@@ -251,11 +286,6 @@ footer { color: var(--muted); font-size: 0.82rem; border-top: 1px solid var(--ru
   <div id="identity-table"></div>
 </section>
 
-<section id="matchups">
-  <div class="sec-head"><span class="sec-num">17b</span><h2>Week 8 tactical mismatches</h2></div>
-  <p class="lead">For each game, the three largest unit-versus-unit gaps (sum of the two units' z-scores; 2 or more is notable). These describe the matchup statistically; they are not forecasts.</p>
-  <div class="mm" id="mm"></div>
-</section>
 
 <section id="comparison">
   <div class="sec-head"><span class="sec-num">B</span><h2>Comprehensive team comparison</h2></div>
@@ -474,9 +504,70 @@ document.getElementById("identity-table").innerHTML = `<div class="table-wrap"><
   return `<tr><td class="tm">${t}</td><td>${r.record}</td><td>${fmt(r.rating_pg, "s1")}</td><td style="text-align:left">${esc(p.best_off)}</td><td style="text-align:left">${esc(p.best_def)}</td><td style="text-align:left">${esc(p.worst)}</td><td>${esc(r.balance || "")}</td></tr>`;
 }).join("")}</tbody></table></div>`;
 
-// matchups
-document.getElementById("mm").innerHTML = DATA.mismatch.map(g => `<div class="card"><h4>${esc(g.game)} · ${esc(g.day)}</h4><ul>${g.edges.map(e =>
-  `<li><span class="sc">${e.score >= 0 ? "+" : "−"}${Math.abs(e.score).toFixed(1)}</span>${esc(e.what)} <span class="det">${esc(e.detail)} · edge to ${esc(e.favours)}${Math.abs(e.score) < 2 ? " (modest)" : ""}</span></li>`).join("")}</ul>${((NOTES.games || {})[g.game]) ? `<p class="meta">${NOTES.games[g.game]}</p>` : ""}</div>`).join("");
+// matchups: overview cards
+const GAMES = DATA.games, GBY = Object.fromEntries(GAMES.map(g => [g.id, g]));
+document.getElementById("mm").innerHTML = GAMES.map(g => `<div class="card"><h4><button type="button" class="linkbtn" data-game="${esc(g.id)}">${esc(g.label)}</button> · ${esc(g.when)}</h4>${g.final ? `<p class="meta"><b>${esc(g.final)}</b></p>` : ""}<ul>${g.edges.map(e =>
+  `<li><span class="sc">${e.score >= 0 ? "+" : "−"}${Math.abs(e.score).toFixed(1)}</span>${esc(e.what)} <span class="det">${esc(e.detail)} · edge to ${esc(e.favours)}${Math.abs(e.score) < 2 ? " (modest)" : ""}</span></li>`).join("")}</ul></div>`).join("");
+
+// matchups: one game in detail
+const gameSel = document.getElementById("game-sel");
+gameSel.innerHTML = GAMES.map(g => `<option value="${esc(g.id)}">${esc(g.label)} · ${esc(g.when)}</option>`).join("");
+const leanPill = l => l ? `<span class="pill lean-${l}">${l === "even" ? "even" : "favours " + l}</span>` : "";
+const rk = n => n ? `<span class="rk">${ord(n)}</span>` : "";
+function renderGame(id) {
+  const g = GBY[id]; if (!g) return;
+  const S = g.summary, A = g.away, H = g.home;
+  let h = `<div class="game-head"><h3>${esc(NAME[A])} (${esc(S[A].record)}) at ${esc(NAME[H])} (${esc(S[H].record)})</h3>
+    <p class="meta">${esc(g.when)} · ${esc(g.venue)}${g.neutral ? " · neutral site" : ""}${g.div ? " · divisional game" : ""} · rest days: ${A} ${g.rest[A] ?? "n/a"}, ${H} ${g.rest[H] ?? "n/a"}</p>
+    ${g.final ? `<p class="final">${esc(g.final)}</p>` : ""}</div>`;
+  h += `<div class="table-wrap"><table><thead><tr><th>Team</th><th>Record</th><th>Overall rating</th><th>With 2025 prior</th><th>Offence (adj.)</th><th>Defence (adj.)</th><th>Special teams</th><th style="text-align:left">QB starts</th></tr></thead><tbody>${[A, H].map(t =>
+    `<tr><td class="tm">${t}${t === H ? "<small>home</small>" : ""}</td><td>${esc(S[t].record)}</td><td>${fmt(S[t].rating, "s1")}${rk(S[t].rating_rank)}</td><td>${ord(S[t].stab_rank)}</td><td>${ord(S[t].off_rank)}</td><td>${ord(S[t].def_rank)}</td><td>${ord(S[t].st_rank)}</td><td style="text-align:left">${esc(S[t].qb)}</td></tr>`).join("")}</tbody></table></div>`;
+  if (g.note) h += `<div class="callout">${g.note}</div>`;
+  if (g.post) h += `<div class="callout"><b>After the game.</b> ${g.post}</div>`;
+  h += `<div class="split"><div class="card"><h4>What to expect, from the numbers</h4><ul>${g.expect.map(e => `<li>${esc(e)}</li>`).join("")}</ul></div>
+    <div class="card warnc"><h4>Be careful with</h4><ul>${g.cautions.map(e => `<li>${esc(e)}</li>`).join("")}</ul></div></div>`;
+  for (const sd of g.sides) {
+    h += `<h3>${esc(sd.off)} offence vs ${esc(sd.def)} defence${sd.home ? " (offence at home)" : ""}</h3><div class="table-wrap"><table class="mt"><thead><tr><th>Measure</th><th>${esc(sd.off)} offence</th><th>${esc(sd.def)} defence allows</th><th>Expected in this matchup</th><th>League average</th><th>Leans</th><th>Confidence</th></tr></thead><tbody>`;
+    for (const grp of sd.groups) {
+      h += `<tr class="grp"><td colspan="7">${esc(grp.name)}</td></tr>`;
+      for (const r of grp.rows) {
+        const hasExp = r.exp !== undefined;
+        h += `<tr><td>${esc(r.lab)}</td><td>${esc(fmt(r.o, r.f))}${rk(r.o_rank)}</td><td>${esc(fmt(r.d, r.f))}${rk(r.d_rank)}</td>
+          <td>${hasExp ? `<b>${esc(fmt(r.exp, r.f))}</b>` : `<span class="muted">raw context</span>`}</td><td>${hasExp ? esc(fmt(r.lg, r.f)) : ""}</td>
+          <td>${hasExp ? leanPill(r.lean) : ""}</td><td class="${hasExp ? "conf-" + r.conf.replace(/ /g, "-") : ""}" title="${hasExp ? `Weight kept: offence ${r.wo.toFixed(2)} (n=${r.no}), defence ${r.wd.toFixed(2)} (n=${r.nd})` : ""}">${hasExp ? esc(r.conf) : ""}</td></tr>`;
+      }
+    }
+    h += `</tbody></table></div><p class="tnote">Ranks are among 32 teams, 1 = best unit for that measure (for a defence, 1 = allows the least). Raw rows depend on pace and game script and are not adjusted. Hover a confidence cell to see the share of each team's own effect that was kept and its sample size.</p>`;
+  }
+  h += `<h3>Special teams</h3><div class="table-wrap"><table class="mt"><thead><tr><th>Measure</th><th>${A}</th><th>${H}</th></tr></thead><tbody>${g.st.map(r =>
+    `<tr><td>${esc(r.lab)}</td><td>${esc(fmt(r.a, r.f))}${rk(r.a_rank)}</td><td>${esc(fmt(r.h, r.f))}${rk(r.h_rank)}</td></tr>`).join("")}</tbody></table></div>
+    <p class="tnote">Kicking and return figures rest on a few dozen plays per team and change quickly. Field-goal points over expected compares makes with a distance-based make probability (2023-25).</p>`;
+  const C = g.coach;
+  const crow = (lab, f) => `<tr><td>${esc(lab)}</td><td>${f(C[A])}</td><td>${f(C[H])}</td></tr>`;
+  h += `<h3>Coaching and game management</h3><div class="table-wrap"><table class="mt"><thead><tr><th>Measure</th><th>${A}</th><th>${H}</th></tr></thead><tbody>
+    ${crow("Head coach", c => esc(c.name))}
+    ${crow("Fourth-down approach", c => `<span class="pill agg-${c.agg}">${esc(c.agg)}</span>`)}
+    ${crow("Went for it, neutral 4th downs", c => `${fmt(c.go, "pct")} of ${c.n4}`)}
+    ${crow("Went for it in clear go spots", c => c.clear_n ? `${fmt(c.clear, "pct")} of ${fmt(c.clear_n, "int")}` : "none yet")}
+    ${crow("Agrees with EP reference", c => fmt(c.agree, "pct"))}
+    ${crow("Early-down play calling", c => `${esc(c.lean)} (${fmt(c.proe, "s1")} pass rate over expected)`)}
+    ${crow("Seconds between snaps (median)", c => fmt(c.pace, "n1"))}
+    ${crow("Defensive blitz rate", c => `${fmt(c.blitz_rate, "pct")} (${esc(c.blitz)})`)}
+    ${crow("Penalties per game, all units", c => fmt(c.pen_pg, "n1"))}
+    ${crow("2nd-half minus 1st-half net EPA/play", c => fmt(c.h2, "epa"))}
+    ${crow("One-score record", c => esc(c.one_score))}
+    </tbody></table></div><p class="tnote">Fourth-down approach compares each team's go rate in neutral situations (win probability 20-80%, more than 2:00 left in the half) with the league: aggressive or conservative = at least 0.75 standard deviations from the mean. An aggressive staff creates more fourth-down attempts and more variable drives; a conservative one kicks more in borderline spots. Small samples: one or two decisions move these rates noticeably.</p>`;
+  document.getElementById("game").innerHTML = h;
+  try { localStorage.setItem("w8-game", id); } catch (e) {}
+}
+gameSel.addEventListener("change", () => renderGame(gameSel.value));
+document.querySelectorAll("[data-game]").forEach(b => b.addEventListener("click", () => {
+  gameSel.value = b.dataset.game; renderGame(b.dataset.game);
+  document.getElementById("matchups").scrollIntoView({behavior: "smooth", block: "start"});
+}));
+let savedGame = null; try { savedGame = localStorage.getItem("w8-game"); } catch (e) {}
+gameSel.value = savedGame && GBY[savedGame] ? savedGame : GAMES[0].id;
+renderGame(gameSel.value);
 
 // categories
 function catItems(list, cls) {
