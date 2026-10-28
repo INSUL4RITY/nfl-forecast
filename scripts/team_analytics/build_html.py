@@ -97,9 +97,24 @@ def apply_callers(T: pd.DataFrame, CL: dict) -> pd.DataFrame:
     return T
 
 
+def apply_win_rates(T: pd.DataFrame, meta: dict):
+    """ESPN team win rates from the hand-kept win_rates_<season>.json (values as published, whole percentages)."""
+    f = Path(__file__).resolve().parent / f"win_rates_{meta['season']}.json"
+    if not f.exists():
+        return T, None
+    WR = json.loads(f.read_text(encoding="utf-8"))
+    T = T.copy()
+    for k in ("pbwr", "prwr", "rbwr", "rswr"):
+        T[k] = [WR["teams"][t][k] / 100 if t in WR["teams"] else np.nan for t in T.index]
+    return T, WR
+
+
 # --------------------------------------------------------------------------------------- derived data
 def derive(T: pd.DataFrame, G: pd.DataFrame, meta: dict):
     T = T.copy()
+    for side in ("off", "def"):                     # explosive scrambles = all explosives - 20+ passes - 10+ designed runs
+        T[f"{side}_n_expl_scr"] = T[f"{side}_n_explosive"] - T[f"{side}_n_expl_pass"] - T[f"{side}_n_expl_run"]
+        T[f"{side}_expl_pass_share"] = T[f"{side}_n_expl_pass"] / T[f"{side}_n_explosive"]
     T[[c for c in T.columns if c.startswith("pd_")]] = T[[c for c in T.columns if c.startswith("pd_")]].fillna(0)
     T["record"] = T.w.astype(int).astype(str) + "-" + T.l.astype(int).astype(str) + np.where(T.t > 0, "-" + T.t.astype(int).astype(str), "")
     T["one_score"] = T.one_w.astype(int).astype(str) + "-" + T.one_l.astype(int).astype(str)
@@ -251,6 +266,7 @@ MATCH_ROWS = {
         ("20+ yard pass rate", "expl_pass", "off_expl_pass_rate", "def_expl_pass_rate", "pct", 1),
         ("Sack rate", "sack_rate", "off_sack_rate", "def_sack_rate", "pct", -1),
         ("Pressure rate (PFR)", "pressure", "off_pressure_rate", "def_pressure_rate", "pct", -1),
+        ("Pass block vs pass rush win rate (ESPN)", None, "pbwr", "prwr", "pct", 1, True),
         ("Passing yards per game (raw)", None, "off_pass_yds_pg", "def_pass_yds_pg", "n1", 1),
     ],
     "Rushing": [
@@ -259,6 +275,7 @@ MATCH_ROWS = {
         ("Yards per carry", "ypc", "off_ypc", "def_ypc", "n2", 1),
         ("10+ yard run rate", "expl_run", "off_expl_run_rate", "def_expl_run_rate", "pct", 1),
         ("Stuff rate (0 or fewer yards)", "stuff", "off_stuff_rate", "def_stuff_rate", "pct", -1),
+        ("Run block vs run stop win rate (ESPN)", None, "rbwr", "rswr", "pct", 1, True),
         ("Yards before contact (PFR)", None, "ybc_per_att", "def_ybc_allowed", "n2", 1),
         ("Rushing yards per game (raw)", None, "off_rush_yds_pg", "def_rush_yds_pg", "n1", 1),
     ],
@@ -318,10 +335,13 @@ def build_matchups(T, nxt, MM, A, mm, notes):
             groups = []
             for gname, rows in MATCH_ROWS.items():
                 out = []
-                for lab, key, oc, dc, f, sgn in rows:
+                for lab, key, oc, dc, f, sgn, *d_high in rows:
+                    if oc not in T or dc not in T:
+                        continue
                     ov, dv = T.loc[o, oc], T.loc[d, dc]
+                    d_good = bool(d_high[0]) if d_high else sgn == -1          # win rates: higher is better for both units
                     row = {"lab": lab, "f": f, "o": None if pd.isna(ov) else float(ov), "o_rank": int(rank(T[oc], sgn == 1)[o]),
-                           "d": None if pd.isna(dv) else float(dv), "d_rank": int(rank(T[dc], sgn == -1)[d])}   # 1 = best unit
+                           "d": None if pd.isna(dv) else float(dv), "d_rank": int(rank(T[dc], d_good)[d])}   # 1 = best unit
                     if key:
                         m = MM[key]
                         eo, ed = m["off"]["eff"][o], m["def"]["eff"][d]
@@ -746,6 +766,9 @@ def main():
     T = derive(T, G, meta)
     CL = json.loads((d / "callers.json").read_text(encoding="utf-8"))
     T = apply_callers(T, CL)
+    T, WR = apply_win_rates(T, meta)
+    wr_note = (f" Win rates: {WR['source']['title']} ({WR['source']['updated']}); ESPN Analytics from NFL Next Gen Stats tracking, not in nflverse. ESPN publishes whole percentages, so tied teams share a rank here."
+               + ("" if WR["through_week"] == meta["through_week"] else f" STALE: win rates run through week {WR['through_week']}, the report through week {meta['through_week']}.")) if WR else ""
     U = unit_ranks(T)
     profiles = {t: profile(t, T, U, G, meta) for t in T.index}
     mm = mismatches(T, nxt)
@@ -851,6 +874,7 @@ def main():
         C("off_rushes", "Designed rushes", "int", 0), C("off_epa_rush", "EPA/rush", "epa", 1), C("off_adj_epa_rush", "Adj. EPA/rush", "epa", 1),
         C("off_sr_rush", "Success", "pct", 1), C("off_ypc", "Yards/carry", "n2", 1), C("off_rush_fd", "1st-down rate", "pct", 1),
         C("off_expl_run_rate", "10+ yd rate", "pct", 1), C("off_stuff_rate", "Stuff rate (<=0 yd)", "pct", -1),
+        C("rbwr", "Run block win rate (ESPN)", "pct", 1, "ESPN Analytics run block win rate (tracking data)"),
         C("off_sy_conv", "Short-yardage conv.", "pct", 1, "3rd/4th and 2 or less, designed rushes"), C("off_sy_n", "SY att.", "int", 0),
         C("off_gl_td", "TD rate inside 3", "pct", 1), C("off_gl_n", "Att. inside 3", "int", 0),
         C("off_early_rush_epa", "Early-down EPA/rush", "epa", 1),
@@ -866,20 +890,33 @@ def main():
         C("def_rushes", "Designed rushes faced", "int", 0), C("def_epa_rush", "EPA/rush allowed", "epa", -1), C("def_adj_epa_rush", "Adj. EPA/rush", "epa", -1),
         C("def_sr_rush", "Success allowed", "pct", -1), C("def_ypc", "Yards/carry", "n2", -1), C("def_rush_fd", "1st-down rate", "pct", -1),
         C("def_expl_run_rate", "10+ yd allowed", "pct", -1), C("def_stuff_rate", "Stuff rate", "pct", 1),
+        C("rswr", "Run stop win rate (ESPN)", "pct", 1, "ESPN Analytics run stop win rate (tracking data)"),
         C("def_sy_conv", "Short-yardage allowed", "pct", -1), C("def_gl_td", "TD rate inside 3", "pct", -1),
         C("def_ybc_allowed", "Yds before contact allowed", "n2", -1), C("def_yac_allowed", "Yds after contact allowed", "n2", -1),
         C("def_missed_tackle_pct", "Missed tackle %", "pct", -1, "PFR, all plays"),
         C("def_qb_runs", "QB designed runs faced", "int", 0), C("def_qb_run_epa", "EPA vs QB designed runs", "epa", -1),
         C("def_scr_epa", "EPA vs scrambles", "epa", -1),
     ], "def_adj_epa_rush", desc=False))
-    tables.append(table("expl", "Explosive plays", [
-        C("off_expl_rate", "Off. explosive rate", "pct", 1), C("off_n_explosive", "Off. explosives", "int", 1),
-        C("off_expl_epa_share", "Share of positive EPA on explosives", "pct", 0, "EPA gained on explosive plays / all positive EPA"), C("off_epa_nonexpl", "Off. EPA/play, non-explosive", "epa", 1),
-        C("off_sr_nonexpl", "Off. success, non-explosive", "pct", 1),
-        C("def_expl_rate", "Def. explosive rate", "pct", -1), C("def_n_explosive", "Def. explosives allowed", "int", -1),
+    tables.append(table("expl_off", "Explosive offence: passes and runs", [
+        C("off_expl_rate", "Explosive rate (all)", "pct", 1), C("off_n_explosive", "Explosives", "int", 1),
+        C("off_n_expl_pass", "20+ yd passes", "int", 1), C("off_expl_pass_rate", "20+ yd pass rate", "pct", 1, "Per pass attempt"),
+        C("off_n_expl_run", "10+ yd runs", "int", 1), C("off_expl_run_rate", "10+ yd run rate", "pct", 1, "Per designed rush"),
+        C("off_n_expl_scr", "10+ yd scrambles", "int", 1),
+        C("off_expl_pass_share", "Share via passes", "pct", 0, "20+ yd passes / all explosives: how a team gets its big plays"),
+        C("off_expl_epa_share", "Share of positive EPA on explosives", "pct", 0, "EPA gained on explosive plays / all positive EPA"),
+        C("off_expl_td", "TDs on explosives", "int", 1),
+        C("off_epa_nonexpl", "EPA/play, non-explosive", "epa", 1), C("off_sr_nonexpl", "Success, non-explosive", "pct", 1),
+    ], "off_expl_rate", "Explosive = completed pass of 20+ yards, designed rush or scramble of 10+ yards (no-play penalties excluded). "
+                        "Pass and run rates use their own denominators (attempts, designed rushes)."))
+    tables.append(table("expl_def", "Explosive defence: passes and runs allowed", [
+        C("def_expl_rate", "Explosive rate allowed", "pct", -1), C("def_n_explosive", "Explosives allowed", "int", -1),
+        C("def_n_expl_pass", "20+ yd passes", "int", -1), C("def_expl_pass_rate", "20+ yd pass rate", "pct", -1, "Per pass attempt faced"),
+        C("def_n_expl_run", "10+ yd runs", "int", -1), C("def_expl_run_rate", "10+ yd run rate", "pct", -1, "Per designed rush faced"),
+        C("def_n_expl_scr", "10+ yd scrambles", "int", -1),
+        C("def_expl_pass_share", "Share via passes", "pct", 0, "20+ yd passes allowed / all explosives allowed: where the defence leaks"),
         C("def_expl_td", "TDs on explosives allowed", "int", -1), C("def_epa_on_explosive", "EPA allowed on explosives", "n1", -1),
-        C("def_epa_nonexpl", "Def. EPA/play, non-explosive", "epa", -1), C("def_sr_nonexpl", "Def. success, non-explosive", "pct", -1),
-    ], "off_expl_rate", "Explosive = completed pass of 20+ yards, designed rush or scramble of 10+ yards (no-play penalties excluded)."))
+        C("def_epa_nonexpl", "EPA/play, non-explosive", "epa", -1), C("def_sr_nonexpl", "Success, non-explosive", "pct", -1),
+    ], "def_expl_rate", "Lower is better for every allowed column.", desc=False))
     tables.append(table("pen_off", "Offensive discipline", [
         C("pen_off_n", "Off. penalties", "int", -1), C("pen_off_pg", "Per game", "n2", -1), C("pen_off_per100", "Per 100 plays", "n2", -1),
         C("pen_off_yds_pg", "Yards/game", "n1", -1), C("pen_off_presnap", "Pre-snap", "int", -1), C("pen_false_start", "False starts (all units)", "int", -1),
@@ -942,7 +979,8 @@ def main():
         C("def_d3_sack_rate", "3rd-down sack rate", "pct", 1), C("def_time_to_throw", "Opp. time to throw", "n2", 0),
         C("def_epa_oop", "EPA vs QB out of pocket", "epa", -1, "FTN: rollouts and scrambles from the pocket"),
         C("def_pfr_games", "Games with PFR data", "int", 0),
-    ], "def_pressure_rate"))
+        C("prwr", "Pass rush win rate (ESPN)", "pct", 1, "Share of pass rushes that beat a block within 2.5 s (ESPN Analytics, tracking data)"),
+    ], "def_pressure_rate", "Pressure counts the whole play (coverage and the QB's hold time too); win rate isolates the rushers." + wr_note))
     tables.append(table("press_off", "Pass protection", [
         C("off_pressure_rate", "Pressure allowed", "pct", -1), C("off_sack_rate", "Sack rate", "pct", -1),
         C("off_pressure_to_sack", "Sacks per pressure", "pct", -1), C("off_hit_or_sack_rate", "Hit-or-sack rate", "pct", -1),
@@ -953,7 +991,8 @@ def main():
         C("ol_starters_used", "OL starters used", "int", -1, "Distinct players among each game's top five OL by snaps"),
         C("ol_combos", "OL combinations", "int", -1), C("absent_OL", "OL regulars out", "int", -1),
         C("off_pfr_games", "Games with PFR data", "int", 0),
-    ], "off_pressure_rate", desc=False))
+        C("pbwr", "Pass block win rate (ESPN)", "pct", 1, "Share of pass-blocking snaps where the line holds its blocks for 2.5 s (ESPN Analytics)"),
+    ], "off_pressure_rate", "Pressure allowed also reflects the QB's hold time and receivers getting open; pass block win rate isolates the line." + wr_note, desc=False))
     tables.append(table("sos", "Strength of schedule", [
         C("record", "Record", "str", 0), C("sos_net", "Opp. net adj. EPA/play", "epa", 0, "Positive = tougher schedule"),
         C("sos_off", "Defences faced (adj. EPA allowed effect)", "epa", 0, "Positive = faced defences that allow more (easier for the offence)"),
@@ -1316,6 +1355,7 @@ away team's home clock. Relocated franchises use their city at the time; a few h
 Status comes from each team's latest weekly roster (reserve list) and latest injury report (game status, or practice participation before game statuses are published). Team-level tables are not changed.</p>
 <h3>Not available, and proxies used</h3>
 <ul>
+<li><b>Win rates</b> (pass block, pass rush, run block, run stop): ESPN Analytics, built from NFL Next Gen Stats tracking. They are not in nflverse, so they are copied by hand each week from ESPN's team table with its date (the win-rates file in the analytics scripts), shown for context only and not used in any rating, composite or matchup expectation. A pass block win means the line held its blocks for 2.5 seconds; a pass rush win means a rusher beat his block within 2.5 seconds.</li>
 <li><b>DVOA</b>: FTN's proprietary metric. It is not in nflverse and is not used or shown in this report. The closest computed analogues here are opponent-adjusted EPA and success rate. They are not DVOA.</li>
 <li><b>Coverage (man/zone), time to pressure, pressure by play</b>: not in free data. PFR pressures are game-level, so pressure-when-blitzing uses the hit-or-sack proxy.</li>
 <li><b>Pressure coverage</b>: PFR advanced stats are available for {T.off_pfr_games.sum()/2:.0f} of {meta['games']} games; pressure rates use only those games.</li>

@@ -1,0 +1,339 @@
+{
+ "season": 2026,
+ "through_week": 7,
+ "source": {
+  "title": "ESPN Analytics: 2026 NFL pass rush, run stop, blocking win rate rankings",
+  "url": "https://www.espn.com/nfl/story/_/id/49742016/2026-win-rates-team-player-rankings-pass-rush-run-stop-blocking",
+  "updated": "Through Week 7 games, Oct. 27 at 10 a.m. ET",
+  "retrieved": "2026-10-28"
+ },
+ "definitions": {
+  "pbwr": "Pass block win rate: share of pass-blocking snaps where the line sustains its blocks for 2.5 seconds",
+  "prwr": "Pass rush win rate: share of pass-rush snaps where a rusher beats his block within 2.5 seconds",
+  "rbwr": "Run block win rate (ESPN, Next Gen Stats tracking)",
+  "rswr": "Run stop win rate (ESPN, Next Gen Stats tracking)"
+ },
+ "how_to_update": "Hand-kept. At each weekly rollover, open the source page, check its 'Through Week N' line matches the report's through-week, copy all four team columns (value and rank), and update through_week, updated and retrieved. Values are whole percentages as ESPN publishes them.",
+ "teams": {
+  "ARI": {
+   "prwr": 52,
+   "rswr": 27,
+   "pbwr": 32,
+   "rbwr": 70,
+   "prwr_rank": 14,
+   "rswr_rank": 25,
+   "pbwr_rank": 31,
+   "rbwr_rank": 30
+  },
+  "ATL": {
+   "prwr": 53,
+   "rswr": 33,
+   "pbwr": 49,
+   "rbwr": 74,
+   "prwr_rank": 11,
+   "rswr_rank": 3,
+   "pbwr_rank": 17,
+   "rbwr_rank": 15
+  },
+  "BAL": {
+   "prwr": 54,
+   "rswr": 31,
+   "pbwr": 48,
+   "rbwr": 72,
+   "prwr_rank": 7,
+   "rswr_rank": 8,
+   "pbwr_rank": 20,
+   "rbwr_rank": 21
+  },
+  "BUF": {
+   "prwr": 44,
+   "rswr": 29,
+   "pbwr": 59,
+   "rbwr": 77,
+   "prwr_rank": 28,
+   "rswr_rank": 16,
+   "pbwr_rank": 3,
+   "rbwr_rank": 2
+  },
+  "CAR": {
+   "prwr": 54,
+   "rswr": 27,
+   "pbwr": 45,
+   "rbwr": 70,
+   "prwr_rank": 8,
+   "rswr_rank": 24,
+   "pbwr_rank": 25,
+   "rbwr_rank": 31
+  },
+  "CHI": {
+   "prwr": 53,
+   "rswr": 27,
+   "pbwr": 57,
+   "rbwr": 73,
+   "prwr_rank": 9,
+   "rswr_rank": 26,
+   "pbwr_rank": 4,
+   "rbwr_rank": 18
+  },
+  "CIN": {
+   "prwr": 48,
+   "rswr": 31,
+   "pbwr": 45,
+   "rbwr": 76,
+   "prwr_rank": 24,
+   "rswr_rank": 7,
+   "pbwr_rank": 28,
+   "rbwr_rank": 3
+  },
+  "CLE": {
+   "prwr": 53,
+   "rswr": 34,
+   "pbwr": 45,
+   "rbwr": 72,
+   "prwr_rank": 10,
+   "rswr_rank": 1,
+   "pbwr_rank": 26,
+   "rbwr_rank": 24
+  },
+  "DAL": {
+   "prwr": 41,
+   "rswr": 29,
+   "pbwr": 54,
+   "rbwr": 71,
+   "prwr_rank": 31,
+   "rswr_rank": 18,
+   "pbwr_rank": 9,
+   "rbwr_rank": 28
+  },
+  "DEN": {
+   "prwr": 54,
+   "rswr": 31,
+   "pbwr": 45,
+   "rbwr": 73,
+   "prwr_rank": 6,
+   "rswr_rank": 10,
+   "pbwr_rank": 24,
+   "rbwr_rank": 17
+  },
+  "DET": {
+   "prwr": 61,
+   "rswr": 29,
+   "pbwr": 55,
+   "rbwr": 72,
+   "prwr_rank": 4,
+   "rswr_rank": 22,
+   "pbwr_rank": 7,
+   "rbwr_rank": 20
+  },
+  "GB": {
+   "prwr": 45,
+   "rswr": 26,
+   "pbwr": 31,
+   "rbwr": 74,
+   "prwr_rank": 26,
+   "rswr_rank": 28,
+   "pbwr_rank": 32,
+   "rbwr_rank": 14
+  },
+  "HOU": {
+   "prwr": 49,
+   "rswr": 30,
+   "pbwr": 46,
+   "rbwr": 72,
+   "prwr_rank": 21,
+   "rswr_rank": 12,
+   "pbwr_rank": 23,
+   "rbwr_rank": 22
+  },
+  "IND": {
+   "prwr": 38,
+   "rswr": 26,
+   "pbwr": 49,
+   "rbwr": 74,
+   "prwr_rank": 32,
+   "rswr_rank": 29,
+   "pbwr_rank": 19,
+   "rbwr_rank": 10
+  },
+  "JAX": {
+   "prwr": 57,
+   "rswr": 26,
+   "pbwr": 47,
+   "rbwr": 74,
+   "prwr_rank": 5,
+   "rswr_rank": 30,
+   "pbwr_rank": 22,
+   "rbwr_rank": 9
+  },
+  "KC": {
+   "prwr": 49,
+   "rswr": 29,
+   "pbwr": 54,
+   "rbwr": 75,
+   "prwr_rank": 20,
+   "rswr_rank": 15,
+   "pbwr_rank": 8,
+   "rbwr_rank": 7
+  },
+  "LV": {
+   "prwr": 45,
+   "rswr": 26,
+   "pbwr": 62,
+   "rbwr": 73,
+   "prwr_rank": 25,
+   "rswr_rank": 31,
+   "pbwr_rank": 2,
+   "rbwr_rank": 19
+  },
+  "LAC": {
+   "prwr": 48,
+   "rswr": 33,
+   "pbwr": 38,
+   "rbwr": 75,
+   "prwr_rank": 23,
+   "rswr_rank": 4,
+   "pbwr_rank": 30,
+   "rbwr_rank": 5
+  },
+  "LA": {
+   "prwr": 52,
+   "rswr": 33,
+   "pbwr": 53,
+   "rbwr": 77,
+   "prwr_rank": 14,
+   "rswr_rank": 2,
+   "pbwr_rank": 10,
+   "rbwr_rank": 1
+  },
+  "MIA": {
+   "prwr": 52,
+   "rswr": 27,
+   "pbwr": 49,
+   "rbwr": 71,
+   "prwr_rank": 13,
+   "rswr_rank": 27,
+   "pbwr_rank": 18,
+   "rbwr_rank": 26
+  },
+  "MIN": {
+   "prwr": 65,
+   "rswr": 31,
+   "pbwr": 52,
+   "rbwr": 75,
+   "prwr_rank": 1,
+   "rswr_rank": 11,
+   "pbwr_rank": 13,
+   "rbwr_rank": 4
+  },
+  "NE": {
+   "prwr": 50,
+   "rswr": 29,
+   "pbwr": 57,
+   "rbwr": 75,
+   "prwr_rank": 17,
+   "rswr_rank": 21,
+   "pbwr_rank": 5,
+   "rbwr_rank": 8
+  },
+  "NO": {
+   "prwr": 50,
+   "rswr": 29,
+   "pbwr": 45,
+   "rbwr": 74,
+   "prwr_rank": 16,
+   "rswr_rank": 17,
+   "pbwr_rank": 27,
+   "rbwr_rank": 13
+  },
+  "NYG": {
+   "prwr": 61,
+   "rswr": 29,
+   "pbwr": 50,
+   "rbwr": 73,
+   "prwr_rank": 3,
+   "rswr_rank": 19,
+   "pbwr_rank": 15,
+   "rbwr_rank": 16
+  },
+  "NYJ": {
+   "prwr": 49,
+   "rswr": 26,
+   "pbwr": 51,
+   "rbwr": 72,
+   "prwr_rank": 18,
+   "rswr_rank": 32,
+   "pbwr_rank": 14,
+   "rbwr_rank": 25
+  },
+  "PHI": {
+   "prwr": 44,
+   "rswr": 31,
+   "pbwr": 49,
+   "rbwr": 72,
+   "prwr_rank": 29,
+   "rswr_rank": 5,
+   "pbwr_rank": 16,
+   "rbwr_rank": 23
+  },
+  "PIT": {
+   "prwr": 43,
+   "rswr": 31,
+   "pbwr": 53,
+   "rbwr": 74,
+   "prwr_rank": 30,
+   "rswr_rank": 6,
+   "pbwr_rank": 11,
+   "rbwr_rank": 11
+  },
+  "SF": {
+   "prwr": 49,
+   "rswr": 29,
+   "pbwr": 64,
+   "rbwr": 75,
+   "prwr_rank": 19,
+   "rswr_rank": 20,
+   "pbwr_rank": 1,
+   "rbwr_rank": 6
+  },
+  "SEA": {
+   "prwr": 61,
+   "rswr": 31,
+   "pbwr": 47,
+   "rbwr": 71,
+   "prwr_rank": 2,
+   "rswr_rank": 9,
+   "pbwr_rank": 21,
+   "rbwr_rank": 27
+  },
+  "TB": {
+   "prwr": 52,
+   "rswr": 30,
+   "pbwr": 52,
+   "rbwr": 74,
+   "prwr_rank": 12,
+   "rswr_rank": 13,
+   "pbwr_rank": 12,
+   "rbwr_rank": 12
+  },
+  "TEN": {
+   "prwr": 45,
+   "rswr": 30,
+   "pbwr": 40,
+   "rbwr": 71,
+   "prwr_rank": 27,
+   "rswr_rank": 14,
+   "pbwr_rank": 29,
+   "rbwr_rank": 29
+  },
+  "WAS": {
+   "prwr": 48,
+   "rswr": 28,
+   "pbwr": 55,
+   "rbwr": 68,
+   "prwr_rank": 22,
+   "rswr_rank": 23,
+   "pbwr_rank": 6,
+   "rbwr_rank": 32
+  }
+ }
+}
