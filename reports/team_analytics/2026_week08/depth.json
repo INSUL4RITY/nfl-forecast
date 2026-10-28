@@ -2574,21 +2574,5 @@
    "air_yards": 9.914845096668996
   },
   "min_note": "Next Gen season rows cover qualifying receivers only"
- },
- "sources": [
-  {
-   "url": "https://github.com/nflverse/nflverse-data/releases/download/depth_charts/depth_charts_2026.parquet",
-   "retrieved_utc": "2026-10-28T19:47:32+00:00",
-   "http_last_modified": "Wed, 28 Oct 2026 13:58:09 GMT",
-   "sha256": "5649117a1abe4fd413e5286e5802092a80d858bc4847cbf5e8f79ebdff46cbae",
-   "bytes": 3180052
-  },
-  {
-   "url": "https://github.com/nflverse/nflverse-data/releases/download/nextgen_stats/ngs_receiving.parquet",
-   "retrieved_utc": "2026-10-28T19:47:33+00:00",
-   "http_last_modified": "Wed, 28 Oct 2026 13:41:56 GMT",
-   "sha256": "ce0bb1f9192a04ba2f24fe2408ba32e18808763fcde922fd3dc2acc41c3aa36f",
-   "bytes": 1163840
-  }
- ]
+ }
 }

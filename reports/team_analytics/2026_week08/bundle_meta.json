@@ -1,7 +1,7 @@
 {
  "season": 2026,
  "through_week": 7,
- "generated_utc": "2026-10-27T18:10:32+00:00",
+ "generated_utc": "2026-10-28T19:53:11+00:00",
  "games": 107,
  "plays": 13805,
  "drives": 2188,
@@ -286,6 +286,34 @@
    "http_last_modified": "Tue, 27 Oct 2026 16:06:46 GMT",
    "sha256": "a49ae9ba845f367556ac5b026059ae4a3092f0be9e97f3b5a0c6c20244ec096b",
    "bytes": 522726
+  },
+  {
+   "url": "https://github.com/nflverse/nflverse-data/releases/download/snap_counts/snap_counts_2026.parquet",
+   "retrieved_utc": "2026-10-27T16:39:29+00:00",
+   "http_last_modified": "Tue, 27 Oct 2026 11:08:32 GMT",
+   "sha256": "a25005f128a6e560cbafb400eb531f39c97e56810bf0876165dbb5fae36dedcc",
+   "bytes": 114192
+  },
+  {
+   "url": "https://github.com/nflverse/nflverse-data/releases/download/weekly_rosters/roster_weekly_2026.parquet",
+   "retrieved_utc": "2026-10-27T16:39:30+00:00",
+   "http_last_modified": "Tue, 27 Oct 2026 13:10:47 GMT",
+   "sha256": "aefee750991b46ba8d25f06a3e8b9195b9efa3c5cb435cd1aa66656684b801ef",
+   "bytes": 830646
+  },
+  {
+   "url": "https://github.com/nflverse/nflverse-data/releases/download/depth_charts/depth_charts_2026.parquet",
+   "retrieved_utc": "2026-10-28T19:47:32+00:00",
+   "http_last_modified": "Wed, 28 Oct 2026 13:58:09 GMT",
+   "sha256": "5649117a1abe4fd413e5286e5802092a80d858bc4847cbf5e8f79ebdff46cbae",
+   "bytes": 3180052
+  },
+  {
+   "url": "https://github.com/nflverse/nflverse-data/releases/download/nextgen_stats/ngs_receiving.parquet",
+   "retrieved_utc": "2026-10-28T19:47:33+00:00",
+   "http_last_modified": "Wed, 28 Oct 2026 13:41:56 GMT",
+   "sha256": "ce0bb1f9192a04ba2f24fe2408ba32e18808763fcde922fd3dc2acc41c3aa36f",
+   "bytes": 1163840
   },
   {
    "url": "https://github.com/nflverse/nflverse-data/releases/download/teams/teams_colors_logos.parquet",
