@@ -24,19 +24,18 @@ function RecCell({ label, x }: { label: string; x: WLP }) {
 
 const NONE: WLP = { win: 0, loss: 0, push: 0 };
 
-/** Tracking records of both lines at each pick's lock, all season: the model line (stats only; the official pick from
- *  week 7) and the market-adjusted line (the official pick before week 7), plus the Big/Biggest gap games. */
+/** The model line's own record at each pick's lock, all season (it is the official pick's basis from week 7), plus the
+ *  Big/Biggest gap games. The market-adjusted line's record is on the Performance page (user decision 2026-10-28). */
 function StatsOnlyStrip({ s }: { s: NonNullable<SeasonRecord["stats_only"]> }) {
   return (
-    <section className="record-strip five" aria-label="Line tracking records">
+    <section className="record-strip four" aria-label="Model line record">
       <div className="rec-cell">
-        <span className="caps">Tracking</span>
-        <b>Both lines vs market line</b>
-        <span className="small muted">{weeksText(s.weeks)} · side of the locked line each one fell on. The model pick
-          follows the model line from week 7 (the market-adjusted line before)</span>
+        <span className="caps">Model line, all weeks</span>
+        <b>Model line vs market line</b>
+        <span className="small muted">{weeksText(s.weeks)} · the side of the locked line the model line fell on, every
+          week (the model pick from week 7)</span>
       </div>
       <RecCell label="Model line (stats only)" x={s.spread} />
-      <RecCell label="Market-adjusted line" x={s.market_adjusted ?? NONE} />
       <RecCell label="Big gaps (3+ pts)" x={s.big_gap} />
       <RecCell label="Biggest gaps (4+ pts)" x={s.biggest_gap ?? NONE} />
     </section>
@@ -50,7 +49,8 @@ function RecordStrip({ r, week, weekLabel }: { r: SeasonRecord; week: WLP | null
       <div className="rec-cell">
         <span className="caps">Model performance</span>
         <b>Model pick vs market line</b>
-        <span className="small muted">{weeksText(r.weeks)} · published before kickoff</span>
+        <span className="small muted">{weeksText(r.weeks)} · published before kickoff · weeks 3–6 followed the
+          market-adjusted line (the rule then; not regraded), from week 7 the model line</span>
       </div>
       <RecCell label="Season · vs market line" x={r.spread} />
       {week ? <RecCell label={`${weekLabel} · vs market line`} x={week} /> : (

@@ -315,6 +315,11 @@ market lines, QB availability, injury display, weather display). A changed artif
   head-to-head `inj` (paired errors on games that have it). ingest now refreshes 2026 snap_counts (inputs to this line).
   Pre-season evidence: football-only + injuries 2022-24 margin RMSE 12.717 -> 12.686 (CI spans zero). Judge after the season.
 
+- Top records + v2 record (2026-10-28, user): week pages show the official Model pick record (as published, note that
+  weeks 3-6 used the market-adjusted line) and "Model line, all weeks" (36-34-4 at the time, Big 9-4, Biggest 0-3); the
+  market-adjusted cell moved off the strip (still on Performance). v2 trial record removed from Performance (HeadToHead
+  block disabled, LineMovement row removed); still in manifest/performance data. Method note.
+
 - Injury trial hidden (2026-10-28, user: "remove the model + injuries, just keep Model v2"): card row, Model comparison
   row and the Performance trial table removed (HeadToHead block disabled); Method note (record 3-11, all week 7). Still
   computed and archived in releases and tracked in manifest/performance data for the end-of-season review.

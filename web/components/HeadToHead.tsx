@@ -102,7 +102,7 @@ export default function HeadToHead({ weeks }: { weeks: H2HWeek[] }) {
             before kickoff; record vs the market line from the locked version.</p>
         </div>
       )}
-      {((total.v2?.n ?? 0) > 0 || sum(total.vs_line.v2_trial) > 0) && (
+      {false && (                      /* v2 trial record kept off the site (user, 2026-10-28: tracked manually) */
         <div style={{ marginTop: 14 }}>
           <h3 style={{ margin: "0 0 4px" }}>Trial: model v2 line</h3>
           <p className="small ink2" style={{ marginTop: 0 }}>The stats-only model with penalties, special teams, non-QB injuries,

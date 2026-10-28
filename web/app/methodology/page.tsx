@@ -166,6 +166,11 @@ export default function Methodology() {
           one side ranks at least 8 places better, play style in neutral situations, and a game log naming each game&apos;s starting
           quarterback (marked when it was not this week&apos;s expected starter). Definitions follow the standard nflverse play-by-play
           conventions and are listed under the section. It replaces the earlier &quot;How they rate&quot; percentile chart.</p>
+        <p className="small"><b>Records at the top of each week, 28 October 2026.</b> The first row is the official model pick as
+          published: weeks 3–6 followed the market-adjusted line (the rule then) and are not regraded; from week 7 it follows
+          the model line. The second row is the model line&apos;s own record at every lock since week 3, with the Big and
+          Biggest gap games. The market-adjusted line&apos;s record stays on the Performance page. The model v2 trial line is
+          shown on each game but its record is not tracked on the site.</p>
         <p className="small"><b>Injury trial line retired from the site, 28 October 2026.</b> The &quot;model line + injuries&quot;
           trial (below) used the same snap-weighted injury inputs that model v2 now includes, so it no longer added
           information of its own; it is no longer shown. It is still calculated and archived in every forecast so it can be

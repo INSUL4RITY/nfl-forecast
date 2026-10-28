@@ -67,6 +67,9 @@ CLI stay `nflcast`; keep the URL and repo name (published evidence and links poi
   the combined model's line is "Market-adjusted line"; the Method page explains both. 2026-10-26 (user): the
   market-adjusted line/total are no longer on the prediction card (still in the game page's Model comparison table and on
   Performance); trial rows on the card show the side they imply ("Pick NYG +10.5", + result when graded).
+  2026-10-28 (user): top records = official Model pick as published (weeks 3-6 market-adjusted basis, never regraded) +
+  "Model line, all weeks" (model line / Big / Biggest gaps); market-adjusted record only on Performance; the v2 trial's
+  record is NOT shown on the site (user tracks it manually; its per-game card row stays).
 - After any display change, run `scripts/layout_audit.js` in the browser on the local build (widths 1280, 768, 414, 375, 320)
   and on the live site after deploy: 0 issues required. Wrap every table in `.table-wrap` (cells do not wrap by default).
 - The user accepts that updates pause while the PC is off; never recreate or back-date missed forecasts.
