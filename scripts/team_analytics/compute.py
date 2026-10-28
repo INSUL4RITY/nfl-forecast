@@ -37,6 +37,7 @@ from nflcast.data.policy import banned_columns  # noqa: E402
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import context as ctx  # noqa: E402
 import callers  # noqa: E402
+import garbage  # noqa: E402
 
 BASE = "https://github.com/nflverse/nflverse-data/releases/download/"
 CACHE = ROOT / "data" / "cache" / "team_analytics"
@@ -880,6 +881,8 @@ def main():
                                                      indent=1, default=str))
     # play-caller attribution (hand-kept names with sources; stats split where a caller changed mid-season)
     (out_dir / "callers.json").write_text(json.dumps(callers.build(p, pf, S, W), indent=1), encoding="utf-8")
+    # garbage-time splits (display only)
+    (out_dir / "garbage.json").write_text(json.dumps(garbage.build(p), indent=1), encoding="utf-8")
 
     # ---- output
     T.index.name = "team"

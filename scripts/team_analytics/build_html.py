@@ -97,6 +97,39 @@ def apply_callers(T: pd.DataFrame, CL: dict) -> pd.DataFrame:
     return T
 
 
+def apply_garbage(T: pd.DataFrame, GT: dict) -> pd.DataFrame:
+    """Garbage-time splits from garbage.json (see garbage.py) plus a plain-English flag per unit."""
+    T = T.copy()
+    for t in T.index:
+        for side in ("off", "def"):
+            r = GT["teams"][t][side]
+            for k, v in r.items():
+                T.loc[t, f"gt_{side}_{k}"] = np.nan if v is None else v
+            e = r["gt_effect"] or 0
+            # offence: a higher all-snap EPA flatters it; defence: a higher all-snap EPA allowed makes it look worse
+            if abs(e) < GT["flag_epa"]:
+                flag = ""
+            elif (e > 0) == (side == "off"):
+                flag = "flatter it"
+            else:
+                flag = "understate it"
+            T.loc[t, f"gt_{side}_flag"] = flag
+    return T
+
+
+def gt_caution(t, side, r):
+    flag = r[f"gt_{side}_flag"]
+    if not flag:
+        return None
+    e, a, c = r[f"gt_{side}_gt_effect"], r[f"gt_{side}_epa_all"], r[f"gt_{side}_comp_epa"]
+    unit = "offence" if side == "off" else "defence"
+    what = "EPA/play" if side == "off" else "EPA/play allowed"
+    raw = "raw yards and points" if side == "off" else "raw yards and points allowed"
+    return (f"{t} {unit}: {what} is {a:+.3f} on all snaps but {c:+.3f} in competitive ones "
+            f"({abs(e):.3f} {'higher' if e > 0 else 'lower'}; {r[f'gt_{side}_lop_play_share']:.0%} of its snaps were lopsided), "
+            f"so its {raw} {flag}.")
+
+
 def apply_win_rates(T: pd.DataFrame, meta: dict):
     """ESPN team win rates from the hand-kept win_rates_<season>.json (values as published, whole percentages)."""
     f = Path(__file__).resolve().parent / f"win_rates_{meta['season']}.json"
@@ -412,6 +445,11 @@ def build_matchups(T, nxt, MM, A, mm, notes):
             if len(pr):
                 cautions.append(f"{t} practice report (no game status yet): " + ", ".join(
                     f"{x.player} ({x.position}, {'DNP' if x.status_class == 'did not practise' else 'limited'})" for x in pr.itertuples()) + ".")
+        for t in (a, h):
+            for side in ("off", "def"):
+                gc = gt_caution(t, side, T.loc[t])
+                if gc:
+                    cautions.append(gc)
         if T.off_pfr_games.min() < T.games.min():
             cautions.append("Pressure and yards-before-contact figures use PFR data, which is missing some recent games.")
         final = None
@@ -767,6 +805,8 @@ def main():
     CL = json.loads((d / "callers.json").read_text(encoding="utf-8"))
     T = apply_callers(T, CL)
     T, WR = apply_win_rates(T, meta)
+    GT = json.loads((d / "garbage.json").read_text(encoding="utf-8"))
+    T = apply_garbage(T, GT)
     wr_note = (f" Win rates: {WR['source']['title']} ({WR['source']['updated']}); ESPN Analytics from NFL Next Gen Stats tracking, not in nflverse. ESPN publishes whole percentages, so tied teams share a rank here."
                + ("" if WR["through_week"] == meta["through_week"] else f" STALE: win rates run through week {WR['through_week']}, the report through week {meta['through_week']}.")) if WR else ""
     U = unit_ranks(T)
@@ -825,6 +865,24 @@ def main():
         C("def_epa_vs_pass_heavy", "EPA vs pass-heavy offences", "epa", -1, "Opponents in the top half of neutral early-down pass rate over expected"),
         C("def_epa_vs_run_heavy", "EPA vs run-heavy offences", "epa", -1),
     ], "def_adj_epa", "Lower is better for every allowed-rate column.", desc=False))
+    for side, title, who in (("off", "Garbage time: offences", "offence"), ("def", "Garbage time: defences", "defence")):
+        pre = f"gt_{side}_"
+        if side == "off":
+            trail_l, lead_l = "trailing badly", "protecting a lead"
+        else:
+            trail_l, lead_l = "vs offences trailing badly", "vs offences protecting a lead"
+        tables.append(table(f"gt_{side}", title, [
+            C(pre + "lop_play_share", "Lopsided snaps", "pct", 0, "Share of scrimmage snaps with the offence's win probability below 10% or above 90%"),
+            C(pre + "trail_plays", f"Plays {trail_l}", "int", 0), C(pre + "trail_yds", "Yards", "int", 0), C(pre + "trail_tds", "TDs", "int", 0),
+            C(pre + "lead_plays", f"Plays {lead_l}", "int", 0), C(pre + "lead_yds", "Yards", "int", 0), C(pre + "lead_tds", "TDs", "int", 0),
+            C(pre + "lop_yds_share", "Share of yards, lopsided", "pct", 0), C(pre + "lop_td_share", "Share of TDs, lopsided", "pct", 0),
+            C(pre + "epa_all", "EPA/play, all snaps" + (" allowed" if side == "def" else ""), "epa", 1 if side == "off" else -1),
+            C(pre + "comp_epa", "EPA/play, competitive" + (" allowed" if side == "def" else ""), "epa", 1 if side == "off" else -1),
+            C(pre + "gt_effect", "All minus competitive", "epa", 0, "Positive: the all-snap figure is higher than in competitive snaps"),
+            C(pre + "flag", "Raw numbers", "str", 0),
+        ], pre + "gt_effect", f"Competitive = offence win probability 10-90% (the efficiency tables' check column). Flag at a gap of "
+                              f"{GT['flag_epa']:.2f} EPA/play or more. Display only: every rating uses all snaps, because dropping garbage time "
+                              "did not improve the project's predictions."))
     tables.append(table("drives_off", "Offensive drives", [
         C("off_drives", "Drives", "int", 0), C("off_ppd", "Points/drive", "n2", 1), C("off_td_pd", "TD/drive", "pct", 1),
         C("off_fg_pd", "FG/drive", "pct", 0), C("off_punt_pd", "Punt/drive", "pct", -1), C("off_to_pd", "Turnover/drive", "pct", -1),
