@@ -315,6 +315,10 @@ market lines, QB availability, injury display, weather display). A changed artif
   head-to-head `inj` (paired errors on games that have it). ingest now refreshes 2026 snap_counts (inputs to this line).
   Pre-season evidence: football-only + injuries 2022-24 margin RMSE 12.717 -> 12.686 (CI spans zero). Judge after the season.
 
+- Injury trial hidden (2026-10-28, user: "remove the model + injuries, just keep Model v2"): card row, Model comparison
+  row and the Performance trial table removed (HeadToHead block disabled); Method note (record 3-11, all week 7). Still
+  computed and archived in releases and tracked in manifest/performance data for the end-of-season review.
+
 - Trial line v2.1 -> v2.2 (2026-10-27, user: add fatigue spots and time of possession "before we actually finalise it";
   the trial had no tracked pick yet). Pre-registered (reports/research/v2_2_preregistration_2026-10-27.md): v2.2 = v2.1 +
   off_top / def_top (possession minutes from nflverse drive_time_of_possession, METRICS_V22) + previous-game fatigue

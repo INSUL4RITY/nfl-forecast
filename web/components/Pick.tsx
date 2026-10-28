@@ -31,20 +31,10 @@ const STATS_EXPLAIN = "Model line: the stats-only model, built from football dat
   "line was at least 3 points from the line when the pick was locked (Biggest gap: at least 4 points); a prompt to check " +
   "why the market disagrees, not a recommendation.";
 
-export const INJ_EXPLAIN = "Model line + injuries (trial): the same stats-only model with the non-QB injury report added " +
-  "(expected share of snaps each unit loses). Shown and tracked for comparison only; it never sets the model pick. Most " +
-  "meaningful once the final injury report is out.";
-
 export const V2_EXPLAIN = "Model v2 line (trial, version 2.2): the stats-only model with penalties, special teams, non-QB " +
   "injuries, turnover and close-game regression, 3rd/4th-down rates, QB scrambles, 4th-down decisions, time of possession, " +
   "fatigue from the previous game (plays faced, overtime, short week), divisional games and weather added. Tracked from " +
   "week 8 against the model line; it never sets the model pick.";
-
-/** True when the trial line's injury inputs are all zero (no injury report for this week yet). */
-export function noInjuryReport(e: { injury_inputs?: { home: Record<string, number>; away: Record<string, number> } | null }): boolean {
-  const ii = e.injury_inputs;
-  return !!ii && [...Object.values(ii.home), ...Object.values(ii.away)].every((v) => v === 0);
-}
 
 const EDGE: Record<string, string> = { tiny: "Tiny edge · about a coin flip", small: "Small edge", moderate: "Moderate edge", large: "Large edge" };
 
@@ -169,9 +159,6 @@ export function PredictionSummary({ g, lockedAt, locksAt }: { g: WeekGame; locke
         <div><dt>Model line</dt><dd>{modelLineText(mdl.margin, H, A)}</dd></div>
         <div><dt>Market total</dt><dd>{e.market?.total != null ? f1(e.market.total) : "—"}</dd></div>
         <div><dt>Model total</dt><dd>{f1(mdl.total)}</dd></div>
-        {e.football_only_inj && <div className="full" title={INJ_EXPLAIN}><dt>Model line + injuries (trial)</dt>
-          <dd>{trial(lp?.stats_inj?.margin, e.football_only_inj.margin, sg?.injury_adjusted)}
-            {noInjuryReport(e) && <span className="dd-note">No injury report this week yet</span>}</dd></div>}
         {e.football_only_v2 && <div className="full" title={V2_EXPLAIN}><dt>Model v2 line (trial)</dt>
           <dd>{trial(lp?.stats_v2?.margin, e.football_only_v2.margin, sg?.v2_trial)}</dd></div>}
         <div className="full"><dt>Projected winner (model)</dt>

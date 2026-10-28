@@ -44,6 +44,8 @@ CLI stay `nflcast`; keep the URL and repo name (published evidence and links poi
 - **Trial injury line (user, 2026-10-20):** `predict/shadow.py` adds "model line + injuries" (stats-only + non-QB injury
   inputs) for display and tracking only. Its artifact is frozen (`configs/shadow_injury.yaml`, sha256-checked): never
   refit or retune it this season, and it never sets the official pick. A failure must never block a release.
+  2026-10-28 (user): no longer SHOWN on the site (model v2 contains the same injury inputs); it is still computed and
+  archived in every release (`football_only_inj`, tracking fields kept) for the end-of-season review.
 - **Model v2 (user, 2026-10-26/27):** the pre-registered v2.0 test FAILED, so the official Model line / pick stays v1.0.
   The trial line ("Model v2 line (trial)") is v2.2 = v2.1 + time of possession + previous-game fatigue (passed its own
   pre-registered test vs v2.1 on 2026-10-27, before any tracked pick; v2.1's record is kept under `replaces`).

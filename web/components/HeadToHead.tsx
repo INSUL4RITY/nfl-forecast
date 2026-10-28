@@ -85,7 +85,7 @@ export default function HeadToHead({ weeks }: { weeks: H2HWeek[] }) {
             <td className="r"><b>{wlp(total.vs_line.market_adjusted ?? Z)}</b></td></tr>
         </tbody>
       </table></div>
-      {((total.inj?.n ?? 0) > 0 || sum(total.vs_line.injury_adjusted) > 0) && (
+      {false && (                      /* injury trial no longer shown (2026-10-28); still archived in releases */
         <div style={{ marginTop: 14 }}>
           <h3 style={{ margin: "0 0 4px" }}>Trial: model line + injuries</h3>
           <p className="small ink2" style={{ marginTop: 0 }}>The stats-only model with the non-QB injury report added, from week 7.

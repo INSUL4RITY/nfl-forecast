@@ -166,6 +166,10 @@ export default function Methodology() {
           one side ranks at least 8 places better, play style in neutral situations, and a game log naming each game&apos;s starting
           quarterback (marked when it was not this week&apos;s expected starter). Definitions follow the standard nflverse play-by-play
           conventions and are listed under the section. It replaces the earlier &quot;How they rate&quot; percentile chart.</p>
+        <p className="small"><b>Injury trial line retired from the site, 28 October 2026.</b> The &quot;model line + injuries&quot;
+          trial (below) used the same snap-weighted injury inputs that model v2 now includes, so it no longer added
+          information of its own; it is no longer shown. It is still calculated and archived in every forecast so it can be
+          judged at the end of the season (record against the market line when it was retired: 3–11, all in week 7).</p>
         <p className="small"><b>Trial line updated to model v2.2, 27 October 2026</b> (before its first tracked week; the model
           pick is unchanged). Version 2.2 adds time of possession (each offence&apos;s possession time and each defence&apos;s
           average time on the field) and fatigue from the previous game: plays the defence faced, plays faced per game over its
