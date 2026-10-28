@@ -36,6 +36,7 @@ from nflcast.data.policy import banned_columns  # noqa: E402
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import context as ctx  # noqa: E402
+import callers  # noqa: E402
 
 BASE = "https://github.com/nflverse/nflverse-data/releases/download/"
 CACHE = ROOT / "data" / "cache" / "team_analytics"
@@ -877,6 +878,8 @@ def main():
     wk_trv.to_csv(out_dir / "travel_next_week.csv", index=False)
     (out_dir / "context.json").write_text(json.dumps({"fatigue": fat, "travel": trv, "qb": qbs, "penalty_groups": pen_groups},
                                                      indent=1, default=str))
+    # play-caller attribution (hand-kept names with sources; stats split where a caller changed mid-season)
+    (out_dir / "callers.json").write_text(json.dumps(callers.build(p, pf, S, W), indent=1), encoding="utf-8")
 
     # ---- output
     T.index.name = "team"

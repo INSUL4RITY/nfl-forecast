@@ -67,6 +67,36 @@ def table(tid, title, cols, sort, note="", desc=None, rows="teams", order=None):
             "desc": desc, "order": order}
 
 
+# --------------------------------------------------------------------------------------- play-callers
+CONF_TXT = {"confirmed": "", "reported": "", "assumed": "not confirmed", "unclear": "unclear"}
+
+
+def caller_label(name, conf, since):
+    extra = [f"since wk {since}"] if since else []
+    if CONF_TXT.get(conf):
+        extra.append(CONF_TXT[conf])
+    return f"{name} ({', '.join(extra)})" if extra else name
+
+
+def apply_callers(T: pd.DataFrame, CL: dict) -> pd.DataFrame:
+    """Staff names and current-caller tendencies from callers.json (see callers.py)."""
+    T = T.copy()
+    for t in T.index:
+        s, cur = CL["staff"][t], CL["current"][t]
+        for k in ("hc", "oc", "dc", "stc"):
+            T.loc[t, k] = s[k]
+        for side in ("off", "def"):
+            T.loc[t, f"{side}_caller"] = caller_label(s[f"{side}_caller"], s[f"{side}_conf"], cur[side]["since_week"])
+            T.loc[t, f"{side}_caller_weeks"] = f"{cur[side]['since_week']}-{CL['through_week']}" if cur[side]["since_week"] else "all"
+            for k, v in cur[side].items():
+                if k not in ("caller", "weeks", "since_week"):
+                    T.loc[t, f"c_{side}_{k}"] = np.nan if v is None else v
+        T.loc[t, "caller_src"] = ", ".join(s["src"])
+        for k, v in CL["gm"][t].items():
+            T.loc[t, k] = np.nan if v is None else v
+    return T
+
+
 # --------------------------------------------------------------------------------------- derived data
 def derive(T: pd.DataFrame, G: pd.DataFrame, meta: dict):
     T = T.copy()
@@ -261,13 +291,15 @@ def coaching_profile(t, T):
     r = T.loc[t]
     zgo = (r.fd_go_rate - T.fd_go_rate.mean()) / T.fd_go_rate.std()
     agg = "aggressive" if zgo >= 0.75 else ("conservative" if zgo <= -0.75 else "typical")
-    lean = "pass-leaning" if r.neutral_proe >= 3 else ("run-leaning" if r.neutral_proe <= -3 else "balanced")
-    zb = (r.def_blitz_rate - T.def_blitz_rate.mean()) / T.def_blitz_rate.std()
+    lean = "pass-leaning" if r.c_off_proe >= 3 else ("run-leaning" if r.c_off_proe <= -3 else "balanced")
+    zb = (r.c_def_blitz_rate - T.c_def_blitz_rate.mean()) / T.c_def_blitz_rate.std()
     bl = "blitz-heavy" if zb >= 0.75 else ("rarely blitzes" if zb <= -0.75 else "average blitz rate")
     nn = lambda v: None if pd.isna(v) else float(v)
     return {"agg": agg, "lean": lean, "blitz": bl, "go": nn(r.fd_go_rate), "n4": int(r.fd_decisions),
             "clear_n": nn(r.fd_clear_go_n), "clear": nn(r.fd_clear_go_rate), "agree": nn(r.fd_agree_rate),
-            "proe": nn(r.neutral_proe), "pace": nn(r.pace_sec), "blitz_rate": nn(r.def_blitz_rate),
+            "proe": nn(r.c_off_proe), "pace": nn(r.c_off_pace_sec), "blitz_rate": nn(r.c_def_blitz_rate),
+            "off_caller": r.off_caller, "def_caller": r.def_caller, "stc": r.stc,
+            "off_weeks": r.off_caller_weeks, "def_weeks": r.def_caller_weeks,
             "pen_pg": float((r.pen_off_n + r.pen_def_n + r.pen_st_n) / r.games), "h2": nn(r.net_h2_minus_h1),
             "one_score": r.one_score}
 
@@ -712,6 +744,8 @@ def main():
     notes_path = d / "analyst_notes.json"
     notes = json.loads(notes_path.read_text(encoding="utf-8")) if notes_path.exists() else {}
     T = derive(T, G, meta)
+    CL = json.loads((d / "callers.json").read_text(encoding="utf-8"))
+    T = apply_callers(T, CL)
     U = unit_ranks(T)
     profiles = {t: profile(t, T, U, G, meta) for t in T.index}
     mm = mismatches(T, nxt)
@@ -931,19 +965,49 @@ def main():
         C("vs_winning", "W/G vs winning teams", "str", 0),
         C("off_adj_shift", "Off. rank change after adj.", "s1", 0), C("def_adj_shift", "Def. rank change after adj.", "s1", 0),
     ], "sos_net"))
-    tables.append(table("coach", "Game management and tendencies", [
+    tables.append(table("staff", "Staff and play-callers", [
+        C("hc", "Head coach", "str", 0), C("off_caller", "Calls the offence", "str", 0), C("def_caller", "Calls the defence", "str", 0),
+        C("oc", "Off. coordinator", "str", 0), C("dc", "Def. coordinator", "str", 0), C("stc", "Special teams coord.", "str", 0),
+        C("caller_src", "Sources", "str", 0, "Numbered sources listed under this table"),
+    ], "team", "Hand-kept from the sources below; 'not confirmed' means only the coordinator's title is known. "
+                 "'since wk' marks a mid-season change: that unit's tendencies below use only the current caller's weeks.", desc=False))
+    tables.append(table("coach_gm", "Game management (head coach)", [
+        C("hc", "Head coach", "str", 0),
         C("fd_decisions", "4th-down decisions", "int", 0, "4th downs with win probability 20-80% and more than 2:00 left in the half"),
         C("fd_go_rate", "Go rate", "pct", 0), C("fd_agree_rate", "Agrees with EP reference", "pct", 1),
         C("fd_clear_go_n", "Clear go spots", "int", 0, "Reference value of going exceeds the best kick by 0.5 EP or more"),
         C("fd_clear_go_rate", "Went for it there", "pct", 1), C("fd_ep_lost_per", "EP lost per decision", "n2", -1),
-        C("pace_sec", "Sec between snaps", "n1", 0, "Median, within drives, win probability 20-80%, quarters 1-3"),
-        C("neutral_early_pass_rate", "Neutral early-down pass rate", "pct", 0), C("neutral_proe", "Pass rate over expected", "s1", 0),
-        C("net_h2_minus_h1", "2nd-half minus 1st-half net EPA", "epa", 1),
-        C("off_epa_leading", "Off. EPA leading by 9+", "epa", 1), C("off_epa_close", "within 8", "epa", 1), C("off_epa_trailing", "trailing by 9+", "epa", 1),
+        C("two_pt_att", "2-pt tries", "int", 0), C("two_pt_rate", "2-pt try rate after TDs", "pct", 0),
         C("eoh_drives", "End-of-half drives", "int", 0), C("eoh_ppd", "End-of-half pts/drive", "n2", 1, "Drives starting in the last 2:00 of the first half (31 s or more left)"),
+        C("net_h2_minus_h1", "2nd-half minus 1st-half net EPA", "epa", 1),
         C("bye_week", "Bye week", "int", 0), C("net_after_bye", "Net EPA after bye (1 game)", "epa", 1),
         C("one_score", "One-score record", "str", 0),
-    ], "fd_agree_rate"))
+    ], "fd_agree_rate", "The head coach owns these calls even when he calls no plays."))
+    tables.append(table("coach_off", "Offensive play-calling", [
+        C("off_caller", "Play-caller", "str", 0), C("off_caller_weeks", "Weeks", "str", 0),
+        C("c_off_pace_sec", "Sec between snaps", "n1", 0, "Median, within drives, win probability 20-80%, quarters 1-3"),
+        C("c_off_early_pass_rate", "Neutral early-down pass rate", "pct", 0), C("c_off_proe", "Pass rate over expected", "s1", 0),
+        C("c_off_pa_rate", "Play-action rate", "pct", 0), C("c_off_screen_rate", "Screen rate", "pct", 0),
+        C("c_off_epa", "EPA/play (raw)", "epa", 1), C("c_off_sr", "Success rate", "pct", 1),
+        C("c_off_h2_minus_h1", "2nd-half minus 1st-half EPA", "epa", 1),
+        C("off_epa_leading", "EPA leading by 9+", "epa", 1), C("off_epa_close", "within 8", "epa", 1), C("off_epa_trailing", "trailing by 9+", "epa", 1),
+    ], "c_off_proe", "Raw, not opponent-adjusted: these describe the caller's choices, not unit quality (use the efficiency section for that). "
+                     "Score-state columns cover the full season."))
+    tables.append(table("coach_def", "Defensive play-calling", [
+        C("def_caller", "Play-caller", "str", 0), C("def_caller_weeks", "Weeks", "str", 0),
+        C("c_def_blitz_rate", "Blitz rate", "pct", 0, "FTN charting: dropbacks with five or more pass rushers"),
+        C("c_def_epa_blitz", "EPA/db allowed, blitz", "epa", -1),
+        C("c_def_epa_noblitz", "EPA/db allowed, no blitz", "epa", -1),
+        C("c_def_epa", "EPA/play allowed (raw)", "epa", -1), C("c_def_sr", "Success allowed", "pct", -1),
+        C("c_def_h2_minus_h1", "2nd-half minus 1st-half EPA allowed", "epa", -1, "Negative = better after half-time"),
+        C("def_pressure_rate", "Pressure rate (PFR, season)", "pct", 1),
+    ], "c_def_blitz_rate", "Man/zone rates are not in the free data. Pressure rate covers the full season and the PFR games available."))
+    tables.append(table("coach_st", "Special teams (coordinator; the head coach makes fakes and onside calls)", [
+        C("stc", "Coordinator", "str", 0), C("st_epa_pg", "ST EPA/game", "s2", 1), C("st_punt_epa_pg", "Punt EPA/g", "s2", 1),
+        C("st_kickoff_epa_pg", "Kickoff EPA/g", "s2", 1), C("st_field_goal_epa_pg", "FG EPA/g", "s2", 1),
+        C("fg_50p", "FG 50+", "str", 0, "Made/attempted: how far the staff trusts the kicker"),
+        C("st_td", "Return TDs", "int", 1), C("blocks_allowed", "Kicks blocked against", "int", -1), C("pen_st_n", "ST penalties", "int", -1),
+    ], "st_epa_pg", "Full kicking, punting and return detail is in section 15."))
     tables.append(table("st", "Special teams", [
         C("st_epa_pg", "ST EPA/game", "s2", 1), C("st_field_goal_epa_pg", "FG EPA/g", "s2", 1), C("st_extra_point_epa_pg", "XP EPA/g", "s2", 1),
         C("st_punt_epa_pg", "Punt EPA/g", "s2", 1), C("st_kickoff_epa_pg", "Kickoff EPA/g", "s2", 1),
@@ -1151,7 +1215,7 @@ def main():
             "mismatch": mm, "games": games, "reports": structured_reports(T, nxt, MM, games, CTX["qb"], TRV, CTX["travel"], CTX["fatigue"]),
             "ctx": {"fatigue": CTX["fatigue"], "travel": CTX["travel"], "qb": CTX["qb"], "penalty_groups": CTX["penalty_groups"]},
             "trv": TRV, "pen_types": pen_types_js, "cats": cats, "D": D, "E": E, "F": F, "dis": dis, "notes": notes, "order": order,
-            "names": T.team_name.to_dict()}
+            "names": T.team_name.to_dict(), "callers": {"sources": CL["sources"], "splits": CL["splits"], "checked": CL["checked"], "league": CL["league"]}}
     page = TEMPLATE.replace("/*DATA*/", json.dumps(data, default=str).replace("</", "<\\/"))
     page = page.replace("{{METHOD}}", method_html(meta, T))
     (d / "report.html").write_text(page, encoding="utf-8")
@@ -1190,11 +1254,11 @@ defences each passer faced.</p>
 <p>EPA/play, success rate and points per drive measure overlapping things, so the composites are weighted by how well each one, measured over
 weeks 1-{meta['through_week']}, predicted a team's opponent-adjusted EPA/play over the rest of the season in {meta['history_seasons'][0]}-{meta['history_seasons'][-1]}
 (non-negative least squares on within-season z-scores, {co['n']} team-seasons). The regression handles their correlation, so nothing is double-counted.</p>
-<table class="mini"><tr><th></th><th>adj. EPA/play</th><th>adj. success</th><th>pts/drive</th><th>R² (combined)</th></tr>
+<div class="table-wrap"><table class="mini"><tr><th></th><th>adj. EPA/play</th><th>adj. success</th><th>pts/drive</th><th>R² (combined)</th></tr>
 <tr><td>Offence weights</td><td>{co['weights']['o_epa']:.0%}</td><td>{co['weights']['o_sr']:.0%}</td><td>{co['weights']['o_ppd']:.0%}</td><td>{co['r2']:.2f}</td></tr>
 <tr><td>Offence single-metric R²</td><td>{co['single_r2']['o_epa']:.2f}</td><td>{co['single_r2']['o_sr']:.2f}</td><td>{co['single_r2']['o_ppd']:.2f}</td><td></td></tr>
 <tr><td>Defence weights</td><td>{cd['weights']['d_epa']:.0%}</td><td>{cd['weights']['d_sr']:.0%}</td><td>{cd['weights']['d_ppd']:.0%}</td><td>{cd['r2']:.2f}</td></tr>
-<tr><td>Defence single-metric R²</td><td>{cd['single_r2']['d_epa']:.2f}</td><td>{cd['single_r2']['d_sr']:.2f}</td><td>{cd['single_r2']['d_ppd']:.2f}</td><td></td></tr></table>
+<tr><td>Defence single-metric R²</td><td>{cd['single_r2']['d_epa']:.2f}</td><td>{cd['single_r2']['d_sr']:.2f}</td><td>{cd['single_r2']['d_ppd']:.2f}</td><td></td></tr></table></div>
 <p>Seven-week defensive numbers explain only about a tenth of rest-of-season defensive performance (R² {cd['r2']:.2f}), against about a third for offence
 ({co['r2']:.2f}). Read defensive rankings with more caution.</p>
 <p><b>Overall team rating</b> = (adj. offensive EPA/play − league mean) × {meta['plays_per_game']:.1f} plays + (league mean − adj. defensive EPA/play) × {meta['plays_per_game']:.1f}
