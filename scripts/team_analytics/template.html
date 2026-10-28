@@ -244,6 +244,7 @@ footer { color: var(--muted); font-size: 0.82rem; border-top: 1px solid var(--ru
   <div class="sec-head"><span class="sec-num">5</span><h2>Passing offence and pass defence</h2></div>
   <p class="lead">Quarterback and protection are separated where the data allows: hit/sack versus clean-pocket EPA, sacks per pressure (partly the quarterback), drops and YAC over expected (receivers). Man and zone coverage splits are not available in free data.</p>
   <div data-table="pass_off"></div>
+  <div data-table="receiving"></div>
   <div data-table="pass_def"></div>
 </section>
 
@@ -350,6 +351,7 @@ footer { color: var(--muted); font-size: 0.82rem; border-top: 1px solid var(--ru
   <div class="sec-head"><span class="sec-num">16</span><h2>Depth, injuries and personnel</h2></div>
   <p class="lead">Confirmed absences (reserve list, or Out/Doubtful) are kept apart from Questionable and unexplained absences. Absences are weighted by snap share, not by an invented point value. The week 8 injury reports were not yet published.</p>
   <div data-table="depth"></div>
+  <div data-table="depth_checks"></div>
   <div class="controls"><label for="abs-team">Absences for</label><select id="abs-team"></select></div>
   <div id="abs-table"></div>
 </section>
@@ -653,11 +655,17 @@ document.getElementById("qb-notes").innerHTML = para((NOTES.sections || {}).qbs)
 // absences
 const absSel = document.getElementById("abs-team");
 absSel.innerHTML = DATA.order.map(t => `<option value="${t}">${t} · ${esc(NAME[t])}</option>`).join("");
+const DPA = DATA.depth_as_of;
+function nextUp(a) {
+  if (!a.next_up) return esc(a.note || "not listed");
+  const snaps = a.next_up_snaps ? `${a.next_up_snaps} snap${a.next_up_snaps === 1 ? "" : "s"} in ${a.next_up_games} game${a.next_up_games === 1 ? "" : "s"}` : "no snaps yet";
+  return `${esc(a.next_up)} <span class="muted">(${esc(a.slot)}, listed ${ord(a.next_up_rank)}; ${snaps}${a.still_first ? "; the absent player is still listed first" : ""}${a.note ? "; " + esc(a.note) : ""})</span>`;
+}
 function drawAbs() {
   const t = absSel.value;
   const rows = DATA.absences.filter(a => a.team === t);
-  document.getElementById("abs-table").innerHTML = rows.length ? `<div class="table-wrap"><table><thead><tr><th>Player</th><th>Pos.</th><th>Unit</th><th>Games</th><th>Avg snap share</th><th>Status</th><th>Detail</th><th>Injury</th></tr></thead><tbody>${rows.map(a =>
-    `<tr><td>${esc(a.player)}</td><td>${esc(a.position)}</td><td>${esc(a.unit)}</td><td>${a.games}</td><td>${fmt(a.share, "pct")}</td><td>${esc(a.status_class)}</td><td style="text-align:left">${esc(a.reason)}</td><td style="text-align:left">${esc(a.last_report_injury || "")}</td></tr>`).join("")}</tbody></table></div>` : `<p class="meta">No regulars currently out or listed.</p>`;
+  document.getElementById("abs-table").innerHTML = rows.length ? `<div class="table-wrap"><table><thead><tr><th>Player</th><th>Pos.</th><th>Unit</th><th>Games</th><th>Avg snap share</th><th>Status</th><th>Detail</th><th>Injury</th><th>Next man up (depth chart)</th></tr></thead><tbody>${rows.map(a =>
+    `<tr><td>${esc(a.player)}</td><td>${esc(a.position)}</td><td>${esc(a.unit)}</td><td>${a.games}</td><td>${fmt(a.share, "pct")}</td><td>${esc(a.status_class)}</td><td style="text-align:left">${esc(a.reason)}</td><td style="text-align:left">${esc(a.last_report_injury || "")}</td><td style="text-align:left">${nextUp(a)}</td></tr>`).join("")}</tbody></table></div>` : `<p class="meta">No regulars currently out or listed.</p>`;
 }
 absSel.addEventListener("change", drawAbs);
 

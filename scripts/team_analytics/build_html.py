@@ -97,6 +97,21 @@ def apply_callers(T: pd.DataFrame, CL: dict) -> pd.DataFrame:
     return T
 
 
+def apply_depth(T: pd.DataFrame, DP: dict) -> pd.DataFrame:
+    """Depth-chart checks and Next Gen receiving from depth.json (see depth.py)."""
+    T = T.copy()
+    for t in T.index:
+        c = DP["depth"]["checks"].get(t, {})
+        T.loc[t, "dc_qb_listed"], T.loc[t, "dc_qb_last"] = c.get("qb_listed"), c.get("qb_last")
+        T.loc[t, "dc_qb_flag"] = "" if c.get("qb_match") else "differs"
+        T.loc[t, "dc_ol_new"] = ", ".join(c.get("ol_new", []))
+        T.loc[t, "dc_ol_dropped"] = ", ".join(c.get("ol_dropped", []))
+        r = DP["receiving"]["teams"].get(t, {})
+        for k, v in r.items():
+            T.loc[t, f"rec_{k}"] = np.nan if v is None else v
+    return T
+
+
 def apply_garbage(T: pd.DataFrame, GT: dict) -> pd.DataFrame:
     """Garbage-time splits from garbage.json (see garbage.py) plus a plain-English flag per unit."""
     T = T.copy()
@@ -446,6 +461,12 @@ def build_matchups(T, nxt, MM, A, mm, notes):
                 cautions.append(f"{t} practice report (no game status yet): " + ", ".join(
                     f"{x.player} ({x.position}, {'DNP' if x.status_class == 'did not practise' else 'limited'})" for x in pr.itertuples()) + ".")
         for t in (a, h):
+            r = T.loc[t]
+            if r.dc_qb_flag:
+                cautions.append(f"{t} depth chart lists {r.dc_qb_listed} at QB; {r.dc_qb_last} took the most snaps in the latest game.")
+            if r.dc_ol_new:
+                cautions.append(f"{t} offensive line: depth chart lists {r.dc_ol_new}, who were not in the latest game's top five by snaps"
+                                + (f" ({r.dc_ol_dropped} were)." if r.dc_ol_dropped else "."))
             for side in ("off", "def"):
                 gc = gt_caution(t, side, T.loc[t])
                 if gc:
@@ -807,6 +828,11 @@ def main():
     T, WR = apply_win_rates(T, meta)
     GT = json.loads((d / "garbage.json").read_text(encoding="utf-8"))
     T = apply_garbage(T, GT)
+    DP = json.loads((d / "depth.json").read_text(encoding="utf-8"))
+    T = apply_depth(T, DP)
+    nxt_up = {(r["team"], r["player"]): r for r in DP["depth"]["absences"]}
+    A = A.assign(**{k: [nxt_up.get((t, n), {}).get(k) for t, n in zip(A.team, A.player)]
+                    for k in ("slot", "next_up", "next_up_rank", "next_up_snaps", "next_up_games", "next_up_last_share", "still_first", "note")})
     wr_note = (f" Win rates: {WR['source']['title']} ({WR['source']['updated']}); ESPN Analytics from NFL Next Gen Stats tracking, not in nflverse. ESPN publishes whole percentages, so tied teams share a rank here."
                + ("" if WR["through_week"] == meta["through_week"] else f" STALE: win rates run through week {WR['through_week']}, the report through week {meta['through_week']}.")) if WR else ""
     U = unit_ranks(T)
@@ -917,6 +943,14 @@ def main():
         C("off_pa_rate", "Play-action rate", "pct", 0), C("off_epa_pa", "EPA on play action", "epa", 1), C("off_epa_oop", "EPA out of pocket", "epa", 1),
         C("off_deep_epa", "EPA, 20+ air yd", "epa", 1), C("cov", "Man/zone splits", "str", 0, "Not available in free data"),
     ], "off_adj_epa_db"))
+    tables.append(table("receiving", "Receivers: separation and yards after catch (Next Gen)", [
+        C("rec_separation", "Separation at catch/incompletion (yd)", "n2", 1, "Target-weighted average distance to the nearest defender when the ball arrives"),
+        C("rec_cushion", "Cushion at snap (yd)", "n2", 0, "Target-weighted distance to the nearest defender at the snap: how far off coverage plays"),
+        C("rec_air_yards", "Intended air yards/target", "n1", 0), C("rec_yacoe", "YAC over expected/catch", "s2", 1),
+        C("rec_catch_pct", "Catch rate (%)", "n1", 1), C("rec_players", "Receivers tracked", "int", 0),
+        C("rec_targets", "Targets covered", "int", 0), C("rec_top", "Most-targeted (his separation)", "str", 0),
+    ], "rec_separation", "Next Gen season rows cover qualifying receivers only, so low-volume receivers are missing. Separation rises with "
+                         "short, schemed-open throws (compare intended air yards). Offence only: Next Gen does not credit defenders."))
     tables.append(table("pass_def", "Pass defence", [
         C("def_dropbacks", "Dropbacks faced", "int", 0), C("def_epa_db", "EPA/db allowed", "epa", -1), C("def_adj_epa_db", "Adj. EPA/db", "epa", -1),
         C("def_sr_db", "Success allowed", "pct", -1), C("def_cpoe", "CPOE allowed", "n1", -1), C("def_ypa", "Y/A allowed", "n2", -1),
@@ -1189,6 +1223,12 @@ def main():
         C("def_epa_inside", "Def. EPA allowed inside", "epa", -1), C("def_n_inside", "n", "int", 0),
         C("def_epa_outside", "Def. EPA allowed outside", "epa", -1), C("def_n_outside", "n", "int", 0),
     ], "run_inside_share", "Run direction comes from the play-by-play gap and location fields; scheme names (zone, gap, power) are not available."))
+    tables.append(table("depth_checks", "Depth chart against who played", [
+        C("dc_qb_listed", "QB1 on depth chart", "str", 0), C("dc_qb_last", "QB in latest game", "str", 0),
+        C("dc_qb_flag", "QB", "str", 0), C("dc_ol_new", "OL listed but not in last game's top five", "str", 0),
+        C("dc_ol_dropped", "OL in last game's top five, not listed", "str", 0),
+    ], "team", "Depth charts are ESPN's daily snapshot via nflverse; teams often leave them stale, so a difference is a prompt to "
+               "check the news, not proof of a change. Chart snapshot: " + DP["depth"]["as_of"][:16].replace("T", " ") + " UTC.", desc=False))
     tables.append(table("depth", "Availability and depth", [
         C("qb_starts", "QB starts", "str", 0), C("qb_changed_since_prior", "New primary QB vs 2025", "str", 0),
         C("regulars", "Regulars", "int", 0, "Players averaging 50%+ of offensive or defensive snaps in 2+ games"),
@@ -1312,7 +1352,7 @@ def main():
             "mismatch": mm, "games": games, "reports": structured_reports(T, nxt, MM, games, CTX["qb"], TRV, CTX["travel"], CTX["fatigue"]),
             "ctx": {"fatigue": CTX["fatigue"], "travel": CTX["travel"], "qb": CTX["qb"], "penalty_groups": CTX["penalty_groups"]},
             "trv": TRV, "pen_types": pen_types_js, "cats": cats, "D": D, "E": E, "F": F, "dis": dis, "notes": notes, "order": order,
-            "names": T.team_name.to_dict(), "callers": {"sources": CL["sources"], "splits": CL["splits"], "checked": CL["checked"], "league": CL["league"]}}
+            "names": T.team_name.to_dict(), "depth_as_of": DP["depth"]["as_of"], "callers": {"sources": CL["sources"], "splits": CL["splits"], "checked": CL["checked"], "league": CL["league"]}}
     page = TEMPLATE.replace("/*DATA*/", json.dumps(data, default=str).replace("</", "<\\/"))
     page = page.replace("{{METHOD}}", method_html(meta, T))
     (d / "report.html").write_text(page, encoding="utf-8")
@@ -1413,6 +1453,7 @@ away team's home clock. Relocated franchises use their city at the time; a few h
 Status comes from each team's latest weekly roster (reserve list) and latest injury report (game status, or practice participation before game statuses are published). Team-level tables are not changed.</p>
 <h3>Not available, and proxies used</h3>
 <ul>
+<li><b>Depth charts</b>: ESPN's daily team depth charts via nflverse, used only for the next player listed behind an absent regular and for checking the listed QB and offensive line against who played the latest game (snap counts). Teams often leave charts stale, and a few chart rows carry stale player ids, which are repaired from the weekly rosters by team and name. <b>Next Gen receiving</b>: season rows for qualifying receivers, aggregated per team weighted by targets (separation, cushion, air yards) or catches (YAC over expected).</li>
 <li><b>Win rates</b> (pass block, pass rush, run block, run stop): ESPN Analytics, built from NFL Next Gen Stats tracking. They are not in nflverse, so they are copied by hand each week from ESPN's team table with its date (the win-rates file in the analytics scripts), shown for context only and not used in any rating, composite or matchup expectation. A pass block win means the line held its blocks for 2.5 seconds; a pass rush win means a rusher beat his block within 2.5 seconds.</li>
 <li><b>DVOA</b>: FTN's proprietary metric. It is not in nflverse and is not used or shown in this report. The closest computed analogues here are opponent-adjusted EPA and success rate. They are not DVOA.</li>
 <li><b>Coverage (man/zone), time to pressure, pressure by play</b>: not in free data. PFR pressures are game-level, so pressure-when-blitzing uses the hit-or-sack proxy.</li>

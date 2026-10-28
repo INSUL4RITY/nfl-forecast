@@ -38,6 +38,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import context as ctx  # noqa: E402
 import callers  # noqa: E402
 import garbage  # noqa: E402
+import depth  # noqa: E402
 
 BASE = "https://github.com/nflverse/nflverse-data/releases/download/"
 CACHE = ROOT / "data" / "cache" / "team_analytics"
@@ -883,6 +884,8 @@ def main():
     (out_dir / "callers.json").write_text(json.dumps(callers.build(p, pf, S, W), indent=1), encoding="utf-8")
     # garbage-time splits (display only)
     (out_dir / "garbage.json").write_text(json.dumps(garbage.build(p), indent=1), encoding="utf-8")
+    # depth charts (next man up, starter checks) and Next Gen receiving
+    (out_dir / "depth.json").write_text(json.dumps(depth.build(S, W, absences, fetch), indent=1, default=str), encoding="utf-8")
 
     # ---- output
     T.index.name = "team"
