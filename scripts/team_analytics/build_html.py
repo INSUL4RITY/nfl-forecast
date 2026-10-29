@@ -315,6 +315,8 @@ MATCH_ROWS = {
         ("Sack rate", "sack_rate", "off_sack_rate", "def_sack_rate", "pct", -1),
         ("Pressure rate (PFR)", "pressure", "off_pressure_rate", "def_pressure_rate", "pct", -1),
         ("Pass block vs pass rush win rate (ESPN)", None, "pbwr", "prwr", "pct", 1, True),
+        ("YAC per completion (raw)", None, "off_yac_per_cmp", "def_yac_per_cmp", "n1", 1),
+        ("Broken tackles after catch per game (PFR)", None, "rec_brk_tkl_pg", "def_rec_brk_tkl_allowed_pg", "n2", 1),
         ("Passing yards per game (raw)", None, "off_pass_yds_pg", "def_pass_yds_pg", "n1", 1),
     ],
     "Rushing": [
@@ -940,6 +942,11 @@ def main():
         C("off_epa_db_clean", "EPA, no hit/sack", "epa", 1), C("off_epa_db_hit", "EPA, hit or sacked", "epa", 1),
         C("off_early_db_epa", "Early-down EPA/db", "epa", 1), C("off_d3_db_epa", "3rd-down EPA/db", "epa", 1), C("off_rz_db_epa", "Red-zone EPA/db", "epa", 1),
         C("off_yacoe", "YAC over expected", "n2", 1), C("off_drop_rate", "Drop rate", "pct", -1, "FTN drops / catchable balls"),
+        C("off_air_per_cmp", "Air yds/completion", "n1", 0, "Completed air yards per completion (play-by-play)"),
+        C("off_yac_per_cmp", "YAC/completion", "n1", 1),
+        C("off_air_share", "Share of yards in the air", "pct", 0, "Completed air yards / (air yards + YAC): low = a YAC-driven passing game"),
+        C("rec_brk_tkl_pg", "Broken tackles after catch/game", "n2", 1, "PFR receiving broken tackles per game with PFR data"),
+        C("rec_drops_pg", "Drops/game (PFR)", "n2", -1),
         C("off_pa_rate", "Play-action rate", "pct", 0), C("off_epa_pa", "EPA on play action", "epa", 1), C("off_epa_oop", "EPA out of pocket", "epa", 1),
         C("off_deep_epa", "EPA, 20+ air yd", "epa", 1), C("cov", "Man/zone splits", "str", 0, "Not available in free data"),
     ], "off_adj_epa_db"))
@@ -959,6 +966,10 @@ def main():
         C("def_pass_td", "Pass TD allowed", "int", -1), C("int_made", "INTs", "int", 1), C("def_int_worthy_rate", "INT-worthy throws forced", "pct", 1),
         C("def_sack_rate", "Sack rate", "pct", 1), C("def_pressure_rate", "Pressure rate", "pct", 1),
         C("def_deep_att", "Deep att. faced", "int", 0), C("def_deep_epa", "EPA allowed, 20+ air yd", "epa", -1), C("def_deep_comp", "Deep comp. allowed", "pct", -1),
+        C("def_air_per_cmp", "Air yds/completion allowed", "n1", 0), C("def_yac_per_cmp", "YAC/completion allowed", "n1", -1),
+        C("def_air_share", "Share allowed in the air", "pct", 0, "Low = a defence that gives up its yards after the catch (tackling, zone underneath)"),
+        C("def_yacoe", "YAC over expected allowed", "n2", -1),
+        C("def_rec_brk_tkl_allowed_pg", "Missed tackles after catch/game", "n2", -1, "PFR receiving broken tackles by opponents, per game with PFR data"),
         C("def_epa_pa", "EPA vs play action", "epa", -1), C("def_epa_screen", "EPA vs screens", "epa", -1),
         C("def_early_db_epa", "Early-down EPA/db", "epa", -1), C("def_d3_db_epa", "3rd-down EPA/db", "epa", -1), C("def_rz_db_epa", "Red-zone EPA/db", "epa", -1),
     ], "def_adj_epa_db", desc=False))

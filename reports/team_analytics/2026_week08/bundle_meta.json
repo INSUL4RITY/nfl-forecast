@@ -1,7 +1,7 @@
 {
  "season": 2026,
  "through_week": 7,
- "generated_utc": "2026-10-28T19:53:11+00:00",
+ "generated_utc": "2026-10-29T01:30:33+00:00",
  "games": 107,
  "plays": 13805,
  "drives": 2188,
@@ -88,7 +88,8 @@
   "Drive points reconcile with final scores in 107 of 107 games (max gap 0 pts; gaps come from scores on plays outside a scrimmage drive).",
   "Drives: 2298 built, 110 excluded (kneel-only, or started with 30 s or less left in a half).",
   "FTN charting: 99.1% of 2026 pass attempts charted (missing: 2026_07_DAL_PHI). League P(INT | interception-worthy) = 0.562; P(INT | not) = 0.0034. Historical own-fumble loss rate 0.486 (2021-2025).",
-  "PFR advanced passing: 188 of 214 team-games available (94 games); pressure and PFR-blitz rates use only those games."
+  "PFR advanced passing: 188 of 214 team-games available (94 games); pressure and PFR-blitz rates use only those games.",
+  "PFR advanced receiving: 106 of 107 games available; receiving broken tackles and drops use only those games."
  ],
  "sources": [
   {
@@ -167,6 +168,13 @@
    "http_last_modified": "Mon, 26 Oct 2026 11:16:57 GMT",
    "sha256": "9ef5a07de88a35c6fbb6983b0424d7b78196a8f29d6549ff5ec208665a09f644",
    "bytes": 22625
+  },
+  {
+   "url": "https://github.com/nflverse/nflverse-data/releases/download/pfr_advstats/advstats_week_rec_2026.parquet",
+   "retrieved_utc": "2026-10-29T01:29:29+00:00",
+   "http_last_modified": "Wed, 28 Oct 2026 11:03:37 GMT",
+   "sha256": "bb315b971f72da281a31a0cdb0720cc0d35c1351b6f27b562a24740584318870",
+   "bytes": 29914
   },
   {
    "url": "https://github.com/nflverse/nflverse-data/releases/download/nextgen_stats/ngs_rushing.parquet",

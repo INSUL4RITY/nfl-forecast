@@ -289,6 +289,7 @@ UNIT_SPECS = {
     "yacoe": ("yacoe", "comp", "mean"),
     "expl_td": ("touchdown", "explosive", "sum"), "deep_att": (None, "deep", "count"), "deep_epa": ("epa", "deep", "mean"),
     "deep_comp": ("complete_pass", "deep", "mean"),
+    "cmp_n": (None, "cmpl", "count"), "cmp_air": ("air_yards", "cmpl", "sum"), "cmp_yac": ("yards_after_catch", "cmpl", "sum"),
 }
 
 
@@ -308,6 +309,7 @@ def add_unit_flags(p: pd.DataFrame) -> pd.DataFrame:
     p["db_hit"] = p.db & (p.hit_sack == 1)
     p["comp"] = p.att & (p.complete_pass == 1) & p.xyac_mean_yardage.notna()
     p["yacoe"] = p.yards_after_catch - p.xyac_mean_yardage
+    p["cmpl"] = p.att & (p.complete_pass == 1) & p.air_yards.notna() & p.yards_after_catch.notna()
     p["deep"] = p.att & (p.air_yards >= 20)
     p["epa_pos"] = p.epa.clip(lower=0)
     return p
@@ -322,6 +324,9 @@ def unit_table(p: pd.DataFrame, side: str) -> pd.DataFrame:
     sack_yds = p[p.sackp].groupby(key).yards_gained.sum()
     t["nya"] = (t.pass_yds + sack_yds.reindex(t.index).fillna(0)) / (t.attempts + t.sacks)
     t["scr_rate"] = t.scrambles / t.dropbacks
+    t["air_per_cmp"] = t.cmp_air / t.cmp_n                       # completed air yards (can be negative behind the line)
+    t["yac_per_cmp"] = t.cmp_yac / t.cmp_n
+    t["air_share"] = t.cmp_air / (t.cmp_air + t.cmp_yac)          # share of completed-pass yards gained in the air
     t["pass_rate"] = t.dropbacks / t.plays
     t["expl_epa_share"] = t.epa_on_explosive / t.epa_pos          # share of all positive EPA that came on explosive plays
     t["epa_nonexpl"] = (t.epa_total - t.epa_on_explosive) / (t.plays - t.n_explosive)
@@ -779,6 +784,19 @@ def main():
     g = prr.groupby("opponent")
     T["def_ybc_allowed"] = g.rushing_yards_before_contact.sum() / g.carries.sum()
     T["def_yac_allowed"] = g.rushing_yards_after_contact.sum() / g.carries.sum()
+    # receiving: broken tackles after the catch and drops (PFR, per game with PFR data)
+    prc = fetch(f"pfr_advstats/advstats_week_rec_{S}.parquet")
+    prc = prc[(prc.week <= W) & (prc.game_type == "REG")].copy()
+    for c in ("team", "opponent"):
+        prc[c] = prc[c].replace({"LAR": "LA"})
+    g = prc.groupby("team")
+    T["rec_pfr_games"] = g.game_id.nunique()
+    T["rec_brk_tkl_pg"] = g.receiving_broken_tackles.sum() / g.game_id.nunique()
+    T["rec_drops_pg"] = g.receiving_drop.sum() / g.game_id.nunique()
+    g = prc.groupby("opponent")
+    T["def_rec_brk_tkl_allowed_pg"] = g.receiving_broken_tackles.sum() / g.game_id.nunique()
+    qc.append(f"PFR advanced receiving: {prc.game_id.nunique()} of {n_games_sched} games available; "
+              "receiving broken tackles and drops use only those games.")
     ngs_r = fetch("nextgen_stats/ngs_rushing.parquet")
     ngs_r = ngs_r[(ngs_r.season == S) & (ngs_r.week.between(1, W)) & (ngs_r.season_type == "REG")].copy()
     ngs_r["team"] = ngs_r.team_abbr.replace({"LAR": "LA"})
