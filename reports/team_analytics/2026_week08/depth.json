@@ -1,6 +1,6 @@
 {
  "depth": {
-  "as_of": "2026-10-28T13:58:02Z",
+  "as_of": "2026-10-29T14:07:35Z",
   "absences": [
    {
     "team": "ARI",
@@ -25,6 +25,30 @@
     "next_up_snaps": 98,
     "next_up_games": 4,
     "next_up_last_share": 0.52
+   },
+   {
+    "team": "ARI",
+    "player": "Mack Wilson",
+    "slot": "MLB",
+    "next_up": "Cody Simon",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 33,
+    "next_up_games": 5,
+    "next_up_last_share": 0.23
+   },
+   {
+    "team": "ARI",
+    "player": "Michael Wilson",
+    "slot": "WR",
+    "next_up": "Simi Fehoko",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 28,
+    "next_up_games": 5,
+    "next_up_last_share": 0.09
    },
    {
     "team": "ARI",
@@ -123,6 +147,30 @@
     "next_up_last_share": 0.39
    },
    {
+    "team": "ARI",
+    "player": "Josh Sweat",
+    "slot": "LDE",
+    "next_up": "Eku Leota",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 57,
+    "next_up_games": 7,
+    "next_up_last_share": 0.05
+   },
+   {
+    "team": "ARI",
+    "player": "Tyler Allgeier",
+    "slot": "RB",
+    "next_up": "Jeremiyah Love",
+    "next_up_rank": 1,
+    "still_first": false,
+    "note": "",
+    "next_up_snaps": 174,
+    "next_up_games": 5,
+    "next_up_last_share": 0.49
+   },
+   {
     "team": "ATL",
     "player": "Divine Deablo",
     "slot": "RILB",
@@ -135,52 +183,28 @@
     "next_up_last_share": 0.85
    },
    {
-    "team": "ATL",
-    "player": "C.J. Henderson",
-    "slot": "RCB",
-    "next_up": "Mike Hughes",
-    "next_up_rank": 2,
-    "still_first": true,
-    "note": "",
-    "next_up_snaps": 400,
-    "next_up_games": 7,
-    "next_up_last_share": 0.26
-   },
-   {
-    "team": "ATL",
-    "player": "AJ Terrell",
-    "slot": "LCB",
-    "next_up": "Avieon Terrell",
-    "next_up_rank": 2,
-    "still_first": true,
-    "note": "",
-    "next_up_snaps": 217,
-    "next_up_games": 6,
-    "next_up_last_share": 0.99
-   },
-   {
-    "team": "ATL",
-    "player": "Kendal Daniels",
+    "team": "BAL",
+    "player": "Roquan Smith",
     "slot": "LILB",
-    "next_up": "Josh Woods",
-    "next_up_rank": 2,
-    "still_first": true,
-    "note": "",
-    "next_up_snaps": 72,
-    "next_up_games": 4,
-    "next_up_last_share": 0.2
-   },
-   {
-    "team": "ATL",
-    "player": "Gervon Dexter",
-    "slot": "NT",
-    "next_up": "Anterio Thompson",
+    "next_up": "Jay Higgins IV",
     "next_up_rank": 2,
     "still_first": true,
     "note": "",
     "next_up_snaps": 0,
     "next_up_games": 0,
-    "next_up_last_share": null
+    "next_up_last_share": 0.0
+   },
+   {
+    "team": "BAL",
+    "player": "Kyle Hamilton",
+    "slot": "NB",
+    "next_up": "Keyon Martin",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 62,
+    "next_up_games": 4,
+    "next_up_last_share": 0.26
    },
    {
     "team": "BAL",
@@ -192,18 +216,6 @@
     "note": "",
     "next_up_snaps": 309,
     "next_up_games": 5,
-    "next_up_last_share": 1.0
-   },
-   {
-    "team": "BAL",
-    "player": "Lamar Jackson",
-    "slot": "QB",
-    "next_up": "Tyler Huntley",
-    "next_up_rank": 2,
-    "still_first": true,
-    "note": "",
-    "next_up_snaps": 231,
-    "next_up_games": 4,
     "next_up_last_share": 1.0
    },
    {
@@ -232,18 +244,6 @@
    },
    {
     "team": "BUF",
-    "player": "Terrel Bernard",
-    "slot": "RILB",
-    "next_up": "Joe Andreessen",
-    "next_up_rank": 2,
-    "still_first": true,
-    "note": "",
-    "next_up_snaps": 0,
-    "next_up_games": 0,
-    "next_up_last_share": 0.0
-   },
-   {
-    "team": "BUF",
     "player": "C.J. Gardner-Johnson",
     "slot": "FS",
     "next_up": "Damar Hamlin",
@@ -253,6 +253,30 @@
     "next_up_snaps": 151,
     "next_up_games": 6,
     "next_up_last_share": 0.68
+   },
+   {
+    "team": "BUF",
+    "player": "Bradley Chubb",
+    "slot": "SLB",
+    "next_up": "TJ Parker",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 118,
+    "next_up_games": 6,
+    "next_up_last_share": 0.62
+   },
+   {
+    "team": "BUF",
+    "player": "Dalton Kincaid",
+    "slot": "TE",
+    "next_up": "Dawson Knox",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 269,
+    "next_up_games": 6,
+    "next_up_last_share": 0.69
    },
    {
     "team": "BUF",
@@ -318,13 +342,10 @@
     "team": "CAR",
     "player": "Michael Jackson",
     "slot": "LCB",
-    "next_up": "Akayleb Evans",
-    "next_up_rank": 1,
+    "next_up": null,
+    "next_up_rank": null,
     "still_first": false,
-    "note": "",
-    "next_up_snaps": 243,
-    "next_up_games": 5,
-    "next_up_last_share": 1.0
+    "note": "no other player listed in the slot"
    },
    {
     "team": "CAR",
@@ -337,6 +358,15 @@
     "next_up_snaps": 194,
     "next_up_games": 6,
     "next_up_last_share": 0.46
+   },
+   {
+    "team": "CAR",
+    "player": "Akayleb Evans",
+    "slot": null,
+    "next_up": null,
+    "next_up_rank": null,
+    "still_first": false,
+    "note": "never listed on the team's depth chart"
    },
    {
     "team": "CAR",
@@ -436,15 +466,27 @@
    },
    {
     "team": "CIN",
-    "player": "Dexter Lawrence",
-    "slot": "LDT",
-    "next_up": "T.J. Slaton Jr.",
+    "player": "Jordan Battle",
+    "slot": "SS",
+    "next_up": "Kyle Dugger",
     "next_up_rank": 2,
     "still_first": true,
     "note": "",
-    "next_up_snaps": 134,
-    "next_up_games": 6,
-    "next_up_last_share": 0.33
+    "next_up_snaps": 41,
+    "next_up_games": 1,
+    "next_up_last_share": 0.0
+   },
+   {
+    "team": "CIN",
+    "player": "Ja'Marr Chase",
+    "slot": "WR",
+    "next_up": "Mitchell Tinsley",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 71,
+    "next_up_games": 3,
+    "next_up_last_share": 0.34
    },
    {
     "team": "CIN",
@@ -496,30 +538,6 @@
    },
    {
     "team": "CLE",
-    "player": "Denzel Ward",
-    "slot": "LCB",
-    "next_up": "Toriano Pride Jr.",
-    "next_up_rank": 2,
-    "still_first": true,
-    "note": "",
-    "next_up_snaps": 0,
-    "next_up_games": 0,
-    "next_up_last_share": 0.0
-   },
-   {
-    "team": "CLE",
-    "player": "Quincy Williams",
-    "slot": "SLB",
-    "next_up": "Justin Jefferson",
-    "next_up_rank": 2,
-    "still_first": true,
-    "note": "",
-    "next_up_snaps": 0,
-    "next_up_games": 0,
-    "next_up_last_share": 0.0
-   },
-   {
-    "team": "CLE",
     "player": "Grant Delpit",
     "slot": "SS",
     "next_up": "Emmanuel McNeil-Warren",
@@ -529,6 +547,66 @@
     "next_up_snaps": 182,
     "next_up_games": 7,
     "next_up_last_share": 0.3
+   },
+   {
+    "team": "CLE",
+    "player": "Jared Verse",
+    "slot": "RDE",
+    "next_up": "Sam Williams",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 167,
+    "next_up_games": 7,
+    "next_up_last_share": 0.41
+   },
+   {
+    "team": "CLE",
+    "player": "Myles Harden",
+    "slot": "NB",
+    "next_up": "Noah Igbinoghene",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 10,
+    "next_up_games": 2,
+    "next_up_last_share": 0.03
+   },
+   {
+    "team": "CLE",
+    "player": "Mason Graham",
+    "slot": "LDT",
+    "next_up": "Adin Huntington",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 210,
+    "next_up_games": 7,
+    "next_up_last_share": 0.35
+   },
+   {
+    "team": "DAL",
+    "player": "Caleb Downs",
+    "slot": "SS",
+    "next_up": "Markquese Bell",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 218,
+    "next_up_games": 6,
+    "next_up_last_share": 0.36
+   },
+   {
+    "team": "DAL",
+    "player": "George Pickens",
+    "slot": "WR",
+    "next_up": "Jonathan Mingo",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 99,
+    "next_up_games": 7,
+    "next_up_last_share": 0.34
    },
    {
     "team": "DAL",
@@ -541,6 +619,18 @@
     "next_up_snaps": 454,
     "next_up_games": 7,
     "next_up_last_share": 0.85
+   },
+   {
+    "team": "DAL",
+    "player": "Quinnen Williams",
+    "slot": "LDE",
+    "next_up": "LT Overton",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 136,
+    "next_up_games": 7,
+    "next_up_last_share": 0.35
    },
    {
     "team": "DAL",
@@ -580,6 +670,30 @@
    },
    {
     "team": "DEN",
+    "player": "Zach Allen",
+    "slot": "LDE",
+    "next_up": "Sai'vion Jones",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 104,
+    "next_up_games": 6,
+    "next_up_last_share": 0.35
+   },
+   {
+    "team": "DEN",
+    "player": "Jaylen Waddle",
+    "slot": "WR",
+    "next_up": "Marvin Mims Jr.",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 71,
+    "next_up_games": 5,
+    "next_up_last_share": 0.26
+   },
+   {
+    "team": "DEN",
     "player": "Jonah Elliss",
     "slot": "WLB",
     "next_up": "Jonathon Cooper",
@@ -616,6 +730,54 @@
    },
    {
     "team": "DET",
+    "player": "Aidan Hutchinson",
+    "slot": "LDE",
+    "next_up": "Derrick Moore",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 92,
+    "next_up_games": 6,
+    "next_up_last_share": 0.3
+   },
+   {
+    "team": "DET",
+    "player": "Amon-Ra St. Brown",
+    "slot": "WR",
+    "next_up": "Tay Martin",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 6,
+    "next_up_games": 3,
+    "next_up_last_share": 0.01
+   },
+   {
+    "team": "DET",
+    "player": "Alim McNeill",
+    "slot": "LDT",
+    "next_up": "Skyler Gill-Howard",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 202,
+    "next_up_games": 6,
+    "next_up_last_share": 0.46
+   },
+   {
+    "team": "DET",
+    "player": "Jahmyr Gibbs",
+    "slot": "RB",
+    "next_up": "Sione Vaki",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 97,
+    "next_up_games": 6,
+    "next_up_last_share": 0.13
+   },
+   {
+    "team": "DET",
     "player": "Avonte Maddox",
     "slot": "SS",
     "next_up": "Brian Branch",
@@ -628,6 +790,18 @@
    },
    {
     "team": "DET",
+    "player": "D.J. Wonnum",
+    "slot": "RDE",
+    "next_up": "Tyler Lacy",
+    "next_up_rank": 1,
+    "still_first": false,
+    "note": "",
+    "next_up_snaps": 150,
+    "next_up_games": 6,
+    "next_up_last_share": 0.31
+   },
+   {
+    "team": "DET",
     "player": "Thomas Harper",
     "slot": "SS",
     "next_up": "Brian Branch",
@@ -637,6 +811,18 @@
     "next_up_snaps": 45,
     "next_up_games": 1,
     "next_up_last_share": 0.67
+   },
+   {
+    "team": "DET",
+    "player": "Tyleik Williams",
+    "slot": "RDT",
+    "next_up": "Levi Onwuzurike",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 73,
+    "next_up_games": 5,
+    "next_up_last_share": 0.21
    },
    {
     "team": "GB",
@@ -664,18 +850,6 @@
    },
    {
     "team": "GB",
-    "player": "Brandon Cisse",
-    "slot": "RCB",
-    "next_up": "Carrington Valentine",
-    "next_up_rank": 2,
-    "still_first": true,
-    "note": "",
-    "next_up_snaps": 67,
-    "next_up_games": 6,
-    "next_up_last_share": 0.07
-   },
-   {
-    "team": "GB",
     "player": "Matthew Golden",
     "slot": "WR",
     "next_up": "J. Michael Sturdivant",
@@ -700,18 +874,6 @@
    },
    {
     "team": "GB",
-    "player": "Christian Watson",
-    "slot": "WR",
-    "next_up": "Bo Melton",
-    "next_up_rank": 2,
-    "still_first": true,
-    "note": "",
-    "next_up_snaps": 110,
-    "next_up_games": 7,
-    "next_up_last_share": 0.19
-   },
-   {
-    "team": "GB",
     "player": "Anthony Belton",
     "slot": "RT",
     "next_up": "Mekhi Becton",
@@ -732,18 +894,6 @@
     "note": "",
     "next_up_snaps": 22,
     "next_up_games": 1,
-    "next_up_last_share": 0.0
-   },
-   {
-    "team": "GB",
-    "player": "Savion Williams",
-    "slot": "WR",
-    "next_up": "Coleman Owen",
-    "next_up_rank": 2,
-    "still_first": true,
-    "note": "",
-    "next_up_snaps": 0,
-    "next_up_games": 0,
     "next_up_last_share": 0.0
    },
    {
@@ -795,13 +945,13 @@
     "team": "HOU",
     "player": "Nico Collins",
     "slot": "WR",
-    "next_up": "Jaylin Noel",
+    "next_up": "Tank Dell",
     "next_up_rank": 2,
     "still_first": true,
     "note": "",
-    "next_up_snaps": 200,
-    "next_up_games": 7,
-    "next_up_last_share": 0.31
+    "next_up_snaps": 14,
+    "next_up_games": 1,
+    "next_up_last_share": 0.23
    },
    {
     "team": "IND",
@@ -826,18 +976,6 @@
     "next_up_snaps": 21,
     "next_up_games": 2,
     "next_up_last_share": 0.29
-   },
-   {
-    "team": "IND",
-    "player": "DeForest Buckner",
-    "slot": "RDT",
-    "next_up": "Adetomiwa Adebawore",
-    "next_up_rank": 1,
-    "still_first": false,
-    "note": "no longer listed (last listed 2026-10-27)",
-    "next_up_snaps": 155,
-    "next_up_games": 7,
-    "next_up_last_share": 0.49
    },
    {
     "team": "IND",
@@ -877,15 +1015,27 @@
    },
    {
     "team": "JAX",
-    "player": "Jourdan Lewis",
-    "slot": "NB",
-    "next_up": "Jarrian Jones",
+    "player": "Antonio Johnson",
+    "slot": "FS",
+    "next_up": "Kaevon Merriweather",
     "next_up_rank": 2,
     "still_first": true,
     "note": "",
-    "next_up_snaps": 321,
-    "next_up_games": 6,
-    "next_up_last_share": 0.98
+    "next_up_snaps": 64,
+    "next_up_games": 2,
+    "next_up_last_share": 0.68
+   },
+   {
+    "team": "JAX",
+    "player": "Jakobi Meyers",
+    "slot": "WR",
+    "next_up": "Travis Hunter",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 30,
+    "next_up_games": 5,
+    "next_up_last_share": 0.13
    },
    {
     "team": "JAX",
@@ -910,18 +1060,6 @@
     "next_up_snaps": 88,
     "next_up_games": 5,
     "next_up_last_share": 1.0
-   },
-   {
-    "team": "KC",
-    "player": "Travis Kelce",
-    "slot": "TE",
-    "next_up": "Noah Gray",
-    "next_up_rank": 2,
-    "still_first": true,
-    "note": "",
-    "next_up_snaps": 219,
-    "next_up_games": 6,
-    "next_up_last_share": 0.53
    },
    {
     "team": "KC",
@@ -951,13 +1089,13 @@
     "team": "KC",
     "player": "Tyquan Thornton",
     "slot": "WR",
-    "next_up": "Cyrus Allen",
-    "next_up_rank": 2,
+    "next_up": "Rashee Rice",
+    "next_up_rank": 1,
     "still_first": false,
     "note": "",
-    "next_up_snaps": 35,
-    "next_up_games": 6,
-    "next_up_last_share": 0.3
+    "next_up_snaps": 166,
+    "next_up_games": 4,
+    "next_up_last_share": 0.1
    },
    {
     "team": "LA",
@@ -975,37 +1113,13 @@
     "team": "LA",
     "player": "Nathan Landman",
     "slot": "LILB",
-    "next_up": "Eric Kendricks",
+    "next_up": "Grant Stuard",
     "next_up_rank": 2,
     "still_first": true,
     "note": "",
     "next_up_snaps": 0,
     "next_up_games": 0,
     "next_up_last_share": 0.0
-   },
-   {
-    "team": "LA",
-    "player": "Puka Nacua",
-    "slot": "WR",
-    "next_up": "Tutu Atwell",
-    "next_up_rank": 2,
-    "still_first": true,
-    "note": "",
-    "next_up_snaps": 87,
-    "next_up_games": 4,
-    "next_up_last_share": 0.35
-   },
-   {
-    "team": "LA",
-    "player": "Byron Young",
-    "slot": "WLB",
-    "next_up": "Josaiah Stewart",
-    "next_up_rank": 2,
-    "still_first": true,
-    "note": "",
-    "next_up_snaps": 313,
-    "next_up_games": 7,
-    "next_up_last_share": 0.69
    },
    {
     "team": "LA",
@@ -1021,15 +1135,15 @@
    },
    {
     "team": "LA",
-    "player": "Aaron Donald",
-    "slot": "RDE",
-    "next_up": "Tyler Davis",
-    "next_up_rank": 2,
-    "still_first": true,
+    "player": "Colby Parkinson",
+    "slot": "TE",
+    "next_up": "Tyler Higbee",
+    "next_up_rank": 1,
+    "still_first": false,
     "note": "",
-    "next_up_snaps": 174,
+    "next_up_snaps": 300,
     "next_up_games": 7,
-    "next_up_last_share": 0.41
+    "next_up_last_share": 0.74
    },
    {
     "team": "LA",
@@ -1069,18 +1183,6 @@
    },
    {
     "team": "LAC",
-    "player": "Daiyan Henley",
-    "slot": "LILB",
-    "next_up": "Marlowe Wax",
-    "next_up_rank": 2,
-    "still_first": true,
-    "note": "",
-    "next_up_snaps": 11,
-    "next_up_games": 3,
-    "next_up_last_share": 0.1
-   },
-   {
-    "team": "LAC",
     "player": "Joe Alt",
     "slot": "RT",
     "next_up": "Alex Harkey",
@@ -1090,6 +1192,18 @@
     "next_up_snaps": 135,
     "next_up_games": 2,
     "next_up_last_share": 1.0
+   },
+   {
+    "team": "LAC",
+    "player": "Khalil Mack",
+    "slot": "SLB",
+    "next_up": "Akheem Mesidor",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 204,
+    "next_up_games": 6,
+    "next_up_last_share": 0.62
    },
    {
     "team": "LAC",
@@ -1152,6 +1266,90 @@
     "next_up_last_share": 0.04
    },
    {
+    "team": "LV",
+    "player": "Brock Bowers",
+    "slot": "TE",
+    "next_up": "Michael Mayer",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 390,
+    "next_up_games": 7,
+    "next_up_last_share": 0.82
+   },
+   {
+    "team": "LV",
+    "player": "Kwity Paye",
+    "slot": "SLB",
+    "next_up": "Patrick Johnson",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 32,
+    "next_up_games": 6,
+    "next_up_last_share": 0.11
+   },
+   {
+    "team": "MIA",
+    "player": "Michael Taaffe",
+    "slot": "SS",
+    "next_up": "Dante Trader Jr.",
+    "next_up_rank": 1,
+    "still_first": false,
+    "note": "",
+    "next_up_snaps": 287,
+    "next_up_games": 6,
+    "next_up_last_share": 0.78
+   },
+   {
+    "team": "MIA",
+    "player": "Malik Washington",
+    "slot": "WR",
+    "next_up": "Kevin Coleman Jr.",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 160,
+    "next_up_games": 6,
+    "next_up_last_share": 0.15
+   },
+   {
+    "team": "MIA",
+    "player": "Dante Trader",
+    "slot": "SS",
+    "next_up": "Michael Taaffe",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 346,
+    "next_up_games": 6,
+    "next_up_last_share": 1.0
+   },
+   {
+    "team": "MIA",
+    "player": "Julius Brents",
+    "slot": "RCB",
+    "next_up": "Marcellas Dial Jr.",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 0,
+    "next_up_games": 0,
+    "next_up_last_share": 0.0
+   },
+   {
+    "team": "MIA",
+    "player": "Greg Dulcich",
+    "slot": "TE",
+    "next_up": "Will Kacmarek",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 150,
+    "next_up_games": 6,
+    "next_up_last_share": 0.45
+   },
+   {
     "team": "MIA",
     "player": "De'Von Achane",
     "slot": "RB",
@@ -1189,6 +1387,18 @@
    },
    {
     "team": "MIN",
+    "player": "Aaron Jones",
+    "slot": "RB",
+    "next_up": "Jordan Mason",
+    "next_up_rank": 1,
+    "still_first": false,
+    "note": "",
+    "next_up_snaps": 67,
+    "next_up_games": 2,
+    "next_up_last_share": 0.64
+   },
+   {
+    "team": "MIN",
     "player": "Josh Oliver",
     "slot": "TE",
     "next_up": "T.J. Hockenson",
@@ -1198,66 +1408,6 @@
     "next_up_snaps": 241,
     "next_up_games": 6,
     "next_up_last_share": 0.76
-   },
-   {
-    "team": "MIN",
-    "player": "Jordan Mason",
-    "slot": "RB",
-    "next_up": "Aaron Jones Sr.",
-    "next_up_rank": 2,
-    "still_first": true,
-    "note": "",
-    "next_up_snaps": 253,
-    "next_up_games": 6,
-    "next_up_last_share": 0.25
-   },
-   {
-    "team": "MIN",
-    "player": "Harrison Smith",
-    "slot": "FS",
-    "next_up": "Theo Jackson",
-    "next_up_rank": 2,
-    "still_first": true,
-    "note": "",
-    "next_up_snaps": 227,
-    "next_up_games": 6,
-    "next_up_last_share": 0.59
-   },
-   {
-    "team": "NE",
-    "player": "Christian Gonzalez",
-    "slot": "RCB",
-    "next_up": "Channing Canada",
-    "next_up_rank": 2,
-    "still_first": true,
-    "note": "",
-    "next_up_snaps": 5,
-    "next_up_games": 2,
-    "next_up_last_share": 0.05
-   },
-   {
-    "team": "NE",
-    "player": "Christian Elliss",
-    "slot": "LILB",
-    "next_up": "Darius Muasau",
-    "next_up_rank": 2,
-    "still_first": true,
-    "note": "",
-    "next_up_snaps": 31,
-    "next_up_games": 5,
-    "next_up_last_share": 0.01
-   },
-   {
-    "team": "NE",
-    "player": "Kevin Byard",
-    "slot": "FS",
-    "next_up": "Mike Brown",
-    "next_up_rank": 2,
-    "still_first": true,
-    "note": "",
-    "next_up_snaps": 38,
-    "next_up_games": 3,
-    "next_up_last_share": 0.06
    },
    {
     "team": "NE",
@@ -1273,18 +1423,6 @@
    },
    {
     "team": "NE",
-    "player": "Craig Woodson",
-    "slot": "SS",
-    "next_up": "Jaylen Reed",
-    "next_up_rank": 2,
-    "still_first": true,
-    "note": "",
-    "next_up_snaps": 116,
-    "next_up_games": 5,
-    "next_up_last_share": 0.07
-   },
-   {
-    "team": "NE",
     "player": "Alijah Vera-Tucker",
     "slot": "LG",
     "next_up": "Walter Rouse",
@@ -1294,6 +1432,18 @@
     "next_up_snaps": 109,
     "next_up_games": 3,
     "next_up_last_share": 1.0
+   },
+   {
+    "team": "NE",
+    "player": "A.J. Brown",
+    "slot": "WR",
+    "next_up": "Kyle Williams",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 137,
+    "next_up_games": 7,
+    "next_up_last_share": 0.39
    },
    {
     "team": "NE",
@@ -1477,6 +1627,18 @@
    },
    {
     "team": "NYJ",
+    "player": "Demario Davis",
+    "slot": "WLB",
+    "next_up": "Marcelino McCrary-Ball",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 5,
+    "next_up_games": 1,
+    "next_up_last_share": 0.0
+   },
+   {
+    "team": "NYJ",
     "player": "Dylan Parham",
     "slot": "LG",
     "next_up": "Jordan Meredith",
@@ -1489,6 +1651,30 @@
    },
    {
     "team": "NYJ",
+    "player": "David Bailey",
+    "slot": "LDE",
+    "next_up": "Joseph Ossai",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 107,
+    "next_up_games": 3,
+    "next_up_last_share": 0.32
+   },
+   {
+    "team": "NYJ",
+    "player": "Braelon Allen",
+    "slot": "RB",
+    "next_up": "Breece Hall",
+    "next_up_rank": 1,
+    "still_first": false,
+    "note": "",
+    "next_up_snaps": 119,
+    "next_up_games": 3,
+    "next_up_last_share": 0.48
+   },
+   {
+    "team": "NYJ",
     "player": "Jarvis Brownlee",
     "slot": "NB",
     "next_up": "D'Angelo Ponds",
@@ -1498,6 +1684,18 @@
     "next_up_snaps": 63,
     "next_up_games": 5,
     "next_up_last_share": 0.46
+   },
+   {
+    "team": "NYJ",
+    "player": "Harrison Phillips",
+    "slot": "RDT",
+    "next_up": "Jowon Briggs",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 251,
+    "next_up_games": 7,
+    "next_up_last_share": 0.74
    },
    {
     "team": "NYJ",
@@ -1573,6 +1771,18 @@
    },
    {
     "team": "PHI",
+    "player": "Jihaad Campbell",
+    "slot": "RILB",
+    "next_up": "Jeremiah Trotter Jr.",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 142,
+    "next_up_games": 4,
+    "next_up_last_share": 0.35
+   },
+   {
+    "team": "PHI",
     "player": "Dontayvion Wicks",
     "slot": "WR",
     "next_up": "Hollywood Brown",
@@ -1582,6 +1792,18 @@
     "next_up_snaps": 53,
     "next_up_games": 2,
     "next_up_last_share": 0.55
+   },
+   {
+    "team": "PHI",
+    "player": "Dameon Pierce",
+    "slot": "RB",
+    "next_up": "Saquon Barkley",
+    "next_up_rank": 1,
+    "still_first": false,
+    "note": "",
+    "next_up_snaps": 101,
+    "next_up_games": 5,
+    "next_up_last_share": 0.15
    },
    {
     "team": "PHI",
@@ -1608,6 +1830,30 @@
     "next_up_last_share": 0.71
    },
    {
+    "team": "PHI",
+    "player": "Moro Ojomo",
+    "slot": "RDE",
+    "next_up": "Ty Robinson",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 43,
+    "next_up_games": 6,
+    "next_up_last_share": 0.07
+   },
+   {
+    "team": "PIT",
+    "player": "Jalen Ramsey",
+    "slot": "NB",
+    "next_up": "Brandin Echols",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 20,
+    "next_up_games": 5,
+    "next_up_last_share": 0.04
+   },
+   {
     "team": "PIT",
     "player": "Michael Pittman Jr.",
     "slot": "WR",
@@ -1618,6 +1864,54 @@
     "next_up_snaps": 291,
     "next_up_games": 7,
     "next_up_last_share": 0.91
+   },
+   {
+    "team": "PIT",
+    "player": "T.J. Watt",
+    "slot": "WLB",
+    "next_up": "Nick Herbig",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 236,
+    "next_up_games": 7,
+    "next_up_last_share": 0.56
+   },
+   {
+    "team": "PIT",
+    "player": "Alex Highsmith",
+    "slot": "SLB",
+    "next_up": "Jack Sawyer",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 124,
+    "next_up_games": 7,
+    "next_up_last_share": 0.3
+   },
+   {
+    "team": "PIT",
+    "player": "Darnell Washington",
+    "slot": "TE",
+    "next_up": "Pat Freiermuth",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 318,
+    "next_up_games": 7,
+    "next_up_last_share": 0.53
+   },
+   {
+    "team": "PIT",
+    "player": "Cameron Heyward",
+    "slot": "RDE",
+    "next_up": "Kevin Jobity Jr.",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 5,
+    "next_up_games": 1,
+    "next_up_last_share": 0.09
    },
    {
     "team": "SEA",
@@ -1774,15 +2068,15 @@
    },
    {
     "team": "TB",
-    "player": "Baker Mayfield",
-    "slot": "QB",
-    "next_up": "Jalon Daniels",
+    "player": "Josiah Trotter",
+    "slot": "RILB",
+    "next_up": "SirVocea Dennis",
     "next_up_rank": 2,
     "still_first": true,
     "note": "",
-    "next_up_snaps": 219,
+    "next_up_snaps": 54,
     "next_up_games": 5,
-    "next_up_last_share": 0.1
+    "next_up_last_share": 0.12
    },
    {
     "team": "TB",
@@ -1797,16 +2091,16 @@
     "next_up_last_share": 0.65
    },
    {
-    "team": "TEN",
-    "player": "Kevin Winston",
-    "slot": "FS",
-    "next_up": "Tony Adams",
+    "team": "TB",
+    "player": "YaYa Diaby",
+    "slot": "SLB",
+    "next_up": "David Walker",
     "next_up_rank": 2,
     "still_first": true,
     "note": "",
-    "next_up_snaps": 176,
+    "next_up_snaps": 129,
     "next_up_games": 6,
-    "next_up_last_share": 0.13
+    "next_up_last_share": 0.54
    },
    {
     "team": "TEN",
@@ -1819,6 +2113,18 @@
     "next_up_snaps": 153,
     "next_up_games": 2,
     "next_up_last_share": 1.0
+   },
+   {
+    "team": "TEN",
+    "player": "Carnell Tate",
+    "slot": "WR",
+    "next_up": "Calvin Ridley",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 178,
+    "next_up_games": 6,
+    "next_up_last_share": 0.61
    },
    {
     "team": "TEN",
@@ -1845,28 +2151,16 @@
     "next_up_last_share": 0.89
    },
    {
-    "team": "WAS",
-    "player": "Nick Cross",
-    "slot": "SS",
-    "next_up": "Tyler Owens",
+    "team": "TEN",
+    "player": "John Franklin-Myers",
+    "slot": "LDE",
+    "next_up": "Keldric Faulk",
     "next_up_rank": 2,
     "still_first": true,
     "note": "",
-    "next_up_snaps": 0,
-    "next_up_games": 0,
-    "next_up_last_share": 0.0
-   },
-   {
-    "team": "WAS",
-    "player": "Jeremy Reaves",
-    "slot": "FS",
-    "next_up": "Percy Butler",
-    "next_up_rank": 2,
-    "still_first": true,
-    "note": "",
-    "next_up_snaps": 32,
-    "next_up_games": 2,
-    "next_up_last_share": 0.0
+    "next_up_snaps": 153,
+    "next_up_games": 7,
+    "next_up_last_share": 0.26
    },
    {
     "team": "WAS",
@@ -1896,49 +2190,25 @@
     "team": "WAS",
     "player": "Terry McLaurin",
     "slot": "WR",
-    "next_up": "Treylon Burks",
+    "next_up": "Stefon Diggs",
     "next_up_rank": 1,
     "still_first": false,
     "note": "",
-    "next_up_snaps": 166,
+    "next_up_snaps": 204,
     "next_up_games": 5,
-    "next_up_last_share": 0.55
-   },
-   {
-    "team": "WAS",
-    "player": "Marcus Mariota",
-    "slot": "QB",
-    "next_up": "Jayden Daniels",
-    "next_up_rank": 1,
-    "still_first": false,
-    "note": "",
-    "next_up_snaps": 238,
-    "next_up_games": 4,
-    "next_up_last_share": 1.0
-   },
-   {
-    "team": "WAS",
-    "player": "Rachaad White",
-    "slot": "RB",
-    "next_up": "Austin Ekeler",
-    "next_up_rank": 2,
-    "still_first": true,
-    "note": "",
-    "next_up_snaps": 30,
-    "next_up_games": 3,
-    "next_up_last_share": 0.1
+    "next_up_last_share": 0.61
    },
    {
     "team": "WAS",
     "player": "Treylon Burks",
     "slot": "WR",
-    "next_up": "Terry McLaurin",
+    "next_up": "Van Jefferson",
     "next_up_rank": 2,
     "still_first": true,
     "note": "",
-    "next_up_snaps": 206,
-    "next_up_games": 5,
-    "next_up_last_share": 0.1
+    "next_up_snaps": 3,
+    "next_up_games": 1,
+    "next_up_last_share": 0.05
    }
   ],
   "checks": {
@@ -1967,8 +2237,12 @@
     "qb_last": "Tyler Huntley",
     "qb_match": false,
     "last_week": 7,
-    "ol_new": [],
-    "ol_dropped": []
+    "ol_new": [
+     "RG Olaivavega Ioane"
+    ],
+    "ol_dropped": [
+     "Emery Jones"
+    ]
    },
    "BUF": {
     "qb_listed": "Josh Allen",

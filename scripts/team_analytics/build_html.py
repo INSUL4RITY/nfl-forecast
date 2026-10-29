@@ -11,6 +11,7 @@ import argparse
 import html
 import json
 import math
+import re
 from pathlib import Path
 
 import numpy as np
@@ -1372,12 +1373,12 @@ def main():
             "trv": TRV, "pen_types": pen_types_js, "cats": cats, "D": D, "E": E, "F": F, "dis": dis, "notes": notes, "order": order,
             "names": T.team_name.to_dict(), "depth_as_of": DP["depth"]["as_of"], "callers": {"sources": CL["sources"], "splits": CL["splits"], "checked": CL["checked"], "league": CL["league"]}}
     page = TEMPLATE.replace("/*DATA*/", json.dumps(data, default=str).replace("</", "<\\/"))
-    page = page.replace("{{METHOD}}", method_html(meta, T))
+    page = page.replace("{{METHOD}}", method_html(meta, T, A))
     (d / "report.html").write_text(page, encoding="utf-8")
     print("wrote", d / "report.html", f"{len(page) / 1e6:.2f} MB")
 
 
-def method_html(meta, T):
+def method_html(meta, T, A):
     co, cd = meta["composite_off"], meta["composite_def"]
     po, pdf = meta["prior_off"], meta["prior_def"]
     lg = meta["league"]
@@ -1386,6 +1387,22 @@ def method_html(meta, T):
                   for s in {s["url"]: s for s in meta["sources"]}.values())
     qc = "".join(f"<li>{esc(q)}</li>" for q in meta["qc"])
     w26 = T.off_w2026.mean()
+    # coverage notes follow the data, so a refresh never leaves a stale caveat
+    ftn_qc = next((q for q in meta["qc"] if q.startswith("FTN charting")), "")
+    ftn_missing = re.search(r"missing: ([^)]*)\)", ftn_qc)
+    ftn_missing = ftn_missing.group(1) if ftn_missing else "unknown"
+    if ftn_missing == "none":
+        ftn_note = "<li><b>FTN charting</b> covers every game in the window.</li>"
+    else:
+        ftn_note = (f"<li><b>FTN charting</b> is missing {esc(ftn_missing)}, so blitz and expected-INT figures for those teams "
+                    f"have fewer games.</li>")
+    nxt = meta["through_week"] + 1
+    n_nxt = A.loc[A.last_report_week == nxt, "team"].nunique()
+    if n_nxt:
+        inj_note = (f"<li><b>Week {nxt} injury reports</b>: {n_nxt} teams with a listed absence or practice concern already have a week {nxt} report. "
+                    f"Other statuses come from each team's latest report and the week {nxt} roster list; game statuses before the final report are practice participation only.</li>")
+    else:
+        inj_note = (f"<li><b>Week {nxt} injury reports</b> are not out yet. Statuses come from each team's latest report and the week {nxt} roster list.</li>")
     return f"""
 <p>Window: {meta['season']} regular season, weeks 1-{meta['through_week']} ({meta['games']} games, {meta['plays']:,} scrimmage plays,
 {meta['drives']:,} drives). Generated {esc(meta['generated_utc'])}. Historical seasons {meta['history_seasons'][0]}-{meta['history_seasons'][-1]}
@@ -1476,9 +1493,9 @@ Status comes from each team's latest weekly roster (reserve list) and latest inj
 <li><b>DVOA</b>: FTN's proprietary metric. It is not in nflverse and is not used or shown in this report. The closest computed analogues here are opponent-adjusted EPA and success rate. They are not DVOA.</li>
 <li><b>Coverage (man/zone), time to pressure, pressure by play</b>: not in free data. PFR pressures are game-level, so pressure-when-blitzing uses the hit-or-sack proxy.</li>
 <li><b>Pressure coverage</b>: PFR advanced stats are available for {T.off_pfr_games.sum()/2:.0f} of {meta['games']} games; pressure rates use only those games.</li>
-<li><b>FTN charting</b> is missing one game (week 7 DAL at PHI), so blitz and expected-INT figures for those two teams have one fewer game.</li>
+{ftn_note}
 <li><b>Participation data</b> (players on field per play) is not published for 2026, so personnel groupings and on/off splits are not possible. Availability uses snap counts, weekly rosters and injury reports.</li>
-<li><b>Week 8 injury reports</b> are not out yet. Statuses come from each team's latest report (week 7, or week 6 after a bye) and the week 8 roster list.</li>
+{inj_note}
 <li><b>Timeout use</b> is not scored: there is no defensible free benchmark. <b>Bye effects</b> rest on one game per team.</li>
 <li><b>Blitz</b>: FTN's blitz is five or more rushers, so "blitz" and "5+ rushers" are the same split here.</li></ul>
 <h3>Quality checks</h3><ul>{qc}</ul>

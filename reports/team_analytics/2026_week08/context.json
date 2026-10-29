@@ -1,8 +1,8 @@
 {
  "fatigue": {
   "play_epa": {
-   "coef": 0.0003963468134356909,
-   "se": 0.004366574142869414,
+   "coef": 0.0003964213191915712,
+   "se": 0.004366571472365956,
    "n": 188768
   },
   "play_success": {
@@ -11,20 +11,20 @@
    "n": 188768
   },
   "drive_quick": {
-   "coef": 0.0004309860438683122,
-   "se": 0.0078954978371701,
+   "coef": 0.00043094715976812537,
+   "se": 0.007895497032008326,
    "n": 29988,
    "share": 0.33159930638922236
   },
   "drive_rest_under8": {
-   "coef": -0.006800297527308815,
+   "coef": -0.0068002975273088176,
    "se": 0.013874876175128061,
    "n": 13726,
    "share": 0.23313419787265044
   },
   "game_prev_plays": {
-   "coef": 0.0043120439727397705,
-   "se": 0.003855176958108879,
+   "coef": 0.004312101048121395,
+   "se": 0.0038551765837067536,
    "n": 2740
   },
   "by_quarter": [
@@ -42,7 +42,7 @@
    },
    {
     "qtr": 3,
-    "epa_all": 0.00114316462640195,
+    "epa_all": 0.0011432984961693327,
     "epa_close": 0.005282422628064679,
     "n": 43081
    },
@@ -313,7 +313,7 @@
       7
      ],
      "epa_db": 0.013992649479660857,
-     "adj_epa_db": 0.05544240271577572,
+     "adj_epa_db": 0.055444124762223435,
      "sack_rate": 0.04672897196261682,
      "int_worthy": 0.025,
      "epa_vs_blitz": -0.14429812213595034,
@@ -347,7 +347,7 @@
       7
      ],
      "epa_db": 0.18906667323717086,
-     "adj_epa_db": 0.1908769243450117,
+     "adj_epa_db": 0.1908766988086989,
      "sack_rate": 0.05454545454545454,
      "int_worthy": 0.02097902097902098,
      "epa_vs_blitz": 0.10912207287954052,
@@ -371,7 +371,7 @@
       2
      ],
      "epa_db": -0.6900138359882244,
-     "adj_epa_db": -0.6876572267986742,
+     "adj_epa_db": -0.6876577534264084,
      "sack_rate": 0.10204081632653061,
      "int_worthy": 0.1282051282051282,
      "epa_vs_blitz": -0.33922609340251336,
@@ -405,7 +405,7 @@
       7
      ],
      "epa_db": 0.03954479450232217,
-     "adj_epa_db": 0.10770742823430901,
+     "adj_epa_db": 0.10770873297271547,
      "sack_rate": 0.07751937984496124,
      "int_worthy": 0.03773584905660377,
      "epa_vs_blitz": 0.4224836438495971,
@@ -431,7 +431,7 @@
       4
      ],
      "epa_db": 0.3482953525856475,
-     "adj_epa_db": 0.24978784707964252,
+     "adj_epa_db": 0.24978752652792333,
      "sack_rate": 0.05737704918032787,
      "int_worthy": 0.031914893617021274,
      "epa_vs_blitz": 0.22132082875298403,
@@ -440,9 +440,9 @@
      "team_epa_play_in_starts": 0.16046675802169222,
      "team_plays_in_starts": 247,
      "roster_status": "ACT",
-     "report_status": "Out",
-     "practice_status": "Limited Participation in Practice",
-     "report_week": 7,
+     "report_status": null,
+     "practice_status": "Full Participation in Practice",
+     "report_week": 8,
      "latest_starter": false
     }
    ],
@@ -450,7 +450,7 @@
    "primary": "00-0034796",
    "flags": [
     "Season figures mix quarterbacks.",
-    "Lamar Jackson (4 starts, the most on the team) was listed Out in the week 7 report (limited participation in practice). If he returns, the passing profile could differ from the recent games."
+    "Lamar Jackson (4 starts, the most on the team) practice status in the week 8 report: full participation in practice. If he returns, the passing profile could differ from the recent games."
    ]
   },
   "BUF": {
@@ -469,7 +469,7 @@
       6
      ],
      "epa_db": 0.337593697690799,
-     "adj_epa_db": 0.3592789023426712,
+     "adj_epa_db": 0.3592796911897147,
      "sack_rate": 0.05454545454545454,
      "int_worthy": 0.04093567251461988,
      "epa_vs_blitz": 0.36648538598088337,
@@ -504,7 +504,7 @@
       7
      ],
      "epa_db": 0.09291316132066546,
-     "adj_epa_db": 0.1254930686551498,
+     "adj_epa_db": 0.12549391524490136,
      "sack_rate": 0.0648854961832061,
      "int_worthy": 0.01762114537444934,
      "epa_vs_blitz": -0.06052885364155075,
@@ -515,7 +515,7 @@
      "roster_status": "ACT",
      "report_status": null,
      "practice_status": "Full Participation in Practice",
-     "report_week": 7,
+     "report_week": 8,
      "latest_starter": true
     }
    ],
@@ -537,7 +537,7 @@
       7
      ],
      "epa_db": 0.2932099100652582,
-     "adj_epa_db": 0.41120838036309526,
+     "adj_epa_db": 0.4112093670234884,
      "sack_rate": 0.07453416149068323,
      "int_worthy": 0.008064516129032258,
      "epa_vs_blitz": 0.20335612784888366,
@@ -561,7 +561,7 @@
       5
      ],
      "epa_db": 0.01263935758866566,
-     "adj_epa_db": 0.058457187116855436,
+     "adj_epa_db": 0.05845732998608793,
      "sack_rate": 0.05333333333333334,
      "int_worthy": 0.06349206349206349,
      "epa_vs_blitz": -0.06964565379409275,
@@ -584,7 +584,7 @@
       3
      ],
      "epa_db": -0.04416319936638331,
-     "adj_epa_db": -0.039118558260030245,
+     "adj_epa_db": -0.03911862674382094,
      "sack_rate": 0.03333333333333333,
      "int_worthy": 0.018867924528301886,
      "epa_vs_blitz": 0.9885638648053058,
@@ -621,7 +621,7 @@
       7
      ],
      "epa_db": 0.20635869398991616,
-     "adj_epa_db": 0.21172272970749312,
+     "adj_epa_db": 0.21172282933910644,
      "sack_rate": 0.04065040650406504,
      "int_worthy": 0.0136986301369863,
      "epa_vs_blitz": 0.09185408497611351,
@@ -657,7 +657,7 @@
       7
      ],
      "epa_db": 0.04075251989718894,
-     "adj_epa_db": 0.034753212608587616,
+     "adj_epa_db": 0.03475271636703698,
      "sack_rate": 0.09057971014492754,
      "int_worthy": 0.02857142857142857,
      "epa_vs_blitz": -0.06859454450928001,
@@ -693,10 +693,10 @@
       7
      ],
      "epa_db": 0.20289994197310093,
-     "adj_epa_db": 0.2236451469020989,
+     "adj_epa_db": 0.22364200966175865,
      "sack_rate": 0.022292993630573247,
-     "int_worthy": 0.024390243902439025,
-     "epa_vs_blitz": -0.002874994380284289,
+     "int_worthy": 0.02564102564102564,
+     "epa_vs_blitz": 0.009100287606369384,
      "epa_hit_sack": -0.6120426042875845,
      "scr_rate": 0.041401273885350316,
      "team_epa_play_in_starts": 0.14213269981908447,
@@ -729,7 +729,7 @@
       7
      ],
      "epa_db": -0.004334016458202552,
-     "adj_epa_db": 0.003803212763025362,
+     "adj_epa_db": 0.0038048780954767544,
      "sack_rate": 0.03557312252964427,
      "int_worthy": 0.03669724770642202,
      "epa_vs_blitz": -0.1577135886981717,
@@ -764,7 +764,7 @@
       7
      ],
      "epa_db": 0.30906720662693254,
-     "adj_epa_db": 0.24553650099174218,
+     "adj_epa_db": 0.24553696395297075,
      "sack_rate": 0.048582995951417005,
      "int_worthy": 0.013452914798206279,
      "epa_vs_blitz": 0.3712634926862697,
@@ -800,18 +800,18 @@
       7
      ],
      "epa_db": 0.13307750781877403,
-     "adj_epa_db": 0.16333292992688717,
+     "adj_epa_db": 0.16333372691206074,
      "sack_rate": 0.04560260586319218,
      "int_worthy": 0.03690036900369004,
      "epa_vs_blitz": -0.10293168068692121,
-     "epa_hit_sack": -0.326460067009935,
+     "epa_hit_sack": -0.25285284739724506,
      "scr_rate": 0.013029315960912053,
      "team_epa_play_in_starts": -0.001009459850323697,
      "team_plays_in_starts": 449,
      "roster_status": "ACT",
      "report_status": null,
-     "practice_status": "Full Participation in Practice",
-     "report_week": 7,
+     "practice_status": null,
+     "report_week": null,
      "latest_starter": true
     }
    ],
@@ -836,13 +836,13 @@
       7
      ],
      "epa_db": 0.14754368108539823,
-     "adj_epa_db": 0.08456076276938898,
+     "adj_epa_db": 0.08456086507306335,
      "sack_rate": 0.05172413793103448,
      "int_worthy": 0.012345679012345678,
      "epa_vs_blitz": 0.368983490798679,
      "epa_hit_sack": -1.279921584879113,
      "scr_rate": 0.03103448275862069,
-     "team_epa_play_in_starts": 0.0308066174782244,
+     "team_epa_play_in_starts": 0.030806617478224392,
      "team_plays_in_starts": 452,
      "roster_status": "ACT",
      "report_status": null,
@@ -872,7 +872,7 @@
       7
      ],
      "epa_db": -0.13009145714958048,
-     "adj_epa_db": -0.14742135523686864,
+     "adj_epa_db": -0.14742511192158209,
      "sack_rate": 0.0695970695970696,
      "int_worthy": 0.06276150627615062,
      "epa_vs_blitz": -0.08895293126922914,
@@ -907,7 +907,7 @@
       6
      ],
      "epa_db": 0.22666436688417776,
-     "adj_epa_db": 0.27602469323610923,
+     "adj_epa_db": 0.2760250817772963,
      "sack_rate": 0.04672897196261682,
      "int_worthy": 0.03278688524590164,
      "epa_vs_blitz": 0.11847432094617387,
@@ -942,7 +942,7 @@
       7
      ],
      "epa_db": 0.12264228504052095,
-     "adj_epa_db": 0.15241597072201743,
+     "adj_epa_db": 0.15241831193580546,
      "sack_rate": 0.03139013452914798,
      "int_worthy": 0.02617801047120419,
      "epa_vs_blitz": 0.2208233213894578,
@@ -953,7 +953,7 @@
      "roster_status": "ACT",
      "report_status": null,
      "practice_status": "Full Participation in Practice",
-     "report_week": 7,
+     "report_week": 8,
      "latest_starter": true
     }
    ],
@@ -978,7 +978,7 @@
       7
      ],
      "epa_db": 0.11542203451610915,
-     "adj_epa_db": 0.06361118616855799,
+     "adj_epa_db": 0.06361253036497247,
      "sack_rate": 0.03571428571428571,
      "int_worthy": 0.04363636363636364,
      "epa_vs_blitz": -0.0319903882272534,
@@ -1013,7 +1013,7 @@
       6
      ],
      "epa_db": -0.1898382054410406,
-     "adj_epa_db": -0.22961368958900952,
+     "adj_epa_db": -0.2296115892583358,
      "sack_rate": 0.08823529411764706,
      "int_worthy": 0.061452513966480445,
      "epa_vs_blitz": -0.25791617965945857,
@@ -1049,7 +1049,7 @@
       7
      ],
      "epa_db": 0.16809606352835443,
-     "adj_epa_db": 0.1497620665153857,
+     "adj_epa_db": 0.14976340105698147,
      "sack_rate": 0.03460207612456748,
      "int_worthy": 0.027559055118110236,
      "epa_vs_blitz": 0.11703890301499618,
@@ -1084,7 +1084,7 @@
       7
      ],
      "epa_db": -0.00542823517684075,
-     "adj_epa_db": 0.0039052584623043545,
+     "adj_epa_db": 0.0039057505415446003,
      "sack_rate": 0.08,
      "int_worthy": 0.03333333333333333,
      "epa_vs_blitz": -0.036973943984626785,
@@ -1095,7 +1095,7 @@
      "roster_status": "ACT",
      "report_status": null,
      "practice_status": "Full Participation in Practice",
-     "report_week": 7,
+     "report_week": 8,
      "latest_starter": true
     }
    ],
@@ -1117,7 +1117,7 @@
       7
      ],
      "epa_db": -0.09459948212303397,
-     "adj_epa_db": -0.11335702342511364,
+     "adj_epa_db": -0.11335571503005745,
      "sack_rate": 0.07317073170731707,
      "int_worthy": 0.024193548387096774,
      "epa_vs_blitz": -0.3748474739499705,
@@ -1141,7 +1141,7 @@
       2
      ],
      "epa_db": 0.18341130205276537,
-     "adj_epa_db": 0.2506002628796835,
+     "adj_epa_db": 0.25060017807122303,
      "sack_rate": 0.11764705882352941,
      "int_worthy": 0.02564102564102564,
      "epa_vs_blitz": 0.3325363552467304,
@@ -1179,7 +1179,7 @@
       7
      ],
      "epa_db": 0.22133075651626363,
-     "adj_epa_db": 0.210347349756873,
+     "adj_epa_db": 0.21034849521705418,
      "sack_rate": 0.04868913857677903,
      "int_worthy": 0.04225352112676056,
      "epa_vs_blitz": 0.2518116828592249,
@@ -1190,7 +1190,7 @@
      "roster_status": "ACT",
      "report_status": null,
      "practice_status": "Full Participation in Practice",
-     "report_week": 7,
+     "report_week": 8,
      "latest_starter": true
     }
    ],
@@ -1215,7 +1215,7 @@
       7
      ],
      "epa_db": 0.04094689813066369,
-     "adj_epa_db": 0.0476079045218456,
+     "adj_epa_db": 0.04760875015243522,
      "sack_rate": 0.04807692307692308,
      "int_worthy": 0.03308823529411765,
      "epa_vs_blitz": -0.037741325164304874,
@@ -1249,7 +1249,7 @@
       6
      ],
      "epa_db": -0.020134003478083057,
-     "adj_epa_db": -0.09994785980061262,
+     "adj_epa_db": -0.09995463699722223,
      "sack_rate": 0.0797872340425532,
      "int_worthy": 0.0379746835443038,
      "epa_vs_blitz": -0.10933839248262042,
@@ -1272,7 +1272,7 @@
       7
      ],
      "epa_db": 0.2998346536724295,
-     "adj_epa_db": 0.2882331722483452,
+     "adj_epa_db": 0.28823122279865093,
      "sack_rate": 0.07547169811320754,
      "int_worthy": 0.06818181818181818,
      "epa_vs_blitz": -0.16068805481190793,
@@ -1295,7 +1295,7 @@
       1
      ],
      "epa_db": 0.5499140019566863,
-     "adj_epa_db": 0.360203931432862,
+     "adj_epa_db": 0.36020386296668194,
      "sack_rate": 0.05263157894736842,
      "int_worthy": 0.029411764705882353,
      "epa_vs_blitz": -0.11271719751433314,
@@ -1333,7 +1333,7 @@
       7
      ],
      "epa_db": 0.11891556401570426,
-     "adj_epa_db": 0.10389889815154517,
+     "adj_epa_db": 0.10389953903680131,
      "sack_rate": 0.08433734939759036,
      "int_worthy": 0.024271844660194174,
      "epa_vs_blitz": 0.0969679370326518,
@@ -1367,7 +1367,7 @@
       5
      ],
      "epa_db": -0.017152716148960474,
-     "adj_epa_db": -0.03195072634527908,
+     "adj_epa_db": -0.031954620656051216,
      "sack_rate": 0.06914893617021277,
      "int_worthy": 0.025974025974025976,
      "epa_vs_blitz": -0.17983867111793103,
@@ -1391,10 +1391,10 @@
       7
      ],
      "epa_db": -0.07221732393916502,
-     "adj_epa_db": -0.17522020183442544,
+     "adj_epa_db": -0.1752207481596469,
      "sack_rate": 0.054945054945054944,
-     "int_worthy": 0.0,
-     "epa_vs_blitz": -0.4493894921094914,
+     "int_worthy": 0.0125,
+     "epa_vs_blitz": -0.2720173232261844,
      "epa_hit_sack": -0.763910091867169,
      "scr_rate": 0.01098901098901099,
      "team_epa_play_in_starts": -0.03017631798284128,
@@ -1430,7 +1430,7 @@
       7
      ],
      "epa_db": -0.05418029607516545,
-     "adj_epa_db": 0.02185770653432715,
+     "adj_epa_db": 0.021858519423653765,
      "sack_rate": 0.07142857142857142,
      "int_worthy": 0.019230769230769232,
      "epa_vs_blitz": -0.22947454463867392,
@@ -1464,7 +1464,7 @@
       7
      ],
      "epa_db": 0.00303109687629765,
-     "adj_epa_db": 0.031116906513748325,
+     "adj_epa_db": 0.03111250272497558,
      "sack_rate": 0.06965174129353234,
      "int_worthy": 0.045714285714285714,
      "epa_vs_blitz": 0.0567597568720506,
@@ -1488,7 +1488,7 @@
       2
      ],
      "epa_db": 0.4614129868464785,
-     "adj_epa_db": 0.3821362835958665,
+     "adj_epa_db": 0.3821380452175991,
      "sack_rate": 0.037037037037037035,
      "int_worthy": 0.020833333333333332,
      "epa_vs_blitz": 0.4961655285593884,
@@ -1525,14 +1525,14 @@
       6,
       7
      ],
-     "epa_db": 0.27137936107049476,
-     "adj_epa_db": 0.2882693650364437,
+     "epa_db": 0.2714034917962213,
+     "adj_epa_db": 0.2882932676105109,
      "sack_rate": 0.029288702928870293,
      "int_worthy": 0.028708133971291867,
-     "epa_vs_blitz": 0.2466607946042235,
-     "epa_hit_sack": -0.14169155897346672,
+     "epa_vs_blitz": 0.2467408952076769,
+     "epa_hit_sack": -0.1414697419177496,
      "scr_rate": 0.06694560669456066,
-     "team_epa_play_in_starts": 0.1537665229697017,
+     "team_epa_play_in_starts": 0.1537804535094327,
      "team_plays_in_starts": 414,
      "roster_status": "ACT",
      "report_status": null,
@@ -1559,7 +1559,7 @@
       7
      ],
      "epa_db": -0.18589414508427482,
-     "adj_epa_db": -0.05650050194391901,
+     "adj_epa_db": -0.05650027166148333,
      "sack_rate": 0.09219858156028368,
      "int_worthy": 0.018691588785046728,
      "epa_vs_blitz": -0.17769212873512155,
@@ -1568,9 +1568,9 @@
      "team_epa_play_in_starts": -0.09957051803066384,
      "team_plays_in_starts": 251,
      "roster_status": "ACT",
-     "report_status": "Questionable",
+     "report_status": null,
      "practice_status": "Full Participation in Practice",
-     "report_week": 7,
+     "report_week": 8,
      "latest_starter": true
     },
     {
@@ -1584,7 +1584,7 @@
       6
      ],
      "epa_db": -0.06879418720967506,
-     "adj_epa_db": -0.09614627562774823,
+     "adj_epa_db": -0.09614673011352073,
      "sack_rate": 0.06923076923076923,
      "int_worthy": 0.061224489795918366,
      "epa_vs_blitz": -0.10619373577455293,
@@ -1602,8 +1602,7 @@
    "latest": "00-0034855",
    "primary": "00-0034855",
    "flags": [
-    "Season figures mix quarterbacks.",
-    "Latest starter Baker Mayfield was listed Questionable in the week 7 report (full participation in practice)."
+    "Season figures mix quarterbacks."
    ]
   },
   "TEN": {
@@ -1623,7 +1622,7 @@
       7
      ],
      "epa_db": -0.12329320783520788,
-     "adj_epa_db": -0.14051106683764109,
+     "adj_epa_db": -0.14051129802876827,
      "sack_rate": 0.044534412955465584,
      "int_worthy": 0.02403846153846154,
      "epa_vs_blitz": -0.005696481326594949,
@@ -1656,7 +1655,7 @@
       6
      ],
      "epa_db": 0.13655728557017996,
-     "adj_epa_db": 0.06848011451080725,
+     "adj_epa_db": 0.06848015028190806,
      "sack_rate": 0.06622516556291391,
      "int_worthy": 0.0,
      "epa_vs_blitz": 0.0065243126028867015,
@@ -1667,7 +1666,7 @@
      "roster_status": "ACT",
      "report_status": null,
      "practice_status": "Full Participation in Practice",
-     "report_week": 6,
+     "report_week": 8,
      "latest_starter": true
     },
     {
@@ -1679,7 +1678,7 @@
       3
      ],
      "epa_db": 0.1267086122808034,
-     "adj_epa_db": 0.13337156533513295,
+     "adj_epa_db": 0.13337415761852855,
      "sack_rate": 0.047619047619047616,
      "int_worthy": 0.0196078431372549,
      "epa_vs_blitz": -0.34593094410904446,
@@ -1688,9 +1687,9 @@
      "team_epa_play_in_starts": -0.02351834499721529,
      "team_plays_in_starts": 67,
      "roster_status": "ACT",
-     "report_status": "Out",
-     "practice_status": "Did Not Participate In Practice",
-     "report_week": 6,
+     "report_status": null,
+     "practice_status": "Full Participation in Practice",
+     "report_week": 8,
      "latest_starter": false
     },
     {
@@ -1702,7 +1701,7 @@
       4
      ],
      "epa_db": -0.25354623414564115,
-     "adj_epa_db": -0.2857914622293143,
+     "adj_epa_db": -0.28579047778839944,
      "sack_rate": 0.02564102564102564,
      "int_worthy": 0.030303030303030304,
      "epa_vs_blitz": -1.0195827188768558,
