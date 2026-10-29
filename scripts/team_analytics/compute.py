@@ -323,6 +323,8 @@ def unit_table(p: pd.DataFrame, side: str) -> pd.DataFrame:
     t["ypa"] = t.pass_yds / t.attempts
     sack_yds = p[p.sackp].groupby(key).yards_gained.sum()
     t["nya"] = (t.pass_yds + sack_yds.reindex(t.index).fillna(0)) / (t.attempts + t.sacks)
+    t["sack_yds_lost"] = -sack_yds.reindex(t.index).fillna(0)       # offence: yards lost to sacks; defence: yards gained
+    t["sack_yds_per_sack"] = t.sack_yds_lost / t.sacks
     t["scr_rate"] = t.scrambles / t.dropbacks
     t["air_per_cmp"] = t.cmp_air / t.cmp_n                       # completed air yards (can be negative behind the line)
     t["yac_per_cmp"] = t.cmp_yac / t.cmp_n
@@ -753,6 +755,7 @@ def main():
         T[f"{side}_oop_rate"] = pf[pf.db & pf.is_qb_out_of_pocket.notna()].groupby(key).is_qb_out_of_pocket.mean()
     T["def_d3_sack_rate"] = p[p.d3_db].groupby("defteam").sackp.mean()
     T["off_drop_rate"] = (pf[pf.att & (pf.is_catchable_ball == True)].groupby("posteam").is_drop.mean())
+    T["off_drops_ftn"] = pf[pf.att & (pf.is_drop == True)].groupby("posteam").size().reindex(teams).fillna(0)
     pfr = fetch(f"pfr_advstats/advstats_week_pass_{S}.parquet")
     pfr = pfr[(pfr.week <= W) & (pfr.game_type == "REG")]
     tg = pfr.groupby(["game_id", "team"]).agg(pressured=("times_pressured", "sum"), blitzed=("times_blitzed", "sum"),
@@ -793,6 +796,7 @@ def main():
     T["rec_pfr_games"] = g.game_id.nunique()
     T["rec_brk_tkl_pg"] = g.receiving_broken_tackles.sum() / g.game_id.nunique()
     T["rec_drops_pg"] = g.receiving_drop.sum() / g.game_id.nunique()
+    T["rec_drops"] = g.receiving_drop.sum()
     g = prc.groupby("opponent")
     T["def_rec_brk_tkl_allowed_pg"] = g.receiving_broken_tackles.sum() / g.game_id.nunique()
     qc.append(f"PFR advanced receiving: {prc.game_id.nunique()} of {n_games_sched} games available; "

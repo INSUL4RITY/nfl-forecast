@@ -160,6 +160,8 @@ def apply_win_rates(T: pd.DataFrame, meta: dict):
 # --------------------------------------------------------------------------------------- derived data
 def derive(T: pd.DataFrame, G: pd.DataFrame, meta: dict):
     T = T.copy()
+    for side in ("off", "def"):
+        T[f"{side}_sack_yds_pg"] = T[f"{side}_sack_yds_lost"] / T.games
     for side in ("off", "def"):                     # explosive scrambles = all explosives - 20+ passes - 10+ designed runs
         T[f"{side}_n_expl_scr"] = T[f"{side}_n_explosive"] - T[f"{side}_n_expl_pass"] - T[f"{side}_n_expl_run"]
         T[f"{side}_expl_pass_share"] = T[f"{side}_n_expl_pass"] / T[f"{side}_n_explosive"]
@@ -938,6 +940,8 @@ def main():
         C("off_pass_fd", "1st downs/db", "pct", 1), C("off_expl_pass_rate", "20+ yd rate", "pct", 1), C("off_n_expl_pass", "20+ yd passes", "int", 1),
         C("off_int_rate", "INT rate", "pct", -1), C("int_worthy_rate", "INT-worthy rate", "pct", -1, "FTN charting: throws charted as interception-worthy"),
         C("off_sack_rate", "Sack rate", "pct", -1), C("off_pressure_rate", "Pressure allowed", "pct", -1, "PFR pressures / dropbacks, games with PFR data"),
+        C("off_sacks", "Sacks taken", "int", -1), C("off_sack_yds_lost", "Sack yards lost", "int", -1),
+        C("off_sack_yds_pg", "Sack yards lost/game", "n1", -1), C("off_sack_yds_per_sack", "Yards lost per sack", "n1", -1),
         C("off_pressure_to_sack", "Sacks/pressure", "pct", -1), C("time_to_throw", "Time to throw (s)", "n2", 0, "Next Gen Stats, attempt-weighted"),
         C("off_epa_db_clean", "EPA, no hit/sack", "epa", 1), C("off_epa_db_hit", "EPA, hit or sacked", "epa", 1),
         C("off_early_db_epa", "Early-down EPA/db", "epa", 1), C("off_d3_db_epa", "3rd-down EPA/db", "epa", 1), C("off_rz_db_epa", "Red-zone EPA/db", "epa", 1),
@@ -946,7 +950,8 @@ def main():
         C("off_yac_per_cmp", "YAC/completion", "n1", 1),
         C("off_air_share", "Share of yards in the air", "pct", 0, "Completed air yards / (air yards + YAC): low = a YAC-driven passing game"),
         C("rec_brk_tkl_pg", "Broken tackles after catch/game", "n2", 1, "PFR receiving broken tackles per game with PFR data"),
-        C("rec_drops_pg", "Drops/game (PFR)", "n2", -1),
+        C("off_drops_ftn", "Drops (FTN)", "int", -1, "FTN-charted drops; the drop rate uses the same charting"),
+        C("rec_drops", "Drops (PFR)", "int", -1), C("rec_drops_pg", "Drops/game (PFR)", "n2", -1, "PFR and FTN chart drops separately and can differ"),
         C("off_pa_rate", "Play-action rate", "pct", 0), C("off_epa_pa", "EPA on play action", "epa", 1), C("off_epa_oop", "EPA out of pocket", "epa", 1),
         C("off_deep_epa", "EPA, 20+ air yd", "epa", 1), C("cov", "Man/zone splits", "str", 0, "Not available in free data"),
     ], "off_adj_epa_db"))
@@ -965,6 +970,8 @@ def main():
         C("def_expl_pass_rate", "20+ yd rate", "pct", -1), C("def_n_expl_pass", "20+ yd allowed", "int", -1),
         C("def_pass_td", "Pass TD allowed", "int", -1), C("int_made", "INTs", "int", 1), C("def_int_worthy_rate", "INT-worthy throws forced", "pct", 1),
         C("def_sack_rate", "Sack rate", "pct", 1), C("def_pressure_rate", "Pressure rate", "pct", 1),
+        C("def_sacks", "Sacks", "int", 1), C("def_sack_yds_lost", "Sack yards gained", "int", 1, "Yards opponents lost to this defence's sacks"),
+        C("def_sack_yds_pg", "Sack yards gained/game", "n1", 1), C("def_sack_yds_per_sack", "Yards per sack", "n1", 1),
         C("def_deep_att", "Deep att. faced", "int", 0), C("def_deep_epa", "EPA allowed, 20+ air yd", "epa", -1), C("def_deep_comp", "Deep comp. allowed", "pct", -1),
         C("def_air_per_cmp", "Air yds/completion allowed", "n1", 0), C("def_yac_per_cmp", "YAC/completion allowed", "n1", -1),
         C("def_air_share", "Share allowed in the air", "pct", 0, "Low = a defence that gives up its yards after the catch (tackling, zone underneath)"),
