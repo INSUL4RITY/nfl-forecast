@@ -315,6 +315,15 @@ market lines, QB availability, injury display, weather display). A changed artif
   head-to-head `inj` (paired errors on games that have it). ingest now refreshes 2026 snap_counts (inputs to this line).
   Pre-season evidence: football-only + injuries 2022-24 margin RMSE 12.717 -> 12.686 (CI spans zero). Judge after the season.
 
+- Roster moves (2026-10-29, user: trades/cuts should factor in; Colts trades, Rams kicker Mevis -> McManus): display
+  only, `predict/roster_moves.py` + `item.roster_moves` + web/components/RosterMoves.tsx on game pages. nflverse trades
+  file is NOT updated in season (last trade 2026-04-17), so moves come from weekly rosters (byes missing; pfr ids often
+  null -> match snap counts by gsis via the players table): departures (>= 20% of a unit's snaps before this week, no
+  longer active: now with X / released / reserve list / practice squad), arrivals, kicker/punter changes. Not a model
+  input this season (frozen line; v2.2 clean test began week 8). 2027 candidates: roster-change share by unit (departures
+  minus arrivals, snap-weighted), kicker rating (FG accuracy vs expected by distance, follows the kicker), IR players
+  (missing from the weekly injury report).
+
 - Top records + v2 record (2026-10-28, user): week pages show the official Model pick record (as published, note that
   weeks 3-6 used the market-adjusted line) and "Model line, all weeks" (36-34-4 at the time, Big 9-4, Biggest 0-3); the
   market-adjusted cell moved off the strip (still on Performance). v2 trial record removed from Performance (HeadToHead

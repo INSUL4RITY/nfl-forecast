@@ -166,6 +166,12 @@ export default function Methodology() {
           one side ranks at least 8 places better, play style in neutral situations, and a game log naming each game&apos;s starting
           quarterback (marked when it was not this week&apos;s expected starter). Definitions follow the standard nflverse play-by-play
           conventions and are listed under the section. It replaces the earlier &quot;How they rate&quot; percentile chart.</p>
+        <p className="small"><b>Roster moves, 29 October 2026</b> (display only). Game pages list each team&apos;s roster moves this
+          season from nflverse weekly rosters and snap counts: players who took at least 20% of a unit&apos;s snaps and are no
+          longer on the active roster (traded, released, reserve list), arrivals from other teams, and kicker or punter changes.
+          Neither model line includes them (both rate teams from their games; quarterback changes are handled separately), so
+          they show where the lines may be working from an out-of-date roster. A roster-change input is on the list for 2027,
+          to be tested on unseen seasons first.</p>
         <p className="small"><b>Records at the top of each week, 28 October 2026.</b> The first row is the official model pick as
           published: weeks 3–6 followed the market-adjusted line (the rule then) and are not regraded; from week 7 it follows
           the model line. The second row is the model line&apos;s own record at every lock since week 3, with the Big and

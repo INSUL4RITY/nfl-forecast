@@ -169,6 +169,8 @@ export interface WeekGame {
   staff?: { away: StaffSide | null; home: StaffSide | null };
   result_grade?: ResultGrade | null;
   matchup?: Matchup | null;
+  /** Roster moves this season as of the game's week (display only; predict/roster_moves.py). */
+  roster_moves?: RosterMoves | null;
   /** Season-to-date matchup detail as of kickoff (display only; predict/matchup.py). */
   matchup_detail?: MatchupDetail | null;
   stats_only_grade?: { spread: "win" | "loss" | "push" | null; big_gap: boolean; biggest_gap?: boolean; market_adjusted?: "win" | "loss" | "push" | null; injury_adjusted?: "win" | "loss" | "push" | null; v2_trial?: "win" | "loss" | "push" | null; total: "win" | "loss" | "push" | null;
@@ -332,3 +334,10 @@ export interface MatchupDetail {
   units?: { away_offence: MatchupUnitRow[]; home_offence: MatchupUnitRow[] };
   log?: { home: MatchupLogRow[]; away: MatchupLogRow[] };
 }
+
+export interface RosterTeamMoves {
+  departures: { player: string; pos: string | null; move: string; last_active_week: number | null; share: number; unit: string; games: number }[];
+  arrivals: { player: string; pos: string | null; from: string; since_week: number; share_with_old_team: number }[];
+  specialists: { pos: string; now: string; since_week: number; before: { player: string; weeks: [number, number] }[] }[];
+}
+export interface RosterMoves { away: RosterTeamMoves; home: RosterTeamMoves }

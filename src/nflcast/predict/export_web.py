@@ -31,6 +31,7 @@ from nflcast.features.personnel import QBModel
 from nflcast.predict import archive as ARCH
 from nflcast.predict import linemove as LM
 from nflcast.predict import matchup as MU
+from nflcast.predict import roster_moves as RM
 from nflcast.predict import picks as PK
 from nflcast.predict import publication as PUB
 from nflcast.predict.validation import entry_is_valid, select_frozen
@@ -369,6 +370,11 @@ def export() -> Path:
                                       pl.read_parquet(PROCESSED_DIR / "qb_games.parquet"), names)
     except Exception as e:  # noqa: BLE001 - a display extra never blocks the export
         print(f"[export] matchup detail skipped: {type(e).__name__}: {e}")
+    rm_tables = None                       # roster moves (display only): current season's weekly rosters + snap counts
+    try:
+        rm_tables = RM.prepare(S.fetch("rosters_weekly", cur), S.fetch("snap_counts", cur), S.fetch("players"), cur)
+    except Exception as e:  # noqa: BLE001 - a display extra never blocks the export
+        print(f"[export] roster moves skipped: {type(e).__name__}: {e}")
     record = {"weeks": [], "straight_up": {"win": 0, "loss": 0, "tie": 0}, "spread": {"win": 0, "loss": 0, "push": 0}}
     wlp = lambda: {"win": 0, "loss": 0, "push": 0}
     record["stats_only"] = {"weeks": [], "spread": wlp(), "big_gap": wlp(), "biggest_gap": wlp(), "total": wlp(),
@@ -417,6 +423,12 @@ def export() -> Path:
                     item["matchup_detail"] = MU.game_detail(mu_tg, g, mu_starters, exp)
                 except Exception as e:  # noqa: BLE001 - display only
                     print(f"[export] matchup detail for {g['game_id']} skipped: {type(e).__name__}: {e}")
+            item["roster_moves"] = None
+            if rm_tables is not None and season == cur and (view["forecast"] or g["status"] == "final"):
+                try:
+                    item["roster_moves"] = RM.game_moves(rm_tables, g)
+                except Exception as e:  # noqa: BLE001 - display only
+                    print(f"[export] roster moves for {g['game_id']} skipped: {type(e).__name__}: {e}")
             items.append(item)
         rel = [r for r in releases if r["season"] == season and r["week"] == week]
         doc = {"season": season, "week": week,

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import LocalTime from "@/components/LocalTime";
 import InjuryReportTable from "@/components/InjuryReportTable";
+import RosterMoves from "@/components/RosterMoves";
 import CoachingStaff from "@/components/CoachingStaff";
 import MarginBreakdown from "@/components/MarginBreakdown";
 import MatchupDetail from "@/components/MatchupDetail";
@@ -360,6 +361,8 @@ export default async function GamePage({ params }: { params: Promise<{ id: strin
               </details>
             )}
           </div>
+
+          {g.roster_moves && <RosterMoves m={g.roster_moves} away={A} home={H} />}
 
           <div className="two-col">
             <div className="panel">
