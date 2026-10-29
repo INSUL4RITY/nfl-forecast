@@ -858,11 +858,11 @@ function renderGame(id) {
       for (const r of grp.rows) {
         const hasExp = r.exp !== undefined;
         h += `<tr><td>${esc(r.lab)}</td><td>${esc(fmt(r.o, r.f))}${rk(r.o_rank)}</td><td>${esc(fmt(r.d, r.f))}${rk(r.d_rank)}</td>
-          <td>${hasExp ? `<b>${esc(fmt(r.exp, r.f))}</b>` : `<span class="muted">raw context</span>`}</td><td>${hasExp ? esc(fmt(r.lg, r.f)) : ""}</td>
+          <td>${hasExp ? `<b>${esc(fmt(r.exp, r.f))}</b>` : `<span class="muted">Season figures only (no estimate)</span>`}</td><td>${hasExp ? esc(fmt(r.lg, r.f)) : ""}</td>
           <td>${hasExp ? leanPill(r.lean) : ""}</td><td class="${hasExp ? "conf-" + r.conf.replace(/ /g, "-") : ""}" title="${hasExp ? `Weight kept: offence ${r.wo.toFixed(2)} (n=${r.no}), defence ${r.wd.toFixed(2)} (n=${r.nd})` : ""}">${hasExp ? esc(r.conf) : ""}</td></tr>`;
       }
     }
-    h += `</tbody></table></div><p class="tnote">Ranks are among 32 teams, 1 = best unit for that measure (for a defence, 1 = allows the least). Raw rows depend on pace and game script and are not adjusted. Hover a confidence cell to see the share of each team's own effect that was kept and its sample size.</p>`;
+    h += `</tbody></table></div><p class="tnote">Ranks are among 32 teams, 1 = best unit for that measure (for a defence, 1 = allows the least). Rows marked “Season figures only (no estimate)” show each team's season number and rank without a matchup model: per-game totals depend on pace and game script, and some measures (ESPN win rates, PFR counts) are not play-by-play, so they are context to weigh, not adjusted estimates. Hover a confidence cell to see the share of each team's own effect that was kept and its sample size.</p>`;
   }
   h += `<h3>Special teams</h3><div class="table-wrap"><table class="mt"><thead><tr><th>Measure</th><th>${A}</th><th>${H}</th></tr></thead><tbody>${g.st.map(r =>
     `<tr><td>${esc(r.lab)}</td><td>${esc(fmt(r.a, r.f))}${rk(r.a_rank)}</td><td>${esc(fmt(r.h, r.f))}${rk(r.h_rank)}</td></tr>`).join("")}</tbody></table></div>
