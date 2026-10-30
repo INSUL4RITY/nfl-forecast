@@ -1,5 +1,5 @@
 {
- "n_scored": 132,
+ "n_scored": 133,
  "by_horizon": [
   {
    "horizon_type": "early",
@@ -16,19 +16,19 @@
   },
   {
    "horizon_type": "final_pregame",
-   "n": 75,
-   "margin_mae": 8.550822758568588,
-   "total_mae": 10.380902381235146,
-   "market_margin_mae": 8.52,
-   "market_total_mae": 10.4,
-   "football_margin_mae": 8.767604456969778,
-   "winner_acc": 0.5945945945945946,
-   "log_loss": 0.7412394630664879,
-   "cover_m80": 0.84,
-   "cover_t80": 0.84
+   "n": 76,
+   "margin_mae": 8.496639963266965,
+   "total_mae": 10.264528069970579,
+   "market_margin_mae": 8.467105263157896,
+   "market_total_mae": 10.276315789473685,
+   "football_margin_mae": 8.688053739572334,
+   "winner_acc": 0.6,
+   "log_loss": 0.7379391910756825,
+   "cover_m80": 0.8421052631578947,
+   "cover_t80": 0.8421052631578947
   }
  ],
- "n_publicly_verifiable": 131,
+ "n_publicly_verifiable": 132,
  "by_horizon_publicly_verifiable": [
   {
    "horizon_type": "early",
@@ -45,16 +45,16 @@
   },
   {
    "horizon_type": "final_pregame",
-   "n": 74,
-   "margin_mae": 8.319260192728658,
-   "total_mae": 10.441468687510643,
-   "market_margin_mae": 8.29054054054054,
-   "market_total_mae": 10.452702702702704,
-   "football_margin_mae": 8.505884730616682,
-   "winner_acc": 0.6027397260273972,
-   "log_loss": 0.736918515295273,
-   "cover_m80": 0.8513513513513513,
-   "cover_t80": 0.8378378378378378
+   "n": 75,
+   "margin_mae": 8.26744246103421,
+   "total_mae": 10.322735168012208,
+   "market_margin_mae": 8.24,
+   "market_total_mae": 10.326666666666666,
+   "football_margin_mae": 8.428762933338646,
+   "winner_acc": 0.6081081081081081,
+   "log_loss": 0.7336318523148729,
+   "cover_m80": 0.8533333333333334,
+   "cover_t80": 0.84
   }
  ],
  "verification_counts": [
@@ -64,7 +64,7 @@
   },
   {
    "verification": "publicly_verifiable_pregame",
-   "len": 131
+   "len": 132
   }
  ]
 }
