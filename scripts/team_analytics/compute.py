@@ -39,6 +39,7 @@ import context as ctx  # noqa: E402
 import callers  # noqa: E402
 import garbage  # noqa: E402
 import depth  # noqa: E402
+import players  # noqa: E402
 
 BASE = "https://github.com/nflverse/nflverse-data/releases/download/"
 CACHE = ROOT / "data" / "cache" / "team_analytics"
@@ -693,7 +694,8 @@ def main():
     ftn = ftn[ftn.week <= W]
     pf = p.merge(ftn[["nflverse_game_id", "nflverse_play_id", "is_interception_worthy", "n_blitzers", "n_pass_rushers",
                       "is_play_action", "is_screen_pass", "is_qb_out_of_pocket", "is_drop", "is_catchable_ball",
-                      "is_throw_away"]],
+                      "is_throw_away", "n_defense_box", "is_motion", "is_rpo", "is_no_huddle", "is_contested_ball",
+                      "is_created_reception", "is_qb_fault_sack"]],
                  left_on=["game_id", "play_id"], right_on=["nflverse_game_id", "nflverse_play_id"], how="left")
     att = pf[pf.att & pf.is_interception_worthy.notna()]
     p_w = att[att.is_interception_worthy == True].int_.mean()
@@ -756,6 +758,35 @@ def main():
     T["def_d3_sack_rate"] = p[p.d3_db].groupby("defteam").sackp.mean()
     T["off_drop_rate"] = (pf[pf.att & (pf.is_catchable_ball == True)].groupby("posteam").is_drop.mean())
     T["off_drops_ftn"] = pf[pf.att & (pf.is_drop == True)].groupby("posteam").size().reindex(teams).fillna(0)
+    # FTN box counts on designed rushes (0 = not charted), pre-snap style, contested targets, QB-fault sacks
+    rb = pf[pf.drush & (pf.n_defense_box > 0)].copy()
+    rb["box7p"] = rb.n_defense_box >= 7
+    sc_f = pf[pf.sc & pf.is_motion.notna()]
+    tg_f = pf[pf.att & pf.is_contested_ball.notna()]
+    sk_f = pf[pf.sackp & pf.is_qb_fault_sack.notna()]
+    for side, key in [("off", "posteam"), ("def", "defteam")]:
+        g = rb.groupby(key)
+        T[f"{side}_box_avg"] = g.n_defense_box.mean()
+        T[f"{side}_box8_rate"] = (rb.n_defense_box >= 8).groupby(rb[key]).mean()
+        T[f"{side}_box7p_rate"] = g.box7p.mean()
+        T[f"{side}_epa_rush_box7p"] = rb[rb.box7p].groupby(key).epa.mean()
+        T[f"{side}_epa_rush_box6m"] = rb[~rb.box7p].groupby(key).epa.mean()
+        T[f"{side}_n_rush_box7p"] = rb[rb.box7p].groupby(key).size().reindex(teams).fillna(0)
+        T[f"{side}_n_rush_box6m"] = rb[~rb.box7p].groupby(key).size().reindex(teams).fillna(0)
+        T[f"{side}_motion_rate"] = sc_f.groupby(key).is_motion.mean().astype(float)
+        T[f"{side}_epa_motion"] = sc_f[sc_f.is_motion == True].groupby(key).epa.mean()
+        T[f"{side}_epa_nomotion"] = sc_f[sc_f.is_motion == False].groupby(key).epa.mean()
+        T[f"{side}_rpo_rate"] = sc_f.groupby(key).is_rpo.mean().astype(float)
+        T[f"{side}_epa_rpo"] = sc_f[sc_f.is_rpo == True].groupby(key).epa.mean()
+        T[f"{side}_nohuddle_rate"] = sc_f.groupby(key).is_no_huddle.mean().astype(float)
+        T[f"{side}_contested_rate"] = tg_f.groupby(key).is_contested_ball.mean().astype(float)
+        T[f"{side}_contested_cmp"] = tg_f[tg_f.is_contested_ball == True].groupby(key).complete_pass.mean()
+        T[f"{side}_created_rec"] = tg_f.groupby(key).is_created_reception.sum().reindex(teams).fillna(0)
+        T[f"{side}_qb_fault_sacks"] = sk_f.groupby(key).is_qb_fault_sack.sum().reindex(teams).fillna(0)
+        T[f"{side}_qb_fault_sack_share"] = sk_f.groupby(key).is_qb_fault_sack.mean().astype(float)
+    qc.append(f"FTN box counts: {len(rb):,} charted designed rushes; {rb.box7p.mean():.1%} faced 7 or more in the box, "
+              f"{(rb.n_defense_box >= 8).mean():.1%} 8 or more. QB-fault sacks: {int(sk_f.is_qb_fault_sack.sum())} of "
+              f"{len(sk_f)} charted sacks.")
     pfr = fetch(f"pfr_advstats/advstats_week_pass_{S}.parquet")
     pfr = pfr[(pfr.week <= W) & (pfr.game_type == "REG")]
     tg = pfr.groupby(["game_id", "team"]).agg(pressured=("times_pressured", "sum"), blitzed=("times_blitzed", "sum"),
@@ -908,6 +939,8 @@ def main():
     (out_dir / "garbage.json").write_text(json.dumps(garbage.build(p), indent=1), encoding="utf-8")
     # depth charts (next man up, starter checks) and Next Gen receiving
     (out_dir / "depth.json").write_text(json.dumps(depth.build(S, W, absences, fetch), indent=1, default=str), encoding="utf-8")
+    # individual pass rushers and coverage defenders (PFR advanced defence)
+    (out_dir / "players.json").write_text(json.dumps(players.build(S, W, absences, fetch), indent=1, default=str), encoding="utf-8")
 
     # ---- output
     T.index.name = "team"
@@ -1290,6 +1323,9 @@ def qb_table(p, pf, adj, S, W, pfr):
     q["blitzed_rate"] = (ch.n_blitzers > 0).groupby(ch.passer_id).mean()
     q["yacoe"] = d[d.comp].groupby("passer_id").yacoe.mean()
     q["drop_rate"] = a[a.is_catchable_ball == True].groupby("passer_id").is_drop.mean()
+    sk = d[d.sackp & d.is_qb_fault_sack.notna()]
+    q["qb_fault_sacks"] = sk.groupby("passer_id").is_qb_fault_sack.sum().reindex(q.index).fillna(0)
+    q["qb_fault_sack_share"] = sk.groupby("passer_id").is_qb_fault_sack.mean().astype(float)
     gm = d.groupby(["passer_id", "game_id"]).epa.agg(["mean", "size"])
     gm = gm[gm["size"] >= 15]
     q["game_sd"] = gm.groupby("passer_id")["mean"].std()

@@ -135,6 +135,7 @@ td.conf-moderate { color: var(--ink); }
 td.conf-low { color: var(--ink-2); }
 td.conf-very-low, td.conf-no-signal-yet { color: var(--muted); font-style: italic; }
 .muted { color: var(--muted); }
+.neg { color: var(--bad); }
 details.srcs { margin: 4px 0 14px; font-size: 0.86rem; }
 details.srcs summary { cursor: pointer; color: var(--ink-2); }
 .srclist { list-style: none; padding-left: 0; }
@@ -309,6 +310,10 @@ footer { color: var(--muted); font-size: 0.82rem; border-top: 1px solid var(--ru
   <div class="callout"><b>Three different things.</b> Blitz rate is how often a defence sends five or more rushers (FTN charting). Pressure rate is how often the quarterback is hurried, hit or sacked (PFR, game totals). Sack rate is sacks per dropback. A defence can blitz a lot without pressure, or create pressure with four and keep seven in coverage.</div>
   <div data-table="press_def"></div>
   <div data-table="press_off"></div>
+  <h3>Individual pass rushers and coverage defenders</h3>
+  <p class="lead">Who makes each defence's pressure and who gets targeted in coverage (PFR, games through the report's cut-off). A team whose pressure comes from one or two players loses much more when one of them is out than its team pressure rate suggests.</p>
+  <div class="controls"><label for="pl-team">Defence</label><select id="pl-team"></select></div>
+  <div id="pl-tables"></div>
   <div id="dis-press"></div>
 </section>
 
@@ -337,6 +342,7 @@ footer { color: var(--muted); font-size: 0.82rem; border-top: 1px solid var(--ru
   <div data-table="coach_gm"></div>
   <p class="tnote">The fourth-down reference compares each decision with historical average outcomes (2021-25), not with a win-probability model.</p>
   <div data-table="coach_off"></div>
+  <div data-table="presnap"></div>
   <div data-table="coach_def"></div>
   <div data-table="coach_st"></div>
   <div id="caller-splits"></div>
@@ -634,6 +640,7 @@ const QCOLS = [
   {k: "fd_td_rate", l: "1st down/TD rate", f: "pct", d: 1}, {k: "epa_early", l: "Early-down EPA", f: "epa", d: 1}, {k: "epa_d3", l: "3rd-down EPA", f: "epa", d: 1},
   {k: "epa_rz", l: "Red-zone EPA", f: "epa", d: 1}, {k: "game_sd", l: "Game-to-game SD", f: "n2", d: -1},
   {k: "time_to_throw", l: "Time to throw", f: "n2", d: 0}, {k: "yacoe", l: "Receivers' YAC over exp.", f: "n2", d: 0}, {k: "drop_rate", l: "Drop rate", f: "pct", d: 0},
+  {k: "qb_fault_sacks", l: "Sacks on the QB (FTN)", f: "int", d: -1}, {k: "qb_fault_sack_share", l: "Share of his sacks on him", f: "pct", d: 0},
   {k: "team_pressure_allowed", l: "Team pressure allowed", f: "pct", d: 0}, {k: "team_db_share", l: "Share of team dropbacks", f: "pct", d: 0},
 ];
 let qbAll = false;
@@ -685,6 +692,27 @@ profSel.value = DATA.order[0]; absSel.value = DATA.order[0];
 let saved = null; try { saved = localStorage.getItem("w8-team"); } catch (e) {}
 if (saved && BY[saved]) { profSel.value = saved; absSel.value = saved; }
 drawProfile(); drawAbs();
+
+// individual pass rushers and coverage defenders
+const plSel = document.getElementById("pl-team");
+plSel.innerHTML = DATA.order.map(t => `<option value="${t}">${t} · ${esc(NAME[t])}</option>`).join("");
+function plStatus(s) { return s ? `<span class="${/^out/.test(s) ? "neg" : "muted"}">${esc(s)}</span>` : ""; }
+function drawPlayers() {
+  const t = plSel.value, r = DATA.players[t];
+  if (!r) { document.getElementById("pl-tables").innerHTML = `<p class="meta">No PFR defensive data for ${t}.</p>`; return; }
+  const rush = r.rush.map(p => `<tr><td style="text-align:left">${esc(p.name)}</td><td>${esc(p.pos)}</td><td>${p.games}</td><td>${p.snaps}</td><td>${p.pressures}</td><td>${fmt(p.share, "pct")}</td><td>${fmt(p.per100, "n1")}</td><td>${p.hurries}</td><td>${p.hits}</td><td>${fmt(p.sacks, "n1")}</td><td>${p.blitzes}</td><td>${plStatus(p.status)}</td></tr>`).join("");
+  const cov = r.cov.map(p => `<tr><td style="text-align:left">${esc(p.name)}</td><td>${esc(p.pos)}</td><td>${p.games}</td><td>${p.targets}</td><td>${fmt(p.share, "pct")}</td><td>${p.cmp}</td><td>${fmt(p.cmp_pct, "pct")}</td><td>${p.yds}</td><td>${fmt(p.ypt, "n1")}</td><td>${p.td}</td><td>${p.ints}</td><td>${fmt(p.rating, "n1")}</td><td>${plStatus(p.status)}</td></tr>`).join("");
+  const lg = DATA.players_league;
+  document.getElementById("pl-tables").innerHTML =
+    `<p class="meta"><b>${esc(NAME[t])}</b> · ${r.pressures} player pressures and ${r.targets} targets in ${r.pfr_games} games with PFR data · top three rushers made ${fmt(r.top3_press_share, "pct")} of the pressures` +
+    (r.press_out_share ? ` · players now out made ${fmt(r.press_out_share, "pct")}` : "") + (r.tgt_out_share ? ` · defenders now out drew ${fmt(r.tgt_out_share, "pct")} of the targets` : "") + `</p>` +
+    `<h4 class="rh">Pass rushers (most pressures)</h4><div class="table-wrap"><table><thead><tr><th>Player</th><th>Pos.</th><th>Games</th><th>Def. snaps</th><th>Pressures</th><th>Share of team</th><th>Per 100 snaps</th><th>Hurries</th><th>QB hits</th><th>Sacks</th><th>Times blitzed</th><th>Status</th></tr></thead><tbody>${rush}</tbody></table></div>` +
+    `<h4 class="rh">Coverage (most targeted as the nearest defender)</h4><div class="table-wrap"><table><thead><tr><th>Player</th><th>Pos.</th><th>Games</th><th>Targets</th><th>Share of team</th><th>Comp.</th><th>Comp. %</th><th>Yards</th><th>Yds/target</th><th>TD</th><th>INT</th><th>Rating allowed</th><th>Status</th></tr></thead><tbody>${cov}</tbody></table></div>` +
+    `<p class="tnote">Per 100 snaps uses all defensive snaps, run plays included. For reference, the ${lg.n_cov_30} defenders with 30+ targets allowed a combined passer rating of ${fmt(lg.cov_rating_30, "n1")}. Status: latest roster and injury report (section 16); blank = no listed absence or practice concern.</p>`;
+}
+plSel.addEventListener("change", drawPlayers);
+plSel.value = saved && BY[saved] ? saved : DATA.order[0];
+drawPlayers();
 document.getElementById("identity-table").innerHTML = `<div class="table-wrap"><table><thead><tr><th>Team</th><th>Record</th><th>Rating</th><th style="text-align:left">Best offensive area</th><th style="text-align:left">Best defensive area</th><th style="text-align:left">Weakest area</th><th>Balance</th></tr></thead><tbody>${DATA.order.map(t => {
   const p = DATA.profiles[t], r = BY[t];
   return `<tr><td class="tm">${t}</td><td>${r.record}</td><td>${fmt(r.rating_pg, "s1")}</td><td style="text-align:left">${esc(p.best_off)}</td><td style="text-align:left">${esc(p.best_def)}</td><td style="text-align:left">${esc(p.worst)}</td><td>${esc(r.balance || "")}</td></tr>`;
