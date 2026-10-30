@@ -348,6 +348,9 @@ MATCH_ROWS = {
         ("YAC per completion (raw)", None, "off_yac_per_cmp", "def_yac_per_cmp", "n1", 1),
         ("Broken tackles after catch per game (PFR)", None, "rec_brk_tkl_pg", "def_rec_brk_tkl_allowed_pg", "n2", 1),
         ("Contested-target rate (FTN)", None, "off_contested_rate", "def_contested_rate", "pct", -1, True),
+        ("EPA per target to wide receivers", None, "off_epa_tgt_WR", "def_epa_tgt_WR", "epa", 1),
+        ("EPA per target to tight ends", None, "off_epa_tgt_TE", "def_epa_tgt_TE", "epa", 1),
+        ("EPA per target to running backs", None, "off_epa_tgt_RB", "def_epa_tgt_RB", "epa", 1),
         ("Passing yards per game (raw)", None, "off_pass_yds_pg", "def_pass_yds_pg", "n1", 1),
     ],
     "Rushing": [
@@ -357,6 +360,8 @@ MATCH_ROWS = {
         ("10+ yard run rate", "expl_run", "off_expl_run_rate", "def_expl_run_rate", "pct", 1),
         ("Stuff rate (0 or fewer yards)", "stuff", "off_stuff_rate", "def_stuff_rate", "pct", -1),
         ("EPA per run vs 7+ in the box (FTN)", None, "off_epa_rush_box7p", "def_epa_rush_box7p", "epa", 1),
+        ("EPA per inside run", None, "off_epa_in", "def_epa_in", "epa", 1),
+        ("EPA per outside run", None, "off_epa_out", "def_epa_out", "epa", 1),
         ("Run block vs run stop win rate (ESPN)", None, "rbwr", "rswr", "pct", 1, True),
         ("Yards before contact (PFR)", None, "ybc_per_att", "def_ybc_allowed", "n2", 1),
         ("Rushing yards per game (raw)", None, "off_rush_yds_pg", "def_rush_yds_pg", "n1", 1),
@@ -1000,6 +1005,22 @@ def main():
         C("rec_targets", "Targets covered", "int", 0), C("rec_top", "Most-targeted (his separation)", "str", 0),
     ], "rec_separation", "Next Gen season rows cover qualifying receivers only, so low-volume receivers are missing. Separation rises with "
                          "short, schemed-open throws (compare intended air yards). Offence only: Next Gen does not credit defenders."))
+    tables.append(table("tgt_pos_off", "Where the targets go: WR, TE and RB", [
+        C("off_tgt_share_WR", "Target share, WRs", "pct", 0), C("off_ypt_WR", "Yds/target, WRs", "n2", 1),
+        C("off_epa_tgt_WR", "EPA/target, WRs", "epa", 1), C("off_sr_tgt_WR", "Success, WRs", "pct", 1),
+        C("off_tgt_share_TE", "Target share, TEs", "pct", 0), C("off_ypt_TE", "Yds/target, TEs", "n2", 1),
+        C("off_epa_tgt_TE", "EPA/target, TEs", "epa", 1), C("off_sr_tgt_TE", "Success, TEs", "pct", 1),
+        C("off_tgt_share_RB", "Target share, RBs", "pct", 0), C("off_ypt_RB", "Yds/target, RBs", "n2", 1),
+        C("off_epa_tgt_RB", "EPA/target, RBs", "epa", 1), C("off_sr_tgt_RB", "Success, RBs", "pct", 1),
+    ], "off_epa_tgt_TE", "Targets by the receiver's position on the weekly roster (fullbacks count as RBs). Slot vs outside receivers needs alignment data, which free sources do not have."))
+    tables.append(table("zones_off", "Where the throws go: depth and direction", [
+        C("off_zone_share_short_left", "Short left: share", "pct", 0), C("off_epa_short_left", "Short left: EPA/att", "epa", 1),
+        C("off_zone_share_short_middle", "Short middle: share", "pct", 0), C("off_epa_short_middle", "Short middle: EPA/att", "epa", 1),
+        C("off_zone_share_short_right", "Short right: share", "pct", 0), C("off_epa_short_right", "Short right: EPA/att", "epa", 1),
+        C("off_zone_share_deep_left", "Deep left: share", "pct", 0), C("off_epa_deep_left", "Deep left: EPA/att", "epa", 1),
+        C("off_zone_share_deep_middle", "Deep middle: share", "pct", 0), C("off_epa_deep_middle", "Deep middle: EPA/att", "epa", 1),
+        C("off_zone_share_deep_right", "Deep right: share", "pct", 0), C("off_epa_deep_right", "Deep right: EPA/att", "epa", 1),
+    ], "off_zone_share_deep_middle", "nflfastR throw location: deep = 15+ air yards; left, middle and right are where the ball was thrown. Shares add to 100% across the six zones; deep-zone EPA rests on few throws."))
     tables.append(table("pass_def", "Pass defence", [
         C("def_dropbacks", "Dropbacks faced", "int", 0), C("def_epa_db", "EPA/db allowed", "epa", -1), C("def_adj_epa_db", "Adj. EPA/db", "epa", -1),
         C("def_sr_db", "Success allowed", "pct", -1), C("def_cpoe", "CPOE allowed", "n1", -1), C("def_ypa", "Y/A allowed", "n2", -1),
@@ -1021,9 +1042,26 @@ def main():
         C("def_epa_pa", "EPA vs play action", "epa", -1), C("def_epa_screen", "EPA vs screens", "epa", -1),
         C("def_early_db_epa", "Early-down EPA/db", "epa", -1), C("def_d3_db_epa", "3rd-down EPA/db", "epa", -1), C("def_rz_db_epa", "Red-zone EPA/db", "epa", -1),
     ], "def_adj_epa_db", desc=False))
+    tables.append(table("tgt_pos_def", "Targets allowed by position: WR, TE and RB", [
+        C("def_tgt_share_WR", "Target share, WRs", "pct", 0), C("def_ypt_WR", "Yds/target, WRs", "n2", -1),
+        C("def_epa_tgt_WR", "EPA/target, WRs", "epa", -1), C("def_sr_tgt_WR", "Success, WRs", "pct", -1),
+        C("def_tgt_share_TE", "Target share, TEs", "pct", 0), C("def_ypt_TE", "Yds/target, TEs", "n2", -1),
+        C("def_epa_tgt_TE", "EPA/target, TEs", "epa", -1), C("def_sr_tgt_TE", "Success, TEs", "pct", -1),
+        C("def_tgt_share_RB", "Target share, RBs", "pct", 0), C("def_ypt_RB", "Yds/target, RBs", "n2", -1),
+        C("def_epa_tgt_RB", "EPA/target, RBs", "epa", -1), C("def_sr_tgt_RB", "Success, RBs", "pct", -1),
+    ], "def_epa_tgt_TE", "What each defence allows when opponents target each position. Lower is better for every allowed column.", desc=False))
+    tables.append(table("zones_def", "Throws allowed by depth and direction", [
+        C("def_zone_share_short_left", "Short left: share", "pct", 0), C("def_epa_short_left", "Short left: EPA/att", "epa", -1),
+        C("def_zone_share_short_middle", "Short middle: share", "pct", 0), C("def_epa_short_middle", "Short middle: EPA/att", "epa", -1),
+        C("def_zone_share_short_right", "Short right: share", "pct", 0), C("def_epa_short_right", "Short right: EPA/att", "epa", -1),
+        C("def_zone_share_deep_left", "Deep left: share", "pct", 0), C("def_epa_deep_left", "Deep left: EPA/att", "epa", -1),
+        C("def_zone_share_deep_middle", "Deep middle: share", "pct", 0), C("def_epa_deep_middle", "Deep middle: EPA/att", "epa", -1),
+        C("def_zone_share_deep_right", "Deep right: share", "pct", 0), C("def_epa_deep_right", "Deep right: EPA/att", "epa", -1),
+    ], "def_epa_deep_middle", "Shares show where opponents throw against this defence; EPA is allowed per attempt (lower is better).", desc=False))
     tables.append(table("rush_off", "Rushing offence", [
         C("off_rushes", "Designed rushes", "int", 0), C("off_epa_rush", "EPA/rush", "epa", 1), C("off_adj_epa_rush", "Adj. EPA/rush", "epa", 1),
-        C("off_sr_rush", "Success", "pct", 1), C("off_ypc", "Yards/carry", "n2", 1), C("off_rush_fd", "1st-down rate", "pct", 1),
+        C("off_sr_rush", "Success", "pct", 1), C("off_ypc", "Yards/carry", "n2", 1),
+        C("off_rb_ypc", "Yards/carry, non-QB runs", "n2", 1, "Designed runs by anyone but a quarterback"), C("off_rush_fd", "1st-down rate", "pct", 1),
         C("off_expl_run_rate", "10+ yd rate", "pct", 1), C("off_stuff_rate", "Stuff rate (<=0 yd)", "pct", -1),
         C("rbwr", "Run block win rate (ESPN)", "pct", 1, "ESPN Analytics run block win rate (tracking data)"),
         C("off_sy_conv", "Short-yardage conv.", "pct", 1, "3rd/4th and 2 or less, designed rushes"), C("off_sy_n", "SY att.", "int", 0),
@@ -1043,7 +1081,8 @@ def main():
     ], "off_adj_epa_rush"))
     tables.append(table("rush_def", "Run defence", [
         C("def_rushes", "Designed rushes faced", "int", 0), C("def_epa_rush", "EPA/rush allowed", "epa", -1), C("def_adj_epa_rush", "Adj. EPA/rush", "epa", -1),
-        C("def_sr_rush", "Success allowed", "pct", -1), C("def_ypc", "Yards/carry", "n2", -1), C("def_rush_fd", "1st-down rate", "pct", -1),
+        C("def_sr_rush", "Success allowed", "pct", -1), C("def_ypc", "Yards/carry", "n2", -1),
+        C("def_rb_ypc", "Yards/carry, non-QB runs", "n2", -1), C("def_rush_fd", "1st-down rate", "pct", -1),
         C("def_expl_run_rate", "10+ yd allowed", "pct", -1), C("def_stuff_rate", "Stuff rate", "pct", 1),
         C("rswr", "Run stop win rate (ESPN)", "pct", 1, "ESPN Analytics run stop win rate (tracking data)"),
         C("def_sy_conv", "Short-yardage allowed", "pct", -1), C("def_gl_td", "TD rate inside 3", "pct", -1),
@@ -1056,6 +1095,20 @@ def main():
         C("def_epa_rush_box7p", "EPA allowed, 7+ box", "epa", -1), C("def_n_rush_box7p", "Runs, 7+", "int", 0),
         C("def_epa_rush_box6m", "EPA allowed, 6 or fewer", "epa", -1), C("def_n_rush_box6m", "Runs, 6 or fewer", "int", 0),
     ], "def_adj_epa_rush", "Box counts are FTN charting on designed runs. 8+ boxes are rare (under 10% of runs), so EPA is split at 7+ vs 6 or fewer; check the run counts beside each split.", desc=False))
+    tables.append(table("run_dir_off", "Inside vs outside runs: offences", [
+        C("off_in_share", "Share inside", "pct", 0, "Designed runs between the guards (middle, or guard gap)"),
+        C("off_epa_in", "EPA/run inside", "epa", 1), C("off_sr_in", "Success inside", "pct", 1),
+        C("off_ypc_in", "Yds/carry inside", "n2", 1), C("off_n_in", "Runs inside", "int", 0),
+        C("off_epa_out", "EPA/run outside", "epa", 1), C("off_sr_out", "Success outside", "pct", 1),
+        C("off_ypc_out", "Yds/carry outside", "n2", 1), C("off_n_out", "Runs outside", "int", 0),
+    ], "off_epa_in", "Play-by-play run location: inside = middle or guard gap, outside = tackle or end. A direction split, not the blocking scheme (inside zone, outside zone, duo, power are not in free data). Designed runs only, scrambles excluded."))
+    tables.append(table("run_dir_def", "Inside vs outside runs: defences", [
+        C("def_in_share", "Share inside", "pct", 0, "Designed runs between the guards (middle, or guard gap)"),
+        C("def_epa_in", "EPA/run inside allowed", "epa", -1), C("def_sr_in", "Success inside", "pct", -1),
+        C("def_ypc_in", "Yds/carry inside", "n2", -1), C("def_n_in", "Runs inside", "int", 0),
+        C("def_epa_out", "EPA/run outside allowed", "epa", -1), C("def_sr_out", "Success outside", "pct", -1),
+        C("def_ypc_out", "Yds/carry outside", "n2", -1), C("def_n_out", "Runs outside", "int", 0),
+    ], "def_epa_in", "Lower is better for every allowed column.", desc=False))
     tables.append(table("expl_off", "Explosive offence: passes and runs", [
         C("off_expl_rate", "Explosive rate (all)", "pct", 1), C("off_n_explosive", "Explosives", "int", 1),
         C("off_n_expl_pass", "20+ yd passes", "int", 1), C("off_expl_pass_rate", "20+ yd pass rate", "pct", 1, "Per pass attempt"),
@@ -1551,6 +1604,7 @@ Status comes from each team's latest weekly roster (reserve list) and latest inj
 <ul>
 <li><b>Depth charts</b>: ESPN's daily team depth charts via nflverse, used only for the next player listed behind an absent regular and for checking the listed QB and offensive line against who played the latest game (snap counts). Teams often leave charts stale, and a few chart rows carry stale player ids, which are repaired from the weekly rosters by team and name. <b>Next Gen receiving</b>: season rows for qualifying receivers, aggregated per team weighted by targets (separation, cushion, air yards) or catches (YAC over expected).</li>
 <li><b>Individual pass rushers and coverage</b>: PFR advanced defence, one row per defender per game, summed per player and team (a traded player appears under each team). "Per 100 snaps" uses all defensive snaps, not pass rushes, so it understates pass rushers on defences that face many runs. Coverage figures are for the nearest defender on targeted throws; passer rating allowed is recomputed from the summed targets, completions, yards, TDs and INTs. Status comes from the absences in section 16. <b>FTN box counts, motion, RPO, no-huddle, contested targets and QB-fault sacks</b>: FTN play charting, matched to play-by-play.</li>
+<li><b>Run direction, targets by position and throw zones</b>: play-by-play run location (inside = middle or guard gap; outside = tackle or end), the targeted receiver's position on the weekly roster (fullbacks count as RBs), and nflfastR throw location (deep = 15+ air yards; left, middle, right). Run direction is not the blocking scheme, and position is not alignment: free data has neither run concepts nor slot vs outside receivers.</li>
 <li><b>Win rates</b> (pass block, pass rush, run block, run stop): ESPN Analytics, built from NFL Next Gen Stats tracking. They are not in nflverse, so they are copied by hand each week from ESPN's team table with its date (the win-rates file in the analytics scripts), shown for context only and not used in any rating, composite or matchup expectation. A pass block win means the line held its blocks for 2.5 seconds; a pass rush win means a rusher beat his block within 2.5 seconds.</li>
 <li><b>DVOA</b>: FTN's proprietary metric. It is not in nflverse and is not used or shown in this report. The closest computed analogues here are opponent-adjusted EPA and success rate. They are not DVOA.</li>
 <li><b>Coverage (man/zone), time to pressure, pressure by play</b>: not in free data. PFR pressures are game-level, so pressure-when-blitzing uses the hit-or-sack proxy.</li>

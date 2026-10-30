@@ -92,7 +92,7 @@ PBP_COLS = [
     "drive_time_of_possession", "drive_start_transition", "home_score", "away_score", "location", "result",
     "success", "passer_id", "passer", "rusher_id", "pass", "rush", "first_down", "xyac_mean_yardage", "pass_oe",
     "kickoff_inside_twenty", "kickoff_in_endzone", "drive_first_downs", "series", "series_success", "time_of_day",
-    "run_location", "run_gap",
+    "run_location", "run_gap", "receiver_player_id", "pass_length", "pass_location",
 ]
 
 
@@ -787,6 +787,41 @@ def main():
     qc.append(f"FTN box counts: {len(rb):,} charted designed rushes; {rb.box7p.mean():.1%} faced 7 or more in the box, "
               f"{(rb.n_defense_box >= 8).mean():.1%} 8 or more. QB-fault sacks: {int(sk_f.is_qb_fault_sack.sum())} of "
               f"{len(sk_f)} charted sacks.")
+    # run direction (play-by-play run_location / run_gap): inside = middle or guard, outside = tackle or end
+    rr = p[p.drush_live & p.run_location.notna()].copy()
+    rr["inside"] = (rr.run_location == "middle") | (rr.run_gap == "guard")
+    rbl = p[p.rb_drun & (p.play_type == "run")]
+    # targets by the receiver's roster position; throw zones from nflfastR pass_length (deep = 15+ air yards) and pass_location
+    rpos = (fetch(f"weekly_rosters/roster_weekly_{S}.parquet").dropna(subset=["gsis_id"]).sort_values("week")
+            .drop_duplicates("gsis_id", keep="last").set_index("gsis_id").position.replace({"FB": "RB"}))
+    tq = p[p.att & p.receiver_player_id.notna()].copy()
+    tq["rpos"] = tq.receiver_player_id.map(rpos).fillna("other")
+    tz = p[p.att & p.pass_length.notna() & p.pass_location.notna()].copy()
+    tz["zone"] = tz.pass_length + "_" + tz.pass_location
+    for side, key in [("off", "posteam"), ("def", "defteam")]:
+        T[f"{side}_rb_ypc"] = rbl.groupby(key).yards_gained.mean()
+        T[f"{side}_in_share"] = rr.groupby(key).inside.mean().astype(float)
+        for lab, m in (("in", rr.inside), ("out", ~rr.inside)):
+            g = rr[m].groupby(key)
+            T[f"{side}_n_{lab}"] = g.size().reindex(teams).fillna(0)
+            T[f"{side}_epa_{lab}"] = g.epa.mean()
+            T[f"{side}_sr_{lab}"] = g.success.mean()
+            T[f"{side}_ypc_{lab}"] = g.yards_gained.mean()
+        n_t = tq.groupby(key).size()
+        for pos in ("WR", "TE", "RB"):
+            g = tq[tq.rpos == pos].groupby(key)
+            T[f"{side}_tgt_share_{pos}"] = g.size().reindex(teams).fillna(0) / n_t
+            T[f"{side}_ypt_{pos}"] = g.yards_gained.mean()
+            T[f"{side}_epa_tgt_{pos}"] = g.epa.mean()
+            T[f"{side}_sr_tgt_{pos}"] = g.success.mean()
+        n_z = tz.groupby(key).size()
+        for zn in ("short_left", "short_middle", "short_right", "deep_left", "deep_middle", "deep_right"):
+            g = tz[tz.zone == zn].groupby(key)
+            T[f"{side}_zone_share_{zn}"] = g.size().reindex(teams).fillna(0) / n_z
+            T[f"{side}_epa_{zn}"] = g.epa.mean()
+    qc.append(f"Run direction: {len(rr):,} designed runs with a location ({rr.inside.mean():.1%} inside). Targets by position: "
+              f"{tq.rpos.isin(['WR', 'TE', 'RB']).mean():.1%} of {len(tq):,} targets went to a WR, TE or RB on the weekly roster (the rest: QBs, linemen or unmatched); "
+              f"{len(tz):,} attempts with a throw zone.")
     pfr = fetch(f"pfr_advstats/advstats_week_pass_{S}.parquet")
     pfr = pfr[(pfr.week <= W) & (pfr.game_type == "REG")]
     tg = pfr.groupby(["game_id", "team"]).agg(pressured=("times_pressured", "sum"), blitzed=("times_blitzed", "sum"),
