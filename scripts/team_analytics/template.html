@@ -332,6 +332,14 @@ footer { color: var(--muted); font-size: 0.82rem; border-top: 1px solid var(--ru
   <h3>Quarterback situations: where team figures mix passers</h3>
   <p class="tnote">Team passing figures elsewhere include every quarterback who played. This table splits them, so a returning starter or a backup can be judged on his own games. Status comes from the latest roster and injury report.</p>
   <div id="qb-sit"></div>
+  <h3>Offensive players: usage, game logs and rankings</h3>
+  <p class="lead">Who gets the ball for each offence: targets, carries and their share of the team's, the last three games beside the season, and each player's status. Built from the same play-by-play as rbsdm.com's box scores. A player now out who took a large share of the targets or carries matters more than his snap share suggests.</p>
+  <div class="controls"><label for="use-team">Offence</label><select id="use-team"></select></div>
+  <div id="use-tables"></div>
+  <div data-table="rank_rb"></div>
+  <div data-table="rank_wr"></div>
+  <div data-table="rank_te"></div>
+  <p class="tnote">Quarterback rankings are the table at the top of this section.</p>
 </section>
 
 <section id="schedule">
@@ -459,7 +467,7 @@ function renderTable(spec, host, rows) {
     }
     h += "</tr></thead><tbody>";
     for (const r of rs) {
-      h += `<tr><td class="tm">${esc(r.team)}${hasRec ? "" : `<small>${esc(r.record || "")}</small>`}</td>`;
+      h += `<tr><td class="tm">${esc(r.label ?? r.team)}${hasRec ? "" : `<small>${esc(r.sub ?? r.record ?? "")}</small>`}</td>`;
       for (const c of spec.cols) {
         const v = r[c.k];
         let cls = "", rk = "";
@@ -486,7 +494,7 @@ function renderTable(spec, host, rows) {
 }
 
 const tSpecs = Object.fromEntries(DATA.tables.map(t => [t.id, t]));
-document.querySelectorAll("[data-table]").forEach(el => renderTable(tSpecs[el.dataset.table], el));
+document.querySelectorAll("[data-table]").forEach(el => { const s = tSpecs[el.dataset.table]; renderTable(s, el, s.rows && s.rows !== "teams" ? DATA.usage[s.rows] : undefined); });
 
 // header line
 const M = DATA.meta;
@@ -677,8 +685,8 @@ function nextUp(a) {
 function drawAbs() {
   const t = absSel.value;
   const rows = DATA.absences.filter(a => a.team === t);
-  document.getElementById("abs-table").innerHTML = rows.length ? `<div class="table-wrap"><table><thead><tr><th>Player</th><th>Pos.</th><th>Unit</th><th>Games</th><th>Avg snap share</th><th>Status</th><th>Detail</th><th>Injury</th><th>Next man up (depth chart)</th></tr></thead><tbody>${rows.map(a =>
-    `<tr><td>${esc(a.player)}</td><td>${esc(a.position)}</td><td>${esc(a.unit)}</td><td>${a.games}</td><td>${fmt(a.share, "pct")}</td><td>${esc(a.status_class)}</td><td style="text-align:left">${esc(a.reason)}</td><td style="text-align:left">${esc(a.last_report_injury || "")}</td><td style="text-align:left">${nextUp(a)}</td></tr>`).join("")}</tbody></table></div>` : `<p class="meta">No regulars currently out or listed.</p>`;
+  document.getElementById("abs-table").innerHTML = rows.length ? `<div class="table-wrap"><table><thead><tr><th>Player</th><th>Pos.</th><th>Unit</th><th>Games</th><th>Avg snap share</th><th>Status</th><th>Detail</th><th>Injury</th><th>Usage</th><th>Next man up (depth chart)</th></tr></thead><tbody>${rows.map(a =>
+    `<tr><td>${esc(a.player)}</td><td>${esc(a.position)}</td><td>${esc(a.unit)}</td><td>${a.games}</td><td>${fmt(a.share, "pct")}</td><td>${esc(a.status_class)}</td><td style="text-align:left">${esc(a.reason)}</td><td style="text-align:left">${esc(a.last_report_injury || "")}</td><td style="text-align:left">${esc(a.usage || "")}</td><td style="text-align:left">${nextUp(a)}</td></tr>`).join("")}</tbody></table></div>` : `<p class="meta">No regulars currently out or listed.</p>`;
 }
 absSel.addEventListener("change", drawAbs);
 
@@ -717,8 +725,32 @@ function drawPlayers() {
     `<p class="tnote">Per 100 snaps uses all defensive snaps, run plays included. For reference, the ${lg.n_cov_30} defenders with 30+ targets allowed a combined passer rating of ${fmt(lg.cov_rating_30, "n1")}. Status: latest roster and injury report (section 16); blank = no listed absence or practice concern.</p>`;
 }
 plSel.addEventListener("change", drawPlayers);
+
+// offensive player usage and game logs
+const useSel = document.getElementById("use-team");
+useSel.innerHTML = DATA.order.map(t => `<option value="${t}">${t} &#183; ${esc(NAME[t])}</option>`).join("");
+function cellTxt(c) {
+  const a = c.t ? `${c.t} tgt, ${c.c}-${c.ry}${c.rtd ? `, ${c.rtd} TD` : ""}` : "";
+  const b = c.n ? `${c.n} car, ${c.uy}${c.utd ? `, ${c.utd} TD` : ""}` : "";
+  return [a, b].filter(Boolean).join("<br>") || `<span class="muted">&#8211;</span>`;
+}
+function drawUsage() {
+  const t = useSel.value, P = DATA.usage.team_players[t] || [], L = DATA.usage.logs[t];
+  const rows = P.map(p => `<tr><td style="text-align:left">${esc(p.name)}</td><td>${esc(p.pos)}</td><td>${p.games}</td><td>${fmt(p.snap_pct, "pct")}</td><td>${p.targets}</td><td>${fmt(p.tgt_share, "pct")}</td><td>${fmt(p.tgt_share_l3, "pct")}</td><td>${fmt(p.air_share, "pct")}</td><td>${p.rec}-${p.rec_yds}-${p.rec_td}</td><td>${fmt(p.epa_tgt, "epa")}</td><td>${p.carries}</td><td>${fmt(p.car_share, "pct")}</td><td>${fmt(p.car_share_l3, "pct")}</td><td>${p.rush_yds}-${p.rush_td}</td><td>${fmt(p.epa_car, "epa")}</td><td>${p.rz_tgt}/${p.rz_car}</td><td>${plStatus(p.status)}</td></tr>`).join("");
+  let log = "";
+  if (L && L.players.length) {
+    log = `<h4 class="rh">Game log</h4><div class="table-wrap"><table><thead><tr><th>Player</th><th>Pos.</th>${L.games.map(g => `<th>Wk ${g.week}<br><span class="muted">${esc(g.opp)}</span></th>`).join("")}</tr></thead><tbody>${L.players.map(p =>
+      `<tr><td style="text-align:left">${esc(p.name)}${p.status ? `<br>${plStatus(p.status)}` : ""}</td><td>${esc(p.pos)}</td>${p.cells.map(c => `<td style="white-space:nowrap">${cellTxt(c)}</td>`).join("")}</tr>`).join("")}</tbody></table></div>` +
+      `<p class="tnote">Receiving: targets, catches-yards (TDs). Rushing: designed carries, yards (TDs). Scrambles are not carries.</p>`;
+  }
+  document.getElementById("use-tables").innerHTML =
+    `<h4 class="rh">Season usage</h4><div class="table-wrap"><table><thead><tr><th>Player</th><th>Pos.</th><th>Games</th><th>Snap share</th><th>Targets</th><th>Target share</th><th>Last 3</th><th>Air-yards share</th><th>Rec-yds-TD</th><th>EPA/target</th><th>Carries</th><th>Carry share</th><th>Last 3</th><th>Rush yds-TD</th><th>EPA/carry</th><th>RZ tgt/car</th><th>Status</th></tr></thead><tbody>${rows}</tbody></table></div>` + log;
+}
+useSel.addEventListener("change", drawUsage);
 plSel.value = saved && BY[saved] ? saved : DATA.order[0];
 drawPlayers();
+useSel.value = saved && BY[saved] ? saved : DATA.order[0];
+drawUsage();
 document.getElementById("identity-table").innerHTML = `<div class="table-wrap"><table><thead><tr><th>Team</th><th>Record</th><th>Rating</th><th style="text-align:left">Best offensive area</th><th style="text-align:left">Best defensive area</th><th style="text-align:left">Weakest area</th><th>Balance</th></tr></thead><tbody>${DATA.order.map(t => {
   const p = DATA.profiles[t], r = BY[t];
   return `<tr><td class="tm">${t}</td><td>${r.record}</td><td>${fmt(r.rating_pg, "s1")}</td><td style="text-align:left">${esc(p.best_off)}</td><td style="text-align:left">${esc(p.best_def)}</td><td style="text-align:left">${esc(p.worst)}</td><td>${esc(r.balance || "")}</td></tr>`;

@@ -140,6 +140,25 @@ def players_caution(t, r, PL):
     return out
 
 
+def usage_caution(t, r, US):
+    out = []
+    if r.get("tgt_out_share", 0) >= US["tgt_flag"]:
+        out.append(f"{t} receivers: players now out had {r['tgt_out_share']:.0%} of the team's targets ({', '.join(r['tgt_out_names'])}), "
+                   "so its season passing figures were built with players who will not play.")
+    if r.get("car_out_share", 0) >= US["car_flag"]:
+        out.append(f"{t} run game: players now out had {r['car_out_share']:.0%} of the team's designed carries ({', '.join(r['car_out_names'])}).")
+    return out
+
+
+def usage_text(u):
+    parts = []
+    if u.get("targets"):
+        parts.append(f"{u['tgt_share']:.0%} of targets" + (f" ({u['tgt_share_l3']:.0%} last 3)" if u.get("tgt_share_l3") is not None else ""))
+    if u.get("carries"):
+        parts.append(f"{u['car_share']:.0%} of carries" + (f" ({u['car_share_l3']:.0%} last 3)" if u.get("car_share_l3") is not None else ""))
+    return "; ".join(parts)
+
+
 def apply_garbage(T: pd.DataFrame, GT: dict) -> pd.DataFrame:
     """Garbage-time splits from garbage.json (see garbage.py) plus a plain-English flag per unit."""
     T = T.copy()
@@ -408,7 +427,7 @@ def coaching_profile(t, T):
             "one_score": r.one_score}
 
 
-def build_matchups(T, nxt, MM, A, mm, notes, PL):
+def build_matchups(T, nxt, MM, A, mm, notes, PL, US):
     games = []
     mm_by = {m["game"]: m for m in mm}
     lg_go = T.fd_go_rate.mean()
@@ -507,6 +526,7 @@ def build_matchups(T, nxt, MM, A, mm, notes, PL):
                 cautions.append(f"{t} offensive line: depth chart lists {r.dc_ol_new}, who were not in the latest game's top five by snaps"
                                 + (f" ({r.dc_ol_dropped} were)." if r.dc_ol_dropped else "."))
             cautions.extend(players_caution(t, PL["teams"].get(t, {}), PL))
+            cautions.extend(usage_caution(t, US["teams"].get(t, {}), US))
             for side in ("off", "def"):
                 gc = gt_caution(t, side, T.loc[t])
                 if gc:
@@ -871,6 +891,9 @@ def main():
     DP = json.loads((d / "depth.json").read_text(encoding="utf-8"))
     T = apply_depth(T, DP)
     PL = json.loads((d / "players.json").read_text(encoding="utf-8"))
+    US = json.loads((d / "usage.json").read_text(encoding="utf-8"))
+    au = {(u["team"], u["player"]): u for u in US["absent_usage"]}
+    A["usage"] = [usage_text(au.get((t, n), {})) for t, n in zip(A.team, A.player)]
     T = apply_players(T, PL)
     nxt_up = {(r["team"], r["player"]): r for r in DP["depth"]["absences"]}
     A = A.assign(**{k: [nxt_up.get((t, n), {}).get(k) for t, n in zip(A.team, A.player)]
@@ -1218,6 +1241,31 @@ def main():
         C("def_epa_motion", "Def. EPA allowed vs motion", "epa", -1), C("def_epa_nomotion", "Def. EPA allowed, no motion", "epa", -1),
         C("def_epa_rpo", "Def. EPA allowed vs RPOs", "epa", -1),
     ], "off_motion_rate", "FTN charting. Offence columns describe the play-caller's style; the last three describe the defence. RPO samples are small (about 20 plays per team)."))
+    rk_common = [C("status", "Status", "str", 0), C("games", "Games", "int", 0), C("snap_pct", "Snap share", "pct", 0, "Average offensive snap share in games played")]
+    tables.append(table("rank_rb", f"Running backs ({US['rb_min']}+ carries)", rk_common + [
+        C("carries", "Carries", "int", 1), C("car_share", "Carry share", "pct", 1), C("car_share_l3", "Carry share, last 3", "pct", 1),
+        C("rush_yds", "Rush yds", "int", 1), C("ypc", "Yds/carry", "n2", 1), C("epa_car", "EPA/carry", "epa", 1),
+        C("sr_car", "Success", "pct", 1), C("ryoe_att", "RYOE/att", "s2", 1, "Next Gen rush yards over expected per attempt"),
+        C("expl_run", "10+ yd runs", "pct", 1), C("stuff", "Stuffed", "pct", -1), C("rush_td", "Rush TD", "int", 1),
+        C("rz_car", "RZ carries", "int", 0), C("gl_car", "Carries inside 5", "int", 0),
+        C("targets", "Targets", "int", 1), C("tgt_share", "Target share", "pct", 1), C("rec_yds", "Rec yds", "int", 1),
+        C("epa_tgt", "EPA/target", "epa", 1), C("epa_total", "Total EPA (rush + rec)", "s1", 1, "Sum of EPA on his carries and targets"),
+    ], "epa_total", "Season figures only. Total EPA rewards volume and efficiency together; per-carry columns show efficiency alone. Running-back EPA also reflects the blocking and the play call.", rows="rb"))
+    rec_cols = [
+        C("targets", "Targets", "int", 1), C("tgt_share", "Target share", "pct", 1), C("tgt_share_l3", "Target share, last 3", "pct", 1),
+        C("air_share", "Air-yards share", "pct", 1, "Share of the team's intended air yards"),
+        C("rec", "Rec.", "int", 1), C("rec_yds", "Yards", "int", 1), C("rec_td", "TD", "int", 1),
+        C("ypt", "Yds/target", "n2", 1), C("epa_tgt", "EPA/target", "epa", 1), C("sr_tgt", "Success", "pct", 1),
+        C("catch_rate", "Catch rate", "pct", 1), C("adot", "aDOT", "n1", 0, "Average depth of target (air yards)"),
+        C("yac_pr", "YAC/rec.", "n1", 1), C("yacoe_pr", "YAC over exp./rec.", "s2", 1),
+        C("sep", "Separation (yd)", "n2", 1, "Next Gen, target-weighted over his weekly rows"),
+        C("rz_tgt", "RZ targets", "int", 1), C("rz_tgt_share", "RZ target share", "pct", 1),
+        C("epa_total", "Total EPA", "s1", 1, "Sum of EPA on his targets (and carries)"),
+    ]
+    rec_note = ("Season figures only. Receiver EPA includes the quarterback's throw and the play call, so it measures usage and production, "
+                "not the receiver alone. Yards per route run needs routes, which free data does not record.")
+    tables.append(table("rank_wr", f"Wide receivers ({US['rec_min']}+ targets)", rk_common + rec_cols, "epa_total", rec_note, rows="wr"))
+    tables.append(table("rank_te", f"Tight ends ({US['rec_min']}+ targets)", rk_common + rec_cols, "epa_total", rec_note, rows="te"))
     tables.append(table("sos", "Strength of schedule", [
         C("record", "Record", "str", 0), C("sos_net", "Opp. net adj. EPA/play", "epa", 0, "Positive = tougher schedule"),
         C("sos_off", "Defences faced (adj. EPA allowed effect)", "epa", 0, "Positive = faced defences that allow more (easier for the offence)"),
@@ -1465,7 +1513,7 @@ def main():
         "blitz_vuln": [t for t in T.index if rank(T.off_epa_blitz)[t] >= 25],
     }
 
-    games = build_matchups(T, nxt, MM, A, mm, notes, PL)
+    games = build_matchups(T, nxt, MM, A, mm, notes, PL, US)
     pen_types_js = PEN_T.to_dict("records")
     teams_js = []
     for t in T.index:
@@ -1485,7 +1533,8 @@ def main():
             "mismatch": mm, "games": games, "reports": structured_reports(T, nxt, MM, games, CTX["qb"], TRV, CTX["travel"], CTX["fatigue"]),
             "ctx": {"fatigue": CTX["fatigue"], "travel": CTX["travel"], "qb": CTX["qb"], "penalty_groups": CTX["penalty_groups"]},
             "trv": TRV, "pen_types": pen_types_js, "cats": cats, "D": D, "E": E, "F": F, "dis": dis, "notes": notes, "order": order,
-            "names": T.team_name.to_dict(), "depth_as_of": DP["depth"]["as_of"], "players": PL["teams"], "players_league": PL["league"], "callers": {"sources": CL["sources"], "splits": CL["splits"], "checked": CL["checked"], "league": CL["league"]}}
+            "names": T.team_name.to_dict(), "depth_as_of": DP["depth"]["as_of"], "players": PL["teams"], "players_league": PL["league"],
+            "usage": {"rb": US["rb"], "wr": US["wr"], "te": US["te"], "logs": US["logs"], "team_players": US["team_players"]}, "callers": {"sources": CL["sources"], "splits": CL["splits"], "checked": CL["checked"], "league": CL["league"]}}
     page = TEMPLATE.replace("/*DATA*/", json.dumps(data, default=str).replace("</", "<\\/"))
     page = page.replace("{{METHOD}}", method_html(meta, T, A))
     (d / "report.html").write_text(page, encoding="utf-8")
@@ -1604,6 +1653,7 @@ Status comes from each team's latest weekly roster (reserve list) and latest inj
 <ul>
 <li><b>Depth charts</b>: ESPN's daily team depth charts via nflverse, used only for the next player listed behind an absent regular and for checking the listed QB and offensive line against who played the latest game (snap counts). Teams often leave charts stale, and a few chart rows carry stale player ids, which are repaired from the weekly rosters by team and name. <b>Next Gen receiving</b>: season rows for qualifying receivers, aggregated per team weighted by targets (separation, cushion, air yards) or catches (YAC over expected).</li>
 <li><b>Individual pass rushers and coverage</b>: PFR advanced defence, one row per defender per game, summed per player and team (a traded player appears under each team). "Per 100 snaps" uses all defensive snaps, not pass rushes, so it understates pass rushers on defences that face many runs. Coverage figures are for the nearest defender on targeted throws; passer rating allowed is recomputed from the summed targets, completions, yards, TDs and INTs. Status comes from the absences in section 16. <b>FTN box counts, motion, RPO, no-huddle, contested targets and QB-fault sacks</b>: FTN play charting, matched to play-by-play.</li>
+<li><b>Offensive player usage, game logs and rankings</b>: from the same play-by-play (rbsdm.com's box scores are built from it too). Targets are pass attempts with a receiver; carries are designed rushes (scrambles excluded; about 3% of designed rushes, mostly aborted snaps, have no ball carrier and are left out); shares are of the team's totals; "last 3" is the team's last three games. Position, name and status come from the weekly roster and the absences; snap share from snap counts; RYOE and separation from Next Gen weekly rows. Rankings need minimum volume and are season figures only.</li>
 <li><b>Run direction, targets by position and throw zones</b>: play-by-play run location (inside = middle or guard gap; outside = tackle or end), the targeted receiver's position on the weekly roster (fullbacks count as RBs), and nflfastR throw location (deep = 15+ air yards; left, middle, right). Run direction is not the blocking scheme, and position is not alignment: free data has neither run concepts nor slot vs outside receivers.</li>
 <li><b>Win rates</b> (pass block, pass rush, run block, run stop): ESPN Analytics, built from NFL Next Gen Stats tracking. They are not in nflverse, so they are copied by hand each week from ESPN's team table with its date (the win-rates file in the analytics scripts), shown for context only and not used in any rating, composite or matchup expectation. A pass block win means the line held its blocks for 2.5 seconds; a pass rush win means a rusher beat his block within 2.5 seconds.</li>
 <li><b>DVOA</b>: FTN's proprietary metric. It is not in nflverse and is not used or shown in this report. The closest computed analogues here are opponent-adjusted EPA and success rate. They are not DVOA.</li>

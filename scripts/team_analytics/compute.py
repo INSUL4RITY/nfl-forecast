@@ -40,6 +40,7 @@ import callers  # noqa: E402
 import garbage  # noqa: E402
 import depth  # noqa: E402
 import players  # noqa: E402
+import usage  # noqa: E402
 
 BASE = "https://github.com/nflverse/nflverse-data/releases/download/"
 CACHE = ROOT / "data" / "cache" / "team_analytics"
@@ -976,6 +977,8 @@ def main():
     (out_dir / "depth.json").write_text(json.dumps(depth.build(S, W, absences, fetch), indent=1, default=str), encoding="utf-8")
     # individual pass rushers and coverage defenders (PFR advanced defence)
     (out_dir / "players.json").write_text(json.dumps(players.build(S, W, absences, fetch), indent=1, default=str), encoding="utf-8")
+    # offensive player usage, game logs and position rankings (play-by-play)
+    (out_dir / "usage.json").write_text(json.dumps(usage.build(p, S, W, absences, fetch), indent=1, default=str), encoding="utf-8")
 
     # ---- output
     T.index.name = "team"
