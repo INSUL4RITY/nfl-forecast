@@ -640,7 +640,8 @@ def find_mismatches(o, d, T, MM, QBX):
             "Pressure that shortens dropbacks, creates sacks and forces hurried throws on obvious passing downs.",
             [f"{o} quarterback time to throw {v(o, 'time_to_throw', 'n2')} s ({ordinal(rank(T.time_to_throw, False)[o])} quickest): a quick game can blunt the rush."
              if rank(T.time_to_throw, False)[o] <= 10 else None,
-             "PFR pressure data is missing most week 7 games."],
+             (f"PFR pressure data is missing {int((T.games - T.off_pfr_games).clip(lower=0).sum() // 2)} games."
+              if (T.games - T.off_pfr_games).clip(lower=0).sum() else None)],
             None, finding_conf(pa >= 29 and pr <= 4, [MM["pressure"]["off"]["w"][o], MM["pressure"]["def"]["w"][d]]))
     # 5 mobile QB vs QB-run containment
     qb_runs_pg = (T.off_scrambles + T.off_qb_runs) / T.games
@@ -705,6 +706,7 @@ def find_mismatches(o, d, T, MM, QBX):
             ["Takeaways per drive show no reliable team-to-team signal after seven weeks; forced interception-worthy throws are the more repeatable part.",
              QBX.get(o, {}).get("caution")], None, "limited")
     # 11 tackling vs yards after contact / catch
+    miss_pfr = int((T.games - T.def_pfr_games).clip(lower=0).sum() // 2)
     mt, ya = rd("def_missed_tackle_pct", False), rd("def_yac_allowed", False)
     yo, yc = r("yac_per_att", True), r("off_yacoe", True)
     if (mt >= 25 or ya >= 25) and (yo <= 8 or yc <= 8):
@@ -712,7 +714,8 @@ def find_mismatches(o, d, T, MM, QBX):
             f"{d} misses {v(d, 'def_missed_tackle_pct', 'pct')} of tackle attempts ({ordinal(mt)}) and allows {v(d, 'def_yac_allowed', 'n2')} rushing yards after contact ({ordinal(ya)}); "
             f"{o} gains {v(o, 'yac_per_att', 'n2')} yards after contact per carry ({ordinal(yo)}) and {v(o, 'off_yacoe', 'n2')} YAC over expected per catch ({ordinal(yc)}).",
             "Short throws and runs that turn into chunk gains after the first contact.",
-            ["PFR tackling data is missing most week 7 games."], None, "limited")
+            [f"PFR tackling data is missing {miss_pfr} games." if miss_pfr else
+             "Missed-tackle rates are PFR charting and swing a lot over a few games."], None, "limited")
     return F
 
 
