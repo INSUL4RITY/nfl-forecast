@@ -41,6 +41,8 @@ import garbage  # noqa: E402
 import depth  # noqa: E402
 import players  # noqa: E402
 import usage  # noqa: E402
+import nextup  # noqa: E402
+import referees  # noqa: E402
 
 BASE = "https://github.com/nflverse/nflverse-data/releases/download/"
 CACHE = ROOT / "data" / "cache" / "team_analytics"
@@ -54,10 +56,17 @@ MIN_QB_DROPBACKS = 100
 
 
 # ----------------------------------------------------------------------------------------------- data
+REFRESH = {"season": None, "done": set()}      # --refresh: re-download current-season and season-free files once per run
+SEASONLESS = ("schedules/", "nextgen_stats/", "players/", "officials/", "teams/")
+
+
 def fetch(rel: str, refresh: bool = False) -> pd.DataFrame:
     CACHE.mkdir(parents=True, exist_ok=True)
     path = CACHE / rel.replace("/", "__")
     meta_path = path.with_suffix(".meta.json")
+    if REFRESH["season"] and rel not in REFRESH["done"] and (f"_{REFRESH['season']}" in rel or rel.startswith(SEASONLESS)):
+        refresh = True
+        REFRESH["done"].add(rel)
     if refresh or not path.exists():
         r = requests.get(BASE + rel, timeout=600)
         r.raise_for_status()
@@ -447,8 +456,11 @@ def main():
     ap.add_argument("--season", type=int, default=2026)
     ap.add_argument("--through-week", type=int, default=7)
     ap.add_argument("--first-history", type=int, default=2021)
+    ap.add_argument("--refresh", action="store_true", help="re-download this season's files (history stays cached)")
     args = ap.parse_args()
     S, W = args.season, args.through_week
+    if args.refresh:
+        REFRESH["season"] = S
     out_dir = ROOT / "reports" / "team_analytics" / f"{S}_week{W + 1:02d}"
     out_dir.mkdir(parents=True, exist_ok=True)
     qc: list[str] = []
@@ -557,6 +569,29 @@ def main():
         T[f"net_vs_{tier}"] = sub.groupby("team").net_epa_play.mean()
         T[f"g_vs_{tier}"] = sub.groupby("team").size()
         T[f"w_vs_{tier}"] = sub.groupby("team").win.sum()
+    # recent form: each team's last four games, adjusted with the season's opponent effects and home coefficient
+    # (play-level residuals; over the whole season this reproduces the adjusted values)
+    ae = adj["epa"]
+    scf = sc.assign(o_res=sc.epa - ae["home"] * sc.is_home - sc.defteam.map(ae["def_eff"]),
+                    d_res=sc.epa - ae["home"] * sc.is_home - sc.posteam.map(ae["off_eff"]))
+    l4 = G.sort_values("week").groupby("team").tail(4)
+    l4k = set(zip(l4.game_id, l4.team))
+    o4 = scf[[k in l4k for k in zip(scf.game_id, scf.posteam)]]
+    d4 = scf[[k in l4k for k in zip(scf.game_id, scf.defteam)]]
+    T["form_off_season"] = scf.groupby("posteam").o_res.mean()
+    T["form_def_season"] = scf.groupby("defteam").d_res.mean()
+    T["form_off_l4"] = o4.groupby("posteam").o_res.mean()
+    T["form_def_l4"] = d4.groupby("defteam").d_res.mean()
+    T["form_net_season"] = T.form_off_season - T.form_def_season
+    T["form_net_l4"] = T.form_off_l4 - T.form_def_l4
+    for k in ("off", "def", "net"):
+        T[f"form_{k}_change"] = T[f"form_{k}_l4"] - T[f"form_{k}_season"]
+    T["form_games"] = l4.groupby("team").size()
+    T["form_plays_off"] = o4.groupby("posteam").size()
+    T["form_plays_def"] = d4.groupby("defteam").size()
+    T["form_weeks"] = l4.groupby("team").week.agg(lambda w: ", ".join(str(int(x)) for x in sorted(w)))
+    qc.append(f"Recent form: last four games per team; season values from the same residual method differ from the adjusted "
+              f"EPA/play by at most {max((T.form_off_season - T.off_adj_epa).abs().max(), (T.form_def_season - T.def_adj_epa).abs().max()):.4f}.")
     T["net_home"] = G[G.home].groupby("team").net_epa_play.mean()
     T["net_away"] = G[~G.home].groupby("team").net_epa_play.mean()
     T["w_vs_winning"] = G[G.opp_winning].groupby("team").win.sum()
@@ -815,6 +850,13 @@ def main():
             T[f"{side}_ypt_{pos}"] = g.yards_gained.mean()
             T[f"{side}_epa_tgt_{pos}"] = g.epa.mean()
             T[f"{side}_sr_tgt_{pos}"] = g.success.mean()
+            cm = tq[(tq.rpos == pos) & (tq.complete_pass == 1)]
+            big = cm[cm.yards_gained >= 20].groupby(key).size().reindex(teams).fillna(0)
+            T[f"{side}_n_tgt_{pos}"] = g.size().reindex(teams).fillna(0)
+            T[f"{side}_n20_{pos}"] = big
+            T[f"{side}_rate20_{pos}"] = big / T[f"{side}_n_tgt_{pos}"]
+            T[f"{side}_n20pg_{pos}"] = big / T.games
+            T[f"{side}_yac_rec_{pos}"] = cm.groupby(key).yards_after_catch.mean()
         n_z = tz.groupby(key).size()
         for zn in ("short_left", "short_middle", "short_right", "deep_left", "deep_middle", "deep_right"):
             g = tz[tz.zone == zn].groupby(key)
@@ -890,6 +932,7 @@ def main():
         T[f"{side}_rush_yds_pg"] = rush_y / T.games
         T[f"{side}_pass_yds_pg"] = pass_y / T.games
         T[f"{side}_yds_pg"] = (rush_y + pass_y) / T.games
+        T[f"{side}_ypp"] = (rush_y + pass_y) / live_sc.groupby(key).size()
     T["off_pts_pg"] = T.pf / T.games
     T["def_pts_pg"] = T.pa / T.games
 
@@ -914,7 +957,7 @@ def main():
     T = T.join(byes)
 
     # ---- personnel
-    pers, ol_tbl, absences = personnel(S, W, p, teams)
+    pers, ol_tbl, absences = personnel(S, W, p, teams, qc)
     T = T.join(pers)
 
     # ---- QBs
@@ -960,6 +1003,11 @@ def main():
     seasons_pbp = {s: H_p for s, H_p in ((s, add_unit_flags(load_pbp(s))) for s in hist_seasons)}
     seasons_pbp[S] = p
     fat = ctx.fatigue_study(seasons_pbp, build_drives)
+    refs = referees.build(seasons_pbp, fetch("schedules/games.parquet"), S, W, PRESNAP)
+    qc.append(f"Referees: crew rates from {refs['pool']} ({len(refs['refs'])} referees); nflverse schedules name the referee for "
+              f"{refs['cur_games_with_ref']} of {refs['cur_games']} {S} games (weeks {', '.join(map(str, refs['cur_weeks_with_ref'])) or 'none'}); "
+              f"week {W + 1} assignments {'loaded for ' + str(len(refs['assign'])) + ' games' if refs['assign_loaded'] else 'not loaded'}.")
+    (out_dir / "referees.json").write_text(json.dumps(refs, indent=1, default=str), encoding="utf-8")
     del seasons_pbp
     print("travel study", flush=True)
     sched_all = fetch("schedules/games.parquet")
@@ -974,11 +1022,19 @@ def main():
     # garbage-time splits (display only)
     (out_dir / "garbage.json").write_text(json.dumps(garbage.build(p), indent=1), encoding="utf-8")
     # depth charts (next man up, starter checks) and Next Gen receiving
-    (out_dir / "depth.json").write_text(json.dumps(depth.build(S, W, absences, fetch), indent=1, default=str), encoding="utf-8")
+    DPj = depth.build(S, W, absences, fetch)
     # individual pass rushers and coverage defenders (PFR advanced defence)
-    (out_dir / "players.json").write_text(json.dumps(players.build(S, W, absences, fetch), indent=1, default=str), encoding="utf-8")
+    PLj = players.build(S, W, absences, fetch)
     # offensive player usage, game logs and position rankings (play-by-play)
-    (out_dir / "usage.json").write_text(json.dumps(usage.build(p, S, W, absences, fetch), indent=1, default=str), encoding="utf-8")
+    USj = usage.build(p, S, W, absences, fetch)
+    # next-man-up quality: the replacement's own 2026 sample
+    sn_reg = snaps[(snaps.week <= W) & (snaps.game_type == "REG")].assign(team=lambda x: x.team.replace({"LAR": "LA"}))
+    DPj["nextup"] = nextup.build(DPj["depth"]["absences"], absences, sn_reg, p, PLj, USj)
+    qc.append(f"Next man up: {sum(1 for r in DPj['depth']['absences'] if r.get('next_up'))} absences have a listed replacement; "
+              f"{len(DPj['nextup'])} matched to his own 2026 sample.")
+    (out_dir / "depth.json").write_text(json.dumps(DPj, indent=1, default=str), encoding="utf-8")
+    (out_dir / "players.json").write_text(json.dumps({k: v for k, v in PLj.items() if k != "all"}, indent=1, default=str), encoding="utf-8")
+    (out_dir / "usage.json").write_text(json.dumps(USj, indent=1, default=str), encoding="utf-8")
 
     # ---- output
     T.index.name = "team"
@@ -1226,7 +1282,7 @@ def bye_effect(sched, G, teams, W):
 OL_POS = {"T", "G", "C", "OL", "OT", "OG"}
 
 
-def personnel(S, W, p, teams):
+def personnel(S, W, p, teams, qc=None):
     snaps = fetch(f"snap_counts/snap_counts_{S}.parquet")
     snaps = snaps[(snaps.week <= W) & (snaps.game_type == "REG")].copy()
     snaps["team"] = snaps.team.replace({"LAR": "LA"})
@@ -1259,12 +1315,30 @@ def personnel(S, W, p, teams):
         games=("game_id", "nunique"), share=("share", "mean"), unit=("unit", "first"), last_week=("week", "max")).reset_index()
     reg = reg[(reg.games >= 2) & (reg.share >= 0.5)]
     team_last = snaps.groupby("team").week.max()
-    # current status from the latest weekly roster (pfr_id link) and the latest injury report (gsis link)
-    link = ros.drop_duplicates("pfr_id").set_index("pfr_id")
-    reg["gsis_id"] = reg.pfr_player_id.map(link.gsis_id)
-    reg["roster_status"] = reg.pfr_player_id.map(cur.drop_duplicates("pfr_id").set_index("pfr_id").status)
-    reg["roster_team_now"] = reg.pfr_player_id.map(cur.drop_duplicates("pfr_id").set_index("pfr_id").team)
-    reg["status_abbr"] = reg.pfr_player_id.map(cur.drop_duplicates("pfr_id").set_index("pfr_id").status_description_abbr)
+    # current status. Snap counts carry PFR ids; weekly rosters often leave pfr_id blank (offensive linemen above all),
+    # so link PFR -> gsis through the nflverse players table, then the roster's own pfr_id, then team + name. Each
+    # player's status is his LATEST weekly-roster row up to the current week (teams on a bye have no row that week).
+    plist = fetch("players/players.parquet")
+    pfr_gsis = plist.dropna(subset=["pfr_id", "gsis_id"]).drop_duplicates("pfr_id").set_index("pfr_id").gsis_id.to_dict()
+    ros_gsis = ros.dropna(subset=["pfr_id", "gsis_id"]).drop_duplicates("pfr_id").set_index("pfr_id").gsis_id.to_dict()
+    _, name_gsis, _, _ = depth._ids(snaps, ros)
+    reg["gsis_id"] = [pfr_gsis.get(x) or ros_gsis.get(x) or name_gsis.get(x) for x in reg.pfr_player_id]
+    rg = ros[ros.week <= cur_week].dropna(subset=["gsis_id"]).sort_values("week")
+    latest = rg.drop_duplicates("gsis_id", keep="last").set_index("gsis_id")
+    reg["roster_status"] = reg.gsis_id.map(latest.status)
+    reg["roster_team_now"] = reg.gsis_id.map(latest.team)
+    reg["roster_week"] = reg.gsis_id.map(latest.week)
+    reg["status_abbr"] = reg.gsis_id.map(latest.status_description_abbr)
+    team_ros_week = rg.groupby("team").week.max()
+    # inactive (INA) on the roster for each of the team's last three games
+    st_by = rg.drop_duplicates(["gsis_id", "week"], keep="last").set_index(["gsis_id", "week"]).status.to_dict()
+    last3 = snaps.groupby("team").week.apply(lambda s: sorted(s.unique())[-3:]).to_dict()
+    reg["inactive3"] = [len(last3.get(t, [])) == 3 and all(st_by.get((g, w)) == "INA" for w in last3[t]) for t, g in zip(reg.team, reg.gsis_id)]
+    if qc is not None:
+        um = reg[reg.roster_status.isna()]
+        qc.append(f"Absences: {len(reg)} regulars; {int(reg.gsis_id.notna().sum())} linked to a gsis id "
+                  f"({sum(x in pfr_gsis for x in reg.pfr_player_id)} through the nflverse players table); "
+                  f"{len(um)} with no weekly-roster match" + (f" ({', '.join(um.player.head(8))})" if len(um) else "") + ".")
     rep = last_inj.drop_duplicates("gsis_id").set_index("gsis_id")
     reg["last_report_status"] = reg.gsis_id.map(rep.report_status)
     reg["last_practice_status"] = reg.gsis_id.map(rep.practice_status)
@@ -1273,28 +1347,46 @@ def personnel(S, W, p, teams):
     reg["missed_last_game"] = reg.last_week < reg.team.map(team_last)
     reg["group"] = reg.position.map(POS_GROUP).fillna("other")
     reg["on_reserve"] = reg.roster_status.eq("RES") & reg.roster_team_now.eq(reg.team)
-    reg["left_team"] = reg.roster_team_now.notna() & reg.roster_team_now.ne(reg.team)
+    # left: on another team's roster, released or retired, or missing from the team's newest roster week
+    reg["left_team"] = ((reg.roster_team_now.notna() & reg.roster_team_now.ne(reg.team))
+                        | reg.roster_status.isin(["CUT", "RET", "TRD", "TRT"])
+                        | (reg.roster_week.notna() & (reg.roster_week < reg.team.map(team_ros_week))))
+    # a report for a game already played is stale for a player who then played in it
+    stale = (reg.last_report_week <= reg.team.map(team_last)) & ~reg.missed_last_game
+    reg.loc[stale, ["last_report_status", "last_practice_status"]] = np.nan
+    if qc is not None:
+        qc.append(f"Injury reports: {int(stale.sum())} regulars listed on a report for a game they then played are not flagged.")
     reg["out_or_doubtful"] = reg.last_report_status.isin(["Out", "Doubtful"])
     reg["questionable"] = reg.last_report_status.eq("Questionable")
+    reg["inactive_long"] = reg.inactive3 & reg.last_report_status.isna() & ~reg.on_reserve & ~reg.left_team
+    # back: active on a roster dated after the team's last game (e.g. missed a game, then a bye, then active)
+    reg["back"] = reg.roster_status.eq("ACT") & (reg.roster_week > reg.team.map(team_last))
     # midweek reports carry practice participation but no game status until the final report
     reg["dnp"] = (reg.last_report_status.isna() & reg.last_practice_status.fillna("").str.startswith("Did Not"))
     reg["limited"] = (reg.last_report_status.isna() & reg.last_practice_status.fillna("").str.startswith("Limited"))
-    unconfirmed = reg.missed_last_game & ~reg.left_team & reg.position.ne("QB")
-    ab = reg[reg.on_reserve | reg.out_or_doubtful | reg.questionable | reg.dnp | reg.limited | unconfirmed].copy()
+    unconfirmed = reg.missed_last_game & ~reg.left_team & reg.position.ne("QB") & ~reg.back & ~reg.inactive_long
+    ab = reg[reg.on_reserve | reg.out_or_doubtful | reg.inactive_long | reg.questionable | reg.dnp | reg.limited | unconfirmed].copy()
+    ab = ab[~ab.left_team]
     ab["status_class"] = np.where(ab.on_reserve, "confirmed: reserve list",
                                   np.where(ab.out_or_doubtful, "listed Out/Doubtful",
-                                           np.where(ab.questionable, "listed Questionable",
-                                                    np.where(ab.dnp, "did not practise",
-                                                             np.where(ab.limited, "limited in practice", "unconfirmed")))))
+                                           np.where(ab.inactive_long, "inactive 3+ games",
+                                                    np.where(ab.questionable, "listed Questionable",
+                                                             np.where(ab.dnp, "did not practise",
+                                                                      np.where(ab.limited, "limited in practice", "unconfirmed"))))))
     wk = "week " + ab.last_report_week.astype("Int64").astype(str) + " report: "
-    ab["reason"] = np.where(ab.on_reserve, "reserve list (week " + str(cur_week) + " roster)",
+    ab["reason"] = np.where(ab.on_reserve, "reserve list (week " + ab.roster_week.astype("Int64").astype(str) + " roster)",
                             np.where(ab.out_or_doubtful | ab.questionable, wk + ab.last_report_status.fillna(""),
-                                     np.where(ab.dnp | ab.limited, wk + ab.last_practice_status.fillna("") + " (no game status yet)",
-                                              "did not play in the team's latest game; no injury designation")))
-    conf = ab[ab.status_class.isin(["confirmed: reserve list", "listed Out/Doubtful"])]
+                                     np.where(ab.inactive_long, "inactive (INA) on the roster for each of the team's last three games; no injury designation",
+                                              np.where(ab.dnp | ab.limited, wk + ab.last_practice_status.fillna("") + " (no game status yet)",
+                                                       "did not play in the team's latest game; no injury designation"))))
+    conf = ab[ab.status_class.isin(depth.OUT_CLASSES)]
+    if qc is not None:
+        qc.append(f"Absence classes: {int(ab.on_reserve.sum())} on the reserve list, {int((ab.status_class == 'inactive 3+ games').sum())} inactive "
+                  f"3+ games, {int((ab.status_class == 'unconfirmed').sum())} unconfirmed; {int(reg.back.sum())} regulars who missed a game "
+                  f"are active on a later roster and not flagged; {int((conf.group == 'OL').sum())} OL regulars counted out.")
     out["regulars"] = reg.groupby("team").size()
     out["reg_on_reserve"] = reg[reg.on_reserve].groupby("team").size()
-    out["reg_on_reserve_share_sum"] = reg[reg.on_reserve].groupby("team").share.sum()
+    out["reg_on_reserve_snap_total"] = reg[reg.on_reserve].groupby("team").share.sum()
     for grp in ["QB", "OL", "WR/TE", "RB", "DL/EDGE", "LB", "DB"]:
         out[f"absent_{grp}"] = conf[conf.group == grp].groupby("team").size()
     out["absent_snap_weighted"] = conf.groupby("team").share.sum()
@@ -1355,6 +1447,9 @@ def qb_table(p, pf, adj, S, W, pfr):
     q["epa_clean"] = d[d.hit_sack == 0].groupby("passer_id").epa.mean()
     q["epa_hit_sack"] = d[d.hit_sack == 1].groupby("passer_id").epa.mean()
     q["hit_sack_rate"] = d.groupby("passer_id").hit_sack.mean()
+    q["db_clean"] = d[d.hit_sack == 0].groupby("passer_id").size().reindex(q.index).fillna(0)
+    q["db_hit"] = d[d.hit_sack == 1].groupby("passer_id").size().reindex(q.index).fillna(0)
+    q["scrambles"] = d.groupby("passer_id").scr.sum()
     ch = d[d.n_pass_rushers.notna() & (d.n_pass_rushers > 0)]
     q["epa_vs_blitz"] = ch[ch.n_blitzers > 0].groupby("passer_id").epa.mean()
     q["epa_no_blitz"] = ch[ch.n_blitzers == 0].groupby("passer_id").epa.mean()

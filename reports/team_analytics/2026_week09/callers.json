@@ -1,0 +1,1700 @@
+{
+ "season": 2026,
+ "through_week": 8,
+ "checked": "2026-10-28",
+ "sources": {
+  "S1": {
+   "title": "ESPN: Who calls plays for every NFL team in 2026? (republished by ABC7)",
+   "date": "2026-09-03",
+   "url": "https://abc7news.com/post/calls-plays-every-nfl-team-2026-what-know/19783946/"
+  },
+  "S2": {
+   "title": "Wikipedia: List of current NFL head coaches",
+   "date": "accessed 2026-10-28",
+   "url": "https://en.wikipedia.org/wiki/List_of_current_NFL_head_coaches"
+  },
+  "S3": {
+   "title": "Wikipedia: List of current NFL offensive coordinators",
+   "date": "accessed 2026-10-28",
+   "url": "https://en.wikipedia.org/wiki/List_of_current_NFL_offensive_coordinators"
+  },
+  "S4": {
+   "title": "Wikipedia: List of current NFL defensive coordinators",
+   "date": "accessed 2026-10-28",
+   "url": "https://en.wikipedia.org/wiki/List_of_current_NFL_defensive_coordinators"
+  },
+  "S5": {
+   "title": "Wikipedia: List of current NFL special teams coordinators",
+   "date": "accessed 2026-10-28",
+   "url": "https://en.wikipedia.org/wiki/List_of_current_NFL_special_teams_coordinators"
+  },
+  "S6": {
+   "title": "ESPN: Sean Payton says he's taking over playcalling for Broncos' offense",
+   "date": "2026-10-08",
+   "url": "https://www.espn.com/nfl/story/_/id/50135033/sean-payton-says-taking-playcalling-broncos-offense"
+  },
+  "S7": {
+   "title": "Fox Sports (AP): DeMeco Ryans takes over defensive play-calling for the 0-4 Texans",
+   "date": "2026-10-07",
+   "url": "https://www.foxsports.com/articles/nfl/demeco-ryans-takes-over-defensive-playcalling-for-the-04-texans"
+  },
+  "S8": {
+   "title": "Athlon: Aaron Glenn takes back play-calling for the Jets defense",
+   "date": "2026",
+   "url": "https://athlonsports.com/nfl/new-york-jets/aaron-glenn-jets-defensive-play-calling-2026"
+  },
+  "S9": {
+   "title": "theScore: Titans' Saleh to call defensive plays",
+   "date": "2026",
+   "url": "https://www.thescore.com/nfl/news/3467164/titans-saleh-to-call-defensive-plays-after-not-doing-so-with-jets"
+  },
+  "S10": {
+   "title": "ESPN: Dolphins hiring Sean Duggan as defensive coordinator (Hafley to call plays)",
+   "date": "2026-02",
+   "url": "https://africa.espn.com/nfl/story/_/id/47800410/sources-dolphins-hiring-sean-duggan-defensive-coordinator"
+  },
+  "S11": {
+   "title": "Ravens: Anthony Weaver hired as defensive coordinator (Minter to call plays)",
+   "date": "2026-02",
+   "url": "https://www.baltimoreravens.com/news/anthony-weaver-ravens-defensive-coordinator-hire-jesse-minter"
+  },
+  "S12": {
+   "title": "AP via WTOP: Macdonald's focus on defense (primary defensive play-caller)",
+   "date": "2026-02",
+   "url": "https://wtop.com/nfl/2026/02/macdonalds-focus-on-defense-a-perfect-fit-for-seahawks-heading-into-super-bowl/"
+  },
+  "S13": {
+   "title": "Yahoo Sports: NFL defensive playcaller rankings, the 10 best defensive minds in 2026",
+   "date": "2026",
+   "url": "https://sports.yahoo.com/articles/nfl-defensive-playcaller-rankings-10-165342602.html"
+  },
+  "S14": {
+   "title": "Philadelphia Tribune (AP): Commanders set to hire Jones as defensive coordinator",
+   "date": "2026-01",
+   "url": "https://www.phillytrib.com/commanders-set-to-hire-jones-as-defensive-coordinator/article_beb98048-91a0-475d-a186-57bd7eade15f.html"
+  },
+  "S15": {
+   "title": "Bleacher Report: Kyle Shanahan explains third-down play call vs Cardinals (week 3)",
+   "date": "2026-10-02",
+   "url": "https://bleacherreport.com/articles/25505717-kyle-shanahan-explains-screw-it-play-call-led-80-yard-49ers-td-vs-cardinals"
+  }
+ },
+ "staff": {
+  "ARI": {
+   "hc": "Mike LaFleur",
+   "oc": "Nathaniel Hackett",
+   "dc": "Nick Rallis",
+   "stc": "Michael Ghobrial",
+   "off_caller": "Mike LaFleur",
+   "off_conf": "confirmed",
+   "off_note": null,
+   "def_caller": "Nick Rallis",
+   "def_conf": "assumed",
+   "def_note": null,
+   "src": [
+    "S1",
+    "S4"
+   ]
+  },
+  "ATL": {
+   "hc": "Kevin Stefanski",
+   "oc": "Tommy Rees",
+   "dc": "Jeff Ulbrich",
+   "stc": "Craig Aukerman",
+   "off_caller": "Tommy Rees",
+   "off_conf": "confirmed",
+   "off_note": null,
+   "def_caller": "Jeff Ulbrich",
+   "def_conf": "assumed",
+   "def_note": null,
+   "src": [
+    "S1",
+    "S4"
+   ]
+  },
+  "BAL": {
+   "hc": "Jesse Minter",
+   "oc": "Declan Doyle",
+   "dc": "Anthony Weaver",
+   "stc": "Anthony Levine",
+   "off_caller": "Declan Doyle",
+   "off_conf": "confirmed",
+   "off_note": null,
+   "def_caller": "Jesse Minter",
+   "def_conf": "confirmed",
+   "def_note": null,
+   "src": [
+    "S1",
+    "S11"
+   ]
+  },
+  "BUF": {
+   "hc": "Joe Brady",
+   "oc": "Pete Carmichael Jr.",
+   "dc": "Jim Leonhard",
+   "stc": "Jeff Rodgers",
+   "off_caller": "Joe Brady",
+   "off_conf": "confirmed",
+   "off_note": null,
+   "def_caller": "Jim Leonhard",
+   "def_conf": "assumed",
+   "def_note": null,
+   "src": [
+    "S1",
+    "S4"
+   ]
+  },
+  "CAR": {
+   "hc": "Dave Canales",
+   "oc": "Brad Idzik",
+   "dc": "Ejiro Evero",
+   "stc": "Tracy Smith",
+   "off_caller": "Brad Idzik",
+   "off_conf": "confirmed",
+   "off_note": null,
+   "def_caller": "Ejiro Evero",
+   "def_conf": "assumed",
+   "def_note": null,
+   "src": [
+    "S1",
+    "S4"
+   ]
+  },
+  "CHI": {
+   "hc": "Ben Johnson",
+   "oc": "Press Taylor",
+   "dc": "Dennis Allen",
+   "stc": "Richard Hightower",
+   "off_caller": "Ben Johnson",
+   "off_conf": "confirmed",
+   "off_note": null,
+   "def_caller": "Dennis Allen",
+   "def_conf": "assumed",
+   "def_note": null,
+   "src": [
+    "S1",
+    "S4"
+   ]
+  },
+  "CIN": {
+   "hc": "Zac Taylor",
+   "oc": "Dan Pitcher",
+   "dc": "Al Golden",
+   "stc": "Darrin Simmons",
+   "off_caller": "Zac Taylor",
+   "off_conf": "confirmed",
+   "off_note": null,
+   "def_caller": "Al Golden",
+   "def_conf": "assumed",
+   "def_note": null,
+   "src": [
+    "S1",
+    "S4"
+   ]
+  },
+  "CLE": {
+   "hc": "Todd Monken",
+   "oc": "Travis Switzer",
+   "dc": "Mike Rutenberg",
+   "stc": "Byron Storer",
+   "off_caller": "Todd Monken",
+   "off_conf": "confirmed",
+   "off_note": null,
+   "def_caller": "Mike Rutenberg",
+   "def_conf": "assumed",
+   "def_note": null,
+   "src": [
+    "S1",
+    "S4"
+   ]
+  },
+  "DAL": {
+   "hc": "Brian Schottenheimer",
+   "oc": "Klayton Adams",
+   "dc": "Christian Parker",
+   "stc": "Nick Sorensen",
+   "off_caller": "Brian Schottenheimer",
+   "off_conf": "confirmed",
+   "off_note": null,
+   "def_caller": "Christian Parker",
+   "def_conf": "assumed",
+   "def_note": null,
+   "src": [
+    "S1",
+    "S4"
+   ]
+  },
+  "DEN": {
+   "hc": "Sean Payton",
+   "oc": "Davis Webb",
+   "dc": "Vance Joseph",
+   "stc": "Darren Rizzi",
+   "off_caller": "Sean Payton",
+   "off_conf": "confirmed",
+   "off_note": null,
+   "def_caller": "Vance Joseph",
+   "def_conf": "reported",
+   "def_note": null,
+   "src": [
+    "S1",
+    "S4",
+    "S6",
+    "S13"
+   ]
+  },
+  "DET": {
+   "hc": "Dan Campbell",
+   "oc": "Drew Petzing",
+   "dc": "Kelvin Sheppard",
+   "stc": "Dave Fipp",
+   "off_caller": "Drew Petzing",
+   "off_conf": "confirmed",
+   "off_note": null,
+   "def_caller": "Kelvin Sheppard",
+   "def_conf": "assumed",
+   "def_note": null,
+   "src": [
+    "S1",
+    "S4"
+   ]
+  },
+  "GB": {
+   "hc": "Matt LaFleur",
+   "oc": "Adam Stenavich",
+   "dc": "Jonathan Gannon",
+   "stc": "Cameron Achord",
+   "off_caller": "Matt LaFleur",
+   "off_conf": "confirmed",
+   "off_note": null,
+   "def_caller": "Jonathan Gannon",
+   "def_conf": "assumed",
+   "def_note": null,
+   "src": [
+    "S1",
+    "S4"
+   ]
+  },
+  "HOU": {
+   "hc": "DeMeco Ryans",
+   "oc": "Nick Caley",
+   "dc": "Matt Burke",
+   "stc": "Frank Ross",
+   "off_caller": "Nick Caley",
+   "off_conf": "confirmed",
+   "off_note": null,
+   "def_caller": "DeMeco Ryans",
+   "def_conf": "confirmed",
+   "def_note": null,
+   "src": [
+    "S1",
+    "S7"
+   ]
+  },
+  "IND": {
+   "hc": "Shane Steichen",
+   "oc": "Jim Bob Cooter",
+   "dc": "Lou Anarumo",
+   "stc": "Brian Mason",
+   "off_caller": "Shane Steichen",
+   "off_conf": "confirmed",
+   "off_note": null,
+   "def_caller": "Lou Anarumo",
+   "def_conf": "assumed",
+   "def_note": null,
+   "src": [
+    "S1",
+    "S4"
+   ]
+  },
+  "JAX": {
+   "hc": "Liam Coen",
+   "oc": "Grant Udinski",
+   "dc": "Anthony Campanile",
+   "stc": "Heath Farwell",
+   "off_caller": "Liam Coen",
+   "off_conf": "confirmed",
+   "off_note": null,
+   "def_caller": "Anthony Campanile",
+   "def_conf": "reported",
+   "def_note": null,
+   "src": [
+    "S1",
+    "S4",
+    "S13"
+   ]
+  },
+  "KC": {
+   "hc": "Andy Reid",
+   "oc": "Eric Bieniemy",
+   "dc": "Steve Spagnuolo",
+   "stc": "Dave Toub",
+   "off_caller": "Andy Reid",
+   "off_conf": "confirmed",
+   "off_note": null,
+   "def_caller": "Steve Spagnuolo",
+   "def_conf": "reported",
+   "def_note": null,
+   "src": [
+    "S1",
+    "S4",
+    "S13"
+   ]
+  },
+  "LA": {
+   "hc": "Sean McVay",
+   "oc": "Nathan Scheelhaase",
+   "dc": "Chris Shula",
+   "stc": "Bubba Ventrone",
+   "off_caller": "Sean McVay",
+   "off_conf": "confirmed",
+   "off_note": null,
+   "def_caller": "Chris Shula",
+   "def_conf": "reported",
+   "def_note": null,
+   "src": [
+    "S1",
+    "S4",
+    "S13"
+   ]
+  },
+  "LAC": {
+   "hc": "Jim Harbaugh",
+   "oc": "Mike McDaniel",
+   "dc": "Chris O'Leary",
+   "stc": "Ryan Ficken",
+   "off_caller": "Mike McDaniel",
+   "off_conf": "confirmed",
+   "off_note": null,
+   "def_caller": "Chris O'Leary",
+   "def_conf": "assumed",
+   "def_note": null,
+   "src": [
+    "S1",
+    "S4"
+   ]
+  },
+  "LV": {
+   "hc": "Klint Kubiak",
+   "oc": "Andrew Janocko",
+   "dc": "Rob Leonard",
+   "stc": "Joe DeCamillis",
+   "off_caller": "Klint Kubiak",
+   "off_conf": "confirmed",
+   "off_note": null,
+   "def_caller": "Rob Leonard",
+   "def_conf": "assumed",
+   "def_note": null,
+   "src": [
+    "S1",
+    "S4"
+   ]
+  },
+  "MIA": {
+   "hc": "Jeff Hafley",
+   "oc": "Bobby Slowik",
+   "dc": "Sean Duggan",
+   "stc": "Chris Tabor",
+   "off_caller": "Bobby Slowik",
+   "off_conf": "confirmed",
+   "off_note": null,
+   "def_caller": "Jeff Hafley",
+   "def_conf": "confirmed",
+   "def_note": null,
+   "src": [
+    "S1",
+    "S10"
+   ]
+  },
+  "MIN": {
+   "hc": "Kevin O'Connell",
+   "oc": "Wes Phillips",
+   "dc": "Brian Flores",
+   "stc": "Matt Daniels",
+   "off_caller": "Kevin O'Connell",
+   "off_conf": "confirmed",
+   "off_note": null,
+   "def_caller": "Brian Flores",
+   "def_conf": "reported",
+   "def_note": null,
+   "src": [
+    "S1",
+    "S4",
+    "S13"
+   ]
+  },
+  "NE": {
+   "hc": "Mike Vrabel",
+   "oc": "Josh McDaniels",
+   "dc": "Zak Kuhr",
+   "stc": "Jeremy Springer",
+   "off_caller": "Josh McDaniels",
+   "off_conf": "confirmed",
+   "off_note": null,
+   "def_caller": "Zak Kuhr",
+   "def_conf": "reported",
+   "def_note": "Called the defence from week 2 of 2025; promoted to DC for 2026",
+   "src": [
+    "S1",
+    "S4"
+   ]
+  },
+  "NO": {
+   "hc": "Kellen Moore",
+   "oc": "Doug Nussmeier",
+   "dc": "Brandon Staley",
+   "stc": "Phil Galiano",
+   "off_caller": "Kellen Moore",
+   "off_conf": "confirmed",
+   "off_note": null,
+   "def_caller": "Brandon Staley",
+   "def_conf": "assumed",
+   "def_note": null,
+   "src": [
+    "S1",
+    "S4"
+   ]
+  },
+  "NYG": {
+   "hc": "John Harbaugh",
+   "oc": "Matt Nagy",
+   "dc": "Dennard Wilson",
+   "stc": "Chris Horton",
+   "off_caller": "Matt Nagy",
+   "off_conf": "confirmed",
+   "off_note": null,
+   "def_caller": "Dennard Wilson",
+   "def_conf": "assumed",
+   "def_note": null,
+   "src": [
+    "S1",
+    "S4"
+   ]
+  },
+  "NYJ": {
+   "hc": "Aaron Glenn",
+   "oc": "Frank Reich",
+   "dc": "Brian Duker",
+   "stc": "Chris Banjo",
+   "off_caller": "Frank Reich",
+   "off_conf": "confirmed",
+   "off_note": null,
+   "def_caller": "Aaron Glenn",
+   "def_conf": "confirmed",
+   "def_note": null,
+   "src": [
+    "S1",
+    "S8"
+   ]
+  },
+  "PHI": {
+   "hc": "Nick Sirianni",
+   "oc": "Sean Mannion",
+   "dc": "Vic Fangio",
+   "stc": "Michael Clay",
+   "off_caller": "Sean Mannion",
+   "off_conf": "confirmed",
+   "off_note": null,
+   "def_caller": "Vic Fangio",
+   "def_conf": "reported",
+   "def_note": null,
+   "src": [
+    "S1",
+    "S4",
+    "S13"
+   ]
+  },
+  "PIT": {
+   "hc": "Mike McCarthy",
+   "oc": "Brian Angelichio",
+   "dc": "Patrick Graham",
+   "stc": "Danny Crossman",
+   "off_caller": "Mike McCarthy",
+   "off_conf": "confirmed",
+   "off_note": null,
+   "def_caller": "Patrick Graham",
+   "def_conf": "assumed",
+   "def_note": null,
+   "src": [
+    "S1",
+    "S4"
+   ]
+  },
+  "SEA": {
+   "hc": "Mike Macdonald",
+   "oc": "Brian Fleury",
+   "dc": "Aden Durde",
+   "stc": "Jay Harbaugh",
+   "off_caller": "Brian Fleury",
+   "off_conf": "confirmed",
+   "off_note": null,
+   "def_caller": "Mike Macdonald",
+   "def_conf": "reported",
+   "def_note": "Primary defensive play-caller in 2025; no 2026 change found",
+   "src": [
+    "S1",
+    "S12"
+   ]
+  },
+  "SF": {
+   "hc": "Kyle Shanahan",
+   "oc": "Klay Kubiak",
+   "dc": "Raheem Morris",
+   "stc": "Brant Boyer",
+   "off_caller": "Kyle Shanahan",
+   "off_conf": "confirmed",
+   "off_note": "Kubiak ran the offence in camp while Shanahan recovered from a July car crash; Shanahan was calling plays by week 3",
+   "def_caller": "Raheem Morris",
+   "def_conf": "assumed",
+   "def_note": null,
+   "src": [
+    "S1",
+    "S4",
+    "S15"
+   ]
+  },
+  "TB": {
+   "hc": "Todd Bowles",
+   "oc": "Zac Robinson",
+   "dc": "Todd Bowles",
+   "stc": "Danny Smith",
+   "off_caller": "Zac Robinson",
+   "off_conf": "confirmed",
+   "off_note": null,
+   "def_caller": "Todd Bowles",
+   "def_conf": "reported",
+   "def_note": null,
+   "src": [
+    "S1",
+    "S4",
+    "S13"
+   ]
+  },
+  "TEN": {
+   "hc": "Robert Saleh",
+   "oc": "Brian Daboll",
+   "dc": "Gus Bradley",
+   "stc": "John Fassel",
+   "off_caller": "Brian Daboll",
+   "off_conf": "confirmed",
+   "off_note": null,
+   "def_caller": "Robert Saleh",
+   "def_conf": "confirmed",
+   "def_note": null,
+   "src": [
+    "S1",
+    "S9"
+   ]
+  },
+  "WAS": {
+   "hc": "Dan Quinn",
+   "oc": "David Blough",
+   "dc": "Daronte Jones",
+   "stc": "Larry Izzo",
+   "off_caller": "David Blough",
+   "off_conf": "confirmed",
+   "off_note": null,
+   "def_caller": "Daronte Jones or Dan Quinn",
+   "def_conf": "unclear",
+   "def_note": "Quinn called the defence in 2025; Jones was expected to take it over, not confirmed",
+   "src": [
+    "S1",
+    "S14"
+   ]
+  }
+ },
+ "current": {
+  "ARI": {
+   "off": {
+    "games": 8,
+    "plays": 576,
+    "pace_sec": 37.0,
+    "early_pass_rate": 0.5042735042735043,
+    "proe": -0.5891401288855789,
+    "pa_rate": 0.176,
+    "screen_rate": 0.056,
+    "epa": -0.007449888550740629,
+    "sr": 0.4409722222222222,
+    "h2_minus_h1": 0.19229571257884148,
+    "since_week": null
+   },
+   "def": {
+    "games": 8,
+    "plays": 498,
+    "blitz_rate": 0.32142857142857145,
+    "charted_db": 280,
+    "epa_blitz": 0.31616672642403915,
+    "epa_noblitz": 0.25934976803359167,
+    "epa": 0.0865713045448288,
+    "sr": 0.43775100401606426,
+    "h2_minus_h1": 0.12445434251497663,
+    "since_week": null
+   }
+  },
+  "ATL": {
+   "off": {
+    "games": 8,
+    "plays": 485,
+    "pace_sec": 38.0,
+    "early_pass_rate": 0.4336734693877551,
+    "proe": -7.986517790324834,
+    "pa_rate": 0.22053231939163498,
+    "screen_rate": 0.11787072243346007,
+    "epa": -0.08728997122702674,
+    "sr": 0.4288659793814433,
+    "h2_minus_h1": 0.08592500263870653,
+    "since_week": null
+   },
+   "def": {
+    "games": 8,
+    "plays": 543,
+    "blitz_rate": 0.24773413897280966,
+    "charted_db": 331,
+    "epa_blitz": -0.09018562572092292,
+    "epa_noblitz": 0.04555634887961235,
+    "epa": -0.03786161065394658,
+    "sr": 0.43278084714548803,
+    "h2_minus_h1": -0.011222896685024783,
+    "since_week": null
+   }
+  },
+  "BAL": {
+   "off": {
+    "games": 8,
+    "plays": 494,
+    "pace_sec": 38.0,
+    "early_pass_rate": 0.4688995215311005,
+    "proe": -4.564843487226222,
+    "pa_rate": 0.2535211267605634,
+    "screen_rate": 0.07042253521126761,
+    "epa": 0.017183567537134948,
+    "sr": 0.4493927125506073,
+    "h2_minus_h1": -0.25309357620260325,
+    "since_week": null
+   },
+   "def": {
+    "games": 8,
+    "plays": 513,
+    "blitz_rate": 0.32063492063492066,
+    "charted_db": 315,
+    "epa_blitz": -0.04314340437384616,
+    "epa_noblitz": 0.13315468867722874,
+    "epa": 0.01688957091272353,
+    "sr": 0.4444444444444444,
+    "h2_minus_h1": 0.4068916359477908,
+    "since_week": null
+   }
+  },
+  "BUF": {
+   "off": {
+    "games": 7,
+    "plays": 455,
+    "pace_sec": 36.0,
+    "early_pass_rate": 0.504,
+    "proe": -4.483948689699173,
+    "pa_rate": 0.25384615384615383,
+    "screen_rate": 0.08461538461538462,
+    "epa": 0.1746671415196645,
+    "sr": 0.4901098901098901,
+    "h2_minus_h1": 0.10878135298809097,
+    "since_week": null
+   },
+   "def": {
+    "games": 7,
+    "plays": 483,
+    "blitz_rate": 0.379746835443038,
+    "charted_db": 316,
+    "epa_blitz": 0.15078585341105014,
+    "epa_noblitz": 0.1879094297895392,
+    "epa": 0.08511073915684009,
+    "sr": 0.4720496894409938,
+    "h2_minus_h1": 0.04002688804042187,
+    "since_week": null
+   }
+  },
+  "CAR": {
+   "off": {
+    "games": 7,
+    "plays": 484,
+    "pace_sec": 33.0,
+    "early_pass_rate": 0.6080402010050251,
+    "proe": 9.440001313710333,
+    "pa_rate": 0.24921135646687698,
+    "screen_rate": 0.04416403785488959,
+    "epa": 0.01858575577165831,
+    "sr": 0.4194214876033058,
+    "h2_minus_h1": 0.047405420343164695,
+    "since_week": null
+   },
+   "def": {
+    "games": 7,
+    "plays": 476,
+    "blitz_rate": 0.3732394366197183,
+    "charted_db": 284,
+    "epa_blitz": 0.005536135308214334,
+    "epa_noblitz": 0.13415173399234012,
+    "epa": 0.030386196748570998,
+    "sr": 0.4432773109243697,
+    "h2_minus_h1": -0.18862836194189184,
+    "since_week": null
+   }
+  },
+  "CHI": {
+   "off": {
+    "games": 8,
+    "plays": 590,
+    "pace_sec": 34.0,
+    "early_pass_rate": 0.5042372881355932,
+    "proe": -2.3994135275735693,
+    "pa_rate": 0.32094594594594594,
+    "screen_rate": 0.0945945945945946,
+    "epa": 0.06633206832902344,
+    "sr": 0.47627118644067795,
+    "h2_minus_h1": -0.07543010492794855,
+    "since_week": null
+   },
+   "def": {
+    "games": 8,
+    "plays": 428,
+    "blitz_rate": 0.4050632911392405,
+    "charted_db": 237,
+    "epa_blitz": -0.044674469263481065,
+    "epa_noblitz": 0.0719915289354276,
+    "epa": -0.031911118151036734,
+    "sr": 0.40186915887850466,
+    "h2_minus_h1": -0.040104457232484056,
+    "since_week": null
+   }
+  },
+  "CIN": {
+   "off": {
+    "games": 7,
+    "plays": 443,
+    "pace_sec": 37.0,
+    "early_pass_rate": 0.6530612244897959,
+    "proe": 11.045250380221677,
+    "pa_rate": 0.1490066225165563,
+    "screen_rate": 0.06291390728476821,
+    "epa": 0.1178989649911842,
+    "sr": 0.5033860045146726,
+    "h2_minus_h1": 0.03793209879908431,
+    "since_week": null
+   },
+   "def": {
+    "games": 7,
+    "plays": 458,
+    "blitz_rate": 0.1836734693877551,
+    "charted_db": 294,
+    "epa_blitz": -0.006235915945740043,
+    "epa_noblitz": 0.05570431123332738,
+    "epa": -0.006181655310666201,
+    "sr": 0.44541484716157204,
+    "h2_minus_h1": -0.08130760930211456,
+    "since_week": null
+   }
+  },
+  "CLE": {
+   "off": {
+    "games": 8,
+    "plays": 507,
+    "pace_sec": 36.0,
+    "early_pass_rate": 0.5708333333333333,
+    "proe": 3.6720402476688228,
+    "pa_rate": 0.18126888217522658,
+    "screen_rate": 0.10574018126888217,
+    "epa": -0.06720571181515778,
+    "sr": 0.4280078895463511,
+    "h2_minus_h1": 0.10265483897182763,
+    "since_week": null
+   },
+   "def": {
+    "games": 8,
+    "plays": 509,
+    "blitz_rate": 0.25666666666666665,
+    "charted_db": 300,
+    "epa_blitz": -0.06354112077188125,
+    "epa_noblitz": 0.010974445146379729,
+    "epa": -0.018228158807490888,
+    "sr": 0.4243614931237721,
+    "h2_minus_h1": -0.09852694486636746,
+    "since_week": null
+   }
+  },
+  "DAL": {
+   "off": {
+    "games": 8,
+    "plays": 540,
+    "pace_sec": 34.0,
+    "early_pass_rate": 0.5308056872037915,
+    "proe": 0.18066011051431086,
+    "pa_rate": 0.22096317280453256,
+    "screen_rate": 0.059490084985835696,
+    "epa": 0.11996248184260007,
+    "sr": 0.4759259259259259,
+    "h2_minus_h1": 0.16993410955624244,
+    "since_week": null
+   },
+   "def": {
+    "games": 8,
+    "plays": 541,
+    "blitz_rate": 0.25705329153605017,
+    "charted_db": 319,
+    "epa_blitz": 0.1138754426357253,
+    "epa_noblitz": 0.28673492965186376,
+    "epa": 0.13341698602659632,
+    "sr": 0.4658040665434381,
+    "h2_minus_h1": 0.08634237718505104,
+    "since_week": null
+   }
+  },
+  "DEN": {
+   "off": {
+    "caller": "Sean Payton",
+    "weeks": "5-8",
+    "games": 4,
+    "plays": 240,
+    "pace_sec": 36.0,
+    "early_pass_rate": 0.5284552845528455,
+    "proe": -1.275716588749149,
+    "pa_rate": 0.24822695035460993,
+    "screen_rate": 0.1276595744680851,
+    "epa": -0.0017186566129164694,
+    "sr": 0.37083333333333335,
+    "h2_minus_h1": -0.13938749947968826,
+    "since_week": 5
+   },
+   "def": {
+    "games": 8,
+    "plays": 570,
+    "blitz_rate": 0.3547486033519553,
+    "charted_db": 358,
+    "epa_blitz": -0.061094422295443145,
+    "epa_noblitz": 0.013200090711554844,
+    "epa": -0.02580059847490286,
+    "sr": 0.4087719298245614,
+    "h2_minus_h1": -0.01961624643904658,
+    "since_week": null
+   }
+  },
+  "DET": {
+   "off": {
+    "games": 7,
+    "plays": 478,
+    "pace_sec": 34.0,
+    "early_pass_rate": 0.47317073170731705,
+    "proe": -5.077992452353966,
+    "pa_rate": 0.3129496402877698,
+    "screen_rate": 0.08273381294964029,
+    "epa": 0.11865398620150704,
+    "sr": 0.49581589958158995,
+    "h2_minus_h1": 0.21002889384112136,
+    "since_week": null
+   },
+   "def": {
+    "games": 7,
+    "plays": 486,
+    "blitz_rate": 0.26785714285714285,
+    "charted_db": 336,
+    "epa_blitz": 0.06334256635487287,
+    "epa_noblitz": 0.27747541755463073,
+    "epa": 0.1225036102119187,
+    "sr": 0.4609053497942387,
+    "h2_minus_h1": 0.13283701528971154,
+    "since_week": null
+   }
+  },
+  "GB": {
+   "off": {
+    "games": 8,
+    "plays": 518,
+    "pace_sec": 36.0,
+    "early_pass_rate": 0.551219512195122,
+    "proe": 1.3280516935557853,
+    "pa_rate": 0.1742857142857143,
+    "screen_rate": 0.09428571428571429,
+    "epa": 0.009692027274600721,
+    "sr": 0.3996138996138996,
+    "h2_minus_h1": -0.22589708934373065,
+    "since_week": null
+   },
+   "def": {
+    "games": 8,
+    "plays": 548,
+    "blitz_rate": 0.3392330383480826,
+    "charted_db": 339,
+    "epa_blitz": -0.05962381990524019,
+    "epa_noblitz": 0.024444948504631674,
+    "epa": -0.04383691182380213,
+    "sr": 0.44343065693430656,
+    "h2_minus_h1": 0.053522294381436776,
+    "since_week": null
+   }
+  },
+  "HOU": {
+   "off": {
+    "games": 7,
+    "plays": 452,
+    "pace_sec": 37.0,
+    "early_pass_rate": 0.5574468085106383,
+    "proe": 0.40635642219097057,
+    "pa_rate": 0.21843003412969283,
+    "screen_rate": 0.05460750853242321,
+    "epa": 0.0308066174782244,
+    "sr": 0.4336283185840708,
+    "h2_minus_h1": -0.010642958579561324,
+    "since_week": null
+   },
+   "def": {
+    "caller": "DeMeco Ryans",
+    "weeks": "5-8",
+    "games": 3,
+    "plays": 197,
+    "blitz_rate": 0.31666666666666665,
+    "charted_db": 120,
+    "epa_blitz": 0.04584843391402453,
+    "epa_noblitz": -0.01924959341675654,
+    "epa": 0.02302964231682616,
+    "sr": 0.4416243654822335,
+    "h2_minus_h1": 0.01981301327385707,
+    "since_week": 5
+   }
+  },
+  "IND": {
+   "off": {
+    "games": 8,
+    "plays": 527,
+    "pace_sec": 37.0,
+    "early_pass_rate": 0.5291666666666667,
+    "proe": -0.20371157055099806,
+    "pa_rate": 0.2829581993569132,
+    "screen_rate": 0.0707395498392283,
+    "epa": -0.11136713771521628,
+    "sr": 0.42125237191650855,
+    "h2_minus_h1": -0.06449422172367335,
+    "since_week": null
+   },
+   "def": {
+    "games": 8,
+    "plays": 476,
+    "blitz_rate": 0.21454545454545454,
+    "charted_db": 275,
+    "epa_blitz": 0.1597032858572109,
+    "epa_noblitz": 0.07558384178435988,
+    "epa": 0.047882426822858974,
+    "sr": 0.4264705882352941,
+    "h2_minus_h1": 0.0478204191953664,
+    "since_week": null
+   }
+  },
+  "JAX": {
+   "off": {
+    "games": 7,
+    "plays": 428,
+    "pace_sec": 38.0,
+    "early_pass_rate": 0.5445026178010471,
+    "proe": -0.5932956153809712,
+    "pa_rate": 0.25,
+    "screen_rate": 0.08898305084745763,
+    "epa": 0.12378356990060953,
+    "sr": 0.4649532710280374,
+    "h2_minus_h1": 0.014599027179254959,
+    "since_week": null
+   },
+   "def": {
+    "games": 7,
+    "plays": 433,
+    "blitz_rate": 0.30103806228373703,
+    "charted_db": 289,
+    "epa_blitz": -0.16047552897359818,
+    "epa_noblitz": 0.036344225700227016,
+    "epa": -0.0810030793456358,
+    "sr": 0.4226327944572748,
+    "h2_minus_h1": 0.24466877321062286,
+    "since_week": null
+   }
+  },
+  "KC": {
+   "off": {
+    "games": 7,
+    "plays": 437,
+    "pace_sec": 35.0,
+    "early_pass_rate": 0.5714285714285714,
+    "proe": 5.516041671076128,
+    "pa_rate": 0.30597014925373134,
+    "screen_rate": 0.16417910447761194,
+    "epa": 0.11340097400935703,
+    "sr": 0.47139588100686497,
+    "h2_minus_h1": -0.06087286306479128,
+    "since_week": null
+   },
+   "def": {
+    "games": 7,
+    "plays": 465,
+    "blitz_rate": 0.2578397212543554,
+    "charted_db": 287,
+    "epa_blitz": 0.17654041930928777,
+    "epa_noblitz": 0.015787876814176663,
+    "epa": -0.022832004141981978,
+    "sr": 0.4150537634408602,
+    "h2_minus_h1": -0.1514664858646788,
+    "since_week": null
+   }
+  },
+  "LA": {
+   "off": {
+    "games": 8,
+    "plays": 546,
+    "pace_sec": 37.0,
+    "early_pass_rate": 0.6131687242798354,
+    "proe": 6.309346167884246,
+    "pa_rate": 0.25958702064896755,
+    "screen_rate": 0.07669616519174041,
+    "epa": 0.046705187197990765,
+    "sr": 0.48717948717948717,
+    "h2_minus_h1": -0.03365440909637718,
+    "since_week": null
+   },
+   "def": {
+    "games": 8,
+    "plays": 510,
+    "blitz_rate": 0.2947019867549669,
+    "charted_db": 302,
+    "epa_blitz": -0.0558853646710864,
+    "epa_noblitz": -0.014685002492408901,
+    "epa": -0.08149214198474028,
+    "sr": 0.4137254901960784,
+    "h2_minus_h1": 0.1313254342448523,
+    "since_week": null
+   }
+  },
+  "LAC": {
+   "off": {
+    "games": 7,
+    "plays": 456,
+    "pace_sec": 36.0,
+    "early_pass_rate": 0.4305555555555556,
+    "proe": -11.425697741409143,
+    "pa_rate": 0.2527075812274368,
+    "screen_rate": 0.10469314079422383,
+    "epa": -0.23060938971615716,
+    "sr": 0.35964912280701755,
+    "h2_minus_h1": 0.011658495029866517,
+    "since_week": null
+   },
+   "def": {
+    "games": 7,
+    "plays": 430,
+    "blitz_rate": 0.2727272727272727,
+    "charted_db": 231,
+    "epa_blitz": -0.12546304170051228,
+    "epa_noblitz": 0.03504880587985383,
+    "epa": -0.038119528120929336,
+    "sr": 0.4372093023255814,
+    "h2_minus_h1": -0.009197596915768984,
+    "since_week": null
+   }
+  },
+  "LV": {
+   "off": {
+    "games": 8,
+    "plays": 525,
+    "pace_sec": 35.0,
+    "early_pass_rate": 0.5,
+    "proe": -0.9839189465807265,
+    "pa_rate": 0.25227963525835867,
+    "screen_rate": 0.0851063829787234,
+    "epa": 0.046194452351209045,
+    "sr": 0.44,
+    "h2_minus_h1": -0.022809464898868377,
+    "since_week": null
+   },
+   "def": {
+    "games": 8,
+    "plays": 525,
+    "blitz_rate": 0.2645161290322581,
+    "charted_db": 310,
+    "epa_blitz": 0.040697382941123614,
+    "epa_noblitz": 0.2048262808297379,
+    "epa": 0.06389508384520502,
+    "sr": 0.4742857142857143,
+    "h2_minus_h1": -0.272109375814316,
+    "since_week": null
+   }
+  },
+  "MIA": {
+   "off": {
+    "games": 7,
+    "plays": 418,
+    "pace_sec": 38.0,
+    "early_pass_rate": 0.4438202247191011,
+    "proe": -8.372746893529142,
+    "pa_rate": 0.22916666666666666,
+    "screen_rate": 0.09583333333333334,
+    "epa": -0.046547340775100574,
+    "sr": 0.4043062200956938,
+    "h2_minus_h1": -0.11383425983434174,
+    "since_week": null
+   },
+   "def": {
+    "games": 7,
+    "plays": 416,
+    "blitz_rate": 0.24017467248908297,
+    "charted_db": 229,
+    "epa_blitz": 0.48532003581422745,
+    "epa_noblitz": 0.22554421789764217,
+    "epa": 0.12334328257744537,
+    "sr": 0.49278846153846156,
+    "h2_minus_h1": 0.022951028173185062,
+    "since_week": null
+   }
+  },
+  "MIN": {
+   "off": {
+    "games": 7,
+    "plays": 422,
+    "pace_sec": 37.0,
+    "early_pass_rate": 0.4979253112033195,
+    "proe": -4.545182070049507,
+    "pa_rate": 0.3333333333333333,
+    "screen_rate": 0.10441767068273092,
+    "epa": -0.09896573633940711,
+    "sr": 0.3767772511848341,
+    "h2_minus_h1": 0.10805935024659657,
+    "since_week": null
+   },
+   "def": {
+    "games": 7,
+    "plays": 424,
+    "blitz_rate": 0.7224489795918367,
+    "charted_db": 245,
+    "epa_blitz": -0.19507529170195778,
+    "epa_noblitz": -0.24843083139651903,
+    "epa": -0.18943698901844805,
+    "sr": 0.3608490566037736,
+    "h2_minus_h1": -0.13635136906364498,
+    "since_week": null
+   }
+  },
+  "NE": {
+   "off": {
+    "games": 8,
+    "plays": 508,
+    "pace_sec": 37.0,
+    "early_pass_rate": 0.5305164319248826,
+    "proe": 0.13045696585391048,
+    "pa_rate": 0.21,
+    "screen_rate": 0.07666666666666666,
+    "epa": 0.05742173997687416,
+    "sr": 0.4547244094488189,
+    "h2_minus_h1": -0.0373503951380522,
+    "since_week": null
+   },
+   "def": {
+    "games": 8,
+    "plays": 491,
+    "blitz_rate": 0.3770491803278688,
+    "charted_db": 305,
+    "epa_blitz": 0.02390157910958426,
+    "epa_noblitz": 0.11572530279421431,
+    "epa": 0.010852774543292993,
+    "sr": 0.43584521384928715,
+    "h2_minus_h1": 0.025032030195021013,
+    "since_week": null
+   }
+  },
+  "NO": {
+   "off": {
+    "games": 7,
+    "plays": 474,
+    "pace_sec": 33.0,
+    "early_pass_rate": 0.5518867924528302,
+    "proe": 0.4123609794198342,
+    "pa_rate": 0.16025641025641027,
+    "screen_rate": 0.035256410256410256,
+    "epa": -0.030866357702197318,
+    "sr": 0.41983122362869196,
+    "h2_minus_h1": 0.0443676940597274,
+    "since_week": null
+   },
+   "def": {
+    "games": 7,
+    "plays": 454,
+    "blitz_rate": 0.34814814814814815,
+    "charted_db": 270,
+    "epa_blitz": 0.0331492578535262,
+    "epa_noblitz": 0.1701932918650633,
+    "epa": 0.0806408076324207,
+    "sr": 0.4911894273127753,
+    "h2_minus_h1": -0.05470006492578719,
+    "since_week": null
+   }
+  },
+  "NYG": {
+   "off": {
+    "games": 7,
+    "plays": 475,
+    "pace_sec": 37.0,
+    "early_pass_rate": 0.4479166666666667,
+    "proe": -7.3948662650461,
+    "pa_rate": 0.2078853046594982,
+    "screen_rate": 0.06093189964157706,
+    "epa": 0.027393633077048226,
+    "sr": 0.42947368421052634,
+    "h2_minus_h1": 0.09873185979036073,
+    "since_week": null
+   },
+   "def": {
+    "games": 7,
+    "plays": 433,
+    "blitz_rate": 0.40076335877862596,
+    "charted_db": 262,
+    "epa_blitz": -0.1307178130896235,
+    "epa_noblitz": 0.2246645289570831,
+    "epa": 0.013239277510252912,
+    "sr": 0.43187066974595845,
+    "h2_minus_h1": 0.19310598411659194,
+    "since_week": null
+   }
+  },
+  "NYJ": {
+   "off": {
+    "games": 8,
+    "plays": 481,
+    "pace_sec": 37.0,
+    "early_pass_rate": 0.4921259842519685,
+    "proe": -2.345313125942636,
+    "pa_rate": 0.1986062717770035,
+    "screen_rate": 0.08362369337979095,
+    "epa": 0.04088994736097696,
+    "sr": 0.4553014553014553,
+    "h2_minus_h1": 0.06949566737631464,
+    "since_week": null
+   },
+   "def": {
+    "games": 8,
+    "plays": 522,
+    "blitz_rate": 0.3838383838383838,
+    "charted_db": 297,
+    "epa_blitz": 0.21062018633065394,
+    "epa_noblitz": 0.18141668241485148,
+    "epa": 0.04352401964323147,
+    "sr": 0.45977011494252873,
+    "h2_minus_h1": -0.018076479509990993,
+    "since_week": null
+   }
+  },
+  "PHI": {
+   "off": {
+    "games": 8,
+    "plays": 501,
+    "pace_sec": 37.0,
+    "early_pass_rate": 0.4943820224719101,
+    "proe": -3.644145450342014,
+    "pa_rate": 0.17901234567901234,
+    "screen_rate": 0.04938271604938271,
+    "epa": -0.09592619183629482,
+    "sr": 0.3772455089820359,
+    "h2_minus_h1": -0.3088204520151989,
+    "since_week": null
+   },
+   "def": {
+    "games": 8,
+    "plays": 549,
+    "blitz_rate": 0.2848101265822785,
+    "charted_db": 316,
+    "epa_blitz": 0.30611847471659576,
+    "epa_noblitz": 0.08630416778139394,
+    "epa": 0.09388529511336079,
+    "sr": 0.453551912568306,
+    "h2_minus_h1": 0.16541435334871232,
+    "since_week": null
+   }
+  },
+  "PIT": {
+   "off": {
+    "games": 8,
+    "plays": 517,
+    "pace_sec": 37.0,
+    "early_pass_rate": 0.5765765765765766,
+    "proe": 5.00354725901071,
+    "pa_rate": 0.16666666666666666,
+    "screen_rate": 0.12797619047619047,
+    "epa": -0.011050865335785986,
+    "sr": 0.4274661508704062,
+    "h2_minus_h1": -0.1445750798280238,
+    "since_week": null
+   },
+   "def": {
+    "games": 8,
+    "plays": 503,
+    "blitz_rate": 0.2710843373493976,
+    "charted_db": 332,
+    "epa_blitz": 0.25528547339674484,
+    "epa_noblitz": -0.1188129182002665,
+    "epa": -0.06833790897947468,
+    "sr": 0.42147117296222664,
+    "h2_minus_h1": -0.19022650635074304,
+    "since_week": null
+   }
+  },
+  "SEA": {
+   "off": {
+    "games": 8,
+    "plays": 520,
+    "pace_sec": 37.0,
+    "early_pass_rate": 0.4692982456140351,
+    "proe": -7.537395585524409,
+    "pa_rate": 0.26953125,
+    "screen_rate": 0.11328125,
+    "epa": -0.05017810059309545,
+    "sr": 0.4153846153846154,
+    "h2_minus_h1": 0.22796026090110916,
+    "since_week": null
+   },
+   "def": {
+    "games": 8,
+    "plays": 496,
+    "blitz_rate": 0.2188679245283019,
+    "charted_db": 265,
+    "epa_blitz": -0.26964786280977493,
+    "epa_noblitz": -0.013901668728312524,
+    "epa": -0.0769900154568299,
+    "sr": 0.3870967741935484,
+    "h2_minus_h1": -0.06572237216002458,
+    "since_week": null
+   }
+  },
+  "SF": {
+   "off": {
+    "games": 7,
+    "plays": 414,
+    "pace_sec": 37.0,
+    "early_pass_rate": 0.5476190476190477,
+    "proe": 3.366094534950597,
+    "pa_rate": 0.2125,
+    "screen_rate": 0.09583333333333334,
+    "epa": 0.1537804535094327,
+    "sr": 0.5265700483091788,
+    "h2_minus_h1": -0.0558644952418811,
+    "since_week": null
+   },
+   "def": {
+    "games": 7,
+    "plays": 461,
+    "blitz_rate": 0.32280701754385965,
+    "charted_db": 285,
+    "epa_blitz": -0.043115215347177445,
+    "epa_noblitz": 0.11795161595152046,
+    "epa": -0.04024273730393997,
+    "sr": 0.4360086767895879,
+    "h2_minus_h1": 0.16893942746998836,
+    "since_week": null
+   }
+  },
+  "TB": {
+   "off": {
+    "games": 8,
+    "plays": 516,
+    "pace_sec": 39.0,
+    "early_pass_rate": 0.4312796208530806,
+    "proe": -12.151032608549741,
+    "pa_rate": 0.213768115942029,
+    "screen_rate": 0.08333333333333333,
+    "epa": -0.09125564468910789,
+    "sr": 0.4108527131782946,
+    "h2_minus_h1": -0.001938358632981016,
+    "since_week": null
+   },
+   "def": {
+    "games": 8,
+    "plays": 479,
+    "blitz_rate": 0.40584415584415584,
+    "charted_db": 308,
+    "epa_blitz": -0.33636522526725465,
+    "epa_noblitz": 0.001856370536303112,
+    "epa": -0.14827613039293921,
+    "sr": 0.40083507306889354,
+    "h2_minus_h1": 0.08531165624096065,
+    "since_week": null
+   }
+  },
+  "TEN": {
+   "off": {
+    "games": 8,
+    "plays": 471,
+    "pace_sec": 33.0,
+    "early_pass_rate": 0.47342995169082125,
+    "proe": -5.1712644632887725,
+    "pa_rate": 0.2195945945945946,
+    "screen_rate": 0.0777027027027027,
+    "epa": -0.08301216332201433,
+    "sr": 0.416135881104034,
+    "h2_minus_h1": 0.24831761723037307,
+    "since_week": null
+   },
+   "def": {
+    "games": 8,
+    "plays": 554,
+    "blitz_rate": 0.2413793103448276,
+    "charted_db": 319,
+    "epa_blitz": 0.3148095703424867,
+    "epa_noblitz": 0.13419636372781155,
+    "epa": 0.06102982810135699,
+    "sr": 0.463898916967509,
+    "h2_minus_h1": -0.12550002633767116,
+    "since_week": null
+   }
+  },
+  "WAS": {
+   "off": {
+    "games": 7,
+    "plays": 454,
+    "pace_sec": 35.0,
+    "early_pass_rate": 0.521505376344086,
+    "proe": -1.329990380233334,
+    "pa_rate": 0.21724137931034482,
+    "screen_rate": 0.041379310344827586,
+    "epa": -0.005499534039415379,
+    "sr": 0.4118942731277533,
+    "h2_minus_h1": 0.14666562131362468,
+    "since_week": null
+   },
+   "def": {
+    "games": 7,
+    "plays": 458,
+    "blitz_rate": 0.4395973154362416,
+    "charted_db": 298,
+    "epa_blitz": -0.0015519145675268325,
+    "epa_noblitz": 0.1791187249013513,
+    "epa": 0.033084614157120565,
+    "sr": 0.4650655021834061,
+    "h2_minus_h1": 0.08035508758086661,
+    "since_week": null
+   }
+  }
+ },
+ "splits": [
+  {
+   "team": "DEN",
+   "side": "off",
+   "rows": [
+    {
+     "caller": "Davis Webb",
+     "weeks": "1-4",
+     "games": 4,
+     "plays": 240,
+     "pace_sec": 36.0,
+     "early_pass_rate": 0.5966386554621849,
+     "proe": 3.8738774527020814,
+     "pa_rate": 0.23178807947019867,
+     "screen_rate": 0.09271523178807947,
+     "epa": -0.0343619974588671,
+     "sr": 0.4041666666666667,
+     "h2_minus_h1": 0.2158219008778851
+    },
+    {
+     "caller": "Sean Payton",
+     "weeks": "5-8",
+     "games": 4,
+     "plays": 240,
+     "pace_sec": 36.0,
+     "early_pass_rate": 0.5284552845528455,
+     "proe": -1.275716588749149,
+     "pa_rate": 0.24822695035460993,
+     "screen_rate": 0.1276595744680851,
+     "epa": -0.0017186566129164694,
+     "sr": 0.37083333333333335,
+     "h2_minus_h1": -0.13938749947968826
+    }
+   ],
+   "note": "Payton took play-calling back from Webb after four games (announced 8 Oct); Webb stays as OC"
+  },
+  {
+   "team": "HOU",
+   "side": "def",
+   "rows": [
+    {
+     "caller": "Matt Burke",
+     "weeks": "1-4",
+     "games": 4,
+     "plays": 263,
+     "blitz_rate": 0.20481927710843373,
+     "charted_db": 166,
+     "epa_blitz": 0.22442496287077154,
+     "epa_noblitz": 0.17103880211437297,
+     "epa": 0.06833176913161441,
+     "sr": 0.40304182509505704,
+     "h2_minus_h1": 0.03194914303669109
+    },
+    {
+     "caller": "DeMeco Ryans",
+     "weeks": "5-8",
+     "games": 3,
+     "plays": 197,
+     "blitz_rate": 0.31666666666666665,
+     "charted_db": 120,
+     "epa_blitz": 0.04584843391402453,
+     "epa_noblitz": -0.01924959341675654,
+     "epa": 0.02302964231682616,
+     "sr": 0.4416243654822335,
+     "h2_minus_h1": 0.01981301327385707
+    }
+   ],
+   "note": "Ryans took defensive play-calling from Burke after an 0-4 start (announced 7 Oct); Burke stays as DC"
+  }
+ ],
+ "league": {
+  "off": {
+   "games": 7.5625,
+   "plays": 487.25,
+   "pace_sec": 36.1875,
+   "early_pass_rate": 0.51839841065523,
+   "proe": -1.3354277263405874,
+   "pa_rate": 0.23099224751996544,
+   "screen_rate": 0.08353260717006299,
+   "epa": 0.007752756488640212,
+   "sr": 0.437478280776216,
+   "h2_minus_h1": 0.0172786863535867
+  },
+  "def": {
+   "games": 7.5625,
+   "plays": 487.25,
+   "blitz_rate": 0.31940653736047675,
+   "charted_db": 294.375,
+   "epa_blitz": 0.03435101852046835,
+   "epa_noblitz": 0.09398450235081196,
+   "epa": 0.005769870952813096,
+   "sr": 0.4371888950403163,
+   "h2_minus_h1": 0.01796867801229974
+  }
+ },
+ "gm": {
+  "ARI": {
+   "two_pt_att": 0.0,
+   "two_pt_rate": 0.0
+  },
+  "ATL": {
+   "two_pt_att": 3.0,
+   "two_pt_rate": 0.15789473684210525
+  },
+  "BAL": {
+   "two_pt_att": 2.0,
+   "two_pt_rate": 0.1
+  },
+  "BUF": {
+   "two_pt_att": 4.0,
+   "two_pt_rate": 0.14814814814814814
+  },
+  "CAR": {
+   "two_pt_att": 3.0,
+   "two_pt_rate": 0.14285714285714285
+  },
+  "CHI": {
+   "two_pt_att": 0.0,
+   "two_pt_rate": 0.0
+  },
+  "CIN": {
+   "two_pt_att": 1.0,
+   "two_pt_rate": 0.04
+  },
+  "CLE": {
+   "two_pt_att": 1.0,
+   "two_pt_rate": 0.07692307692307693
+  },
+  "DAL": {
+   "two_pt_att": 4.0,
+   "two_pt_rate": 0.16
+  },
+  "DEN": {
+   "two_pt_att": 4.0,
+   "two_pt_rate": 0.2222222222222222
+  },
+  "DET": {
+   "two_pt_att": 1.0,
+   "two_pt_rate": 0.041666666666666664
+  },
+  "GB": {
+   "two_pt_att": 1.0,
+   "two_pt_rate": 0.05
+  },
+  "HOU": {
+   "two_pt_att": 1.0,
+   "two_pt_rate": 0.058823529411764705
+  },
+  "IND": {
+   "two_pt_att": 0.0,
+   "two_pt_rate": 0.0
+  },
+  "JAX": {
+   "two_pt_att": 1.0,
+   "two_pt_rate": 0.041666666666666664
+  },
+  "KC": {
+   "two_pt_att": 1.0,
+   "two_pt_rate": 0.05263157894736842
+  },
+  "LA": {
+   "two_pt_att": 2.0,
+   "two_pt_rate": 0.08
+  },
+  "LAC": {
+   "two_pt_att": 0.0,
+   "two_pt_rate": 0.0
+  },
+  "LV": {
+   "two_pt_att": 5.0,
+   "two_pt_rate": 0.20833333333333334
+  },
+  "MIA": {
+   "two_pt_att": 2.0,
+   "two_pt_rate": 0.15384615384615385
+  },
+  "MIN": {
+   "two_pt_att": 2.0,
+   "two_pt_rate": 0.16666666666666666
+  },
+  "NE": {
+   "two_pt_att": 1.0,
+   "two_pt_rate": 0.045454545454545456
+  },
+  "NO": {
+   "two_pt_att": 2.0,
+   "two_pt_rate": 0.1
+  },
+  "NYG": {
+   "two_pt_att": 4.0,
+   "two_pt_rate": 0.25
+  },
+  "NYJ": {
+   "two_pt_att": 3.0,
+   "two_pt_rate": 0.17647058823529413
+  },
+  "PHI": {
+   "two_pt_att": 0.0,
+   "two_pt_rate": 0.0
+  },
+  "PIT": {
+   "two_pt_att": 2.0,
+   "two_pt_rate": 0.1111111111111111
+  },
+  "SEA": {
+   "two_pt_att": 2.0,
+   "two_pt_rate": 0.1
+  },
+  "SF": {
+   "two_pt_att": 1.0,
+   "two_pt_rate": 0.038461538461538464
+  },
+  "TB": {
+   "two_pt_att": 0.0,
+   "two_pt_rate": 0.0
+  },
+  "TEN": {
+   "two_pt_att": 3.0,
+   "two_pt_rate": 0.2
+  },
+  "WAS": {
+   "two_pt_att": 3.0,
+   "two_pt_rate": 0.17647058823529413
+  }
+ }
+}

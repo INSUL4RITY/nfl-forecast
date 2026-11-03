@@ -582,6 +582,7 @@ def qb_scenarios(p: pd.DataFrame, Q: pd.DataFrame, ros_cur: pd.DataFrame, inj_la
                 "dropbacks": int(ndb), "starts": int(len(gids)),
                 "start_weeks": sorted(int(w) for w in st[st.passer_id == pid].week),
                 "epa_db": None if r is None else float(r.epa_db), "adj_epa_db": None if r is None else float(r.adj_epa_db),
+                "sr": None if r is None else float(r.sr),
                 "sack_rate": None if r is None else float(r.sack_rate),
                 "int_worthy": None if r is None or pd.isna(r.int_worthy_rate) else float(r.int_worthy_rate),
                 "epa_vs_blitz": None if r is None or pd.isna(r.epa_vs_blitz) else float(r.epa_vs_blitz),

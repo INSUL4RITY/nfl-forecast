@@ -1,0 +1,1965 @@
+{
+ "fatigue": {
+  "play_epa": {
+   "coef": 0.0005071349849438857,
+   "se": 0.004340605457908532,
+   "n": 190555
+  },
+  "play_success": {
+   "coef": -0.004321734873698282,
+   "se": 0.0016277748325330685,
+   "n": 190555
+  },
+  "drive_quick": {
+   "coef": 0.0004708683433463553,
+   "se": 0.007861789650373275,
+   "n": 30301,
+   "share": 0.3325632817398766
+  },
+  "drive_rest_under8": {
+   "coef": -0.0065186579248792224,
+   "se": 0.013853456167986685,
+   "n": 13823,
+   "share": 0.23294509151414308
+  },
+  "game_prev_plays": {
+   "coef": 0.00487273863100151,
+   "se": 0.003863567799900987,
+   "n": 2768
+  },
+  "by_quarter": [
+   {
+    "qtr": 1,
+    "epa_all": -0.008891434860581674,
+    "epa_close": -0.008047333117675583,
+    "n": 42750
+   },
+   {
+    "qtr": 2,
+    "epa_all": 0.0363069517396184,
+    "epa_close": 0.036388891367979376,
+    "n": 51736
+   },
+   {
+    "qtr": 3,
+    "epa_all": 0.0014390020631147625,
+    "epa_close": 0.005377563008395033,
+    "n": 43482
+   },
+   {
+    "qtr": 4,
+    "epa_all": -0.018030362029631538,
+    "epa_close": 0.003212391904145953,
+    "n": 51254
+   }
+  ],
+  "seasons": [
+   2021,
+   2022,
+   2023,
+   2024,
+   2025,
+   2026
+  ]
+ },
+ "travel": {
+  "seasons": [
+   2002,
+   2025
+  ],
+  "games": 6223,
+  "by_dir_slot": [
+   {
+    "group": "east 2+ / early",
+    "n": 558,
+    "mean": -1.4199260922469297,
+    "lo": -2.5451873725350795,
+    "hi": -0.2946648119587796,
+    "vs_same": -1.4742857312151714,
+    "vs_lo": -2.715719114839067,
+    "vs_hi": -0.2328523475912756
+   },
+   {
+    "group": "east 2+ / late",
+    "n": 110,
+    "mean": 1.0107380254915754,
+    "lo": -1.506677644397588,
+    "hi": 3.528153695380739,
+    "vs_same": 0.9563783865233337,
+    "vs_lo": -1.615065867599951,
+    "vs_hi": 3.5278226406466184
+   },
+   {
+    "group": "east 2+ / night",
+    "n": 81,
+    "mean": 1.6114111926605266,
+    "lo": -1.1702291621126117,
+    "hi": 4.393051547433664,
+    "vs_same": 1.5570515536922849,
+    "vs_lo": -1.2735785811650726,
+    "vs_hi": 4.387681688549643
+   },
+   {
+    "group": "one zone / early",
+    "n": 1268,
+    "mean": 0.5945971016338987,
+    "lo": -0.14245137720528167,
+    "hi": 1.331645580473079,
+    "vs_same": 0.540237462665657,
+    "vs_lo": -0.36429797457231994,
+    "vs_hi": 1.4447728999036338
+   },
+   {
+    "group": "one zone / late",
+    "n": 502,
+    "mean": -0.7314319721737842,
+    "lo": -1.9515403418699075,
+    "hi": 0.48867639752233905,
+    "vs_same": -0.7857916111420259,
+    "vs_lo": -2.1138007718268006,
+    "vs_hi": 0.5422175495427489
+   },
+   {
+    "group": "one zone / night",
+    "n": 346,
+    "mean": 0.3060489834942401,
+    "lo": -1.122526248277541,
+    "hi": 1.7346242152660214,
+    "vs_same": 0.2516893445259984,
+    "vs_lo": -1.2700764357082486,
+    "vs_hi": 1.7734551247602455
+   },
+   {
+    "group": "same zone / early",
+    "n": 1595,
+    "mean": 0.2054481304705482,
+    "lo": -0.45938063903838944,
+    "hi": 0.8702768999794859,
+    "vs_same": 0.1510884915023065,
+    "vs_lo": -0.6956353063367033,
+    "vs_hi": 0.9978122893413164
+   },
+   {
+    "group": "same zone / late",
+    "n": 462,
+    "mean": -0.06072752612118953,
+    "lo": -1.2699682834680668,
+    "hi": 1.1485132312256878,
+    "vs_same": -0.11508716508943123,
+    "vs_lo": -1.4331186921361092,
+    "vs_hi": 1.2029443619572469
+   },
+   {
+    "group": "same zone / night",
+    "n": 488,
+    "mean": -0.33050895462778657,
+    "lo": -1.5344824525346423,
+    "hi": 0.8734645432790691,
+    "vs_same": -0.38486859359602826,
+    "vs_lo": -1.6980692944495641,
+    "vs_hi": 0.9283321072575075
+   },
+   {
+    "group": "west 2+ / early",
+    "n": 9,
+    "mean": 3.69083907631994,
+    "lo": -7.7809147552484825,
+    "hi": 15.162592907888364,
+    "vs_same": 3.6364794373516984,
+    "vs_lo": -7.847251657948511,
+    "vs_hi": 15.120210532651907
+   },
+   {
+    "group": "west 2+ / late",
+    "n": 589,
+    "mean": 0.29524041864402967,
+    "lo": -0.7930636779441549,
+    "hi": 1.3835445152322141,
+    "vs_same": 0.24088077967578797,
+    "vs_lo": -0.9671546931936028,
+    "vs_hi": 1.4489162525451786
+   },
+   {
+    "group": "west 2+ / night",
+    "n": 149,
+    "mean": -2.0702578965476204,
+    "lo": -4.074754355645338,
+    "hi": -0.06576143744990359,
+    "vs_same": -2.124617535515862,
+    "vs_lo": -4.196561055883981,
+    "vs_hi": -0.05267401514774317
+   }
+  ],
+  "by_body_clock": [
+   {
+    "group": "3-6pm",
+    "n": 1358,
+    "mean": -0.351597624081707,
+    "lo": -1.0731808128324491,
+    "hi": 0.3699855646690352,
+    "vs_same": -0.4059572630499487,
+    "vs_lo": -1.297936071849708,
+    "vs_hi": 0.4860215457498106
+   },
+   {
+    "group": "6-9pm",
+    "n": 933,
+    "mean": -0.32329127319449286,
+    "lo": -1.1847966355685173,
+    "hi": 0.5382140891795315,
+    "vs_same": -0.37765091216273455,
+    "vs_lo": -1.386182213838269,
+    "vs_hi": 0.6308803895127999
+   },
+   {
+    "group": "9pm or later",
+    "n": 5,
+    "mean": -5.624919884104618,
+    "lo": -21.12926688089398,
+    "hi": 9.879427112684745,
+    "vs_same": -5.67927952307286,
+    "vs_lo": -21.192490657261406,
+    "vs_hi": 9.833931611115684
+   },
+   {
+    "group": "before noon",
+    "n": 693,
+    "mean": -0.8237556496574286,
+    "lo": -1.8437729294627716,
+    "hi": 0.19626163014791442,
+    "vs_same": -0.8781152886256703,
+    "vs_lo": -2.0250150872836175,
+    "vs_hi": 0.2687845100322769
+   },
+   {
+    "group": "noon-3pm",
+    "n": 3168,
+    "mean": 0.428386541019152,
+    "lo": -0.03946696516003251,
+    "hi": 0.8962400471983365,
+    "vs_same": 0.3740269020509103,
+    "vs_lo": -0.32870405664118013,
+    "vs_hi": 1.0767578607430008
+   }
+  ],
+  "rest": [
+   {
+    "group": "short week (5 days or fewer)",
+    "n": 587,
+    "mean": 0.012071653191757226,
+    "lo": -1.0592881234430593,
+    "hi": 1.083431429826574
+   },
+   {
+    "group": "normal (6-8 days)",
+    "n": 10451,
+    "mean": -0.10633645035871159,
+    "lo": -0.367334545720423,
+    "hi": 0.15466164500299984
+   },
+   {
+    "group": "long (9-12 days)",
+    "n": 640,
+    "mean": 0.2675784713832168,
+    "lo": -0.7174403542475453,
+    "hi": 1.252597297013979
+   },
+   {
+    "group": "after bye (13+ days)",
+    "n": 768,
+    "mean": 1.2148254695183265,
+    "lo": 0.31169682636547136,
+    "hi": 2.117954112671182
+   },
+   {
+    "group": "second straight road game",
+    "n": 1703,
+    "mean": 0.16667836883901313,
+    "lo": -0.4632314609507937,
+    "hi": 0.7965881986288199
+   },
+   {
+    "group": "road game after a home game",
+    "n": 4073,
+    "mean": -0.20832692204031947,
+    "lo": -0.6257659848859988,
+    "hi": 0.2091121408053598
+   },
+   {
+    "group": "first game after an international game",
+    "n": 126,
+    "mean": -0.31513278808045864,
+    "lo": -2.320859782716041,
+    "hi": 1.6905942065551238
+   }
+  ],
+  "resid_sd": 13.50064137118183
+ },
+ "qb": {
+  "ARI": {
+   "qbs": [
+    {
+     "id": "00-0033119",
+     "name": "Jacoby Brissett",
+     "dropbacks": 352,
+     "starts": 8,
+     "start_weeks": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+     ],
+     "epa_db": -0.024941008706758912,
+     "adj_epa_db": -0.014133594489186338,
+     "sr": 0.44886363636363635,
+     "sack_rate": 0.05397727272727273,
+     "int_worthy": 0.026402640264026403,
+     "epa_vs_blitz": -0.1300320321438893,
+     "epa_hit_sack": -0.8919891355811612,
+     "scr_rate": 0.028409090909090908,
+     "team_epa_play_in_starts": -0.007449888550740629,
+     "team_plays_in_starts": 576,
+     "roster_status": "ACT",
+     "report_status": null,
+     "practice_status": null,
+     "report_week": null,
+     "latest_starter": true
+    }
+   ],
+   "latest": "00-0033119",
+   "primary": "00-0033119",
+   "flags": []
+  },
+  "ATL": {
+   "qbs": [
+    {
+     "id": "00-0039917",
+     "name": "Michael Penix Jr.",
+     "dropbacks": 191,
+     "starts": 6,
+     "start_weeks": [
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+     ],
+     "epa_db": 0.0597486324100224,
+     "adj_epa_db": 0.09599212424665861,
+     "sr": 0.45549738219895286,
+     "sack_rate": 0.04712041884816754,
+     "int_worthy": 0.041916167664670656,
+     "epa_vs_blitz": -0.03394623294482981,
+     "epa_hit_sack": -1.871723217924591,
+     "scr_rate": 0.02617801047120419,
+     "team_epa_play_in_starts": 0.03539250869397654,
+     "team_plays_in_starts": 356,
+     "roster_status": "ACT",
+     "report_status": null,
+     "practice_status": null,
+     "report_week": null,
+     "latest_starter": true
+    },
+    {
+     "id": "00-0033662",
+     "name": "Cooper Rush",
+     "dropbacks": 49,
+     "starts": 2,
+     "start_weeks": [
+      1,
+      2
+     ],
+     "epa_db": -0.6900138359882244,
+     "adj_epa_db": -0.6891821257728699,
+     "sr": 0.32653061224489793,
+     "sack_rate": 0.10204081632653061,
+     "int_worthy": 0.1282051282051282,
+     "epa_vs_blitz": -0.33922609340251336,
+     "epa_hit_sack": -1.3345504705627849,
+     "scr_rate": 0.04081632653061224,
+     "team_epa_play_in_starts": -0.4258555747299505,
+     "team_plays_in_starts": 129,
+     "roster_status": null,
+     "report_status": null,
+     "practice_status": null,
+     "report_week": null,
+     "latest_starter": false
+    }
+   ],
+   "latest": "00-0039917",
+   "primary": "00-0039917",
+   "flags": [
+    "Season figures mix quarterbacks."
+   ]
+  },
+  "BAL": {
+   "qbs": [
+    {
+     "id": "00-0035993",
+     "name": "Tyler Huntley",
+     "dropbacks": 134,
+     "starts": 3,
+     "start_weeks": [
+      5,
+      6,
+      7
+     ],
+     "epa_db": -0.031395777213737576,
+     "adj_epa_db": -0.0042763061264339194,
+     "sr": 0.4552238805970149,
+     "sack_rate": 0.08208955223880597,
+     "int_worthy": 0.03636363636363636,
+     "epa_vs_blitz": 0.12964439111399761,
+     "epa_hit_sack": -0.6440725617479378,
+     "scr_rate": 0.08208955223880597,
+     "team_epa_play_in_starts": -0.04136677195955391,
+     "team_plays_in_starts": 197,
+     "roster_status": "ACT",
+     "report_status": null,
+     "practice_status": null,
+     "report_week": null,
+     "latest_starter": false
+    },
+    {
+     "id": "00-0034796",
+     "name": "Lamar Jackson",
+     "dropbacks": 123,
+     "starts": 4,
+     "start_weeks": [
+      1,
+      2,
+      3,
+      4
+     ],
+     "epa_db": 0.34079595720301875,
+     "adj_epa_db": 0.2352942526789135,
+     "sr": 0.5447154471544715,
+     "sack_rate": 0.056910569105691054,
+     "int_worthy": 0.031578947368421054,
+     "epa_vs_blitz": 0.20238151665225382,
+     "epa_hit_sack": -1.2703784736450956,
+     "scr_rate": 0.08943089430894309,
+     "team_epa_play_in_starts": 0.16046675802169222,
+     "team_plays_in_starts": 247,
+     "roster_status": "ACT",
+     "report_status": null,
+     "practice_status": "Full Participation in Practice",
+     "report_week": 8,
+     "latest_starter": false
+    }
+   ],
+   "latest": "00-0040981",
+   "primary": "00-0034796",
+   "flags": [
+    "Season figures mix quarterbacks.",
+    "Lamar Jackson (4 starts, the most on the team) practice status in the week 8 report: full participation in practice. If he returns, the passing profile could differ from the recent games."
+   ]
+  },
+  "BUF": {
+   "qbs": [
+    {
+     "id": "00-0034857",
+     "name": "Josh Allen",
+     "dropbacks": 260,
+     "starts": 7,
+     "start_weeks": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      8
+     ],
+     "epa_db": 0.29565288152766017,
+     "adj_epa_db": 0.3017664381651499,
+     "sr": 0.4846153846153846,
+     "sack_rate": 0.05,
+     "int_worthy": 0.03414634146341464,
+     "epa_vs_blitz": 0.2253703632430036,
+     "epa_hit_sack": -0.5244221050110851,
+     "scr_rate": 0.07692307692307693,
+     "team_epa_play_in_starts": 0.1746671415196645,
+     "team_plays_in_starts": 455,
+     "roster_status": "ACT",
+     "report_status": null,
+     "practice_status": null,
+     "report_week": null,
+     "latest_starter": true
+    }
+   ],
+   "latest": "00-0034857",
+   "primary": "00-0034857",
+   "flags": []
+  },
+  "CAR": {
+   "qbs": [
+    {
+     "id": "00-0039150",
+     "name": "Bryce Young",
+     "dropbacks": 310,
+     "starts": 7,
+     "start_weeks": [
+      1,
+      2,
+      3,
+      4,
+      6,
+      7,
+      8
+     ],
+     "epa_db": 0.05506657243667757,
+     "adj_epa_db": 0.09890257053658848,
+     "sr": 0.432258064516129,
+     "sack_rate": 0.07419354838709677,
+     "int_worthy": 0.0149812734082397,
+     "epa_vs_blitz": -0.1436847752690448,
+     "epa_hit_sack": -0.6768388356615824,
+     "scr_rate": 0.01935483870967742,
+     "team_epa_play_in_starts": 0.018585755771658302,
+     "team_plays_in_starts": 484,
+     "roster_status": "ACT",
+     "report_status": null,
+     "practice_status": "Full Participation in Practice",
+     "report_week": 8,
+     "latest_starter": true
+    }
+   ],
+   "latest": "00-0039150",
+   "primary": "00-0039150",
+   "flags": []
+  },
+  "CHI": {
+   "qbs": [
+    {
+     "id": "00-0039918",
+     "name": "Caleb Williams",
+     "dropbacks": 197,
+     "starts": 5,
+     "start_weeks": [
+      1,
+      2,
+      6,
+      7,
+      8
+     ],
+     "epa_db": 0.2654142898797891,
+     "adj_epa_db": 0.37347979299774375,
+     "sr": 0.5126903553299492,
+     "sack_rate": 0.06598984771573604,
+     "int_worthy": 0.008064516129032258,
+     "epa_vs_blitz": 0.20335612784888366,
+     "epa_hit_sack": -0.7349473058247218,
+     "scr_rate": 0.07614213197969544,
+     "team_epa_play_in_starts": 0.11597957986338038,
+     "team_plays_in_starts": 361,
+     "roster_status": "ACT",
+     "report_status": null,
+     "practice_status": null,
+     "report_week": null,
+     "latest_starter": true
+    },
+    {
+     "id": "00-0038416",
+     "name": "Tyson Bagent",
+     "dropbacks": 75,
+     "starts": 2,
+     "start_weeks": [
+      4,
+      5
+     ],
+     "epa_db": 0.01263935758866566,
+     "adj_epa_db": 0.0437424477471173,
+     "sr": 0.5333333333333333,
+     "sack_rate": 0.05333333333333334,
+     "int_worthy": 0.06349206349206349,
+     "epa_vs_blitz": -0.06964565379409275,
+     "epa_hit_sack": -0.7629052636318757,
+     "scr_rate": 0.04,
+     "team_epa_play_in_starts": -0.0760526912450613,
+     "team_plays_in_starts": 159,
+     "roster_status": "ACT",
+     "report_status": null,
+     "practice_status": null,
+     "report_week": null,
+     "latest_starter": false
+    },
+    {
+     "id": "00-0028986",
+     "name": "Case Keenum",
+     "dropbacks": 60,
+     "starts": 1,
+     "start_weeks": [
+      3
+     ],
+     "epa_db": -0.04416319936638331,
+     "adj_epa_db": -0.03423633971264744,
+     "sr": 0.48333333333333334,
+     "sack_rate": 0.03333333333333333,
+     "int_worthy": 0.018867924528301886,
+     "epa_vs_blitz": 0.9885638648053058,
+     "epa_hit_sack": -0.7962265068927081,
+     "scr_rate": 0.03333333333333333,
+     "team_epa_play_in_starts": 0.13370956987726085,
+     "team_plays_in_starts": 70,
+     "roster_status": "INA",
+     "report_status": null,
+     "practice_status": null,
+     "report_week": null,
+     "latest_starter": false
+    }
+   ],
+   "latest": "00-0039918",
+   "primary": "00-0039918",
+   "flags": [
+    "Season figures mix quarterbacks."
+   ]
+  },
+  "CIN": {
+   "qbs": [
+    {
+     "id": "00-0036442",
+     "name": "Joe Burrow",
+     "dropbacks": 302,
+     "starts": 7,
+     "start_weeks": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      7,
+      8
+     ],
+     "epa_db": 0.23501135336004075,
+     "adj_epa_db": 0.23344846134110456,
+     "sr": 0.5463576158940397,
+     "sack_rate": 0.04304635761589404,
+     "int_worthy": 0.02247191011235955,
+     "epa_vs_blitz": 0.1138945934002449,
+     "epa_hit_sack": -0.6315247630867853,
+     "scr_rate": 0.033112582781456956,
+     "team_epa_play_in_starts": 0.1178989649911842,
+     "team_plays_in_starts": 443,
+     "roster_status": "ACT",
+     "report_status": null,
+     "practice_status": null,
+     "report_week": null,
+     "latest_starter": true
+    }
+   ],
+   "latest": "00-0036442",
+   "primary": "00-0036442",
+   "flags": []
+  },
+  "CLE": {
+   "qbs": [
+    {
+     "id": "00-0033537",
+     "name": "Deshaun Watson",
+     "dropbacks": 327,
+     "starts": 8,
+     "start_weeks": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+     ],
+     "epa_db": 0.019950847537860163,
+     "adj_epa_db": 0.019644126506033286,
+     "sr": 0.4648318042813456,
+     "sack_rate": 0.10091743119266056,
+     "int_worthy": 0.024096385542168676,
+     "epa_vs_blitz": -0.07472293229934109,
+     "epa_hit_sack": -0.9998901202611902,
+     "scr_rate": 0.07951070336391437,
+     "team_epa_play_in_starts": -0.06720571181515778,
+     "team_plays_in_starts": 507,
+     "roster_status": "ACT",
+     "report_status": null,
+     "practice_status": null,
+     "report_week": null,
+     "latest_starter": true
+    }
+   ],
+   "latest": "00-0033537",
+   "primary": "00-0033537",
+   "flags": []
+  },
+  "DAL": {
+   "qbs": [
+    {
+     "id": "00-0033077",
+     "name": "Dak Prescott",
+     "dropbacks": 353,
+     "starts": 8,
+     "start_weeks": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+     ],
+     "epa_db": 0.20133538349896205,
+     "adj_epa_db": 0.20736237771678895,
+     "sr": 0.5014164305949008,
+     "sack_rate": 0.031161473087818695,
+     "int_worthy": 0.023178807947019868,
+     "epa_vs_blitz": 0.03127937572130593,
+     "epa_hit_sack": -0.7058094657820015,
+     "scr_rate": 0.04815864022662889,
+     "team_epa_play_in_starts": 0.11996248184260007,
+     "team_plays_in_starts": 540,
+     "roster_status": "ACT",
+     "report_status": null,
+     "practice_status": null,
+     "report_week": null,
+     "latest_starter": true
+    }
+   ],
+   "latest": "00-0033077",
+   "primary": "00-0033077",
+   "flags": []
+  },
+  "DEN": {
+   "qbs": [
+    {
+     "id": "00-0039732",
+     "name": "Bo Nix",
+     "dropbacks": 292,
+     "starts": 8,
+     "start_weeks": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+     ],
+     "epa_db": 0.03128899045466238,
+     "adj_epa_db": 0.03859906221002096,
+     "sr": 0.3972602739726027,
+     "sack_rate": 0.03424657534246575,
+     "int_worthy": 0.032,
+     "epa_vs_blitz": -0.14528658357853375,
+     "epa_hit_sack": -1.1687211670446223,
+     "scr_rate": 0.030821917808219176,
+     "team_epa_play_in_starts": -0.01804032703589179,
+     "team_plays_in_starts": 480,
+     "roster_status": "ACT",
+     "report_status": null,
+     "practice_status": null,
+     "report_week": null,
+     "latest_starter": true
+    }
+   ],
+   "latest": "00-0039732",
+   "primary": "00-0039732",
+   "flags": []
+  },
+  "DET": {
+   "qbs": [
+    {
+     "id": "00-0033106",
+     "name": "Jared Goff",
+     "dropbacks": 278,
+     "starts": 7,
+     "start_weeks": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      7,
+      8
+     ],
+     "epa_db": 0.2635241257980247,
+     "adj_epa_db": 0.2499377018828496,
+     "sr": 0.5143884892086331,
+     "sack_rate": 0.05755395683453238,
+     "int_worthy": 0.016129032258064516,
+     "epa_vs_blitz": 0.2587152555507983,
+     "epa_hit_sack": -0.42378885507095243,
+     "scr_rate": 0.017985611510791366,
+     "team_epa_play_in_starts": 0.11865398620150704,
+     "team_plays_in_starts": 478,
+     "roster_status": "ACT",
+     "report_status": null,
+     "practice_status": null,
+     "report_week": null,
+     "latest_starter": true
+    }
+   ],
+   "latest": "00-0033106",
+   "primary": "00-0033106",
+   "flags": []
+  },
+  "GB": {
+   "qbs": [
+    {
+     "id": "00-0036264",
+     "name": "Jordan Love",
+     "dropbacks": 350,
+     "starts": 8,
+     "start_weeks": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+     ],
+     "epa_db": 0.14208230302210056,
+     "adj_epa_db": 0.16561951942097092,
+     "sr": 0.43142857142857144,
+     "sack_rate": 0.04,
+     "int_worthy": 0.041666666666666664,
+     "epa_vs_blitz": -0.016607273183771934,
+     "epa_hit_sack": -0.25285284739724506,
+     "scr_rate": 0.011428571428571429,
+     "team_epa_play_in_starts": 0.009692027274600725,
+     "team_plays_in_starts": 518,
+     "roster_status": "ACT",
+     "report_status": null,
+     "practice_status": null,
+     "report_week": null,
+     "latest_starter": true
+    }
+   ],
+   "latest": "00-0036264",
+   "primary": "00-0036264",
+   "flags": []
+  },
+  "HOU": {
+   "qbs": [
+    {
+     "id": "00-0039163",
+     "name": "C.J. Stroud",
+     "dropbacks": 290,
+     "starts": 7,
+     "start_weeks": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+     ],
+     "epa_db": 0.14754368108539823,
+     "adj_epa_db": 0.08696974738526647,
+     "sr": 0.4862068965517241,
+     "sack_rate": 0.05172413793103448,
+     "int_worthy": 0.012345679012345678,
+     "epa_vs_blitz": 0.368983490798679,
+     "epa_hit_sack": -1.279921584879113,
+     "scr_rate": 0.03103448275862069,
+     "team_epa_play_in_starts": 0.030806617478224392,
+     "team_plays_in_starts": 452,
+     "roster_status": "ACT",
+     "report_status": null,
+     "practice_status": null,
+     "report_week": null,
+     "latest_starter": true
+    }
+   ],
+   "latest": "00-0039163",
+   "primary": "00-0039163",
+   "flags": []
+  },
+  "IND": {
+   "qbs": [
+    {
+     "id": "00-0035710",
+     "name": "Daniel Jones",
+     "dropbacks": 306,
+     "starts": 8,
+     "start_weeks": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+     ],
+     "epa_db": -0.17123825498752085,
+     "adj_epa_db": -0.18078092730890843,
+     "sr": 0.4215686274509804,
+     "sack_rate": 0.0718954248366013,
+     "int_worthy": 0.06367041198501873,
+     "epa_vs_blitz": -0.07920406195981132,
+     "epa_hit_sack": -1.3117315844147532,
+     "scr_rate": 0.032679738562091505,
+     "team_epa_play_in_starts": -0.11136713771521628,
+     "team_plays_in_starts": 527,
+     "roster_status": "ACT",
+     "report_status": null,
+     "practice_status": null,
+     "report_week": null,
+     "latest_starter": true
+    }
+   ],
+   "latest": "00-0035710",
+   "primary": "00-0035710",
+   "flags": []
+  },
+  "JAX": {
+   "qbs": [
+    {
+     "id": "00-0036971",
+     "name": "Trevor Lawrence",
+     "dropbacks": 233,
+     "starts": 7,
+     "start_weeks": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      8
+     ],
+     "epa_db": 0.23842980937820726,
+     "adj_epa_db": 0.253605959226845,
+     "sr": 0.4978540772532189,
+     "sack_rate": 0.055793991416309016,
+     "int_worthy": 0.03553299492385787,
+     "epa_vs_blitz": 0.12517219434794352,
+     "epa_hit_sack": -0.7359967668990046,
+     "scr_rate": 0.04721030042918455,
+     "team_epa_play_in_starts": 0.12378356990060954,
+     "team_plays_in_starts": 428,
+     "roster_status": "ACT",
+     "report_status": null,
+     "practice_status": null,
+     "report_week": null,
+     "latest_starter": true
+    }
+   ],
+   "latest": "00-0036971",
+   "primary": "00-0036971",
+   "flags": []
+  },
+  "KC": {
+   "qbs": [
+    {
+     "id": "00-0033873",
+     "name": "Patrick Mahomes",
+     "dropbacks": 268,
+     "starts": 7,
+     "start_weeks": [
+      1,
+      2,
+      3,
+      4,
+      6,
+      7,
+      8
+     ],
+     "epa_db": 0.14369582523832575,
+     "adj_epa_db": 0.18481051761305123,
+     "sr": 0.48880597014925375,
+     "sack_rate": 0.033582089552238806,
+     "int_worthy": 0.02586206896551724,
+     "epa_vs_blitz": 0.17274205837646156,
+     "epa_hit_sack": -0.5104888118584108,
+     "scr_rate": 0.05223880597014925,
+     "team_epa_play_in_starts": 0.11340097400935703,
+     "team_plays_in_starts": 437,
+     "roster_status": "ACT",
+     "report_status": null,
+     "practice_status": "Full Participation in Practice",
+     "report_week": 8,
+     "latest_starter": true
+    }
+   ],
+   "latest": "00-0033873",
+   "primary": "00-0033873",
+   "flags": []
+  },
+  "LA": {
+   "qbs": [
+    {
+     "id": "00-0026498",
+     "name": "Matthew Stafford",
+     "dropbacks": 335,
+     "starts": 8,
+     "start_weeks": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+     ],
+     "epa_db": 0.0923711658163714,
+     "adj_epa_db": 0.06733516661754627,
+     "sr": 0.5104477611940299,
+     "sack_rate": 0.03582089552238806,
+     "int_worthy": 0.043333333333333335,
+     "epa_vs_blitz": -0.027791182473753152,
+     "epa_hit_sack": -0.5569583545457581,
+     "scr_rate": 0.014925373134328358,
+     "team_epa_play_in_starts": 0.046705187197990765,
+     "team_plays_in_starts": 546,
+     "roster_status": "ACT",
+     "report_status": null,
+     "practice_status": null,
+     "report_week": null,
+     "latest_starter": true
+    }
+   ],
+   "latest": "00-0026498",
+   "primary": "00-0026498",
+   "flags": []
+  },
+  "LAC": {
+   "qbs": [
+    {
+     "id": "00-0036355",
+     "name": "Justin Herbert",
+     "dropbacks": 276,
+     "starts": 7,
+     "start_weeks": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      8
+     ],
+     "epa_db": -0.2089727490310632,
+     "adj_epa_db": -0.21873137408643478,
+     "sr": 0.38405797101449274,
+     "sack_rate": 0.08333333333333333,
+     "int_worthy": 0.06190476190476191,
+     "epa_vs_blitz": -0.16065022911081456,
+     "epa_hit_sack": -1.2099803718340902,
+     "scr_rate": 0.08333333333333333,
+     "team_epa_play_in_starts": -0.23060938971615716,
+     "team_plays_in_starts": 456,
+     "roster_status": "ACT",
+     "report_status": null,
+     "practice_status": null,
+     "report_week": null,
+     "latest_starter": true
+    }
+   ],
+   "latest": "00-0036355",
+   "primary": "00-0036355",
+   "flags": []
+  },
+  "LV": {
+   "qbs": [
+    {
+     "id": "00-0029604",
+     "name": "Kirk Cousins",
+     "dropbacks": 319,
+     "starts": 8,
+     "start_weeks": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+     ],
+     "epa_db": 0.21384296496916183,
+     "adj_epa_db": 0.20130589156489878,
+     "sr": 0.5078369905956113,
+     "sack_rate": 0.034482758620689655,
+     "int_worthy": 0.025,
+     "epa_vs_blitz": 0.16456113295104122,
+     "epa_hit_sack": -0.5464421954481409,
+     "scr_rate": 0.01567398119122257,
+     "team_epa_play_in_starts": 0.04619445235120905,
+     "team_plays_in_starts": 525,
+     "roster_status": "ACT",
+     "report_status": null,
+     "practice_status": null,
+     "report_week": null,
+     "latest_starter": true
+    }
+   ],
+   "latest": "00-0029604",
+   "primary": "00-0029604",
+   "flags": []
+  },
+  "MIA": {
+   "qbs": [
+    {
+     "id": "00-0038128",
+     "name": "Malik Willis",
+     "dropbacks": 240,
+     "starts": 7,
+     "start_weeks": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      7,
+      8
+     ],
+     "epa_db": 0.01374900209265072,
+     "adj_epa_db": 0.006392995842954298,
+     "sr": 0.4375,
+     "sack_rate": 0.0875,
+     "int_worthy": 0.027472527472527472,
+     "epa_vs_blitz": -0.006359851660883435,
+     "epa_hit_sack": -1.2808762819066515,
+     "scr_rate": 0.09166666666666666,
+     "team_epa_play_in_starts": -0.046547340775100574,
+     "team_plays_in_starts": 418,
+     "roster_status": "ACT",
+     "report_status": null,
+     "practice_status": "Full Participation in Practice",
+     "report_week": 8,
+     "latest_starter": true
+    }
+   ],
+   "latest": "00-0038128",
+   "primary": "00-0038128",
+   "flags": []
+  },
+  "MIN": {
+   "qbs": [
+    {
+     "id": "00-0035228",
+     "name": "Kyler Murray",
+     "dropbacks": 198,
+     "starts": 5,
+     "start_weeks": [
+      3,
+      4,
+      5,
+      7,
+      8
+     ],
+     "epa_db": -0.07780543611401969,
+     "adj_epa_db": -0.10217595003815204,
+     "sr": 0.3939393939393939,
+     "sack_rate": 0.07575757575757576,
+     "int_worthy": 0.026143790849673203,
+     "epa_vs_blitz": -0.40009956172465694,
+     "epa_hit_sack": -1.1116887257073034,
+     "scr_rate": 0.08585858585858586,
+     "team_epa_play_in_starts": -0.1338607009941848,
+     "team_plays_in_starts": 309,
+     "roster_status": "ACT",
+     "report_status": null,
+     "practice_status": null,
+     "report_week": null,
+     "latest_starter": true
+    },
+    {
+     "id": "00-0032950",
+     "name": "Carson Wentz",
+     "dropbacks": 51,
+     "starts": 2,
+     "start_weeks": [
+      1,
+      2
+     ],
+     "epa_db": 0.18341130205276537,
+     "adj_epa_db": 0.26408472801157507,
+     "sr": 0.43137254901960786,
+     "sack_rate": 0.11764705882352941,
+     "int_worthy": 0.02564102564102564,
+     "epa_vs_blitz": 0.3325363552467304,
+     "epa_hit_sack": -0.9275489039137028,
+     "scr_rate": 0.0392156862745098,
+     "team_epa_play_in_starts": -0.00354499228342211,
+     "team_plays_in_starts": 113,
+     "roster_status": "ACT",
+     "report_status": null,
+     "practice_status": null,
+     "report_week": null,
+     "latest_starter": false
+    }
+   ],
+   "latest": "00-0035228",
+   "primary": "00-0035228",
+   "flags": [
+    "Season figures mix quarterbacks."
+   ]
+  },
+  "NE": {
+   "qbs": [
+    {
+     "id": "00-0039851",
+     "name": "Drake Maye",
+     "dropbacks": 293,
+     "starts": 8,
+     "start_weeks": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+     ],
+     "epa_db": 0.220124485146544,
+     "adj_epa_db": 0.21445837859493744,
+     "sr": 0.5255972696245734,
+     "sack_rate": 0.05460750853242321,
+     "int_worthy": 0.03862660944206009,
+     "epa_vs_blitz": 0.22845186209669383,
+     "epa_hit_sack": -0.8998966108951907,
+     "scr_rate": 0.09556313993174062,
+     "team_epa_play_in_starts": 0.05742173997687416,
+     "team_plays_in_starts": 508,
+     "roster_status": "ACT",
+     "report_status": null,
+     "practice_status": "Full Participation in Practice",
+     "report_week": 8,
+     "latest_starter": true
+    }
+   ],
+   "latest": "00-0039851",
+   "primary": "00-0039851",
+   "flags": []
+  },
+  "NO": {
+   "qbs": [
+    {
+     "id": "00-0040743",
+     "name": "Tyler Shough",
+     "dropbacks": 312,
+     "starts": 7,
+     "start_weeks": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+     ],
+     "epa_db": 0.04094689813066369,
+     "adj_epa_db": 0.0473758736131344,
+     "sr": 0.47115384615384615,
+     "sack_rate": 0.04807692307692308,
+     "int_worthy": 0.03308823529411765,
+     "epa_vs_blitz": -0.037741325164304874,
+     "epa_hit_sack": -0.8900133023576234,
+     "scr_rate": 0.028846153846153848,
+     "team_epa_play_in_starts": -0.03086635770219731,
+     "team_plays_in_starts": 474,
+     "roster_status": "ACT",
+     "report_status": null,
+     "practice_status": "Full Participation in Practice",
+     "report_week": 7,
+     "latest_starter": true
+    }
+   ],
+   "latest": "00-0040743",
+   "primary": "00-0040743",
+   "flags": []
+  },
+  "NYG": {
+   "qbs": [
+    {
+     "id": "00-0031503",
+     "name": "Jameis Winston",
+     "dropbacks": 188,
+     "starts": 5,
+     "start_weeks": [
+      2,
+      3,
+      4,
+      5,
+      6
+     ],
+     "epa_db": -0.020134003478083057,
+     "adj_epa_db": -0.0963659079959182,
+     "sr": 0.43617021276595747,
+     "sack_rate": 0.0797872340425532,
+     "int_worthy": 0.0379746835443038,
+     "epa_vs_blitz": -0.10933839248262042,
+     "epa_hit_sack": -0.6623601368574435,
+     "scr_rate": 0.026595744680851064,
+     "team_epa_play_in_starts": -0.07901635001237271,
+     "team_plays_in_starts": 344,
+     "roster_status": "ACT",
+     "report_status": null,
+     "practice_status": null,
+     "report_week": null,
+     "latest_starter": false
+    },
+    {
+     "id": "00-0039923",
+     "name": "J.J. McCarthy",
+     "dropbacks": 53,
+     "starts": 1,
+     "start_weeks": [
+      7
+     ],
+     "epa_db": 0.2998346536724295,
+     "adj_epa_db": 0.2756597820394631,
+     "sr": 0.4528301886792453,
+     "sack_rate": 0.07547169811320754,
+     "int_worthy": 0.06818181818181818,
+     "epa_vs_blitz": -0.16068805481190793,
+     "epa_hit_sack": -1.2414216759498231,
+     "scr_rate": 0.018867924528301886,
+     "team_epa_play_in_starts": 0.24990878983864726,
+     "team_plays_in_starts": 65,
+     "roster_status": "ACT",
+     "report_status": null,
+     "practice_status": null,
+     "report_week": null,
+     "latest_starter": true
+    },
+    {
+     "id": "00-0040691",
+     "name": "Jaxson Dart",
+     "dropbacks": 38,
+     "starts": 1,
+     "start_weeks": [
+      1
+     ],
+     "epa_db": 0.5499140019566863,
+     "adj_epa_db": 0.37486744809409744,
+     "sr": 0.6578947368421053,
+     "sack_rate": 0.05263157894736842,
+     "int_worthy": 0.029411764705882353,
+     "epa_vs_blitz": -0.11271719751433314,
+     "epa_hit_sack": -0.31521811565229046,
+     "scr_rate": 0.05263157894736842,
+     "team_epa_play_in_starts": 0.36287164812639466,
+     "team_plays_in_starts": 66,
+     "roster_status": "RES",
+     "report_status": null,
+     "practice_status": null,
+     "report_week": null,
+     "latest_starter": false
+    }
+   ],
+   "latest": "00-0039923",
+   "primary": "00-0031503",
+   "flags": [
+    "Season figures mix quarterbacks."
+   ]
+  },
+  "NYJ": {
+   "qbs": [
+    {
+     "id": "00-0030565",
+     "name": "Geno Smith",
+     "dropbacks": 287,
+     "starts": 8,
+     "start_weeks": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+     ],
+     "epa_db": 0.1432839931495044,
+     "adj_epa_db": 0.11939868590920175,
+     "sr": 0.4878048780487805,
+     "sack_rate": 0.08013937282229965,
+     "int_worthy": 0.02100840336134454,
+     "epa_vs_blitz": 0.11916462222863596,
+     "epa_hit_sack": -1.040066374560664,
+     "scr_rate": 0.041811846689895474,
+     "team_epa_play_in_starts": 0.04088994736097696,
+     "team_plays_in_starts": 481,
+     "roster_status": "ACT",
+     "report_status": null,
+     "practice_status": null,
+     "report_week": null,
+     "latest_starter": true
+    }
+   ],
+   "latest": "00-0030565",
+   "primary": "00-0030565",
+   "flags": []
+  },
+  "PHI": {
+   "qbs": [
+    {
+     "id": "00-0036389",
+     "name": "Jalen Hurts",
+     "dropbacks": 188,
+     "starts": 5,
+     "start_weeks": [
+      1,
+      2,
+      3,
+      4,
+      5
+     ],
+     "epa_db": -0.017152716148960474,
+     "adj_epa_db": -0.021287467007894866,
+     "sr": 0.3829787234042553,
+     "sack_rate": 0.06914893617021277,
+     "int_worthy": 0.025974025974025976,
+     "epa_vs_blitz": -0.17983867111793103,
+     "epa_hit_sack": -0.819451608491239,
+     "scr_rate": 0.07446808510638298,
+     "team_epa_play_in_starts": -0.11056852684322584,
+     "team_plays_in_starts": 302,
+     "roster_status": "RES",
+     "report_status": null,
+     "practice_status": null,
+     "report_week": null,
+     "latest_starter": false
+    },
+    {
+     "id": "00-0038400",
+     "name": "Tanner McKee",
+     "dropbacks": 135,
+     "starts": 3,
+     "start_weeks": [
+      6,
+      7,
+      8
+     ],
+     "epa_db": -0.10018331892751825,
+     "adj_epa_db": -0.19606687994096955,
+     "sr": 0.3925925925925926,
+     "sack_rate": 0.07407407407407407,
+     "int_worthy": 0.02631578947368421,
+     "epa_vs_blitz": -0.10425453828797013,
+     "epa_hit_sack": -1.138329926780319,
+     "scr_rate": 0.037037037037037035,
+     "team_epa_play_in_starts": -0.07370516082075124,
+     "team_plays_in_starts": 199,
+     "roster_status": "ACT",
+     "report_status": null,
+     "practice_status": null,
+     "report_week": null,
+     "latest_starter": true
+    }
+   ],
+   "latest": "00-0038400",
+   "primary": "00-0036389",
+   "flags": [
+    "Season figures mix quarterbacks.",
+    "Jalen Hurts (5 starts) is on the reserve list: his games are in the season figures, but he will not play."
+   ]
+  },
+  "PIT": {
+   "qbs": [
+    {
+     "id": "00-0023459",
+     "name": "Aaron Rodgers",
+     "dropbacks": 333,
+     "starts": 8,
+     "start_weeks": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+     ],
+     "epa_db": -0.06106636677504787,
+     "adj_epa_db": -0.004029541131031766,
+     "sr": 0.42342342342342343,
+     "sack_rate": 0.06906906906906907,
+     "int_worthy": 0.017605633802816902,
+     "epa_vs_blitz": -0.19623795354131093,
+     "epa_hit_sack": -0.9115973046786721,
+     "scr_rate": 0.018018018018018018,
+     "team_epa_play_in_starts": -0.011050865335785991,
+     "team_plays_in_starts": 517,
+     "roster_status": "ACT",
+     "report_status": null,
+     "practice_status": null,
+     "report_week": null,
+     "latest_starter": true
+    }
+   ],
+   "latest": "00-0023459",
+   "primary": "00-0023459",
+   "flags": []
+  },
+  "SEA": {
+   "qbs": [
+    {
+     "id": "00-0034869",
+     "name": "Sam Darnold",
+     "dropbacks": 246,
+     "starts": 6,
+     "start_weeks": [
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+     ],
+     "epa_db": -0.014058760256868806,
+     "adj_epa_db": 0.007277140165437434,
+     "sr": 0.44715447154471544,
+     "sack_rate": 0.06910569105691057,
+     "int_worthy": 0.045714285714285714,
+     "epa_vs_blitz": 0.0567597568720506,
+     "epa_hit_sack": -0.9966989243107349,
+     "scr_rate": 0.036585365853658534,
+     "team_epa_play_in_starts": -0.09404855539839811,
+     "team_plays_in_starts": 401,
+     "roster_status": "ACT",
+     "report_status": null,
+     "practice_status": null,
+     "report_week": null,
+     "latest_starter": true
+    },
+    {
+     "id": "00-0035704",
+     "name": "Drew Lock",
+     "dropbacks": 54,
+     "starts": 2,
+     "start_weeks": [
+      1,
+      2
+     ],
+     "epa_db": 0.4614129868464785,
+     "adj_epa_db": 0.3870269836065526,
+     "sr": 0.5185185185185185,
+     "sack_rate": 0.037037037037037035,
+     "int_worthy": 0.020833333333333332,
+     "epa_vs_blitz": 0.4961655285593884,
+     "epa_hit_sack": 0.3181577164090592,
+     "scr_rate": 0.018518518518518517,
+     "team_epa_play_in_starts": 0.0976542723222522,
+     "team_plays_in_starts": 119,
+     "roster_status": "INA",
+     "report_status": "Questionable",
+     "practice_status": "Limited Participation in Practice",
+     "report_week": 8,
+     "latest_starter": false
+    }
+   ],
+   "latest": "00-0034869",
+   "primary": "00-0034869",
+   "flags": [
+    "Season figures mix quarterbacks."
+   ]
+  },
+  "SF": {
+   "qbs": [
+    {
+     "id": "00-0037834",
+     "name": "Brock Purdy",
+     "dropbacks": 239,
+     "starts": 7,
+     "start_weeks": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+     ],
+     "epa_db": 0.2714034917962213,
+     "adj_epa_db": 0.29256567584130955,
+     "sr": 0.5397489539748954,
+     "sack_rate": 0.029288702928870293,
+     "int_worthy": 0.028708133971291867,
+     "epa_vs_blitz": 0.2467408952076769,
+     "epa_hit_sack": -0.1414697419177496,
+     "scr_rate": 0.06694560669456066,
+     "team_epa_play_in_starts": 0.1537804535094327,
+     "team_plays_in_starts": 414,
+     "roster_status": "ACT",
+     "report_status": null,
+     "practice_status": null,
+     "report_week": null,
+     "latest_starter": true
+    }
+   ],
+   "latest": "00-0037834",
+   "primary": "00-0037834",
+   "flags": []
+  },
+  "TB": {
+   "qbs": [
+    {
+     "id": "00-0034855",
+     "name": "Baker Mayfield",
+     "dropbacks": 146,
+     "starts": 5,
+     "start_weeks": [
+      1,
+      2,
+      3,
+      7,
+      8
+     ],
+     "epa_db": -0.22403648286496164,
+     "adj_epa_db": -0.12663708816970165,
+     "sr": 0.3698630136986301,
+     "sack_rate": 0.0958904109589041,
+     "int_worthy": 0.01818181818181818,
+     "epa_vs_blitz": -0.20654555305339864,
+     "epa_hit_sack": -1.7168374835821665,
+     "scr_rate": 0.07534246575342465,
+     "team_epa_play_in_starts": -0.11249144342438032,
+     "team_plays_in_starts": 310,
+     "roster_status": "ACT",
+     "report_status": null,
+     "practice_status": "Full Participation in Practice",
+     "report_week": 8,
+     "latest_starter": true
+    },
+    {
+     "id": "00-0041251",
+     "name": "Jalon Daniels",
+     "dropbacks": 130,
+     "starts": 3,
+     "start_weeks": [
+      4,
+      5,
+      6
+     ],
+     "epa_db": -0.06879418720967506,
+     "adj_epa_db": -0.08168181586495561,
+     "sr": 0.4076923076923077,
+     "sack_rate": 0.06923076923076923,
+     "int_worthy": 0.061224489795918366,
+     "epa_vs_blitz": -0.10619373577455293,
+     "epa_hit_sack": -1.4267343748402102,
+     "scr_rate": 0.13076923076923078,
+     "team_epa_play_in_starts": -0.05929886018457169,
+     "team_plays_in_starts": 206,
+     "roster_status": "ACT",
+     "report_status": null,
+     "practice_status": null,
+     "report_week": null,
+     "latest_starter": false
+    }
+   ],
+   "latest": "00-0034855",
+   "primary": "00-0034855",
+   "flags": [
+    "Season figures mix quarterbacks."
+   ]
+  },
+  "TEN": {
+   "qbs": [
+    {
+     "id": "00-0040676",
+     "name": "Cam Ward",
+     "dropbacks": 296,
+     "starts": 8,
+     "start_weeks": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+     ],
+     "epa_db": -0.06725943316536273,
+     "adj_epa_db": -0.08992958700082541,
+     "sr": 0.43243243243243246,
+     "sack_rate": 0.04391891891891892,
+     "int_worthy": 0.020161290322580645,
+     "epa_vs_blitz": 0.08015730814165153,
+     "epa_hit_sack": -1.1426099069136413,
+     "scr_rate": 0.057432432432432436,
+     "team_epa_play_in_starts": -0.08301216332201433,
+     "team_plays_in_starts": 471,
+     "roster_status": "ACT",
+     "report_status": null,
+     "practice_status": null,
+     "report_week": null,
+     "latest_starter": true
+    }
+   ],
+   "latest": "00-0040676",
+   "primary": "00-0040676",
+   "flags": []
+  },
+  "WAS": {
+   "qbs": [
+    {
+     "id": "00-0039910",
+     "name": "Jayden Daniels",
+     "dropbacks": 186,
+     "starts": 5,
+     "start_weeks": [
+      1,
+      2,
+      5,
+      6,
+      8
+     ],
+     "epa_db": 0.11110776631047824,
+     "adj_epa_db": 0.04434760810972671,
+     "sr": 0.45698924731182794,
+     "sack_rate": 0.06451612903225806,
+     "int_worthy": 0.0,
+     "epa_vs_blitz": 0.10951553017810715,
+     "epa_hit_sack": -0.8876936661769267,
+     "scr_rate": 0.12365591397849462,
+     "team_epa_play_in_starts": 0.042001476272933644,
+     "team_plays_in_starts": 323,
+     "roster_status": "ACT",
+     "report_status": null,
+     "practice_status": "Full Participation in Practice",
+     "report_week": 8,
+     "latest_starter": true
+    },
+    {
+     "id": "00-0032268",
+     "name": "Marcus Mariota",
+     "dropbacks": 63,
+     "starts": 1,
+     "start_weeks": [
+      3
+     ],
+     "epa_db": 0.1267086122808034,
+     "adj_epa_db": 0.1372076787371482,
+     "sr": 0.4444444444444444,
+     "sack_rate": 0.047619047619047616,
+     "int_worthy": 0.0196078431372549,
+     "epa_vs_blitz": -0.34593094410904446,
+     "epa_hit_sack": 0.21118184237466642,
+     "scr_rate": 0.06349206349206349,
+     "team_epa_play_in_starts": -0.02351834499721529,
+     "team_plays_in_starts": 67,
+     "roster_status": "ACT",
+     "report_status": null,
+     "practice_status": "Full Participation in Practice",
+     "report_week": 8,
+     "latest_starter": false
+    },
+    {
+     "id": "00-0041117",
+     "name": "Athan Kaliakmanis",
+     "dropbacks": 39,
+     "starts": 1,
+     "start_weeks": [
+      4
+     ],
+     "epa_db": -0.25354623414564115,
+     "adj_epa_db": -0.29126382457031064,
+     "sr": 0.28205128205128205,
+     "sack_rate": 0.02564102564102564,
+     "int_worthy": 0.030303030303030304,
+     "epa_vs_blitz": -1.0195827188768558,
+     "epa_hit_sack": -1.8015880626116996,
+     "scr_rate": 0.05128205128205128,
+     "team_epa_play_in_starts": -0.2263677527381051,
+     "team_plays_in_starts": 64,
+     "roster_status": "INA",
+     "report_status": null,
+     "practice_status": null,
+     "report_week": null,
+     "latest_starter": false
+    }
+   ],
+   "latest": "00-0039910",
+   "primary": "00-0039910",
+   "flags": [
+    "Season figures mix quarterbacks."
+   ]
+  }
+ },
+ "penalty_groups": {
+  "grouping": {
+   "off": {
+    "False start": [
+     "False Start"
+    ],
+    "Offensive holding": [
+     "Offensive Holding"
+    ],
+    "OPI": [
+     "Offensive Pass Interference"
+    ],
+    "Illegal formation": [
+     "Illegal Formation"
+    ],
+    "Illegal shift/motion": [
+     "Illegal Shift",
+     "Illegal Motion"
+    ],
+    "Delay of game": [
+     "Delay of Game"
+    ],
+    "Ineligible downfield": [
+     "Ineligible Downfield Pass",
+     "Illegal Touch Pass"
+    ],
+    "Intentional grounding": [
+     "Intentional Grounding"
+    ],
+    "Personal foul": [
+     "Unnecessary Roughness",
+     "Face Mask",
+     "Taunting",
+     "Lowering the Head to Make Forcible Contact",
+     "Chop Block",
+     "Low Block",
+     "Tripping"
+    ],
+    "Unsportsmanlike": [
+     "Unsportsmanlike Conduct"
+    ],
+    "Illegal block": [
+     "Illegal Block Above the Waist",
+     "Illegal Blindside Block",
+     "Illegal Use of Hands"
+    ],
+    "Other pre-snap": [
+     "Offensive Offside",
+     "Offensive Too Many Men on Field",
+     "Illegal Substitution"
+    ]
+   },
+   "def": {
+    "Neutral zone": [
+     "Neutral Zone Infraction"
+    ],
+    "Offside": [
+     "Defensive Offside"
+    ],
+    "Encroachment": [
+     "Encroachment"
+    ],
+    "Defensive holding": [
+     "Defensive Holding"
+    ],
+    "DPI": [
+     "Defensive Pass Interference"
+    ],
+    "Illegal contact": [
+     "Illegal Contact"
+    ],
+    "Roughing the passer": [
+     "Roughing the Passer"
+    ],
+    "Face mask": [
+     "Face Mask"
+    ],
+    "Unnecessary roughness": [
+     "Unnecessary Roughness"
+    ],
+    "Unsportsmanlike": [
+     "Unsportsmanlike Conduct",
+     "Taunting"
+    ],
+    "Illegal substitution / 12 men": [
+     "Defensive Too Many Men on Field",
+     "Illegal Substitution"
+    ],
+    "Illegal use of hands": [
+     "Illegal Use of Hands"
+    ],
+    "Other personal foul": [
+     "Horse Collar Tackle",
+     "Lowering the Head to Make Forcible Contact",
+     "Tripping"
+    ],
+    "Defensive delay": [
+     "Defensive Delay of Game",
+     "Delay of Game"
+    ],
+    "Kicker contact": [
+     "Roughing the Kicker",
+     "Running Into the Kicker"
+    ]
+   },
+   "st": {
+    "Holding": [
+     "Offensive Holding",
+     "Defensive Holding"
+    ],
+    "Block in the back / illegal block": [
+     "Illegal Block Above the Waist",
+     "Illegal Blindside Block",
+     "Illegal Use of Hands",
+     "Low Block"
+    ],
+    "Offside on kick": [
+     "Defensive Offside",
+     "Encroachment"
+    ],
+    "Kicker contact": [
+     "Running Into the Kicker",
+     "Roughing the Kicker"
+    ],
+    "Kick-catch interference": [
+     "Fair Catch Interference",
+     "Invalid Fair Catch Signal"
+    ],
+    "Kickoff rules": [
+     "Kickoff Short of Landing Zone",
+     "Kickoff Out of Bounds",
+     "Illegal Formation"
+    ],
+    "Out of bounds on kick": [
+     "Player Out of Bounds on Kick"
+    ],
+    "Personal foul": [
+     "Unnecessary Roughness",
+     "Face Mask",
+     "Unsportsmanlike Conduct",
+     "Taunting",
+     "Lowering the Head to Make Forcible Contact"
+    ]
+   }
+  },
+  "other": {
+   "off": [
+    "Illegal Forward Handoff",
+    "Illegal Forward Pass",
+    "Illegal Touch Kick",
+    "Player Out of Bounds on Kick"
+   ],
+   "def": [
+    "Disqualification",
+    "Illegal Block Above the Waist",
+    "Illegal Formation",
+    "Leverage",
+    "Low Block"
+   ],
+   "st": [
+    "Disqualification",
+    "Illegal Double-Team Block",
+    "Illegal Touch Kick",
+    "Ineligible Downfield Kick"
+   ]
+  },
+  "ep_yard": 0.07
+ }
+}

@@ -25,7 +25,11 @@ OFF_GRP = "3WR 1TE"
 DEF_GRPS = ("Base 3-4 D", "Base 4-3 D")
 OL_SLOTS = ["LT", "LG", "C", "RG", "RT"]
 OL_POS = {"T", "G", "C", "OL", "OT", "OG"}
-OUT_CLASSES = ("confirmed: reserve list", "listed Out/Doubtful")
+OUT_CLASSES = ("confirmed: reserve list", "listed Out/Doubtful", "inactive 3+ games")   # counted as out everywhere
+STATUS_TEXT = {"confirmed: reserve list": "out (reserve list)", "listed Out/Doubtful": "out/doubtful",
+               "inactive 3+ games": "out (inactive 3+ games)", "listed Questionable": "questionable",
+               "did not practise": "did not practise", "limited in practice": "limited in practice",
+               "unconfirmed": "missed last game"}
 
 
 SUFFIX = {"jr", "sr", "ii", "iii", "iv", "v"}

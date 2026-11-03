@@ -17,13 +17,10 @@ from __future__ import annotations
 import numpy as np
 import pandas as pd
 
-from depth import _norm
+from depth import OUT_CLASSES, STATUS_TEXT, _norm
 
 RB_MIN, REC_MIN = 40, 20
-OUT = ("confirmed: reserve list", "listed Out/Doubtful")
-STATUS = {"confirmed: reserve list": "out (reserve list)", "listed Out/Doubtful": "out/doubtful",
-          "listed Questionable": "questionable", "did not practise": "did not practise",
-          "limited in practice": "limited in practice", "unconfirmed": "missed last game"}
+OUT, STATUS = OUT_CLASSES, STATUS_TEXT
 TGT_FLAG, CAR_FLAG = 0.20, 0.35   # a caution when players now out had this share of targets / carries
 
 

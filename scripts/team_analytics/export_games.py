@@ -5,7 +5,7 @@ report.html and writes games/<game_id>.md: the matchup tables (with expected val
 findings, cautions, coaching, workload, travel, penalties, QB splits, team snapshot ranks, absences with usage, the
 main ball carriers and targets, pass rushers and coverage. No model forecasts and no market data.
 
-    python scripts/team_analytics/export_games.py [--dir reports/team_analytics/2026_week08]
+    python scripts/team_analytics/export_games.py [--dir reports/team_analytics/2026_week09]
 """
 from __future__ import annotations
 
@@ -70,7 +70,7 @@ def snap_value(k, v):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--dir", default=str(ROOT / "reports" / "team_analytics" / "2026_week08"))
+    ap.add_argument("--dir", default=str(sorted((ROOT / "reports" / "team_analytics").glob("20*_week*"))[-1]))
     d = Path(ap.parse_args().dir)
     h = (d / "report.html").read_text(encoding="utf-8")
     i = h.index("const DATA = ") + len("const DATA = ")
@@ -83,6 +83,9 @@ def main():
         vals = sorted([BY[t][k] for t in BY if num(BY[t].get(k))], reverse=hi)
         ranks[k] = {t: vals.index(BY[t][k]) + 1 for t in BY if num(BY[t].get(k))}
     U, PL = D["usage"], D["players"]
+    QB = {}
+    for q in D["qbs"]:
+        QB.setdefault(q["team"], []).append(q)
     out_dir = d / "games"
     out_dir.mkdir(exist_ok=True)
     for g in D["games"]:
@@ -101,12 +104,31 @@ def main():
         for t in (a, hm):
             x = s.get(t, {})
             L.append(f"| {t} | {x.get('record')} | {fmt(x.get('rating'), 's1')} ({ordn(x['rating_rank'])}) | {ordn(x['stab_rank'])} | {ordn(x['off_rank'])} | {ordn(x['def_rank'])} | {ordn(x['st_rank'])} | {x.get('qb')} |")
+        f = g.get("form", {})
+        L += ["", "## Recent form (opponent-adjusted EPA/play, last four games vs season)",
+              "| Team | Weeks | Offence last 4 (season, change) | Defence allowed last 4 (season, change) | Net last 4 (season, change) |", "|---|---|---|---|---|"]
+        for t in (a, hm):
+            x = f.get(t, {})
+            L.append(f"| {t} | {x.get('weeks')} | {fmt(x.get('off_l4'), 'epa')} ({fmt(x.get('off_season'), 'epa')}, {fmt(x.get('off_change'), 'epa')}) | "
+                     f"{fmt(x.get('def_l4'), 'epa')} ({fmt(x.get('def_season'), 'epa')}, {fmt(x.get('def_change'), 'epa')}) | "
+                     f"{fmt(x.get('net_l4'), 'epa')} ({fmt(x.get('net_season'), 'epa')}, {fmt(x.get('net_change'), 'epa')}) |")
+        L.append("Defence: lower is better, so a negative change is an improvement. Four games are about 250 plays per unit; changes under about 0.05 are noise.")
+        ref = g.get("referee")
+        rr = next((r for r in D.get("refs", []) if r["referee"] == ref), None) if ref else None
+        L += ["", f"Referee: {ref}" + (f" (crew {fmt(rr['total'], 'n1')} accepted penalties per game in {D['ref_meta']['pool']}, league {fmt(D['ref_meta']['league']['total'], 'n1')}; "
+                                       f"home minus away {fmt(rr['home_minus_away'], 's2')})" if rr else "") if ref else
+              f"Referee: assignment not loaded (week {M['through_week'] + 1} assignments are not in nflverse yet)."]
         L += ["", "## Biggest edges (report screen)"] + [f"- {e['what']}: {e['detail']} · edge to {e['favours']} (score {e['score']:+.1f})" for e in g.get("edges", [])] + [""]
         L += ["## Expected in this matchup"] + [f"- {x}" for x in g.get("expect", [])] + [""]
         for sd in g["sides"]:
             L += [f"## {sd['off']} offence vs {sd['def']} defence", "| Metric | Off. (rank) | Def. (rank) | Expected in matchup | League | Lean | Confidence |", "|---|---|---|---|---|---|---|"]
             for grp in sd["groups"]:
                 L.append(f"| **{grp['name']}** | | | | | | |")
+                q = sd.get("starter")
+                if grp["name"] == "Passing" and q:
+                    L.append(f"| *With {q['name']} (expected starter{'' if q['latest'] else ', not the latest starter'}; {q['starts']} starts, {q['dropbacks']} dropbacks"
+                             f"{'; low confidence' if q['low'] else ''})* | adj. EPA/db {fmt(q['adj_epa_db'], 'epa')} | success {fmt(q.get('sr'), 'pct')} | "
+                             f"sack rate {fmt(q['sack_rate'], 'pct')} | INT-worthy {fmt(q['int_worthy'], 'pct')} | | |")
                 for r in grp["rows"]:
                     e = (fmt(r["exp"], r["f"]), fmt(r["lg"], r["f"]), r["lean"], r["conf"]) if "exp" in r else ("season figures only", "", "", "")
                     L.append(f"| {r['lab']} | {fmt(r['o'], r['f'])} ({ordn(r['o_rank'])}) | {fmt(r['d'], r['f'])} ({ordn(r['d_rank'])}) | {e[0]} | {e[1]} | {e[2]} | {e[3]} |")
@@ -147,6 +169,18 @@ def main():
                          + (f", expected EPA/db in this matchup {fmt(q['exp_db'], 'epa')}" if q.get("exp_db") is not None else "")
                          + (f"; status {q.get('report_status') or q.get('practice_status')}" if (q.get('report_status') or q.get('practice_status')) else "")
                          + ("; latest starter" if q.get("latest_starter") else ""))
+        L += ["", "## Quarterbacks under pressure (hit-or-sack proxy)", "| QB | Team | Dropbacks | Clean: n, EPA/db | Hit or sacked: n, EPA/db | Sack rate | Scramble rate |", "|---|---|---|---|---|---|---|"]
+        for t in (a, hm):
+            for q in sorted(QB.get(t, []), key=lambda q: -q["dropbacks"]):
+                if q["dropbacks"] >= 30:
+                    L.append(f"| {q.get('name_full')} | {t} | {q['dropbacks']} | {fmt(q.get('db_clean'), 'int')}, {fmt(q.get('epa_clean'), 'epa')} | "
+                             f"{fmt(q.get('db_hit'), 'int')}, {fmt(q.get('epa_hit_sack'), 'epa')} | {fmt(q.get('sack_rate'), 'pct')} | {fmt(q.get('scr_rate'), 'pct')} |")
+        L += ["", "## Big plays allowed by position (each defence)", "| Defence | 20+ yd catches per target: WR / TE / RB | Per game: WR / TE / RB | YAC per catch: WR / TE / RB (yd) |", "|---|---|---|---|"]
+        for t in (a, hm):
+            b = BY[t]
+            L.append(f"| {t} | " + " / ".join(fmt(b.get(f"def_rate20_{x}"), "pct") for x in ("WR", "TE", "RB")) + " | "
+                     + " / ".join(fmt(b.get(f"def_n20pg_{x}"), "n2") for x in ("WR", "TE", "RB")) + " | "
+                     + " / ".join(fmt(b.get(f"def_yac_rec_{x}"), "n1") for x in ("WR", "TE", "RB")) + " |")
         L += ["", "## Team snapshot (season, rank)", f"| Metric | {a} | {hm} |", "|---|---|---|"]
         for lab, k, hi in SNAP:
             row = [f"{snap_value(k, BY[t].get(k))}" + (f" ({ordn(ranks[k][t])})" if hi is not None and t in ranks.get(k, {}) else "") for t in (a, hm)]
@@ -156,10 +190,10 @@ def main():
             ab = [x for x in D["absences"] if x["team"] == t]
             L += [f"## {t}: absences and practice concerns (latest report)"]
             if ab:
-                L += ["| Player | Pos. | Avg snap share | Status | Detail | Usage | Next man up |", "|---|---|---|---|---|---|---|"]
+                L += ["| Player | Pos. | Avg snap share | Status | Detail | Usage | Next man up | Replacement's 2026 sample |", "|---|---|---|---|---|---|---|---|"]
                 for x in ab:
                     nu = (f"{x['next_up']} ({x.get('next_up_snaps') or 0} snaps)" if x.get("next_up") else (x.get("note") or ""))
-                    L.append(f"| {x['player']} | {x['position']} | {fmt(x['share'], 'pct')} | {x['status_class']} | {x['reason']} | {x.get('usage') or ''} | {nu} |")
+                    L.append(f"| {x['player']} | {x['position']} | {fmt(x['share'], 'pct')} | {x['status_class']} | {x['reason']} | {x.get('usage') or ''} | {nu} | {x.get('next_up_quality') or ''} |")
             else:
                 L.append("No regulars listed.")
             L.append("")

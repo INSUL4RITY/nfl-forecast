@@ -1,0 +1,16 @@
+game_id,gameday,weekday,gametime,away_team,home_team,location,roof,surface,stadium,away_coach,home_coach,away_rest,home_rest,away_score,home_score,div_game
+2026_09_JAX_BAL,2026-11-05,Thursday,20:15,JAX,BAL,Home,outdoors,grass,M&T Bank Stadium,Liam Coen,Jesse Minter,4,4,,,0
+2026_09_CIN_ATL,2026-11-08,Sunday,09:30,CIN,ATL,Neutral,,fieldturf,Bernabeu,Zac Taylor,Raheem Morris,7,7,,,0
+2026_09_DEN_CAR,2026-11-08,Sunday,13:00,DEN,CAR,Home,outdoors,grass,Bank of America Stadium,Sean Payton,Dave Canales,7,10,,,0
+2026_09_DAL_IND,2026-11-08,Sunday,13:00,DAL,IND,Home,,fieldturf,Lucas Oil Stadium,Brian Schottenheimer,Shane Steichen,7,7,,,0
+2026_09_NYJ_KC,2026-11-08,Sunday,13:00,NYJ,KC,Home,outdoors,grass,GEHA Field at Arrowhead Stadium,Aaron Glenn,Andy Reid,7,7,,,0
+2026_09_DET_MIA,2026-11-08,Sunday,13:00,DET,MIA,Home,outdoors,grass,Hard Rock Stadium,Dan Campbell,Jeff Hafley,7,7,,,0
+2026_09_CLE_NO,2026-11-08,Sunday,13:00,CLE,NO,Home,dome,sportturf,Caesars Superdome,Todd Monken,Kellen Moore,7,14,,,0
+2026_09_NYG_PHI,2026-11-08,Sunday,13:00,NYG,PHI,Home,outdoors,grass,Lincoln Financial Field,John Harbaugh,Nick Sirianni,14,7,,,1
+2026_09_LA_WAS,2026-11-08,Sunday,13:00,LA,WAS,Home,outdoors,grass,Northwest Stadium,Sean McVay,Dan Quinn,7,7,,,0
+2026_09_HOU_LAC,2026-11-08,Sunday,16:05,HOU,LAC,Home,dome,matrixturf,SoFi Stadium,DeMeco Ryans,Jim Harbaugh,14,7,,,0
+2026_09_LV_SF,2026-11-08,Sunday,16:05,LV,SF,Home,outdoors,grass,Levi's Stadium,Klint Kubliak,Kyle Shanahan,7,14,,,0
+2026_09_GB_NE,2026-11-08,Sunday,16:25,GB,NE,Home,outdoors,fieldturf,Gillette Stadium,Matt LaFleur,Mike Vrabel,10,7,,,0
+2026_09_ARI_SEA,2026-11-08,Sunday,16:25,ARI,SEA,Home,outdoors,fieldturf,Lumen Field,Jonathan Gannon,Mike Macdonald,7,6,,,1
+2026_09_TB_CHI,2026-11-08,Sunday,20:20,TB,CHI,Home,outdoors,grass,Soldier Field,Todd Bowles,Ben Johnson,7,6,,,0
+2026_09_BUF_MIN,2026-11-09,Monday,20:15,BUF,MIN,Home,dome,sportturf,U.S. Bank Stadium,Sean McDermott,Kevin O'Connell,8,8,,,0

@@ -18,12 +18,9 @@ import json
 import numpy as np
 import pandas as pd
 
-from depth import _norm
+from depth import OUT_CLASSES, STATUS_TEXT, _norm
 
-OUT = ("confirmed: reserve list", "listed Out/Doubtful")
-STATUS = {"confirmed: reserve list": "out (reserve list)", "listed Out/Doubtful": "out/doubtful",
-          "listed Questionable": "questionable", "did not practise": "did not practise",
-          "limited in practice": "limited in practice", "unconfirmed": "missed last game"}
+OUT, STATUS = OUT_CLASSES, STATUS_TEXT
 N_RUSH, N_COV = 6, 6
 PRESS_FLAG, TGT_FLAG = 0.15, 0.20     # a caution when players now out made this share of pressures / drew this share of targets
 
@@ -103,8 +100,14 @@ def build(season: int, through_week: int, absences: pd.DataFrame, fetch) -> dict
     league["cov_rating_30"] = passer_rating(q.def_completions_allowed.sum(), q.def_targets.sum(), q.def_yards_allowed.sum(),
                                             q.def_receiving_td_allowed.sum(), q.def_ints.sum())
     league["n_cov_30"] = int(len(q))
+    # every defender's season line by team and normalised name (used for next-man-up samples)
+    allp = {t: {_norm(r.name): {"name": r.name, "pos": r.pos, "games": int(r.games), "snaps": int(r.snaps),
+                                "pressures": int(r.def_pressures), "sacks": float(r.def_sacks), "targets": int(r.def_targets),
+                                "rating": passer_rating(r.def_completions_allowed, r.def_targets, r.def_yards_allowed,
+                                                        r.def_receiving_td_allowed, r.def_ints)}
+                for r in x.itertuples()} for t, x in P.groupby("team")}
     return {"teams": teams, "league": league, "press_flag": PRESS_FLAG, "tgt_flag": TGT_FLAG,
-            "matched_status": int(P.status_class.notna().sum())}
+            "matched_status": int(P.status_class.notna().sum()), "all": allp}
 
 
 def main():
