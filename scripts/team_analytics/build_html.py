@@ -698,9 +698,10 @@ def absence_when(x):
 
 
 def presence(x):
-    """How much of the team's season he was part of; 'mostly reflected' only past half the games, never for a quarterback."""
+    """How much of the team's season he was part of; 'mostly reflected' only when his current run of missed games is at
+    least half of the team's games, never for a quarterback."""
     txt = f"with {x.team} for {int(x.games)} of its {int(x.team_games)} games"
-    if x.position != "QB" and x.team_games - x.games >= x.team_games / 2:
+    if x.position != "QB" and x.games_missed >= x.team_games / 2:
         txt += ", mostly reflected in the season numbers"
     return txt
 
@@ -2060,7 +2061,7 @@ Each player's status is his latest weekly-roster row. A regular inactive (INA) f
 <li><b>Regulars</b>: 50%+ of offensive or defensive snaps in the games he played, at least two games, and at least half of the team's games up to his last
 appearance (a starter hurt early stays in; a fill-in with two late games stays out), one row per player at his most-played position. A quarterback counts only when he started the team's latest game or has its most starts (a backup is not an absence).
 Each absence shows when he last played and how many team games he has missed: <i>new</i> = 0-1 games, <i>long-term</i> = 2 or more. A long-term absence states how many
-of the team's games the player was part of; "mostly reflected in the season numbers" is said only when he has missed at least half of them, and never for a quarterback.
+of the team's games the player was part of; "mostly reflected in the season numbers" is said only when his current run of missed games is at least half of them, and never for a quarterback.
 Only new absences go into the takeaways.</li>
 <li><b>Injury statuses</b>: on the Tuesday build the coming week's practice reports do not exist yet, so every status is labelled "last week's report (week N)"
 (teams off a bye use an older week). A status refresh after the final injury reports (Friday about 16:30 ET; Thursday for a Thursday game) re-downloads the
