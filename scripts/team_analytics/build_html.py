@@ -233,7 +233,7 @@ def takeaways(T, mm, A, meta, ARR):
         names = nw.sort_values("share", ascending=False).drop_duplicates("player").player.head(4)
         out.append({"h": f"{inj} has the heaviest new absences",
                     "ev": [f"{T.absent_new_snap_weighted[inj]:.2f} snap-weighted regulars newly out (0-1 games missed; {int(T.absent_new_n[inj])} players): {', '.join(names)}.",
-                           "Long-term absences are left out: the season numbers already reflect them."],
+                           "Absences of 2+ games are listed under Depth and injuries, each with how many of the team's games he played."],
                     "link": "#depth", "lt": "Depth and injuries"})
     fr = [x for v in ARR["teams"].values() for x in v if x["former_regular"] and x["recent"]]
     if fr:
@@ -697,7 +697,19 @@ def absence_when(x):
     return f"out since week {int(x.out_since_week)}, {int(x.games_missed)} game{'' if x.games_missed == 1 else 's'} without him"
 
 
-def build_matchups(T, nxt, MM, A, mm, notes, PL, US, QBS, REF, ARR):
+def presence(x):
+    """How much of the team's season he was part of; 'mostly reflected' only past half the games, never for a quarterback."""
+    txt = f"with {x.team} for {int(x.games)} of its {int(x.team_games)} games"
+    if x.position != "QB" and x.team_games - x.games >= x.team_games / 2:
+        txt += ", mostly reflected in the season numbers"
+    return txt
+
+
+def long_term_text(x):
+    return f"{x.player} ({x.position}, out since week {int(x.out_since_week)}): {presence(x)}"
+
+
+def build_matchups(T, nxt, MM, A, mm, notes, PL, US, QBS, REF, ARR, UN):
     games = []
     mm_by = {m["game"]: m for m in mm}
     lg_go = T.fd_go_rate.mean()
@@ -785,8 +797,12 @@ def build_matchups(T, nxt, MM, A, mm, notes, PL, US, QBS, REF, ARR):
                     f"{x.player} ({x.position}, {x.share:.0%} of snaps, {absence_when(x)})" for x in outs.itertuples()) + ".")
             lt = A[(A.team == t) & A.status_class.isin(["confirmed: reserve list", "listed Out/Doubtful", "inactive 3+ games"]) & (A.term == "long-term")]
             if len(lt):
-                cautions.append(f"{t} long-term absences are already in its season numbers: " + ", ".join(
-                    f"{x.player} ({x.position}, {absence_when(x)})" for x in lt.itertuples()) + ".")
+                cautions.append(f"{t} absences of 2+ games: " + "; ".join(long_term_text(x) for x in lt.itertuples()) + ".")
+            nd = [x for x in ARR.get("departures", {}).get(t, []) if x["new"]]
+            if nd:
+                cautions.append(f"{t} new departures, so its season numbers were built with them: " + "; ".join(x["text"] for x in nd) + ".")
+            for x in UN["flagged"].get(t, []):
+                cautions.append(f"{t} figures include an unusual game ({x['label']}: {x['weather']}, {x['dropbacks']} combined dropbacks): see Recent form.")
             q = A[(A.team == t) & (A.status_class == "listed Questionable")]
             if len(q):
                 cautions.append(f"{t} questionable ({report_label(q.last_report_week.max())}): " + ", ".join(f"{x.player} ({x.position})" for x in q.itertuples()) + ".")
@@ -828,6 +844,9 @@ def build_matchups(T, nxt, MM, A, mm, notes, PL, US, QBS, REF, ARR):
                      | {"weeks": str(T.loc[t, "form_weeks"]), "games": int(T.loc[t, "form_games"])} for t in (a, h)},
             "referee": REF["assign"].get(g.game_id),
             "arrivals": {t: ARR["teams"].get(t, []) for t in (a, h)},
+            "departures": {t: ARR.get("departures", {}).get(t, []) for t in (a, h)},
+            "roster_note": f"Rosters through week {ARR.get('roster_week')}; later trades appear after the next roster update.",
+            "unusual": {t: UN["flagged"].get(t, []) for t in (a, h)}, "qb_ints": {t: UN["ints"].get(t, []) for t in (a, h)},
             "note": notes.get("games", {}).get(label), "post": notes.get("postgame", {}).get(label),
         })
     return games
@@ -1096,7 +1115,8 @@ def travel_view(t, trv, study):
     rest = trv.get("rest")
     lines.append(f"{int(rest) if rest == rest else 'n/a'} days of rest (previous game {trv.get('prev_weekday') or 'n/a'}"
                  f"{', international: ' + str(trv.get('prev_stadium')) if trv.get('prev_intl') in (True, 'True') else ''}).")
-    if trv.get("side") == "away":
+    neutral = trv.get("neutral") in (True, "True")
+    if trv.get("side") == "away" or neutral:
         km = trv.get("km")
         lines.append(f"Travels {km:,.0f} km; time-zone change {trv.get('tz_diff'):+.0f} h; kickoff {trv.get('local_time')} local, "
                      f"{trv.get('body_clock')} on the team's home clock; road game {int(trv.get('road_streak'))} in a row.")
@@ -1112,6 +1132,8 @@ def travel_view(t, trv, study):
                          f"{h['vs_same']:+.1f} points vs same-time-zone trips (95% CI {h['vs_lo']:+.1f} to {h['vs_hi']:+.1f}; {h['n']} games).")
     else:
         lines.append("Home game; no travel.")
+    if neutral:
+        lines.insert(1, f"Neutral site ({trv.get('stadium')}): both teams travel.")
     if rest == rest and rest is not None:
         if rest >= 13:
             lines.append("Coming off a bye: teams after a bye beat their expected margin by about 1.2 points in 2002-25 (95% CI +0.3 to +2.1).")
@@ -1189,7 +1211,9 @@ def main():
     A["next_up_quality"] = [NU.get(f"{t}|{n}", {}).get("text") for t, n in zip(A.team, A.player)]
     REF = json.loads((d / "referees.json").read_text(encoding="utf-8"))
     ARR = json.loads((d / "arrivals.json").read_text(encoding="utf-8"))
+    UN = json.loads((d / "unusual.json").read_text(encoding="utf-8"))
     A["when"] = [absence_when(x) for x in A.itertuples()]
+    A["presence"] = [presence(x) if x.term == "long-term" else "" for x in A.itertuples()]
     A = A.assign(**{k: [nxt_up.get((t, n), {}).get(k) for t, n in zip(A.team, A.player)]
                     for k in ("slot", "next_up", "next_up_rank", "next_up_snaps", "next_up_games", "next_up_last_share", "still_first", "note")})
     wr_note = "" if wr_probs else (f" Win rates: {WR['source']['title']} ({WR['source']['updated']}); ESPN Analytics from NFL Next Gen Stats tracking, not in nflverse. ESPN publishes whole percentages, so tied teams share a rank here."
@@ -1725,7 +1749,8 @@ def main():
         C("form_net_change", "Net change", "epa", 1),
         C("form_weeks", "Weeks", "str", 0), C("form_plays_off", "Off. plays, last 4", "int", 0), C("form_plays_def", "Def. plays, last 4", "int", 0),
     ], "form_net_change", "Each play is adjusted with the season's opponent effects and home coefficient (Method), so the season columns equal the "
-       "opponent-adjusted EPA/play. Four games are about 250 plays per unit: a change smaller than about 0.05 EPA/play is within ordinary game-to-game noise."))
+       "opponent-adjusted EPA/play. Four games are about 250 plays per unit: a change smaller than about 0.05 EPA/play is within ordinary game-to-game noise."
+       + "".join(sorted({f" Unusual game inside these figures: {x['label']} ({x['weather']}, {x['dropbacks']} combined dropbacks)." for v in UN["flagged"].values() for x in v}))))
     big_cols = []
     for pos, nm in (("WR", "WRs"), ("TE", "TEs"), ("RB", "RBs")):
         big_cols += [C(f"def_n20_{pos}", f"20+ yd catches, {nm}", "int", -1, f"Completions of 20+ yards to {nm} allowed"),
@@ -1835,7 +1860,7 @@ def main():
     }
 
     tables = finish_tables(tables, T, not wr_probs, bool((A.last_report_week == meta["through_week"] + 1).any()))
-    games = build_matchups(T, nxt, MM, A, mm, notes, PL, US, CTX["qb"], REF, ARR)
+    games = build_matchups(T, nxt, MM, A, mm, notes, PL, US, CTX["qb"], REF, ARR, UN)
     pen_types_js = PEN_T.to_dict("records")
     # embed only the team fields the page or the per-game export reads (table columns, sample sizes, keys named in the
     # page's script or the exporter, and the team-chart measures, whose keys the page builds at run time)
@@ -1879,12 +1904,14 @@ def main():
     page = TEMPLATE.replace("/*DATA*/", json.dumps(data, default=str).replace("</", "<\\/"))
     page = page.replace("{{WEEK}}", str(meta["through_week"] + 1)).replace("{{THRU}}", str(meta["through_week"]))
     page = page.replace("{{WEEKS_WORD}}", WK["word"]).replace("{{WEEKS_WORD_CAP}}", WK["word"].capitalize())
-    page = page.replace("{{METHOD}}", method_html(meta, T, A, data["wr"], REF))
+    page = page.replace("{{METHOD}}", method_html(meta, T, A, data["wr"], REF, ARR, UN))
     (d / "report.html").write_text(page, encoding="utf-8")
     print("wrote", d / "report.html", f"{len(page) / 1e6:.2f} MB")
 
 
-def method_html(meta, T, A, WRI, REF):
+def method_html(meta, T, A, WRI, REF, ARR, UN):
+    ARR_WEEK, UN_WIND, UN_CUT, UN_PCTL, UN_N, UN_MED = ARR.get("roster_week"), UN["wind_min"], UN["cut"], UN["pctl"], UN["hist_games"], UN["hist_median"]
+    UN_YEARS = f"{UN['hist_seasons'][0]}-{str(UN['hist_seasons'][1])[-2:]}"
     co, cd = meta["composite_off"], meta["composite_def"]
     po, pdf = meta["prior_off"], meta["prior_def"]
     lg = meta["league"]
@@ -2030,17 +2057,23 @@ its source and date ({'loaded' if REF['assign_loaded'] else 'not loaded yet'}).<
 <li><b>Absences</b>: snap-count players are linked to rosters through the nflverse players table (PFR id to gsis id), then the roster's own PFR id, then team and name.
 Each player's status is his latest weekly-roster row. A regular inactive (INA) for each of the team's last three games with no injury designation counts as out
 ("inactive 3+ games"); a player active on a roster dated after a missed game is not flagged; a report for a game the player then played is not counted.</li>
-<li><b>Regulars</b>: 50%+ of offensive or defensive snaps in the games he played, in at least half of the team's games (and at least two), one row per
-player at his most-played position. A quarterback counts only when he started the team's latest game or has its most starts (a backup is not an absence).
-Each absence shows when he last played and how many team games he has missed: <i>new</i> = 0-1 games, <i>long-term</i> = 2 or more. Long-term absences are
-already in the season numbers, so only new ones go into the matchup cautions and the takeaways.</li>
+<li><b>Regulars</b>: 50%+ of offensive or defensive snaps in the games he played, at least two games, and at least half of the team's games up to his last
+appearance (a starter hurt early stays in; a fill-in with two late games stays out), one row per player at his most-played position. A quarterback counts only when he started the team's latest game or has its most starts (a backup is not an absence).
+Each absence shows when he last played and how many team games he has missed: <i>new</i> = 0-1 games, <i>long-term</i> = 2 or more. A long-term absence states how many
+of the team's games the player was part of; "mostly reflected in the season numbers" is said only when he has missed at least half of them, and never for a quarterback.
+Only new absences go into the takeaways.</li>
 <li><b>Injury statuses</b>: on the Tuesday build the coming week's practice reports do not exist yet, so every status is labelled "last week's report (week N)"
 (teams off a bye use an older week). A status refresh after the final injury reports (Friday about 16:30 ET; Thursday for a Thursday game) re-downloads the
 injury reports, rosters and depth charts and rebuilds only the absences, next man up, arrivals, quarterback scenarios and the per-game files
 (<code>refresh_status.py</code>). The practice-concern column is hidden until the coming week's practice reports exist.</li>
-<li><b>New arrivals</b>: players whose latest roster team differs from an earlier 2026 week, or who joined in season (signing, practice-squad promotion), shown
-when they were regulars elsewhere or play 40%+ of snaps for the new team, with their 2026 sample (sacks and QB hits from play-by-play, PFR pressures,
-targets and carries, or the unit's numbers in their starts).</li>
+<li><b>New arrivals and departures</b>: active players whose latest roster team differs from an earlier 2026 week, or who joined in season (signing, practice-squad promotion),
+shown when they were regulars elsewhere (40%+ of snaps in at least two games) or play 40%+ of snaps for the new team, with their 2026 sample (sacks and QB hits from
+play-by-play, PFR pressures, targets and carries, or the unit's numbers in their starts). Departures are former regulars of a team now on another roster; a departure is new
+for one team game after his last. Moves come from the weekly rosters (through week {ARR_WEEK}), so a later trade appears after the next roster update.</li>
+<li><b>Unusual games</b>: a game is flagged when the play-by-play weather text shows rain, snow or {UN_WIND}+ mph wind (not a dome or closed roof) and combined dropbacks are under {UN_CUT:.0f},
+the bottom {UN_PCTL}% of {UN_N} {UN_YEARS} regular-season games (median {UN_MED:.0f}). Season and last-four figures are shown with and without it. A quarterback who threw 2+ interceptions
+in his team's latest game gets FTN's interception-worthy and uncatchable counts against his earlier games; that charting cannot separate a wet ball from a bad decision. Display only:
+no rating or expectation changes.</li>
 <li><b>Headline edges</b> are scored on the matchup models' shrunk effects (each unit's effect times the share the shrinkage keeps, in standard deviations
 of the true effects), so a measure with no reliable signal cannot top the list. Blitz tendencies have no shrinkage model and stay as context in the
 matchup report.</li>

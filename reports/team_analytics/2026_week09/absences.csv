@@ -1,70 +1,99 @@
-team,player,gsis_id,position,group,unit,games,share,status_class,reason,last_report_injury,last_practice_status,last_report_week,last_week,out_since_week,games_missed,term
-ARI,Paris Johnson,00-0038540,OL,OL,off,4,0.995,confirmed: reserve list,reserve list (week 8 roster),,,,4,5.0,4,long-term
-ARI,Walter Nolen,00-0040706,DL,DL/EDGE,def,6,0.6166666666666667,listed Out/Doubtful,last week's report (week 8): Out,Ankle,Did Not Participate In Practice,8.0,6,7.0,2,long-term
-ARI,Jon Gaines,00-0038571,OL,OL,off,6,0.5966666666666667,listed Out/Doubtful,last week's report (week 8): Out,Ankle,Did Not Participate In Practice,8.0,6,7.0,2,long-term
-ATL,Divine Deablo,00-0036990,LB,LB,def,6,0.8250000000000001,listed Questionable,last week's report (week 8): Questionable,Forearm,Limited Participation in Practice,8.0,6,7.0,2,long-term
-BAL,Olaivavega Ioane,00-0040866,G,OL,off,7,0.8914285714285715,listed Out/Doubtful,last week's report (week 8): Out,Knee,Limited Participation in Practice,8.0,7,8.0,1,new
-BAL,Jaylinn Hawkins,00-0036302,S,DB,def,6,0.8133333333333334,listed Out/Doubtful,last week's report (week 8): Out,Knee,Did Not Participate In Practice,8.0,6,7.0,2,long-term
-BAL,Tavius Robinson,00-0038505,LB,LB,def,6,0.7216666666666667,confirmed: reserve list,reserve list (week 8 roster),,,,6,7.0,2,long-term
-BAL,Emery Jones,00-0040068,G,OL,off,6,0.5616666666666666,unconfirmed,did not play in the team's latest game; no injury designation,,,,7,8.0,1,new
-BUF,C.J. Gardner-Johnson,00-0035253,S,DB,def,6,0.8933333333333334,confirmed: reserve list,reserve list (week 8 roster),,,,6,8.0,1,new
-BUF,Spencer Brown,00-0036976,T,OL,off,6,0.875,listed Questionable,last week's report (week 8): Questionable,Back,Limited Participation in Practice,8.0,6,8.0,1,new
-BUF,Dee Alford,00-0037034,CB,DB,def,5,0.5359999999999999,listed Questionable,last week's report (week 8): Questionable,Ankle,Did Not Participate In Practice,8.0,6,8.0,1,new
-CAR,Damien Lewis,00-0036417,G,OL,off,5,0.8879999999999999,listed Out/Doubtful,last week's report (week 8): Out,Knee,Did Not Participate In Practice,8.0,7,8.0,1,new
-CAR,Jaelan Phillips,00-0036934,LB,LB,def,5,0.642,listed Out/Doubtful,last week's report (week 8): Out,Hamstring,Did Not Participate In Practice,8.0,6,7.0,2,long-term
-CAR,Akayleb Evans,00-0038101,CB,DB,def,6,0.6066666666666667,confirmed: reserve list,reserve list (week 8 roster),Triceps,Did Not Participate In Practice,8.0,7,8.0,1,new
-CHI,Malik Muhammad,00-0041060,DB,DB,def,7,0.7471428571428571,listed Questionable,last week's report (week 8): Questionable,Toe,Limited Participation in Practice,8.0,7,8.0,1,new
-CHI,Cole Kmet,00-0036290,TE,WR/TE,off,7,0.6142857142857142,confirmed: reserve list,reserve list (week 8 roster),,,,7,8.0,1,new
-CHI,Dayo Odeyingbo,00-0036480,DL,DL/EDGE,def,5,0.564,confirmed: reserve list,reserve list (week 8 roster),,,,5,6.0,3,long-term
-DAL,Dee Winters,00-0038625,LB,LB,def,6,0.6116666666666667,listed Out/Doubtful,last week's report (week 8): Out,Calf,Did Not Participate In Practice,8.0,6,7.0,2,long-term
-DEN,Talanoa Hufanga,00-0036564,S,DB,def,5,0.9259999999999999,listed Out/Doubtful,last week's report (week 8): Out,Ankle,Did Not Participate In Practice,8.0,5,6.0,3,long-term
-DEN,Jonah Elliss,00-0039809,LB,LB,def,6,0.5833333333333334,confirmed: reserve list,reserve list (week 8 roster),,,,6,7.0,2,long-term
-DEN,Pat Bryant,00-0040134,WR,WR/TE,off,4,0.5775,confirmed: reserve list,reserve list (week 8 roster),,,,4,5.0,4,long-term
-GB,Travis Glover,00-0039819,G,OL,off,4,1.0,listed Out/Doubtful,last week's report (week 8): Out,Knee,Did Not Participate In Practice,8.0,7,8.0,1,new
-GB,Zaire Franklin,00-0034431,LB,LB,def,6,0.9883333333333333,listed Out/Doubtful,last week's report (week 8): Out,Shin,Did Not Participate In Practice,8.0,6,7.0,2,long-term
-GB,Sean Rhyan,00-0037076,C,OL,off,7,0.8657142857142857,listed Out/Doubtful,last week's report (week 8): Out,Ankle,Did Not Participate In Practice,8.0,7,8.0,1,new
-GB,Edgerrin Cooper,00-0039850,LB,LB,def,4,0.825,confirmed: reserve list,reserve list (week 8 roster),,,,4,5.0,4,long-term
-GB,Jacob Monk,00-0039817,C,OL,off,4,0.74,confirmed: reserve list,reserve list (week 8 roster),,,,7,8.0,1,new
-HOU,Jalen Pitre,00-0037246,S,DB,def,5,0.9199999999999999,listed Out/Doubtful,last week's report (week 7): Out,Shoulder,Did Not Participate In Practice,7.0,5,6.0,2,long-term
-HOU,Reed Blankenship,00-0037130,S,DB,def,6,0.855,listed Out/Doubtful,last week's report (week 7): Out,Concussion,Did Not Participate In Practice,7.0,6,7.0,1,new
-IND,DeForest Buckner,00-0032378,DT,DL/EDGE,def,7,0.8257142857142857,unconfirmed,did not play in the team's latest game; no injury designation,,,,7,8.0,1,new
-IND,Justin Walley,00-0040139,CB,DB,def,7,0.7214285714285714,listed Out/Doubtful,last week's report (week 8): Out,Knee,Did Not Participate In Practice,8.0,7,8.0,1,new
-IND,Arden Key,00-0034825,DE,DL/EDGE,def,4,0.6475,confirmed: reserve list,reserve list (week 8 roster),,,,4,5.0,4,long-term
-JAX,Anton Harrison,00-0038934,OL,OL,off,5,0.916,confirmed: reserve list,reserve list (week 8 roster),,,,5,6.0,2,long-term
-JAX,Antonio Johnson,00-0038596,S,DB,def,6,0.8566666666666666,listed Out/Doubtful,last week's report (week 8): Out,Ankle,Did Not Participate In Practice,8.0,6,8.0,1,new
-KC,Mansoor Delane,00-0041543,CB,DB,def,5,0.788,listed Questionable,last week's report (week 8): Questionable,Shoulder,Did Not Participate In Practice,8.0,7,8.0,1,new
-KC,L'Jarius Sneed,00-0036374,CB,DB,def,6,0.6366666666666666,confirmed: reserve list,reserve list (week 8 roster),Knee,Limited Participation in Practice,8.0,7,8.0,1,new
-KC,Tyquan Thornton,00-0038104,WR,WR/TE,off,4,0.5900000000000001,confirmed: reserve list,reserve list (week 8 roster),,,,4,6.0,3,long-term
-LA,Davante Adams,00-0031381,WR,WR/TE,off,6,0.7399999999999999,confirmed: reserve list,reserve list (week 8 roster),,,,6,7.0,2,long-term
-LA,Colby Parkinson,00-0036244,TE,WR/TE,off,6,0.645,listed Questionable,last week's report (week 8): Questionable,Rib,Did Not Participate In Practice,8.0,7,8.0,1,new
-LA,Kobie Turner,00-0039138,DE,DL/EDGE,def,6,0.6066666666666667,confirmed: reserve list,reserve list (week 8 roster),,,,6,7.0,2,long-term
-LAC,Rashawn Slater,00-0037009,T,OL,off,4,0.9625,confirmed: reserve list,reserve list (week 8 roster),,,,4,5.0,3,long-term
-MIA,Kadyn Proctor,00-0041521,G,OL,off,6,1.0,listed Out/Doubtful,last week's report (week 8): Out,Concussion,Did Not Participate In Practice,8.0,7,8.0,1,new
-MIN,Donovan Jackson,00-0040661,G,OL,off,4,0.7725,confirmed: reserve list,reserve list (week 8 roster),,,,4,5.0,3,long-term
-NE,Alijah Vera-Tucker,00-0036979,G,OL,off,6,0.8866666666666667,confirmed: reserve list,reserve list (week 8 roster),,,,6,7.0,2,long-term
-NE,Mack Hollins,00-0033555,WR,WR/TE,off,4,0.645,confirmed: reserve list,reserve list (week 8 roster),,,,4,5.0,4,long-term
-NE,Romeo Doubs,00-0037816,WR,WR/TE,off,6,0.5766666666666667,confirmed: reserve list,reserve list (week 8 roster),,,,6,7.0,2,long-term
-NO,Cesar Ruiz,00-0036408,C,OL,off,6,0.9,listed Questionable,last week's report (week 7): Questionable,Knee,Limited Participation in Practice,7.0,6,7.0,1,new
-NO,Nathan Shepherd,00-0034760,DL,DL/EDGE,def,4,0.6625,listed Questionable,last week's report (week 7): Questionable,Illness,Did Not Participate In Practice,7.0,4,5.0,3,long-term
-NYG,Tremaine Edmunds,00-0034673,LB,LB,def,6,1.0,confirmed: reserve list,reserve list (week 7 roster),Shoulder,Did Not Participate In Practice,7.0,6,7.0,1,new
-NYG,Jevon Holland,00-0036998,S,DB,def,6,1.0,listed Out/Doubtful,last week's report (week 7): Out,Concussion,Limited Participation in Practice,7.0,6,7.0,1,new
-NYG,Greg Newsome II,00-0036996,CB,DB,def,6,0.9066666666666666,listed Out/Doubtful,last week's report (week 7): Out,Concussion,Did Not Participate In Practice,7.0,6,7.0,1,new
-NYG,Chauncey Golston,00-0036982,DL,DL/EDGE,def,4,0.5175,confirmed: reserve list,reserve list (week 7 roster),,,,4,5.0,3,long-term
-NYJ,Jordan Meredith,00-0036604,OL,OL,off,5,0.884,unconfirmed,did not play in the team's latest game; no injury designation,,,,7,8.0,1,new
-NYJ,David Bailey,00-0041026,DE,DL/EDGE,def,7,0.8057142857142857,listed Out/Doubtful,last week's report (week 8): Doubtful,Groin,Did Not Participate In Practice,8.0,7,8.0,1,new
-PHI,Jalen Hurts,00-0036389,QB,QB,off,5,0.984,confirmed: reserve list,reserve list (week 8 roster),,,,5,6.0,3,long-term
-PHI,DeVonta Smith,00-0036912,WR,WR/TE,off,4,0.8725,listed Out/Doubtful,last week's report (week 8): Out,Hamstring,Did Not Participate In Practice,8.0,6,7.0,2,long-term
-PHI,Jihaad Campbell,00-0040708,LB,LB,def,7,0.8242857142857142,listed Out/Doubtful,last week's report (week 8): Out,Hamstring,Did Not Participate In Practice,8.0,7,8.0,1,new
-PHI,Dontayvion Wicks,00-0038393,WR,WR/TE,off,6,0.7983333333333333,listed Out/Doubtful,last week's report (week 8): Out,Ankle,Did Not Participate In Practice,8.0,6,7.0,2,long-term
-SEA,Charles Cross,00-0037821,T,OL,off,7,0.9757142857142858,listed Out/Doubtful,last week's report (week 8): Out,Ankle,Did Not Participate In Practice,8.0,7,8.0,1,new
-SEA,Uchenna Nwosu,00-0034350,LB,LB,def,7,0.51,listed Out/Doubtful,last week's report (week 8): Doubtful,Ankle,Did Not Participate In Practice,8.0,7,8.0,1,new
-SEA,Rashid Shaheed,00-0037545,WR,WR/TE,off,7,0.5028571428571429,listed Out/Doubtful,last week's report (week 8): Out,Knee,Did Not Participate In Practice,8.0,7,8.0,1,new
-SF,Marques Sigle,00-0040185,S,DB,def,4,0.8775,listed Out/Doubtful,last week's report (week 7): Out,Ankle,Did Not Participate In Practice,7.0,4,5.0,3,long-term
-SF,Deebo Samuel,00-0035719,WR,WR/TE,off,5,0.576,listed Out/Doubtful,last week's report (week 7): Out,Hamstring,Did Not Participate In Practice,7.0,5,6.0,2,long-term
-SF,Upton Stout,00-0040152,CB,DB,def,6,0.5416666666666666,listed Questionable,last week's report (week 7): Questionable,Shoulder,Limited Participation in Practice,7.0,6,7.0,1,new
-SF,Mike Evans,00-0031408,WR,WR/TE,off,6,0.54,listed Out/Doubtful,last week's report (week 7): Out,Ribs,Did Not Participate In Practice,7.0,6,7.0,1,new
-TB,Emeka Egbuka,00-0040129,WR,WR/TE,off,6,0.8583333333333334,listed Out/Doubtful,last week's report (week 8): Out,Foot,Did Not Participate In Practice,8.0,6,7.0,2,long-term
-TEN,Carnell Tate,00-0041438,WR,WR/TE,off,7,0.8200000000000001,listed Out/Doubtful,last week's report (week 8): Out,Shoulder,Did Not Participate In Practice,8.0,7,8.0,1,new
-WAS,Daron Payne,00-0034333,DT,DL/EDGE,def,6,0.7383333333333333,listed Out/Doubtful,last week's report (week 8): Out,Foot,Limited Participation in Practice,8.0,6,8.0,1,new
-WAS,Javon Kinlaw,00-0036260,DT,DL/EDGE,def,6,0.6016666666666667,listed Out/Doubtful,last week's report (week 8): Out,Knee,Did Not Participate In Practice,8.0,6,8.0,1,new
-WAS,Terry McLaurin,00-0035659,WR,WR/TE,off,5,0.6,confirmed: reserve list,reserve list (week 8 roster),,,,6,8.0,1,new
+team,player,gsis_id,position,group,unit,games,share,status_class,reason,last_report_injury,last_practice_status,last_report_week,last_week,out_since_week,games_missed,term,team_games
+ARI,Paris Johnson,00-0038540,OL,OL,off,4,0.995,confirmed: reserve list,reserve list (week 8 roster),,,,4,5.0,4,long-term,8
+ARI,Will Johnson,00-0040751,CB,DB,def,2,0.895,confirmed: reserve list,reserve list (week 8 roster),,,,2,3.0,6,long-term,8
+ARI,Isaiah Adams,00-0039808,OL,OL,off,3,0.8066666666666666,confirmed: reserve list,reserve list (week 8 roster),,,,4,5.0,4,long-term,8
+ARI,Walter Nolen,00-0040706,DL,DL/EDGE,def,6,0.6166666666666667,listed Out/Doubtful,last week's report (week 8): Out,Ankle,Did Not Participate In Practice,8.0,6,7.0,2,long-term,8
+ARI,Jon Gaines,00-0038571,OL,OL,off,6,0.5966666666666667,listed Out/Doubtful,last week's report (week 8): Out,Ankle,Did Not Participate In Practice,8.0,6,7.0,2,long-term,8
+ATL,Divine Deablo,00-0036990,LB,LB,def,6,0.8250000000000001,listed Questionable,last week's report (week 8): Questionable,Forearm,Limited Participation in Practice,8.0,6,7.0,2,long-term,8
+BAL,Jovaughn Gwyn,00-0038629,OL,OL,off,3,0.9066666666666666,confirmed: reserve list,reserve list (week 8 roster),,,,3,4.0,5,long-term,8
+BAL,Olaivavega Ioane,00-0040866,G,OL,off,7,0.8914285714285715,listed Out/Doubtful,last week's report (week 8): Out,Knee,Limited Participation in Practice,8.0,7,8.0,1,new,8
+BAL,Jaylinn Hawkins,00-0036302,S,DB,def,6,0.8133333333333334,listed Out/Doubtful,last week's report (week 8): Out,Knee,Did Not Participate In Practice,8.0,6,7.0,2,long-term,8
+BAL,Tavius Robinson,00-0038505,LB,LB,def,6,0.7216666666666667,confirmed: reserve list,reserve list (week 8 roster),,,,6,7.0,2,long-term,8
+BAL,Emery Jones,00-0040068,G,OL,off,6,0.5616666666666666,unconfirmed,did not play in the team's latest game; no injury designation,,,,7,8.0,1,new,8
+BUF,C.J. Gardner-Johnson,00-0035253,S,DB,def,6,0.8933333333333334,confirmed: reserve list,reserve list (week 8 roster),,,,6,8.0,1,new,7
+BUF,Spencer Brown,00-0036976,T,OL,off,6,0.875,listed Questionable,last week's report (week 8): Questionable,Back,Limited Participation in Practice,8.0,6,8.0,1,new,7
+BUF,Dee Alford,00-0037034,CB,DB,def,5,0.5359999999999999,listed Questionable,last week's report (week 8): Questionable,Ankle,Did Not Participate In Practice,8.0,6,8.0,1,new,7
+CAR,Damien Lewis,00-0036417,G,OL,off,5,0.8879999999999999,listed Out/Doubtful,last week's report (week 8): Out,Knee,Did Not Participate In Practice,8.0,7,8.0,1,new,7
+CAR,Jaycee Horn,00-0036944,CB,DB,def,3,0.8733333333333334,confirmed: reserve list,reserve list (week 8 roster),,,,3,4.0,4,long-term,7
+CAR,Michael Jackson,00-0035277,CB,DB,def,3,0.69,confirmed: reserve list,reserve list (week 8 roster),,,,3,4.0,4,long-term,7
+CAR,Jaelan Phillips,00-0036934,LB,LB,def,5,0.642,listed Out/Doubtful,last week's report (week 8): Out,Hamstring,Did Not Participate In Practice,8.0,6,7.0,2,long-term,7
+CAR,Akayleb Evans,00-0038101,CB,DB,def,6,0.6066666666666667,confirmed: reserve list,reserve list (week 8 roster),Triceps,Did Not Participate In Practice,8.0,7,8.0,1,new,7
+CAR,Xavier Legette,00-0039342,WR,WR/TE,off,2,0.515,confirmed: reserve list,reserve list (week 8 roster),,,,2,3.0,5,long-term,7
+CHI,Malik Muhammad,00-0041060,DB,DB,def,7,0.7471428571428571,listed Questionable,last week's report (week 8): Questionable,Toe,Limited Participation in Practice,8.0,7,8.0,1,new,8
+CHI,Braxton Jones,00-0037081,OL,OL,off,3,0.65,confirmed: reserve list,reserve list (week 8 roster),,,,3,4.0,5,long-term,8
+CHI,Cole Kmet,00-0036290,TE,WR/TE,off,7,0.6142857142857142,confirmed: reserve list,reserve list (week 8 roster),,,,7,8.0,1,new,8
+CHI,Dayo Odeyingbo,00-0036480,DL,DL/EDGE,def,5,0.564,confirmed: reserve list,reserve list (week 8 roster),,,,5,6.0,3,long-term,8
+CIN,Jalen Davis,00-0034446,CB,DB,def,3,0.6133333333333334,confirmed: reserve list,reserve list (week 8 roster),,,,3,4.0,4,long-term,7
+CIN,Andrei Iosivas,00-0038619,WR,WR/TE,off,2,0.5700000000000001,confirmed: reserve list,reserve list (week 8 roster),,,,2,3.0,5,long-term,7
+DAL,Jalen Thompson,00-0035705,S,DB,def,3,0.8066666666666666,confirmed: reserve list,reserve list (week 8 roster),,,,3,4.0,5,long-term,8
+DAL,Dee Winters,00-0038625,LB,LB,def,6,0.6116666666666667,listed Out/Doubtful,last week's report (week 8): Out,Calf,Did Not Participate In Practice,8.0,6,7.0,2,long-term,8
+DEN,Talanoa Hufanga,00-0036564,S,DB,def,5,0.9259999999999999,listed Out/Doubtful,last week's report (week 8): Out,Ankle,Did Not Participate In Practice,8.0,5,6.0,3,long-term,8
+DEN,Jonah Elliss,00-0039809,LB,LB,def,6,0.5833333333333334,confirmed: reserve list,reserve list (week 8 roster),,,,6,7.0,2,long-term,8
+DEN,Pat Bryant,00-0040134,WR,WR/TE,off,4,0.5775,confirmed: reserve list,reserve list (week 8 roster),,,,4,5.0,4,long-term,8
+DET,Ben Bartch,00-0036272,OL,OL,off,2,0.9299999999999999,confirmed: reserve list,reserve list (week 8 roster),,,,2,3.0,5,long-term,7
+DET,Avonte Maddox,00-0034377,DB,DB,def,2,0.6499999999999999,confirmed: reserve list,reserve list (week 8 roster),,,,2,3.0,5,long-term,7
+DET,Thomas Harper,00-0039660,S,DB,def,2,0.525,confirmed: reserve list,reserve list (week 8 roster),,,,2,3.0,5,long-term,7
+GB,Travis Glover,00-0039819,G,OL,off,4,1.0,listed Out/Doubtful,last week's report (week 8): Out,Knee,Did Not Participate In Practice,8.0,7,8.0,1,new,8
+GB,Zaire Franklin,00-0034431,LB,LB,def,6,0.9883333333333333,listed Out/Doubtful,last week's report (week 8): Out,Shin,Did Not Participate In Practice,8.0,6,7.0,2,long-term,8
+GB,Sean Rhyan,00-0037076,C,OL,off,7,0.8657142857142857,listed Out/Doubtful,last week's report (week 8): Out,Ankle,Did Not Participate In Practice,8.0,7,8.0,1,new,8
+GB,Edgerrin Cooper,00-0039850,LB,LB,def,4,0.825,confirmed: reserve list,reserve list (week 8 roster),,,,4,5.0,4,long-term,8
+GB,Jacob Monk,00-0039817,C,OL,off,4,0.74,confirmed: reserve list,reserve list (week 8 roster),,,,7,8.0,1,new,8
+GB,Jager Burton,00-0040884,C,OL,off,2,0.6950000000000001,unconfirmed,did not play in the team's latest game; no injury designation,,,,3,4.0,5,long-term,8
+GB,Zach Bako-Bewele,00-0037817,OL,OL,off,2,0.525,confirmed: reserve list,reserve list (week 8 roster),,,,2,3.0,6,long-term,8
+HOU,Jalen Pitre,00-0037246,S,DB,def,5,0.9199999999999999,listed Out/Doubtful,last week's report (week 7): Out,Shoulder,Did Not Participate In Practice,7.0,5,6.0,2,long-term,7
+HOU,Reed Blankenship,00-0037130,S,DB,def,6,0.855,listed Out/Doubtful,last week's report (week 7): Out,Concussion,Did Not Participate In Practice,7.0,6,7.0,1,new,7
+IND,DeForest Buckner,00-0032378,DT,DL/EDGE,def,7,0.8257142857142857,unconfirmed,did not play in the team's latest game; no injury designation,,,,7,8.0,1,new,8
+IND,Justin Walley,00-0040139,CB,DB,def,7,0.7214285714285714,listed Out/Doubtful,last week's report (week 8): Out,Knee,Did Not Participate In Practice,8.0,7,8.0,1,new,8
+IND,Arden Key,00-0034825,DE,DL/EDGE,def,4,0.6475,confirmed: reserve list,reserve list (week 8 roster),,,,4,5.0,4,long-term,8
+JAX,Anton Harrison,00-0038934,OL,OL,off,5,0.916,confirmed: reserve list,reserve list (week 8 roster),,,,5,6.0,2,long-term,7
+JAX,Antonio Johnson,00-0038596,S,DB,def,6,0.8566666666666666,listed Out/Doubtful,last week's report (week 8): Out,Ankle,Did Not Participate In Practice,8.0,6,8.0,1,new,7
+KC,Mansoor Delane,00-0041543,CB,DB,def,5,0.788,listed Questionable,last week's report (week 8): Questionable,Shoulder,Did Not Participate In Practice,8.0,7,8.0,1,new,7
+KC,L'Jarius Sneed,00-0036374,CB,DB,def,6,0.6366666666666666,confirmed: reserve list,reserve list (week 8 roster),Knee,Limited Participation in Practice,8.0,7,8.0,1,new,7
+KC,Tyquan Thornton,00-0038104,WR,WR/TE,off,4,0.5900000000000001,confirmed: reserve list,reserve list (week 8 roster),,,,4,6.0,3,long-term,7
+LA,Davante Adams,00-0031381,WR,WR/TE,off,6,0.7399999999999999,confirmed: reserve list,reserve list (week 8 roster),,,,6,7.0,2,long-term,8
+LA,Colby Parkinson,00-0036244,TE,WR/TE,off,6,0.645,listed Questionable,last week's report (week 8): Questionable,Rib,Did Not Participate In Practice,8.0,7,8.0,1,new,8
+LA,Kobie Turner,00-0039138,DE,DL/EDGE,def,6,0.6066666666666667,confirmed: reserve list,reserve list (week 8 roster),,,,6,7.0,2,long-term,8
+LAC,Rashawn Slater,00-0037009,T,OL,off,4,0.9625,confirmed: reserve list,reserve list (week 8 roster),,,,4,5.0,3,long-term,7
+LAC,Derwin James,00-0034790,S,DB,def,3,0.9433333333333334,confirmed: reserve list,reserve list (week 8 roster),Hamstring,Did Not Participate In Practice,8.0,3,4.0,4,long-term,7
+LAC,Kayode Awosika,00-0036736,G,OL,off,2,0.69,listed Out/Doubtful,last week's report (week 8): Out,Fibula,Did Not Participate In Practice,8.0,2,3.0,5,long-term,7
+LAC,Trevor Penning,00-0037241,OL,OL,off,3,0.68,confirmed: reserve list,reserve list (week 8 roster),,,,4,5.0,3,long-term,7
+MIA,Kadyn Proctor,00-0041521,G,OL,off,6,1.0,listed Out/Doubtful,last week's report (week 8): Out,Concussion,Did Not Participate In Practice,8.0,7,8.0,1,new,7
+MIA,De'Von Achane,00-0039040,RB,RB,off,3,0.5566666666666666,confirmed: reserve list,reserve list (week 8 roster),,,,3,4.0,4,long-term,7
+MIN,Donovan Jackson,00-0040661,G,OL,off,4,0.7725,confirmed: reserve list,reserve list (week 8 roster),,,,4,5.0,3,long-term,7
+MIN,Josh Oliver,00-0035249,TE,WR/TE,off,3,0.5533333333333333,confirmed: reserve list,reserve list (week 8 roster),,,,3,4.0,4,long-term,7
+NE,Alijah Vera-Tucker,00-0036979,G,OL,off,6,0.8866666666666667,confirmed: reserve list,reserve list (week 8 roster),,,,6,7.0,2,long-term,8
+NE,Mack Hollins,00-0033555,WR,WR/TE,off,4,0.645,confirmed: reserve list,reserve list (week 8 roster),,,,4,5.0,4,long-term,8
+NE,Michael Onwenu,00-0036198,OL,OL,off,2,0.635,confirmed: reserve list,reserve list (week 8 roster),,,,2,3.0,6,long-term,8
+NE,Romeo Doubs,00-0037816,WR,WR/TE,off,6,0.5766666666666667,confirmed: reserve list,reserve list (week 8 roster),,,,6,7.0,2,long-term,8
+NO,Cesar Ruiz,00-0036408,C,OL,off,6,0.9,listed Questionable,last week's report (week 7): Questionable,Knee,Limited Participation in Practice,7.0,6,7.0,1,new,7
+NO,Kelvin Banks,00-0040125,T,OL,off,2,0.7949999999999999,confirmed: reserve list,reserve list (week 7 roster),,,,2,3.0,5,long-term,7
+NO,Nathan Shepherd,00-0034760,DL,DL/EDGE,def,4,0.6625,listed Questionable,last week's report (week 7): Questionable,Illness,Did Not Participate In Practice,7.0,4,5.0,3,long-term,7
+NO,Travis Etienne,00-0036973,RB,RB,off,3,0.5033333333333333,confirmed: reserve list,reserve list (week 7 roster),,,,3,4.0,4,long-term,7
+NYG,Jevon Holland,00-0036998,S,DB,def,6,1.0,listed Out/Doubtful,last week's report (week 7): Out,Concussion,Limited Participation in Practice,7.0,6,7.0,1,new,7
+NYG,Tremaine Edmunds,00-0034673,LB,LB,def,6,1.0,confirmed: reserve list,reserve list (week 7 roster),Shoulder,Did Not Participate In Practice,7.0,6,7.0,1,new,7
+NYG,Greg Newsome II,00-0036996,CB,DB,def,6,0.9066666666666666,listed Out/Doubtful,last week's report (week 7): Out,Concussion,Did Not Participate In Practice,7.0,6,7.0,1,new,7
+NYG,Brian Burns,00-0035713,LB,LB,def,3,0.6466666666666666,confirmed: reserve list,reserve list (week 7 roster),,,,3,4.0,4,long-term,7
+NYG,Chauncey Golston,00-0036982,DL,DL/EDGE,def,4,0.5175,confirmed: reserve list,reserve list (week 7 roster),,,,4,5.0,3,long-term,7
+NYJ,Jordan Meredith,00-0036604,OL,OL,off,5,0.884,unconfirmed,did not play in the team's latest game; no injury designation,,,,7,8.0,1,new,8
+NYJ,David Bailey,00-0041026,DE,DL/EDGE,def,7,0.8057142857142857,listed Out/Doubtful,last week's report (week 8): Doubtful,Groin,Did Not Participate In Practice,8.0,7,8.0,1,new,8
+NYJ,Breece Hall,00-0038120,RB,RB,off,3,0.57,listed Questionable,last week's report (week 8): Questionable,Quadricep,Limited Participation in Practice,8.0,3,4.0,5,long-term,8
+PHI,Lane Johnson,00-0030561,T,OL,off,3,1.0,inactive 3+ games,inactive (INA) on the roster for each of the team's last three games; no injury designation,,,,3,4.0,5,long-term,8
+PHI,Jalen Hurts,00-0036389,QB,QB,off,5,0.984,confirmed: reserve list,reserve list (week 8 roster),,,,5,6.0,3,long-term,8
+PHI,DeVonta Smith,00-0036912,WR,WR/TE,off,4,0.8725,listed Out/Doubtful,last week's report (week 8): Out,Hamstring,Did Not Participate In Practice,8.0,6,7.0,2,long-term,8
+PHI,Jihaad Campbell,00-0040708,LB,LB,def,7,0.8242857142857142,listed Out/Doubtful,last week's report (week 8): Out,Hamstring,Did Not Participate In Practice,8.0,7,8.0,1,new,8
+PHI,Dontayvion Wicks,00-0038393,WR,WR/TE,off,6,0.7983333333333333,listed Out/Doubtful,last week's report (week 8): Out,Ankle,Did Not Participate In Practice,8.0,6,7.0,2,long-term,8
+PIT,Michael Pittman Jr.,00-0036252,WR,WR/TE,off,3,0.7766666666666667,confirmed: reserve list,reserve list (week 8 roster),,,,4,5.0,4,long-term,8
+SEA,Charles Cross,00-0037821,T,OL,off,7,0.9757142857142858,listed Out/Doubtful,last week's report (week 8): Out,Ankle,Did Not Participate In Practice,8.0,7,8.0,1,new,8
+SEA,Uchenna Nwosu,00-0034350,LB,LB,def,7,0.51,listed Out/Doubtful,last week's report (week 8): Doubtful,Ankle,Did Not Participate In Practice,8.0,7,8.0,1,new,8
+SEA,Rashid Shaheed,00-0037545,WR,WR/TE,off,7,0.5028571428571429,listed Out/Doubtful,last week's report (week 8): Out,Knee,Did Not Participate In Practice,8.0,7,8.0,1,new,8
+SF,Marques Sigle,00-0040185,S,DB,def,4,0.8775,listed Out/Doubtful,last week's report (week 7): Out,Ankle,Did Not Participate In Practice,7.0,4,5.0,3,long-term,7
+SF,Nick Bosa,00-0035717,DL,DL/EDGE,def,2,0.635,listed Out/Doubtful,last week's report (week 7): Out,Knee,Did Not Participate In Practice,7.0,2,3.0,5,long-term,7
+SF,Deebo Samuel,00-0035719,WR,WR/TE,off,5,0.576,listed Out/Doubtful,last week's report (week 7): Out,Hamstring,Did Not Participate In Practice,7.0,5,6.0,2,long-term,7
+SF,Upton Stout,00-0040152,CB,DB,def,6,0.5416666666666666,listed Questionable,last week's report (week 7): Questionable,Shoulder,Limited Participation in Practice,7.0,6,7.0,1,new,7
+SF,Mike Evans,00-0031408,WR,WR/TE,off,6,0.54,listed Out/Doubtful,last week's report (week 7): Out,Ribs,Did Not Participate In Practice,7.0,6,7.0,1,new,7
+TB,Emeka Egbuka,00-0040129,WR,WR/TE,off,6,0.8583333333333334,listed Out/Doubtful,last week's report (week 8): Out,Foot,Did Not Participate In Practice,8.0,6,7.0,2,long-term,8
+TEN,Carnell Tate,00-0041438,WR,WR/TE,off,7,0.8200000000000001,listed Out/Doubtful,last week's report (week 8): Out,Shoulder,Did Not Participate In Practice,8.0,7,8.0,1,new,8
+TEN,Fernando Carmona,00-0040881,G,OL,off,3,0.6733333333333333,confirmed: reserve list,reserve list (week 8 roster),,,,3,4.0,5,long-term,8
+WAS,Daron Payne,00-0034333,DT,DL/EDGE,def,6,0.7383333333333333,listed Out/Doubtful,last week's report (week 8): Out,Foot,Limited Participation in Practice,8.0,6,8.0,1,new,7
+WAS,Javon Kinlaw,00-0036260,DT,DL/EDGE,def,6,0.6016666666666667,listed Out/Doubtful,last week's report (week 8): Out,Knee,Did Not Participate In Practice,8.0,6,8.0,1,new,7
+WAS,Terry McLaurin,00-0035659,WR,WR/TE,off,5,0.6,confirmed: reserve list,reserve list (week 8 roster),,,,6,8.0,1,new,7

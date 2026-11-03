@@ -197,8 +197,8 @@ def week_travel(sched_season: pd.DataFrame, week: int, study: dict) -> pd.DataFr
     tr["road_streak"] = road
     cur = tr[tr.week == week].copy()
     lookup = {g["group"]: g for g in study["by_dir_slot"]}
-    cur["hist"] = [lookup.get(f"{d} / {s}") if (side == "away" and d) else None
-                   for d, s, side in zip(cur.dir, cur.slot, cur.side)]
+    cur["hist"] = [lookup.get(f"{d} / {s}") if ((side == "away" or n) and d) else None
+                   for d, s, side, n in zip(cur.dir, cur.slot, cur.side, cur.neutral)]
     return cur
 
 

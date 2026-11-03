@@ -1,0 +1,174 @@
+{
+ "flagged": {
+  "TB": [
+   {
+    "game_id": "2026_08_ATL_TB",
+    "week": 8,
+    "weather": "Rain, 78F, wind 9 mph",
+    "dropbacks": 31,
+    "cut": 56.16,
+    "label": "ATL 0 at TB 16, week 8",
+    "team": "TB",
+    "opp": "ATL",
+    "team_dropbacks": 5,
+    "opp_dropbacks": 26,
+    "qb": "Baker Mayfield",
+    "qb_dropbacks": 5,
+    "qb_epa_db": -1.29965040828033,
+    "qb_att": 3,
+    "qb_epa_att": -1.4801719163843527,
+    "qb_ints": 0,
+    "off_season": -0.06910568939166727,
+    "def_season": -0.15686397655798084,
+    "off_season_wo": -0.06593183396443708,
+    "def_season_wo": -0.1234243306442049,
+    "in_last4": true,
+    "off_l4": -0.05469016643344651,
+    "def_l4": -0.2477827490181212,
+    "off_l4_wo": -0.04346593333696249,
+    "def_l4_wo": -0.19842885258418863,
+    "net_season": 0.08775828716631358,
+    "net_season_wo": 0.057492496679767816,
+    "net_l4": 0.19309258258467468,
+    "net_l4_wo": 0.15496291924722613
+   }
+  ],
+  "ATL": [
+   {
+    "game_id": "2026_08_ATL_TB",
+    "week": 8,
+    "weather": "Rain, 78F, wind 9 mph",
+    "dropbacks": 31,
+    "cut": 56.16,
+    "label": "ATL 0 at TB 16, week 8",
+    "team": "ATL",
+    "opp": "TB",
+    "team_dropbacks": 26,
+    "opp_dropbacks": 5,
+    "qb": "Michael Penix Jr.",
+    "qb_dropbacks": 26,
+    "qb_epa_db": -0.7609235497622661,
+    "qb_att": 24,
+    "qb_epa_att": -1.0021110942627438,
+    "qb_ints": 4,
+    "off_season": -0.06715438796553347,
+    "def_season": -0.059875462683335046,
+    "off_season_wo": -0.03417918157833689,
+    "def_season_wo": -0.05687866117456625,
+    "in_last4": true,
+    "off_l4": -0.10228093491293935,
+    "def_l4": -0.06728900645064766,
+    "off_l4_wo": -0.033483256184848105,
+    "def_l4_wo": -0.06255511463769127,
+    "net_season": -0.007278925282198423,
+    "net_season_wo": 0.02269947959622936,
+    "net_l4": -0.034991928462291697,
+    "net_l4_wo": 0.029071858452843165
+   }
+  ]
+ },
+ "ints": {
+  "SF": [
+   {
+    "team": "SF",
+    "qb": "Brock Purdy",
+    "week": 7,
+    "opp": "ATL",
+    "ints": 2,
+    "charted": true,
+    "worthy_ints": 2,
+    "worthy_all": 2,
+    "att": 39,
+    "uncatchable": 9,
+    "att_before": 170,
+    "uncatchable_before": 43,
+    "worthy_before": 4,
+    "text": "Brock Purdy threw 2 interceptions in week 7 against ATL: 2 of 2 charted interception-worthy; 9 of 39 attempts uncatchable, against 43 of 170 in his earlier games (2 interception-worthy throws in that game, 4 before). Interception-worthy charting cannot separate a wet ball from a bad decision."
+   }
+  ],
+  "ATL": [
+   {
+    "team": "ATL",
+    "qb": "Michael Penix Jr.",
+    "week": 8,
+    "opp": "TB",
+    "ints": 4,
+    "charted": true,
+    "worthy_ints": 4,
+    "worthy_all": 4,
+    "att": 24,
+    "uncatchable": 15,
+    "att_before": 143,
+    "uncatchable_before": 40,
+    "worthy_before": 3,
+    "text": "Michael Penix Jr. threw 4 interceptions in week 8 against TB: 4 of 4 charted interception-worthy; 15 of 24 attempts uncatchable, against 40 of 143 in his earlier games (4 interception-worthy throws in that game, 3 before). Interception-worthy charting cannot separate a wet ball from a bad decision."
+   }
+  ],
+  "IND": [
+   {
+    "team": "IND",
+    "qb": "Daniel Jones",
+    "week": 8,
+    "opp": "JAX",
+    "ints": 2,
+    "charted": true,
+    "worthy_ints": 1,
+    "worthy_all": 2,
+    "att": 28,
+    "uncatchable": 9,
+    "att_before": 239,
+    "uncatchable_before": 75,
+    "worthy_before": 15,
+    "text": "Daniel Jones threw 2 interceptions in week 8 against JAX: 1 of 2 charted interception-worthy; 9 of 28 attempts uncatchable, against 75 of 239 in his earlier games (2 interception-worthy throws in that game, 15 before). Interception-worthy charting cannot separate a wet ball from a bad decision."
+   }
+  ],
+  "LAC": [
+   {
+    "team": "LAC",
+    "qb": "Justin Herbert",
+    "week": 8,
+    "opp": "LA",
+    "ints": 2,
+    "charted": true,
+    "worthy_ints": 2,
+    "worthy_all": 2,
+    "att": 31,
+    "uncatchable": 5,
+    "att_before": 179,
+    "uncatchable_before": 57,
+    "worthy_before": 11,
+    "text": "Justin Herbert threw 2 interceptions in week 8 against LA: 2 of 2 charted interception-worthy; 5 of 31 attempts uncatchable, against 57 of 179 in his earlier games (2 interception-worthy throws in that game, 11 before). Interception-worthy charting cannot separate a wet ball from a bad decision."
+   }
+  ],
+  "CIN": [
+   {
+    "team": "CIN",
+    "qb": "Joe Burrow",
+    "week": 8,
+    "opp": "TEN",
+    "ints": 3,
+    "charted": true,
+    "worthy_ints": 3,
+    "worthy_all": 3,
+    "att": 48,
+    "uncatchable": 7,
+    "att_before": 219,
+    "uncatchable_before": 51,
+    "worthy_before": 3,
+    "text": "Joe Burrow threw 3 interceptions in week 8 against TEN: 3 of 3 charted interception-worthy; 7 of 48 attempts uncatchable, against 51 of 219 in his earlier games (3 interception-worthy throws in that game, 3 before). Interception-worthy charting cannot separate a wet ball from a bad decision."
+   }
+  ]
+ },
+ "cut": 56.16,
+ "pctl": 2,
+ "wind_min": 15,
+ "hist_games": 1359,
+ "hist_seasons": [
+  2021,
+  2025
+ ],
+ "hist_median": 79.0,
+ "hist_min": 40,
+ "hist_flagged": 9,
+ "caveat": "Interception-worthy charting cannot separate a wet ball from a bad decision."
+}

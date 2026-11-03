@@ -193,8 +193,10 @@
    "press_out_names": [
     "Walter Nolen (5)"
    ],
-   "tgt_out_share": 0.0,
-   "tgt_out_names": []
+   "tgt_out_share": 0.06481481481481481,
+   "tgt_out_names": [
+    "Will Johnson (14 targets)"
+   ]
   },
   "ATL": {
    "pfr_games": 7,
@@ -979,9 +981,11 @@
     "Jaelan Phillips (10)",
     "Akayleb Evans (1)"
    ],
-   "tgt_out_share": 0.12992125984251968,
+   "tgt_out_share": 0.20078740157480315,
    "tgt_out_names": [
     "Akayleb Evans (31 targets)",
+    "Jaycee Horn (12 targets)",
+    "Michael Jackson (6 targets)",
     "Jaelan Phillips (2 targets)"
    ]
   },
@@ -1372,8 +1376,10 @@
    "top3_press_share": 0.5,
    "press_out_share": 0.0,
    "press_out_names": [],
-   "tgt_out_share": 0.0,
-   "tgt_out_names": []
+   "tgt_out_share": 0.06912442396313365,
+   "tgt_out_names": [
+    "Jalen Davis (15 targets)"
+   ]
   },
   "CLE": {
    "pfr_games": 7,
@@ -1762,9 +1768,10 @@
    "press_out_names": [
     "Dee Winters (1)"
    ],
-   "tgt_out_share": 0.09134615384615384,
+   "tgt_out_share": 0.11057692307692307,
    "tgt_out_names": [
-    "Dee Winters (19 targets)"
+    "Dee Winters (19 targets)",
+    "Jalen Thompson (4 targets)"
    ]
   },
   "DEN": {
@@ -2156,10 +2163,16 @@
     }
    ],
    "top3_press_share": 0.5526315789473685,
-   "press_out_share": 0.0,
-   "press_out_names": [],
-   "tgt_out_share": 0.0,
-   "tgt_out_names": []
+   "press_out_share": 0.02631578947368421,
+   "press_out_names": [
+    "Thomas Harper (1)",
+    "Avonte Maddox (1)"
+   ],
+   "tgt_out_share": 0.06761565836298933,
+   "tgt_out_names": [
+    "Avonte Maddox (11 targets)",
+    "Thomas Harper (8 targets)"
+   ]
   },
   "GB": {
    "pfr_games": 8,
@@ -3543,10 +3556,14 @@
     }
    ],
    "top3_press_share": 0.5217391304347826,
-   "press_out_share": 0.0,
-   "press_out_names": [],
-   "tgt_out_share": 0.0,
-   "tgt_out_names": []
+   "press_out_share": 0.021739130434782608,
+   "press_out_names": [
+    "Derwin James (1)"
+   ],
+   "tgt_out_share": 0.06626506024096386,
+   "tgt_out_names": [
+    "Derwin James (11 targets)"
+   ]
   },
   "LV": {
    "pfr_games": 7,
@@ -4563,7 +4580,7 @@
      "blitzes": 6,
      "share": 0.1111111111111111,
      "per100": 4.310344827586207,
-     "status": ""
+     "status": "out (reserve list)"
     },
     {
      "name": "Andru Phillips",
@@ -4707,8 +4724,9 @@
     }
    ],
    "top3_press_share": 0.4444444444444444,
-   "press_out_share": 0.1111111111111111,
+   "press_out_share": 0.2222222222222222,
    "press_out_names": [
+    "Brian Burns (5)",
     "Tremaine Edmunds (3)",
     "Jevon Holland (1)",
     "Greg Newsome II (1)"
@@ -5697,8 +5715,9 @@
     }
    ],
    "top3_press_share": 0.4117647058823529,
-   "press_out_share": 0.014705882352941176,
+   "press_out_share": 0.07352941176470588,
    "press_out_names": [
+    "Nick Bosa (4)",
     "Marques Sigle (1)"
    ],
    "tgt_out_share": 0.028112449799196786,
@@ -6300,5 +6319,5 @@
  },
  "press_flag": 0.15,
  "tgt_flag": 0.2,
- "matched_status": 36
+ "matched_status": 46
 }

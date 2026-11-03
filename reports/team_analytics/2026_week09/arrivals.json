@@ -75,32 +75,6 @@
     "text": "Laken Tomlinson (OL, from DAL, first week 4): 5 games and 332 snaps for GB (100% of snaps). GB offence EPA/dropback in his 5 starts +0.215 (210 dropbacks) vs other games +0.033 (140)."
    }
   ],
-  "NYJ": [
-   {
-    "team": "NYJ",
-    "name": "Sterling Shepard",
-    "pos": "WR",
-    "kind": "signed in season",
-    "prev_team": null,
-    "first_week": 2,
-    "status": "DEV",
-    "games_new": 2,
-    "snaps_new": 47,
-    "share_new": 0.49,
-    "last_share": 0.53,
-    "games_prev": 0,
-    "share_prev": null,
-    "former_regular": false,
-    "role": "skill",
-    "recent": false,
-    "targets": 2,
-    "epa_tgt": -0.8277951905038208,
-    "rec_yds": 3,
-    "carries": 0,
-    "epa_car": null,
-    "text": "Sterling Shepard (WR, signed in season, first week 2): 2 games and 47 snaps for NYJ (49% of snaps). 2026: 2 targets (too few for a rate)."
-   }
-  ],
   "WAS": [
    {
     "team": "WAS",
@@ -127,101 +101,7 @@
     "text": "Lucas Patrick (OL, signed in season, first week 2): 6 games and 318 snaps for WAS (82% of snaps). 5 starts for WAS; too few dropbacks for a with/without split (204 with, 86 without)."
    }
   ],
-  "NYG": [
-   {
-    "team": "NYG",
-    "name": "J.J. McCarthy",
-    "pos": "QB",
-    "kind": "trade or move",
-    "prev_team": "MIN",
-    "first_week": 4,
-    "status": "ACT",
-    "games_new": 3,
-    "snaps_new": 97,
-    "share_new": 0.46,
-    "last_share": 0.92,
-    "games_prev": 0,
-    "share_prev": null,
-    "former_regular": false,
-    "role": "qb",
-    "recent": false,
-    "dropbacks": 53,
-    "epa_db": 0.2998346536724295,
-    "text": "J.J. McCarthy (QB, from MIN, first week 4): 3 games and 97 snaps for NYG (46% of snaps). 2026: 53 dropbacks (+0.300 EPA/dropback)."
-   },
-   {
-    "team": "NYG",
-    "name": "Josh Tupou",
-    "pos": "DL",
-    "kind": "promoted from the practice squad",
-    "prev_team": null,
-    "first_week": 2,
-    "status": "DEV",
-    "games_new": 1,
-    "snaps_new": 26,
-    "share_new": 0.42,
-    "last_share": 0.42,
-    "games_prev": 0,
-    "share_prev": null,
-    "former_regular": false,
-    "role": "rush",
-    "recent": false,
-    "sacks": 0.0,
-    "qb_hits": 0,
-    "pressures": 0,
-    "pfr_games": 1,
-    "text": "Josh Tupou (DL, promoted from the practice squad, first week 2): 1 game and 26 snaps for NYG (42% of snaps). 2026: 0 sacks, 0 QB hits, 0 PFR pressures in 1 game with PFR data."
-   }
-  ],
   "PHI": [
-   {
-    "team": "PHI",
-    "name": "Jake Majors",
-    "pos": "OL",
-    "kind": "promoted from the practice squad",
-    "prev_team": null,
-    "first_week": 5,
-    "status": "INA",
-    "games_new": 2,
-    "snaps_new": 126,
-    "share_new": 1.0,
-    "last_share": 1.0,
-    "games_prev": 0,
-    "share_prev": null,
-    "former_regular": false,
-    "role": "ol",
-    "recent": false,
-    "starts_new": 2,
-    "db_with": 96,
-    "db_without": 228,
-    "epa_db_with": -0.023279825105115986,
-    "epa_db_without": -0.08808627103088336,
-    "text": "Jake Majors (OL, promoted from the practice squad, first week 5): 2 games and 126 snaps for PHI (100% of snaps). 2 starts for PHI; too few dropbacks for a with/without split (96 with, 228 without)."
-   },
-   {
-    "team": "PHI",
-    "name": "Dameon Pierce",
-    "pos": "RB",
-    "kind": "promoted from the practice squad",
-    "prev_team": null,
-    "first_week": 5,
-    "status": "RES",
-    "games_new": 3,
-    "snaps_new": 151,
-    "share_new": 0.7866666666666666,
-    "last_share": 0.64,
-    "games_prev": 0,
-    "share_prev": null,
-    "former_regular": false,
-    "role": "skill",
-    "recent": false,
-    "targets": 11,
-    "epa_tgt": -0.6921361859686758,
-    "rec_yds": 14,
-    "carries": 37,
-    "epa_car": -0.15880045074606866,
-    "text": "Dameon Pierce (RB, promoted from the practice squad, first week 5): 3 games and 151 snaps for PHI (79% of snaps). 2026: 11 targets (-0.692 EPA/target), 37 carries (-0.159 EPA/carry)."
-   },
    {
     "team": "PHI",
     "name": "Kenny Moore II",
@@ -350,31 +230,6 @@
     "text": "Taylor Rapp (DB, promoted from the practice squad, first week 6): 3 games and 171 snaps for DEN (73% of snaps). DEN defence EPA/dropback allowed in his 3 starts +0.016 (161 dropbacks) vs other games -0.037 (197)."
    }
   ],
-  "CLE": [
-   {
-    "team": "CLE",
-    "name": "Sam Kamara",
-    "pos": "DL",
-    "kind": "promoted from the practice squad",
-    "prev_team": null,
-    "first_week": 5,
-    "status": "DEV",
-    "games_new": 3,
-    "snaps_new": 96,
-    "share_new": 0.5066666666666667,
-    "last_share": 0.37,
-    "games_prev": 0,
-    "share_prev": null,
-    "former_regular": false,
-    "role": "rush",
-    "recent": false,
-    "sacks": 1.0,
-    "qb_hits": 1,
-    "pressures": 1,
-    "pfr_games": 1,
-    "text": "Sam Kamara (DL, promoted from the practice squad, first week 5): 3 games and 96 snaps for CLE (51% of snaps). 2026: 1 sack, 1 QB hit, 1 PFR pressure in 1 game with PFR data."
-   }
-  ],
   "PIT": [
    {
     "team": "PIT",
@@ -499,30 +354,6 @@
     "epa_db_with": -0.02438902844733093,
     "epa_db_without": 0.27693794525601295,
     "text": "Joey Porter Jr. (DB, from PIT, first week 4): 4 games and 148 snaps for DAL (54% of snaps). 1 start for DAL; too few dropbacks for a with/without split (40 with, 280 without)."
-   },
-   {
-    "team": "DAL",
-    "name": "Reddy Steward",
-    "pos": "DB",
-    "kind": "promoted from the practice squad",
-    "prev_team": null,
-    "first_week": 3,
-    "status": "DEV",
-    "games_new": 3,
-    "snaps_new": 87,
-    "share_new": 0.45999999999999996,
-    "last_share": 0.64,
-    "games_prev": 0,
-    "share_prev": null,
-    "former_regular": false,
-    "role": "db",
-    "recent": false,
-    "starts_new": 2,
-    "db_with": 71,
-    "db_without": 249,
-    "epa_db_with": 0.34225973558897865,
-    "epa_db_without": 0.20990611368262213,
-    "text": "Reddy Steward (DB, promoted from the practice squad, first week 3): 3 games and 87 snaps for DAL (46% of snaps). 2 starts for DAL; too few dropbacks for a with/without split (71 with, 249 without)."
    }
   ],
   "BAL": [
@@ -603,6 +434,29 @@
     "text": "Marvin Harrison Jr. (WR, from ARI, first week 6): 2 games and 25 snaps for HOU (20% of snaps); a regular for ARI (74% of snaps in 4 games). 2026: 21 targets (+0.176 EPA/target)."
    }
   ],
+  "NYG": [
+   {
+    "team": "NYG",
+    "name": "J.J. McCarthy",
+    "pos": "QB",
+    "kind": "trade or move",
+    "prev_team": "MIN",
+    "first_week": 4,
+    "status": "ACT",
+    "games_new": 3,
+    "snaps_new": 97,
+    "share_new": 0.46,
+    "last_share": 0.92,
+    "games_prev": 0,
+    "share_prev": null,
+    "former_regular": false,
+    "role": "qb",
+    "recent": false,
+    "dropbacks": 53,
+    "epa_db": 0.2998346536724295,
+    "text": "J.J. McCarthy (QB, from MIN, first week 4): 3 games and 97 snaps for NYG (46% of snaps). 2026: 53 dropbacks (+0.300 EPA/dropback)."
+   }
+  ],
   "KC": [
    {
     "team": "KC",
@@ -628,37 +482,118 @@
     "epa_car": null,
     "text": "Andrew Armstrong (WR, promoted from the practice squad, first week 6): 3 games and 95 snaps for KC (53% of snaps). 2026: 4 targets (too few for a rate)."
    }
-  ],
-  "LAC": [
+  ]
+ },
+ "departures": {
+  "IND": [
    {
-    "team": "LAC",
-    "name": "Theo Wease Jr.",
+    "team": "IND",
+    "name": "Quenton Nelson",
+    "pos": "OL",
+    "new_team": "SEA",
+    "first_week_new": 8,
+    "last_week": 7,
+    "share": 0.9928571428571429,
+    "games": 7,
+    "team_games": 8,
+    "games_since": 1,
+    "new": true,
+    "status_now": "ACT",
+    "text": "Quenton Nelson (OL, to SEA): last game for IND week 7, 99% of snaps, played 7 of its 8 games"
+   }
+  ],
+  "TEN": [
+   {
+    "team": "TEN",
+    "name": "Jeffery Simmons",
+    "pos": "DL",
+    "new_team": "CHI",
+    "first_week_new": 8,
+    "last_week": 7,
+    "share": 0.8671428571428572,
+    "games": 7,
+    "team_games": 8,
+    "games_since": 1,
+    "new": true,
+    "status_now": "ACT",
+    "text": "Jeffery Simmons (DL, to CHI): last game for TEN week 7, 87% of snaps, played 7 of its 8 games"
+   }
+  ],
+  "PHI": [
+   {
+    "team": "PHI",
+    "name": "Cam Jurgens",
+    "pos": "OL",
+    "new_team": "BAL",
+    "first_week_new": 5,
+    "last_week": 4,
+    "share": 1.0,
+    "games": 4,
+    "team_games": 8,
+    "games_since": 4,
+    "new": false,
+    "status_now": "ACT",
+    "text": "Cam Jurgens (OL, to BAL): last game for PHI week 4, 100% of snaps, played 4 of its 8 games"
+   }
+  ],
+  "HOU": [
+   {
+    "team": "HOU",
+    "name": "Jared Wayne",
     "pos": "WR",
-    "kind": "promoted from the practice squad",
-    "prev_team": null,
-    "first_week": 5,
-    "status": "INA",
-    "games_new": 2,
-    "snaps_new": 75,
-    "share_new": 0.5549999999999999,
-    "last_share": 0.47,
-    "games_prev": 0,
-    "share_prev": null,
-    "former_regular": false,
-    "role": "skill",
-    "recent": false,
-    "targets": 4,
-    "epa_tgt": 1.454051378139411,
-    "rec_yds": 37,
-    "carries": 0,
-    "epa_car": null,
-    "text": "Theo Wease Jr. (WR, promoted from the practice squad, first week 5): 2 games and 75 snaps for LAC (55% of snaps). 2026: 4 targets (too few for a rate)."
+    "new_team": "MIA",
+    "first_week_new": 7,
+    "last_week": 5,
+    "share": 0.40800000000000003,
+    "games": 5,
+    "team_games": 7,
+    "games_since": 2,
+    "new": false,
+    "status_now": "INA",
+    "text": "Jared Wayne (WR, to MIA): last game for HOU week 5, 41% of snaps, played 5 of its 7 games"
+   }
+  ],
+  "SEA": [
+   {
+    "team": "SEA",
+    "name": "Christian Haynes",
+    "pos": "OL",
+    "new_team": "MIA",
+    "first_week_new": 8,
+    "last_week": 7,
+    "share": 0.42857142857142855,
+    "games": 7,
+    "team_games": 8,
+    "games_since": 1,
+    "new": true,
+    "status_now": "INA",
+    "text": "Christian Haynes (OL, to MIA): last game for SEA week 7, 43% of snaps, played 7 of its 8 games"
+   }
+  ],
+  "ARI": [
+   {
+    "team": "ARI",
+    "name": "Marvin Harrison Jr.",
+    "pos": "WR",
+    "new_team": "HOU",
+    "first_week_new": 6,
+    "last_week": 4,
+    "share": 0.7374999999999999,
+    "games": 4,
+    "team_games": 8,
+    "games_since": 4,
+    "new": false,
+    "status_now": "ACT",
+    "text": "Marvin Harrison Jr. (WR, to HOU): last game for ARI week 4, 74% of snaps, played 4 of its 8 games"
    }
   ]
  },
- "n": 26,
+ "n": 19,
  "n_former_regular": 4,
  "n_recent": 4,
+ "n_departures": 6,
+ "n_new_departures": 3,
  "share_min": 0.4,
- "through_week": 8
+ "through_week": 8,
+ "roster_week": 8
 }

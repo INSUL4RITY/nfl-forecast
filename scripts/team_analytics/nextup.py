@@ -86,20 +86,24 @@ def build(depth_rows: list[dict], absences: pd.DataFrame, snaps: pd.DataFrame, p
     return out
 
 
+def _pl(n, word):
+    return f"{n:g} {word}" + ("" if n == 1 else "s")
+
+
 def text(nu: str, q: dict) -> str:
     k = q["kind"]
     e = lambda v: "n/a" if v is None else f"{v:+.3f}"   # noqa: E731
     pc = lambda v: "n/a" if v is None else f"{100 * v:.1f}%"   # noqa: E731
     if k == "skill":
-        parts = [f"{nu}: {q['games']} games, {pc(q['snap_pct'])} of snaps"]
+        parts = [f"{nu}: {_pl(q['games'], 'game')}, {pc(q['snap_pct'])} of snaps"]
         if q["targets"]:
-            parts.append(f"{q['targets']} targets" + (f" ({e(q['epa_tgt'])} EPA/target)" if q["targets"] >= MIN_TGT else " (too few for a rate)"))
+            parts.append(_pl(q['targets'], 'target') + (f" ({e(q['epa_tgt'])} EPA/target)" if q["targets"] >= MIN_TGT else " (too few for a rate)"))
         if q["carries"]:
-            parts.append(f"{q['carries']} carries" + (f" ({e(q['epa_car'])} EPA/carry)" if q["carries"] >= MIN_CAR else " (too few for a rate)"))
+            parts.append(("1 carry" if q['carries'] == 1 else f"{q['carries']} carries") + (f" ({e(q['epa_car'])} EPA/carry)" if q["carries"] >= MIN_CAR else " (too few for a rate)"))
         return ", ".join(parts)
     if k == "rush":
-        return (f"{nu}: {q['snaps']} defensive snaps in {q['games']} games, {q['pressures']} pressures"
-                + (f" ({q['per100']:.1f} per 100 snaps)" if q["per100"] is not None else "") + f", {q['sacks']:g} sacks")
+        return (f"{nu}: {_pl(q['snaps'], 'defensive snap')} in {_pl(q['games'], 'game')}, {_pl(q['pressures'], 'pressure')}"
+                + (f" ({q['per100']:.1f} per 100 snaps)" if q["per100"] is not None else "") + f", {_pl(q['sacks'], 'sack')}")
     if k == "ol":
         if not q["starts"]:
             return f"{nu}: {q['snaps']} offensive snaps, no starts yet"

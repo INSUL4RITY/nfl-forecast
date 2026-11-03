@@ -958,8 +958,8 @@ function nextUp(a) {
 function drawAbs() {
   const t = absSel.value;
   const all = DATA.absences.filter(a => a.team === t);
-  const grp = [["New this week (0-1 games missed)", all.filter(a => a.term !== "long-term")], ["Long-term (2+ games missed: already in the season numbers)", all.filter(a => a.term === "long-term")]];
-  const row = a => `<tr><td>${esc(a.player)}</td><td>${esc(a.position)}</td><td>${esc(a.unit)}</td><td>${a.games}</td><td>${fmt(a.share, "pct")}</td><td style="text-align:left">${esc(a.when || "")}</td><td>${esc(a.status_class)}</td><td style="text-align:left">${esc(a.reason)}</td><td style="text-align:left">${esc(a.last_report_injury || "")}</td><td style="text-align:left">${esc(a.usage || "")}</td><td style="text-align:left">${nextUp(a)}</td><td style="text-align:left;white-space:normal;min-width:260px">${esc(a.next_up_quality || "")}</td></tr>`;
+  const grp = [["New this week (0-1 games missed)", all.filter(a => a.term !== "long-term")], ["Long-term (2+ games missed)", all.filter(a => a.term === "long-term")]];
+  const row = a => `<tr><td>${esc(a.player)}</td><td>${esc(a.position)}</td><td>${esc(a.unit)}</td><td>${a.games}</td><td>${fmt(a.share, "pct")}</td><td style="text-align:left">${esc(a.when || "")}${a.presence ? `<br><span class="muted">${esc(a.presence)}</span>` : ""}</td><td>${esc(a.status_class)}</td><td style="text-align:left">${esc(a.reason)}</td><td style="text-align:left">${esc(a.last_report_injury || "")}</td><td style="text-align:left">${esc(a.usage || "")}</td><td style="text-align:left">${nextUp(a)}</td><td style="text-align:left;white-space:normal;min-width:260px">${esc(a.next_up_quality || "")}</td></tr>`;
   document.getElementById("abs-table").innerHTML = all.length ? `<div class="table-wrap"><table class="mt"><thead><tr><th>Player</th><th>Pos.</th><th>Unit</th><th>Games</th><th>Avg snap share</th><th>Out since</th><th>Status</th><th>Detail</th><th>Injury</th><th>Usage</th><th>Next man up (depth chart)</th><th>Replacement's 2026 sample</th></tr></thead><tbody>${grp.filter(g => g[1].length).map(([lab, rs]) =>
     `<tr class="grp"><td colspan="12">${esc(lab)}</td></tr>` + rs.map(row).join("")).join("")}</tbody></table></div>
     <p class="tnote">Replacement's sample: for receivers and backs his targets and carries with EPA; for pass rushers and linebackers his snaps and PFR pressures; for linemen and defensive backs the unit's EPA per dropback in games he started (50%+ of snaps) against games he did not. Those splits also mix in every other difference between the games.</p>` : `<p class="meta">No regulars currently out or listed.</p>`;
@@ -1067,6 +1067,7 @@ function renderReport(g) {
   h += `<h4 class="rh">4. Penalty vulnerabilities</h4>` + (R.penalties.length ? `<ul>${R.penalties.map(p => `<li><b>${esc(p.team)}: ${esc(p.risk)}.</b> ${esc(p.evidence)} <span class="muted">Caveat: ${esc(p.caveat)}</span></li>`).join("")}</ul>` : `<p class="meta">No penalty tendency meets the thresholds for this pairing.</p>`);
   h += `<h4 class="rh">5. Quarterback situation</h4>`;
   for (const t of [A, H]) {
+    for (const x of (g.qb_ints || {})[t] || []) h += `<p><b>${t}</b> ${esc(x.text)}</p>`;
     const q = R.qb[t];
     const rows = q.rows || [];
     h += `<p><b>${t}</b> ${q.flags.length ? q.flags.map(esc).join(" ") : "One starting quarterback all season; team figures describe him."}</p>`;
@@ -1079,6 +1080,15 @@ function renderReport(g) {
   h += `<h4 class="rh">8. Confidence and uncertainty</h4><p>${esc(R.confidence)}</p></div>`;
   return h;
 }
+// a flagged game: the team's figures with and without it, and its leading passer's line
+function unusualBlock(u) {
+  const row = (lab, a, b, c) => `<tr><td>${esc(lab)}</td><td>${fmt(a, "epa")}</td><td>${fmt(b, "epa")}</td><td>${fmt(c, "epa")}</td></tr>`;
+  const prevent = v => num(v) ? -v : v;
+  return `<div class="callout warn"><b>${esc(u.team)}: unusual game.</b> ${esc(u.label)}: ${esc(u.weather)}; ${u.dropbacks} combined dropbacks (${esc(u.team)} ${u.team_dropbacks}, ${esc(u.opp)} ${u.opp_dropbacks}; normal is above ${Math.round(u.cut)}). ${esc(u.qb)}: ${u.qb_dropbacks} dropbacks (${fmt(u.qb_epa_db, "epa")} EPA/dropback), ${u.qb_att} attempts (${fmt(u.qb_epa_att, "epa")} EPA/attempt), ${u.qb_ints} INT.
+    <div class="table-wrap"><table class="mt"><thead><tr><th>Adj. EPA/play</th><th>Offence</th><th>Defence prevented</th><th>Net</th></tr></thead><tbody>
+    ${row("Season", u.off_season, prevent(u.def_season), u.net_season)}${row("Season without it", u.off_season_wo, prevent(u.def_season_wo), u.net_season_wo)}
+    ${u.in_last4 ? row("Last 4", u.off_l4, prevent(u.def_l4), u.net_l4) + row("Last 4 without it (3 games)", u.off_l4_wo, prevent(u.def_l4_wo), u.net_l4_wo) : ""}</tbody></table></div></div>`;
+}
 function renderGame(id) {
   const g = GBY[id]; if (!g) return;
   const S = g.summary, A = g.away, H = g.home;
@@ -1087,14 +1097,19 @@ function renderGame(id) {
     ${g.final ? `<p class="final">${esc(g.final)}</p>` : ""}</div>`;
   h += `<div class="table-wrap"><table><thead><tr><th>Team</th><th>Record</th><th>Overall rating</th><th>With 2025 prior</th><th>Offence (adj.)</th><th>Defence (adj.)</th><th>Special teams</th><th title="Opponent-adjusted net EPA/play over the team's last four games, and the change from its season figure">Net EPA last 4 (change)</th><th style="text-align:left">QB starts</th></tr></thead><tbody>${[A, H].map(t =>
     `<tr><td class="tm">${t}${t === H ? "<small>home</small>" : ""}</td><td>${esc(S[t].record)}</td><td>${fmt(S[t].rating, "s1")}${rk(S[t].rating_rank)}</td><td>${ord(S[t].stab_rank)}</td><td>${ord(S[t].off_rank)}</td><td>${ord(S[t].def_rank)}</td><td>${ord(S[t].st_rank)}</td><td title="weeks ${esc(g.form[t].weeks)}">${fmt(g.form[t].net_l4, "epa")} <span class="rk">${fmt(g.form[t].net_change, "epa")}</span></td><td style="text-align:left">${esc(S[t].qb)}</td></tr>`).join("")}</tbody></table></div>`;
+  for (const t of [A, H]) for (const u of (g.unusual || {})[t] || []) h += unusualBlock(u);
   if (g.note) h += `<div class="callout">${g.note}</div>`;
   if (g.post) h += `<div class="callout"><b>After the game.</b> ${g.post}</div>`;
   h += renderReport(g);
   h += `<h3 class="part">Supporting data</h3><p class="tnote">What has happened so far. The report above interprets these numbers; the tables below do not.</p>`;
   const AR = g.arrivals || {};
-  if ((AR[A] || []).length || (AR[H] || []).length) {
-    h += `<h3>New arrivals</h3><p class="tnote">Players on a new team this season (trade, waiver claim or signing) who were regulars elsewhere or play 40%+ of snaps for the new team. The season figures include few or none of their snaps. Pressures are PFR (games with PFR data only); sacks and QB hits are play-by-play.</p>`;
-    for (const t of [A, H]) if ((AR[t] || []).length) h += `<h4 class="rh">${esc(t)}: new arrivals</h4><ul>${AR[t].map(a => `<li>${a.recent ? '<span class="pill ok">new</span> ' : ""}${esc(a.text)}</li>`).join("")}</ul>`;
+  const DP = g.departures || {};
+  if ([A, H].some(t => (AR[t] || []).length || (DP[t] || []).length)) {
+    h += `<h3>Arrivals and departures</h3><p class="tnote">Arrivals: active players on a new team this season (trade, waiver claim or signing) who were regulars elsewhere or play 40%+ of snaps for the new team; the season figures include few or none of their snaps. Pressures are PFR (games with PFR data only); sacks and QB hits are play-by-play. Departures: former regulars now on another team; the season figures were built with them. ${esc(g.roster_note || "")}</p>`;
+    for (const t of [A, H]) {
+      if ((AR[t] || []).length) h += `<h4 class="rh">${esc(t)}: new arrivals</h4><ul>${AR[t].map(a => `<li>${a.recent ? '<span class="pill ok">new</span> ' : ""}${esc(a.text)}</li>`).join("")}</ul>`;
+      if ((DP[t] || []).length) h += `<h4 class="rh">${esc(t)}: departures</h4><ul>${DP[t].map(a => `<li>${a.new ? '<span class="pill over">new</span> ' : ""}${esc(a.text)}</li>`).join("")}</ul>`;
+    }
   }
   h += `<div class="split"><div class="card"><h4>Expected values, from the numbers</h4><ul>${g.expect.map(e => `<li>${esc(e)}</li>`).join("")}</ul></div>
     <div class="card warnc"><h4>Be careful with</h4><ul>${g.cautions.map(e => `<li>${esc(e)}</li>`).join("")}</ul></div></div>`;
@@ -1161,7 +1176,7 @@ document.getElementById("fatigue-study").innerHTML = `<div class="callout"><b>Do
   Individual players (for example a thin defensive line on a short week) can still tire; these data cannot see that. League EPA allowed by quarter: ${FS.by_quarter.map(q => `Q${q.qtr} ${fmt(q.epa_all, "epa")} (close score ${fmt(q.epa_close, "epa")})`).join(", ")}.</div>`;
 
 // this week's travel table and historical study
-const TRV = DATA.trv.map(r => Object.assign({}, r, {record: r.side === "home" ? "home" : "at " + r.opp,
+const TRV = DATA.trv.map(r => Object.assign({}, r, {record: r.neutral === true || r.neutral === "True" ? "neutral vs " + r.opp : r.side === "home" ? "home" : "at " + r.opp,
   hist_txt: (() => { let h = r.hist; if (typeof h === "string") { try { h = JSON.parse(h.replace(/'/g, '"')); } catch (e) { h = null; } } return h ? `${h.vs_same >= 0 ? "+" : "−"}${Math.abs(h.vs_same).toFixed(1)} (${h.n} games)` : ""; })(),
   prev_txt: `${r.prev_weekday || "n/a"}${r.prev_intl === true || r.prev_intl === "True" ? " · international (" + r.prev_stadium + ")" : ""}`}));
 renderTable({id: "trv", title: `Week ${M.through_week + 1} rest and travel`, sort: "rest", desc: false, cols: [

@@ -146,6 +146,16 @@ def main():
                      f"{fmt(neg(x.get('def_l4')), 'epa')} ({fmt(neg(x.get('def_season')), 'epa')}, {fmt(neg(x.get('def_change')), 'epa')}) | "
                      f"{fmt(x.get('net_l4'), 'epa')} ({fmt(x.get('net_season'), 'epa')}, {fmt(x.get('net_change'), 'epa')}) |")
         L.append("Higher is better in every column: defence is shown as EPA prevented (EPA allowed with the sign flipped). Four games are about 250 plays per unit; changes under about 0.05 are noise.")
+        for t in (a, hm):
+            for u in (g.get("unusual") or {}).get(t, []):
+                L += ["", f"**{t}: unusual game.** {u['label']}: {u['weather']}; {u['dropbacks']} combined dropbacks ({t} {u['team_dropbacks']}, {u['opp']} {u['opp_dropbacks']}; "
+                          f"bottom 2% of 2021-25 games is under {u['cut']:.0f}). {u['qb']}: {u['qb_dropbacks']} dropbacks ({fmt(u['qb_epa_db'], 'epa')} EPA/dropback), {u['qb_att']} attempts ({fmt(u['qb_epa_att'], 'epa')} EPA/attempt), {u['qb_ints']} INT.",
+                      "", "| Adj. EPA/play | Offence | Defence EPA prevented | Net |", "|---|---|---|---|",
+                      f"| Season | {fmt(u['off_season'], 'epa')} | {fmt(neg(u['def_season']), 'epa')} | {fmt(u['net_season'], 'epa')} |",
+                      f"| Season without it | {fmt(u['off_season_wo'], 'epa')} | {fmt(neg(u['def_season_wo']), 'epa')} | {fmt(u['net_season_wo'], 'epa')} |"]
+                if u.get("in_last4"):
+                    L += [f"| Last 4 | {fmt(u['off_l4'], 'epa')} | {fmt(neg(u['def_l4']), 'epa')} | {fmt(u['net_l4'], 'epa')} |",
+                          f"| Last 4 without it (3 games) | {fmt(u['off_l4_wo'], 'epa')} | {fmt(neg(u['def_l4_wo']), 'epa')} | {fmt(u['net_l4_wo'], 'epa')} |"]
         ref = g.get("referee")
         rr = next((r for r in D.get("refs", []) if r["referee"] == ref), None) if ref else None
         L += ["", f"Referee: {ref}" + (f" (crew {fmt(rr['total'], 'n1')} accepted penalties per game in {D['ref_meta']['pool']}, league {fmt(D['ref_meta']['league']['total'], 'n1')}; "
@@ -198,6 +208,8 @@ def main():
             L += ["## Penalty angles"] + [f"- {p['team']}: {p['risk']}. {p['evidence']} ({p['caveat']})" for p in R["penalties"]] + [""]
         L.append("## Quarterbacks (each passer's own games)")
         for t in (a, hm):
+            L += [f"- {t}: {x['text']}" for x in (g.get("qb_ints") or {}).get(t, [])]
+        for t in (a, hm):
             for q in (R.get("qb", {}).get(t, {}) or {}).get("rows", []):
                 L.append(f"- {t} {q['name']}: {plural(q['starts'], 'start')}" + (f" (weeks {weeks_txt(q['start_weeks'])})" if q['start_weeks'] else "")
                          + f", {q['dropbacks']} dropbacks, EPA/db {fmt(q['epa_db'], 'epa')}, adj. {fmt(q['adj_epa_db'], 'epa')}, "
@@ -228,20 +240,23 @@ def main():
             L += [f"## {t}: absences and practice concerns (statuses from {report_label(max((x['last_report_week'] for x in ab if num(x.get('last_report_week'))), default=None), M['through_week'])})"]
             if ab:
                 for lab, rows in (("New this week (0-1 games missed)", [x for x in ab if x.get("term") != "long-term"]),
-                                  ("Long-term (2+ games missed; the season numbers already reflect it)", [x for x in ab if x.get("term") == "long-term"])):
+                                  ("Long-term (2+ games missed)", [x for x in ab if x.get("term") == "long-term"])):
                     if not rows:
                         continue
                     L += [f"**{lab}**", "", "| Player | Pos. | Avg snap share | Out since | Status | Detail | Usage | Next man up | Replacement's 2026 sample |", "|---|---|---|---|---|---|---|---|---|"]
                     for x in rows:
                         nu = (f"{x['next_up']} ({int(x.get('next_up_snaps') or 0)} snaps)" if x.get("next_up") else (x.get("note") or ""))
-                        L.append(f"| {x['player']} | {x['position']} | {fmt(x['share'], 'pct')} | {x.get('when') or ''} | {x['status_class']} | {x['reason']} | {x.get('usage') or ''} | {nu} | {x.get('next_up_quality') or ''} |")
+                        L.append(f"| {x['player']} | {x['position']} | {fmt(x['share'], 'pct')} | {x.get('when') or ''}{'; ' + x['presence'] if x.get('presence') else ''} | {x['status_class']} | {x['reason']} | {x.get('usage') or ''} | {nu} | {x.get('next_up_quality') or ''} |")
                     L.append("")
             else:
                 L += ["No regulars listed.", ""]
             arr = (g.get("arrivals") or {}).get(t, [])
             L += [f"## {t}: new arrivals"]
-            L += [f"- {'(new) ' if x.get('recent') else ''}{x['text']}" for x in arr] if arr else ["None this season (no trades or signings who were regulars elsewhere or play 40%+ of snaps)."]
-            L.append("")
+            L += [f"- {'(new) ' if x.get('recent') else ''}{x['text']}" for x in arr] if arr else ["None this season (no active trades or signings who were regulars elsewhere or play 40%+ of snaps)."]
+            dep = (g.get("departures") or {}).get(t, [])
+            L += ["", f"## {t}: departures"]
+            L += [f"- {'(new) ' if x.get('new') else ''}{x['text']}" for x in dep] if dep else ["None this season (no former regulars now on another team)."]
+            L += ["", g.get("roster_note", ""), ""]
             tp = U["team_players"].get(t, [])[:10]
             L += [f"## {t}: who gets the ball (season, last 3 games)", "| Player | Pos. | Snap share | Targets (share, last 3) | Rec-yds-TD | EPA/target | Carries (share, last 3) | Rush yds-TD | EPA/carry | RZ tgt/car | Status |", "|---|---|---|---|---|---|---|---|---|---|---|"]
             for p in tp:

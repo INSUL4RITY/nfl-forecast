@@ -65,8 +65,7 @@ def main():
     ARR = arrivals.build(S, W, p, cp.fetch)
     qc.append(f"Next man up: {sum(1 for r in DPj['depth']['absences'] if r.get('next_up'))} absences have a listed replacement; "
               f"{len(DPj['nextup'])} matched to his own 2026 sample.")
-    qc.append(f"Arrivals: {ARR['n']} players on a new team since week 1 who were regulars elsewhere or play 40%+ of snaps "
-              f"({ARR['n_former_regular']} former regulars elsewhere, {ARR['n_recent']} arrived in weeks {W - 1}-{W + 1}).")
+    qc.append(arrivals.qc_line(ARR, W))
     now = dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds")
     inj_week = int(inj.week.max())
     if not a.no_download:

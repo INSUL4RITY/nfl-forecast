@@ -44,6 +44,7 @@ import usage  # noqa: E402
 import nextup  # noqa: E402
 import referees  # noqa: E402
 import arrivals  # noqa: E402
+import unusual  # noqa: E402
 
 BASE = "https://github.com/nflverse/nflverse-data/releases/download/"
 CACHE = ROOT / "data" / "cache" / "team_analytics"
@@ -104,7 +105,7 @@ PBP_COLS = [
     "success", "passer_id", "passer", "rusher_id", "pass", "rush", "first_down", "xyac_mean_yardage", "pass_oe",
     "kickoff_inside_twenty", "kickoff_in_endzone", "drive_first_downs", "series", "series_success", "time_of_day",
     "run_location", "run_gap", "receiver_player_id", "pass_length", "pass_location",
-    "sack_player_id", "half_sack_1_player_id", "half_sack_2_player_id", "qb_hit_1_player_id", "qb_hit_2_player_id",
+    "weather", "roof", "sack_player_id", "half_sack_1_player_id", "half_sack_2_player_id", "qb_hit_1_player_id", "qb_hit_2_player_id",
 ]
 
 
@@ -1010,6 +1011,9 @@ def main():
               f"{refs['cur_games_with_ref']} of {refs['cur_games']} {S} games (weeks {', '.join(map(str, refs['cur_weeks_with_ref'])) or 'none'}); "
               f"week {W + 1} assignments {'loaded for ' + str(len(refs['assign'])) + ' games' if refs['assign_loaded'] else 'not loaded'}.")
     (out_dir / "referees.json").write_text(json.dumps(refs, indent=1, default=str), encoding="utf-8")
+    UN = unusual.build(seasons_pbp, hist_seasons, p, pf, adj, G, Q, S, W)
+    qc.append(unusual.qc_line(UN))
+    (out_dir / "unusual.json").write_text(json.dumps(UN, indent=1, default=str), encoding="utf-8")
     del seasons_pbp
     print("travel study", flush=True)
     sched_all = fetch("schedules/games.parquet")
@@ -1035,8 +1039,7 @@ def main():
     qc.append(f"Next man up: {sum(1 for r in DPj['depth']['absences'] if r.get('next_up'))} absences have a listed replacement; "
               f"{len(DPj['nextup'])} matched to his own 2026 sample.")
     ARR = arrivals.build(S, W, p, fetch)
-    qc.append(f"Arrivals: {ARR['n']} players on a new team since week 1 who were regulars elsewhere or play 40%+ of snaps "
-              f"({ARR['n_former_regular']} former regulars elsewhere, {ARR['n_recent']} arrived in weeks {W - 1}-{W + 1}).")
+    qc.append(arrivals.qc_line(ARR, W))
     (out_dir / "arrivals.json").write_text(json.dumps(ARR, indent=1, default=str), encoding="utf-8")
     (out_dir / "depth.json").write_text(json.dumps(DPj, indent=1, default=str), encoding="utf-8")
     (out_dir / "players.json").write_text(json.dumps({k: v for k, v in PLj.items() if k != "all"}, indent=1, default=str), encoding="utf-8")
@@ -1327,8 +1330,11 @@ def personnel(S, W, p, teams, qc=None):
         player=("player", "last"), games=("game_id", "nunique"), share=("share", "mean"),
         unit=("unit", lambda u: u.value_counts().index[0]), last_week=("week", "max"), first_week=("week", "min")).reset_index()
     reg["position"] = [main_pos[(t, x)] for t, x in zip(reg.team, reg.pfr_player_id)]
-    # regular: 50%+ of snaps in the games he played, and at least half of the team's games
-    reg = reg[(reg.games >= 2) & (reg.games >= reg.team.map(team_games) / 2) & (reg.share >= 0.5)]
+    # regular: 50%+ of snaps in the games he played, at least 2 games, and at least half of the team's games up to his
+    # last appearance (a starter hurt early stays in; a fill-in with two late games stays out)
+    reg["team_games_to_last"] = [sum(1 for w in team_weeks[t] if w <= lw) for t, lw in zip(reg.team, reg.last_week)]
+    reg = reg[(reg.games >= 2) & (reg.games >= reg.team_games_to_last / 2) & (reg.share >= 0.5)]
+    reg["team_games"] = reg.team.map(team_games)
     team_last = snaps.groupby("team").week.max()
     # quarterbacks count only when he is the expected starter: the latest game's starter or the team's most frequent one
     qb_g = snaps[snaps.position == "QB"].sort_values("offense_snaps").drop_duplicates(["team", "game_id"], keep="last")
@@ -1440,7 +1446,7 @@ def personnel(S, W, p, teams, qc=None):
     out["def_players_25pct"] = snaps[snaps.defense_pct >= 0.25].groupby("team").pfr_player_id.nunique()
     out["snap_week"] = cur_week
     ab_out = ab[["team", "player", "gsis_id", "position", "group", "unit", "games", "share", "status_class", "reason",
-                 "last_report_injury", "last_practice_status", "last_report_week", "last_week", "out_since_week", "games_missed", "term"]]
+                 "last_report_injury", "last_practice_status", "last_report_week", "last_week", "out_since_week", "games_missed", "term", "team_games"]]
     ab_out.attrs["roster_week"] = cur_week
     return out, ol_tbl, ab_out.sort_values(["team", "share"], ascending=[True, False])
 
