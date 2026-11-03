@@ -66,6 +66,8 @@ td.t5 { color: var(--accent); font-weight: 600; } td.b5 { color: var(--bad); fon
 td.f3 { background: var(--top-fill); } td.l3 { background: var(--bot-fill); }
 td.na { color: var(--muted); }
 td.sn { color: var(--muted); font-style: italic; }
+[data-table]:empty { min-height: 420px; }        /* placeholder until the table is drawn */
+details [data-table]:empty { min-height: 0; }
 td.sn small { font-style: normal; margin-left: 3px; }
 .more { margin: 2px 0 0; }
 .btn.sm { padding: 3px 9px; font-size: 0.8rem; }
@@ -252,7 +254,7 @@ footer { color: var(--muted); font-size: 0.82rem; border-top: 1px solid var(--ru
   <div class="controls"><label for="game-sel">Game</label><select id="game-sel"></select></div>
   <div id="game"></div>
   <h3>All week {{WEEK}} games at a glance</h3>
-  <p class="tnote">The three largest unit-versus-unit gaps in each game (sum of the two units' z-scores; 2 or more is notable). Select a card to open the game.</p>
+  <p class="tnote">The three largest unit-versus-unit edges in each game, scored on the shrunk matchup effects: each unit's effect times the share of it that survives shrinkage, in standard deviations, added for the two units (1.5 or more is notable). A measure with no reliable team-to-team signal cannot become a headline edge. Select a card to open the game.</p>
   <div class="mm" id="mm"></div>
 </section>
 
@@ -405,22 +407,22 @@ footer { color: var(--muted); font-size: 0.82rem; border-top: 1px solid var(--ru
   <p class="lead">Each answer is generated from the rankings, so every statement carries its number and rank.</p>
   <div class="controls"><label for="prof-team">Team</label><select id="prof-team"></select></div>
   <div id="profile"></div>
-  <h4 class="rh">All teams at a glance</h4>
-  <div id="identity-table"></div>
+  <details class="full"><summary>All teams at a glance</summary><div id="identity-table"></div></details>
   <h3 class="sub" id="comparison">Comprehensive team comparison</h3>
-  <p class="lead">Split into groups with the same team order (by overall rating) so rows line up across tables.</p>
-  <div data-table="B0"></div><div data-table="B1"></div><div data-table="B2"></div><div data-table="B3"></div><div data-table="B4"></div>
+  <details class="full"><summary>Open the comparison tables (same team order, by overall rating, so rows line up)</summary>
+  <div data-table="B0"></div><div data-table="B1"></div><div data-table="B2"></div><div data-table="B3"></div><div data-table="B4"></div></details>
   <h3 class="sub" id="overunder">Biggest statistical overperformers and underperformers</h3>
   <p class="lead">Regression candidates, not predictions. Luck index of +0.75 or more = potentially overperforming; −0.75 or less = potentially underperforming.</p>
+  <details class="full"><summary>Open the over- and underperformers</summary>
   <h4 class="rh"><span class="pill over">Potentially overperforming</span></h4><div class="cat-list" id="cat-over"></div>
   <h4 class="rh"><span class="pill under">Potentially underperforming</span></h4><div class="cat-list" id="cat-under"></div>
-  <h4 class="rh"><span class="pill ok">Results broadly supported by performance</span></h4><p id="cat-ok"></p>
+  <h4 class="rh"><span class="pill ok">Results broadly supported by performance</span></h4><p id="cat-ok"></p></details>
   <h3 class="sub" id="sustainable">Most sustainable teams</h3>
   <p class="lead">Ranked by the rating with the 2025 prior, the best available estimate of underlying strength. Balance compares the four main units: well-rounded = none ranked worse than 20th.</p>
-  <div id="sus"></div>
+  <details class="full"><summary>Open the sustainable-team table</summary><div id="sus"></div></details>
   <h3 class="sub" id="exploitable">Most exploitable teams</h3>
   <p class="lead">Units ranked 27th or worse in high-leverage areas, and the mechanism a stronger opponent would use.</p>
-  <div class="cat-list" id="expl-list"></div>
+  <details class="full"><summary>Open the exploitable teams</summary><div class="cat-list" id="expl-list"></div></details>
 </section>
 
 <section id="method">
@@ -528,9 +530,35 @@ function renderTable(spec, host, rows) {
 
 const tSpecs = Object.fromEntries(DATA.tables.map(t => [t.id, t]));
 const REFROWS = DATA.refs.map(r => Object.assign({}, r, {label: r.referee, sub: ""}));
+// panels that start closed are drawn on first open (keeps the first paint small)
+const LAZY = new Map();
+function whenOpen(details, fn) {
+  if (!details || details.open) { fn(); return; }
+  if (!LAZY.has(details)) {
+    LAZY.set(details, []);
+    details.addEventListener("toggle", () => { if (details.open) { (LAZY.get(details) || []).forEach(f => f()); LAZY.set(details, []); } });
+  }
+  LAZY.get(details).push(fn);
+}
+function openTo(id) {
+  const el = id && document.getElementById(id); if (!el) return;
+  const d = el.closest("details") || (el.nextElementSibling && el.nextElementSibling.tagName === "DETAILS" ? el.nextElementSibling : null);
+  if (d && !d.open) d.open = true;
+}
+window.addEventListener("hashchange", () => openTo(decodeURIComponent(location.hash.slice(1))));
+document.addEventListener("click", e => { const a = e.target.closest && e.target.closest('a[href^="#"]'); if (a) openTo(decodeURIComponent(a.getAttribute("href").slice(1))); });
+// tables are drawn as they come within about a screen of the viewport, tables in closed panels when opened (a page of 80
+// tables otherwise builds some 35,000 text nodes before the first paint); window.__drawAll() draws everything (layout checks)
+const TQ = [];
+const IO = "IntersectionObserver" in window ? new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) drawHost(e.target); }), {rootMargin: "800px 0px"}) : null;
+function drawHost(el) { if (el._done || !el._fn) return; el._done = true; if (IO) IO.unobserve(el); el._fn(); }
+window.__drawAll = () => { TQ.splice(0).forEach(drawHost); document.querySelectorAll("details").forEach(d => { d.open = true; (LAZY.get(d) || []).forEach(f => f()); LAZY.set(d, []); }); };
 document.querySelectorAll("[data-table]").forEach(el => {
   const s = tSpecs[el.dataset.table]; if (!s) return;
-  renderTable(s, el, s.rows === "refs" ? REFROWS : (s.rows && s.rows !== "teams" ? DATA.usage[s.rows] : undefined));
+  el._fn = () => renderTable(s, el, s.rows === "refs" ? REFROWS : (s.rows && s.rows !== "teams" ? DATA.usage[s.rows] : undefined));
+  const d = el.closest("details");
+  if (d && !d.open) whenOpen(d, () => drawHost(el));
+  else if (IO) { IO.observe(el); TQ.push(el); } else drawHost(el);
 });
 
 // header line
@@ -883,8 +911,8 @@ const QCOLS = [
   {k: "sr", l: "Success", f: "pct", d: 1}, {k: "cpoe", l: "CPOE", f: "n1", d: 1}, {k: "ypa", l: "Y/A", f: "n2", d: 1}, {k: "adot", l: "aDOT", f: "n1", d: 0},
   {k: "sack_rate", l: "Sack rate", f: "pct", d: -1}, {k: "p2s", l: "Sacks/pressure", f: "pct", d: -1}, {k: "int_rate", l: "INT rate", f: "pct", d: -1},
   {k: "int_worthy_rate", l: "INT-worthy", f: "pct", d: -1}, {k: "pressure_rate", l: "Pressured", f: "pct", d: 0},
-  {k: "epa_clean", l: "EPA no hit/sack", f: "epa", d: 1}, {k: "epa_hit_sack", l: "EPA hit/sacked", f: "epa", d: 1},
-  {k: "epa_vs_blitz", l: "EPA vs 5+", f: "epa", d: 1}, {k: "epa_no_blitz", l: "EPA vs 4 or fewer", f: "epa", d: 1},
+  {k: "epa_clean", l: "EPA no hit/sack", f: "epa", d: 1}, {k: "epa_hit_sack", l: "EPA hit/sacked", f: "epa", d: 1, n: "db_hit", min: 20},
+  {k: "epa_vs_blitz", l: "EPA vs 5+", f: "epa", d: 1, n: "db_blitz", min: 20}, {k: "epa_no_blitz", l: "EPA vs 4 or fewer", f: "epa", d: 1, n: "db_noblitz", min: 20},
   {k: "scr_rate", l: "Scramble rate", f: "pct", d: 0}, {k: "epa_scr", l: "EPA/scramble", f: "epa", d: 1},
   {k: "designed_runs", l: "Designed runs", f: "int", d: 0}, {k: "epa_designed_run", l: "EPA/designed run", f: "epa", d: 1},
   {k: "fd_td_rate", l: "1st down/TD rate", f: "pct", d: 1}, {k: "epa_early", l: "Early-down EPA", f: "epa", d: 1}, {k: "epa_d3", l: "3rd-down EPA", f: "epa", d: 1},
@@ -910,9 +938,9 @@ drawQB();
 renderTable({id: "qbp", first: "Passer", title: "Quarterbacks under pressure (qualified passers)", sort: "epa_hit_sack", desc: true, cols: [
   {k: "team_abbr", l: "Team", f: "str", d: 0}, {k: "dropbacks", l: "Dropbacks", f: "int", d: 0},
   {k: "db_clean", l: "Clean dropbacks", f: "int", d: 0, t: "Dropbacks without a QB hit or sack"}, {k: "epa_clean", l: "EPA, clean", f: "epa", d: 1},
-  {k: "db_hit", l: "Hit or sacked", f: "int", d: 0}, {k: "epa_hit_sack", l: "EPA, hit or sacked", f: "epa", d: 1},
+  {k: "db_hit", l: "Hit or sacked", f: "int", d: 0}, {k: "epa_hit_sack", l: "EPA, hit or sacked", f: "epa", d: 1, n: "db_hit", min: 20},
   {k: "hit_sack_rate", l: "Hit-or-sack rate", f: "pct", d: -1}, {k: "sack_rate", l: "Sack rate", f: "pct", d: -1},
-  {k: "scr_rate", l: "Scramble rate", f: "pct", d: 0}, {k: "scrambles", l: "Scrambles", f: "int", d: 0}, {k: "epa_scr", l: "EPA/scramble", f: "epa", d: 1},
+  {k: "scr_rate", l: "Scramble rate", f: "pct", d: 0}, {k: "scrambles", l: "Scrambles", f: "int", d: 0}, {k: "epa_scr", l: "EPA/scramble", f: "epa", d: 1, n: "scrambles", min: 8},
   {k: "pressure_rate", l: "PFR pressure rate", f: "pct", d: 0, t: "PFR pressures per dropback in games with PFR data"}],
   note: "Hit or sacked uses the play-by-play qb_hit and sack flags, a proxy for pressure (free data has no play-level pressure). EPA when hit or sacked is negative for everyone; compare it with the clean-pocket figure."},
   document.getElementById("qb-press"), DATA.qbs.filter(q => q.qualified).map(q => Object.assign({}, q, {team: q.name_full || q.team, team_abbr: q.team, record: ""})));
@@ -929,9 +957,11 @@ function nextUp(a) {
 }
 function drawAbs() {
   const t = absSel.value;
-  const rows = DATA.absences.filter(a => a.team === t);
-  document.getElementById("abs-table").innerHTML = rows.length ? `<div class="table-wrap"><table><thead><tr><th>Player</th><th>Pos.</th><th>Unit</th><th>Games</th><th>Avg snap share</th><th>Status</th><th>Detail</th><th>Injury</th><th>Usage</th><th>Next man up (depth chart)</th><th>Replacement's 2026 sample</th></tr></thead><tbody>${rows.map(a =>
-    `<tr><td>${esc(a.player)}</td><td>${esc(a.position)}</td><td>${esc(a.unit)}</td><td>${a.games}</td><td>${fmt(a.share, "pct")}</td><td>${esc(a.status_class)}</td><td style="text-align:left">${esc(a.reason)}</td><td style="text-align:left">${esc(a.last_report_injury || "")}</td><td style="text-align:left">${esc(a.usage || "")}</td><td style="text-align:left">${nextUp(a)}</td><td style="text-align:left;white-space:normal;min-width:260px">${esc(a.next_up_quality || "")}</td></tr>`).join("")}</tbody></table></div>
+  const all = DATA.absences.filter(a => a.team === t);
+  const grp = [["New this week (0-1 games missed)", all.filter(a => a.term !== "long-term")], ["Long-term (2+ games missed: already in the season numbers)", all.filter(a => a.term === "long-term")]];
+  const row = a => `<tr><td>${esc(a.player)}</td><td>${esc(a.position)}</td><td>${esc(a.unit)}</td><td>${a.games}</td><td>${fmt(a.share, "pct")}</td><td style="text-align:left">${esc(a.when || "")}</td><td>${esc(a.status_class)}</td><td style="text-align:left">${esc(a.reason)}</td><td style="text-align:left">${esc(a.last_report_injury || "")}</td><td style="text-align:left">${esc(a.usage || "")}</td><td style="text-align:left">${nextUp(a)}</td><td style="text-align:left;white-space:normal;min-width:260px">${esc(a.next_up_quality || "")}</td></tr>`;
+  document.getElementById("abs-table").innerHTML = all.length ? `<div class="table-wrap"><table class="mt"><thead><tr><th>Player</th><th>Pos.</th><th>Unit</th><th>Games</th><th>Avg snap share</th><th>Out since</th><th>Status</th><th>Detail</th><th>Injury</th><th>Usage</th><th>Next man up (depth chart)</th><th>Replacement's 2026 sample</th></tr></thead><tbody>${grp.filter(g => g[1].length).map(([lab, rs]) =>
+    `<tr class="grp"><td colspan="12">${esc(lab)}</td></tr>` + rs.map(row).join("")).join("")}</tbody></table></div>
     <p class="tnote">Replacement's sample: for receivers and backs his targets and carries with EPA; for pass rushers and linebackers his snaps and PFR pressures; for linemen and defensive backs the unit's EPA per dropback in games he started (50%+ of snaps) against games he did not. Those splits also mix in every other difference between the games.</p>` : `<p class="meta">No regulars currently out or listed.</p>`;
 }
 absSel.addEventListener("change", drawAbs);
@@ -980,14 +1010,16 @@ function cellTxt(c) {
   const b = c.n ? `${c.n} car, ${c.uy}${c.utd ? `, ${c.utd} TD` : ""}` : "";
   return [a, b].filter(Boolean).join("<br>") || `<span class="muted">&#8211;</span>`;
 }
+// a player's rate with its n; muted, without a value, below the minimum
+const rateCell = (v, n, min) => !n ? `<td class="na">n/a</td>` : n < min ? `<td class="sn" title="${n} only (minimum ${min})">&#8211;<small>n=${n}</small></td>` : `<td>${fmt(v, "epa")}</td>`;
 function drawUsage() {
   const t = useSel.value, P = DATA.usage.team_players[t] || [], L = DATA.usage.logs[t];
-  const rows = P.map(p => `<tr><td style="text-align:left">${esc(p.name)}</td><td>${esc(p.pos)}</td><td>${p.games}</td><td>${fmt(p.snap_pct, "pct")}</td><td>${p.targets}</td><td>${fmt(p.tgt_share, "pct")}</td><td>${fmt(p.tgt_share_l3, "pct")}</td><td>${fmt(p.air_share, "pct")}</td><td>${p.rec}-${p.rec_yds}-${p.rec_td}</td><td>${fmt(p.epa_tgt, "epa")}</td><td>${p.carries}</td><td>${fmt(p.car_share, "pct")}</td><td>${fmt(p.car_share_l3, "pct")}</td><td>${p.rush_yds}-${p.rush_td}</td><td>${fmt(p.epa_car, "epa")}</td><td>${p.rz_tgt}/${p.rz_car}</td><td>${plStatus(p.status)}</td></tr>`).join("");
+  const rows = P.map(p => `<tr><td style="text-align:left">${esc(p.name)}</td><td>${esc(p.pos)}</td><td>${p.games}</td><td>${fmt(p.snap_pct, "pct")}</td><td>${p.targets}</td><td>${fmt(p.tgt_share, "pct")}</td><td>${fmt(p.tgt_share_l3, "pct")}</td><td>${fmt(p.air_share, "pct")}</td><td>${p.rec}-${p.rec_yds}-${p.rec_td}</td>${rateCell(p.epa_tgt, p.targets, 10)}<td>${p.carries}</td><td>${fmt(p.car_share, "pct")}</td><td>${fmt(p.car_share_l3, "pct")}</td><td>${p.rush_yds}-${p.rush_td}</td>${rateCell(p.epa_car, p.carries, 10)}<td>${p.rz_tgt}/${p.rz_car}</td><td>${plStatus(p.status)}</td></tr>`).join("");
   let log = "";
   if (L && L.players.length) {
     log = `<h4 class="rh">Game log</h4><div class="table-wrap"><table><thead><tr><th>Player</th><th>Pos.</th>${L.games.map(g => `<th>Wk ${g.week}<br><span class="muted">${esc(g.opp)}</span></th>`).join("")}</tr></thead><tbody>${L.players.map(p =>
       `<tr><td style="text-align:left">${esc(p.name)}${p.status ? `<br>${plStatus(p.status)}` : ""}</td><td>${esc(p.pos)}</td>${p.cells.map(c => `<td style="white-space:nowrap">${cellTxt(c)}</td>`).join("")}</tr>`).join("")}</tbody></table></div>` +
-      `<p class="tnote">Receiving: targets, catches-yards (TDs). Rushing: designed carries, yards (TDs). Scrambles are not carries.</p>`;
+      `<p class="tnote">Receiving: targets, catches-yards (TDs). Rushing: designed carries, yards (TDs). Scrambles are not carries. EPA per target or carry is shown from 10 targets or carries.</p>`;
   }
   document.getElementById("use-tables").innerHTML =
     `<h4 class="rh">Season usage</h4><div class="table-wrap"><table><thead><tr><th>Player</th><th>Pos.</th><th>Games</th><th>Snap share</th><th>Targets</th><th>Target share</th><th>Last 3</th><th>Air-yards share</th><th>Rec-yds-TD</th><th>EPA/target</th><th>Carries</th><th>Carry share</th><th>Last 3</th><th>Rush yds-TD</th><th>EPA/carry</th><th>RZ tgt/car</th><th>Status</th></tr></thead><tbody>${rows}</tbody></table></div>` + log;
@@ -997,15 +1029,16 @@ plSel.value = saved && BY[saved] ? saved : DATA.order[0];
 drawPlayers();
 useSel.value = saved && BY[saved] ? saved : DATA.order[0];
 drawUsage();
-document.getElementById("identity-table").innerHTML = `<div class="table-wrap"><table><thead><tr><th>Team</th><th>Record</th><th>Rating</th><th style="text-align:left">Best offensive area</th><th style="text-align:left">Best defensive area</th><th style="text-align:left">Weakest area</th><th>Balance</th></tr></thead><tbody>${DATA.order.map(t => {
+const lazyFor = id => document.getElementById(id).closest("details");
+whenOpen(lazyFor("identity-table"), () => document.getElementById("identity-table").innerHTML = `<div class="table-wrap"><table><thead><tr><th>Team</th><th>Record</th><th>Rating</th><th style="text-align:left">Best offensive area</th><th style="text-align:left">Best defensive area</th><th style="text-align:left">Weakest area</th><th>Balance</th></tr></thead><tbody>${DATA.order.map(t => {
   const p = DATA.profiles[t], r = BY[t];
   return `<tr><td class="tm">${t}</td><td>${r.record}</td><td>${fmt(r.rating_pg, "s1")}</td><td style="text-align:left">${esc(p.best_off)}</td><td style="text-align:left">${esc(p.best_def)}</td><td style="text-align:left">${esc(p.worst)}</td><td>${esc(r.balance || "")}</td></tr>`;
-}).join("")}</tbody></table></div>`;
+}).join("")}</tbody></table></div>`);
 
 // matchups: overview cards
 const GAMES = DATA.games, GBY = Object.fromEntries(GAMES.map(g => [g.id, g]));
 document.getElementById("mm").innerHTML = GAMES.map(g => `<div class="card"><h4><button type="button" class="linkbtn" data-game="${esc(g.id)}">${esc(g.label)}</button> · ${esc(g.when)}</h4>${g.final ? `<p class="meta"><b>${esc(g.final)}</b></p>` : ""}<ul>${g.edges.map(e =>
-  `<li><span class="sc">${e.score >= 0 ? "+" : "−"}${Math.abs(e.score).toFixed(1)}</span>${esc(e.what)} <span class="det">${esc(e.detail)} · edge to ${esc(e.favours)}${Math.abs(e.score) < 2 ? " (modest)" : ""}</span></li>`).join("")}</ul></div>`).join("");
+  `<li><span class="sc">${e.score >= 0 ? "+" : "−"}${Math.abs(e.score).toFixed(1)}</span>${esc(e.what)} <span class="det">${esc(e.detail)} · edge to ${esc(e.favours)}${Math.abs(e.score) < 1.5 ? " (modest)" : ""}; shrinkage keeps ${Math.round(100 * e.w_off)}% / ${Math.round(100 * e.w_def)}%</span></li>`).join("")}</ul></div>`).join("");
 
 // matchups: one game in detail
 const gameSel = document.getElementById("game-sel");
@@ -1058,6 +1091,11 @@ function renderGame(id) {
   if (g.post) h += `<div class="callout"><b>After the game.</b> ${g.post}</div>`;
   h += renderReport(g);
   h += `<h3 class="part">Supporting data</h3><p class="tnote">What has happened so far. The report above interprets these numbers; the tables below do not.</p>`;
+  const AR = g.arrivals || {};
+  if ((AR[A] || []).length || (AR[H] || []).length) {
+    h += `<h3>New arrivals</h3><p class="tnote">Players on a new team this season (trade, waiver claim or signing) who were regulars elsewhere or play 40%+ of snaps for the new team. The season figures include few or none of their snaps. Pressures are PFR (games with PFR data only); sacks and QB hits are play-by-play.</p>`;
+    for (const t of [A, H]) if ((AR[t] || []).length) h += `<h4 class="rh">${esc(t)}: new arrivals</h4><ul>${AR[t].map(a => `<li>${a.recent ? '<span class="pill ok">new</span> ' : ""}${esc(a.text)}</li>`).join("")}</ul>`;
+  }
   h += `<div class="split"><div class="card"><h4>Expected values, from the numbers</h4><ul>${g.expect.map(e => `<li>${esc(e)}</li>`).join("")}</ul></div>
     <div class="card warnc"><h4>Be careful with</h4><ul>${g.cautions.map(e => `<li>${esc(e)}</li>`).join("")}</ul></div></div>`;
   for (const sd of g.sides) {
@@ -1172,13 +1210,15 @@ document.getElementById("qb-sit").innerHTML = `<div class="table-wrap"><table cl
 function catItems(list, cls) {
   return list.map(c => `<div class="cat-item"><div class="hd"><b>${esc(c.team)} · ${esc(NAME[c.team])}</b><span class="pill ${cls}">luck index ${fmt(c.luck, "s2")}</span></div><ul>${c.ev.map(e => `<li>${esc(e)}</li>`).join("")}</ul>${((NOTES.cats || {})[c.team]) ? `<p>${NOTES.cats[c.team]}</p>` : ""}</div>`).join("") || `<p class="meta">None.</p>`;
 }
-document.getElementById("cat-over").innerHTML = catItems(DATA.cats.over, "over");
-document.getElementById("cat-under").innerHTML = catItems(DATA.cats.under, "under");
-document.getElementById("cat-ok").innerHTML = DATA.cats.supported.map(t => `${tm(t)} <span class="v">${BY[t].record}</span>`).join(" · ");
+whenOpen(lazyFor("cat-over"), () => {
+  document.getElementById("cat-over").innerHTML = catItems(DATA.cats.over, "over");
+  document.getElementById("cat-under").innerHTML = catItems(DATA.cats.under, "under");
+  document.getElementById("cat-ok").innerHTML = DATA.cats.supported.map(t => `${tm(t)} <span class="v">${BY[t].record}</span>`).join(" · ");
+});
 
 // sustainable
-document.getElementById("sus").innerHTML = `<div class="table-wrap"><table><thead><tr><th>Team</th><th>Rating with 2025 prior</th><th>2026-only rating</th><th>Balance</th><th>Worst main unit</th><th>Snap-weighted absences</th><th>QBs started</th><th>New primary QB</th></tr></thead><tbody>${DATA.D.map((s, i) =>
-  `<tr><td class="tm">${i + 1}. ${s.team}<small>${BY[s.team].record}</small></td><td>${fmt(s.stab, "s1")}</td><td>${fmt(s.rating, "s1")}</td><td>${esc(s.balance)}</td><td>${ord(s.worst)}</td><td>${fmt(s.absent, "n2")}</td><td>${s.qbs}</td><td>${s.qbchg ? "yes" : "no"}</td></tr>`).join("")}</tbody></table></div>${para((NOTES.sections || {}).sustainable)}`;
+whenOpen(lazyFor("sus"), () => document.getElementById("sus").innerHTML = `<div class="table-wrap"><table><thead><tr><th>Team</th><th>Rating with 2025 prior</th><th>2026-only rating</th><th>Balance</th><th>Worst main unit</th><th>Snap-weighted absences</th><th>QBs started</th><th>New primary QB</th></tr></thead><tbody>${DATA.D.map((s, i) =>
+  `<tr><td class="tm">${i + 1}. ${s.team}<small>${BY[s.team].record}</small></td><td>${fmt(s.stab, "s1")}</td><td>${fmt(s.rating, "s1")}</td><td>${esc(s.balance)}</td><td>${ord(s.worst)}</td><td>${fmt(s.absent, "n2")}</td><td>${s.qbs}</td><td>${s.qbchg ? "yes" : "no"}</td></tr>`).join("")}</tbody></table></div>${para((NOTES.sections || {}).sustainable)}`);
 
 // exploitable
 const MECH = {
@@ -1192,6 +1232,6 @@ const MECH = {
   "Red-zone defence": "red-zone efficiency once inside the 20",
   "Third/fourth-down defence": "late-down conversions that extend drives",
 };
-document.getElementById("expl-list").innerHTML = DATA.E.map(e => `<div class="cat-item"><div class="hd"><b>${esc(e.team)} · ${esc(NAME[e.team])}</b><span class="v">${BY[e.team].record} · rating ${fmt(e.rating, "s1")}</span></div><ul>${e.weak.map(w =>
-  `<li><b>${esc(w.unit)}</b> ${ord(w.rank)} (${esc(w.value)}). Exposed to ${esc(MECH[w.unit] || "")}.</li>`).join("")}</ul>${((NOTES.exploit || {})[e.team]) ? `<p>${NOTES.exploit[e.team]}</p>` : ""}</div>`).join("");
+whenOpen(lazyFor("expl-list"), () => document.getElementById("expl-list").innerHTML = DATA.E.map(e => `<div class="cat-item"><div class="hd"><b>${esc(e.team)} · ${esc(NAME[e.team])}</b><span class="v">${BY[e.team].record} · rating ${fmt(e.rating, "s1")}</span></div><ul>${e.weak.map(w =>
+  `<li><b>${esc(w.unit)}</b> ${ord(w.rank)} (${esc(w.value)}). Exposed to ${esc(MECH[w.unit] || "")}.</li>`).join("")}</ul>${((NOTES.exploit || {})[e.team]) ? `<p>${NOTES.exploit[e.team]}</p>` : ""}</div>`).join(""));
 </script>

@@ -1571,7 +1571,7 @@
    "pos": "RB",
    "games": 3,
    "snap_pct": 0.57,
-   "status": "questionable",
+   "status": "",
    "out": false,
    "targets": 10,
    "tgt_share": 0.043859649122807015,
@@ -4793,7 +4793,7 @@
    "pos": "WR",
    "games": 3,
    "snap_pct": 0.7033333333333333,
-   "status": "questionable",
+   "status": "",
    "out": false,
    "targets": 20,
    "tgt_share": 0.08771929824561403,
@@ -12460,7 +12460,7 @@
     {
      "name": "Skyler Bell",
      "pos": "WR",
-     "status": "missed last game",
+     "status": "",
      "cells": [
       {
        "t": 0,
@@ -13264,7 +13264,7 @@
     {
      "name": "Xavier Legette",
      "pos": "WR",
-     "status": "out (reserve list)",
+     "status": "",
      "cells": [
       {
        "t": 2,
@@ -15702,7 +15702,7 @@
     {
      "name": "Andrei Iosivas",
      "pos": "WR",
-     "status": "out (reserve list)",
+     "status": "",
      "cells": [
       {
        "t": 3,
@@ -28092,7 +28092,7 @@
     {
      "name": "Theo Wease Jr.",
      "pos": "WR",
-     "status": "missed last game",
+     "status": "",
      "cells": [
       {
        "t": 0,
@@ -30049,7 +30049,7 @@
     {
      "name": "De'Von Achane",
      "pos": "RB",
-     "status": "out (reserve list)",
+     "status": "",
      "cells": [
       {
        "t": 5,
@@ -31273,7 +31273,7 @@
     {
      "name": "Josh Oliver",
      "pos": "TE",
-     "status": "out (reserve list)",
+     "status": "",
      "cells": [
       {
        "t": 4,
@@ -32415,7 +32415,7 @@
     {
      "name": "A.J. Brown",
      "pos": "WR",
-     "status": "questionable",
+     "status": "",
      "cells": [
       {
        "t": 4,
@@ -33571,7 +33571,7 @@
     {
      "name": "Travis Etienne",
      "pos": "RB",
-     "status": "out (reserve list)",
+     "status": "",
      "cells": [
       {
        "t": 9,
@@ -35145,7 +35145,7 @@
     {
      "name": "Jaxson Dart",
      "pos": "QB",
-     "status": "out (reserve list)",
+     "status": "",
      "cells": [
       {
        "t": 0,
@@ -35876,7 +35876,7 @@
     {
      "name": "Breece Hall",
      "pos": "RB",
-     "status": "questionable",
+     "status": "",
      "cells": [
       {
        "t": 2,
@@ -36113,7 +36113,7 @@
     {
      "name": "Tim Patrick",
      "pos": "WR",
-     "status": "missed last game",
+     "status": "",
      "cells": [
       {
        "t": 0,
@@ -37020,7 +37020,7 @@
     {
      "name": "Dameon Pierce",
      "pos": "RB",
-     "status": "out (reserve list)",
+     "status": "",
      "cells": [
       {
        "t": 0,
@@ -38717,7 +38717,7 @@
     {
      "name": "Michael Pittman",
      "pos": "WR",
-     "status": "out (reserve list)",
+     "status": "",
      "cells": [
       {
        "t": 3,
@@ -45246,11 +45246,9 @@
    "car_out_names": []
   },
   "CAR": {
-   "tgt_out_share": 0.024390243902439025,
+   "tgt_out_share": 0.0,
    "car_out_share": 0.0,
-   "tgt_out_names": [
-    "Xavier Legette (2% of targets)"
-   ],
+   "tgt_out_names": [],
    "car_out_names": []
   },
   "CHI": {
@@ -45262,11 +45260,9 @@
    "car_out_names": []
   },
   "CIN": {
-   "tgt_out_share": 0.01532567049808429,
+   "tgt_out_share": 0.0,
    "car_out_share": 0.0,
-   "tgt_out_names": [
-    "Andrei Iosivas (2% of targets)"
-   ],
+   "tgt_out_names": [],
    "car_out_names": []
   },
   "CLE": {
@@ -45350,21 +45346,15 @@
    "car_out_names": []
   },
   "MIA": {
-   "tgt_out_share": 0.0670391061452514,
-   "car_out_share": 0.2,
-   "tgt_out_names": [
-    "De'Von Achane (7% of targets)"
-   ],
-   "car_out_names": [
-    "De'Von Achane (20% of carries)"
-   ]
+   "tgt_out_share": 0.0,
+   "car_out_share": 0.0,
+   "tgt_out_names": [],
+   "car_out_names": []
   },
   "MIN": {
-   "tgt_out_share": 0.027624309392265192,
+   "tgt_out_share": 0.0,
    "car_out_share": 0.0,
-   "tgt_out_names": [
-    "Josh Oliver (3% of targets)"
-   ],
+   "tgt_out_names": [],
    "car_out_names": []
   },
   "NE": {
@@ -45377,22 +45367,16 @@
    "car_out_names": []
   },
   "NO": {
-   "tgt_out_share": 0.049429657794676805,
-   "car_out_share": 0.1875,
-   "tgt_out_names": [
-    "Travis Etienne (5% of targets)"
-   ],
-   "car_out_names": [
-    "Travis Etienne (19% of carries)"
-   ]
+   "tgt_out_share": 0.0,
+   "car_out_share": 0.0,
+   "tgt_out_names": [],
+   "car_out_names": []
   },
   "NYG": {
    "tgt_out_share": 0.0,
-   "car_out_share": 0.03208556149732621,
+   "car_out_share": 0.0,
    "tgt_out_names": [],
-   "car_out_names": [
-    "Jaxson Dart (3% of carries)"
-   ]
+   "car_out_names": []
   },
   "NYJ": {
    "tgt_out_share": 0.0,
@@ -45401,24 +45385,20 @@
    "car_out_names": []
   },
   "PHI": {
-   "tgt_out_share": 0.3333333333333333,
-   "car_out_share": 0.27218934911242604,
+   "tgt_out_share": 0.28968253968253965,
+   "car_out_share": 0.05325443786982249,
    "tgt_out_names": [
     "DeVonta Smith (16% of targets)",
-    "Dameon Pierce (4% of targets)",
     "Dontayvion Wicks (13% of targets)"
    ],
    "car_out_names": [
-    "Jalen Hurts (5% of carries)",
-    "Dameon Pierce (22% of carries)"
+    "Jalen Hurts (5% of carries)"
    ]
   },
   "PIT": {
-   "tgt_out_share": 0.04477611940298507,
+   "tgt_out_share": 0.0,
    "car_out_share": 0.0,
-   "tgt_out_names": [
-    "Michael Pittman (4% of targets)"
-   ],
+   "tgt_out_names": [],
    "car_out_names": []
   },
   "SEA": {
@@ -47904,7 +47884,7 @@
     "pos": "WR",
     "games": 2,
     "snap_pct": 0.525,
-    "status": "missed last game",
+    "status": "",
     "out": false,
     "targets": 3,
     "tgt_share": 0.015544041450777202,
@@ -48390,8 +48370,8 @@
     "pos": "WR",
     "games": 2,
     "snap_pct": 0.515,
-    "status": "out (reserve list)",
-    "out": true,
+    "status": "",
+    "out": false,
     "targets": 6,
     "tgt_share": 0.024390243902439025,
     "air_share": 0.047340165934602246,
@@ -49802,8 +49782,8 @@
     "pos": "WR",
     "games": 2,
     "snap_pct": 0.5700000000000001,
-    "status": "out (reserve list)",
-    "out": true,
+    "status": "",
+    "out": false,
     "targets": 4,
     "tgt_share": 0.01532567049808429,
     "air_share": 0.010401188707280832,
@@ -56864,7 +56844,7 @@
     "pos": "WR",
     "games": 2,
     "snap_pct": 0.5549999999999999,
-    "status": "missed last game",
+    "status": "",
     "out": false,
     "targets": 4,
     "tgt_share": 0.0196078431372549,
@@ -57968,8 +57948,8 @@
     "pos": "RB",
     "games": 3,
     "snap_pct": 0.5566666666666666,
-    "status": "out (reserve list)",
-    "out": true,
+    "status": "",
+    "out": false,
     "targets": 12,
     "tgt_share": 0.0670391061452514,
     "air_share": 0.0225787284610814,
@@ -58718,8 +58698,8 @@
     "pos": "TE",
     "games": 2,
     "snap_pct": 0.5533333333333333,
-    "status": "out (reserve list)",
-    "out": true,
+    "status": "",
+    "out": false,
     "targets": 5,
     "tgt_share": 0.027624309392265192,
     "air_share": 0.012474012474012475,
@@ -59380,7 +59360,7 @@
     "pos": "WR",
     "games": 3,
     "snap_pct": 0.7033333333333333,
-    "status": "questionable",
+    "status": "",
     "out": false,
     "targets": 20,
     "tgt_share": 0.08771929824561403,
@@ -60042,8 +60022,8 @@
     "pos": "RB",
     "games": 3,
     "snap_pct": 0.5033333333333333,
-    "status": "out (reserve list)",
-    "out": true,
+    "status": "",
+    "out": false,
     "targets": 13,
     "tgt_share": 0.049429657794676805,
     "air_share": -0.00466321243523316,
@@ -61012,8 +60992,8 @@
     "pos": "QB",
     "games": 1,
     "snap_pct": 0.56,
-    "status": "out (reserve list)",
-    "out": true,
+    "status": "",
+    "out": false,
     "targets": 0,
     "tgt_share": 0.0,
     "air_share": null,
@@ -61410,7 +61390,7 @@
     "pos": "RB",
     "games": 3,
     "snap_pct": 0.57,
-    "status": "questionable",
+    "status": "",
     "out": false,
     "targets": 10,
     "tgt_share": 0.043859649122807015,
@@ -61542,7 +61522,7 @@
     "pos": "WR",
     "games": 2,
     "snap_pct": 0.58,
-    "status": "missed last game",
+    "status": "",
     "out": false,
     "targets": 6,
     "tgt_share": 0.02631578947368421,
@@ -62028,8 +62008,8 @@
     "pos": "RB",
     "games": 3,
     "snap_pct": 0.7866666666666666,
-    "status": "out (reserve list)",
-    "out": true,
+    "status": "",
+    "out": false,
     "targets": 11,
     "tgt_share": 0.04365079365079365,
     "air_share": -0.0053792361484669175,
@@ -62954,8 +62934,8 @@
     "pos": "WR",
     "games": 3,
     "snap_pct": 0.7766666666666667,
-    "status": "out (reserve list)",
-    "out": true,
+    "status": "",
+    "out": false,
     "targets": 12,
     "tgt_share": 0.04477611940298507,
     "air_share": 0.057244174265450865,
@@ -66672,27 +66652,7 @@
   },
   {
    "team": "ARI",
-   "player": "Isaiah Adams",
-   "tgt_share": null,
-   "car_share": null,
-   "targets": null,
-   "carries": null,
-   "tgt_share_l3": null,
-   "car_share_l3": null
-  },
-  {
-   "team": "ARI",
    "player": "Jon Gaines",
-   "tgt_share": null,
-   "car_share": null,
-   "targets": null,
-   "carries": null,
-   "tgt_share_l3": null,
-   "car_share_l3": null
-  },
-  {
-   "team": "BAL",
-   "player": "Jovaughn Gwyn",
    "tgt_share": null,
    "car_share": null,
    "targets": null,
@@ -66731,58 +66691,8 @@
    "car_share_l3": null
   },
   {
-   "team": "BUF",
-   "player": "Skyler Bell",
-   "tgt_share": 0.015544041450777202,
-   "car_share": 0.0,
-   "targets": 3,
-   "carries": 0,
-   "tgt_share_l3": 0.037037037037037035,
-   "car_share_l3": null
-  },
-  {
    "team": "CAR",
    "player": "Damien Lewis",
-   "tgt_share": null,
-   "car_share": null,
-   "targets": null,
-   "carries": null,
-   "tgt_share_l3": null,
-   "car_share_l3": null
-  },
-  {
-   "team": "CAR",
-   "player": "Taylor Moton",
-   "tgt_share": null,
-   "car_share": null,
-   "targets": null,
-   "carries": null,
-   "tgt_share_l3": null,
-   "car_share_l3": null
-  },
-  {
-   "team": "CAR",
-   "player": "Akayleb Evans",
-   "tgt_share": null,
-   "car_share": null,
-   "targets": null,
-   "carries": null,
-   "tgt_share_l3": null,
-   "car_share_l3": null
-  },
-  {
-   "team": "CAR",
-   "player": "Xavier Legette",
-   "tgt_share": 0.024390243902439025,
-   "car_share": 0.0,
-   "targets": 6,
-   "carries": 0,
-   "tgt_share_l3": 0.0,
-   "car_share_l3": null
-  },
-  {
-   "team": "CHI",
-   "player": "Braxton Jones",
    "tgt_share": null,
    "car_share": null,
    "targets": null,
@@ -66801,16 +66711,6 @@
    "car_share_l3": null
   },
   {
-   "team": "CIN",
-   "player": "Andrei Iosivas",
-   "tgt_share": 0.01532567049808429,
-   "car_share": 0.0,
-   "targets": 4,
-   "carries": 0,
-   "tgt_share_l3": 0.0,
-   "car_share_l3": null
-  },
-  {
    "team": "DEN",
    "player": "Pat Bryant",
    "tgt_share": 0.05333333333333334,
@@ -66819,26 +66719,6 @@
    "carries": 1,
    "tgt_share_l3": 0.0,
    "car_share_l3": 0.0
-  },
-  {
-   "team": "DET",
-   "player": "Ben Bartch",
-   "tgt_share": null,
-   "car_share": null,
-   "targets": null,
-   "carries": null,
-   "tgt_share_l3": null,
-   "car_share_l3": null
-  },
-  {
-   "team": "GB",
-   "player": "Travis Glover",
-   "tgt_share": null,
-   "car_share": null,
-   "targets": null,
-   "carries": null,
-   "tgt_share_l3": null,
-   "car_share_l3": null
   },
   {
    "team": "GB",
@@ -66862,37 +66742,7 @@
   },
   {
    "team": "GB",
-   "player": "Anthony Belton",
-   "tgt_share": null,
-   "car_share": null,
-   "targets": null,
-   "carries": null,
-   "tgt_share_l3": null,
-   "car_share_l3": null
-  },
-  {
-   "team": "GB",
    "player": "Jacob Monk",
-   "tgt_share": null,
-   "car_share": null,
-   "targets": null,
-   "carries": null,
-   "tgt_share_l3": null,
-   "car_share_l3": null
-  },
-  {
-   "team": "GB",
-   "player": "Jager Burton",
-   "tgt_share": null,
-   "car_share": null,
-   "targets": null,
-   "carries": null,
-   "tgt_share_l3": null,
-   "car_share_l3": null
-  },
-  {
-   "team": "GB",
-   "player": "Zach Bako-Bewele",
    "tgt_share": null,
    "car_share": null,
    "targets": null,
@@ -66942,52 +66792,12 @@
   },
   {
    "team": "LAC",
-   "player": "Alex Harkey",
-   "tgt_share": null,
-   "car_share": null,
-   "targets": null,
-   "carries": null,
-   "tgt_share_l3": null,
-   "car_share_l3": null
-  },
-  {
-   "team": "LAC",
    "player": "Rashawn Slater",
    "tgt_share": null,
    "car_share": null,
    "targets": null,
    "carries": null,
    "tgt_share_l3": null,
-   "car_share_l3": null
-  },
-  {
-   "team": "LAC",
-   "player": "Kayode Awosika",
-   "tgt_share": null,
-   "car_share": null,
-   "targets": null,
-   "carries": null,
-   "tgt_share_l3": null,
-   "car_share_l3": null
-  },
-  {
-   "team": "LAC",
-   "player": "Trevor Penning",
-   "tgt_share": null,
-   "car_share": null,
-   "targets": null,
-   "carries": null,
-   "tgt_share_l3": null,
-   "car_share_l3": null
-  },
-  {
-   "team": "LAC",
-   "player": "Theo Wease",
-   "tgt_share": 0.0196078431372549,
-   "car_share": 0.0,
-   "targets": 4,
-   "carries": 0,
-   "tgt_share_l3": 0.04597701149425287,
    "car_share_l3": null
   },
   {
@@ -67001,16 +66811,6 @@
    "car_share_l3": null
   },
   {
-   "team": "MIA",
-   "player": "De'Von Achane",
-   "tgt_share": 0.0670391061452514,
-   "car_share": 0.2,
-   "targets": 12,
-   "carries": 34,
-   "tgt_share_l3": 0.0,
-   "car_share_l3": 0.0
-  },
-  {
    "team": "MIN",
    "player": "Donovan Jackson",
    "tgt_share": null,
@@ -67018,16 +66818,6 @@
    "targets": null,
    "carries": null,
    "tgt_share_l3": null,
-   "car_share_l3": null
-  },
-  {
-   "team": "MIN",
-   "player": "Josh Oliver",
-   "tgt_share": 0.027624309392265192,
-   "car_share": 0.0,
-   "targets": 5,
-   "carries": 0,
-   "tgt_share_l3": 0.0,
    "car_share_l3": null
   },
   {
@@ -67042,32 +66832,12 @@
   },
   {
    "team": "NE",
-   "player": "A.J. Brown",
-   "tgt_share": 0.08771929824561403,
-   "car_share": 0.0,
-   "targets": 20,
-   "carries": 0,
-   "tgt_share_l3": 0.20253164556962025,
-   "car_share_l3": null
-  },
-  {
-   "team": "NE",
    "player": "Mack Hollins",
    "tgt_share": 0.08771929824561403,
    "car_share": 0.0,
    "targets": 20,
    "carries": 0,
    "tgt_share_l3": 0.0,
-   "car_share_l3": null
-  },
-  {
-   "team": "NE",
-   "player": "Michael Onwenu",
-   "tgt_share": null,
-   "car_share": null,
-   "targets": null,
-   "carries": null,
-   "tgt_share_l3": null,
    "car_share_l3": null
   },
   {
@@ -67091,78 +66861,8 @@
    "car_share_l3": null
   },
   {
-   "team": "NO",
-   "player": "Kelvin Banks",
-   "tgt_share": null,
-   "car_share": null,
-   "targets": null,
-   "carries": null,
-   "tgt_share_l3": null,
-   "car_share_l3": null
-  },
-  {
-   "team": "NO",
-   "player": "Travis Etienne",
-   "tgt_share": 0.049429657794676805,
-   "car_share": 0.1875,
-   "targets": 13,
-   "carries": 30,
-   "tgt_share_l3": 0.0,
-   "car_share_l3": 0.0
-  },
-  {
-   "team": "NYG",
-   "player": "Jaxson Dart",
-   "tgt_share": 0.0,
-   "car_share": 0.03208556149732621,
-   "targets": 0,
-   "carries": 6,
-   "tgt_share_l3": null,
-   "car_share_l3": 0.0
-  },
-  {
    "team": "NYJ",
    "player": "Jordan Meredith",
-   "tgt_share": null,
-   "car_share": null,
-   "targets": null,
-   "carries": null,
-   "tgt_share_l3": null,
-   "car_share_l3": null
-  },
-  {
-   "team": "NYJ",
-   "player": "Tim Patrick",
-   "tgt_share": 0.02631578947368421,
-   "car_share": 0.0,
-   "targets": 6,
-   "carries": 0,
-   "tgt_share_l3": 0.033707865168539325,
-   "car_share_l3": null
-  },
-  {
-   "team": "NYJ",
-   "player": "Breece Hall",
-   "tgt_share": 0.043859649122807015,
-   "car_share": 0.2712765957446808,
-   "targets": 10,
-   "carries": 51,
-   "tgt_share_l3": 0.0,
-   "car_share_l3": 0.0
-  },
-  {
-   "team": "PHI",
-   "player": "Lane Johnson",
-   "tgt_share": null,
-   "car_share": null,
-   "targets": null,
-   "carries": null,
-   "tgt_share_l3": null,
-   "car_share_l3": null
-  },
-  {
-   "team": "PHI",
-   "player": "Jake Majors",
    "tgt_share": null,
    "car_share": null,
    "targets": null,
@@ -67201,38 +66901,8 @@
    "car_share_l3": null
   },
   {
-   "team": "PHI",
-   "player": "Dameon Pierce",
-   "tgt_share": 0.04365079365079365,
-   "car_share": 0.21893491124260356,
-   "targets": 11,
-   "carries": 37,
-   "tgt_share_l3": 0.05504587155963303,
-   "car_share_l3": 0.41935483870967744
-  },
-  {
-   "team": "PIT",
-   "player": "Michael Pittman Jr.",
-   "tgt_share": 0.04477611940298507,
-   "car_share": 0.0,
-   "targets": 12,
-   "carries": 0,
-   "tgt_share_l3": 0.0,
-   "car_share_l3": null
-  },
-  {
    "team": "SEA",
    "player": "Charles Cross",
-   "tgt_share": null,
-   "car_share": null,
-   "targets": null,
-   "carries": null,
-   "tgt_share_l3": null,
-   "car_share_l3": null
-  },
-  {
-   "team": "SEA",
-   "player": "Drew Lock",
    "tgt_share": null,
    "car_share": null,
    "targets": null,
@@ -67288,16 +66958,6 @@
    "targets": 51,
    "carries": 0,
    "tgt_share_l3": 0.15384615384615385,
-   "car_share_l3": null
-  },
-  {
-   "team": "TEN",
-   "player": "Fernando Carmona",
-   "tgt_share": null,
-   "car_share": null,
-   "targets": null,
-   "carries": null,
-   "tgt_share_l3": null,
    "car_share_l3": null
   },
   {

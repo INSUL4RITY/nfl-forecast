@@ -15,6 +15,8 @@ import pandas as pd
 
 from depth import _initial, _norm
 
+MIN_TGT, MIN_CAR, MIN_SPLIT_DB = 10, 10, 100     # below these a rate is not shown
+
 
 def _match(d: dict, name: str):
     if not name:
@@ -91,9 +93,9 @@ def text(nu: str, q: dict) -> str:
     if k == "skill":
         parts = [f"{nu}: {q['games']} games, {pc(q['snap_pct'])} of snaps"]
         if q["targets"]:
-            parts.append(f"{q['targets']} targets ({e(q['epa_tgt'])} EPA/target)")
+            parts.append(f"{q['targets']} targets" + (f" ({e(q['epa_tgt'])} EPA/target)" if q["targets"] >= MIN_TGT else " (too few for a rate)"))
         if q["carries"]:
-            parts.append(f"{q['carries']} carries ({e(q['epa_car'])} EPA/carry)")
+            parts.append(f"{q['carries']} carries" + (f" ({e(q['epa_car'])} EPA/carry)" if q["carries"] >= MIN_CAR else " (too few for a rate)"))
         return ", ".join(parts)
     if k == "rush":
         return (f"{nu}: {q['snaps']} defensive snaps in {q['games']} games, {q['pressures']} pressures"
@@ -101,11 +103,17 @@ def text(nu: str, q: dict) -> str:
     if k == "ol":
         if not q["starts"]:
             return f"{nu}: {q['snaps']} offensive snaps, no starts yet"
+        if min(q["db_started"], q["db_not"]) < MIN_SPLIT_DB:
+            return (f"{nu}: {q['snaps']} snaps, {q['starts']} start{'' if q['starts'] == 1 else 's'}; too few dropbacks for a with/without split "
+                    f"({q['db_started']} in his starts, {q['db_not']} in other games)")
         return (f"{nu}: {q['snaps']} snaps, {q['starts']} starts. Team in his starts: {e(q['epa_db_started'])} EPA/dropback, "
                 f"sack rate {pc(q['sack_started'])} ({q['db_started']} dropbacks); other games {e(q['epa_db_not'])}, "
                 f"{pc(q['sack_not'])} ({q['db_not']} dropbacks)")
-    cov = f", {q['targets']} targets as nearest defender (rating {q['rating']:.0f})" if q.get("rating") is not None else ""
+    cov = f", {q['targets']} targets as nearest defender (rating {q['rating']:.0f})" if q.get("rating") is not None and q.get("targets", 0) >= MIN_TGT else ""
     if not q["starts"]:
         return f"{nu}: {q['snaps']} defensive snaps, no starts yet{cov}"
+    if min(q["db_started"], q["db_not"]) < MIN_SPLIT_DB:
+        return (f"{nu}: {q['snaps']} snaps, {q['starts']} start{'' if q['starts'] == 1 else 's'}{cov}; too few dropbacks for a with/without split "
+                f"({q['db_started']} in his starts, {q['db_not']} in other games)")
     return (f"{nu}: {q['snaps']} snaps, {q['starts']} starts{cov}. Defence in his starts: {e(q['epa_db_started'])} EPA/dropback "
             f"allowed ({q['db_started']} dropbacks); other games {e(q['epa_db_not'])} ({q['db_not']})")

@@ -29,6 +29,7 @@ async function nflcastLayoutAudit({ base = "", widths = [1280, 375], limit = Inf
         await new Promise((res) => { frame.onload = res; frame.src = `${base}${p}`; });
         const doc = frame.contentDocument, win = frame.contentWindow;
         doc.querySelectorAll("details").forEach((d) => { d.open = true; });   // collapsed content is only measurable when open
+        if (win.__drawAll) { win.__drawAll(); await new Promise((r) => setTimeout(r, 300)); }   // pages that draw tables lazily
         const vw = win.innerWidth;
         if (doc.documentElement.scrollWidth > vw + 1)
           state.issues.push({ page: p, width, kind: "page-hscroll", detail: `${doc.documentElement.scrollWidth}px > ${vw}px` });

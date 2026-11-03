@@ -37,7 +37,12 @@ SAMPLE_MIN = {
     "def_deep_epa": ("def_deep_att", 15), "def_deep_comp": ("def_deep_att", 15),
     "def_qb_run_epa": ("def_qb_runs", 8), "off_epa_qb_run": ("off_qb_runs", 8),
 }
-SAMPLE_LABEL = {"off_g2g_trips": "goal-to-go trips", "def_g2g_trips": "goal-to-go trips", "eoh_drives": "end-of-half drives",
+PLAYER_MIN = {"epa_tgt": ("targets", 10), "ypt": ("targets", 10), "sr_tgt": ("targets", 10), "catch_rate": ("targets", 10),
+              "adot": ("targets", 10), "yac_pr": ("rec", 10), "yacoe_pr": ("rec", 10), "sep": ("targets", 10),
+              "epa_car": ("carries", 10), "ypc": ("carries", 10), "sr_car": ("carries", 10), "stuff": ("carries", 10),
+              "expl_run": ("carries", 10), "ryoe_att": ("carries", 10)}
+SAMPLE_LABEL = {"targets": "targets", "carries": "carries", "rec": "catches", "db_blitz": "blitzed dropbacks", "db_noblitz": "dropbacks vs 4 or fewer",
+                "db_hit": "dropbacks hit or sacked", "scrambles": "scrambles","off_g2g_trips": "goal-to-go trips", "def_g2g_trips": "goal-to-go trips", "eoh_drives": "end-of-half drives",
                 "off_plays_leading": "plays leading by 9+", "off_plays_trailing": "plays trailing by 9+",
                 "def_n_after_to": "plays after a turnover", "def_n_after_three_out": "plays after a three-and-out",
                 "fd_decisions": "4th-down decisions", "fd_clear_go_n": "clear go spots", "off_scrambles": "scrambles",
@@ -136,7 +141,21 @@ YARD_COLS = ({"off_ypa", "def_ypa", "off_nya", "def_nya", "off_ypc", "def_ypc", 
              | {f"{s}_ypc_{x}" for s in ("off", "def") for x in ("in", "out")})
 
 
-def finish_tables(tables, T, wr_ok):
+TP_KEYS = ("name", "pos", "games", "snap_pct", "targets", "tgt_share", "tgt_share_l3", "air_share", "rec", "rec_yds", "rec_td", "epa_tgt",
+           "carries", "car_share", "car_share_l3", "rush_yds", "rush_td", "epa_car", "rz_tgt", "rz_car", "status")
+
+
+def trim_usage(US, tables):
+    """Only the player fields the page shows (rank-table columns, sample sizes, the usage table and game logs)."""
+    rk = {c[x] for tb in tables if tb["rows"] in ("rb", "wr", "te") for c in tb["cols"] for x in ("k", "n") if c.get(x)}
+    rk |= {"label", "sub", "team", "name"}
+    return {"rb": [{k: v for k, v in r.items() if k in rk} for r in US["rb"]],
+            "wr": [{k: v for k, v in r.items() if k in rk} for r in US["wr"]],
+            "te": [{k: v for k, v in r.items() if k in rk} for r in US["te"]],
+            "logs": US["logs"], "team_players": {t: [{k: r.get(k) for k in TP_KEYS} for r in v] for t, v in US["team_players"].items()}}
+
+
+def finish_tables(tables, T, wr_ok, practice_ok=True):
     """Column post-processing: drop win rates that failed validation, yards to one decimal, small-sample minimums,
     sample sizes and a definition for every header, and no rank suffix on columns that are themselves ranks."""
     for t in tables:
@@ -144,10 +163,14 @@ def finish_tables(tables, T, wr_ok):
         for c in t["cols"]:
             if c["k"] in WR_KEYS and not wr_ok:
                 continue
+            if c["k"] == "practice_concern_n" and not practice_ok:
+                continue
             if c["k"] in YARD_COLS:
                 c["f"] = "s1" if c["f"] in ("s1", "s2") else "n1"
                 if not any(x in c["l"] for x in ("(yd)", "Y/A", "RYOE", "yd", "Yds", "Yards", "yds")):
                     c["l"] += " (yd)"
+            if t["rows"] in ("rb", "wr", "te") and c["k"] in PLAYER_MIN:
+                c["n"], c["min"] = PLAYER_MIN[c["k"]]
             if t["rows"] == "teams":
                 if c["k"] in SAMPLE_MIN:
                     c["n"], c["min"] = SAMPLE_MIN[c["k"]]
@@ -177,7 +200,7 @@ def team_colour(c1, c2):
     return c1 if ratio(c1) >= 2 or ratio(c2) < ratio(c1) else c2
 
 
-def takeaways(T, mm, A, meta):
+def takeaways(T, mm, A, meta, ARR):
     """Five to seven headline cards, each from one measured number with a link to the section that shows it."""
     W = meta["through_week"]
     rk = lambda col, hb=True: rank(T[col], hb)   # noqa: E731
@@ -204,11 +227,19 @@ def takeaways(T, mm, A, meta):
                 "ev": [f"{hi}: luck index {lk[hi]:+.2f}, one-score games {T.one_score[hi]}, turnover margin {int(T.to_margin[hi]):+d} vs expected {T.x_to_margin[hi]:+.1f}.",
                        f"{lo}: luck index {lk[lo]:+.2f}, one-score games {T.one_score[lo]}."],
                 "link": "#overunder", "lt": "Over- and underperformers"})
-    inj = T.absent_snap_weighted.idxmax()
-    names = A[(A.team == inj) & A.status_class.isin(["confirmed: reserve list", "listed Out/Doubtful", "inactive 3+ games"])].sort_values("share", ascending=False).player.head(4)
-    out.append({"h": f"{inj} has the heaviest confirmed absences",
-                "ev": [f"{T.absent_snap_weighted[inj]:.2f} snap-weighted regulars out ({int(T.absent_n[inj])} players): {', '.join(names)}."],
-                "link": "#depth", "lt": "Depth and injuries"})
+    inj = T.absent_new_snap_weighted.idxmax()
+    if T.absent_new_snap_weighted[inj] > 0:
+        nw = A[(A.team == inj) & A.status_class.isin(["confirmed: reserve list", "listed Out/Doubtful", "inactive 3+ games"]) & (A.term == "new")]
+        names = nw.sort_values("share", ascending=False).drop_duplicates("player").player.head(4)
+        out.append({"h": f"{inj} has the heaviest new absences",
+                    "ev": [f"{T.absent_new_snap_weighted[inj]:.2f} snap-weighted regulars newly out (0-1 games missed; {int(T.absent_new_n[inj])} players): {', '.join(names)}.",
+                           "Long-term absences are left out: the season numbers already reflect them."],
+                    "link": "#depth", "lt": "Depth and injuries"})
+    fr = [x for v in ARR["teams"].values() for x in v if x["former_regular"] and x["recent"]]
+    if fr:
+        out.append({"h": "New arrivals who were regulars elsewhere: " + ", ".join(f"{x['name']} ({x['prev_team']} to {x['team']})" for x in fr[:3]),
+                    "ev": [x["text"] for x in fr[:2]],
+                    "link": "#matchups", "lt": "Matchups (new arrivals)"})
     edges = [(e["score"], g["game"], e) for g in mm for e in g["edges"]]
     if edges:
         sc_, game, e = max(edges, key=lambda x: abs(x[0]))
@@ -219,7 +250,7 @@ def takeaways(T, mm, A, meta):
     out.append({"h": f"{hs} has faced the hardest schedule",
                 "ev": [f"Average opponent net adj. EPA/play {T.sos_net[hs]:+.3f}; easiest: {T.sos_net.idxmin()} ({T.sos_net.min():+.3f})."],
                 "link": "#schedule", "lt": "Strength of schedule"})
-    return out
+    return out[:7]
 
 
 # --------------------------------------------------------------------------------------- play-callers
@@ -510,34 +541,42 @@ def profile(t, T, U, G, meta):
     return {"best_off": best_off, "best_def": best_def, "worst": worst, "lines": lines}
 
 
-def mismatches(T, nxt):
-    Z = {
-        "pass_o": zs(T.off_adj_epa_db), "pass_dw": zs(T.def_adj_epa_db),
-        "rush_o": zs(T.off_adj_epa_rush), "rush_dw": zs(T.def_adj_epa_rush),
-        "prot_w": zs(T.off_pressure_rate), "rush_pr": zs(T.def_pressure_rate),
-        "expl_o": zs(T.off_expl_rate), "expl_dw": zs(T.def_expl_rate),
-        "blitz": zs(T.def_blitz_rate), "vs_blitz": zs(T.off_epa_blitz),
-    }
+# (model key, +1 if a higher value helps the offence, label, detail builder)
+EDGE_SPECS = [
+    ("epa_db", 1, "{o} passing vs {d} pass defence",
+     lambda T, o, d: f"{o} adj. EPA/dropback {T.off_adj_epa_db[o]:+.3f} ({ordinal(rank(T.off_adj_epa_db)[o])}); {d} allows {T.def_adj_epa_db[d]:+.3f} ({ordinal(rank(T.def_adj_epa_db, False)[d])})"),
+    ("epa_rush", 1, "{o} run game vs {d} run defence",
+     lambda T, o, d: f"{o} adj. EPA/rush {T.off_adj_epa_rush[o]:+.3f} ({ordinal(rank(T.off_adj_epa_rush)[o])}); {d} allows {T.def_adj_epa_rush[d]:+.3f} ({ordinal(rank(T.def_adj_epa_rush, False)[d])})"),
+    ("pressure", -1, "{d} pass rush vs {o} protection",
+     lambda T, o, d: f"{d} pressure rate {fmt(T.def_pressure_rate[d], 'pct')} ({ordinal(rank(T.def_pressure_rate)[d])}); {o} allows {fmt(T.off_pressure_rate[o], 'pct')} ({ordinal(rank(T.off_pressure_rate, False)[o])} in protection)"),
+    ("expl_pass", 1, "{o} big passing plays vs {d} deep prevention",
+     lambda T, o, d: f"{o} 20+ yard pass rate {fmt(T.off_expl_pass_rate[o], 'pct')} ({ordinal(rank(T.off_expl_pass_rate)[o])}); {d} allows {fmt(T.def_expl_pass_rate[d], 'pct')} ({ordinal(rank(T.def_expl_pass_rate, False)[d])} in prevention)"),
+    ("expl_run", 1, "{o} big runs vs {d} run fits",
+     lambda T, o, d: f"{o} 10+ yard run rate {fmt(T.off_expl_run_rate[o], 'pct')} ({ordinal(rank(T.off_expl_run_rate)[o])}); {d} allows {fmt(T.def_expl_run_rate[d], 'pct')} ({ordinal(rank(T.def_expl_run_rate, False)[d])} in prevention)"),
+]
+
+
+def mismatches(T, nxt, MM):
+    """The three largest unit-versus-unit edges per game, scored on the matchup models' SHRUNK team effects:
+    each side's effect times the share of it the shrinkage keeps, in standard deviations of the true effects
+    (w * effect / tau). A measure with no reliable team-to-team signal (w close to 0) cannot become a headline edge.
+    Blitz tendencies have no shrinkage model, so they stay in the matchup report as context."""
     rows = []
     for _, g in nxt.iterrows():
         h, a = g.home_team, g.away_team
         edges = []
         for o, d in [(h, a), (a, h)]:
-            edges += [
-                (Z["pass_o"][o] + Z["pass_dw"][d], f"{o} passing vs {d} pass defence",
-                 f"{o} adj. EPA/dropback {T.off_adj_epa_db[o]:+.3f} ({ordinal(rank(T.off_adj_epa_db)[o])}); {d} allows {T.def_adj_epa_db[d]:+.3f} ({ordinal(rank(T.def_adj_epa_db, False)[d])})", o, d),
-                (Z["rush_o"][o] + Z["rush_dw"][d], f"{o} run game vs {d} run defence",
-                 f"{o} adj. EPA/rush {T.off_adj_epa_rush[o]:+.3f} ({ordinal(rank(T.off_adj_epa_rush)[o])}); {d} allows {T.def_adj_epa_rush[d]:+.3f} ({ordinal(rank(T.def_adj_epa_rush, False)[d])})", o, d),
-                (Z["rush_pr"][d] + Z["prot_w"][o], f"{d} pass rush vs {o} protection",
-                 f"{d} pressure rate {fmt(T.def_pressure_rate[d], 'pct')} ({ordinal(rank(T.def_pressure_rate)[d])}); {o} allows {fmt(T.off_pressure_rate[o], 'pct')} ({ordinal(rank(T.off_pressure_rate, False)[o])} in protection)", d, o),
-                (Z["expl_o"][o] + Z["expl_dw"][d], f"{o} big plays vs {d} explosive prevention",
-                 f"{o} explosive rate {fmt(T.off_expl_rate[o], 'pct')} ({ordinal(rank(T.off_expl_rate)[o])}); {d} allows {fmt(T.def_expl_rate[d], 'pct')} ({ordinal(rank(T.def_expl_rate, False)[d])} in prevention)", o, d),
-                (Z["blitz"][d] + Z["vs_blitz"][o], f"{d} blitz frequency vs {o} passing against the blitz",
-                 f"{d} blitzes {fmt(T.def_blitz_rate[d], 'pct')} of dropbacks ({ordinal(rank(T.def_blitz_rate)[d])}); {o} EPA/dropback vs blitz {T.off_epa_blitz[o]:+.3f} ({ordinal(rank(T.off_epa_blitz)[o])})", o, d),
-            ]
+            for key, sgn, lab, det in EDGE_SPECS:
+                m = MM[key]
+                zo = m["off"]["w"][o] * m["off"]["eff"][o] / math.sqrt(m["off"]["tau2"])
+                zd = m["def"]["w"][d] * m["def"]["eff"][d] / math.sqrt(m["def"]["tau2"])
+                zf = sgn * (zo + zd)                                 # > 0 favours the offence
+                score = -zf if lab.startswith("{d}") else zf        # sign follows the unit named first
+                edges.append((score, lab.format(o=o, d=d), det(T, o, d), o if zf >= 0 else d,
+                              round(float(m["off"]["w"][o]), 2), round(float(m["def"]["w"][d]), 2)))
         edges = sorted(edges, key=lambda e: -abs(e[0]))[:3]
         rows.append({"game": f"{a} at {h}", "day": str(g.gameday), "edges": [
-            {"score": round(float(e[0]), 2), "what": e[1], "detail": e[2], "favours": e[3] if e[0] >= 0 else e[4]} for e in edges]})
+            {"score": round(float(e[0]), 2), "what": e[1], "detail": e[2], "favours": e[3], "w_off": e[4], "w_def": e[5]} for e in edges]})
     return rows
 
 
@@ -644,7 +683,21 @@ def starter_line(t, info):
             "latest": bool(q["latest_starter"])}
 
 
-def build_matchups(T, nxt, MM, A, mm, notes, PL, US, QBS, REF):
+def report_label(w):
+    """'last week's report (week N)' before the coming week's reports exist, else 'week N report'."""
+    if w is None or (isinstance(w, float) and math.isnan(w)):
+        return "no report"
+    w = int(w)
+    return f"last week's report (week {w})" if w <= WK["thru"] else f"week {w} report"
+
+
+def absence_when(x):
+    if x.games_missed == 0:
+        return "played the latest game"
+    return f"out since week {int(x.out_since_week)}, {int(x.games_missed)} game{'' if x.games_missed == 1 else 's'} without him"
+
+
+def build_matchups(T, nxt, MM, A, mm, notes, PL, US, QBS, REF, ARR):
     games = []
     mm_by = {m["game"]: m for m in mm}
     lg_go = T.fd_go_rate.mean()
@@ -726,15 +779,20 @@ def build_matchups(T, nxt, MM, A, mm, notes, PL, US, QBS, REF):
             r = T.loc[t]
             if int(r.qb_starters_n) > 1:
                 cautions.append(f"{t} season figures mix quarterbacks ({r.qb_starts}).")
-            outs = A[(A.team == t) & A.status_class.isin(["confirmed: reserve list", "listed Out/Doubtful", "inactive 3+ games"])]
+            outs = A[(A.team == t) & A.status_class.isin(["confirmed: reserve list", "listed Out/Doubtful", "inactive 3+ games"]) & (A.term == "new")]
             if len(outs):
-                cautions.append(f"{t} regulars out: " + ", ".join(f"{x.player} ({x.position}, {x.share:.0%} of snaps)" for x in outs.itertuples()) + ".")
+                cautions.append(f"{t} regulars newly out (0-1 games missed): " + ", ".join(
+                    f"{x.player} ({x.position}, {x.share:.0%} of snaps, {absence_when(x)})" for x in outs.itertuples()) + ".")
+            lt = A[(A.team == t) & A.status_class.isin(["confirmed: reserve list", "listed Out/Doubtful", "inactive 3+ games"]) & (A.term == "long-term")]
+            if len(lt):
+                cautions.append(f"{t} long-term absences are already in its season numbers: " + ", ".join(
+                    f"{x.player} ({x.position}, {absence_when(x)})" for x in lt.itertuples()) + ".")
             q = A[(A.team == t) & (A.status_class == "listed Questionable")]
             if len(q):
-                cautions.append(f"{t} questionable: " + ", ".join(f"{x.player} ({x.position})" for x in q.itertuples()) + ".")
+                cautions.append(f"{t} questionable ({report_label(q.last_report_week.max())}): " + ", ".join(f"{x.player} ({x.position})" for x in q.itertuples()) + ".")
             pr = A[(A.team == t) & A.status_class.isin(["did not practise", "limited in practice"])]
             if len(pr):
-                cautions.append(f"{t} practice report (no game status yet): " + ", ".join(
+                cautions.append(f"{t} practice report ({report_label(pr.last_report_week.max())}, no game status yet): " + ", ".join(
                     f"{x.player} ({x.position}, {'DNP' if x.status_class == 'did not practise' else 'limited'})" for x in pr.itertuples()) + ".")
         for t in (a, h):
             r = T.loc[t]
@@ -769,6 +827,7 @@ def build_matchups(T, nxt, MM, A, mm, notes, PL, US, QBS, REF):
                          for k in ("off_l4", "def_l4", "net_l4", "off_season", "def_season", "net_season", "off_change", "def_change", "net_change")}
                      | {"weeks": str(T.loc[t, "form_weeks"]), "games": int(T.loc[t, "form_games"])} for t in (a, h)},
             "referee": REF["assign"].get(g.game_id),
+            "arrivals": {t: ARR["teams"].get(t, []) for t in (a, h)},
             "note": notes.get("games", {}).get(label), "post": notes.get("postgame", {}).get(label),
         })
     return games
@@ -1129,14 +1188,16 @@ def main():
     NU = DP.get("nextup", {})
     A["next_up_quality"] = [NU.get(f"{t}|{n}", {}).get("text") for t, n in zip(A.team, A.player)]
     REF = json.loads((d / "referees.json").read_text(encoding="utf-8"))
+    ARR = json.loads((d / "arrivals.json").read_text(encoding="utf-8"))
+    A["when"] = [absence_when(x) for x in A.itertuples()]
     A = A.assign(**{k: [nxt_up.get((t, n), {}).get(k) for t, n in zip(A.team, A.player)]
                     for k in ("slot", "next_up", "next_up_rank", "next_up_snaps", "next_up_games", "next_up_last_share", "still_first", "note")})
     wr_note = "" if wr_probs else (f" Win rates: {WR['source']['title']} ({WR['source']['updated']}); ESPN Analytics from NFL Next Gen Stats tracking, not in nflverse. ESPN publishes whole percentages, so tied teams share a rank here."
                + ("" if WR["through_week"] == meta["through_week"] else f" STALE: win rates run through week {WR['through_week']}, the report through week {meta['through_week']}.")) if WR else ""
     U = unit_ranks(T)
     profiles = {t: profile(t, T, U, G, meta) for t in T.index}
-    mm = mismatches(T, nxt)
     MM = json.loads((d / "matchup_models.json").read_text())
+    mm = mismatches(T, nxt, MM)
     CTX = json.loads((d / "context.json").read_text())
     TRV = pd.read_csv(d / "travel_next_week.csv").replace({np.nan: None}).to_dict("records")
     PEN_T = pd.read_csv(d / "penalties_by_type.csv")
@@ -1773,12 +1834,22 @@ def main():
         "blitz_vuln": [t for t in T.index if rank(T.off_epa_blitz)[t] >= 25],
     }
 
-    tables = finish_tables(tables, T, not wr_probs)
-    games = build_matchups(T, nxt, MM, A, mm, notes, PL, US, CTX["qb"], REF)
+    tables = finish_tables(tables, T, not wr_probs, bool((A.last_report_week == meta["through_week"] + 1).any()))
+    games = build_matchups(T, nxt, MM, A, mm, notes, PL, US, CTX["qb"], REF, ARR)
     pen_types_js = PEN_T.to_dict("records")
+    # embed only the team fields the page or the per-game export reads (table columns, sample sizes, keys named in the
+    # page's script or the exporter, and the team-chart measures, whose keys the page builds at run time)
+    used = {c[x] for tb in tables for c in tb["cols"] for x in ("k", "n", "nk") if c.get(x)}
+    for src in (TEMPLATE, (Path(__file__).with_name("export_games.py")).read_text(encoding="utf-8")):
+        used |= set(re.findall(r"[A-Za-z_][A-Za-z0-9_]*", src))
+    used |= {f"{sd}_{m}" for sd in ("off", "def") for m in ("epa_play", "adj_epa", "sr", "adj_sr", "epa_db", "adj_epa_db", "sr_db", "adj_sr_db",
+             "epa_rush", "adj_epa_rush", "sr_rush", "adj_sr_rush", "expl_rate", "ypp", "yds_pg", "pts_pg", "ppd", "rz_td_rate", "d3_conv",
+             "sack_rate", "pressure_rate", "to_pd")}
+    used |= {f"def_{m}_{x}" for m in ("rate20", "n20pg", "yac_rec") for x in ("WR", "TE", "RB")}
+    keep = [k for k in T.columns if k in used]
     teams_js = []
     for t in T.index:
-        r = T.loc[t]
+        r = T.loc[t, keep]
         rec = {k: (None if (isinstance(v, float) and math.isnan(v)) else (v.item() if hasattr(v, "item") else v)) for k, v in r.items()}
         rec["team"] = t
         rec["cov"] = "n/a"
@@ -1786,13 +1857,13 @@ def main():
     qcols = ["name_full", "team", "teams", "games", "dropbacks", "epa_db", "adj_epa_db", "sr", "cpoe", "ypa", "adot", "sack_rate", "int_rate",
              "int_worthy_rate", "pressure_rate", "p2s", "epa_clean", "epa_hit_sack", "epa_vs_blitz", "epa_no_blitz", "blitzed_rate",
              "scr_rate", "epa_scr", "designed_runs", "epa_designed_run", "fd_td_rate", "epa_early", "epa_d3", "epa_rz", "game_sd",
-             "time_to_throw", "yacoe", "drop_rate", "db_clean", "db_hit", "scrambles", "hit_sack_rate", "qb_fault_sacks", "qb_fault_sack_share", "team_pressure_allowed", "qb_composite", "team_db_share", "latest_starter", "qualified"]
+             "time_to_throw", "yacoe", "drop_rate", "db_clean", "db_hit", "db_blitz", "db_noblitz", "scrambles", "hit_sack_rate", "qb_fault_sacks", "qb_fault_sack_share", "team_pressure_allowed", "qb_composite", "team_db_share", "latest_starter", "qualified"]
     qbs = Q[qcols].replace({np.nan: None}).to_dict("records")
     absn = A.replace({np.nan: None}).to_dict("records")
 
     tm = pd.read_parquet(ROOT / "data" / "cache" / "team_analytics" / "teams__teams_colors_logos.parquet")
     colors = {t: team_colour(c1, c2) for t, c1, c2 in zip(tm.team_abbr, tm.team_color, tm.team_color2) if t in T.index}
-    data = {"colors": colors, "takeaways": takeaways(T, mm, A, meta), "refs": REF["refs"], "ref_meta": {k: v for k, v in REF.items() if k != "refs"},
+    data = {"colors": colors, "takeaways": takeaways(T, mm, A, meta, ARR), "refs": REF["refs"], "ref_meta": {k: v for k, v in REF.items() if k != "refs"},
             "wr": {"ok": not wr_probs, "problems": wr_probs, "corr": win_rate_corr(T) if not wr_probs else [],
                    "source": (WR or {}).get("source"), "through_week": (WR or {}).get("through_week")},
             "nlabels": SAMPLE_LABEL, "teams": teams_js, "qbs": qbs, "absences": absn, "tables": tables, "meta": meta, "profiles": profiles,
@@ -1800,7 +1871,7 @@ def main():
             "ctx": {"fatigue": CTX["fatigue"], "travel": CTX["travel"], "qb": CTX["qb"], "penalty_groups": CTX["penalty_groups"]},
             "trv": TRV, "pen_types": pen_types_js, "cats": cats, "D": D, "E": E, "F": F, "dis": dis, "notes": notes, "order": order,
             "names": T.team_name.to_dict(), "depth_as_of": DP["depth"]["as_of"], "players": PL["teams"], "players_league": PL["league"],
-            "usage": {"rb": US["rb"], "wr": US["wr"], "te": US["te"], "logs": US["logs"], "team_players": US["team_players"]}, "callers": {"sources": CL["sources"], "splits": CL["splits"], "checked": CL["checked"], "league": CL["league"]}}
+            "usage": trim_usage(US, tables), "callers": {"sources": CL["sources"], "splits": CL["splits"], "checked": CL["checked"], "league": CL["league"]}}
     nxt_w = meta["through_week"] + 1
     n_rep = A.loc[A.last_report_week == nxt_w, "team"].nunique()
     data["meta"]["inj_note"] = (f"{n_rep} teams already have a week {nxt_w} injury report in the data; other statuses come from each team's latest report and roster."
@@ -1959,6 +2030,22 @@ its source and date ({'loaded' if REF['assign_loaded'] else 'not loaded yet'}).<
 <li><b>Absences</b>: snap-count players are linked to rosters through the nflverse players table (PFR id to gsis id), then the roster's own PFR id, then team and name.
 Each player's status is his latest weekly-roster row. A regular inactive (INA) for each of the team's last three games with no injury designation counts as out
 ("inactive 3+ games"); a player active on a roster dated after a missed game is not flagged; a report for a game the player then played is not counted.</li>
+<li><b>Regulars</b>: 50%+ of offensive or defensive snaps in the games he played, in at least half of the team's games (and at least two), one row per
+player at his most-played position. A quarterback counts only when he started the team's latest game or has its most starts (a backup is not an absence).
+Each absence shows when he last played and how many team games he has missed: <i>new</i> = 0-1 games, <i>long-term</i> = 2 or more. Long-term absences are
+already in the season numbers, so only new ones go into the matchup cautions and the takeaways.</li>
+<li><b>Injury statuses</b>: on the Tuesday build the coming week's practice reports do not exist yet, so every status is labelled "last week's report (week N)"
+(teams off a bye use an older week). A status refresh after the final injury reports (Friday about 16:30 ET; Thursday for a Thursday game) re-downloads the
+injury reports, rosters and depth charts and rebuilds only the absences, next man up, arrivals, quarterback scenarios and the per-game files
+(<code>refresh_status.py</code>). The practice-concern column is hidden until the coming week's practice reports exist.</li>
+<li><b>New arrivals</b>: players whose latest roster team differs from an earlier 2026 week, or who joined in season (signing, practice-squad promotion), shown
+when they were regulars elsewhere or play 40%+ of snaps for the new team, with their 2026 sample (sacks and QB hits from play-by-play, PFR pressures,
+targets and carries, or the unit's numbers in their starts).</li>
+<li><b>Headline edges</b> are scored on the matchup models' shrunk effects (each unit's effect times the share the shrinkage keeps, in standard deviations
+of the true effects), so a measure with no reliable signal cannot top the list. Blitz tendencies have no shrinkage model and stay as context in the
+matchup report.</li>
+<li><b>Player rates</b> are shown with their sample and only from a minimum: 10 targets or carries for EPA per target or carry, 20 dropbacks for a
+quarterback's EPA against the blitz or when hit, 100 dropbacks on each side of a with/without split.</li>
 <li><b>ESPN win rates</b>: the hand-copied file is checked on load (32 teams, four metrics, values 0-100, ranks 1-32, same through-week as the report);
 {"it passed, through week " + str(WRI["through_week"]) + " (" + esc((WRI.get("source") or {}).get("updated") or "") + ")" if WRI["ok"] else "it failed (" + esc("; ".join(WRI["problems"][:3])) + "), so the columns are hidden"}.
 {("Across the 32 teams: " + "; ".join(f"{esc(lab)} r = {r:+.2f}" for lab, r in WRI["corr"]) + ". Run-block win rate is barely related to yards before contact, so it is context only.") if WRI["corr"] else ""}</li>

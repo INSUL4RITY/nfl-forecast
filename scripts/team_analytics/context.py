@@ -558,7 +558,7 @@ def rz_penalty_effect(dr: pd.DataFrame, x: pd.DataFrame) -> pd.DataFrame:
 
 
 # -------------------------------------------------------------------------------------- QB scenarios
-def qb_scenarios(p: pd.DataFrame, Q: pd.DataFrame, ros_cur: pd.DataFrame, inj_last: pd.DataFrame, teams) -> dict:
+def qb_scenarios(p: pd.DataFrame, Q: pd.DataFrame, ros_cur: pd.DataFrame, inj_last: pd.DataFrame, teams, W: int = 99) -> dict:
     d = p[p.db & p.passer_id.notna()]
     starts = (d.groupby(["posteam", "game_id", "passer_id"]).size().reset_index(name="n")
               .sort_values("n", ascending=False).drop_duplicates(["posteam", "game_id"]))
@@ -586,6 +586,7 @@ def qb_scenarios(p: pd.DataFrame, Q: pd.DataFrame, ros_cur: pd.DataFrame, inj_la
                 "sack_rate": None if r is None else float(r.sack_rate),
                 "int_worthy": None if r is None or pd.isna(r.int_worthy_rate) else float(r.int_worthy_rate),
                 "epa_vs_blitz": None if r is None or pd.isna(r.epa_vs_blitz) else float(r.epa_vs_blitz),
+                "db_blitz": None if r is None else int(r.db_blitz), "db_hit": None if r is None else int(r.db_hit),
                 "epa_hit_sack": None if r is None or pd.isna(r.epa_hit_sack) else float(r.epa_hit_sack),
                 "scr_rate": None if r is None else float(r.scr_rate),
                 "team_epa_play_in_starts": float(off_games.epa.mean()) if len(off_games) else None,
@@ -601,14 +602,17 @@ def qb_scenarios(p: pd.DataFrame, Q: pd.DataFrame, ros_cur: pd.DataFrame, inj_la
         if len(st.passer_id.unique()) > 1:
             flags.append("Season figures mix quarterbacks.")
         lr = next((r for r in rows if r["latest_starter"]), None)
+        def rep_lab(r):
+            return f"last week's report (week {r['report_week']})" if r["report_week"] and r["report_week"] <= W else f"the week {r['report_week']} report"
+
         def status(r):
             if r["roster_status"] == "RES":
                 return "is on the reserve list"
             if r["report_status"]:
-                return f"was listed {r['report_status']} in the week {r['report_week']} report" + (
+                return f"was listed {r['report_status']} in {rep_lab(r)}" + (
                     f" ({r['practice_status'].lower()})" if r["practice_status"] else "")
             if r["practice_status"]:
-                return f"practice status in the week {r['report_week']} report: {r['practice_status'].lower()}"
+                return f"practice status in {rep_lab(r)}: {r['practice_status'].lower()}"
             return None
         most = max(rows, key=lambda r: (r["starts"], r["dropbacks"])) if rows else None
         if lr and (lr["roster_status"] == "RES" or lr["report_status"] in ("Out", "Doubtful")):

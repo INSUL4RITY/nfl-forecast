@@ -1,7 +1,7 @@
 {
  "season": 2026,
  "through_week": 8,
- "generated_utc": "2026-11-03T18:19:15+00:00",
+ "generated_utc": "2026-11-03T19:18:08+00:00",
  "games": 121,
  "plays": 15592,
  "drives": 2501,
@@ -93,11 +93,13 @@
   "Run direction: 5,849 designed runs with a location (55.6% inside). Targets by position: 99.9% of 7,634 targets went to a WR, TE or RB on the weekly roster (the rest: QBs, linemen or unmatched); 7,970 attempts with a throw zone.",
   "PFR advanced passing: 216 of 242 team-games available (108 games); pressure and PFR-blitz rates use only those games.",
   "PFR advanced receiving: 108 of 121 games available; receiving broken tackles and drops use only those games.",
-  "Absences: 789 regulars; 789 linked to a gsis id (788 through the nflverse players table); 0 with no weekly-roster match.",
-  "Injury reports: 169 regulars listed on a report for a game they then played are not flagged.",
-  "Absence classes: 52 on the reserve list, 1 inactive 3+ games, 13 unconfirmed; 0 regulars who missed a game are active on a later roster and not flagged; 26 OL regulars counted out.",
   "Referees: crew rates from 2024-25 (18 referees); nflverse schedules name the referee for 65 of 121 2026 games (weeks 1, 2, 3, 4, 5); week 9 assignments not loaded.",
-  "Next man up: 111 absences have a listed replacement; 100 matched to his own 2026 sample."
+  "Absences: 722 regulars; 722 linked to a gsis id (721 through the nflverse players table); 0 with no weekly-roster match.",
+  "Injury reports: 165 regulars listed on a report for a game they then played are not flagged.",
+  "Absence classes: 25 on the reserve list, 0 inactive 3+ games, 3 unconfirmed; 0 regulars who missed a game are active on a later roster and not flagged; 13 OL regulars counted out; 26 confirmed absences are new (0-1 games missed), 31 long-term.",
+  "Duplicate players in absences: 0 (13 players listed at two positions were merged under their most-played position, and 0 duplicate roster ids removed; 0 remain).",
+  "Next man up: 68 absences have a listed replacement; 61 matched to his own 2026 sample.",
+  "Arrivals: 26 players on a new team since week 1 who were regulars elsewhere or play 40%+ of snaps (4 former regulars elsewhere, 4 arrived in weeks 7-9)."
  ],
  "sources": [
   {
@@ -395,6 +397,34 @@
    "bytes": 1169454
   },
   {
+   "url": "https://github.com/nflverse/nflverse-data/releases/download/weekly_rosters/roster_weekly_2026.parquet",
+   "retrieved_utc": "2026-11-03T18:10:02+00:00",
+   "http_last_modified": "Tue, 03 Nov 2026 15:06:06 GMT",
+   "sha256": "bbdc857a33049fb02f2e3a46e9ce185dd8653ec188fa751937b489087fe7b3e8",
+   "bytes": 836804
+  },
+  {
+   "url": "https://github.com/nflverse/nflverse-data/releases/download/snap_counts/snap_counts_2026.parquet",
+   "retrieved_utc": "2026-11-03T18:10:09+00:00",
+   "http_last_modified": "Tue, 03 Nov 2026 12:01:36 GMT",
+   "sha256": "b4d07406ab7fff2b34ea2c5244196039836bd81455981b13cf81357e56ab22a7",
+   "bytes": 123790
+  },
+  {
+   "url": "https://github.com/nflverse/nflverse-data/releases/download/players/players.parquet",
+   "retrieved_utc": "2026-11-03T18:10:10+00:00",
+   "http_last_modified": "Tue, 03 Nov 2026 15:41:39 GMT",
+   "sha256": "b898f5fa682ccc2861fcbdbac2d394cbe7b3f070163a15776571528bf1e60a56",
+   "bytes": 3395322
+  },
+  {
+   "url": "https://github.com/nflverse/nflverse-data/releases/download/pfr_advstats/advstats_week_def_2026.parquet",
+   "retrieved_utc": "2026-11-03T18:10:04+00:00",
+   "http_last_modified": "Sun, 01 Nov 2026 12:02:38 GMT",
+   "sha256": "b87d1bad5385de46c313d0355a9a93a309a7c73ffbabb4170a083e69ac8adf2c",
+   "bytes": 80685
+  },
+  {
    "url": "https://github.com/nflverse/nflverse-data/releases/download/teams/teams_colors_logos.parquet",
    "retrieved_utc": "2026-11-03T18:10:33+00:00",
    "http_last_modified": "Fri, 27 Mar 2026 15:49:46 GMT",
@@ -469,5 +499,6 @@
   "TB": 0.08775828716631365,
   "TEN": -0.1952838953856923,
   "WAS": -0.10078932112654873
- }
+ },
+ "status_refreshed_utc": "2026-11-03T19:22:33+00:00"
 }
