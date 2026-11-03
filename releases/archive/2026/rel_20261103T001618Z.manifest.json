@@ -1,0 +1,41 @@
+{
+ "game_ids": [
+  "2026_08_CHI_SEA"
+ ],
+ "generated_at_utc": "2026-11-03T00:16:18.703640+00:00",
+ "information_cutoff_utc": "2026-11-03T00:16:18.703640+00:00",
+ "input_snapshots": {
+  "depth_charts": {
+   "content_sha256": "ed74a75faf1658eae3650dd98c313eeafe358eb6b4f9e1d7747ebdeffbed65f1",
+   "http_last_modified": "Mon, 02 Nov 2026 17:01:40 GMT",
+   "last_confirmed_at_utc": "2026-11-03T00:15:36.699510+00:00",
+   "observed_at_utc": "2026-11-02T17:15:48.142062+00:00"
+  },
+  "injuries": {
+   "content_sha256": "0559135bfba25c5b7ec3a89897328f192ed06865dfe0059122ed16858969adfd",
+   "http_last_modified": "Mon, 02 Nov 2026 16:59:01 GMT",
+   "last_confirmed_at_utc": "2026-11-03T00:15:35.481970+00:00",
+   "observed_at_utc": "2026-11-01T13:15:45.140187+00:00"
+  },
+  "schedules": {
+   "content_sha256": "4b6e8e50832a9e8973b14cc68b1139d0f4a857ceed94b9697653e18ed31f1c8d",
+   "http_last_modified": "Tue, 03 Nov 2026 00:06:48 GMT",
+   "last_confirmed_at_utc": "2026-11-03T00:15:33.526894+00:00",
+   "observed_at_utc": "2026-11-03T00:15:33.526894+00:00"
+  }
+ },
+ "manifest_created_at_utc": "2026-11-03T00:16:26.189640+00:00",
+ "model_version": {
+  "code_hash": "70288fb8354e32e9a7bea3803d8d2527eac2c4276f47bfbfc78e5ea50c6cf75c",
+  "oof_source_run": "locked_20260924T234835Z",
+  "production_config_sha256_at_archiving": "93370fd999d74861e7ac08a4d9522756fc384a2be04d04c60dad10fefd9f23f8",
+  "qb_start_rates": "v3_start_practice_listed_through_2025",
+  "stage": "production_v1.1"
+ },
+ "note": "Manifest creation time is when this archive entry was made; it is not a publication time.",
+ "release_path": "releases/2026/week_08/rel_20261103T001618Z.json",
+ "run_id": "rel_20261103T001618Z",
+ "schema_version": 3,
+ "sha256": "0356683b55c8ee1d59fb00addfa0d5be31c3594da70524221036b30a2b9874d9",
+ "size_bytes": 25674
+}
