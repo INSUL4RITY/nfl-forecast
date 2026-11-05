@@ -25,7 +25,7 @@ def build(p: pd.DataFrame) -> dict:
     sc["trail"] = sc.wp < TRAIL
     sc["lead"] = sc.wp > LEAD
     sc["comp"] = ~(sc.trail | sc.lead)
-    sc["td"] = sc.touchdown == 1
+    sc["td"] = (sc.touchdown == 1) & (sc.td_team == sc.posteam)   # offensive TDs only, not a defensive return
     out = {}
     for side, key in (("off", "posteam"), ("def", "defteam")):
         g = sc.groupby(key)

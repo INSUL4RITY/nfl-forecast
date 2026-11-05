@@ -62,7 +62,7 @@ def build(p: pd.DataFrame, season: int, through_week: int, absences: pd.DataFram
 
     tg = p[p.att & p.receiver_player_id.notna()].copy()
     tg["rec_yds"] = np.where(tg.complete_pass == 1, tg.yards_gained, 0)
-    tg["rec_td"] = ((tg.complete_pass == 1) & (tg.touchdown == 1)).astype(int)
+    tg["rec_td"] = (tg.pass_touchdown == 1).astype(int)   # not `touchdown`, which also marks a defensive return after a catch
     tg["rz"] = tg.yardline_100 <= 20
     ca = p[p.drush & p.rusher_player_id.notna()].copy()
     ca["rz"] = ca.yardline_100 <= 20

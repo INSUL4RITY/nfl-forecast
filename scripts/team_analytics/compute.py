@@ -1480,7 +1480,7 @@ def qb_table(p, pf, adj, S, W, pfr):
     q["sack_rate"] = d.groupby("passer_id").sackp.mean()
     q["int_rate"] = a.groupby("passer_id").int_.mean()
     q["int_worthy_rate"] = a[a.is_interception_worthy.notna()].groupby("passer_id").is_interception_worthy.mean()
-    q["fd_td_rate"] = ((d.first_down == 1) | (d.touchdown == 1)).groupby(d.passer_id).mean()
+    q["fd_td_rate"] = ((d.first_down == 1) | ((d.touchdown == 1) & (d.td_team == d.posteam))).groupby(d.passer_id).mean()   # not a defensive return
     q["scr_rate"] = d.groupby("passer_id").scr.mean()
     q["epa_scr"] = d[d.scr].groupby("passer_id").epa.mean()
     runs = p[p.qb_drun]
