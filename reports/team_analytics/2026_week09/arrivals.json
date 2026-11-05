@@ -3,6 +3,29 @@
   "SF": [
    {
     "team": "SF",
+    "name": "DeForest Buckner",
+    "pos": "DL",
+    "kind": "trade or move",
+    "prev_team": "IND",
+    "first_week": 9,
+    "status": "ACT",
+    "games_new": 0,
+    "snaps_new": 0,
+    "share_new": null,
+    "last_share": null,
+    "games_prev": 7,
+    "share_prev": 0.8257142857142857,
+    "former_regular": true,
+    "role": "rush",
+    "recent": true,
+    "sacks": 4.0,
+    "qb_hits": 8,
+    "pressures": 10,
+    "pfr_games": 7,
+    "text": "DeForest Buckner (DL, from IND, first week 9): no games yet for SF; a regular for IND (83% of snaps in 7 games). 2026: 4 sacks, 8 QB hits, 10 PFR pressures in 7 games with PFR data."
+   },
+   {
+    "team": "SF",
     "name": "Sebastian Valdez",
     "pos": "DL",
     "kind": "promoted from the practice squad",
@@ -102,6 +125,30 @@
    }
   ],
   "PHI": [
+   {
+    "team": "PHI",
+    "name": "Jake Majors",
+    "pos": "OL",
+    "kind": "promoted from the practice squad",
+    "prev_team": null,
+    "first_week": 5,
+    "status": "ACT",
+    "games_new": 2,
+    "snaps_new": 126,
+    "share_new": 1.0,
+    "last_share": 1.0,
+    "games_prev": 0,
+    "share_prev": null,
+    "former_regular": false,
+    "role": "ol",
+    "recent": false,
+    "starts_new": 2,
+    "db_with": 96,
+    "db_without": 228,
+    "epa_db_with": -0.023279825105115986,
+    "epa_db_without": -0.08808627103088336,
+    "text": "Jake Majors (OL, promoted from the practice squad, first week 5): 2 games and 126 snaps for PHI (100% of snaps). 2 starts for PHI; too few dropbacks for a with/without split (96 with, 228 without)."
+   },
    {
     "team": "PHI",
     "name": "Kenny Moore II",
@@ -256,106 +303,6 @@
     "text": "Brandon Smith (WR, promoted from the practice squad, first week 5): 4 games and 107 snaps for PIT (40% of snaps). 2026: 2 targets (too few for a rate)."
    }
   ],
-  "CAR": [
-   {
-    "team": "CAR",
-    "name": "Jake Curhan",
-    "pos": "OL",
-    "kind": "promoted from the practice squad",
-    "prev_team": null,
-    "first_week": 8,
-    "status": "ACT",
-    "games_new": 1,
-    "snaps_new": 32,
-    "share_new": 0.44,
-    "last_share": 0.44,
-    "games_prev": 0,
-    "share_prev": null,
-    "former_regular": false,
-    "role": "ol",
-    "recent": true,
-    "starts_new": 0,
-    "db_with": 0,
-    "db_without": 317,
-    "epa_db_with": null,
-    "epa_db_without": 0.0726303383683667,
-    "text": "Jake Curhan (OL, promoted from the practice squad, first week 8): 1 game and 32 snaps for CAR (44% of snaps). 0 starts for CAR; too few dropbacks for a with/without split (0 with, 317 without)."
-   },
-   {
-    "team": "CAR",
-    "name": "Marco Wilson",
-    "pos": "DB",
-    "kind": "signed in season",
-    "prev_team": null,
-    "first_week": 6,
-    "status": "ACT",
-    "games_new": 1,
-    "snaps_new": 69,
-    "share_new": 1.0,
-    "last_share": 1.0,
-    "games_prev": 0,
-    "share_prev": null,
-    "former_regular": false,
-    "role": "db",
-    "recent": false,
-    "starts_new": 1,
-    "db_with": 43,
-    "db_without": 242,
-    "epa_db_with": 0.20637235249701325,
-    "epa_db_without": 0.06357320252184065,
-    "text": "Marco Wilson (DB, signed in season, first week 6): 1 game and 69 snaps for CAR (100% of snaps). 1 start for CAR; too few dropbacks for a with/without split (43 with, 242 without)."
-   }
-  ],
-  "DAL": [
-   {
-    "team": "DAL",
-    "name": "James Mitchell",
-    "pos": "TE",
-    "kind": "promoted from the practice squad",
-    "prev_team": null,
-    "first_week": 8,
-    "status": "ACT",
-    "games_new": 1,
-    "snaps_new": 31,
-    "share_new": 0.42,
-    "last_share": 0.42,
-    "games_prev": 0,
-    "share_prev": null,
-    "former_regular": false,
-    "role": "skill",
-    "recent": true,
-    "targets": 0,
-    "epa_tgt": null,
-    "rec_yds": 0,
-    "carries": 0,
-    "epa_car": null,
-    "text": "James Mitchell (TE, promoted from the practice squad, first week 8): 1 game and 31 snaps for DAL (42% of snaps). 2026: no targets or carries."
-   },
-   {
-    "team": "DAL",
-    "name": "Joey Porter Jr.",
-    "pos": "DB",
-    "kind": "trade or move",
-    "prev_team": "PIT",
-    "first_week": 4,
-    "status": "ACT",
-    "games_new": 4,
-    "snaps_new": 148,
-    "share_new": 0.535,
-    "last_share": 0.44,
-    "games_prev": 0,
-    "share_prev": null,
-    "former_regular": false,
-    "role": "db",
-    "recent": false,
-    "starts_new": 1,
-    "db_with": 40,
-    "db_without": 280,
-    "epa_db_with": -0.02438902844733093,
-    "epa_db_without": 0.27693794525601295,
-    "text": "Joey Porter Jr. (DB, from PIT, first week 4): 4 games and 148 snaps for DAL (54% of snaps). 1 start for DAL; too few dropbacks for a with/without split (40 with, 280 without)."
-   }
-  ],
   "BAL": [
    {
     "team": "BAL",
@@ -382,6 +329,56 @@
     "text": "Cam Jurgens (OL, from PHI, first week 5): 2 games and 118 snaps for BAL (100% of snaps); a regular for PHI (100% of snaps in 4 games). 2 starts for BAL; too few dropbacks for a with/without split (73 with, 211 without)."
    }
   ],
+  "MIA": [
+   {
+    "team": "MIA",
+    "name": "Christian Haynes",
+    "pos": "OL",
+    "kind": "trade or move",
+    "prev_team": "SEA",
+    "first_week": 8,
+    "status": "ACT",
+    "games_new": 0,
+    "snaps_new": 0,
+    "share_new": null,
+    "last_share": null,
+    "games_prev": 7,
+    "share_prev": 0.42857142857142855,
+    "former_regular": true,
+    "role": "ol",
+    "recent": true,
+    "starts_new": 0,
+    "db_with": 0,
+    "db_without": 240,
+    "epa_db_with": null,
+    "epa_db_without": 0.013749002092650715,
+    "text": "Christian Haynes (OL, from SEA, first week 8): no games yet for MIA; a regular for SEA (43% of snaps in 7 games). 0 starts for MIA; too few dropbacks for a with/without split (0 with, 240 without)."
+   },
+   {
+    "team": "MIA",
+    "name": "Jared Wayne",
+    "pos": "WR",
+    "kind": "trade or move",
+    "prev_team": "HOU",
+    "first_week": 7,
+    "status": "ACT",
+    "games_new": 1,
+    "snaps_new": 10,
+    "share_new": 0.15,
+    "last_share": 0.15,
+    "games_prev": 5,
+    "share_prev": 0.40800000000000003,
+    "former_regular": true,
+    "role": "skill",
+    "recent": true,
+    "targets": 12,
+    "epa_tgt": -0.30091288410767447,
+    "rec_yds": 65,
+    "carries": 0,
+    "epa_car": null,
+    "text": "Jared Wayne (WR, from HOU, first week 7): 1 game and 10 snaps for MIA (15% of snaps); a regular for HOU (41% of snaps in 5 games). 2026: 12 targets (-0.301 EPA/target)."
+   }
+  ],
   "JAX": [
    {
     "team": "JAX",
@@ -406,6 +403,32 @@
     "epa_db_with": -0.07991414564527403,
     "epa_db_without": -0.002303519662226298,
     "text": "Kaevon Merriweather (DB, promoted from the practice squad, first week 5): 3 games and 107 snaps for JAX (57% of snaps). 2 starts for JAX; too few dropbacks for a with/without split (77 with, 213 without)."
+   }
+  ],
+  "DAL": [
+   {
+    "team": "DAL",
+    "name": "Joey Porter Jr.",
+    "pos": "DB",
+    "kind": "trade or move",
+    "prev_team": "PIT",
+    "first_week": 4,
+    "status": "ACT",
+    "games_new": 4,
+    "snaps_new": 148,
+    "share_new": 0.535,
+    "last_share": 0.44,
+    "games_prev": 0,
+    "share_prev": null,
+    "former_regular": false,
+    "role": "db",
+    "recent": false,
+    "starts_new": 1,
+    "db_with": 40,
+    "db_without": 280,
+    "epa_db_with": -0.02438902844733093,
+    "epa_db_without": 0.27693794525601295,
+    "text": "Joey Porter Jr. (DB, from PIT, first week 4): 4 games and 148 snaps for DAL (54% of snaps). 1 start for DAL; too few dropbacks for a with/without split (40 with, 280 without)."
    }
   ],
   "HOU": [
@@ -482,6 +505,32 @@
     "epa_car": null,
     "text": "Andrew Armstrong (WR, promoted from the practice squad, first week 6): 3 games and 95 snaps for KC (53% of snaps). 2026: 4 targets (too few for a rate)."
    }
+  ],
+  "LAC": [
+   {
+    "team": "LAC",
+    "name": "Theo Wease Jr.",
+    "pos": "WR",
+    "kind": "promoted from the practice squad",
+    "prev_team": null,
+    "first_week": 5,
+    "status": "ACT",
+    "games_new": 2,
+    "snaps_new": 75,
+    "share_new": 0.5549999999999999,
+    "last_share": 0.47,
+    "games_prev": 0,
+    "share_prev": null,
+    "former_regular": false,
+    "role": "skill",
+    "recent": false,
+    "targets": 4,
+    "epa_tgt": 1.454051378139411,
+    "rec_yds": 37,
+    "carries": 0,
+    "epa_car": null,
+    "text": "Theo Wease Jr. (WR, promoted from the practice squad, first week 5): 2 games and 75 snaps for LAC (55% of snaps). 2026: 4 targets (too few for a rate)."
+   }
   ]
  },
  "departures": {
@@ -500,6 +549,21 @@
     "new": true,
     "status_now": "ACT",
     "text": "Quenton Nelson (OL, to SEA): last game for IND week 7, 99% of snaps, played 7 of its 8 games"
+   },
+   {
+    "team": "IND",
+    "name": "DeForest Buckner",
+    "pos": "DL",
+    "new_team": "SF",
+    "first_week_new": 9,
+    "last_week": 7,
+    "share": 0.8257142857142857,
+    "games": 7,
+    "team_games": 8,
+    "games_since": 1,
+    "new": true,
+    "status_now": "ACT",
+    "text": "DeForest Buckner (DL, to SF): last game for IND week 7, 83% of snaps, played 7 of its 8 games"
    }
   ],
   "TEN": [
@@ -549,7 +613,7 @@
     "team_games": 7,
     "games_since": 2,
     "new": false,
-    "status_now": "INA",
+    "status_now": "ACT",
     "text": "Jared Wayne (WR, to MIA): last game for HOU week 5, 41% of snaps, played 5 of its 7 games"
    }
   ],
@@ -566,7 +630,7 @@
     "team_games": 8,
     "games_since": 1,
     "new": true,
-    "status_now": "INA",
+    "status_now": "ACT",
     "text": "Christian Haynes (OL, to MIA): last game for SEA week 7, 43% of snaps, played 7 of its 8 games"
    }
   ],
@@ -588,12 +652,12 @@
    }
   ]
  },
- "n": 19,
- "n_former_regular": 4,
- "n_recent": 4,
- "n_departures": 6,
- "n_new_departures": 3,
+ "n": 21,
+ "n_former_regular": 7,
+ "n_recent": 5,
+ "n_departures": 7,
+ "n_new_departures": 4,
  "share_min": 0.4,
  "through_week": 8,
- "roster_week": 8
+ "roster_week": 9
 }

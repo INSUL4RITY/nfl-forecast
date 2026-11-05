@@ -789,7 +789,7 @@
    "pos": "RB",
    "games": 8,
    "snap_pct": 0.7737499999999999,
-   "status": "",
+   "status": "limited in practice",
    "out": false,
    "targets": 31,
    "tgt_share": 0.12156862745098039,
@@ -881,7 +881,7 @@
    "pos": "RB",
    "games": 7,
    "snap_pct": 0.5471428571428572,
-   "status": "",
+   "status": "questionable",
    "out": false,
    "targets": 16,
    "tgt_share": 0.08205128205128205,
@@ -1525,7 +1525,7 @@
    "pos": "RB",
    "games": 6,
    "snap_pct": 0.5542857142857143,
-   "status": "",
+   "status": "did not practise",
    "out": false,
    "targets": 13,
    "tgt_share": 0.055793991416309016,
@@ -1571,8 +1571,8 @@
    "pos": "RB",
    "games": 3,
    "snap_pct": 0.57,
-   "status": "questionable",
-   "out": false,
+   "status": "out (inactive 3+ games)",
+   "out": true,
    "targets": 10,
    "tgt_share": 0.043859649122807015,
    "air_share": 0.0,
@@ -1847,7 +1847,7 @@
    "pos": "RB",
    "games": 7,
    "snap_pct": 0.6900000000000001,
-   "status": "",
+   "status": "did not practise",
    "out": false,
    "targets": 42,
    "tgt_share": 0.2048780487804878,
@@ -2171,8 +2171,8 @@
    "pos": "WR",
    "games": 7,
    "snap_pct": 0.54875,
-   "status": "",
-   "out": false,
+   "status": "out (reserve list)",
+   "out": true,
    "targets": 38,
    "tgt_share": 0.12140575079872204,
    "air_share": 0.09295287505404237,
@@ -2217,7 +2217,7 @@
    "pos": "WR",
    "games": 8,
    "snap_pct": 0.88875,
-   "status": "",
+   "status": "limited in practice",
    "out": false,
    "targets": 81,
    "tgt_share": 0.25878594249201275,
@@ -3045,7 +3045,7 @@
    "pos": "WR",
    "games": 8,
    "snap_pct": 0.9025,
-   "status": "",
+   "status": "limited in practice",
    "out": false,
    "targets": 53,
    "tgt_share": 0.2145748987854251,
@@ -3183,7 +3183,7 @@
    "pos": "WR",
    "games": 8,
    "snap_pct": 0.78,
-   "status": "",
+   "status": "limited in practice",
    "out": false,
    "targets": 62,
    "tgt_share": 0.2108843537414966,
@@ -3275,7 +3275,7 @@
    "pos": "WR",
    "games": 8,
    "snap_pct": 0.7725,
-   "status": "",
+   "status": "limited in practice",
    "out": false,
    "targets": 37,
    "tgt_share": 0.16444444444444445,
@@ -3367,7 +3367,7 @@
    "pos": "WR",
    "games": 7,
    "snap_pct": 0.8442857142857143,
-   "status": "",
+   "status": "limited in practice",
    "out": false,
    "targets": 76,
    "tgt_share": 0.3114754098360656,
@@ -3505,7 +3505,7 @@
    "pos": "WR",
    "games": 8,
    "snap_pct": 0.765,
-   "status": "",
+   "status": "limited in practice",
    "out": false,
    "targets": 66,
    "tgt_share": 0.2185430463576159,
@@ -3781,7 +3781,7 @@
    "pos": "WR",
    "games": 7,
    "snap_pct": 0.5828571428571429,
-   "status": "",
+   "status": "did not practise",
    "out": false,
    "targets": 50,
    "tgt_share": 0.19607843137254902,
@@ -3919,7 +3919,7 @@
    "pos": "WR",
    "games": 7,
    "snap_pct": 0.76,
-   "status": "",
+   "status": "limited in practice",
    "out": false,
    "targets": 31,
    "tgt_share": 0.15897435897435896,
@@ -4057,7 +4057,7 @@
    "pos": "WR",
    "games": 4,
    "snap_pct": 0.612,
-   "status": "",
+   "status": "limited in practice",
    "out": false,
    "targets": 25,
    "tgt_share": 0.1152073732718894,
@@ -5253,7 +5253,7 @@
    "pos": "WR",
    "games": 8,
    "snap_pct": 0.8925,
-   "status": "",
+   "status": "did not practise",
    "out": false,
    "targets": 63,
    "tgt_share": 0.27631578947368424,
@@ -5345,8 +5345,8 @@
    "pos": "WR",
    "games": 4,
    "snap_pct": 0.8725,
-   "status": "out/doubtful",
-   "out": true,
+   "status": "did not practise",
+   "out": false,
    "targets": 41,
    "tgt_share": 0.1626984126984127,
    "air_share": 0.27003765465303925,
@@ -5391,8 +5391,8 @@
    "pos": "WR",
    "games": 6,
    "snap_pct": 0.7983333333333333,
-   "status": "out/doubtful",
-   "out": true,
+   "status": "did not practise",
+   "out": false,
    "targets": 32,
    "tgt_share": 0.12698412698412698,
    "air_share": 0.22592791823561054,
@@ -5805,8 +5805,8 @@
    "pos": "WR",
    "games": 6,
    "snap_pct": 0.54,
-   "status": "out/doubtful",
-   "out": true,
+   "status": "did not practise",
+   "out": false,
    "targets": 39,
    "tgt_share": 0.1902439024390244,
    "air_share": 0.34817073170731705,
@@ -5851,8 +5851,8 @@
    "pos": "WR",
    "games": 5,
    "snap_pct": 0.576,
-   "status": "out/doubtful",
-   "out": true,
+   "status": "did not practise",
+   "out": false,
    "targets": 20,
    "tgt_share": 0.0975609756097561,
    "air_share": 0.031097560975609756,
@@ -5943,8 +5943,8 @@
    "pos": "WR",
    "games": 6,
    "snap_pct": 0.8583333333333334,
-   "status": "out/doubtful",
-   "out": true,
+   "status": "did not practise",
+   "out": false,
    "targets": 49,
    "tgt_share": 0.24378109452736318,
    "air_share": 0.3326330532212885,
@@ -6173,7 +6173,7 @@
    "pos": "WR",
    "games": 6,
    "snap_pct": 0.6083333333333333,
-   "status": "",
+   "status": "did not practise",
    "out": false,
    "targets": 44,
    "tgt_share": 0.205607476635514,
@@ -6265,7 +6265,7 @@
    "pos": "WR",
    "games": 6,
    "snap_pct": 0.5333333333333333,
-   "status": "",
+   "status": "did not practise",
    "out": false,
    "targets": 22,
    "tgt_share": 0.102803738317757,
@@ -6458,7 +6458,7 @@
    "air_share": 0.1553398058252427,
    "rec": 29,
    "rec_yds": 218,
-   "rec_td": 2,
+   "rec_td": 1,
    "ypt": 5.317073170731708,
    "epa_tgt": -0.06367346264461307,
    "sr_tgt": 0.5121951219512195,
@@ -6486,7 +6486,7 @@
    "ryoe_att": null,
    "sep": 3.250864766737066,
    "yds_total": 218,
-   "td_total": 2,
+   "td_total": 1,
    "label": "Mark Andrews",
    "sub": "BAL"
   },
@@ -6773,7 +6773,7 @@
    "pos": "TE",
    "games": 7,
    "snap_pct": 0.5925,
-   "status": "",
+   "status": "did not practise",
    "out": false,
    "targets": 25,
    "tgt_share": 0.08503401360544217,
@@ -7095,7 +7095,7 @@
    "pos": "TE",
    "games": 7,
    "snap_pct": 0.7785714285714286,
-   "status": "",
+   "status": "limited in practice",
    "out": false,
    "targets": 42,
    "tgt_share": 0.1935483870967742,
@@ -7417,7 +7417,7 @@
    "pos": "TE",
    "games": 8,
    "snap_pct": 0.6625,
-   "status": "",
+   "status": "did not practise",
    "out": false,
    "targets": 34,
    "tgt_share": 0.14912280701754385,
@@ -7601,7 +7601,7 @@
    "pos": "TE",
    "games": 5,
    "snap_pct": 0.5833333333333334,
-   "status": "",
+   "status": "limited in practice",
    "out": false,
    "targets": 23,
    "tgt_share": 0.10087719298245613,
@@ -8174,7 +8174,7 @@
     {
      "name": "Michael Wilson",
      "pos": "WR",
-     "status": "",
+     "status": "limited in practice",
      "cells": [
       {
        "t": 7,
@@ -8253,7 +8253,7 @@
     {
      "name": "Kendrick Bourne",
      "pos": "WR",
-     "status": "",
+     "status": "out (reserve list)",
      "cells": [
       {
        "t": 8,
@@ -9122,7 +9122,7 @@
     {
      "name": "Jacoby Brissett",
      "pos": "QB",
-     "status": "",
+     "status": "did not practise",
      "cells": [
       {
        "t": 0,
@@ -10504,7 +10504,7 @@
        "t": 6,
        "c": 4,
        "ry": 28,
-       "rtd": 1,
+       "rtd": 0,
        "n": 0,
        "uy": 0,
        "utd": 0
@@ -11489,7 +11489,7 @@
     {
      "name": "Tyler Huntley",
      "pos": "QB",
-     "status": "",
+     "status": "out/doubtful",
      "cells": [
       {
        "t": 0,
@@ -16090,7 +16090,7 @@
     {
      "name": "Denzel Boston",
      "pos": "WR",
-     "status": "",
+     "status": "limited in practice",
      "cells": [
       {
        "t": 4,
@@ -17038,7 +17038,7 @@
     {
      "name": "Deshaun Watson",
      "pos": "QB",
-     "status": "",
+     "status": "did not practise",
      "cells": [
       {
        "t": 0,
@@ -17313,7 +17313,7 @@
     {
      "name": "George Pickens",
      "pos": "WR",
-     "status": "",
+     "status": "limited in practice",
      "cells": [
       {
        "t": 6,
@@ -17471,7 +17471,7 @@
     {
      "name": "Jake Ferguson",
      "pos": "TE",
-     "status": "",
+     "status": "did not practise",
      "cells": [
       {
        "t": 2,
@@ -18378,7 +18378,7 @@
     {
      "name": "Courtland Sutton",
      "pos": "WR",
-     "status": "",
+     "status": "limited in practice",
      "cells": [
       {
        "t": 5,
@@ -19518,7 +19518,7 @@
     {
      "name": "Amon-Ra St. Brown",
      "pos": "WR",
-     "status": "",
+     "status": "limited in practice",
      "cells": [
       {
        "t": 14,
@@ -20335,7 +20335,7 @@
     {
      "name": "Christian Watson",
      "pos": "WR",
-     "status": "",
+     "status": "limited in practice",
      "cells": [
       {
        "t": 8,
@@ -22861,7 +22861,7 @@
     {
      "name": "Keenan Allen",
      "pos": "WR",
-     "status": "",
+     "status": "did not practise",
      "cells": [
       {
        "t": 6,
@@ -23019,7 +23019,7 @@
     {
      "name": "Jonathan Taylor",
      "pos": "RB",
-     "status": "",
+     "status": "limited in practice",
      "cells": [
       {
        "t": 4,
@@ -24220,7 +24220,7 @@
     {
      "name": "Jakobi Meyers",
      "pos": "WR",
-     "status": "",
+     "status": "limited in practice",
      "cells": [
       {
        "t": 2,
@@ -24360,7 +24360,7 @@
     {
      "name": "Bhayshul Tuten",
      "pos": "RB",
-     "status": "",
+     "status": "questionable",
      "cells": [
       {
        "t": 1,
@@ -25094,7 +25094,7 @@
     {
      "name": "Travis Kelce",
      "pos": "TE",
-     "status": "",
+     "status": "limited in practice",
      "cells": [
       {
        "t": 5,
@@ -25304,7 +25304,7 @@
     {
      "name": "Rashee Rice",
      "pos": "WR",
-     "status": "",
+     "status": "limited in practice",
      "cells": [
       {
        "t": 2,
@@ -26507,7 +26507,7 @@
     {
      "name": "Colby Parkinson",
      "pos": "TE",
-     "status": "questionable",
+     "status": "did not practise",
      "cells": [
       {
        "t": 2,
@@ -31175,7 +31175,7 @@
        "t": 4,
        "c": 3,
        "ry": 20,
-       "rtd": 1,
+       "rtd": 0,
        "n": 0,
        "uy": 0,
        "utd": 0
@@ -32020,7 +32020,7 @@
     {
      "name": "Hunter Henry",
      "pos": "TE",
-     "status": "",
+     "status": "did not practise",
      "cells": [
       {
        "t": 3,
@@ -34375,7 +34375,7 @@
     {
      "name": "Cam Skattebo",
      "pos": "RB",
-     "status": "",
+     "status": "did not practise",
      "cells": [
       {
        "t": 0,
@@ -35323,7 +35323,7 @@
     {
      "name": "Garrett Wilson",
      "pos": "WR",
-     "status": "",
+     "status": "did not practise",
      "cells": [
       {
        "t": 7,
@@ -35560,7 +35560,7 @@
     {
      "name": "Mason Taylor",
      "pos": "TE",
-     "status": "",
+     "status": "limited in practice",
      "cells": [
       {
        "t": 3,
@@ -35876,7 +35876,7 @@
     {
      "name": "Breece Hall",
      "pos": "RB",
-     "status": "questionable",
+     "status": "out (inactive 3+ games)",
      "cells": [
       {
        "t": 2,
@@ -36704,7 +36704,7 @@
     {
      "name": "DeVonta Smith",
      "pos": "WR",
-     "status": "out/doubtful",
+     "status": "did not practise",
      "cells": [
       {
        "t": 6,
@@ -36862,7 +36862,7 @@
     {
      "name": "Dontayvion Wicks",
      "pos": "WR",
-     "status": "out/doubtful",
+     "status": "did not practise",
      "cells": [
       {
        "t": 4,
@@ -40518,7 +40518,7 @@
     {
      "name": "Christian McCaffrey",
      "pos": "RB",
-     "status": "",
+     "status": "did not practise",
      "cells": [
       {
        "t": 8,
@@ -40588,7 +40588,7 @@
     {
      "name": "Mike Evans",
      "pos": "WR",
-     "status": "out/doubtful",
+     "status": "did not practise",
      "cells": [
       {
        "t": 7,
@@ -40658,7 +40658,7 @@
     {
      "name": "Deebo Samuel Sr.",
      "pos": "WR",
-     "status": "out/doubtful",
+     "status": "did not practise",
      "cells": [
       {
        "t": 7,
@@ -41466,7 +41466,7 @@
     {
      "name": "Emeka Egbuka",
      "pos": "WR",
-     "status": "out/doubtful",
+     "status": "did not practise",
      "cells": [
       {
        "t": 6,
@@ -43750,7 +43750,7 @@
     {
      "name": "Stefon Diggs",
      "pos": "WR",
-     "status": "",
+     "status": "did not practise",
      "cells": [
       {
        "t": 9,
@@ -44030,7 +44030,7 @@
     {
      "name": "Treylon Burks",
      "pos": "WR",
-     "status": "",
+     "status": "did not practise",
      "cells": [
       {
        "t": 0,
@@ -45222,9 +45222,11 @@
  },
  "teams": {
   "ARI": {
-   "tgt_out_share": 0.0,
+   "tgt_out_share": 0.12140575079872204,
    "car_out_share": 0.0,
-   "tgt_out_names": [],
+   "tgt_out_names": [
+    "Kendrick Bourne (12% of targets)"
+   ],
    "car_out_names": []
   },
   "ATL": {
@@ -45235,9 +45237,11 @@
   },
   "BAL": {
    "tgt_out_share": 0.0,
-   "car_out_share": 0.0,
+   "car_out_share": 0.029411764705882353,
    "tgt_out_names": [],
-   "car_out_names": []
+   "car_out_names": [
+    "Tyler Huntley (3% of carries)"
+   ]
   },
   "BUF": {
    "tgt_out_share": 0.0,
@@ -45393,18 +45397,19 @@
    "car_out_names": []
   },
   "NYJ": {
-   "tgt_out_share": 0.0,
-   "car_out_share": 0.0,
-   "tgt_out_names": [],
-   "car_out_names": []
+   "tgt_out_share": 0.043859649122807015,
+   "car_out_share": 0.2712765957446808,
+   "tgt_out_names": [
+    "Breece Hall (4% of targets)"
+   ],
+   "car_out_names": [
+    "Breece Hall (27% of carries)"
+   ]
   },
   "PHI": {
-   "tgt_out_share": 0.28968253968253965,
+   "tgt_out_share": 0.0,
    "car_out_share": 0.05325443786982249,
-   "tgt_out_names": [
-    "DeVonta Smith (16% of targets)",
-    "Dontayvion Wicks (13% of targets)"
-   ],
+   "tgt_out_names": [],
    "car_out_names": [
     "Jalen Hurts (5% of carries)"
    ]
@@ -45428,25 +45433,16 @@
    ]
   },
   "SF": {
-   "tgt_out_share": 0.2878048780487805,
-   "car_out_share": 0.05325443786982249,
-   "tgt_out_names": [
-    "Mike Evans (19% of targets)",
-    "Deebo Samuel Sr. (10% of targets)"
-   ],
-   "car_out_names": [
-    "Deebo Samuel Sr. (5% of carries)"
-   ]
+   "tgt_out_share": 0.0,
+   "car_out_share": 0.0,
+   "tgt_out_names": [],
+   "car_out_names": []
   },
   "TB": {
-   "tgt_out_share": 0.24378109452736318,
-   "car_out_share": 0.008547008547008548,
-   "tgt_out_names": [
-    "Emeka Egbuka (24% of targets)"
-   ],
-   "car_out_names": [
-    "Emeka Egbuka (1% of carries)"
-   ]
+   "tgt_out_share": 0.0,
+   "car_out_share": 0.0,
+   "tgt_out_names": [],
+   "car_out_names": []
   },
   "TEN": {
    "tgt_out_share": 0.21794871794871795,
@@ -45518,7 +45514,7 @@
     "pos": "WR",
     "games": 8,
     "snap_pct": 0.88875,
-    "status": "",
+    "status": "limited in practice",
     "out": false,
     "targets": 81,
     "tgt_share": 0.25878594249201275,
@@ -45562,8 +45558,8 @@
     "pos": "WR",
     "games": 7,
     "snap_pct": 0.54875,
-    "status": "",
-    "out": false,
+    "status": "out (reserve list)",
+    "out": true,
     "targets": 38,
     "tgt_share": 0.12140575079872204,
     "air_share": 0.09295287505404237,
@@ -46046,7 +46042,7 @@
     "pos": "QB",
     "games": 7,
     "snap_pct": 0.9475,
-    "status": "",
+    "status": "did not practise",
     "out": false,
     "targets": 1,
     "tgt_share": 0.003194888178913738,
@@ -46761,7 +46757,7 @@
     "air_share": 0.1553398058252427,
     "rec": 29,
     "rec_yds": 218,
-    "rec_td": 2,
+    "rec_td": 1,
     "ypt": 5.317073170731708,
     "epa_tgt": -0.06367346264461307,
     "sr_tgt": 0.5121951219512195,
@@ -46789,7 +46785,7 @@
     "ryoe_att": null,
     "sep": 3.250864766737066,
     "yds_total": 218,
-    "td_total": 2
+    "td_total": 1
    },
    {
     "id": "00-0036550",
@@ -47326,8 +47322,8 @@
     "pos": "QB",
     "games": 4,
     "snap_pct": 0.736,
-    "status": "",
-    "out": false,
+    "status": "out/doubtful",
+    "out": true,
     "targets": 0,
     "tgt_share": 0.0,
     "air_share": null,
@@ -50020,7 +50016,7 @@
     "pos": "WR",
     "games": 8,
     "snap_pct": 0.9025,
-    "status": "",
+    "status": "limited in practice",
     "out": false,
     "targets": 53,
     "tgt_share": 0.2145748987854251,
@@ -50548,7 +50544,7 @@
     "pos": "QB",
     "games": 8,
     "snap_pct": 0.99125,
-    "status": "",
+    "status": "did not practise",
     "out": false,
     "targets": 0,
     "tgt_share": 0.0,
@@ -50682,7 +50678,7 @@
     "pos": "WR",
     "games": 8,
     "snap_pct": 0.78,
-    "status": "",
+    "status": "limited in practice",
     "out": false,
     "targets": 62,
     "tgt_share": 0.2108843537414966,
@@ -50770,7 +50766,7 @@
     "pos": "TE",
     "games": 7,
     "snap_pct": 0.5925,
-    "status": "",
+    "status": "did not practise",
     "out": false,
     "targets": 25,
     "tgt_share": 0.08503401360544217,
@@ -51256,7 +51252,7 @@
     "pos": "WR",
     "games": 8,
     "snap_pct": 0.7725,
-    "status": "",
+    "status": "limited in practice",
     "out": false,
     "targets": 37,
     "tgt_share": 0.16444444444444445,
@@ -51874,7 +51870,7 @@
     "pos": "WR",
     "games": 7,
     "snap_pct": 0.8442857142857143,
-    "status": "",
+    "status": "limited in practice",
     "out": false,
     "targets": 76,
     "tgt_share": 0.3114754098360656,
@@ -52360,7 +52356,7 @@
     "pos": "WR",
     "games": 8,
     "snap_pct": 0.765,
-    "status": "",
+    "status": "limited in practice",
     "out": false,
     "targets": 66,
     "tgt_share": 0.2185430463576159,
@@ -53816,7 +53812,7 @@
     "pos": "WR",
     "games": 7,
     "snap_pct": 0.5828571428571429,
-    "status": "",
+    "status": "did not practise",
     "out": false,
     "targets": 50,
     "tgt_share": 0.19607843137254902,
@@ -53904,7 +53900,7 @@
     "pos": "RB",
     "games": 8,
     "snap_pct": 0.7737499999999999,
-    "status": "",
+    "status": "limited in practice",
     "out": false,
     "targets": 31,
     "tgt_share": 0.12156862745098039,
@@ -54566,7 +54562,7 @@
     "pos": "WR",
     "games": 7,
     "snap_pct": 0.76,
-    "status": "",
+    "status": "limited in practice",
     "out": false,
     "targets": 31,
     "tgt_share": 0.15897435897435896,
@@ -54654,7 +54650,7 @@
     "pos": "RB",
     "games": 7,
     "snap_pct": 0.5471428571428572,
-    "status": "",
+    "status": "questionable",
     "out": false,
     "targets": 16,
     "tgt_share": 0.08205128205128205,
@@ -55096,7 +55092,7 @@
     "pos": "TE",
     "games": 7,
     "snap_pct": 0.7785714285714286,
-    "status": "",
+    "status": "limited in practice",
     "out": false,
     "targets": 42,
     "tgt_share": 0.1935483870967742,
@@ -55228,7 +55224,7 @@
     "pos": "WR",
     "games": 4,
     "snap_pct": 0.612,
-    "status": "",
+    "status": "limited in practice",
     "out": false,
     "targets": 25,
     "tgt_share": 0.1152073732718894,
@@ -55934,7 +55930,7 @@
     "pos": "TE",
     "games": 6,
     "snap_pct": 0.645,
-    "status": "questionable",
+    "status": "did not practise",
     "out": false,
     "targets": 19,
     "tgt_share": 0.06418918918918919,
@@ -58633,7 +58629,7 @@
     "air_share": -0.002079002079002079,
     "rec": 5,
     "rec_yds": 26,
-    "rec_td": 1,
+    "rec_td": 0,
     "ypt": 3.7142857142857144,
     "epa_tgt": -1.6037149048751893,
     "sr_tgt": 0.2857142857142857,
@@ -58661,7 +58657,7 @@
     "ryoe_att": null,
     "sep": null,
     "yds_total": 28,
-    "td_total": 1
+    "td_total": 0
    },
    {
     "id": "00-0040154",
@@ -59156,7 +59152,7 @@
     "pos": "TE",
     "games": 8,
     "snap_pct": 0.6625,
-    "status": "",
+    "status": "did not practise",
     "out": false,
     "targets": 34,
     "tgt_share": 0.14912280701754385,
@@ -60524,7 +60520,7 @@
     "pos": "RB",
     "games": 6,
     "snap_pct": 0.5542857142857143,
-    "status": "",
+    "status": "did not practise",
     "out": false,
     "targets": 13,
     "tgt_share": 0.055793991416309016,
@@ -61098,7 +61094,7 @@
     "pos": "WR",
     "games": 8,
     "snap_pct": 0.8925,
-    "status": "",
+    "status": "did not practise",
     "out": false,
     "targets": 63,
     "tgt_share": 0.27631578947368424,
@@ -61230,7 +61226,7 @@
     "pos": "TE",
     "games": 5,
     "snap_pct": 0.5833333333333334,
-    "status": "",
+    "status": "limited in practice",
     "out": false,
     "targets": 23,
     "tgt_share": 0.10087719298245613,
@@ -61406,8 +61402,8 @@
     "pos": "RB",
     "games": 3,
     "snap_pct": 0.57,
-    "status": "questionable",
-    "out": false,
+    "status": "out (inactive 3+ games)",
+    "out": true,
     "targets": 10,
     "tgt_share": 0.043859649122807015,
     "air_share": 0.0,
@@ -61848,8 +61844,8 @@
     "pos": "WR",
     "games": 4,
     "snap_pct": 0.8725,
-    "status": "out/doubtful",
-    "out": true,
+    "status": "did not practise",
+    "out": false,
     "targets": 41,
     "tgt_share": 0.1626984126984127,
     "air_share": 0.27003765465303925,
@@ -61936,8 +61932,8 @@
     "pos": "WR",
     "games": 6,
     "snap_pct": 0.7983333333333333,
-    "status": "out/doubtful",
-    "out": true,
+    "status": "did not practise",
+    "out": false,
     "targets": 32,
     "tgt_share": 0.12698412698412698,
     "air_share": 0.22592791823561054,
@@ -63922,7 +63918,7 @@
     "pos": "RB",
     "games": 7,
     "snap_pct": 0.6900000000000001,
-    "status": "",
+    "status": "did not practise",
     "out": false,
     "targets": 42,
     "tgt_share": 0.2048780487804878,
@@ -63966,8 +63962,8 @@
     "pos": "WR",
     "games": 6,
     "snap_pct": 0.54,
-    "status": "out/doubtful",
-    "out": true,
+    "status": "did not practise",
+    "out": false,
     "targets": 39,
     "tgt_share": 0.1902439024390244,
     "air_share": 0.34817073170731705,
@@ -64010,8 +64006,8 @@
     "pos": "WR",
     "games": 5,
     "snap_pct": 0.576,
-    "status": "out/doubtful",
-    "out": true,
+    "status": "did not practise",
+    "out": false,
     "targets": 20,
     "tgt_share": 0.0975609756097561,
     "air_share": 0.031097560975609756,
@@ -64496,8 +64492,8 @@
     "pos": "WR",
     "games": 6,
     "snap_pct": 0.8583333333333334,
-    "status": "out/doubtful",
-    "out": true,
+    "status": "did not practise",
+    "out": false,
     "targets": 49,
     "tgt_share": 0.24378109452736318,
     "air_share": 0.3326330532212885,
@@ -65732,7 +65728,7 @@
     "pos": "WR",
     "games": 6,
     "snap_pct": 0.6083333333333333,
-    "status": "",
+    "status": "did not practise",
     "out": false,
     "targets": 44,
     "tgt_share": 0.205607476635514,
@@ -65908,7 +65904,7 @@
     "pos": "WR",
     "games": 6,
     "snap_pct": 0.5333333333333333,
-    "status": "",
+    "status": "did not practise",
     "out": false,
     "targets": 22,
     "tgt_share": 0.102803738317757,
@@ -66658,6 +66654,16 @@
  "absent_usage": [
   {
    "team": "ARI",
+   "player": "Hjalte Froholdt",
+   "tgt_share": null,
+   "car_share": null,
+   "targets": null,
+   "carries": null,
+   "tgt_share_l3": null,
+   "car_share_l3": null
+  },
+  {
+   "team": "ARI",
    "player": "Paris Johnson",
    "tgt_share": null,
    "car_share": null,
@@ -66665,6 +66671,36 @@
    "carries": null,
    "tgt_share_l3": null,
    "car_share_l3": null
+  },
+  {
+   "team": "ARI",
+   "player": "Isaac Seumalo",
+   "tgt_share": null,
+   "car_share": null,
+   "targets": null,
+   "carries": null,
+   "tgt_share_l3": null,
+   "car_share_l3": null
+  },
+  {
+   "team": "ARI",
+   "player": "Jacoby Brissett",
+   "tgt_share": 0.003194888178913738,
+   "car_share": 0.08673469387755102,
+   "targets": 1,
+   "carries": 17,
+   "tgt_share_l3": 0.0,
+   "car_share_l3": 0.0975609756097561
+  },
+  {
+   "team": "ARI",
+   "player": "Michael Wilson",
+   "tgt_share": 0.25878594249201275,
+   "car_share": 0.015306122448979591,
+   "targets": 81,
+   "carries": 3,
+   "tgt_share_l3": 0.25210084033613445,
+   "car_share_l3": 0.036585365853658534
   },
   {
    "team": "ARI",
@@ -66687,6 +66723,16 @@
    "car_share_l3": null
   },
   {
+   "team": "ARI",
+   "player": "Kendrick Bourne",
+   "tgt_share": 0.12140575079872204,
+   "car_share": 0.0,
+   "targets": 38,
+   "carries": 0,
+   "tgt_share_l3": 0.13445378151260504,
+   "car_share_l3": null
+  },
+  {
    "team": "BAL",
    "player": "Jovaughn Gwyn",
    "tgt_share": null,
@@ -66698,23 +66744,13 @@
   },
   {
    "team": "BAL",
-   "player": "Olaivavega Ioane",
-   "tgt_share": null,
-   "car_share": null,
-   "targets": null,
-   "carries": null,
+   "player": "Tyler Huntley",
+   "tgt_share": 0.0,
+   "car_share": 0.029411764705882353,
+   "targets": 0,
+   "carries": 6,
    "tgt_share_l3": null,
-   "car_share_l3": null
-  },
-  {
-   "team": "BAL",
-   "player": "Emery Jones",
-   "tgt_share": null,
-   "car_share": null,
-   "targets": null,
-   "carries": null,
-   "tgt_share_l3": null,
-   "car_share_l3": null
+   "car_share_l3": 0.03278688524590164
   },
   {
    "team": "BUF",
@@ -66777,6 +66813,86 @@
    "car_share_l3": null
   },
   {
+   "team": "CLE",
+   "player": "Austin Barber",
+   "tgt_share": null,
+   "car_share": null,
+   "targets": null,
+   "carries": null,
+   "tgt_share_l3": null,
+   "car_share_l3": null
+  },
+  {
+   "team": "CLE",
+   "player": "Elgton Jenkins",
+   "tgt_share": null,
+   "car_share": null,
+   "targets": null,
+   "carries": null,
+   "tgt_share_l3": null,
+   "car_share_l3": null
+  },
+  {
+   "team": "CLE",
+   "player": "Deshaun Watson",
+   "tgt_share": 0.0,
+   "car_share": 0.11904761904761904,
+   "targets": 0,
+   "carries": 20,
+   "tgt_share_l3": null,
+   "car_share_l3": 0.078125
+  },
+  {
+   "team": "CLE",
+   "player": "Denzel Boston",
+   "tgt_share": 0.2145748987854251,
+   "car_share": 0.0,
+   "targets": 53,
+   "carries": 0,
+   "tgt_share_l3": 0.24,
+   "car_share_l3": null
+  },
+  {
+   "team": "DAL",
+   "player": "Tyler Smith",
+   "tgt_share": null,
+   "car_share": null,
+   "targets": null,
+   "carries": null,
+   "tgt_share_l3": null,
+   "car_share_l3": null
+  },
+  {
+   "team": "DAL",
+   "player": "George Pickens",
+   "tgt_share": 0.2108843537414966,
+   "car_share": 0.0,
+   "targets": 62,
+   "carries": 0,
+   "tgt_share_l3": 0.19444444444444445,
+   "car_share_l3": null
+  },
+  {
+   "team": "DAL",
+   "player": "Jake Ferguson",
+   "tgt_share": 0.08503401360544217,
+   "car_share": 0.0,
+   "targets": 25,
+   "carries": 0,
+   "tgt_share_l3": 0.037037037037037035,
+   "car_share_l3": null
+  },
+  {
+   "team": "DEN",
+   "player": "Courtland Sutton",
+   "tgt_share": 0.16444444444444445,
+   "car_share": 0.0,
+   "targets": 37,
+   "carries": 0,
+   "tgt_share_l3": 0.15384615384615385,
+   "car_share_l3": null
+  },
+  {
    "team": "DEN",
    "player": "Pat Bryant",
    "tgt_share": 0.05333333333333334,
@@ -66795,6 +66911,16 @@
    "carries": null,
    "tgt_share_l3": null,
    "car_share_l3": null
+  },
+  {
+   "team": "DET",
+   "player": "Amon-Ra St. Brown",
+   "tgt_share": 0.3114754098360656,
+   "car_share": 0.010416666666666666,
+   "targets": 76,
+   "carries": 2,
+   "tgt_share_l3": 0.35294117647058826,
+   "car_share_l3": 0.019801980198019802
   },
   {
    "team": "GB",
@@ -66818,17 +66944,17 @@
   },
   {
    "team": "GB",
-   "player": "Jacob Monk",
-   "tgt_share": null,
-   "car_share": null,
-   "targets": null,
-   "carries": null,
-   "tgt_share_l3": null,
+   "player": "Christian Watson",
+   "tgt_share": 0.2185430463576159,
+   "car_share": 0.0,
+   "targets": 66,
+   "carries": 0,
+   "tgt_share_l3": 0.21487603305785125,
    "car_share_l3": null
   },
   {
    "team": "GB",
-   "player": "Jager Burton",
+   "player": "Jacob Monk",
    "tgt_share": null,
    "car_share": null,
    "targets": null,
@@ -66847,6 +66973,26 @@
    "car_share_l3": null
   },
   {
+   "team": "IND",
+   "player": "Jonathan Taylor",
+   "tgt_share": 0.12156862745098039,
+   "car_share": 0.7014218009478673,
+   "targets": 31,
+   "carries": 148,
+   "tgt_share_l3": 0.1348314606741573,
+   "car_share_l3": 0.5875
+  },
+  {
+   "team": "IND",
+   "player": "Keenan Allen",
+   "tgt_share": 0.19607843137254902,
+   "car_share": 0.0,
+   "targets": 50,
+   "carries": 0,
+   "tgt_share_l3": 0.23595505617977527,
+   "car_share_l3": null
+  },
+  {
    "team": "JAX",
    "player": "Anton Harrison",
    "tgt_share": null,
@@ -66857,6 +67003,56 @@
    "car_share_l3": null
   },
   {
+   "team": "JAX",
+   "player": "Ezra Cleveland",
+   "tgt_share": null,
+   "car_share": null,
+   "targets": null,
+   "carries": null,
+   "tgt_share_l3": null,
+   "car_share_l3": null
+  },
+  {
+   "team": "JAX",
+   "player": "Jakobi Meyers",
+   "tgt_share": 0.15897435897435896,
+   "car_share": 0.005434782608695652,
+   "targets": 31,
+   "carries": 1,
+   "tgt_share_l3": 0.16666666666666666,
+   "car_share_l3": 0.0
+  },
+  {
+   "team": "JAX",
+   "player": "Bhayshul Tuten",
+   "tgt_share": 0.08205128205128205,
+   "car_share": 0.5978260869565217,
+   "targets": 16,
+   "carries": 110,
+   "tgt_share_l3": 0.09375,
+   "car_share_l3": 0.6329113924050633
+  },
+  {
+   "team": "KC",
+   "player": "Travis Kelce",
+   "tgt_share": 0.1935483870967742,
+   "car_share": 0.0,
+   "targets": 42,
+   "carries": 0,
+   "tgt_share_l3": 0.20202020202020202,
+   "car_share_l3": null
+  },
+  {
+   "team": "KC",
+   "player": "Rashee Rice",
+   "tgt_share": 0.1152073732718894,
+   "car_share": 0.0,
+   "targets": 25,
+   "carries": 0,
+   "tgt_share_l3": 0.08080808080808081,
+   "car_share_l3": null
+  },
+  {
    "team": "KC",
    "player": "Tyquan Thornton",
    "tgt_share": 0.06912442396313365,
@@ -66864,6 +67060,16 @@
    "targets": 15,
    "carries": 0,
    "tgt_share_l3": 0.0,
+   "car_share_l3": null
+  },
+  {
+   "team": "LA",
+   "player": "Steve Avila",
+   "tgt_share": null,
+   "car_share": null,
+   "targets": null,
+   "carries": null,
+   "tgt_share_l3": null,
    "car_share_l3": null
   },
   {
@@ -66918,16 +67124,6 @@
   },
   {
    "team": "MIA",
-   "player": "Kadyn Proctor",
-   "tgt_share": null,
-   "car_share": null,
-   "targets": null,
-   "carries": null,
-   "tgt_share_l3": null,
-   "car_share_l3": null
-  },
-  {
-   "team": "MIA",
    "player": "De'Von Achane",
    "tgt_share": 0.0670391061452514,
    "car_share": 0.2,
@@ -66968,6 +67164,26 @@
   },
   {
    "team": "NE",
+   "player": "Morgan Moses",
+   "tgt_share": null,
+   "car_share": null,
+   "targets": null,
+   "carries": null,
+   "tgt_share_l3": null,
+   "car_share_l3": null
+  },
+  {
+   "team": "NE",
+   "player": "Hunter Henry",
+   "tgt_share": 0.14912280701754385,
+   "car_share": 0.0,
+   "targets": 34,
+   "carries": 0,
+   "tgt_share_l3": 0.189873417721519,
+   "car_share_l3": null
+  },
+  {
+   "team": "NE",
    "player": "Mack Hollins",
    "tgt_share": 0.08771929824561403,
    "car_share": 0.0,
@@ -66998,7 +67214,7 @@
   },
   {
    "team": "NO",
-   "player": "Cesar Ruiz",
+   "player": "Kelvin Banks",
    "tgt_share": null,
    "car_share": null,
    "targets": null,
@@ -67008,7 +67224,7 @@
   },
   {
    "team": "NO",
-   "player": "Kelvin Banks",
+   "player": "Asim Richards",
    "tgt_share": null,
    "car_share": null,
    "targets": null,
@@ -67027,13 +67243,53 @@
    "car_share_l3": 0.0
   },
   {
-   "team": "NYJ",
-   "player": "Jordan Meredith",
+   "team": "NYG",
+   "player": "Andrew Thomas",
    "tgt_share": null,
    "car_share": null,
    "targets": null,
    "carries": null,
    "tgt_share_l3": null,
+   "car_share_l3": null
+  },
+  {
+   "team": "NYG",
+   "player": "Jermaine Eluemunor",
+   "tgt_share": null,
+   "car_share": null,
+   "targets": null,
+   "carries": null,
+   "tgt_share_l3": null,
+   "car_share_l3": null
+  },
+  {
+   "team": "NYG",
+   "player": "Cam Skattebo",
+   "tgt_share": 0.055793991416309016,
+   "car_share": 0.5240641711229946,
+   "targets": 13,
+   "carries": 98,
+   "tgt_share_l3": 0.03278688524590164,
+   "car_share_l3": 0.4
+  },
+  {
+   "team": "NYJ",
+   "player": "Garrett Wilson",
+   "tgt_share": 0.27631578947368424,
+   "car_share": 0.0,
+   "targets": 63,
+   "carries": 0,
+   "tgt_share_l3": 0.23595505617977527,
+   "car_share_l3": null
+  },
+  {
+   "team": "NYJ",
+   "player": "Mason Taylor",
+   "tgt_share": 0.10087719298245613,
+   "car_share": 0.0,
+   "targets": 23,
+   "carries": 0,
+   "tgt_share_l3": 0.19101123595505617,
    "car_share_l3": null
   },
   {
@@ -67118,6 +67374,26 @@
   },
   {
    "team": "SF",
+   "player": "Trent Williams",
+   "tgt_share": null,
+   "car_share": null,
+   "targets": null,
+   "carries": null,
+   "tgt_share_l3": null,
+   "car_share_l3": null
+  },
+  {
+   "team": "SF",
+   "player": "Christian McCaffrey",
+   "tgt_share": 0.2048780487804878,
+   "car_share": 0.4970414201183432,
+   "targets": 42,
+   "carries": 84,
+   "tgt_share_l3": 0.21052631578947367,
+   "car_share_l3": 0.4927536231884058
+  },
+  {
+   "team": "SF",
    "player": "Deebo Samuel",
    "tgt_share": 0.0975609756097561,
    "car_share": 0.05325443786982249,
@@ -67168,12 +67444,42 @@
   },
   {
    "team": "WAS",
+   "player": "Samuel Cosmi",
+   "tgt_share": null,
+   "car_share": null,
+   "targets": null,
+   "carries": null,
+   "tgt_share_l3": null,
+   "car_share_l3": null
+  },
+  {
+   "team": "WAS",
+   "player": "Stefon Diggs",
+   "tgt_share": 0.205607476635514,
+   "car_share": 0.0,
+   "targets": 44,
+   "carries": 0,
+   "tgt_share_l3": 0.15294117647058825,
+   "car_share_l3": null
+  },
+  {
+   "team": "WAS",
    "player": "Terry McLaurin",
    "tgt_share": 0.1261682242990654,
    "car_share": 0.0,
    "targets": 27,
    "carries": 0,
    "tgt_share_l3": 0.058823529411764705,
+   "car_share_l3": null
+  },
+  {
+   "team": "WAS",
+   "player": "Treylon Burks",
+   "tgt_share": 0.102803738317757,
+   "car_share": 0.0,
+   "targets": 22,
+   "carries": 0,
+   "tgt_share_l3": 0.18823529411764706,
    "car_share_l3": null
   }
  ]

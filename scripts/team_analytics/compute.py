@@ -1421,7 +1421,7 @@ def personnel(S, W, p, teams, qc=None):
     conf = ab[ab.status_class.isin(depth.OUT_CLASSES)]
     if qc is not None:
         qc.append(f"Absence classes: {int(ab.on_reserve.sum())} on the reserve list, {int((ab.status_class == 'inactive 3+ games').sum())} inactive "
-                  f"3+ games, {int((ab.status_class == 'unconfirmed').sum())} unconfirmed; {int(reg.back.sum())} regulars who missed a game "
+                  f"3+ games, {int((ab.status_class == 'unconfirmed').sum())} unconfirmed; {int((reg.back & reg.missed_last_game).sum())} regulars who missed a game "
                   f"are active on a later roster and not flagged; {int((conf.group == 'OL').sum())} OL regulars counted out; "
                   f"{int((conf.term == 'new').sum())} confirmed absences are new (0-1 games missed), {int((conf.term == 'long-term').sum())} long-term.")
         n_multi = int(snaps.groupby(["team", "pfr_player_id"]).position.nunique().gt(1).sum())

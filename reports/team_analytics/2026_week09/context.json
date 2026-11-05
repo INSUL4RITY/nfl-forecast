@@ -327,14 +327,16 @@
      "team_plays_in_starts": 576,
      "roster_status": "ACT",
      "report_status": null,
-     "practice_status": null,
-     "report_week": null,
+     "practice_status": "Did Not Participate In Practice",
+     "report_week": 9,
      "latest_starter": true
     }
    ],
    "latest": "00-0033119",
    "primary": "00-0033119",
-   "flags": []
+   "flags": [
+    "Latest starter Jacoby Brissett: practice status in the week 9 report: did not participate in practice."
+   ]
   },
   "ATL": {
    "qbs": [
@@ -428,9 +430,9 @@
      "team_epa_play_in_starts": -0.04136677195955391,
      "team_plays_in_starts": 197,
      "roster_status": "ACT",
-     "report_status": null,
-     "practice_status": null,
-     "report_week": null,
+     "report_status": "Out",
+     "practice_status": "Did Not Participate In Practice",
+     "report_week": 9,
      "latest_starter": false
     },
     {
@@ -457,9 +459,9 @@
      "team_epa_play_in_starts": 0.16046675802169222,
      "team_plays_in_starts": 247,
      "roster_status": "ACT",
-     "report_status": null,
-     "practice_status": "Full Participation in Practice",
-     "report_week": 8,
+     "report_status": "Out",
+     "practice_status": "Did Not Participate In Practice",
+     "report_week": 9,
      "latest_starter": false
     }
    ],
@@ -467,7 +469,7 @@
    "primary": "00-0034796",
    "flags": [
     "Season figures mix quarterbacks.",
-    "Lamar Jackson (4 starts, the most on the team) practice status in last week's report (week 8): full participation in practice. If he returns, the passing profile could differ from the recent games."
+    "Lamar Jackson (4 starts, the most on the team) was listed Out in the week 9 report (did not participate in practice). If he returns, the passing profile could differ from the recent games."
    ]
   },
   "BUF": {
@@ -540,7 +542,7 @@
      "roster_status": "ACT",
      "report_status": null,
      "practice_status": "Full Participation in Practice",
-     "report_week": 8,
+     "report_week": 9,
      "latest_starter": true
     }
    ],
@@ -627,7 +629,7 @@
      "scr_rate": 0.03333,
      "team_epa_play_in_starts": 0.13370956987726085,
      "team_plays_in_starts": 70,
-     "roster_status": "INA",
+     "roster_status": "ACT",
      "report_status": null,
      "practice_status": null,
      "report_week": null,
@@ -710,14 +712,16 @@
      "team_plays_in_starts": 507,
      "roster_status": "ACT",
      "report_status": null,
-     "practice_status": null,
-     "report_week": null,
+     "practice_status": "Did Not Participate In Practice",
+     "report_week": 9,
      "latest_starter": true
     }
    ],
    "latest": "00-0033537",
    "primary": "00-0033537",
-   "flags": []
+   "flags": [
+    "Latest starter Deshaun Watson: practice status in the week 9 report: did not participate in practice."
+   ]
   },
   "DAL": {
    "qbs": [
@@ -1027,7 +1031,7 @@
      "roster_status": "ACT",
      "report_status": null,
      "practice_status": "Full Participation in Practice",
-     "report_week": 8,
+     "report_week": 9,
      "latest_starter": true
     }
    ],
@@ -1066,8 +1070,8 @@
      "team_plays_in_starts": 546,
      "roster_status": "ACT",
      "report_status": null,
-     "practice_status": null,
-     "report_week": null,
+     "practice_status": "Full Participation in Practice",
+     "report_week": 9,
      "latest_starter": true
     }
    ],
@@ -1185,7 +1189,7 @@
      "roster_status": "ACT",
      "report_status": null,
      "practice_status": "Full Participation in Practice",
-     "report_week": 8,
+     "report_week": 9,
      "latest_starter": true
     }
    ],
@@ -1291,7 +1295,7 @@
      "roster_status": "ACT",
      "report_status": null,
      "practice_status": "Full Participation in Practice",
-     "report_week": 8,
+     "report_week": 9,
      "latest_starter": true
     }
    ],
@@ -1329,8 +1333,8 @@
      "team_plays_in_starts": 474,
      "roster_status": "ACT",
      "report_status": null,
-     "practice_status": "Full Participation in Practice",
-     "report_week": 7,
+     "practice_status": null,
+     "report_week": null,
      "latest_starter": true
     }
    ],
@@ -1525,8 +1529,8 @@
      "team_plays_in_starts": 199,
      "roster_status": "ACT",
      "report_status": null,
-     "practice_status": null,
-     "report_week": null,
+     "practice_status": "Full Participation in Practice",
+     "report_week": 9,
      "latest_starter": true
     }
    ],
@@ -1631,7 +1635,7 @@
      "scr_rate": 0.01852,
      "team_epa_play_in_starts": 0.0976542723222522,
      "team_plays_in_starts": 119,
-     "roster_status": "INA",
+     "roster_status": "ACT",
      "report_status": "Questionable",
      "practice_status": "Limited Participation in Practice",
      "report_week": 8,
@@ -1712,7 +1716,7 @@
      "roster_status": "ACT",
      "report_status": null,
      "practice_status": "Full Participation in Practice",
-     "report_week": 8,
+     "report_week": 9,
      "latest_starter": true
     },
     {
@@ -1819,7 +1823,7 @@
      "roster_status": "ACT",
      "report_status": null,
      "practice_status": "Full Participation in Practice",
-     "report_week": 8,
+     "report_week": 9,
      "latest_starter": true
     },
     {
@@ -1844,8 +1848,8 @@
      "team_plays_in_starts": 67,
      "roster_status": "ACT",
      "report_status": null,
-     "practice_status": "Full Participation in Practice",
-     "report_week": 8,
+     "practice_status": null,
+     "report_week": null,
      "latest_starter": false
     },
     {
@@ -1868,7 +1872,7 @@
      "scr_rate": 0.05128,
      "team_epa_play_in_starts": -0.2263677527381051,
      "team_plays_in_starts": 64,
-     "roster_status": "INA",
+     "roster_status": "ACT",
      "report_status": null,
      "practice_status": null,
      "report_week": null,
