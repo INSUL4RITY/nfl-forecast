@@ -17,6 +17,8 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
+import game_weather  # noqa: E402
+
 ROOT = Path(__file__).resolve().parents[2]
 WORDS = {1: "one", 2: "two", 3: "three", 4: "four", 5: "five", 6: "six", 7: "seven", 8: "eight", 9: "nine", 10: "ten",
          11: "eleven", 12: "twelve", 13: "thirteen", 14: "fourteen", 15: "fifteen", 16: "sixteen", 17: "seventeen", 18: "eighteen"}
@@ -710,7 +712,7 @@ def long_term_text(x):
     return f"{x.player} ({x.position}, out since week {int(x.out_since_week)}): {presence(x)}"
 
 
-def build_matchups(T, nxt, MM, A, mm, notes, PL, US, QBS, REF, ARR, UN):
+def build_matchups(T, nxt, MM, A, mm, notes, PL, US, QBS, REF, ARR, UN, WX=None):
     games = []
     mm_by = {m["game"]: m for m in mm}
     lg_go = T.fd_go_rate.mean()
@@ -844,6 +846,7 @@ def build_matchups(T, nxt, MM, A, mm, notes, PL, US, QBS, REF, ARR, UN):
                          for k in ("off_l4", "def_l4", "net_l4", "off_season", "def_season", "net_season", "off_change", "def_change", "net_change")}
                      | {"weeks": str(T.loc[t, "form_weeks"]), "games": int(T.loc[t, "form_games"])} for t in (a, h)},
             "referee": REF["assign"].get(g.game_id),
+            "weather": ((WX or {}).get("games", {}).get(g.game_id) or {}).get("text"),
             "arrivals": {t: ARR["teams"].get(t, []) for t in (a, h)},
             "departures": {t: ARR.get("departures", {}).get(t, []) for t in (a, h)},
             "roster_note": f"Rosters through week {ARR.get('roster_week')}; later trades appear after the next roster update.",
@@ -1213,6 +1216,7 @@ def main():
     REF = json.loads((d / "referees.json").read_text(encoding="utf-8"))
     ARR = json.loads((d / "arrivals.json").read_text(encoding="utf-8"))
     UN = json.loads((d / "unusual.json").read_text(encoding="utf-8"))
+    WX = json.loads((d / "weather.json").read_text(encoding="utf-8")) if (d / "weather.json").exists() else None
     A["when"] = [absence_when(x) for x in A.itertuples()]
     A["presence"] = [presence(x) if x.term == "long-term" else "" for x in A.itertuples()]
     A = A.assign(**{k: [nxt_up.get((t, n), {}).get(k) for t, n in zip(A.team, A.player)]
@@ -1861,7 +1865,7 @@ def main():
     }
 
     tables = finish_tables(tables, T, not wr_probs, bool((A.last_report_week == meta["through_week"] + 1).any()))
-    games = build_matchups(T, nxt, MM, A, mm, notes, PL, US, CTX["qb"], REF, ARR, UN)
+    games = build_matchups(T, nxt, MM, A, mm, notes, PL, US, CTX["qb"], REF, ARR, UN, WX)
     pen_types_js = PEN_T.to_dict("records")
     # embed only the team fields the page or the per-game export reads (table columns, sample sizes, keys named in the
     # page's script or the exporter, and the team-chart measures, whose keys the page builds at run time)
@@ -1905,12 +1909,29 @@ def main():
     page = TEMPLATE.replace("/*DATA*/", json.dumps(data, default=str).replace("</", "<\\/"))
     page = page.replace("{{WEEK}}", str(meta["through_week"] + 1)).replace("{{THRU}}", str(meta["through_week"]))
     page = page.replace("{{WEEKS_WORD}}", WK["word"]).replace("{{WEEKS_WORD_CAP}}", WK["word"].capitalize())
-    page = page.replace("{{METHOD}}", method_html(meta, T, A, data["wr"], REF, ARR, UN))
+    page = page.replace("{{METHOD}}", method_html(meta, T, A, data["wr"], REF, ARR, UN, WX))
     (d / "report.html").write_text(page, encoding="utf-8")
     print("wrote", d / "report.html", f"{len(page) / 1e6:.2f} MB")
 
 
-def method_html(meta, T, A, WRI, REF, ARR, UN):
+def weather_method(WX):
+    """Method note and history table for the weather line; empty for a report without one."""
+    if not WX:
+        return ""
+    H = WX["history"]
+    yrs = f"{H['years'][0]}-{str(H['years'][1])[-2:]}"
+    rows = "".join(f"<tr><td>{esc(game_weather.BUCKETS[k].capitalize())}</td><td>{x['games']}</td><td>{x['pass_rate']:.1%}</td><td>{x['epa_db']:+.3f}</td>"
+                   f"<td>{x['epa_rush']:+.3f}</td><td>{x['ypc']:.2f}</td></tr>" for k, x in H["groups"].items())
+    return (f"<h3>Weather line</h3><p>Each outdoor game shows the National Weather Service forecast (Open-Meteo for other venues or if NWS cannot be read) for the kickoff hour and the next three hours: rain or snow is called likely at a "
+            f"{WX['wet_pop']}%+ chance of precipitation in any of those hours, and wind is the mean over them. Early forecasts are rough, and a game whose forecast could not be re-read keeps "
+            f"the last one with its read time. Games with rain, snow or {WX['wind_min']}+ mph wind add what similar games did. Those are raw averages from {H['games_used']} outdoor and open-roof "
+            f"{yrs} regular-season games with a usable play-by-play weather text, not adjusted for teams; that text describes conditions around kickoff. "
+            f"Pass rate uses plays with win probability of 20-80%. Display only: no rating, edge or expected figure changes.</p>"
+            f"<div class=\"table-wrap\"><table><thead><tr><th>Conditions, {yrs}</th><th>Games</th><th>Pass rate, close games</th><th>EPA/dropback</th><th>EPA/rush</th>"
+            f"<th>Yards per carry</th></tr></thead><tbody>{rows}</tbody></table></div>")
+
+
+def method_html(meta, T, A, WRI, REF, ARR, UN, WX=None):
     ARR_WEEK, UN_WIND, UN_CUT, UN_PCTL, UN_N, UN_MED = ARR.get("roster_week"), UN["wind_min"], UN["cut"], UN["pctl"], UN["hist_games"], UN["hist_median"]
     UN_YEARS = f"{UN['hist_seasons'][0]}-{str(UN['hist_seasons'][1])[-2:]}"
     co, cd = meta["composite_off"], meta["composite_def"]
@@ -2012,6 +2033,7 @@ in the last game plus a short week; <i>minor</i> = one of those, or a top-8 thre
 <p>Team snaps come from PFR snap counts (the most snaps any player on the unit played). Possession time, plays and three-and-outs come from nflfastR drives. Real rest is wall-clock time between the
 last play of one defensive drive and the first play of the next in the same half, so it includes kicks and stoppages. The fatigue study pools {meta['history_seasons'][0]}-{meta['season']} play-by-play. It regresses EPA (and success)
 allowed on workload measures with defence-season and offence-season fixed effects (two-way demeaning), quarter and score-state controls, and game-clustered standard errors.</p>
+{weather_method(WX)}
 <h3>Rest, travel and body clock</h3>
 <p>Each team's home stadium sets its home time zone (zone rules applied on the game date, including the end of daylight saving time and Arizona's exception). Neutral-site international venues
 are mapped by stadium name. The historical study uses 2002-{meta['season'] - 1} regular-season games at home venues: each game's margin is compared with a leave-one-game-out season rating of both teams plus home field,

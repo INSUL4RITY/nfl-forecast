@@ -44,6 +44,7 @@ import usage  # noqa: E402
 import nextup  # noqa: E402
 import referees  # noqa: E402
 import arrivals  # noqa: E402
+import game_weather  # noqa: E402
 import unusual  # noqa: E402
 
 BASE = "https://github.com/nflverse/nflverse-data/releases/download/"
@@ -1014,6 +1015,9 @@ def main():
     UN = unusual.build(seasons_pbp, hist_seasons, p, pf, adj, G, Q, S, W)
     qc.append(unusual.qc_line(UN))
     (out_dir / "unusual.json").write_text(json.dumps(UN, indent=1, default=str), encoding="utf-8")
+    WX = game_weather.build(seasons_pbp, hist_seasons, nxt)
+    qc.append(game_weather.qc_line(WX))
+    (out_dir / "weather.json").write_text(json.dumps(WX, indent=1, default=str), encoding="utf-8")
     del seasons_pbp
     print("travel study", flush=True)
     sched_all = fetch("schedules/games.parquet")

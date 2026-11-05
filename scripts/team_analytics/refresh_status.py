@@ -26,9 +26,10 @@ import players  # noqa: E402
 import usage  # noqa: E402
 import nextup  # noqa: E402
 import arrivals  # noqa: E402
+import game_weather  # noqa: E402
 
 STATUS_FILES = ("injuries/injuries_{S}.parquet", "weekly_rosters/roster_weekly_{S}.parquet", "depth_charts/depth_charts_{S}.parquet")
-QC_PREFIXES = ("Absences:", "Absence classes", "Injury reports", "Duplicate players", "Next man up", "Arrivals", "Status refresh")
+QC_PREFIXES = ("Absences:", "Absence classes", "Injury reports", "Duplicate players", "Next man up", "Arrivals", "Status refresh", "Weather")
 
 
 def main():
@@ -66,6 +67,11 @@ def main():
     qc.append(f"Next man up: {sum(1 for r in DPj['depth']['absences'] if r.get('next_up'))} absences have a listed replacement; "
               f"{len(DPj['nextup'])} matched to his own 2026 sample.")
     qc.append(arrivals.qc_line(ARR, W))
+    wx_path = out_dir / "weather.json"
+    if wx_path.exists() and not a.no_download:   # reports built before the weather line have no file and stay without one
+        WX = game_weather.update(json.loads(wx_path.read_text(encoding="utf-8")), pd.read_csv(out_dir / "next_week_schedule.csv"))
+        wx_path.write_text(json.dumps(WX, indent=1, default=str), encoding="utf-8")
+        qc.append(game_weather.qc_line(WX))
     now = dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds")
     inj_week = int(inj.week.max())
     if not a.no_download:

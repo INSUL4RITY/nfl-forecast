@@ -1094,6 +1094,7 @@ function renderGame(id) {
   const S = g.summary, A = g.away, H = g.home;
   let h = `<div class="game-head"><h3>${esc(NAME[A])} (${esc(S[A].record)}) at ${esc(NAME[H])} (${esc(S[H].record)})</h3>
     <p class="meta">${esc(g.when)} · ${esc(g.venue)}${g.neutral ? " · neutral site" : ""}${g.div ? " · divisional game" : ""} · rest days: ${A} ${g.rest[A] ?? "n/a"}, ${H} ${g.rest[H] ?? "n/a"} · referee: ${g.referee ? esc(g.referee) + " (crew rates under Situational)" : "assignment not loaded"}</p>
+    ${g.weather ? `<p class="meta"><b>Weather.</b> ${esc(g.weather)}</p>` : ""}
     ${g.final ? `<p class="final">${esc(g.final)}</p>` : ""}</div>`;
   h += `<div class="table-wrap"><table><thead><tr><th>Team</th><th>Record</th><th>Overall rating</th><th>With 2025 prior</th><th>Offence (adj.)</th><th>Defence (adj.)</th><th>Special teams</th><th title="Opponent-adjusted net EPA/play over the team's last four games, and the change from its season figure">Net EPA last 4 (change)</th><th style="text-align:left">QB starts</th></tr></thead><tbody>${[A, H].map(t =>
     `<tr><td class="tm">${t}${t === H ? "<small>home</small>" : ""}</td><td>${esc(S[t].record)}</td><td>${fmt(S[t].rating, "s1")}${rk(S[t].rating_rank)}</td><td>${ord(S[t].stab_rank)}</td><td>${ord(S[t].off_rank)}</td><td>${ord(S[t].def_rank)}</td><td>${ord(S[t].st_rank)}</td><td title="weeks ${esc(g.form[t].weeks)}">${fmt(g.form[t].net_l4, "epa")} <span class="rk">${fmt(g.form[t].net_change, "epa")}</span></td><td style="text-align:left">${esc(S[t].qb)}</td></tr>`).join("")}</tbody></table></div>`;

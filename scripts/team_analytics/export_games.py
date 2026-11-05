@@ -156,6 +156,8 @@ def main():
                 if u.get("in_last4"):
                     L += [f"| Last 4 | {fmt(u['off_l4'], 'epa')} | {fmt(neg(u['def_l4']), 'epa')} | {fmt(u['net_l4'], 'epa')} |",
                           f"| Last 4 without it (3 games) | {fmt(u['off_l4_wo'], 'epa')} | {fmt(neg(u['def_l4_wo']), 'epa')} | {fmt(u['net_l4_wo'], 'epa')} |"]
+        if g.get("weather"):
+            L += ["", f"Weather: {g['weather']} Display only: no figure here uses it."]
         ref = g.get("referee")
         rr = next((r for r in D.get("refs", []) if r["referee"] == ref), None) if ref else None
         L += ["", f"Referee: {ref}" + (f" (crew {fmt(rr['total'], 'n1')} accepted penalties per game in {D['ref_meta']['pool']}, league {fmt(D['ref_meta']['league']['total'], 'n1')}; "
