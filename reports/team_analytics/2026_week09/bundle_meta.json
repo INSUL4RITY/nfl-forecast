@@ -96,12 +96,12 @@
   "Referees: crew rates from 2024-25 (18 referees); nflverse schedules name the referee for 65 of 121 2026 games (weeks 1, 2, 3, 4, 5); week 9 assignments not loaded.",
   "Unusual games: rain, snow or 15+ mph wind and under 56 combined dropbacks (bottom 2% of 1359 2021-25 games, median 79, lowest 40): 1 flagged this season, 9 met both tests in 2021-25. 5 quarterbacks threw 2+ interceptions in their team's latest game.",
   "Absences: 757 regulars; 757 linked to a gsis id (756 through the nflverse players table); 0 with no weekly-roster match.",
-  "Injury reports: 23 regulars listed on a report for a game they then played are not flagged.",
-  "Absence classes: 52 on the reserve list, 7 inactive 3+ games, 0 unconfirmed; 55 regulars who missed a game are active on a later roster and not flagged; 18 OL regulars counted out; 15 confirmed absences are new (0-1 games missed), 50 long-term.",
+  "Injury reports: 8 regulars listed on a report for a game they then played are not flagged.",
+  "Absence classes: 53 on the reserve list, 7 inactive 3+ games, 1 unconfirmed; 53 regulars who missed a game are active on a later roster and not flagged; 17 OL regulars counted out; 12 confirmed absences are new (0-1 games missed), 50 long-term.",
   "Duplicate players in absences: 0 (13 players listed at two positions were merged under their most-played position, and 0 duplicate roster ids removed; 0 remain).",
-  "Next man up: 167 absences have a listed replacement; 153 matched to his own 2026 sample.",
+  "Next man up: 169 absences have a listed replacement; 152 matched to his own 2026 sample.",
   "Arrivals: 21 active players on a new team since week 1 who were regulars elsewhere or play 40%+ of snaps (7 former regulars elsewhere, 5 arrived in weeks 7-9). Departures: 7 former regulars now on another team (4 new). Rosters through week 9.",
-  "Status refresh 2026-11-05T21:42:53+00:00: injury reports (latest week 9), weekly rosters and depth charts re-downloaded; absences, next man up, arrivals and quarterback scenarios rebuilt. Team performance numbers are unchanged."
+  "Status refresh 2026-11-06T21:40:14+00:00: injury reports (latest week 9), weekly rosters and depth charts re-downloaded; absences, next man up, arrivals and quarterback scenarios rebuilt. Team performance numbers are unchanged."
  ],
  "sources": [
   {
@@ -162,10 +162,10 @@
   },
   {
    "url": "https://github.com/nflverse/nflverse-data/releases/download/weekly_rosters/roster_weekly_2026.parquet",
-   "retrieved_utc": "2026-11-05T21:42:33+00:00",
-   "http_last_modified": "Thu, 05 Nov 2026 15:26:26 GMT",
-   "sha256": "e98ea21d7a64511f54304ba8417fc9fe0c48713e87b9b57ee659759e7e629b87",
-   "bytes": 823575
+   "retrieved_utc": "2026-11-06T21:39:53+00:00",
+   "http_last_modified": "Fri, 06 Nov 2026 15:00:22 GMT",
+   "sha256": "ac52b8ab39a1f6f194e51310cf752d8c9bb0d8cd7d27c2a43351000d5c145a02",
+   "bytes": 828547
   },
   {
    "url": "https://github.com/nflverse/nflverse-data/releases/download/pfr_advstats/advstats_week_pass_2026.parquet",
@@ -218,17 +218,17 @@
   },
   {
    "url": "https://github.com/nflverse/nflverse-data/releases/download/weekly_rosters/roster_weekly_2026.parquet",
-   "retrieved_utc": "2026-11-05T21:42:33+00:00",
-   "http_last_modified": "Thu, 05 Nov 2026 15:26:26 GMT",
-   "sha256": "e98ea21d7a64511f54304ba8417fc9fe0c48713e87b9b57ee659759e7e629b87",
-   "bytes": 823575
+   "retrieved_utc": "2026-11-06T21:39:53+00:00",
+   "http_last_modified": "Fri, 06 Nov 2026 15:00:22 GMT",
+   "sha256": "ac52b8ab39a1f6f194e51310cf752d8c9bb0d8cd7d27c2a43351000d5c145a02",
+   "bytes": 828547
   },
   {
    "url": "https://github.com/nflverse/nflverse-data/releases/download/injuries/injuries_2026.parquet",
-   "retrieved_utc": "2026-11-05T21:42:33+00:00",
-   "http_last_modified": "Thu, 05 Nov 2026 15:22:25 GMT",
-   "sha256": "c31fc7a6f385e6eade51daa9c447cdeda75355d05b9dbe33d8e1e396760b0b85",
-   "bytes": 59891
+   "retrieved_utc": "2026-11-06T21:39:51+00:00",
+   "http_last_modified": "Fri, 06 Nov 2026 14:57:21 GMT",
+   "sha256": "8157e6b2902fdad1ab55961b618cf97e8ab2e6a8734ba492eeb69bb0697506e3",
+   "bytes": 60809
   },
   {
    "url": "https://github.com/nflverse/nflverse-data/releases/download/players/players.parquet",
@@ -239,10 +239,10 @@
   },
   {
    "url": "https://github.com/nflverse/nflverse-data/releases/download/weekly_rosters/roster_weekly_2026.parquet",
-   "retrieved_utc": "2026-11-05T21:42:33+00:00",
-   "http_last_modified": "Thu, 05 Nov 2026 15:26:26 GMT",
-   "sha256": "e98ea21d7a64511f54304ba8417fc9fe0c48713e87b9b57ee659759e7e629b87",
-   "bytes": 823575
+   "retrieved_utc": "2026-11-06T21:39:53+00:00",
+   "http_last_modified": "Fri, 06 Nov 2026 15:00:22 GMT",
+   "sha256": "ac52b8ab39a1f6f194e51310cf752d8c9bb0d8cd7d27c2a43351000d5c145a02",
+   "bytes": 828547
   },
   {
    "url": "https://github.com/nflverse/nflverse-data/releases/download/nextgen_stats/ngs_passing.parquet",
@@ -267,17 +267,17 @@
   },
   {
    "url": "https://github.com/nflverse/nflverse-data/releases/download/weekly_rosters/roster_weekly_2026.parquet",
-   "retrieved_utc": "2026-11-05T21:42:33+00:00",
-   "http_last_modified": "Thu, 05 Nov 2026 15:26:26 GMT",
-   "sha256": "e98ea21d7a64511f54304ba8417fc9fe0c48713e87b9b57ee659759e7e629b87",
-   "bytes": 823575
+   "retrieved_utc": "2026-11-06T21:39:53+00:00",
+   "http_last_modified": "Fri, 06 Nov 2026 15:00:22 GMT",
+   "sha256": "ac52b8ab39a1f6f194e51310cf752d8c9bb0d8cd7d27c2a43351000d5c145a02",
+   "bytes": 828547
   },
   {
    "url": "https://github.com/nflverse/nflverse-data/releases/download/injuries/injuries_2026.parquet",
-   "retrieved_utc": "2026-11-05T21:42:33+00:00",
-   "http_last_modified": "Thu, 05 Nov 2026 15:22:25 GMT",
-   "sha256": "c31fc7a6f385e6eade51daa9c447cdeda75355d05b9dbe33d8e1e396760b0b85",
-   "bytes": 59891
+   "retrieved_utc": "2026-11-06T21:39:51+00:00",
+   "http_last_modified": "Fri, 06 Nov 2026 14:57:21 GMT",
+   "sha256": "8157e6b2902fdad1ab55961b618cf97e8ab2e6a8734ba492eeb69bb0697506e3",
+   "bytes": 60809
   },
   {
    "url": "https://github.com/nflverse/nflverse-data/releases/download/pbp/play_by_play_2021.parquet",
@@ -337,17 +337,17 @@
   },
   {
    "url": "https://github.com/nflverse/nflverse-data/releases/download/weekly_rosters/roster_weekly_2026.parquet",
-   "retrieved_utc": "2026-11-05T21:42:33+00:00",
-   "http_last_modified": "Thu, 05 Nov 2026 15:26:26 GMT",
-   "sha256": "e98ea21d7a64511f54304ba8417fc9fe0c48713e87b9b57ee659759e7e629b87",
-   "bytes": 823575
+   "retrieved_utc": "2026-11-06T21:39:53+00:00",
+   "http_last_modified": "Fri, 06 Nov 2026 15:00:22 GMT",
+   "sha256": "ac52b8ab39a1f6f194e51310cf752d8c9bb0d8cd7d27c2a43351000d5c145a02",
+   "bytes": 828547
   },
   {
    "url": "https://github.com/nflverse/nflverse-data/releases/download/depth_charts/depth_charts_2026.parquet",
-   "retrieved_utc": "2026-11-05T21:42:34+00:00",
-   "http_last_modified": "Thu, 05 Nov 2026 15:23:26 GMT",
-   "sha256": "4c0119a7c609b3fbdf4e2059d3a1de24d99e2b4a29d0ee7d816d41c5b21d291d",
-   "bytes": 3318237
+   "retrieved_utc": "2026-11-06T21:39:54+00:00",
+   "http_last_modified": "Fri, 06 Nov 2026 14:57:08 GMT",
+   "sha256": "a82688ccaaa91c3299cb7465cb3cc36dbe7a388184c82068110b369948e825ff",
+   "bytes": 3369436
   },
   {
    "url": "https://github.com/nflverse/nflverse-data/releases/download/nextgen_stats/ngs_receiving.parquet",
@@ -372,10 +372,10 @@
   },
   {
    "url": "https://github.com/nflverse/nflverse-data/releases/download/weekly_rosters/roster_weekly_2026.parquet",
-   "retrieved_utc": "2026-11-05T21:42:33+00:00",
-   "http_last_modified": "Thu, 05 Nov 2026 15:26:26 GMT",
-   "sha256": "e98ea21d7a64511f54304ba8417fc9fe0c48713e87b9b57ee659759e7e629b87",
-   "bytes": 823575
+   "retrieved_utc": "2026-11-06T21:39:53+00:00",
+   "http_last_modified": "Fri, 06 Nov 2026 15:00:22 GMT",
+   "sha256": "ac52b8ab39a1f6f194e51310cf752d8c9bb0d8cd7d27c2a43351000d5c145a02",
+   "bytes": 828547
   },
   {
    "url": "https://github.com/nflverse/nflverse-data/releases/download/snap_counts/snap_counts_2026.parquet",
@@ -400,10 +400,10 @@
   },
   {
    "url": "https://github.com/nflverse/nflverse-data/releases/download/weekly_rosters/roster_weekly_2026.parquet",
-   "retrieved_utc": "2026-11-05T21:42:33+00:00",
-   "http_last_modified": "Thu, 05 Nov 2026 15:26:26 GMT",
-   "sha256": "e98ea21d7a64511f54304ba8417fc9fe0c48713e87b9b57ee659759e7e629b87",
-   "bytes": 823575
+   "retrieved_utc": "2026-11-06T21:39:53+00:00",
+   "http_last_modified": "Fri, 06 Nov 2026 15:00:22 GMT",
+   "sha256": "ac52b8ab39a1f6f194e51310cf752d8c9bb0d8cd7d27c2a43351000d5c145a02",
+   "bytes": 828547
   },
   {
    "url": "https://github.com/nflverse/nflverse-data/releases/download/snap_counts/snap_counts_2026.parquet",
@@ -502,5 +502,5 @@
   "TEN": -0.1952838953856923,
   "WAS": -0.10078932112654873
  },
- "status_refreshed_utc": "2026-11-05T21:42:53+00:00"
+ "status_refreshed_utc": "2026-11-06T21:40:14+00:00"
 }

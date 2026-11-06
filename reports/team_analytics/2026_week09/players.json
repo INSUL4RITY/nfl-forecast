@@ -31,7 +31,7 @@
      "blitzes": 3,
      "share": 0.16666666666666666,
      "per100": 2.7491408934707904,
-     "status": "did not practise"
+     "status": ""
     },
     {
      "name": "Budda Baker",
@@ -45,7 +45,7 @@
      "blitzes": 19,
      "share": 0.10416666666666667,
      "per100": 0.9960159362549801,
-     "status": "did not practise"
+     "status": ""
     },
     {
      "name": "Walter Nolen",
@@ -105,7 +105,7 @@
      "ypt": 9.518518518518519,
      "rating": 103.47222222222223,
      "share": 0.125,
-     "status": "did not practise"
+     "status": ""
     },
     {
      "name": "Denzel Burke",
@@ -137,7 +137,7 @@
      "ypt": 6.16,
      "rating": 84.41666666666667,
      "share": 0.11574074074074074,
-     "status": ""
+     "status": "limited in practice"
     },
     {
      "name": "Mack Wilson",
@@ -758,7 +758,7 @@
      "ypt": 8.363636363636363,
      "rating": 78.59848484848484,
      "share": 0.09016393442622951,
-     "status": "questionable"
+     "status": ""
     },
     {
      "name": "Maxwell Hairston",
@@ -1042,7 +1042,7 @@
      "blitzes": 0,
      "share": 0.1111111111111111,
      "per100": 2.348993288590604,
-     "status": ""
+     "status": "limited in practice"
     },
     {
      "name": "Kyler Gordon",
@@ -1104,7 +1104,7 @@
      "ypt": 8.806451612903226,
      "rating": 81.78763440860214,
      "share": 0.164021164021164,
-     "status": "questionable"
+     "status": "limited in practice"
     },
     {
      "name": "Dillon Thieneman",
@@ -1348,7 +1348,7 @@
      "ypt": 5.958333333333333,
      "rating": 85.9375,
      "share": 0.11059907834101383,
-     "status": "did not practise"
+     "status": ""
     },
     {
      "name": "DJ Ivey",
@@ -1448,7 +1448,7 @@
      "blitzes": 17,
      "share": 0.09836065573770492,
      "per100": 1.1976047904191618,
-     "status": "did not practise"
+     "status": "limited in practice"
     },
     {
      "name": "Mason Graham",
@@ -1480,7 +1480,7 @@
      "ypt": 7.8125,
      "rating": 88.45486111111111,
      "share": 0.19433198380566802,
-     "status": "limited in practice"
+     "status": ""
     },
     {
      "name": "Denzel Ward",
@@ -1512,7 +1512,7 @@
      "ypt": 3.689655172413793,
      "rating": 77.80172413793103,
      "share": 0.11740890688259109,
-     "status": "did not practise"
+     "status": "limited in practice"
     },
     {
      "name": "Grant Delpit",
@@ -1706,7 +1706,7 @@
      "ypt": 9.105263157894736,
      "rating": 122.14912280701753,
      "share": 0.09134615384615384,
-     "status": "did not practise"
+     "status": "limited in practice"
     },
     {
      "name": "Dee Winters",
@@ -1722,7 +1722,7 @@
      "ypt": 6.947368421052632,
      "rating": 73.6842105263158,
      "share": 0.09134615384615384,
-     "status": "limited in practice"
+     "status": ""
     },
     {
      "name": "Jaishawn Barham",
@@ -1782,7 +1782,7 @@
      "blitzes": 0,
      "share": 0.23076923076923078,
      "per100": 4.591836734693878,
-     "status": "limited in practice"
+     "status": ""
     },
     {
      "name": "Nik Bonitto",
@@ -2270,7 +2270,7 @@
      "ypt": 5.775862068965517,
      "rating": 73.5632183908046,
      "share": 0.20422535211267606,
-     "status": "limited in practice"
+     "status": "did not practise"
     },
     {
      "name": "Brandon Cisse",
@@ -2450,7 +2450,7 @@
      "blitzes": 11,
      "share": 0.058823529411764705,
      "per100": 1.1111111111111112,
-     "status": "limited in practice"
+     "status": ""
     }
    ],
    "cov": [
@@ -2532,7 +2532,7 @@
      "ypt": 6.0,
      "rating": 100.41666666666667,
      "share": 0.099601593625498,
-     "status": "limited in practice"
+     "status": ""
     },
     {
      "name": "Jalen Pitre",
@@ -2616,7 +2616,7 @@
      "blitzes": 0,
      "share": 0.10869565217391304,
      "per100": 1.7421602787456445,
-     "status": ""
+     "status": "did not practise"
     },
     {
      "name": "Arden Key",
@@ -2678,7 +2678,7 @@
      "ypt": 5.483870967741935,
      "rating": 59.87903225806451,
      "share": 0.14027149321266968,
-     "status": "did not practise"
+     "status": ""
     },
     {
      "name": "A.J. Haulcy",
@@ -3976,7 +3976,7 @@
      "blitzes": 41,
      "share": 0.1375,
      "per100": 3.064066852367688,
-     "status": ""
+     "status": "limited in practice"
     },
     {
      "name": "Eric Wilson",
@@ -4068,7 +4068,7 @@
      "ypt": 5.565217391304348,
      "rating": 36.14130434782609,
      "share": 0.13529411764705881,
-     "status": ""
+     "status": "limited in practice"
     },
     {
      "name": "James Pierre",
@@ -4230,7 +4230,7 @@
      "ypt": 8.941176470588236,
      "rating": 107.96568627450982,
      "share": 0.14912280701754385,
-     "status": ""
+     "status": "did not practise"
     },
     {
      "name": "Christian Elliss",
@@ -4532,7 +4532,7 @@
      "blitzes": 20,
      "share": 0.2222222222222222,
      "per100": 2.5773195876288657,
-     "status": "did not practise"
+     "status": ""
     },
     {
      "name": "Arvell Reese",
@@ -4731,7 +4731,7 @@
      "blitzes": 11,
      "share": 0.22950819672131148,
      "per100": 3.6939313984168867,
-     "status": "limited in practice"
+     "status": ""
     },
     {
      "name": "Will McDonald",
@@ -4773,7 +4773,7 @@
      "blitzes": 32,
      "share": 0.08196721311475409,
      "per100": 0.9433962264150944,
-     "status": "did not practise"
+     "status": ""
     },
     {
      "name": "Jarvis Brownlee",
@@ -4867,7 +4867,7 @@
      "ypt": 6.392857142857143,
      "rating": 97.17261904761905,
      "share": 0.12280701754385964,
-     "status": "did not practise"
+     "status": ""
     },
     {
      "name": "Jarvis Brownlee",
@@ -5313,7 +5313,7 @@
      "blitzes": 0,
      "share": 0.16883116883116883,
      "per100": 3.6312849162011176,
-     "status": ""
+     "status": "did not practise"
     },
     {
      "name": "DeMarcus Lawrence",
@@ -5369,7 +5369,7 @@
      "blitzes": 7,
      "share": 0.1038961038961039,
      "per100": 3.6036036036036037,
-     "status": "out/doubtful"
+     "status": "limited in practice"
     },
     {
      "name": "Byron Murphy",
@@ -5485,14 +5485,10 @@
     }
    ],
    "top3_press_share": 0.45454545454545453,
-   "press_out_share": 0.1038961038961039,
-   "press_out_names": [
-    "Uchenna Nwosu (8)"
-   ],
-   "tgt_out_share": 0.027522935779816515,
-   "tgt_out_names": [
-    "Uchenna Nwosu (6 targets)"
-   ]
+   "press_out_share": 0.0,
+   "press_out_names": [],
+   "tgt_out_share": 0.0,
+   "tgt_out_names": []
   },
   "SF": {
    "pfr_games": 7,
@@ -6287,5 +6283,5 @@
  },
  "press_flag": 0.15,
  "tgt_flag": 0.2,
- "matched_status": 87
+ "matched_status": 84
 }

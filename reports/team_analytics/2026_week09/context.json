@@ -429,7 +429,7 @@
      "scr_rate": 0.08209,
      "team_epa_play_in_starts": -0.04136677195955391,
      "team_plays_in_starts": 197,
-     "roster_status": "ACT",
+     "roster_status": "RES",
      "report_status": "Out",
      "practice_status": "Did Not Participate In Practice",
      "report_week": 9,
@@ -458,7 +458,7 @@
      "scr_rate": 0.08943,
      "team_epa_play_in_starts": 0.16046675802169222,
      "team_plays_in_starts": 247,
-     "roster_status": "ACT",
+     "roster_status": "RES",
      "report_status": "Out",
      "practice_status": "Did Not Participate In Practice",
      "report_week": 9,
@@ -469,7 +469,8 @@
    "primary": "00-0034796",
    "flags": [
     "Season figures mix quarterbacks.",
-    "Lamar Jackson (4 starts, the most on the team) was listed Out in the week 9 report (did not participate in practice). If he returns, the passing profile could differ from the recent games."
+    "Tyler Huntley (3 starts) is on the reserve list: his games are in the season figures, but he will not play.",
+    "Lamar Jackson (4 starts) is on the reserve list: his games are in the season figures, but he will not play."
    ]
   },
   "BUF": {
@@ -1225,8 +1226,8 @@
      "team_plays_in_starts": 309,
      "roster_status": "ACT",
      "report_status": null,
-     "practice_status": null,
-     "report_week": null,
+     "practice_status": "Did Not Participate In Practice",
+     "report_week": 9,
      "latest_starter": true
     },
     {
@@ -1260,7 +1261,8 @@
    "latest": "00-0035228",
    "primary": "00-0035228",
    "flags": [
-    "Season figures mix quarterbacks."
+    "Season figures mix quarterbacks.",
+    "Latest starter Kyler Murray: practice status in the week 9 report: did not participate in practice."
    ]
   },
   "NE": {
@@ -1529,7 +1531,7 @@
      "team_plays_in_starts": 199,
      "roster_status": "ACT",
      "report_status": null,
-     "practice_status": "Full Participation in Practice",
+     "practice_status": "Limited Participation in Practice",
      "report_week": 9,
      "latest_starter": true
     }
@@ -1610,8 +1612,8 @@
      "team_plays_in_starts": 401,
      "roster_status": "ACT",
      "report_status": null,
-     "practice_status": null,
-     "report_week": null,
+     "practice_status": "Did Not Participate In Practice",
+     "report_week": 9,
      "latest_starter": true
     },
     {
@@ -1636,16 +1638,17 @@
      "team_epa_play_in_starts": 0.0976542723222522,
      "team_plays_in_starts": 119,
      "roster_status": "ACT",
-     "report_status": "Questionable",
+     "report_status": null,
      "practice_status": "Limited Participation in Practice",
-     "report_week": 8,
+     "report_week": 9,
      "latest_starter": false
     }
    ],
    "latest": "00-0034869",
    "primary": "00-0034869",
    "flags": [
-    "Season figures mix quarterbacks."
+    "Season figures mix quarterbacks.",
+    "Latest starter Sam Darnold: practice status in the week 9 report: did not participate in practice."
    ]
   },
   "SF": {
