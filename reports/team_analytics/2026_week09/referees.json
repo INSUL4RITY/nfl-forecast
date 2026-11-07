@@ -274,11 +274,27 @@
   4,
   5
  ],
- "assign": {},
- "assign_source": {
-  "title": null,
-  "url": null,
-  "retrieved": null
+ "assign": {
+  "2026_09_JAX_BAL": "Brad Allen",
+  "2026_09_CIN_ATL": "Craig Wrolstad",
+  "2026_09_DAL_IND": "Clay Martin",
+  "2026_09_DET_MIA": "Land Clark",
+  "2026_09_NYJ_KC": "Adrian Hill",
+  "2026_09_CLE_NO": "Shawn Hochuli",
+  "2026_09_NYG_PHI": "Bill Vinovich",
+  "2026_09_DEN_CAR": "Alan Eck",
+  "2026_09_LA_WAS": "John Hussey",
+  "2026_09_HOU_LAC": "Alex Moore",
+  "2026_09_GB_NE": "Alex Kemp",
+  "2026_09_LV_SF": "Scott Novak",
+  "2026_09_ARI_SEA": "Clete Blakeman",
+  "2026_09_TB_CHI": "Ron Torbert",
+  "2026_09_BUF_MIN": "Carl Cheffers"
  },
- "assign_loaded": false
+ "assign_source": {
+  "title": "nflrefstats (@nflrefstats1) on X: Week 9 NFL referee assignments, posted 2026-11-03 18:24 UTC",
+  "url": "https://x.com/nflrefstats1/status/2117684475832508493",
+  "retrieved": "2026-11-07"
+ },
+ "assign_loaded": true
 }

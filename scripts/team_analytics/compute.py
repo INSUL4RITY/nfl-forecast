@@ -1010,7 +1010,7 @@ def main():
     refs = referees.build(seasons_pbp, fetch("schedules/games.parquet"), S, W, PRESNAP)
     qc.append(f"Referees: crew rates from {refs['pool']} ({len(refs['refs'])} referees); nflverse schedules name the referee for "
               f"{refs['cur_games_with_ref']} of {refs['cur_games']} {S} games (weeks {', '.join(map(str, refs['cur_weeks_with_ref'])) or 'none'}); "
-              f"week {W + 1} assignments {'loaded for ' + str(len(refs['assign'])) + ' games' if refs['assign_loaded'] else 'not loaded'}.")
+              + referees.qc_tail(refs, W))
     (out_dir / "referees.json").write_text(json.dumps(refs, indent=1, default=str), encoding="utf-8")
     UN = unusual.build(seasons_pbp, hist_seasons, p, pf, adj, G, Q, S, W)
     qc.append(unusual.qc_line(UN))

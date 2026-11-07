@@ -12,6 +12,7 @@ from __future__ import annotations
 import argparse
 import datetime as dt
 import json
+import re
 import subprocess
 import sys
 from pathlib import Path
@@ -26,6 +27,7 @@ import players  # noqa: E402
 import usage  # noqa: E402
 import nextup  # noqa: E402
 import arrivals  # noqa: E402
+import referees  # noqa: E402
 import game_weather  # noqa: E402
 
 STATUS_FILES = ("injuries/injuries_{S}.parquet", "weekly_rosters/roster_weekly_{S}.parquet", "depth_charts/depth_charts_{S}.parquet")
@@ -67,6 +69,12 @@ def main():
     qc.append(f"Next man up: {sum(1 for r in DPj['depth']['absences'] if r.get('next_up'))} absences have a listed replacement; "
               f"{len(DPj['nextup'])} matched to his own 2026 sample.")
     qc.append(arrivals.qc_line(ARR, W))
+    ref_path = out_dir / "referees.json"
+    REF = json.loads(ref_path.read_text(encoding="utf-8"))
+    REF.update(referees.assignments(cp.fetch("schedules/games.parquet"), S, W))
+    ref_path.write_text(json.dumps(REF, indent=1, default=str), encoding="utf-8")
+    meta["qc"] = [re.sub(r"week \d+ assignments (loaded for \d+ games|not loaded)\.$", referees.qc_tail(REF, W), q) if q.startswith("Referees:") else q
+                  for q in meta["qc"]]
     wx_path = out_dir / "weather.json"
     if wx_path.exists() and not a.no_download:   # reports built before the weather line have no file and stay without one
         WX = game_weather.update(json.loads(wx_path.read_text(encoding="utf-8")), pd.read_csv(out_dir / "next_week_schedule.csv"))

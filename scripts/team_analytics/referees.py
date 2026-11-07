@@ -16,6 +16,22 @@ import pandas as pd
 POOL = (2024, 2025)
 
 
+def assignments(sched_all: pd.DataFrame, season: int, week: int) -> dict:
+    """Next week's referee per game: the hand-kept file first, then the schedule's own column if nflverse adds it."""
+    f = Path(__file__).resolve().parent / f"referees_{season}.json"
+    hand = json.loads(f.read_text(encoding="utf-8")) if f.exists() else {}
+    assign = dict((hand.get("weeks") or {}).get(str(week + 1), {}))
+    nxt = sched_all[(sched_all.season == season) & (sched_all.week == week + 1)]
+    for gid, r in zip(nxt.game_id, nxt.referee):
+        if gid not in assign and isinstance(r, str) and r:
+            assign[gid] = r
+    return {"assign": assign, "assign_source": hand.get("source") if assign else None, "assign_loaded": bool(assign)}
+
+
+def qc_tail(R: dict, week: int) -> str:
+    return f"week {week + 1} assignments {'loaded for ' + str(len(R['assign'])) + ' games' if R['assign_loaded'] else 'not loaded'}."
+
+
 def game_penalties(p: pd.DataFrame, presnap: set) -> pd.DataFrame:
     x = p[(p.penalty == 1) & p.penalty_team.notna()].copy()
     desc = x.desc.fillna("")
@@ -56,17 +72,9 @@ def build(seasons_pbp: dict, sched_all: pd.DataFrame, season: int, week: int, pr
     league = {c: float(pool[c].mean()) for c in cols}
     league["total_cur"] = float(cur.total.mean()) if len(cur) else None
     sched_cur = sched_all[(sched_all.season == season) & (sched_all.game_type == "REG") & (sched_all.week <= week)]
-    # this week's assignments: hand-kept file first, then the schedule's own column if nflverse adds it
-    f = Path(__file__).resolve().parent / f"referees_{season}.json"
-    hand = json.loads(f.read_text(encoding="utf-8")) if f.exists() else {}
-    assign = dict((hand.get("weeks") or {}).get(str(week + 1), {}))
-    nxt = sched_all[(sched_all.season == season) & (sched_all.week == week + 1)]
-    for gid, r in zip(nxt.game_id, nxt.referee):
-        if gid not in assign and isinstance(r, str) and r:
-            assign[gid] = r
     out_rows = [{"referee": r, **{k: (None if pd.isna(v) else (int(v) if k.startswith("games") else float(v))) for k, v in x.items()}}
                 for r, x in by.sort_values("total", ascending=False).iterrows()]
     return {"refs": out_rows, "league": league, "pool": f"{POOL[0]}-{str(POOL[1])[-2:]}", "season": season,
             "cur_games_with_ref": int(sched_cur.referee.notna().sum()), "cur_games": int(len(sched_cur)),
             "cur_weeks_with_ref": sorted(int(w) for w in sched_cur[sched_cur.referee.notna()].week.unique()),
-            "assign": assign, "assign_source": hand.get("source"), "assign_loaded": bool(assign)}
+            **assignments(sched_all, season, week)}
