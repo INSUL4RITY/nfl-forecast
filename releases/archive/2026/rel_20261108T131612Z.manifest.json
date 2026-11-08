@@ -1,0 +1,54 @@
+{
+ "game_ids": [
+  "2026_09_CIN_ATL",
+  "2026_09_CLE_NO",
+  "2026_09_DAL_IND",
+  "2026_09_DEN_CAR",
+  "2026_09_DET_MIA",
+  "2026_09_LA_WAS",
+  "2026_09_NYG_PHI",
+  "2026_09_NYJ_KC",
+  "2026_09_HOU_LAC",
+  "2026_09_LV_SF",
+  "2026_09_ARI_SEA",
+  "2026_09_GB_NE",
+  "2026_09_TB_CHI",
+  "2026_09_BUF_MIN"
+ ],
+ "generated_at_utc": "2026-11-08T13:16:12.990606+00:00",
+ "information_cutoff_utc": "2026-11-08T13:16:12.990606+00:00",
+ "input_snapshots": {
+  "depth_charts": {
+   "content_sha256": "cfa300c91071f8ac837d23908b51022b7324d48dc3648a73ac3e1aff780a8363",
+   "http_last_modified": "Sun, 08 Nov 2026 07:01:32 GMT",
+   "last_confirmed_at_utc": "2026-11-08T13:15:34.548675+00:00",
+   "observed_at_utc": "2026-11-08T12:21:58.008000+00:00"
+  },
+  "injuries": {
+   "content_sha256": "6e1857a65f2752dcfdee8e231c04d7ae4b590f5b38f9aa63c9d66bdfa82094e5",
+   "http_last_modified": "Sun, 08 Nov 2026 07:01:17 GMT",
+   "last_confirmed_at_utc": "2026-11-08T13:15:34.208828+00:00",
+   "observed_at_utc": "2026-11-08T12:21:57.666326+00:00"
+  },
+  "schedules": {
+   "content_sha256": "5af48a0e596224d03fba41e53daea7495b6f3b4713f69e4a10f1e979fa4a24e4",
+   "http_last_modified": "Sun, 08 Nov 2026 12:36:38 GMT",
+   "last_confirmed_at_utc": "2026-11-08T13:15:32.345848+00:00",
+   "observed_at_utc": "2026-11-08T12:45:40.965577+00:00"
+  }
+ },
+ "manifest_created_at_utc": "2026-11-08T13:16:22.122914+00:00",
+ "model_version": {
+  "code_hash": "70288fb8354e32e9a7bea3803d8d2527eac2c4276f47bfbfc78e5ea50c6cf75c",
+  "oof_source_run": "locked_20260924T234835Z",
+  "production_config_sha256_at_archiving": "93370fd999d74861e7ac08a4d9522756fc384a2be04d04c60dad10fefd9f23f8",
+  "qb_start_rates": "v3_start_practice_listed_through_2025",
+  "stage": "production_v1.1"
+ },
+ "note": "Manifest creation time is when this archive entry was made; it is not a publication time.",
+ "release_path": "releases/2026/week_09/rel_20261108T131612Z.json",
+ "run_id": "rel_20261108T131612Z",
+ "schema_version": 3,
+ "sha256": "fca531bc0b630f5d460959a06f15b82c2a80308eb2a99ca6069b1d6be0158f0b",
+ "size_bytes": 294861
+}
