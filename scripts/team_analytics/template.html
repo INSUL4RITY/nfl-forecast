@@ -250,11 +250,11 @@ footer { color: var(--muted); font-size: 0.82rem; border-top: 1px solid var(--ru
   <div class="callout warn"><b>How to read the expected values.</b> "Expected in this matchup" adds the offence's and the defence's opponent-adjusted effects to the league average, plus home field.
   Each effect is first pulled towards the league average in proportion to how little data supports it (empirical-Bayes shrinkage), so a unit with few plays or noisy results moves the expectation very little.
   Confidence describes how much of each team's own record survives that shrinkage: moderate, low, very low, or no signal yet. Nothing here is a score or a result forecast,
-  and nothing from earlier seasons is used. Coaching labels describe what each staff has done in 2026 on small samples: 20-40 fourth-down decisions per team.</div>
+  {{CAL_NOTE}}. Coaching labels describe what each staff has done in 2026 on small samples: 20-40 fourth-down decisions per team.</div>
   <div class="controls"><label for="game-sel">Game</label><select id="game-sel"></select></div>
   <div id="game"></div>
   <h3>All week {{WEEK}} games at a glance</h3>
-  <p class="tnote">The three largest unit-versus-unit edges in each game, scored on the shrunk matchup effects: each unit's effect times the share of it that survives shrinkage, in standard deviations, added for the two units (1.5 or more is notable). A measure with no reliable team-to-team signal cannot become a headline edge. Select a card to open the game.</p>
+  <p class="tnote">The three largest unit-versus-unit edges in each game, scored on the shrunk matchup effects: each unit's effect times the share of it that survives shrinkage, in standard deviations, added for the two units ({{EDGE_NOTE}}). A measure with no reliable team-to-team signal cannot become a headline edge. Select a card to open the game.</p>
   <div class="mm" id="mm"></div>
 </section>
 

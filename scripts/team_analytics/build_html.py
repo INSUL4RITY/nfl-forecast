@@ -638,6 +638,9 @@ ST_ROWS = [("Special-teams EPA per game", "st_epa_pg", "s2", 1), ("Field-goal %"
            ("Special-teams penalties", "pen_st_n", "int", -1)]
 
 
+NOTABLE = {"v": 1.5}      # headline-edge size called notable; set from the calibration when the report has one
+
+
 def conf_label(w):
     return "moderate" if w >= 0.6 else ("low" if w >= 0.35 else ("very low" if w > 0.02 else "no signal yet"))
 
@@ -773,7 +776,7 @@ def build_matchups(T, nxt, MM, A, mm, notes, PL, US, QBS, REF, ARR, UN, WX=None)
                        f"{sd['exp_ppd']:.2f} points per drive (league {MM['epa_play']['mean']:+.3f} and {MM['ppd']['mean']:.2f}); "
                        f"confidence {sd['conf_epa']}.")
         for e in mm_by.get(label, {}).get("edges", []):
-            if abs(e["score"]) >= 1.5:
+            if abs(e["score"]) >= NOTABLE["v"]:
                 exp.append(f"{e['what']}: edge to {e['favours']} ({e['detail']}).")
         for t, opp in [(a, h), (h, a)]:
             c = coach[t]
@@ -1193,6 +1196,9 @@ def main():
     nxt = pd.read_csv(d / "next_week_schedule.csv")
     meta = json.loads((d / "bundle_meta.json").read_text())
     WK.update(thru=meta["through_week"], word=WORDS.get(meta["through_week"], str(meta["through_week"])))
+    CAL = meta.get("calibration")
+    if CAL:
+        NOTABLE["v"] = CAL["edges"]["notable"]
     notes_path = d / "analyst_notes.json"
     notes = json.loads(notes_path.read_text(encoding="utf-8")) if notes_path.exists() else {}
     T = derive(T, G, meta)
@@ -1909,7 +1915,8 @@ def main():
     page = TEMPLATE.replace("/*DATA*/", json.dumps(data, default=str).replace("</", "<\\/"))
     page = page.replace("{{WEEK}}", str(meta["through_week"] + 1)).replace("{{THRU}}", str(meta["through_week"]))
     page = page.replace("{{WEEKS_WORD}}", WK["word"]).replace("{{WEEKS_WORD_CAP}}", WK["word"].capitalize())
-    page = page.replace("{{METHOD}}", method_html(meta, T, A, data["wr"], REF, ARR, UN, WX))
+    page = page.replace("{{METHOD}}", method_html(meta, T, A, data["wr"], REF, ARR, UN, WX, MM))
+    page = page.replace("{{EDGE_NOTE}}", edge_note(CAL)).replace("{{CAL_NOTE}}", cal_note(CAL))
     if meta.get("ep_scale_warning"):
         page = page.replace('<div class="tk" id="tk"></div>', f'<div class="callout warn"><b>EPA scale changed.</b> {esc(meta["ep_scale_warning"])}</div>\n  '
                             '<div class="tk" id="tk"></div>', 1)
@@ -1934,7 +1941,51 @@ def weather_method(WX):
             f"<th>Yards per carry</th></tr></thead><tbody>{rows}</tbody></table></div>")
 
 
-def method_html(meta, T, A, WRI, REF, ARR, UN, WX=None):
+def cal_years(CAL):
+    return f"{CAL['fitted_on'][0]}-{str(CAL['fitted_on'][1])[-2:]}"
+
+
+def edge_note(CAL):
+    """What counts as a notable headline edge, with its record in the backtest when the report is calibrated."""
+    if not CAL:
+        return "1.5 or more is notable"
+    e = CAL["edges"]
+    return (f"{e['notable']:.1f} or more is notable: in {cal_years(CAL)} an edge that size pointed the right way in {e['notable_right']:.0%} of "
+            f"{e['notable_cases']:,} cases, against {e['small_right']:.0%} for edges under {e['small']:.1f}")
+
+
+def cal_note(CAL):
+    if not CAL:
+        return "and nothing from earlier seasons is used"
+    return (f"and no earlier season's results enter a team's own numbers. Early in a season such expectations have been too extreme, so each is also scaled "
+            f"by how well they held up at this week in {cal_years(CAL)} (Method)")
+
+
+def cal_method(CAL, meta):
+    """Method sentence on the calibration; empty for a report built without one."""
+    if not CAL:
+        return ""
+    f, ps = CAL["factors"], CAL["pooled_slope_by_weeks"]
+    first, last = list(ps)[0], list(ps)[-1]
+    return (f"That weight proved too large early in a season. In a backtest on {cal_years(CAL)} ({CAL['team_games']:,} team-games per measure), fitting on weeks 1 to W "
+            f"and predicting week W+1 for W = {CAL['cut_weeks'][0]} to {CAL['cut_weeks'][1]}, the real gap from the league average was {ps[first]:.0%} of the expected gap at weeks "
+            f"{first} and {ps[last]:.0%} at weeks {last} (all measures pooled). Each weight is therefore multiplied by a factor for the week and the measure, fitted on those "
+            f"seasons and never above 1: after week {meta['through_week']} it is {f['epa_play']:.2f} for EPA per play, {f['epa_db']:.2f} for EPA per dropback, "
+            f"{f['epa_rush']:.2f} for EPA per rush, {f['pressure']:.2f} for pressure rate, {f['to_pd']:.2f} for turnovers per drive and {f['rz_td']:.2f} for red-zone TD rate, "
+            f"whose team effects did not predict the next game. Checked out of sample (each season from the other four), this lowered the error on "
+            f"{CAL['improved']} of {CAL['measures']} measures. ")
+
+
+def no_signal(MM):
+    """Measures whose between-team variance is at zero this week (data-driven; was a fixed list)."""
+    if not MM:
+        return ""
+    lab = {k: l for rows in MATCH_ROWS.values() for (l, k, *_) in rows if k}
+    out = [f"{lab.get(k, k)} ({'offence' if s == 'off' else 'defence'})" for k, m in MM.items() for s in ("off", "def") if m[s]["tau2"] <= 1e-8]
+    return (" This week that applies to: " + "; ".join(out) + ".") if out else " This week no measure is in that position."
+
+
+def method_html(meta, T, A, WRI, REF, ARR, UN, WX=None, MM=None):
     ARR_WEEK, UN_WIND, UN_CUT, UN_PCTL, UN_N, UN_MED = ARR.get("roster_week"), UN["wind_min"], UN["cut"], UN["pctl"], UN["hist_games"], UN["hist_median"]
     UN_YEARS = f"{UN['hist_seasons'][0]}-{str(UN['hist_seasons'][1])[-2:]}"
     co, cd = meta["composite_off"], meta["composite_def"]
@@ -2021,9 +2072,9 @@ Negated explosive plays and TDs are parsed from the play text.</p>
 <h3>Week {meta['through_week'] + 1} matchup expectations</h3>
 <p>For each measure in the matchup tables, the same additive fit as the opponent adjustment (offence + defence + home, sum-to-zero) is run on 2026 plays,
 drives or PFR team-games. Each team effect is then shrunk by w = τ² / (τ² + σ²/n), where σ²/n is its sampling variance and τ² the between-team variance of the
-effects minus their average sampling variance (method of moments). Expected value = league mean + w<sub>off</sub> × offence effect + w<sub>def</sub> × defence effect ± home effect.
-When τ² is close to zero, the measure has no reliable team-to-team signal yet and the expectation stays at the league average. After {WORDS.get(meta['through_week'], meta['through_week'])} weeks that applies to run-defence EPA,
-offensive red-zone TD rate and takeaways per drive. Earlier seasons are not used, and no score or result is forecast.</p>
+effects minus their average sampling variance (method of moments). {cal_method(meta.get("calibration"), meta)}Expected value = league mean + w<sub>off</sub> × offence effect + w<sub>def</sub> × defence effect ± home effect.
+When τ² is close to zero, the measure has no reliable team-to-team signal yet and the expectation stays at the league average.{no_signal(MM)}
+No earlier season's results enter a team's effects, and no score or result is forecast.</p>
 <h3>Matchup report rules</h3>
 <p>Eleven mismatch types are scanned in both directions for every game: rushing vs run defence, passing vs pass defence, strong protection vs weak rush, weak protection vs elite rush,
 mobile quarterback vs scramble containment, explosive passing vs deep-ball defence, four-man pressure vs protection, blitz rate vs passing against five-plus rushers, red zone, turnovers,

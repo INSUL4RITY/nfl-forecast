@@ -991,6 +991,14 @@ def main():
                                        "roof", "surface", "stadium", "away_coach", "home_coach", "away_rest", "home_rest",
                                        "away_score", "home_score", "div_game"]]
     MM = matchup_models(p, dr, tg, teams)
+    cals, CAL = calibration_factors(W)
+    if CAL:
+        qc.append(f"Matchup calibration: shrinkage weights multiplied by a week-{W} factor per measure (EPA/play {cals['epa_play']:.2f}, "
+                  f"EPA/dropback {cals['epa_db']:.2f}, EPA/rush {cals['epa_rush']:.2f}, pressure {cals['pressure']:.2f}, red-zone TD rate "
+                  f"{cals['rz_td']:.2f}), fitted on {CAL['fitted_on'][0]}-{str(CAL['fitted_on'][1])[-2:]} ({CAL['team_games']:,} team-games per measure); "
+                  f"out of sample it lowered the error on {CAL['improved']} of {CAL['measures']} measures.")
+    else:
+        qc.append("Matchup calibration: no calibration file, so the shrinkage weights are used as fitted.")
 
     # ---- matchup context: workload, fatigue, travel, penalties, QB scenarios, run style
     snaps = fetch(f"snap_counts/snap_counts_{S}.parquet")
@@ -1083,6 +1091,7 @@ def main():
             "d3_conv": p[p.d3_flag].third_down_converted.mean(), "blitz_rate": dbf.blitz.mean(),
             "pressure_rate": tg.pressured.sum() / tg.db.sum(), "p_int_worthy": p_w, "p_int_not": p_nw}.items()},
         "fum_lost_rate": flr, "qc": qc, "sources": MANIFEST, "ep_scale_warning": ep_warn,
+        "calibration": None if not CAL else {"factors": cals, **{k: CAL[k] for k in ("fitted_on", "team_games", "improved", "measures", "edges", "pooled_slope_by_weeks", "cut_weeks")}},
         "tiers": {t: str(tiers[t]) for t in teams}, "net_eff": net_eff.to_dict(),
     }
     (out_dir / "bundle_meta.json").write_text(json.dumps(meta, indent=1, default=str))
@@ -1104,12 +1113,34 @@ MATCHUP_METRICS = [
 ]
 
 
-def matchup_models(p, dr, tg, teams):
+CAL_FILE = Path(__file__).resolve().parent / "matchup_calibration.json"
+
+
+def calibration_factors(week: int) -> tuple[dict, dict | None]:
+    """Factor for each measure's shrinkage weights at this cut week, from the 2021-25 backtest (backtest_matchups.py).
+    Empty if there is no calibration file: the weights are then left as they are."""
+    if not CAL_FILE.exists():
+        return {}, None
+    C = json.loads(CAL_FILE.read_text(encoding="utf-8"))
+    out = {}
+    for m, by_week in C["factor"].items():
+        ks = sorted(int(k) for k in by_week)
+        out[m] = float(by_week[str(min(max(int(week), ks[0]), ks[-1]))])
+    return out, C
+
+
+def matchup_models(p, dr, tg, teams, calibrate=True):
     """Additive offence + defence + home models with empirical-Bayes shrinkage of each team effect.
 
     Shrinkage weight w = tau2 / (tau2 + resid_var / n), with tau2 the between-team variance of the
     unshrunk effects minus their average sampling variance (method of moments). Small samples are
-    pulled towards the league average; nothing from earlier seasons is used here."""
+    pulled towards the league average; no earlier season's results enter the team effects.
+
+    The method-of-moments weight proved too large early in a season when backtested on 2021-25 (the real gap was
+    about 40% of the expected one at weeks 4-5, about right from week 12), so with calibrate=True each weight is
+    multiplied by a factor for the cut week, fitted on those seasons (matchup_calibration.json). `w_mom` keeps the
+    weight before the factor."""
+    cals, _ = calibration_factors(int(p.week.max())) if calibrate else ({}, None)
     neutral_ids = set(p.loc[p.location == "Neutral", "game_id"])       # no home side at a neutral site, as in the play models
     frames = {"plays": p, "drives": dr[~dr.excluded].assign(
         is_home=lambda x: np.where(x.game_id.isin(neutral_ids), 0, np.where(x.posteam == x.home_team, 1, -1))),
@@ -1126,7 +1157,8 @@ def matchup_models(p, dr, tg, teams):
         d = d[d[y].notna()].copy()
         d[y] = d[y].astype(float)
         a = adjust(d, y, teams)
-        res = {"mean": a["mean"], "home": a["home"], "resid_var": a["resid_var"]}
+        cal = cals.get(name, 1.0)
+        res = {"mean": a["mean"], "home": a["home"], "resid_var": a["resid_var"], "calibration": cal}
         for side, key, eff in [("off", "posteam", "off_eff"), ("def", "defteam", "def_eff")]:
             n = d.groupby(key).size().reindex(teams).fillna(0)
             if fr == "pfr":      # one row per team-game: use dropbacks as the sample size
@@ -1137,8 +1169,8 @@ def matchup_models(p, dr, tg, teams):
             e = a[eff].reindex(teams)
             tau2 = max(float(e.var(ddof=1) - noise.mean()), 1e-9)
             w = tau2 / (tau2 + noise)
-            res[side] = {"eff": e.round(5).to_dict(), "w": w.round(3).to_dict(), "n": n.astype(int).to_dict(),
-                         "tau2": tau2}
+            res[side] = {"eff": e.round(5).to_dict(), "w": (w * cal).round(3).to_dict(), "w_mom": w.round(3).to_dict(),
+                         "n": n.astype(int).to_dict(), "tau2": tau2}
         out[name] = res
     return out
 
