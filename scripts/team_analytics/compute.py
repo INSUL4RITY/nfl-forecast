@@ -973,12 +973,13 @@ def main():
     # ---- QBs
     Q = qb_table(p, pf, adj, S, W, pfr)
 
-    # starting quarterbacks (most dropbacks in each team-game) and change from last season's primary passer
+    # starting quarterbacks (first dropback of each team-game) and change from last season's primary passer
+    st_true = ctx.qb_starts(p)
     st_qb = (p[p.db].groupby(["posteam", "game_id", "passer_id"]).size().reset_index(name="n")
              .sort_values("n", ascending=False).drop_duplicates(["posteam", "game_id"]))
     qn = Q.set_index("passer_id").name_full.to_dict()
-    T["qb_starters_n"] = st_qb.groupby("posteam").passer_id.nunique()
-    T["qb_starts"] = st_qb.groupby("posteam").passer_id.apply(
+    T["qb_starters_n"] = st_true.groupby("posteam").passer_id.nunique()
+    T["qb_starts"] = st_true.groupby("posteam").passer_id.apply(
         lambda s: ", ".join(f"{qn.get(i, i)} {c}" for i, c in s.value_counts().items()))
     prev = load_pbp(S - 1)
     prev_qb = prev[prev.db].groupby(["posteam", "passer_id"]).size().reset_index(name="n").sort_values("n").drop_duplicates("posteam", keep="last").set_index("posteam").passer_id
@@ -1109,8 +1110,9 @@ def matchup_models(p, dr, tg, teams):
     Shrinkage weight w = tau2 / (tau2 + resid_var / n), with tau2 the between-team variance of the
     unshrunk effects minus their average sampling variance (method of moments). Small samples are
     pulled towards the league average; nothing from earlier seasons is used here."""
+    neutral_ids = set(p.loc[p.location == "Neutral", "game_id"])       # no home side at a neutral site, as in the play models
     frames = {"plays": p, "drives": dr[~dr.excluded].assign(
-        is_home=lambda x: np.where(x.posteam == x.home_team, 1, -1)),
+        is_home=lambda x: np.where(x.game_id.isin(neutral_ids), 0, np.where(x.posteam == x.home_team, 1, -1))),
         "pfr": tg.dropna(subset=["db"]).assign(posteam=lambda x: x.team, defteam=lambda x: x.opp,
                                                rate=lambda x: x.pressured / x.db)}
     homes = p.groupby("game_id").agg(home=("home_team", "first"), loc=("location", "first"))

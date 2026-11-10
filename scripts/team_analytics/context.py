@@ -558,11 +558,24 @@ def rz_penalty_effect(dr: pd.DataFrame, x: pd.DataFrame) -> pd.DataFrame:
 
 
 # -------------------------------------------------------------------------------------- QB scenarios
+TRICK_MAX = 5   # a passer with fewer season dropbacks than this is treated as a trick play, not a starter
+
+
+def qb_starts(p: pd.DataFrame) -> pd.DataFrame:
+    """The quarterback who started each team-game: the passer of the team's first dropback, skipping passers with
+    fewer than TRICK_MAX season dropbacks. A starter hurt early still gets the start (the passer with the most
+    dropbacks would not be him). One row per team-game: posteam, game_id, week, passer_id."""
+    d = p[p.db & p.passer_id.notna()].sort_values(["game_id", "play_id"])
+    d = d[d.passer_id.map(d.groupby("passer_id").size()) >= TRICK_MAX]
+    return d.drop_duplicates(["posteam", "game_id"])[["posteam", "game_id", "week", "passer_id"]].reset_index(drop=True)
+
+
 def qb_scenarios(p: pd.DataFrame, Q: pd.DataFrame, ros_cur: pd.DataFrame, inj_last: pd.DataFrame, teams, W: int = 99) -> dict:
     d = p[p.db & p.passer_id.notna()]
     starts = (d.groupby(["posteam", "game_id", "passer_id"]).size().reset_index(name="n")
               .sort_values("n", ascending=False).drop_duplicates(["posteam", "game_id"]))
-    starts["week"] = starts.game_id.str[5:7].astype(int)
+    starts["week"] = starts.game_id.str[5:7].astype(int)     # main passer of each game: most dropbacks
+    true = qb_starts(p)                                        # the quarterback who started it
     sc = p[p.sc]
     out = {}
     qn = Q.set_index("passer_id")
@@ -579,8 +592,8 @@ def qb_scenarios(p: pd.DataFrame, Q: pd.DataFrame, ros_cur: pd.DataFrame, inj_la
             ij = inj_last[inj_last.gsis_id == pid]
             rows.append({
                 "id": pid, "name": (r.name_full if r is not None and isinstance(r.name_full, str) else str(r.name if r is not None else pid)),
-                "dropbacks": int(ndb), "starts": int(len(gids)),
-                "start_weeks": sorted(int(w) for w in st[st.passer_id == pid].week),
+                "dropbacks": int(ndb), "starts": int(((true.posteam == t) & (true.passer_id == pid)).sum()),
+                "start_weeks": sorted(int(w) for w in true[(true.posteam == t) & (true.passer_id == pid)].week),
                 "epa_db": None if r is None else float(r.epa_db), "adj_epa_db": None if r is None else float(r.adj_epa_db),
                 "sr": None if r is None else float(r.sr),
                 "sack_rate": None if r is None else float(r.sack_rate),
