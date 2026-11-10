@@ -42,9 +42,6 @@ const LEDGER: [string, (l: DeservedLedger) => string][] = [
   ["Special teams (net expected points)", (l) => signed(l.st_epa)],
 ];
 
-const chanceText = (d: Deserved, home: string) => (d.pick?.chance == null ? null
-  : `${sideSpread(d.pick.side, d.pick.line_home_spread, home)}: ${pct(d.pick.chance)}`);
-
 export function DeservedTag({ d }: { d: Deserved }) {
   if (!d.pick) return null;
   const [label, cls, title] = GROUP[d.pick.group];
@@ -56,8 +53,9 @@ export function DeservedLine({ g }: { g: Pick<WeekGame, "deserved" | "score" | "
   const d = g.deserved;
   if (!d || !g.score) return null;
   return (
-    <div className="small"><b>On play quality:</b> {marginText(d.margin, g.home, g.away)}
-      {chanceText(d, g.home) ? <> ({chanceText(d, g.home)})</> : null}{d.pick ? <> <DeservedTag d={d} /></> : null}</div>
+    <div className="small"><b>On play quality:</b> {marginText(d.margin, g.home, g.away)}{d.pick ? <> <DeservedTag d={d} /></> : null}
+      {d.pick?.chance != null ? <div className="muted" title="Share of 2,000 re-runs of each team's own plays in which the pick's side finished ahead of the line on play quality.">
+        {sideSpread(d.pick.side, d.pick.line_home_spread, g.home)} ahead on play quality in {pct(d.pick.chance)} of re-runs</div> : null}</div>
   );
 }
 
