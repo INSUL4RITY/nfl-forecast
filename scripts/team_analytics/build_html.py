@@ -1910,6 +1910,9 @@ def main():
     page = page.replace("{{WEEK}}", str(meta["through_week"] + 1)).replace("{{THRU}}", str(meta["through_week"]))
     page = page.replace("{{WEEKS_WORD}}", WK["word"]).replace("{{WEEKS_WORD_CAP}}", WK["word"].capitalize())
     page = page.replace("{{METHOD}}", method_html(meta, T, A, data["wr"], REF, ARR, UN, WX))
+    if meta.get("ep_scale_warning"):
+        page = page.replace('<div class="tk" id="tk"></div>', f'<div class="callout warn"><b>EPA scale changed.</b> {esc(meta["ep_scale_warning"])}</div>\n  '
+                            '<div class="tk" id="tk"></div>', 1)
     (d / "report.html").write_text(page, encoding="utf-8")
     print("wrote", d / "report.html", f"{len(page) / 1e6:.2f} MB")
 

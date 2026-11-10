@@ -45,6 +45,7 @@ import nextup  # noqa: E402
 import referees  # noqa: E402
 import arrivals  # noqa: E402
 import game_weather  # noqa: E402
+import ep_scale  # noqa: E402
 import unusual  # noqa: E402
 
 BASE = "https://github.com/nflverse/nflverse-data/releases/download/"
@@ -470,6 +471,11 @@ def main():
     qc: list[str] = []
 
     p = add_unit_flags(load_pbp(S, W))
+    ep_cols = ["play_type", "ep", "epa", "two_point_conversion_prob"]
+    ep_warn, ep_qc = ep_scale.check({s: fetch(f"pbp/play_by_play_{s}.parquet")[ep_cols] for s in range(args.first_history, S + 1)})
+    qc.append(ep_qc)
+    if ep_warn:
+        print("WARNING:", ep_warn, flush=True)
     teams = sorted(p.posteam.dropna().unique())
     assert len(teams) == 32, teams
     sched = fetch("schedules/games.parquet")
@@ -1075,7 +1081,7 @@ def main():
             "fg_pct": fga.made.mean(), "rz_td": dr[~dr.excluded & (dr.rz_trip == 1)].td.mean(),
             "d3_conv": p[p.d3_flag].third_down_converted.mean(), "blitz_rate": dbf.blitz.mean(),
             "pressure_rate": tg.pressured.sum() / tg.db.sum(), "p_int_worthy": p_w, "p_int_not": p_nw}.items()},
-        "fum_lost_rate": flr, "qc": qc, "sources": MANIFEST,
+        "fum_lost_rate": flr, "qc": qc, "sources": MANIFEST, "ep_scale_warning": ep_warn,
         "tiers": {t: str(tiers[t]) for t in teams}, "net_eff": net_eff.to_dict(),
     }
     (out_dir / "bundle_meta.json").write_text(json.dumps(meta, indent=1, default=str))

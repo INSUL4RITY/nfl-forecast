@@ -130,6 +130,8 @@ def main():
              f"Data: nflverse games through week {M['through_week']} ({M['games']} games); report generated {M['generated_utc']}; depth charts {D.get('depth_as_of')}. "
              f"Full report: {LINK} (section 'Week {M['through_week'] + 1} matchups'). Ranks are 1-32, 1 = best for that unit.",
              "No model forecasts or market data in this file.", ""]
+        if M.get("ep_scale_warning"):
+            L += [f"**EPA scale changed.** {M['ep_scale_warning']}", ""]
         if g.get("note"):
             L += ["## Latest news noted in the report", g["note"], ""]
         s = g.get("summary", {})
