@@ -29,6 +29,7 @@ from nflcast.data.games import build_games, franchise
 from nflcast.features.asof import AsOfFeatureBuilder
 from nflcast.features.personnel import QBModel
 from nflcast.predict import archive as ARCH
+from nflcast.predict import deserved as DS
 from nflcast.predict import linemove as LM
 from nflcast.predict import matchup as MU
 from nflcast.predict import roster_moves as RM
@@ -370,6 +371,17 @@ def export() -> Path:
                                       pl.read_parquet(PROCESSED_DIR / "qb_games.parquet"), names)
     except Exception as e:  # noqa: BLE001 - a display extra never blocks the export
         print(f"[export] matchup detail skipped: {type(e).__name__}: {e}")
+    dq, dq_note = None, None               # deserved margin (display only; predict/deserved.py)
+    try:
+        from nflcast.predict import alerts as AL
+        dpbp = S.fetch("pbp", cur)
+        dq_note = AL.ep_scale_problem(dpbp)  # weights were fit on the old EP scale: never apply them to the revised one
+        if dq_note is None:
+            dq = DS.team_quality(dpbp.select(DS.PBP_COLS))
+        else:
+            print(f"[export] deserved margin paused: play-by-play looks like the revised EP scale ({dq_note})")
+    except Exception as e:  # noqa: BLE001 - a display extra never blocks the export
+        print(f"[export] deserved margin skipped: {type(e).__name__}: {e}")
     rm_tables = None                       # roster moves (display only): current season's weekly rosters + snap counts
     try:
         rm_tables = RM.prepare(S.fetch("rosters_weekly", cur), S.fetch("snap_counts", cur), S.fetch("players"), cur)
@@ -382,6 +394,7 @@ def export() -> Path:
                             "injury_adjusted": wlp(),      # trial: the locked injury-adjusted stats-only margin (from week 7)
                             "v2_trial": wlp()}             # trial: the locked model v2.1 stats-only margin (from week 8)
     h2h: list[dict] = []
+    deserved_items: list[dict] = []
     lm_items: list[dict] = []
     for season, week in weeks:
         wk = games.filter((pl.col("season") == season) & (pl.col("week") == week)).sort("kickoff_utc")
@@ -410,6 +423,15 @@ def export() -> Path:
                 and r["generated_at_utc"] < fr["generated_at_utc"]]) if fr else None)
             item["stats_only_grade"] = (PK.grade_stats_only(item["locked_pick"], g["home_score"], g["away_score"])
                                         if item["result_grade"] else None)
+            item["deserved"] = None
+            if dq is not None and season == cur and g["status"] == "final":
+                try:
+                    item["deserved"] = DS.game_deserved(dq, g["game_id"], g["home_team"], g["away_team"],
+                                                        item["locked_pick"], item["result_grade"])
+                except Exception as e:  # noqa: BLE001 - display only
+                    print(f"[export] deserved margin for {g['game_id']} skipped: {type(e).__name__}: {e}")
+            if season == cur:
+                deserved_items.append(item)
             item["line_move"] = LM.game_moves(item) if season == cur else None     # display only (predict/linemove.py)
             if item["line_move"]:
                 lm_items.append(item)
@@ -472,15 +494,21 @@ def export() -> Path:
                                         "latest": {"season": latest["season"], "week": latest["week"]},
                                         "production": prod, "release_count": len(releases),
                                         "corrections": corrections})
-    _export_performance(h2h, LM.summary(lm_items))
+    try:
+        des = {**DS.summary(deserved_items), "paused": dq_note} if (dq is not None or dq_note) else None
+    except Exception as e:  # noqa: BLE001 - display only
+        print(f"[export] deserved summary skipped: {type(e).__name__}: {e}")
+        des = None
+    _export_performance(h2h, LM.summary(lm_items), des)
     _export_ratings(now)
     print(f"[export] wrote {WEB_DATA} ({len(week_index)} weeks, {len(releases)} releases)")
     return WEB_DATA
 
 
-def _export_performance(head_to_head: list[dict] | None = None, line_movement: dict | None = None) -> None:
+def _export_performance(head_to_head: list[dict] | None = None, line_movement: dict | None = None,
+                        deserved: dict | None = None) -> None:
     perf: dict = {"generated_at": utc_now().isoformat(), "live_head_to_head": head_to_head or [],
-                  "line_movement": line_movement}
+                  "line_movement": line_movement, "deserved": deserved}
     for key, pattern in (("walk_forward", "backtest/bt_*/summary.json"), ("locked", "locked_test/locked_*/summary.json")):
         p = _latest(pattern)
         if p:

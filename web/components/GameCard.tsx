@@ -5,6 +5,7 @@ import { f1, fmtDateTime, fmtKickoff, pct, pctP, problemText, teamPairColors } f
 import TeamBadge from "./TeamBadge";
 import StateLabel from "./StateLabel";
 import { gradeText, PredictionSummary, RETRO_NOTE } from "./Pick";
+import { DeservedLine } from "./Deserved";
 
 function ProbBar({ pAway, pTie, pHome, away, home, awayColor, homeColor }: {
   pAway: number; pTie: number; pHome: number; away: string; home: string; awayColor: string; homeColor: string;
@@ -73,6 +74,7 @@ export default function GameCard({ g, teams, tz }: { g: WeekGame; teams: Record<
           <PredictionSummary g={g} lockedAt={g.locked_pick ? fmtDateTime(g.locked_pick.generated_at, tz) : null}
             locksAt={g.locked_pick?.locks_at ? fmtDateTime(g.locked_pick.locks_at, tz) : null} />
           {g.result_grade && <div className="small"><b>Result:</b> {gradeText(g.result_grade, g)}</div>}
+          {g.result_grade && <DeservedLine g={g} />}
           {(g.locked_pick?.retrospectively_derived || g.pick?.retrospectively_derived) &&
             <div className="small muted" title={RETRO_NOTE}>* Pick label derived retrospectively from the archived forecast.</div>}
           <div className="small ink2">

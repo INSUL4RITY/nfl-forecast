@@ -167,3 +167,26 @@ def test_operate_wrappers_never_raise_and_use_distinct_failure_keys(monkeypatch)
     n = len(shown)
     OP._caught_up_notice(utc_now() - timedelta(hours=2), 3, True)          # short gap: no notice
     assert len(shown) == n
+
+
+def test_ep_scale_check_flags_only_the_revised_valuation():
+    import polars as pl
+    n = 300
+    old = pl.DataFrame({"play_type": ["kickoff"] * n + ["pass"] * n, "ep": [2.0] * (2 * n), "epa": [0.24] * n + [0.0] * n,
+                        "two_point_conversion_prob": [0.0] * (2 * n - 1) + [0.4735]})
+    assert AL.ep_scale_problem(old) is None
+    assert "two-point" in AL.ep_scale_problem(old.with_columns(pl.lit(0.49).alias("two_point_conversion_prob")))
+    assert "mean EP" in AL.ep_scale_problem(old.with_columns(pl.lit(1.58).alias("ep")))
+    assert "kickoff EPA" in AL.ep_scale_problem(old.with_columns(
+        pl.when(pl.col("play_type") == "kickoff").then(-0.07).otherwise(0.0).alias("epa")))
+    few = old.filter(pl.col("play_type") == "pass").vstack(old.filter(pl.col("play_type") == "kickoff").head(10))
+    assert AL.ep_scale_problem(few.with_columns(pl.lit(-0.5).alias("epa"))) is None   # too few kickoffs to judge
+
+
+def test_ep_scale_items_on_the_real_current_snapshot_is_quiet():
+    from nflcast.config import settings
+    from nflcast.data import sources as S
+    season = settings()["seasons"]["current"]
+    if S.latest_snapshot("pbp", season) is None:
+        pytest.skip("no local play-by-play snapshot")
+    assert AL.ep_scale_items(season) == []

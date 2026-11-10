@@ -1,6 +1,7 @@
 ﻿import { CalibrationChart, LineChart, type Series } from "@/components/charts";
 import HeadToHead, { type H2HWeek } from "@/components/HeadToHead";
 import LineMovement from "@/components/LineMovement";
+import { DeservedSummary } from "@/components/Deserved";
 import { getPerformance, getRetro } from "@/lib/data";
 import { f1, f2, MODEL_NAMES, pct } from "@/lib/format";
 
@@ -119,6 +120,7 @@ export default function PerformancePage() {
 
       <HeadToHead weeks={(perf.live_head_to_head ?? []) as H2HWeek[]} />
       <LineMovement lm={perf.line_movement} />
+      <DeservedSummary d={perf.deserved} />
 
       <div className="callout warn">
         <b>Retrospective benchmark, not live results.</b> The historical tables below are the original walk-forward benchmark (preserved

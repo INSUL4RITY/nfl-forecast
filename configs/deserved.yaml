@@ -1,0 +1,8 @@
+# Deserved margin (display and analysis only; never changes a forecast, pick or grade). Method fixed 2026-11-10 before any
+# week-10 game: reports/research/deserved_margin_spec_2026-11-10.md. Do not refit or retune during the 2026 season.
+weights:
+  success_rate: 55.429      # points per unit of (home - away) success rate, takeaways folded in
+  yards_per_play: 4.050     # points per yard of (home - away) yards per play, takeaway return yards credited
+close_band: 1.5             # |deserved edge vs the locked line| below this = "close on play quality"
+fit: "least squares, no intercept, 2016-2023 regular season (n=2095), old nflfastR EP scale; 2024-25 out of sample: residual SD 8.47, R^2 0.649"
+credit: "Method follows dgrifka/nfl_simulator (MIT licence), refit on this project's data."

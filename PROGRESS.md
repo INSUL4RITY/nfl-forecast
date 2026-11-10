@@ -389,6 +389,18 @@ market lines, QB availability, injury display, weather display). A changed artif
   snaps (NE 32.8 vs their 31.4); all 32 teams agree with pipeline team_games on games and points exactly and on EPA,
   success and sack rate within 0.01.
 
+- Deserved results (2026-11-10, user: "let's do it ... keep it for weeks 10 and onward"; display and analysis only, never
+  a model input, never regrades a game): `predict/deserved.py`, `configs/deserved.yaml`, spec and backfill in
+  reports/research/deserved_margin_spec_2026-11-10.md (fixed before any week-10 game). Per finished game: deserved home
+  margin = 55.429 x success-rate diff + 4.050 x yards-per-play diff (takeaways folded in, after dgrifka/nfl_simulator, MIT),
+  fitted 2016-23, 2024-25 out of sample R^2 0.649; the official Model pick's side vs the locked line on the scoreboard and
+  on play quality -> right and deserved / right but fortunate / wrong but unlucky / wrong and deserved / close (< 1.5) /
+  level. Export: item.deserved, performance.deserved (publicly verifiable locked picks only). Site: line on game cards and
+  the prediction card, "Deserved result" panel on game pages, "Deserved results" panel on Performance, Method section.
+  Paused automatically if the current pbp switches to the revised nflfastR EP scale (PR 618; `alerts.ep_scale_problem`,
+  which also raises a desktop alert). Weeks 3-9: official pick 47-52-4, play quality 44-48 with 11 close, unlucky 12,
+  fortunate 11.
+
 ## 3. Tests and checks (2026-09-25)
 - Live head-to-head (2026-10-13, user request; display only): `picks.head_to_head` compares combined, stats-only and market
   on the same finished, publicly verifiable games by week (margin error, winner correct) plus the vs-line records of the
@@ -494,6 +506,7 @@ Note: depth-chart and roster snapshot *history* is not re-downloadable either; i
 - After the Super Bowl (Feb 2027): run `score`; report prospective 2026 results (all generated-pregame and publicly verifiable
   subsets) against market-only and football-only on identical games; then evaluate collected weather, injury-version and line
   data under pre-specified rules; consider an episode-level QB-rate estimator; decide on a v2.0 model for 2027.
+- **Full 2027 idea list: `docs/research_2027.md`** (every idea from the season in one place, with status; add new ideas there).
 - v2.0 research plan for 2027 (agreed with the user 2026-10-13; pre-register every test and its pass rule first; the
   2026 season with our own timestamped Wednesday lines is the new untouched test; the 2025 locked season is no longer
   untouched): (1) stats-only vs the lines we actually lock against (Big gaps 8-1 in 2026 so far vs 52-58% on closing lines);

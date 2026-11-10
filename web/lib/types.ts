@@ -169,6 +169,8 @@ export interface WeekGame {
   staff?: { away: StaffSide | null; home: StaffSide | null };
   result_grade?: ResultGrade | null;
   matchup?: Matchup | null;
+  /** Deserved margin from play quality after the game (display only; predict/deserved.py). */
+  deserved?: Deserved | null;
   /** Roster moves this season as of the game's week (display only; predict/roster_moves.py). */
   roster_moves?: RosterMoves | null;
   /** Season-to-date matchup detail as of kickoff (display only; predict/matchup.py). */
@@ -341,3 +343,12 @@ export interface RosterTeamMoves {
   specialists: { pos: string; now: string; since_week: number; before: { player: string; weeks: [number, number] }[] }[];
 }
 export interface RosterMoves { away: RosterTeamMoves; home: RosterTeamMoves }
+
+export type DeservedGroup = "right_deserved" | "right_fortunate" | "wrong_unlucky" | "wrong_deserved" | "close" | "level";
+export interface DeservedSide { plays: number; takeaways: number; success_rate: number; yards_per_play: number }
+/** Deserved home margin from success rate and yards per play, and where the official Model pick's side was on it. */
+export interface Deserved {
+  home: DeservedSide; away: DeservedSide; margin: number;
+  pick: { side: string; line_home_spread: number; edge: number; quality: "ahead" | "behind" | "close";
+          result: "win" | "loss" | "push"; group: DeservedGroup; publicly_verifiable: boolean } | null;
+}

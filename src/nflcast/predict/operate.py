@@ -239,6 +239,11 @@ def _alerts(cand, now) -> None:
             items += AL.credit_items(OA.remaining_credits(OA.load_state(), now))
         except Exception as e:  # noqa: BLE001 - a bad credit log must not hide game alerts
             _log(f"operate: credit check failed: {e}")
+        try:
+            from nflcast.config import settings
+            items += AL.ep_scale_items(settings()["seasons"]["current"])
+        except Exception as e:  # noqa: BLE001 - the EP-scale check must not hide game alerts
+            _log(f"operate: EP scale check failed: {e}")
         shown = AL.notify(items, now)
         _log(f"operate: alerts open={len(items)} shown={len(shown)}")
     except Exception as e:  # noqa: BLE001

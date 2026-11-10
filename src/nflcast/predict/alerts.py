@@ -8,7 +8,8 @@ Checked on every scheduled cycle against the freshly built candidate (the latest
   * a QB listed Out on the official report had to be kept out although the report could not be re-confirmed;
   * the leading QB is below 90% to start (names and probabilities in the alert);
   * no market line within 24 h of kickoff;
-plus: The Odds API credits low, failed or blocked cycles, and a "caught up" notice after >= 6 h without a completed run.
+plus: The Odds API credits low, failed or blocked cycles, a "caught up" notice after >= 6 h without a completed run, and
+the current-season play-by-play switching to the revised nflfastR EP scale (PR 618; the model history uses the old one).
 Each issue has a stable key. It alerts when new, again when its content changes (at most every CHANGE_HOURS) or when still
 open after RESEND_HOURS, and is forgotten only after being absent for FORGET_HOURS. Only toasts that were actually shown
 count as sent; failed ones are retried (up to MAX_TRIES per RESEND_HOURS). One toast per cycle summarises the due items;
@@ -107,6 +108,43 @@ def credit_items(credits_remaining: int | None) -> list[dict]:
         return [_item("odds_credits_low", f"The Odds API credits low ({credits_remaining} left this month); nflverse lines "
                       "are used when it runs out.", None, content=str(credits_remaining // 20))]
     return []
+
+
+EP_OLD_TWO_POINT = {0.0, 0.4735}     # nflfastR's two-point probability before PR 618 (0.49 after)
+EP_MEAN_MIN, KICKOFF_EPA_MIN, KICKOFF_MIN_N = 1.80, 0.10, 200   # old scale: mean ep ~1.98, kickoff epa ~+0.23-0.25
+
+
+def ep_scale_problem(pbp) -> str | None:
+    """Has nflverse switched play-by-play to the revised EP valuation (nflfastR PR 618)? The frozen model's history uses
+    the old scale, so a switched current-season file would mix scales. Markers: two-point probability other than
+    0.4735, mean ep ~0.4 lower, kickoff EPA ~-0.07 instead of ~+0.2. Returns a description, or None if it looks unchanged."""
+    import polars as pl
+    found = []
+    tp = set(pbp["two_point_conversion_prob"].drop_nulls().round(4).unique().to_list()) if "two_point_conversion_prob" in pbp.columns else set()
+    if tp - EP_OLD_TWO_POINT:
+        found.append(f"two-point probability {sorted(tp - EP_OLD_TWO_POINT)}")
+    ep = pbp["ep"].drop_nulls()
+    if len(ep) and ep.mean() < EP_MEAN_MIN:
+        found.append(f"mean EP {ep.mean():.2f}")
+    k = pbp.filter(pl.col("play_type") == "kickoff")["epa"].drop_nulls()
+    if len(k) >= KICKOFF_MIN_N and k.mean() < KICKOFF_EPA_MIN:
+        found.append(f"kickoff EPA {k.mean():+.2f}")
+    return "; ".join(found) or None
+
+
+def ep_scale_items(season: int) -> list[dict]:
+    """Alert if the latest current-season play-by-play snapshot is on the revised EP scale (never changes any data)."""
+    import polars as pl
+    from nflcast.data import sources as S
+    path = S.latest_snapshot("pbp", season)
+    if path is None:
+        return []
+    found = ep_scale_problem(pl.read_parquet(path, columns=["play_type", "ep", "epa", "two_point_conversion_prob"]))
+    if not found:
+        return []
+    return [_item("ep_scale_changed", f"nflverse play-by-play {season} looks like the revised EPA scale ({found}); the "
+                  "frozen model's history uses the old one. Forecasts are still running; ask Claude to look.", None,
+                  content=str(season))]
 
 
 def _aware(s) -> datetime | None:

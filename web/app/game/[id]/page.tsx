@@ -7,6 +7,7 @@ import RosterMoves from "@/components/RosterMoves";
 import CoachingStaff from "@/components/CoachingStaff";
 import MarginBreakdown from "@/components/MarginBreakdown";
 import MatchupDetail from "@/components/MatchupDetail";
+import { DeservedLine, DeservedPanel } from "@/components/Deserved";
 import TeamBadge from "@/components/TeamBadge";
 import { dataProblems } from "@/components/GameCard";
 import StateLabel from "@/components/StateLabel";
@@ -139,7 +140,7 @@ function Lineup({ side, abbr }: { side: LineupSide; abbr: string }) {
               <td>{q.roster_status && q.roster_status !== "ACT" ? rosterText(q.roster_status) : qbStatusText(q.status)}</td>
               <td className="r">{pctP(q.p_available)}</td></tr>))}</tbody>
         </table></div>
-        <ul className="small muted" style={{ margin: "6px 0 0", paddingLeft: 18 }}>
+        <ul className="small muted break-long" style={{ margin: "6px 0 0", paddingLeft: 18 }}>
           {side.qbs.map((q) => <li key={q.qb_id}><b>{q.qb ?? "Unnamed QB"}</b> ({EVIDENCE_TEXT[q.evidence] ?? "other evidence"}): {detailText(q.detail)}</li>)}
         </ul>
         <p className="small muted" style={{ marginTop: 4 }}>
@@ -147,7 +148,7 @@ function Lineup({ side, abbr }: { side: LineupSide; abbr: string }) {
           {side.injury_snapshot_at ? ` Injury data observed ${side.injury_snapshot_at.slice(0, 16).replace("T", " ")} UTC.` : ""}
         </p>
         {side.overrides_used && side.overrides_used.length > 0 && (
-          <p className="small">Documented overrides: {side.overrides_used.map((o) => `${o.status} (${o.source}, published ${o.source_published_at_utc}${o.expires_at_utc ? `, expires ${o.expires_at_utc}` : ""})`).join("; ")}</p>
+          <p className="small break-long">Documented overrides: {side.overrides_used.map((o) => `${o.status} (${o.source}, published ${o.source_published_at_utc}${o.expires_at_utc ? `, expires ${o.expires_at_utc}` : ""})`).join("; ")}</p>
         )}
       </details>
       {(side.flags ?? []).map((fl) => [fl, flagText(fl, side)] as const).filter(([, t]) => t).map(([fl, t]) =>
@@ -264,6 +265,7 @@ export default async function GamePage({ params }: { params: Promise<{ id: strin
               </details>
               {g.result_grade && <p style={{ marginBottom: 0 }}><b>Result:</b> {gradeText(g.result_grade, g)} (actual margin{" "}
                 {marginText(g.result_grade.actual_margin, H, A)}).</p>}
+              {g.result_grade && <DeservedLine g={g} />}
               {(g.locked_pick?.retrospectively_derived || g.pick.retrospectively_derived) &&
                 <p className="small muted" style={{ marginBottom: 0 }}>{RETRO_NOTE}</p>}
             </div>
@@ -469,6 +471,7 @@ export default async function GamePage({ params }: { params: Promise<{ id: strin
             actual total {g.score.home + g.score.away} (model {f1(m!.total)}, error {f1(Math.abs(m!.total - (g.score.home + g.score.away)))}).</p>
         </div>
       )}
+      <DeservedPanel g={g} teams={teams} />
     </>
   );
 }

@@ -261,6 +261,25 @@ export default function Methodology() {
       </div>
 
       <div className="panel">
+        <h2>Deserved results (after each game)</h2>
+        <p>Final scores carry a lot of chance: a fumble bounce, a missed field goal or a return touchdown can decide a game against the
+          line. Once a game&apos;s play-by-play is published, each team gets a <b>deserved margin</b> from how it played: its success rate (the share
+          of its plays that gained expected points, with each takeaway counted as one more successful play for the team that made it) and
+          its yards per play (takeaway return yards included). The two differences are turned into points with fixed weights fitted by
+          least squares on 2016–2023 regular-season games (55.4 points per unit of success rate, 4.05 points per yard per play). On
+          2024–25 games, which the weights never saw, the deserved margin explains about two-thirds of the variation in final margins;
+          the typical gap between the two is about 8.5 points.</p>
+        <p>The official Model pick&apos;s side is then placed against the locked line twice: on the scoreboard and on play quality. That gives
+          four groups (right and deserved, right but fortunate, wrong but unlucky, wrong and deserved), plus &quot;close&quot; when play quality
+          puts the game within 1.5 points of the line. All four are shown, including the fortunate results.</p>
+        <p className="small ink2">Limits: special teams, field position, penalties and red-zone finishing are left out, so they count as luck.
+          The model line rates teams on similar play-quality numbers, so it looks better on this measure partly by construction; the
+          deserved margin is never used to regrade a game, and the record stays the scoreboard. The method follows nfl_simulator by
+          dgrifka (MIT licence), refitted on this project&apos;s data, and was fixed on 10 November 2026, before any week-10 game.
+          If the play-by-play data moves to a revised expected-points scale, it is paused rather than mixed.</p>
+      </div>
+
+      <div className="panel">
         <h2>Data sources and what is missing</h2>
         <ul>
           <li><b>nflverse</b> (CC-BY 4.0): play-by-play with EPA/CPOE, schedules, scores, depth charts, injury reports, snap counts, rosters.
