@@ -54,7 +54,8 @@ CLI stay `nflcast`; keep the URL and repo name (published evidence and links poi
   It is the leading candidate for the 2027 model, judged on weeks 8-18.
 - **Deserved results (user, 2026-11-10):** after each game, a deserved margin from play quality (`predict/deserved.py`,
   `configs/deserved.yaml`, spec in reports/research/deserved_margin_spec_2026-11-10.md) places the official pick in
-  right/deserved, fortunate, unlucky, wrong/deserved, close or level. Display only: never refit it this season, never
+  right/deserved, fortunate, unlucky, wrong/deserved, close or level, with a re-sampling chance and a "What made
+  the difference" table. Display only: never refit it this season, never
   regrade a game with it, always show fortunate results too; it pauses if the pbp moves to the revised EP scale.
 - **Weekly publication (user decisions 2026-10-05, changed 2026-10-06 and 2026-10-13):** a week is first published at
   Tuesday 18:00 UK before its first game (`predict/schedule.py`), and waits up to 24 h if the previous week's finished

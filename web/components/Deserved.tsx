@@ -1,4 +1,4 @@
-import type { Deserved, DeservedGroup, DeservedSide, Team, WeekGame } from "@/lib/types";
+import type { Deserved, DeservedGroup, DeservedLedger, DeservedSide, Team, WeekGame } from "@/lib/types";
 import { f1, marginText, pct } from "@/lib/format";
 import TeamBadge from "./TeamBadge";
 
@@ -24,7 +24,26 @@ export const METHOD_NOTE = "Deserved margin: each team's success rate (the share
   + "(on 2024–25 games it explains about two-thirds of the variation in final margins). It leaves out special teams, field position, "
   + "penalties and red-zone finishing, so those count as luck here. The model line rates teams on similar play-quality numbers, so it "
   + "looks better on this measure partly by construction. Display only: the official record is the scoreboard and is never regraded. "
-  + "Method after nfl_simulator by dgrifka (MIT licence), refitted on this project's data; fixed on 10 November 2026.";
+  + "The chance is the share of 2,000 re-runs of each team's own plays (drawn at random, with repeats) in which the "
+  + "pick's side still finished ahead of the line on play quality: it shows how firmly the plays back the verdict, near 50% "
+  + "means genuinely unclear. Method after nfl_simulator by dgrifka (MIT licence), refitted on this project's data; fixed on "
+  + "10 November 2026.";
+
+const signed = (x: number) => `${x > 0.05 ? "+" : x < -0.05 ? "−" : ""}${Math.abs(x).toFixed(1)}`;
+const LEDGER: [string, (l: DeservedLedger) => string][] = [
+  ["Giveaways", (l) => (l.interceptions + l.fumbles_lost === 0 ? "0"
+    : `${l.interceptions + l.fumbles_lost} (${[l.interceptions ? `${l.interceptions} INT` : "", l.fumbles_lost ? `${l.fumbles_lost} fumble${l.fumbles_lost > 1 ? "s" : ""} lost` : ""].filter(Boolean).join(", ")})`)],
+  ["Field goals", (l) => (l.fg_att ? `${l.fg_made} of ${l.fg_att}` : "none tried")],
+  ["Red-zone touchdowns", (l) => (l.rz_trips ? `${l.rz_td} of ${l.rz_trips}` : "no trips")],
+  ["Penalties", (l) => `${l.penalties} for ${l.penalty_yards} yds`],
+  ["Average drive start", (l) => (l.avg_start == null ? "—" : `own ${l.avg_start.toFixed(0)}`)],
+  ["4th downs converted", (l) => (l.fourth_att ? `${l.fourth_conv} of ${l.fourth_att}` : "none tried")],
+  ["Explosive plays", (l) => String(l.explosive)],
+  ["Special teams (net expected points)", (l) => signed(l.st_epa)],
+];
+
+const chanceText = (d: Deserved, home: string) => (d.pick?.chance == null ? null
+  : `${sideSpread(d.pick.side, d.pick.line_home_spread, home)}: ${pct(d.pick.chance)}`);
 
 export function DeservedTag({ d }: { d: Deserved }) {
   if (!d.pick) return null;
@@ -37,7 +56,8 @@ export function DeservedLine({ g }: { g: Pick<WeekGame, "deserved" | "score" | "
   const d = g.deserved;
   if (!d || !g.score) return null;
   return (
-    <div className="small"><b>On play quality:</b> {marginText(d.margin, g.home, g.away)}{d.pick ? <> <DeservedTag d={d} /></> : null}</div>
+    <div className="small"><b>On play quality:</b> {marginText(d.margin, g.home, g.away)}
+      {chanceText(d, g.home) ? <> ({chanceText(d, g.home)})</> : null}{d.pick ? <> <DeservedTag d={d} /></> : null}</div>
   );
 }
 
@@ -61,11 +81,25 @@ export function DeservedPanel({ g, teams }: { g: WeekGame; teams: Record<string,
       {p && <p>Model pick {sideSpread(p.side, p.line_home_spread, H)}: {board} on the scoreboard,{" "}
         {p.quality === "close" ? "within 1.5 points of the line on play quality" : `${f1(Math.abs(p.edge))} points ${p.quality} of the line on play quality`}.{" "}
         <DeservedTag d={d} /></p>}
+      {p?.chance != null && <p><b>Chance on play quality: {pct(p.chance)}.</b> In {pct(p.chance)} of 2,000 re-runs of the two teams&apos; own
+        plays, {sideSpread(p.side, p.line_home_spread, H)} still finished ahead of the line on play quality.</p>}
       <div className="table-wrap"><table>
         <thead><tr><th></th><th className="r"><TeamBadge team={teams[A]} abbr={A} /></th><th className="r"><TeamBadge team={teams[H]} abbr={H} /></th></tr></thead>
         <tbody>{rows.map(([label, fmt]) => (
           <tr key={label}><td>{label}</td><td className="r">{fmt(d.away)}</td><td className="r">{fmt(d.home)}</td></tr>))}</tbody>
       </table></div>
+      {d.ledger && <>
+        <h3>What made the difference</h3>
+        <p className="small ink2" style={{ marginTop: 0 }}>Things the play-quality margin leaves out, for this game. Descriptive only.</p>
+        <div className="table-wrap"><table>
+          <thead><tr><th></th><th className="r"><TeamBadge team={teams[A]} abbr={A} /></th><th className="r"><TeamBadge team={teams[H]} abbr={H} /></th></tr></thead>
+          <tbody>{LEDGER.map(([label, fmt]) => (
+            <tr key={label}><td>{label}</td><td className="r">{fmt(d.ledger!.away)}</td><td className="r">{fmt(d.ledger!.home)}</td></tr>))}</tbody>
+        </table></div>
+        <p className="small muted" style={{ margin: "6px 0 0" }}>Explosive plays: passes of 20+ yards and runs of 10+. Red zone: drives that
+          reached the opponent&apos;s 20. Penalties: those enforced against the team. Special teams: expected points gained on kicks, punts and
+          returns, minus the opponent&apos;s.</p>
+      </>}
       <p className="small muted" style={{ margin: "6px 0 0" }}>{METHOD_NOTE}</p>
     </div>
   );
@@ -75,7 +109,7 @@ interface Summary {
   counts: Record<DeservedGroup, number>; n: number; paused?: string | null;
   by_week: ({ week: number } & Record<DeservedGroup, number>)[];
   games: { game_id: string; week: number; home: string; away: string; side: string; line_home_spread: number; result: string;
-           actual_margin: number; deserved_margin: number; edge: number; group: DeservedGroup }[];
+           actual_margin: number; deserved_margin: number; edge: number; chance?: number | null; group: DeservedGroup }[];
 }
 
 /** Performance page panel: the official Model pick's finished games split by play quality. */
@@ -118,12 +152,13 @@ export function DeservedSummary({ d }: { d?: Summary | null }) {
       <details style={{ marginTop: 6 }}>
         <summary className="small">Every game, newest first</summary>
         <div className="table-wrap"><table>
-          <thead><tr><th>Week</th><th>Game</th><th>Model pick</th><th className="r">Scoreboard</th><th className="r">Play quality</th><th>Verdict</th></tr></thead>
+          <thead><tr><th>Week</th><th>Game</th><th>Model pick</th><th className="r">Scoreboard</th><th className="r">Play quality</th><th className="r">Chance</th><th>Verdict</th></tr></thead>
           <tbody>{d.games.map((x) => (
             <tr key={x.game_id}><td>{x.week}</td><td><a href={`${base}/game/${x.game_id}/`}>{x.away} @ {x.home}</a></td>
               <td>{sideSpread(x.side, x.line_home_spread, x.home)}</td>
               <td className="r">{marginText(x.actual_margin, x.home, x.away)}</td>
               <td className="r">{marginText(x.deserved_margin, x.home, x.away)}</td>
+              <td className="r">{x.chance == null ? "—" : pct(x.chance)}</td>
               <td><span className={GROUP[x.group][1]}>{GROUP[x.group][0]}</span></td></tr>))}</tbody>
         </table></div>
       </details>

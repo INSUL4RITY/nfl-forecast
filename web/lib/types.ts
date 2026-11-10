@@ -350,5 +350,12 @@ export interface DeservedSide { plays: number; takeaways: number; success_rate: 
 export interface Deserved {
   home: DeservedSide; away: DeservedSide; margin: number;
   pick: { side: string; line_home_spread: number; edge: number; quality: "ahead" | "behind" | "close";
-          result: "win" | "loss" | "push"; group: DeservedGroup; publicly_verifiable: boolean } | null;
+          result: "win" | "loss" | "push"; group: DeservedGroup; chance?: number | null; publicly_verifiable: boolean } | null;
+  ledger?: { home: DeservedLedger; away: DeservedLedger } | null;
+}
+/** What the deserved margin leaves out, per team in this game (descriptive only). */
+export interface DeservedLedger {
+  interceptions: number; fumbles_lost: number; fg_made: number; fg_att: number; rz_td: number; rz_trips: number;
+  penalties: number; penalty_yards: number; avg_start: number | null; fourth_conv: number; fourth_att: number;
+  explosive: number; st_epa: number;
 }

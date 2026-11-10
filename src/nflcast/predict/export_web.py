@@ -371,13 +371,17 @@ def export() -> Path:
                                       pl.read_parquet(PROCESSED_DIR / "qb_games.parquet"), names)
     except Exception as e:  # noqa: BLE001 - a display extra never blocks the export
         print(f"[export] matchup detail skipped: {type(e).__name__}: {e}")
-    dq, dq_note = None, None               # deserved margin (display only; predict/deserved.py)
+    dq, dl, dq_note = None, None, None               # deserved margin (display only; predict/deserved.py)
     try:
         from nflcast.predict import alerts as AL
         dpbp = S.fetch("pbp", cur)
         dq_note = AL.ep_scale_problem(dpbp)  # weights were fit on the old EP scale: never apply them to the revised one
         if dq_note is None:
             dq = DS.team_quality(dpbp.select(DS.PBP_COLS))
+            try:
+                dl = DS.team_ledger(dpbp.select(DS.LEDGER_COLS))
+            except Exception as e:  # noqa: BLE001 - the ledger is a display extra of a display extra
+                print(f"[export] deserved ledger skipped: {type(e).__name__}: {e}")
         else:
             print(f"[export] deserved margin paused: play-by-play looks like the revised EP scale ({dq_note})")
     except Exception as e:  # noqa: BLE001 - a display extra never blocks the export
@@ -427,7 +431,7 @@ def export() -> Path:
             if dq is not None and season == cur and g["status"] == "final":
                 try:
                     item["deserved"] = DS.game_deserved(dq, g["game_id"], g["home_team"], g["away_team"],
-                                                        item["locked_pick"], item["result_grade"])
+                                                        item["locked_pick"], item["result_grade"], dl)
                 except Exception as e:  # noqa: BLE001 - display only
                     print(f"[export] deserved margin for {g['game_id']} skipped: {type(e).__name__}: {e}")
             if season == cur:

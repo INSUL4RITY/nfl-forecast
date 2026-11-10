@@ -272,6 +272,12 @@ export default function Methodology() {
         <p>The official Model pick&apos;s side is then placed against the locked line twice: on the scoreboard and on play quality. That gives
           four groups (right and deserved, right but fortunate, wrong but unlucky, wrong and deserved), plus &quot;close&quot; when play quality
           puts the game within 1.5 points of the line. All four are shown, including the fortunate results.</p>
+        <p>Each game page also shows a <b>chance on play quality</b>: the two teams&apos; own plays are re-drawn at random (with repeats,
+          the same number of plays) 2,000 times, and the chance is the share of those re-runs in which the pick&apos;s side still finished
+          ahead of the line on play quality. A verdict at 90% is firm; one near 50% is genuinely unclear. It describes the game that was
+          played, not a forecast. A <b>&quot;What made the difference&quot;</b> table lists what the play-quality margin leaves out for that
+          game: giveaways, field goals, red-zone touchdowns, penalties, average drive start, 4th downs, explosive plays and special
+          teams. Both were fixed on 10 November 2026, before any week-10 game.</p>
         <p className="small ink2">Limits: special teams, field position, penalties and red-zone finishing are left out, so they count as luck.
           The model line rates teams on similar play-quality numbers, so it looks better on this measure partly by construction; the
           deserved margin is never used to regrade a game, and the record stays the scoreboard. The method follows nfl_simulator by

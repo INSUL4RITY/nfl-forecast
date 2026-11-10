@@ -400,6 +400,11 @@ market lines, QB availability, injury display, weather display). A changed artif
   Paused automatically if the current pbp switches to the revised nflfastR EP scale (PR 618; `alerts.ep_scale_problem`,
   which also raises a desktop alert). Weeks 3-9: official pick 47-52-4, play quality 44-48 with 11 close, unlucky 12,
   fortunate 11.
+  Added the same day (spec addendum, before any week-10 game): pick.chance = share of 2,000 re-samples of both
+  teams' own plays (seed sha256(game_id)) with the pick's side ahead of the line on play quality, and deserved.ledger
+  ("What made the difference": giveaways, field goals, red-zone TDs, enforced penalties, average drive start, 4th downs,
+  explosive plays, special-teams net EPA; descriptive). Weeks 3-9 chance medians: right and deserved 0.83, unlucky 0.70,
+  fortunate 0.33, wrong and deserved 0.23, close 0.51 (no game's chance contradicts its group).
 
 ## 3. Tests and checks (2026-09-25)
 - Live head-to-head (2026-10-13, user request; display only): `picks.head_to_head` compares combined, stats-only and market

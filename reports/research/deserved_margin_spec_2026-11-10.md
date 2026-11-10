@@ -44,3 +44,20 @@ Code: `src/nflcast/predict/deserved.py`; fixed values: `configs/deserved.yaml`.
 - Model line (stats-only), all weeks: 54-45 (excluding level); play quality 55-37, 11 close; unlucky 14, fortunate 9.
 - Market-adjusted: 47-52; play quality 40-52, 11 close; unlucky 10, fortunate 13.
 - v2 trial (weeks 8-9): 15-13; play quality 16-9, 3 close; unlucky 5, fortunate 3.
+
+## Addendum, 2026-11-10 (user request; written before any week-10 game and before computing any chance)
+Two display-only additions. Neither changes the deserved margin, the groups, the close band or any grade.
+
+1. **Chance on play quality.** For the official pick's side: the share of 2,000 re-samples in which the deserved margin
+   puts that side ahead of the locked line (edge > 0). Each re-sample draws each team's own pass/run plays with
+   replacement (same count as played); every drawn play keeps its success flag, yards, takeaway flag, takeaway-success
+   flag and return yards, so takeaways move with the opponent's resampled plays. Weights fixed (no weight uncertainty).
+   Random seed = first 8 bytes of sha256(game_id), so a game always shows the same value. This measures how firmly the
+   plays support the verdict, not a forecast; a game near 50% is genuinely ambiguous.
+2. **What made the difference** (descriptive, no weights, no fitting), per team from the same play-by-play:
+   giveaways on its pass/run plays (interceptions thrown, fumbles lost); field goals made / attempted; red-zone
+   touchdowns / drives that reached the opponent's 20 (`drive_inside20`, result Touchdown); enforced penalties and
+   yards (rows with `penalty` = 1 charged to the team; nflverse records the enforced penalty, declined ones only
+   appear in the play description); average drive start (own yard line of each drive's first scrimmage play);
+   4th-down conversions / attempts (go-for-it plays); explosive plays (passes of 20+ yards, runs of 10+); special teams
+   net expected points (EPA on special-teams plays as the kicking or receiving side, team minus opponent).
