@@ -40,7 +40,7 @@ reads or changes the forecasting model, and it uses no market data (spread, tota
 | `ep_scale.py` | Warns if nflverse switches play-by-play to a revised EP valuation |
 | `caller_check.py` | Compares the hand-kept play-caller file with Sam Hoppen's public dataset and lists differences to verify |
 | `publish_public.py` | Copies the newest report to the public page |
-| `*_2026.json` | Small hand-kept inputs, each with its source (ESPN win rates, play-callers, referee assignments) |
+| `*_2026.json` | Small hand-kept inputs, each with its source (ESPN win rates, play-callers, referee assignments, and quarterback news the rosters cannot show yet: trades, signings, named starters) |
 
 Outputs for each week are in [`reports/team_analytics/`](../../reports/team_analytics/).
 

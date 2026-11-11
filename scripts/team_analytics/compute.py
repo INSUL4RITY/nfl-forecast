@@ -1019,6 +1019,7 @@ def main():
     inj = fetch(f"injuries/injuries_{S}.parquet")
     inj_last = inj[inj.week == inj.groupby("team").week.transform("max")]
     qbs = ctx.qb_scenarios(p, Q, ros_cur, inj_last, teams, W)
+    qc.append(ctx.qb_news_qc(ctx.apply_qb_news(qbs, ctx.load_qb_news(S, W + 1), Q, p, W + 1), W + 1))
     print("fatigue study", flush=True)
     seasons_pbp = {s: H_p for s, H_p in ((s, add_unit_flags(load_pbp(s))) for s in hist_seasons)}
     seasons_pbp[S] = p

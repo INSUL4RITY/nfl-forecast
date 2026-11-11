@@ -172,7 +172,13 @@ def main():
             for grp in sd["groups"]:
                 L.append(f"| **{grp['name']}** | | | | | | |")
                 q = sd.get("starter")
-                if grp["name"] == "Passing" and q:
+                if grp["name"] == "Passing" and q and q.get("news"):
+                    L.append(f"| *With {q['name']} ({q['news_status']}; source: {q['sources']})* | "
+                             + ((f"only {q['dropbacks']} 2026 dropbacks, too few for an own sample" if q["dropbacks"] else "no 2026 regular-season dropbacks, so no own sample") + " | | | | | |" if q["no_sample"] else
+                                f"{plural(q['starts'], 'start')}, {q['dropbacks']} dropbacks{' with ' + q['sample_team'] if q.get('sample_team') else ''}"
+                                f"{'; low confidence' if q['low'] else ''} | adj. EPA/db {fmt(q['adj_epa_db'], 'epa')} | success {fmt(q.get('sr'), 'pct')} | "
+                                f"sack rate {fmt(q['sack_rate'], 'pct')} | INT-worthy {fmt(q['int_worthy'], 'pct')} | |"))
+                elif grp["name"] == "Passing" and q:
                     L.append(f"| *With {q['name']} (expected starter{'' if q['latest'] else ', not the latest starter'}; {plural(q['starts'], 'start')}, {q['dropbacks']} dropbacks"
                              f"{'; low confidence' if q['low'] else ''})* | adj. EPA/db {fmt(q['adj_epa_db'], 'epa')} | success {fmt(q.get('sr'), 'pct')} | "
                              f"sack rate {fmt(q['sack_rate'], 'pct')} | INT-worthy {fmt(q['int_worthy'], 'pct')} | | |")
@@ -216,12 +222,14 @@ def main():
         for t in (a, hm):
             for q in (R.get("qb", {}).get(t, {}) or {}).get("rows", []):
                 L.append(f"- {t} {q['name']}: {plural(q['starts'], 'start')}" + (f" (weeks {weeks_txt(q['start_weeks'])})" if q['start_weeks'] else "")
+                         + (f" with {q['sample_team']}" if q.get("news") and q.get("sample_team") and q["sample_team"] != t else "")
                          + f", {q['dropbacks']} dropbacks, EPA/db {fmt(q['epa_db'], 'epa')}, adj. {fmt(q['adj_epa_db'], 'epa')}, "
                          f"sack rate {fmt(q['sack_rate'], 'pct')}, EPA vs blitz {rate_n(q.get('epa_vs_blitz'), q.get('db_blitz'), 20, 'blitzed dropbacks')}, "
                          f"hit/sacked EPA {rate_n(q.get('epa_hit_sack'), q.get('db_hit'), 20, 'dropbacks hit or sacked')}"
                          + (f", expected EPA/db in this matchup {fmt(q['exp_db'], 'epa')}" if q.get("exp_db") is not None else "")
                          + (f"; {report_label(q.get('report_week'), M['through_week'])}: {q.get('report_status') or q.get('practice_status')}" if (q.get('report_status') or q.get('practice_status')) else "")
-                         + ("; latest starter" if q.get("latest_starter") else ""))
+                         + ("; latest starter" if q.get("latest_starter") else "")
+                         + (f"; {q['news_status']}" if q.get("news_status") else ""))
         L += ["", "## Quarterbacks under pressure (hit-or-sack proxy)", "| QB | Team | Dropbacks | Clean: n, EPA/db | Hit or sacked: n, EPA/db | Sack rate | Scramble rate |", "|---|---|---|---|---|---|---|"]
         for t in (a, hm):
             for q in sorted(QB.get(t, []), key=lambda q: -q["dropbacks"]):

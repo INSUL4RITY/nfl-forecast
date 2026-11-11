@@ -6,7 +6,9 @@ Called from compute.py. Every function takes already-loaded frames; nothing here
 from __future__ import annotations
 
 import datetime as dt
+import json
 import re
+from pathlib import Path
 from zoneinfo import ZoneInfo
 
 import numpy as np
@@ -644,6 +646,90 @@ def qb_scenarios(p: pd.DataFrame, Q: pd.DataFrame, ros_cur: pd.DataFrame, inj_la
                              f"the passing profile could differ from the recent games.")
         out[t] = {"qbs": rows, "latest": latest, "primary": primary, "flags": flags}
     return out
+
+
+MIX_FLAG = "Season figures mix quarterbacks."
+MIN_SAMPLE = 30   # dropbacks needed before a reported starter's own numbers are shown
+
+
+def load_qb_news(season: int, week: int) -> dict:
+    """The hand-kept quarterback news for one week ({} when the file or the week is missing)."""
+    f = Path(__file__).resolve().parent / f"qb_news_{season}.json"
+    if not f.exists():
+        return {}
+    return json.loads(f.read_text(encoding="utf-8")).get("weeks", {}).get(str(week), {})
+
+
+def _key(name) -> str:
+    s = re.sub(r"\b(jr|sr|ii|iii|iv)\b\.?", "", str(name).lower())
+    return re.sub(r"[^a-z]", "", s)
+
+
+def apply_qb_news(qbs: dict, news: dict, Q: pd.DataFrame, p: pd.DataFrame, week: int) -> list[str]:
+    """Add reported starters and departures that the rosters and injury reports cannot show yet (trades, signings,
+    benchings). The named starter becomes the team's expected starter; his own 2026 sample comes from every team he
+    played for (none for a quarterback without a regular-season dropback). Quarterbacks listed as unavailable keep their
+    rows (their games are in the season figures) with the reason. Returns one line per team for the quality checks."""
+    true = qb_starts(p)
+    qn = Q.assign(k=Q.name_full.fillna(Q.name).map(_key))
+    lines = []
+    for t, e in sorted(news.items()):
+        info = qbs.setdefault(t, {"qbs": [], "latest": None, "primary": None, "flags": []})
+        rows = info["qbs"]
+        for r in rows:
+            r.pop("news", None)
+        k = _key(e["starter"])
+        row = next((r for r in rows if _key(r["name"]) == k), None)
+        if row is None:
+            q = qn[qn.k == k]
+            q = q.iloc[0] if len(q) else None
+            pid = None if q is None else q.passer_id
+            mine = true[true.passer_id == pid] if pid is not None else true.iloc[0:0]
+            nn = lambda c: None if q is None or c not in q or pd.isna(q[c]) else float(q[c])   # noqa: E731
+            row = {"id": pid, "name": e["starter"], "dropbacks": 0 if q is None else int(q.dropbacks),
+                   "starts": int(len(mine)), "start_weeks": sorted(int(w) for w in mine.week),
+                   "start_teams": sorted(set(mine.posteam)),
+                   "epa_db": nn("epa_db"), "adj_epa_db": nn("adj_epa_db"), "sr": nn("sr"), "sack_rate": nn("sack_rate"),
+                   "int_worthy": nn("int_worthy_rate"), "epa_vs_blitz": nn("epa_vs_blitz"),
+                   "db_blitz": None if q is None else int(q.db_blitz), "db_hit": None if q is None else int(q.db_hit),
+                   "epa_hit_sack": nn("epa_hit_sack"), "scr_rate": nn("scr_rate"),
+                   "team_epa_play_in_starts": None, "team_plays_in_starts": 0,
+                   "roster_status": None, "report_status": None, "practice_status": None, "report_week": None,
+                   "latest_starter": False, "sample_team": None if q is None else str(q.teams)}
+            rows.append(row)
+        row["news"] = True
+        row["news_status"] = "reported starter" if e["conf"] == "named" else "expected starter, not confirmed"
+        gone = []
+        for u in e.get("unavailable", []):
+            r = next((r for r in rows if _key(r["name"]) == _key(u["player"])), None)
+            if r is not None:
+                r["news_status"] = u["why"]
+                gone.append(f"{r['name']} ({r['starts']} start{'' if r['starts'] == 1 else 's'}) {u['why']}")
+        src = "; ".join(f"{s['who']}, {s['when']}: {s['what']}" for s in e["sources"])
+        if row["dropbacks"] == 0 or row["adj_epa_db"] is None:
+            sample = "no 2026 regular-season dropbacks, so no own sample"
+        elif row["dropbacks"] < MIN_SAMPLE:
+            sample = f"only {row['dropbacks']} 2026 dropbacks, too few for an own sample"
+        else:
+            other = row.get("sample_team") and row["sample_team"] != t
+            sample = (f"his 2026 sample is {row['dropbacks']} dropbacks{' with ' + row['sample_team'] if other else ''}"
+                      f" ({row['starts']} start{'' if row['starts'] == 1 else 's'})")
+        verb = "is the reported starter" if e["conf"] == "named" else "is expected to start (not confirmed by the team)"
+        one = len(gone) == 1
+        news_flag = (f"Week {week} news: {e['starter']} {verb}; {sample}." + (" " + "; ".join(gone) + (": his games are in the season figures, "
+                     "but he will not play for this team." if one else ": their games are in the season figures, but they will not play "
+                     "for this team.") if gone else "") + f" Source: {src}.")
+        info["flags"] = [f for f in info["flags"] if "likely to start" not in f and "If he returns" not in f] + [news_flag]
+        info["news"] = {"starter": e["starter"], "conf": e["conf"], "sources": e["sources"], "flag": news_flag}
+        lines.append(f"{t} {e['starter']} ({e['conf']})")
+    return lines
+
+
+def qb_news_qc(lines: list[str], week: int) -> str:
+    if not lines:
+        return f"Quarterback news: no hand-kept entries for week {week}; expected starters follow the rosters and injury reports only."
+    return (f"Quarterback news (hand-kept, with sources, for what rosters and injury reports cannot show yet): week {week} starters "
+            f"{', '.join(lines)}. Injury reports still decide game statuses.")
 
 
 # ----------------------------------------------------------------------------------------- run style

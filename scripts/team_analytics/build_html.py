@@ -558,11 +558,16 @@ EDGE_SPECS = [
 ]
 
 
-def mismatches(T, nxt, MM):
+PASS_KEYS = ("epa_db", "pressure", "expl_pass")
+
+
+def mismatches(T, nxt, MM, QBS=None):
     """The three largest unit-versus-unit edges per game, scored on the matchup models' SHRUNK team effects:
     each side's effect times the share of it the shrinkage keeps, in standard deviations of the true effects
     (w * effect / tau). A measure with no reliable team-to-team signal (w close to 0) cannot become a headline edge.
-    Blitz tendencies have no shrinkage model, so they stay in the matchup report as context."""
+    Blitz tendencies have no shrinkage model, so they stay in the matchup report as context. Passing edges of a team
+    whose reported starter differs from the quarterbacks behind its figures say so in the detail."""
+    QBS = QBS or {}
     rows = []
     for _, g in nxt.iterrows():
         h, a = g.home_team, g.away_team
@@ -574,7 +579,10 @@ def mismatches(T, nxt, MM):
                 zd = m["def"]["w"][d] * m["def"]["eff"][d] / math.sqrt(m["def"]["tau2"])
                 zf = sgn * (zo + zd)                                 # > 0 favours the offence
                 score = -zf if lab.startswith("{d}") else zf        # sign follows the unit named first
-                edges.append((score, lab.format(o=o, d=d), det(T, o, d), o if zf >= 0 else d,
+                news = (QBS.get(o) or {}).get("news")
+                note = (f"; built with the quarterbacks who played before {news['starter']} (week news), so treat it with care"
+                        if news and key in PASS_KEYS else "")
+                edges.append((score, lab.format(o=o, d=d), det(T, o, d) + note, o if zf >= 0 else d,
                               round(float(m["off"]["w"][o]), 2), round(float(m["def"]["w"][d]), 2)))
         edges = sorted(edges, key=lambda e: -abs(e[0]))[:3]
         rows.append({"game": f"{a} at {h}", "day": str(g.gameday), "edges": [
@@ -667,6 +675,9 @@ def expected_starter(info):
     rows = info.get("qbs", [])
     if not rows:
         return None
+    news = next((r for r in rows if r.get("news")), None)        # hand-kept news: trades, signings, named starters
+    if news:
+        return news
     down = lambda r: r["roster_status"] == "RES" or r["report_status"] in ("Out", "Doubtful")   # noqa: E731
     lat = next((r for r in rows if r["latest_starter"]), None)
     if lat and not down(lat):
@@ -678,14 +689,21 @@ def expected_starter(info):
 def starter_line(t, info):
     """'with [expected starter]' figures when a team's season numbers mix quarterbacks; None otherwise."""
     rows = info.get("qbs", [])
-    if sum(1 for r in rows if r["starts"]) < 2:
+    news = info.get("news")
+    if sum(1 for r in rows if r["starts"]) < 2 and not news:
         return None
     q = expected_starter(info)
     if not q:
         return None
-    return {"team": t, "name": q["name"], "starts": q["starts"], "dropbacks": q["dropbacks"], "adj_epa_db": q["adj_epa_db"],
-            "sr": q.get("sr"), "sack_rate": q["sack_rate"], "int_worthy": q["int_worthy"], "low": q["starts"] < 4,
-            "latest": bool(q["latest_starter"])}
+    out = {"team": t, "name": q["name"], "starts": q["starts"], "dropbacks": q["dropbacks"], "adj_epa_db": q["adj_epa_db"],
+           "sr": q.get("sr"), "sack_rate": q["sack_rate"], "int_worthy": q["int_worthy"], "low": q["starts"] < 4,
+           "latest": bool(q["latest_starter"])}
+    if news and q.get("news"):
+        other = q.get("sample_team") and q["sample_team"] != t
+        out.update({"news": news["conf"], "news_status": q.get("news_status"), "sample_team": q.get("sample_team") if other else None,
+                    "no_sample": q["dropbacks"] < 30 or q["adj_epa_db"] is None,
+                    "sources": "; ".join(f"{s['who']}, {s['when']}" for s in news["sources"])})
+    return out
 
 
 def report_label(w):
@@ -797,6 +815,8 @@ def build_matchups(T, nxt, MM, A, mm, notes, PL, US, QBS, REF, ARR, UN, WX=None)
             r = T.loc[t]
             if int(r.qb_starters_n) > 1:
                 cautions.append(f"{t} season figures mix quarterbacks ({r.qb_starts}).")
+            if QBS.get(t, {}).get("news"):
+                cautions.append(f"{t} quarterback change the season figures do not reflect yet. " + QBS[t]["news"]["flag"])
             outs = A[(A.team == t) & A.status_class.isin(["confirmed: reserve list", "listed Out/Doubtful", "inactive 3+ games"]) & (A.term == "new")]
             if len(outs):
                 cautions.append(f"{t} regulars newly out (0-1 games missed): " + ", ".join(
@@ -1043,15 +1063,29 @@ def qb_context(t, d_team, MM, qbs, T, hsign):
         rows.append({**q, "exp_db": m["mean"] + w * eff + wd * ed + m["home"] * hsign, "w": w})
     text = caution = None
     flags = info.get("flags", [])
-    if len(rows) > 1:
+    news = next((r for r in info.get("qbs", []) if r.get("news")), None)
+
+    def lab(r):
+        if r.get("news"):
+            return r["name"] + f" ({r['news_status']})"
+        if r.get("news_status"):
+            return r["name"] + f" ({r['news_status']}; reference only)"
+        return r["name"] + (" (on the reserve list; reference only)" if r.get("roster_status") == "RES" else "")
+    if news is not None:
+        lead = next((r for r in rows if r.get("news")), None)
+        oth = [r for r in rows if r is not lead and (r["starts"] >= 2 or r["latest_starter"])]
+        head = (f"expected EPA/dropback vs {d_team} with {lab(lead)} {lead['exp_db']:+.3f}" if lead else
+                f"no 2026 sample for {lab(news)}, so no quarterback-specific expectation")
+        text = "; ".join([head] + [f"with {lab(r)} {r['exp_db']:+.3f}" for r in oth]) + "."
+    elif len(rows) > 1:
         lat = next((r for r in rows if r["latest_starter"]), rows[0])
         oth = [r for r in rows if r is not lat and r["starts"] >= 2]
         if oth:
-            lab = lambda r: r["name"] + (" (on the reserve list; reference only)" if r.get("roster_status") == "RES" else "")
             text = "; ".join([f"expected EPA/dropback vs {d_team} with {lab(lat)} {lat['exp_db']:+.3f}"] +
                              [f"with {lab(r)} {r['exp_db']:+.3f}" for r in oth]) + "."
-    if len(flags) > 1 or any("likely to start" in f for f in flags):
-        caution = " ".join(flags[1:]) if len(flags) > 1 else flags[0]
+    subst = [f for f in flags if f != "Season figures mix quarterbacks."]
+    if subst and (len(flags) > 1 or news is not None or any("likely to start" in f for f in flags)):
+        caution = " ".join(subst)
     return {"rows": rows, "flags": flags, "text": text, "caution": caution}
 
 
@@ -1232,8 +1266,8 @@ def main():
     U = unit_ranks(T)
     profiles = {t: profile(t, T, U, G, meta) for t in T.index}
     MM = json.loads((d / "matchup_models.json").read_text())
-    mm = mismatches(T, nxt, MM)
     CTX = json.loads((d / "context.json").read_text())
+    mm = mismatches(T, nxt, MM, CTX["qb"])
     TRV = pd.read_csv(d / "travel_next_week.csv").replace({np.nan: None}).to_dict("records")
     PEN_T = pd.read_csv(d / "penalties_by_type.csv")
     order = list(T.sort_values("rating_pg", ascending=False).index)
@@ -2125,8 +2159,10 @@ linebackers: snaps and PFR pressures; linemen and defensive backs: the unit's EP
 sack and scramble rates.</li>
 <li><b>Expected starter</b>: where a team's season figures mix quarterbacks, the matchup tables add a line for this week's expected starter: the latest
 game's starter (30+ dropbacks) unless he is on the reserve list or listed Out/Doubtful, otherwise the healthy quarterback with the most starts. It uses his own
-dropbacks (opponent-adjusted EPA, success, sack and interception-worthy rates); under four starts it is marked low confidence. Check the news: the rule cannot see
-a coach's decision.</li>
+dropbacks (opponent-adjusted EPA, success, sack and interception-worthy rates); under four starts it is marked low confidence. The rule cannot see a trade,
+a signing or a coach's decision, so a small hand-kept file adds those for the coming week, each with its source (a team announcement or a named reporter):
+the named starter then replaces the rule, his own 2026 sample counts every team he played for, and a quarterback with no regular-season dropbacks is shown
+with no sample. The team rows are not changed: they still describe the quarterbacks who played.</li>
 <li><b>Big plays allowed by position</b>: completions of 20+ yards and yards after the catch allowed to the receiver's weekly-roster position, per target and per game.</li>
 <li><b>Referee crews</b>: accepted penalties per game (same rules as the team tables) in the games each referee worked in {esc(REF['pool'])}; the referee comes from the
 nflverse schedules, which name him for {REF['cur_games_with_ref']} of {REF['cur_games']} {REF['season']} games so far. This week's assignments come from a hand-kept file with

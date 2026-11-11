@@ -2,9 +2,9 @@
  "season": 2026,
  "how_to_update": "Hand-kept. Referee assignments are published during the week (Football Zebras usually posts them by Thursday). Add the week under 'weeks' as {\"<nflverse game_id>\": \"Referee Name\"}, using the name as nflverse schedules spell it, and set source.url, source.title and source.retrieved. Leave a week out until it is published: the report then shows 'assignment not loaded'.",
  "source": {
-  "title": "nflrefstats (@nflrefstats1) on X: Week 9 NFL referee assignments, posted 2026-11-03 18:24 UTC",
-  "url": "https://x.com/nflrefstats1/status/2117684475832508493",
-  "retrieved": "2026-11-07"
+  "title": "nflrefstats (@nflrefstats1) on X: Week 10 NFL referee assignments, posted 2026-11-10 20:29 UTC",
+  "url": "https://x.com/nflrefstats1/status/2120252470865883569",
+  "retrieved": "2026-11-11"
  },
  "weeks": {
   "9": {
@@ -23,6 +23,29 @@
    "2026_09_ARI_SEA": "Clete Blakeman",
    "2026_09_TB_CHI": "Ron Torbert",
    "2026_09_BUF_MIN": "Carl Cheffers"
+  },
+  "10": {
+   "2026_10_WAS_NYG": "Brad Rogers",
+   "2026_10_NE_DET": "Clay Martin",
+   "2026_10_HOU_CLE": "Alan Eck",
+   "2026_10_KC_ATL": "Shawn Hochuli",
+   "2026_10_MIN_GB": "John Hussey",
+   "2026_10_CAR_NO": "Shawn Smith",
+   "2026_10_BUF_NYJ": "Ron Torbert",
+   "2026_10_MIA_IND": "Carl Cheffers",
+   "2026_10_JAX_TEN": "Alex Moore",
+   "2026_10_LA_ARI": "Adrian Hill",
+   "2026_10_SF_DAL": "Bill Vinovich",
+   "2026_10_SEA_LV": "Brad Allen",
+   "2026_10_PIT_CIN": "Clete Blakeman",
+   "2026_10_LAC_BAL": "Land Clark"
   }
- }
+ },
+ "previous_sources": [
+  {
+   "title": "nflrefstats (@nflrefstats1) on X: Week 9 NFL referee assignments, posted 2026-11-03 18:24 UTC",
+   "url": "https://x.com/nflrefstats1/status/2117684475832508493",
+   "retrieved": "2026-11-07"
+  }
+ ]
 }

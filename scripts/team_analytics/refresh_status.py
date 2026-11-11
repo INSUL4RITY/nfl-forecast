@@ -32,7 +32,7 @@ import caller_check  # noqa: E402
 import game_weather  # noqa: E402
 
 STATUS_FILES = ("injuries/injuries_{S}.parquet", "weekly_rosters/roster_weekly_{S}.parquet", "depth_charts/depth_charts_{S}.parquet")
-QC_PREFIXES = ("Absences:", "Absence classes", "Injury reports", "Duplicate players", "Next man up", "Arrivals", "Status refresh", "Weather", "Play-caller check")
+QC_PREFIXES = ("Absences:", "Absence classes", "Injury reports", "Duplicate players", "Next man up", "Arrivals", "Status refresh", "Weather", "Play-caller check", "Quarterback news")
 
 
 def main():
@@ -60,6 +60,7 @@ def main():
     inj_last = inj[inj.week == inj.groupby("team").week.transform("max")]
     CTX = json.loads((out_dir / "context.json").read_text())
     CTX["qb"] = ctx.qb_scenarios(p, Q, ros_cur, inj_last, teams, W)
+    qc.append(ctx.qb_news_qc(ctx.apply_qb_news(CTX["qb"], ctx.load_qb_news(S, W + 1), Q, p, W + 1), W + 1))
     DPj = depth.build(S, W, absences, cp.fetch)
     PLj = players.build(S, W, absences, cp.fetch)
     USj = usage.build(p, S, W, absences, cp.fetch)

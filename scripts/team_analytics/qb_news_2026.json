@@ -1,0 +1,55 @@
+{
+ "season": 2026,
+ "checked": "2026-11-11",
+ "how_to_update": "Hand-kept. Each Tuesday, before the build, add the coming week's quarterback news that the nflverse rosters and injury reports cannot show yet: trades, signings, benchings and starters named by the team or reported by a named reporter. One entry per team under the week number: 'starter' (the name as nflverse spells it), 'conf' ('named' = the team or a reporter says he is the starter; 'expected' = the coach or a reporter says he is expected or could start), 'sources' (who, what, when in UTC), and 'unavailable' (quarterbacks in the team's season figures who will not play for it, with why). Never add a starter without a source. The injury report still decides game statuses; this file only covers what it cannot.",
+ "weeks": {
+  "10": {
+   "LV": {
+    "starter": "Fernando Mendoza",
+    "conf": "named",
+    "sources": [
+     {"who": "Adam Schefter (ESPN) on X", "what": "Mendoza will take over as the starting quarterback after the Cousins trade", "when": "2026-11-10 19:37 UTC"},
+     {"who": "Ian Rapoport (NFL Network) on X", "what": "Mendoza becomes QB1", "when": "2026-11-10 19:48 UTC"}
+    ],
+    "unavailable": [{"player": "Kirk Cousins", "why": "traded to MIN on 10 Nov"}]
+   },
+   "MIN": {
+    "starter": "Kirk Cousins",
+    "conf": "expected",
+    "sources": [
+     {"who": "Adam Schefter and Ian Rapoport on X", "what": "Raiders trade Cousins to the Vikings for a 2027 third-round pick", "when": "2026-11-10 19:37 UTC"},
+     {"who": "ESPN (Kevin Seifert and others)", "what": "Cousins could start Sunday's game at Green Bay; not yet confirmed by the team", "when": "2026-11-10"}
+    ],
+    "unavailable": []
+   },
+   "ARI": {
+    "starter": "Carson Beck",
+    "conf": "named",
+    "sources": [
+     {"who": "Ian Rapoport (NFL Network) on X", "what": "Carson Beck is now QB1", "when": "2026-11-09 22:43 UTC"},
+     {"who": "Adam Schefter (ESPN) on X", "what": "Cardinals placed Gardner Minshew on injured reserve; not expected to play again this season", "when": "2026-11-10 22:14 UTC"}
+    ],
+    "unavailable": [
+     {"player": "Gardner Minshew", "why": "on injured reserve (torn UCL), reported 10 Nov"},
+     {"player": "Jacoby Brissett", "why": "traded to BAL before week 9"}
+    ]
+   },
+   "MIA": {
+    "starter": "Kyle McCord",
+    "conf": "named",
+    "sources": [
+     {"who": "Adam Schefter (ESPN) on X", "what": "Kyle McCord becomes Miami's starting quarterback; Malik Willis placed on injured reserve (groin)", "when": "2026-11-10 20:49 UTC"}
+    ],
+    "unavailable": [{"player": "Malik Willis", "why": "on injured reserve (groin), reported 10 Nov"}]
+   },
+   "BAL": {
+    "starter": "Jacoby Brissett",
+    "conf": "expected",
+    "sources": [
+     {"who": "Jamison Hensley (ESPN) on X", "what": "Coach Jesse Minter said he expects Brissett, acquired from Arizona, to start Monday night against the Chargers", "when": "2026-11-09 20:13 UTC"}
+    ],
+    "unavailable": []
+   }
+  }
+ }
+}
