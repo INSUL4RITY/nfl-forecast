@@ -341,7 +341,7 @@ export default async function GamePage({ params }: { params: Promise<{ id: strin
           {g.matchup_detail && <MatchupDetail d={g.matchup_detail} home={H} away={A} homeColor={pair.home} awayColor={pair.away}
             homeName={teams[H]?.name} awayName={teams[A]?.name} />}
 
-          {g.staff && (g.staff.away || g.staff.home) && <CoachingStaff away={A} home={H} staff={g.staff} />}
+          {g.staff && (g.staff.away || g.staff.home) && <CoachingStaff away={A} home={H} staff={g.staff} callers={g.play_callers ?? null} />}
 
           <div className="panel">
             <h2>Lineup assumptions</h2>

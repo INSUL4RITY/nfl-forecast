@@ -90,8 +90,11 @@ export default function Methodology() {
             carried by the data feed (practice participation, and game status once it reaches the feed) as of the newest retrieval
             before kickoff, with the time the data last changed and a link to the official report on NFL.com, which can be a day or more
             ahead of the feed.</li>
-          <li><b>Not modelled:</b> weather (archived operational forecasts exist only from about April 2026) and coaching or play-caller changes
-            (no free source with dates).</li>
+          <li><b>Not modelled:</b> weather (archived operational forecasts exist only from about April 2026) and coaching or play-caller changes.
+            Game pages show each team&apos;s offensive and defensive play callers (Sam Hoppen&apos;s play-caller data, compiled with
+            Arif Hasan), taken from finished games only: an upcoming game shows the callers of the team&apos;s last finished game,
+            and &quot;Since week N&quot; marks a change during the season. Display only; whether play-caller changes help a
+            forecast is a test for 2027.</li>
         </ul>
       </div>
 

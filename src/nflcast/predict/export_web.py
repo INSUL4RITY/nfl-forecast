@@ -34,6 +34,7 @@ from nflcast.predict import linemove as LM
 from nflcast.predict import matchup as MU
 from nflcast.predict import roster_moves as RM
 from nflcast.predict import picks as PK
+from nflcast.predict import play_callers as PC
 from nflcast.predict import publication as PUB
 from nflcast.predict.validation import entry_is_valid, select_frozen
 
@@ -386,6 +387,12 @@ def export() -> Path:
             print(f"[export] deserved margin paused: play-by-play looks like the revised EP scale ({dq_note})")
     except Exception as e:  # noqa: BLE001 - a display extra never blocks the export
         print(f"[export] deserved margin skipped: {type(e).__name__}: {e}")
+    pc_tables = None                       # play callers (display only; predict/play_callers.py)
+    try:
+        pc_raw = PC.load()
+        pc_tables = PC.prepare(pc_raw, games) if pc_raw is not None else None
+    except Exception as e:  # noqa: BLE001 - a display extra never blocks the export
+        print(f"[export] play callers skipped: {type(e).__name__}: {e}")
     rm_tables = None                       # roster moves (display only): current season's weekly rosters + snap counts
     try:
         rm_tables = RM.prepare(S.fetch("rosters_weekly", cur), S.fetch("snap_counts", cur), S.fetch("players"), cur)
@@ -441,6 +448,13 @@ def export() -> Path:
                 lm_items.append(item)
             item["injury_report"] = injury_report_for(g, now, inj_cache) if view["forecast"] else None
             item["staff"] = {"away": staff_for(staff, g["away_team"], season), "home": staff_for(staff, g["home_team"], season)}
+            item["play_callers"] = None
+            if pc_tables is not None:
+                try:
+                    item["play_callers"] = {s: PC.for_game(pc_tables, g[f"{s}_id"], season, g["game_id"], g["kickoff_utc"])
+                                            for s in ("away", "home")}
+                except Exception as e:  # noqa: BLE001 - display only
+                    print(f"[export] play callers for {g['game_id']} skipped: {type(e).__name__}: {e}")
             item["matchup_detail"] = None
             if mu_tg is not None and season == cur and (view["forecast"] or g["status"] == "final"):
                 lu = ((view["forecast"] or {}).get("lineup") or {})

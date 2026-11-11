@@ -406,6 +406,15 @@ market lines, QB availability, injury display, weather display). A changed artif
   explosive plays, special-teams net EPA; descriptive). Weeks 3-9 chance medians: right and deserved 0.83, unlucky 0.70,
   fortunate 0.33, wrong and deserved 0.23, close 0.51 (no game's chance contradicts its group).
 
+- Play callers (2026-11-11, user: "ok do both"; display only, not a model input): Sam Hoppen's play-caller data
+  (github.com/samhoppen/NFL_public data/all_playcallers.csv, compiled with Arif Hasan; offensive/defensive play caller and
+  head coach per team-game, 1999-2026) saved with nfl_executives_yearly.csv in data/raw/playcallers/<retrieved>/ (meta.json:
+  commit 613b798, retrieval time, sha256). No licence is stated, so the files stay local + private backup (backup.py source
+  added); only per-game names reach the site. `predict/play_callers.py`: finished games only (the file already fills weeks
+  11-18 with assumptions), an upcoming game shows the team's last finished game; "Since week N" for in-season changes (2026:
+  DEN offence Payton from wk 5, HOU defence Ryans from wk 5, CAR defence Wash from wk 9). Game page Coaching staff panel adds
+  "Calls the offence/defence"; Method note; research item B19 updated. In 16 of 32 teams the coordinator is not the caller.
+
 ## 3. Tests and checks (2026-09-25)
 - Live head-to-head (2026-10-13, user request; display only): `picks.head_to_head` compares combined, stats-only and market
   on the same finished, publicly verifiable games by week (margin error, winner correct) plus the vs-line records of the

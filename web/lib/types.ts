@@ -167,6 +167,8 @@ export interface WeekGame {
   locked_pick?: LockedPick | null;
   injury_report?: InjuryReport | null;
   staff?: { away: StaffSide | null; home: StaffSide | null };
+  /** Who called the plays, from finished games only (display only; predict/play_callers.py). */
+  play_callers?: { away: PlayCallers | null; home: PlayCallers | null } | null;
   result_grade?: ResultGrade | null;
   matchup?: Matchup | null;
   /** Deserved margin from play quality after the game (display only; predict/deserved.py). */
@@ -191,6 +193,15 @@ export interface StaffSide {
   head_coach: { name: string | null; seasons: number | null; known_from_2015: boolean };
   off_coordinator: { name: string | null; seasons: number | null; known_from_2015: boolean };
   def_coordinator: { name: string | null; seasons: number | null; known_from_2015: boolean };
+}
+
+/** Offensive and defensive play callers of one team (Sam Hoppen's play-caller data, finished games only). */
+export interface PlayCaller { name: string | null; head_coach: boolean; since_week: number | null; replaced: string | null }
+export interface PlayCallers {
+  based_on: "this_game" | "last_game";
+  as_of_week: number;
+  offence: PlayCaller;
+  defence: PlayCaller;
 }
 
 /** Official NFL injury report data (via nflverse) for one game's teams and week, from the newest snapshot we retrieved
