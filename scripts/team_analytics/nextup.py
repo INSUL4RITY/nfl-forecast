@@ -10,12 +10,25 @@ Started/not splits mix in every other change between those games (opponents, oth
 """
 from __future__ import annotations
 
+import json
+import math
+from pathlib import Path
+
 import numpy as np
 import pandas as pd
 
 from depth import _initial, _norm
 
 MIN_TGT, MIN_CAR, MIN_SPLIT_DB = 10, 10, 100     # below these a rate is not shown
+_PS = Path(__file__).resolve().parent / "player_shrinkage.json"
+PLAYER_SHRINK = json.loads(_PS.read_text(encoding="utf-8")) if _PS.exists() else None
+
+
+def rate_range(kind: str, n: int) -> float | None:
+    """Half-width of a 95% interval for a per-opportunity EPA rate on n opportunities (kind: 'carry', 'target_WR', ...),
+    from the 2021-25 per-opportunity variance in player_shrinkage.json."""
+    m = (PLAYER_SHRINK or {}).get("measures", {}).get(kind) or (PLAYER_SHRINK or {}).get("measures", {}).get("target_WR")
+    return 1.96 * math.sqrt(m["s2"] / n) if m and n else None
 
 
 def _match(d: dict, name: str):
@@ -50,7 +63,7 @@ def build(depth_rows: list[dict], absences: pd.DataFrame, snaps: pd.DataFrame, p
         if g in ("WR/TE", "RB"):
             up = _match({_norm(x["name"]): x for x in US["team_players"].get(t, [])}, nu)
             if up:
-                q.update({"kind": "skill", "games": up["games"], "snap_pct": _f(up["snap_pct"]), "targets": up["targets"],
+                q.update({"kind": "skill", "pos": up.get("pos"), "games": up["games"], "snap_pct": _f(up["snap_pct"]), "targets": up["targets"],
                           "epa_tgt": _f(up["epa_tgt"]), "carries": up["carries"], "epa_car": _f(up["epa_car"])})
         elif g in ("DL/EDGE", "LB"):
             up = _match(PL["all"].get(t, {}), nu)
@@ -96,11 +109,19 @@ def text(nu: str, q: dict) -> str:
     pc = lambda v: "n/a" if v is None else f"{100 * v:.1f}%"   # noqa: E731
     if k == "skill":
         parts = [f"{nu}: {_pl(q['games'], 'game')}, {pc(q['snap_pct'])} of snaps"]
+        rated = False
         if q["targets"]:
-            parts.append(_pl(q['targets'], 'target') + (f" ({e(q['epa_tgt'])} EPA/target)" if q["targets"] >= MIN_TGT else " (too few for a rate)"))
+            rt = rate_range(f"target_{q.get('pos')}", q["targets"])
+            rated |= q["targets"] >= MIN_TGT
+            parts.append(_pl(q['targets'], 'target') + (f" ({e(q['epa_tgt'])} EPA/target" + (f", ±{rt:.2f}" if rt else "") + ")"
+                                                         if q["targets"] >= MIN_TGT else " (too few for a rate)"))
         if q["carries"]:
-            parts.append(("1 carry" if q['carries'] == 1 else f"{q['carries']} carries") + (f" ({e(q['epa_car'])} EPA/carry)" if q["carries"] >= MIN_CAR else " (too few for a rate)"))
-        return ", ".join(parts)
+            rc = rate_range("carry", q["carries"])
+            rated |= q["carries"] >= MIN_CAR
+            parts.append(("1 carry" if q['carries'] == 1 else f"{q['carries']} carries") + (f" ({e(q['epa_car'])} EPA/carry" + (f", ±{rc:.2f}" if rc else "") + ")"
+                                                                                           if q["carries"] >= MIN_CAR else " (too few for a rate)"))
+        return ", ".join(parts) + (". Per-target and per-carry rates are mostly noise at this volume; his share of the work is the steadier guide"
+                                   if rated and PLAYER_SHRINK else "")
     if k == "rush":
         return (f"{nu}: {_pl(q['snaps'], 'defensive snap')} in {_pl(q['games'], 'game')}, {_pl(q['pressures'], 'pressure')}"
                 + (f" ({q['per100']:.1f} per 100 snaps)" if q["per100"] is not None else "") + f", {_pl(q['sacks'], 'sack')}")

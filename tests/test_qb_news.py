@@ -96,3 +96,11 @@ def test_qb_weight_uses_the_fitted_quarterback_spread():
     w60, w200 = bh.qb_weight(60), bh.qb_weight(200)
     assert 0.1 < w60 < w200 < 0.5
     assert "uncertain by about" in bh.sample_note({"dropbacks": 51, "adj_epa_db": 0.18, "one_q": None})
+
+
+def test_player_rates_show_a_range_and_point_to_usage():
+    import nextup
+    q = {"kind": "skill", "pos": "WR", "games": 4, "snap_pct": 0.6, "targets": 14, "epa_tgt": 0.31, "carries": 3, "epa_car": 0.1}
+    t = nextup.text("Next Man", q)
+    assert "+0.310 EPA/target, ±0.8" in t and "(too few for a rate)" in t and "steadier guide" in t
+    assert "Efficiency settles slowly" in bh.player_note("rec") and "Efficiency settles slowly" in bh.player_note("rb")

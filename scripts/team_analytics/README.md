@@ -38,6 +38,7 @@ reads or changes the forecasting model, and it uses no market data (spread, tota
 | `context.py`, `players.py`, `usage.py`, `depth.py`, `nextup.py`, `arrivals.py`, `garbage.py`, `unusual.py`, `referees.py`, `callers.py`, `game_weather.py` | One topic each |
 | `backtest_matchups.py`, `matchup_calibration.json` | The 2021-25 backtest of the matchup expectations and the calibration fitted from it (refitted once a year) |
 | `backtest_qb_sample.py`, `qb_shrinkage.json` | How much of a quarterback's early EPA per dropback lasts (2021-25), and the quarterback shrinkage fitted from it |
+| `backtest_player_sample.py`, `player_shrinkage.json` | The same test for running backs (EPA per carry) and receivers (EPA per target): efficiency settles slowly, usage quickly |
 | `ep_scale.py` | Warns if nflverse switches play-by-play to a revised EP valuation |
 | `caller_check.py` | Compares the hand-kept play-caller file with Sam Hoppen's public dataset and lists differences to verify |
 | `publish_public.py` | Copies the newest report to the public page |

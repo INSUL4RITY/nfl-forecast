@@ -695,6 +695,44 @@ def one_q_text(o):
             f"without it he averaged {o['without']:+.3f} per dropback.")
 
 
+PLAYER_SHRINK = json.loads((Path(__file__).resolve().parent / "player_shrinkage.json").read_text(encoding="utf-8"))     if (Path(__file__).resolve().parent / "player_shrinkage.json").exists() else None
+
+
+def _lasted(kind, K):
+    r = next((x for x in PLAYER_SHRINK["measures"][kind]["by_sample"] if x["K"] == K), None) if PLAYER_SHRINK else None
+    return r
+
+
+def player_note(which):
+    """Data-driven caution for the player ranking tables ('rb' or 'rec')."""
+    if not PLAYER_SHRINK:
+        return ""
+    y = PLAYER_SHRINK["fitted_on"]
+    if which == "rb":
+        a, b = _lasted("carry", 40), _lasted("carry", 80)
+        return (f" Efficiency settles slowly: in {y[0]}-{y[1]} only about {a['carried_forward']:.0%} of a running back's EPA-per-carry gap from average after "
+                f"40 carries lasted the rest of his season ({b['carried_forward']:.0%} after 80). Carry share and total work are the steadier guide.")
+    w, t = _lasted("target_WR", 40), _lasted("target_TE", 40)
+    return (f" Efficiency settles slowly: in {y[0]}-{y[1]} only about {w['carried_forward']:.0%} of a wide receiver's EPA-per-target gap from average "
+            f"after 40 targets lasted the rest of his season (tight ends about {t['carried_forward']:.0%}, on fewer cases), while early target share "
+            f"kept a correlation of about {w['share_corr']:.2f} with later target share. Read per-target columns as noisy; target share is the steadier guide.")
+
+
+def player_method():
+    if not PLAYER_SHRINK:
+        return ""
+    y = PLAYER_SHRINK["fitted_on"]
+    m = PLAYER_SHRINK["measures"]
+    c40, w40, t20 = _lasted("carry", 40), _lasted("target_WR", 40), _lasted("target_TE", 20)
+    return (f"<p>The same test for other positions ({y[0]}-{y[1]}, players who went on to {PLAYER_SHRINK['rest_min']}+ more opportunities): "
+            f"after 40 carries about {c40['carried_forward']:.0%} of a running back's EPA-per-carry gap from average lasted ({m['carry']['rows']} samples), "
+            f"after 40 targets about {w40['carried_forward']:.0%} of a wide receiver's EPA-per-target gap ({m['target_WR']['rows']} samples), "
+            f"after 20 targets about {t20['carried_forward']:.0%} for tight ends, and running backs' EPA per target showed no measurable carry-over. "
+            f"Success rate and capped EPA were no better. Early target share, by contrast, kept a correlation of about {w40['share_corr']:.2f} with later "
+            f"target share. Player efficiency feeds no expectation in this report; the player tables and next-man-up lines show it with a 95% range "
+            f"and point to usage as the steadier guide.</p>")
+
+
 def qb_method():
     """Method text for the quarterback shrinkage, from qb_shrinkage.json."""
     if not QB_SHRINK:
@@ -1665,7 +1703,7 @@ def main():
         C("rz_car", "RZ carries", "int", 0), C("gl_car", "Carries inside 5", "int", 0),
         C("targets", "Targets", "int", 1), C("tgt_share", "Target share", "pct", 1), C("rec_yds", "Rec yds", "int", 1),
         C("epa_tgt", "EPA/target", "epa", 1), C("epa_total", "Total EPA (rush + rec)", "s1", 1, "Sum of EPA on his carries and targets"),
-    ], "epa_total", "Season figures only. Total EPA rewards volume and efficiency together; per-carry columns show efficiency alone. Running-back EPA also reflects the blocking and the play call.", rows="rb"))
+    ], "epa_total", "Season figures only. Total EPA rewards volume and efficiency together; per-carry columns show efficiency alone. Running-back EPA also reflects the blocking and the play call." + player_note("rb"), rows="rb"))
     rec_cols = [
         C("targets", "Targets", "int", 1), C("tgt_share", "Target share", "pct", 1), C("tgt_share_l3", "Target share, last 3", "pct", 1),
         C("air_share", "Air-yards share", "pct", 1, "Share of the team's intended air yards"),
@@ -1678,7 +1716,7 @@ def main():
         C("epa_total", "Total EPA", "s1", 1, "Sum of EPA on his targets (and carries)"),
     ]
     rec_note = ("Season figures only. Receiver EPA includes the quarterback's throw and the play call, so it measures usage and production, "
-                "not the receiver alone. Yards per route run needs routes, which free data does not record.")
+                "not the receiver alone. Yards per route run needs routes, which free data does not record." + player_note("rec"))
     tables.append(table("rank_wr", f"Wide receivers ({US['rec_min']}+ targets)", rk_common + rec_cols, "epa_total", rec_note, rows="wr"))
     tables.append(table("rank_te", f"Tight ends ({US['rec_min']}+ targets)", rk_common + rec_cols, "epa_total", rec_note, rows="te"))
     tables.append(table("sos", "Strength of schedule", [
@@ -2182,6 +2220,7 @@ away team's home clock. Relocated franchises use their city at the time; a few h
 <h3>Quarterback scenarios</h3>
 <p>Per-quarterback opponent-adjusted EPA per dropback is shrunk towards the league average, using his own dropbacks as the sample size, then combined with the opposing defence's effect. {qb_method()}
 Status comes from each team's latest weekly roster (reserve list) and latest injury report (game status, or practice participation before game statuses are published). Team-level tables are not changed.</p>
+{player_method()}
 <h3>Not available, and proxies used</h3>
 <ul>
 <li><b>Depth charts</b>: ESPN's daily team depth charts via nflverse, used only for the next player listed behind an absent regular and for checking the listed QB and offensive line against who played the latest game (snap counts). Teams often leave charts stale, and a few chart rows carry stale player ids, which are repaired from the weekly rosters by team and name. <b>Next Gen receiving</b>: season rows for qualifying receivers, aggregated per team weighted by targets (separation, cushion, air yards) or catches (YAC over expected).</li>

@@ -1893,6 +1893,7 @@
   "ARI|Kendrick Bourne": {
    "group": "WR/TE",
    "kind": "skill",
+   "pos": "WR",
    "games": 2,
    "snap_pct": 0.435,
    "targets": 4,
@@ -2064,13 +2065,14 @@
   "CAR|Xavier Legette": {
    "group": "WR/TE",
    "kind": "skill",
+   "pos": "WR",
    "games": 7,
    "snap_pct": 0.7214285714285714,
    "targets": 49,
    "epa_tgt": 0.18579806481583255,
    "carries": 1,
    "epa_car": -0.8674756109248847,
-   "text": "Jalen Coker: 7 games, 72.1% of snaps, 49 targets (+0.186 EPA/target), 1 carry (too few for a rate)"
+   "text": "Jalen Coker: 7 games, 72.1% of snaps, 49 targets (+0.186 EPA/target, \u00b10.46), 1 carry (too few for a rate). Per-target and per-carry rates are mostly noise at this volume; his share of the work is the steadier guide"
   },
   "CHI|Malik Muhammad": {
    "group": "DB",
@@ -2105,13 +2107,14 @@
   "CHI|Cole Kmet": {
    "group": "WR/TE",
    "kind": "skill",
+   "pos": "TE",
    "games": 9,
    "snap_pct": 0.8622222222222222,
    "targets": 57,
    "epa_tgt": -0.0173114030688323,
    "carries": 0,
    "epa_car": null,
-   "text": "Colston Loveland: 9 games, 86.2% of snaps, 57 targets (-0.017 EPA/target)"
+   "text": "Colston Loveland: 9 games, 86.2% of snaps, 57 targets (-0.017 EPA/target, \u00b10.36). Per-target and per-carry rates are mostly noise at this volume; his share of the work is the steadier guide"
   },
   "CHI|Dayo Odeyingbo": {
    "group": "DL/EDGE",
@@ -2140,13 +2143,14 @@
   "CIN|Andrei Iosivas": {
    "group": "WR/TE",
    "kind": "skill",
+   "pos": "WR",
    "games": 8,
    "snap_pct": 0.43375,
    "targets": 26,
    "epa_tgt": 0.17911692624889278,
    "carries": 2,
    "epa_car": 0.895173191151116,
-   "text": "Dohnte Meyers: 8 games, 43.4% of snaps, 26 targets (+0.179 EPA/target), 2 carries (too few for a rate)"
+   "text": "Dohnte Meyers: 8 games, 43.4% of snaps, 26 targets (+0.179 EPA/target, \u00b10.62), 2 carries (too few for a rate). Per-target and per-carry rates are mostly noise at this volume; his share of the work is the steadier guide"
   },
   "CLE|Maliek Collins": {
    "group": "DL/EDGE",
@@ -2175,13 +2179,14 @@
   "DAL|George Pickens": {
    "group": "WR/TE",
    "kind": "skill",
+   "pos": "WR",
    "games": 5,
    "snap_pct": 0.2288888888888889,
    "targets": 11,
    "epa_tgt": -0.04270567929118194,
    "carries": 0,
    "epa_car": null,
-   "text": "Jonathan Mingo: 5 games, 22.9% of snaps, 11 targets (-0.043 EPA/target)"
+   "text": "Jonathan Mingo: 5 games, 22.9% of snaps, 11 targets (-0.043 EPA/target, \u00b10.96). Per-target and per-carry rates are mostly noise at this volume; his share of the work is the steadier guide"
   },
   "DAL|Joey Porter Jr.": {
    "group": "DB",
@@ -2534,13 +2539,14 @@
   "LA|Davante Adams": {
    "group": "WR/TE",
    "kind": "skill",
+   "pos": "WR",
    "games": 5,
    "snap_pct": 0.33499999999999996,
    "targets": 13,
    "epa_tgt": 0.16762424716188645,
    "carries": 0,
    "epa_car": null,
-   "text": "Tutu Atwell: 5 games, 33.5% of snaps, 13 targets (+0.168 EPA/target)"
+   "text": "Tutu Atwell: 5 games, 33.5% of snaps, 13 targets (+0.168 EPA/target, \u00b10.88). Per-target and per-carry rates are mostly noise at this volume; his share of the work is the steadier guide"
   },
   "LA|Kobie Turner": {
    "group": "DL/EDGE",
@@ -2617,13 +2623,14 @@
   "MIA|De'Von Achane": {
    "group": "RB",
    "kind": "skill",
+   "pos": "RB",
    "games": 7,
    "snap_pct": 0.585,
    "targets": 10,
    "epa_tgt": -0.3921413850571752,
    "carries": 107,
    "epa_car": -0.04662011882283956,
-   "text": "Ollie Gordon II: 7 games, 58.5% of snaps, 10 targets (-0.392 EPA/target), 107 carries (-0.047 EPA/carry)"
+   "text": "Ollie Gordon II: 7 games, 58.5% of snaps, 10 targets (-0.392 EPA/target, \u00b10.87), 107 carries (-0.047 EPA/carry, \u00b10.17). Per-target and per-carry rates are mostly noise at this volume; his share of the work is the steadier guide"
   },
   "MIN|Donovan Jackson": {
    "group": "OL",
@@ -2658,13 +2665,14 @@
   "MIN|Josh Oliver": {
    "group": "WR/TE",
    "kind": "skill",
+   "pos": "TE",
    "games": 8,
    "snap_pct": 0.6825,
    "targets": 44,
    "epa_tgt": 0.39899575206737303,
    "carries": 0,
    "epa_car": null,
-   "text": "T.J. Hockenson: 8 games, 68.2% of snaps, 44 targets (+0.399 EPA/target)"
+   "text": "T.J. Hockenson: 8 games, 68.2% of snaps, 44 targets (+0.399 EPA/target, \u00b10.41). Per-target and per-carry rates are mostly noise at this volume; his share of the work is the steadier guide"
   },
   "NE|Alijah Vera-Tucker": {
    "group": "OL",
@@ -2701,24 +2709,26 @@
   "NE|Romeo Doubs": {
    "group": "WR/TE",
    "kind": "skill",
+   "pos": "WR",
    "games": 5,
    "snap_pct": 0.6519999999999999,
    "targets": 26,
    "epa_tgt": 0.33495628976827463,
    "carries": 0,
    "epa_car": null,
-   "text": "Mack Hollins: 5 games, 65.2% of snaps, 26 targets (+0.335 EPA/target)"
+   "text": "Mack Hollins: 5 games, 65.2% of snaps, 26 targets (+0.335 EPA/target, \u00b10.62). Per-target and per-carry rates are mostly noise at this volume; his share of the work is the steadier guide"
   },
   "NO|Travis Etienne": {
    "group": "RB",
    "kind": "skill",
+   "pos": "RB",
    "games": 7,
    "snap_pct": 0.36714285714285716,
    "targets": 31,
    "epa_tgt": -0.026197979016616597,
    "carries": 47,
    "epa_car": -0.11368120585300742,
-   "text": "Alvin Kamara: 7 games, 36.7% of snaps, 31 targets (-0.026 EPA/target), 47 carries (-0.114 EPA/carry)"
+   "text": "Alvin Kamara: 7 games, 36.7% of snaps, 31 targets (-0.026 EPA/target, \u00b10.49), 47 carries (-0.114 EPA/carry, \u00b10.26). Per-target and per-carry rates are mostly noise at this volume; his share of the work is the steadier guide"
   },
   "NYG|Tremaine Edmunds": {
    "group": "LB",
@@ -2763,13 +2773,14 @@
   "NYJ|Garrett Wilson": {
    "group": "WR/TE",
    "kind": "skill",
+   "pos": "WR",
    "games": 6,
    "snap_pct": 0.5544444444444445,
    "targets": 15,
    "epa_tgt": 0.6286804865269574,
    "carries": 4,
    "epa_car": 0.19296857257722877,
-   "text": "Isaiah Williams: 6 games, 55.4% of snaps, 15 targets (+0.629 EPA/target), 4 carries (too few for a rate)"
+   "text": "Isaiah Williams: 6 games, 55.4% of snaps, 15 targets (+0.629 EPA/target, \u00b10.82), 4 carries (too few for a rate). Per-target and per-carry rates are mostly noise at this volume; his share of the work is the steadier guide"
   },
   "PHI|Lane Johnson": {
    "group": "OL",
@@ -2790,13 +2801,14 @@
   "PHI|DeVonta Smith": {
    "group": "WR/TE",
    "kind": "skill",
+   "pos": "WR",
    "games": 7,
    "snap_pct": 0.6477777777777778,
    "targets": 32,
    "epa_tgt": 0.0348590595301148,
    "carries": 0,
    "epa_car": null,
-   "text": "Darius Cooper: 7 games, 64.8% of snaps, 32 targets (+0.035 EPA/target)"
+   "text": "Darius Cooper: 7 games, 64.8% of snaps, 32 targets (+0.035 EPA/target, \u00b10.56). Per-target and per-carry rates are mostly noise at this volume; his share of the work is the steadier guide"
   },
   "PHI|Jihaad Campbell": {
    "group": "LB",
@@ -2811,6 +2823,7 @@
   "PIT|Michael Pittman Jr.": {
    "group": "WR/TE",
    "kind": "skill",
+   "pos": "WR",
    "games": 3,
    "snap_pct": 0.145,
    "targets": 4,
@@ -2858,24 +2871,26 @@
   "SF|Deebo Samuel": {
    "group": "WR/TE",
    "kind": "skill",
+   "pos": "WR",
    "games": 4,
    "snap_pct": 0.5533333333333333,
    "targets": 13,
    "epa_tgt": 0.9516824609644783,
    "carries": 0,
    "epa_car": null,
-   "text": "Jordan Watkins: 4 games, 55.3% of snaps, 13 targets (+0.952 EPA/target)"
+   "text": "Jordan Watkins: 4 games, 55.3% of snaps, 13 targets (+0.952 EPA/target, \u00b10.88). Per-target and per-carry rates are mostly noise at this volume; his share of the work is the steadier guide"
   },
   "SF|Mike Evans": {
    "group": "WR/TE",
    "kind": "skill",
+   "pos": "WR",
    "games": 3,
    "snap_pct": 0.48333333333333334,
    "targets": 10,
    "epa_tgt": 0.4961887661834091,
    "carries": 0,
    "epa_car": null,
-   "text": "Demarcus Robinson: 3 games, 48.3% of snaps, 10 targets (+0.496 EPA/target)"
+   "text": "Demarcus Robinson: 3 games, 48.3% of snaps, 10 targets (+0.496 EPA/target, \u00b11.01). Per-target and per-carry rates are mostly noise at this volume; his share of the work is the steadier guide"
   },
   "TB|YaYa Diaby": {
    "group": "LB",
@@ -2890,13 +2905,14 @@
   "TEN|Carnell Tate": {
    "group": "WR/TE",
    "kind": "skill",
+   "pos": "WR",
    "games": 5,
    "snap_pct": 0.21375,
    "targets": 13,
    "epa_tgt": 0.2535537825705885,
    "carries": 0,
    "epa_car": null,
-   "text": "Chimere Dike: 5 games, 21.4% of snaps, 13 targets (+0.254 EPA/target)"
+   "text": "Chimere Dike: 5 games, 21.4% of snaps, 13 targets (+0.254 EPA/target, \u00b10.88). Per-target and per-carry rates are mostly noise at this volume; his share of the work is the steadier guide"
   },
   "TEN|Fernando Carmona": {
    "group": "OL",
@@ -2953,24 +2969,26 @@
   "WAS|Terry McLaurin": {
    "group": "WR/TE",
    "kind": "skill",
+   "pos": "WR",
    "games": 7,
    "snap_pct": 0.6085714285714285,
    "targets": 49,
    "epa_tgt": 0.20680436217751771,
    "carries": 0,
    "epa_car": null,
-   "text": "Stefon Diggs: 7 games, 60.9% of snaps, 49 targets (+0.207 EPA/target)"
+   "text": "Stefon Diggs: 7 games, 60.9% of snaps, 49 targets (+0.207 EPA/target, \u00b10.46). Per-target and per-carry rates are mostly noise at this volume; his share of the work is the steadier guide"
   },
   "WAS|Treylon Burks": {
    "group": "WR/TE",
    "kind": "skill",
+   "pos": "WR",
    "games": 6,
    "snap_pct": 0.4357142857142858,
    "targets": 16,
    "epa_tgt": -0.23469786518999702,
    "carries": 0,
    "epa_car": null,
-   "text": "Dyami Brown: 6 games, 43.6% of snaps, 16 targets (-0.235 EPA/target)"
+   "text": "Dyami Brown: 6 games, 43.6% of snaps, 16 targets (-0.235 EPA/target, \u00b10.80). Per-target and per-carry rates are mostly noise at this volume; his share of the work is the steadier guide"
   }
  }
 }

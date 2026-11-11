@@ -1,7 +1,7 @@
 {
  "season": 2026,
  "through_week": 9,
- "generated_utc": "2026-11-11T21:31:43+00:00",
+ "generated_utc": "2026-11-11T21:39:45+00:00",
  "games": 136,
  "plays": 17507,
  "drives": 2830,
@@ -103,7 +103,7 @@
   "Referees: crew rates from 2024-25 (18 referees); nflverse schedules name the referee for 65 of 136 2026 games (weeks 1, 2, 3, 4, 5); week 10 assignments loaded for 14 games.",
   "Unusual games: rain, snow or 15+ mph wind and under 56 combined dropbacks (bottom 2% of 1359 2021-25 games, median 79, lowest 40): 2 flagged this season, 9 met both tests in 2021-25. 6 quarterbacks threw 2+ interceptions in their team's latest game.",
   "Weather: 7 forecasts, 4 with the roof not listed, 3 indoors, 0 already started, 0 not loaded. History from 922 outdoor games with a usable weather text.",
-  "Play-caller check against Sam Hoppen's play-caller dataset (read 11 Nov 2026 21:31 UTC), games through week 9: all 808 entries agree. Marked unclear in the file: WAS defence (Daronte Jones or Dan Quinn; the dataset lists Dan Quinn).",
+  "Play-caller check against Sam Hoppen's play-caller dataset (read 11 Nov 2026 21:39 UTC), games through week 9: all 808 entries agree. Marked unclear in the file: WAS defence (Daronte Jones or Dan Quinn; the dataset lists Dan Quinn).",
   "Next man up: 98 absences have a listed replacement; 88 matched to his own 2026 sample.",
   "Arrivals: 26 active players on a new team since week 1 who were regulars elsewhere or play 40%+ of snaps (8 former regulars elsewhere, 7 arrived in weeks 8-10). Departures: 8 former regulars now on another team (2 new). Rosters through week 10."
  ],
