@@ -81,3 +81,18 @@ def test_no_news_leaves_the_rule_unchanged():
     assert ctx.apply_qb_news(s, {}, Q, pbp(), 4) == []
     assert bh.expected_starter(s["AAA"])["name"] == "Old Qb" and bh.starter_line("AAA", s["AAA"]) is None
     assert "no hand-kept entries" in ctx.qb_news_qc([], 4)
+
+
+def test_one_quarter_flags_a_total_carried_by_one_quarter():
+    rows = [{"week": 1, "qtr": 4, "epa": 1.0}] * 8 + [{"week": 1, "qtr": 2, "epa": -0.05}] * 20 + [{"week": 2, "qtr": 1, "epa": 0.05}] * 20
+    o = ctx.one_quarter(pd.DataFrame(rows))
+    assert o["week"] == 1 and o["qtr"] == 4 and o["epa"] == 8.0 and o["n"] == 8 and o["without"] == 0.0
+    even = pd.DataFrame([{"week": w, "qtr": q, "epa": 0.1} for w in (1, 2) for q in (1, 2, 3, 4) for _ in range(5)])
+    assert ctx.one_quarter(even) is None
+
+
+def test_qb_weight_uses_the_fitted_quarterback_spread():
+    assert bh.QB_SHRINK is not None
+    w60, w200 = bh.qb_weight(60), bh.qb_weight(200)
+    assert 0.1 < w60 < w200 < 0.5
+    assert "uncertain by about" in bh.sample_note({"dropbacks": 51, "adj_epa_db": 0.18, "one_q": None})

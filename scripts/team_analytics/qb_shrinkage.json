@@ -1,0 +1,56 @@
+{
+ "tau2": 0.00829,
+ "s2": 2.3917,
+ "fitted_on": [
+  2021,
+  2025
+ ],
+ "passers": 76,
+ "rows": 703,
+ "loso_rmse": 0.1167,
+ "mean_only_rmse": 0.1243,
+ "team_weight_rmse": 0.1168,
+ "team_weight_from": {
+  "tau2": 0.012330301306302603,
+  "resid_var": 2.404022923617288
+ },
+ "by_sample": [
+  {
+   "K": 30,
+   "passer_seasons": 203,
+   "carried_forward": 0.118,
+   "fitted_weight": 0.094,
+   "corr_raw": 0.271,
+   "corr_capped": 0.277,
+   "corr_success": 0.271
+  },
+  {
+   "K": 60,
+   "passer_seasons": 188,
+   "carried_forward": 0.187,
+   "fitted_weight": 0.172,
+   "corr_raw": 0.365,
+   "corr_capped": 0.4,
+   "corr_success": 0.396
+  },
+  {
+   "K": 120,
+   "passer_seasons": 171,
+   "carried_forward": 0.275,
+   "fitted_weight": 0.294,
+   "corr_raw": 0.42,
+   "corr_capped": 0.446,
+   "corr_success": 0.445
+  },
+  {
+   "K": 200,
+   "passer_seasons": 141,
+   "carried_forward": 0.339,
+   "fitted_weight": 0.41,
+   "corr_raw": 0.415,
+   "corr_capped": 0.402,
+   "corr_success": 0.38
+  }
+ ],
+ "note": "Per-quarterback shrinkage of EPA per dropback; see backtest_qb_sample.py."
+}

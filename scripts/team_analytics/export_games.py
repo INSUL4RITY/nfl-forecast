@@ -182,6 +182,8 @@ def main():
                     L.append(f"| *With {q['name']} (expected starter{'' if q['latest'] else ', not the latest starter'}; {plural(q['starts'], 'start')}, {q['dropbacks']} dropbacks"
                              f"{'; low confidence' if q['low'] else ''})* | adj. EPA/db {fmt(q['adj_epa_db'], 'epa')} | success {fmt(q.get('sr'), 'pct')} | "
                              f"sack rate {fmt(q['sack_rate'], 'pct')} | INT-worthy {fmt(q['int_worthy'], 'pct')} | | |")
+                if grp["name"] == "Passing" and q and q.get("note") and not q.get("no_sample"):
+                    L.append(f"| *{q['note'].strip()}* | | | | | | |")
                 for r in grp["rows"]:
                     e = (fmt(r["exp"], r["f"]), fmt(r["lg"], r["f"]), r["lean"], r["conf"]) if "exp" in r else ("season figures only", "", "", "")
                     L.append(f"| {r['lab']} | {fmt(r['o'], r['f'])} ({ordn(r['o_rank'])}) | {fmt(r['d'], r['f'])} ({ordn(r['d_rank'])}) | {e[0]} | {e[1]} | {e[2]} | {e[3]} |")

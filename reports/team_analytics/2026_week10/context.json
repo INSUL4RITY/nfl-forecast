@@ -330,6 +330,7 @@
      "practice_status": "Did Not Participate In Practice",
      "report_week": 9,
      "latest_starter": false,
+     "one_q": null,
      "news_status": "traded to BAL before week 9"
     },
     {
@@ -357,6 +358,14 @@
      "practice_status": null,
      "report_week": null,
      "latest_starter": true,
+     "one_q": {
+      "week": 8,
+      "qtr": 4,
+      "epa": 18.21,
+      "n": 17,
+      "total": 11.64,
+      "without": -0.164
+     },
      "news_status": "on injured reserve (torn UCL), reported 10 Nov"
     },
     {
@@ -384,6 +393,7 @@
      "report_week": null,
      "latest_starter": false,
      "sample_team": null,
+     "one_q": null,
      "news": true,
      "news_status": "reported starter"
     }
@@ -444,7 +454,8 @@
      "report_status": null,
      "practice_status": null,
      "report_week": null,
-     "latest_starter": true
+     "latest_starter": true,
+     "one_q": null
     },
     {
      "id": "00-0033662",
@@ -471,7 +482,8 @@
      "report_status": null,
      "practice_status": null,
      "report_week": null,
-     "latest_starter": false
+     "latest_starter": false,
+     "one_q": null
     }
    ],
    "latest": "00-0039917",
@@ -508,7 +520,8 @@
      "report_status": "Out",
      "practice_status": "Did Not Participate In Practice",
      "report_week": 9,
-     "latest_starter": false
+     "latest_starter": false,
+     "one_q": null
     },
     {
      "id": "00-0034796",
@@ -538,7 +551,8 @@
      "report_status": "Out",
      "practice_status": "Did Not Participate In Practice",
      "report_week": 9,
-     "latest_starter": false
+     "latest_starter": false,
+     "one_q": null
     },
     {
      "id": "00-0040981",
@@ -564,7 +578,8 @@
      "report_status": null,
      "practice_status": "Full Participation in Practice",
      "report_week": 9,
-     "latest_starter": true
+     "latest_starter": true,
+     "one_q": null
     },
     {
      "id": "00-0033119",
@@ -602,6 +617,7 @@
      "report_week": null,
      "latest_starter": false,
      "sample_team": "ARI",
+     "one_q": null,
      "news": true,
      "news_status": "expected starter, not confirmed"
     }
@@ -660,7 +676,8 @@
      "report_status": null,
      "practice_status": null,
      "report_week": null,
-     "latest_starter": true
+     "latest_starter": true,
+     "one_q": null
     }
    ],
    "latest": "00-0034857",
@@ -700,7 +717,8 @@
      "report_status": null,
      "practice_status": "Full Participation in Practice",
      "report_week": 9,
-     "latest_starter": true
+     "latest_starter": true,
+     "one_q": null
     }
    ],
    "latest": "00-0039150",
@@ -738,7 +756,8 @@
      "report_status": null,
      "practice_status": null,
      "report_week": null,
-     "latest_starter": true
+     "latest_starter": true,
+     "one_q": null
     },
     {
      "id": "00-0038416",
@@ -765,7 +784,8 @@
      "report_status": null,
      "practice_status": null,
      "report_week": null,
-     "latest_starter": false
+     "latest_starter": false,
+     "one_q": null
     },
     {
      "id": "00-0028986",
@@ -791,7 +811,15 @@
      "report_status": null,
      "practice_status": null,
      "report_week": null,
-     "latest_starter": false
+     "latest_starter": false,
+     "one_q": {
+      "week": 5,
+      "qtr": 4,
+      "epa": -12.26,
+      "n": 22,
+      "total": -2.65,
+      "without": 0.253
+     }
     }
    ],
    "latest": "00-0039918",
@@ -833,7 +861,8 @@
      "report_status": null,
      "practice_status": null,
      "report_week": null,
-     "latest_starter": true
+     "latest_starter": true,
+     "one_q": null
     }
    ],
    "latest": "00-0036442",
@@ -873,7 +902,8 @@
      "report_status": "Questionable",
      "practice_status": "Limited Participation in Practice",
      "report_week": 9,
-     "latest_starter": false
+     "latest_starter": false,
+     "one_q": null
     },
     {
      "id": "00-0040668",
@@ -899,7 +929,15 @@
      "report_status": null,
      "practice_status": null,
      "report_week": null,
-     "latest_starter": true
+     "latest_starter": true,
+     "one_q": {
+      "week": 9,
+      "qtr": 5,
+      "epa": 6.17,
+      "n": 8,
+      "total": 1.15,
+      "without": -0.125
+     }
     }
    ],
    "latest": "00-0040668",
@@ -943,7 +981,8 @@
      "report_status": null,
      "practice_status": null,
      "report_week": null,
-     "latest_starter": true
+     "latest_starter": true,
+     "one_q": null
     }
    ],
    "latest": "00-0033077",
@@ -984,7 +1023,8 @@
      "report_status": null,
      "practice_status": null,
      "report_week": null,
-     "latest_starter": true
+     "latest_starter": true,
+     "one_q": null
     }
    ],
    "latest": "00-0039732",
@@ -1024,7 +1064,8 @@
      "report_status": null,
      "practice_status": null,
      "report_week": null,
-     "latest_starter": true
+     "latest_starter": true,
+     "one_q": null
     }
    ],
    "latest": "00-0033106",
@@ -1065,7 +1106,8 @@
      "report_status": null,
      "practice_status": null,
      "report_week": null,
-     "latest_starter": true
+     "latest_starter": true,
+     "one_q": null
     }
    ],
    "latest": "00-0036264",
@@ -1105,7 +1147,8 @@
      "report_status": null,
      "practice_status": null,
      "report_week": null,
-     "latest_starter": true
+     "latest_starter": true,
+     "one_q": null
     }
    ],
    "latest": "00-0039163",
@@ -1146,7 +1189,8 @@
      "report_status": null,
      "practice_status": null,
      "report_week": null,
-     "latest_starter": true
+     "latest_starter": true,
+     "one_q": null
     }
    ],
    "latest": "00-0035710",
@@ -1186,7 +1230,8 @@
      "report_status": null,
      "practice_status": null,
      "report_week": null,
-     "latest_starter": true
+     "latest_starter": true,
+     "one_q": null
     }
    ],
    "latest": "00-0036971",
@@ -1226,7 +1271,8 @@
      "report_status": null,
      "practice_status": "Full Participation in Practice",
      "report_week": 9,
-     "latest_starter": true
+     "latest_starter": true,
+     "one_q": null
     }
    ],
    "latest": "00-0033873",
@@ -1267,7 +1313,8 @@
      "report_status": null,
      "practice_status": "Full Participation in Practice",
      "report_week": 9,
-     "latest_starter": true
+     "latest_starter": true,
+     "one_q": null
     }
    ],
    "latest": "00-0026498",
@@ -1307,7 +1354,8 @@
      "report_status": null,
      "practice_status": null,
      "report_week": null,
-     "latest_starter": true
+     "latest_starter": true,
+     "one_q": null
     }
    ],
    "latest": "00-0036355",
@@ -1349,6 +1397,7 @@
      "practice_status": null,
      "report_week": null,
      "latest_starter": true,
+     "one_q": null,
      "news_status": "traded to MIN on 10 Nov"
     },
     {
@@ -1376,6 +1425,7 @@
      "report_week": null,
      "latest_starter": false,
      "sample_team": "LV",
+     "one_q": null,
      "news": true,
      "news_status": "reported starter"
     }
@@ -1437,6 +1487,7 @@
      "practice_status": "Full Participation in Practice",
      "report_week": 9,
      "latest_starter": true,
+     "one_q": null,
      "news_status": "on injured reserve (groin), reported 10 Nov"
     },
     {
@@ -1464,6 +1515,7 @@
      "report_week": null,
      "latest_starter": false,
      "sample_team": null,
+     "one_q": null,
      "news": true,
      "news_status": "reported starter"
     }
@@ -1517,7 +1569,8 @@
      "report_status": "Out",
      "practice_status": "Did Not Participate In Practice",
      "report_week": 9,
-     "latest_starter": false
+     "latest_starter": false,
+     "one_q": null
     },
     {
      "id": "00-0032950",
@@ -1544,7 +1597,15 @@
      "report_status": null,
      "practice_status": null,
      "report_week": null,
-     "latest_starter": true
+     "latest_starter": true,
+     "one_q": {
+      "week": 9,
+      "qtr": 1,
+      "epa": -10.5,
+      "n": 5,
+      "total": -18.69,
+      "without": -0.111
+     }
     },
     {
      "id": "00-0029604",
@@ -1583,6 +1644,7 @@
      "report_week": null,
      "latest_starter": false,
      "sample_team": "LV",
+     "one_q": null,
      "news": true,
      "news_status": "expected starter, not confirmed"
     }
@@ -1645,7 +1707,8 @@
      "report_status": null,
      "practice_status": "Full Participation in Practice",
      "report_week": 9,
-     "latest_starter": true
+     "latest_starter": true,
+     "one_q": null
     }
    ],
    "latest": "00-0039851",
@@ -1685,7 +1748,8 @@
      "report_status": null,
      "practice_status": null,
      "report_week": null,
-     "latest_starter": true
+     "latest_starter": true,
+     "one_q": null
     }
    ],
    "latest": "00-0040743",
@@ -1721,7 +1785,8 @@
      "report_status": null,
      "practice_status": null,
      "report_week": null,
-     "latest_starter": false
+     "latest_starter": false,
+     "one_q": null
     },
     {
      "id": "00-0039923",
@@ -1748,7 +1813,8 @@
      "report_status": null,
      "practice_status": "Full Participation in Practice",
      "report_week": 10,
-     "latest_starter": true
+     "latest_starter": true,
+     "one_q": null
     },
     {
      "id": "00-0040691",
@@ -1775,7 +1841,8 @@
      "report_status": null,
      "practice_status": null,
      "report_week": null,
-     "latest_starter": false
+     "latest_starter": false,
+     "one_q": null
     }
    ],
    "latest": "00-0039923",
@@ -1819,7 +1886,8 @@
      "report_status": null,
      "practice_status": null,
      "report_week": null,
-     "latest_starter": true
+     "latest_starter": true,
+     "one_q": null
     }
    ],
    "latest": "00-0030565",
@@ -1856,7 +1924,8 @@
      "report_status": null,
      "practice_status": null,
      "report_week": null,
-     "latest_starter": false
+     "latest_starter": false,
+     "one_q": null
     },
     {
      "id": "00-0038400",
@@ -1884,7 +1953,8 @@
      "report_status": "Questionable",
      "practice_status": "Limited Participation in Practice",
      "report_week": 9,
-     "latest_starter": false
+     "latest_starter": false,
+     "one_q": null
     },
     {
      "id": "00-0039398",
@@ -1910,7 +1980,15 @@
      "report_status": null,
      "practice_status": null,
      "report_week": null,
-     "latest_starter": true
+     "latest_starter": true,
+     "one_q": {
+      "week": 9,
+      "qtr": 2,
+      "epa": -6.38,
+      "n": 14,
+      "total": -10.11,
+      "without": -0.11
+     }
     }
    ],
    "latest": "00-0039398",
@@ -1953,7 +2031,8 @@
      "report_status": null,
      "practice_status": null,
      "report_week": null,
-     "latest_starter": true
+     "latest_starter": true,
+     "one_q": null
     }
    ],
    "latest": "00-0023459",
@@ -1992,7 +2071,8 @@
      "report_status": "Out",
      "practice_status": "Did Not Participate In Practice",
      "report_week": 9,
-     "latest_starter": false
+     "latest_starter": false,
+     "one_q": null
     },
     {
      "id": "00-0035704",
@@ -2019,7 +2099,8 @@
      "report_status": null,
      "practice_status": "Limited Participation in Practice",
      "report_week": 9,
-     "latest_starter": true
+     "latest_starter": true,
+     "one_q": null
     }
    ],
    "latest": "00-0035704",
@@ -2062,7 +2143,8 @@
      "report_status": null,
      "practice_status": null,
      "report_week": null,
-     "latest_starter": true
+     "latest_starter": true,
+     "one_q": null
     }
    ],
    "latest": "00-0037834",
@@ -2100,7 +2182,8 @@
      "report_status": null,
      "practice_status": "Full Participation in Practice",
      "report_week": 9,
-     "latest_starter": true
+     "latest_starter": true,
+     "one_q": null
     },
     {
      "id": "00-0041251",
@@ -2128,7 +2211,8 @@
      "report_status": null,
      "practice_status": null,
      "report_week": null,
-     "latest_starter": false
+     "latest_starter": false,
+     "one_q": null
     }
    ],
    "latest": "00-0034855",
@@ -2170,7 +2254,8 @@
      "report_status": null,
      "practice_status": null,
      "report_week": null,
-     "latest_starter": true
+     "latest_starter": true,
+     "one_q": null
     }
    ],
    "latest": "00-0040676",
@@ -2208,7 +2293,8 @@
      "report_status": null,
      "practice_status": "Full Participation in Practice",
      "report_week": 10,
-     "latest_starter": true
+     "latest_starter": true,
+     "one_q": null
     },
     {
      "id": "00-0032268",
@@ -2235,7 +2321,8 @@
      "report_status": null,
      "practice_status": null,
      "report_week": null,
-     "latest_starter": false
+     "latest_starter": false,
+     "one_q": null
     },
     {
      "id": "00-0041117",
@@ -2259,7 +2346,8 @@
      "report_status": null,
      "practice_status": null,
      "report_week": null,
-     "latest_starter": false
+     "latest_starter": false,
+     "one_q": null
     }
    ],
    "latest": "00-0039910",

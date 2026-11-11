@@ -572,6 +572,24 @@ def qb_starts(p: pd.DataFrame) -> pd.DataFrame:
     return d.drop_duplicates(["posteam", "game_id"])[["posteam", "game_id", "week", "passer_id"]].reset_index(drop=True)
 
 
+def one_quarter(g: pd.DataFrame) -> dict | None:
+    """When a single quarter supplied more than half of a passer's total EPA (same sign as the total) and leaving it out
+    moves his EPA per dropback by ONE_Q_SHIFT or more, that quarter and his average without it; else None. g = his dropbacks. Descriptive only: the backtest found that dropping the best
+    quarter does not predict better than shrinkage, so it changes no number, it only warns."""
+    if len(g) < 10 or g.epa.notna().sum() < 10:
+        return None
+    tot = float(g.epa.sum())
+    q = g.assign(q=g.qtr.clip(upper=5)).groupby(["week", "q"]).epa.agg(["sum", "size"])
+    k = q["sum"].idxmax() if tot > 0 else q["sum"].idxmin()
+    best, n = float(q.loc[k, "sum"]), int(q.loc[k, "size"])
+    if abs(tot) < 1 or best * tot <= 0 or abs(best) <= abs(tot) / 2 or n >= len(g):
+        return None
+    if abs(tot / len(g) - (tot - best) / (len(g) - n)) < ONE_Q_SHIFT:
+        return None
+    return {"week": int(k[0]), "qtr": int(k[1]), "epa": round(best, 2), "n": n, "total": round(tot, 2),
+            "without": round((tot - best) / (len(g) - n), 3)}
+
+
 def qb_scenarios(p: pd.DataFrame, Q: pd.DataFrame, ros_cur: pd.DataFrame, inj_last: pd.DataFrame, teams, W: int = 99) -> dict:
     d = p[p.db & p.passer_id.notna()]
     starts = (d.groupby(["posteam", "game_id", "passer_id"]).size().reset_index(name="n")
@@ -611,6 +629,7 @@ def qb_scenarios(p: pd.DataFrame, Q: pd.DataFrame, ros_cur: pd.DataFrame, inj_la
                 "practice_status": ij.practice_status.iloc[0] if len(ij) and pd.notna(ij.practice_status.iloc[0]) else None,
                 "report_week": int(ij.week.iloc[0]) if len(ij) else None,
                 "latest_starter": pid == latest,
+                "one_q": one_quarter(d[(d.posteam == t) & (d.passer_id == pid)]),
             })
         primary = max(rows, key=lambda r: (r["starts"], r["dropbacks"]))["id"] if rows else None
         flags = []
@@ -649,6 +668,7 @@ def qb_scenarios(p: pd.DataFrame, Q: pd.DataFrame, ros_cur: pd.DataFrame, inj_la
 
 
 MIX_FLAG = "Season figures mix quarterbacks."
+ONE_Q_SHIFT = 0.10   # EPA per dropback: a single quarter is flagged only if leaving it out moves the average this much
 MIN_SAMPLE = 30   # dropbacks needed before a reported starter's own numbers are shown
 
 
@@ -695,7 +715,8 @@ def apply_qb_news(qbs: dict, news: dict, Q: pd.DataFrame, p: pd.DataFrame, week:
                    "epa_hit_sack": nn("epa_hit_sack"), "scr_rate": nn("scr_rate"),
                    "team_epa_play_in_starts": None, "team_plays_in_starts": 0,
                    "roster_status": None, "report_status": None, "practice_status": None, "report_week": None,
-                   "latest_starter": False, "sample_team": None if q is None else str(q.teams)}
+                   "latest_starter": False, "sample_team": None if q is None else str(q.teams),
+                   "one_q": None if pid is None else one_quarter(p[p.db & (p.passer_id == pid)])}
             rows.append(row)
         row["news"] = True
         row["news_status"] = "reported starter" if e["conf"] == "named" else "expected starter, not confirmed"

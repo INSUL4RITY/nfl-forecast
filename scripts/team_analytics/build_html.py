@@ -670,6 +670,55 @@ def coaching_profile(t, T):
             "one_score": r.one_score}
 
 
+QB_SHRINK = json.loads((Path(__file__).resolve().parent / "qb_shrinkage.json").read_text(encoding="utf-8"))     if (Path(__file__).resolve().parent / "qb_shrinkage.json").exists() else None
+
+
+def qb_weight(n, team_tau2=None, rv=None):
+    """Share of a passer's gap from average kept at n dropbacks: the 2021-25 quarterback fit (backtest_qb_sample.py),
+    else the team-level matchup model's values."""
+    if QB_SHRINK:
+        return QB_SHRINK["tau2"] / (QB_SHRINK["tau2"] + QB_SHRINK["s2"] / n) if n else 0.0
+    return team_tau2 / (team_tau2 + rv / n) if n else 0.0
+
+
+def qb_range(n):
+    """Half-width of a 95% interval for a passer's EPA per dropback on n dropbacks (per-dropback SD from 2021-25)."""
+    s2 = QB_SHRINK["s2"] if QB_SHRINK else 2.4
+    return 1.96 * math.sqrt(s2 / n) if n else None
+
+
+def one_q_text(o):
+    if not o:
+        return ""
+    qn = {1: "1st quarter", 2: "2nd quarter", 3: "3rd quarter", 4: "4th quarter", 5: "overtime"}[o["qtr"]]
+    return (f" One quarter (week {o['week']}, {qn}, {o['n']} dropbacks) produced {o['epa']:+.2f} EPA against a season total of {o['total']:+.2f}; "
+            f"without it he averaged {o['without']:+.3f} per dropback.")
+
+
+def qb_method():
+    """Method text for the quarterback shrinkage, from qb_shrinkage.json."""
+    if not QB_SHRINK:
+        return "It uses the team-level spread of the matchup model."
+    k = {r["K"]: r for r in QB_SHRINK["by_sample"]}
+    return (f"The spread between quarterbacks is fitted on {QB_SHRINK['fitted_on'][0]}-{QB_SHRINK['fitted_on'][1]}: for each passer-season, his first "
+            f"30, 60, 120 or 200 dropbacks were compared with the rest of his season ({QB_SHRINK['rows']} samples from {QB_SHRINK['passers']} passers who "
+            f"went on to 150+ more dropbacks, so mostly starters). Only {k[60]['carried_forward']:.0%} of a quarterback's gap from average after 60 dropbacks, "
+            f"{k[120]['carried_forward']:.0%} after 120 and {k[200]['carried_forward']:.0%} after 200 carried forward, less than the team-level spread "
+            f"implied, so a short hot or cold run moves the expectation little. Capping big plays, success rate and dropping a passer's best quarter "
+            f"were tested and predicted no better beyond noise, so they are not used. When one quarter supplied more than half of a passer's total EPA and leaving it out moves his average by 0.10 or more per dropback, "
+            f"the quarterback line says so and gives his average without it, as a warning only.")
+
+
+def sample_note(q):
+    """Plain-language uncertainty for a passer's own numbers."""
+    n = q["dropbacks"]
+    if not n or q["adj_epa_db"] is None:
+        return ""
+    return (f"On {n} dropbacks his EPA per dropback is uncertain by about ±{qb_range(n):.2f}; the matchup expectations keep about "
+            f"{qb_weight(n):.0%} of his gap from average (fitted on 2021-25 quarterbacks: a short hot or cold run mostly did not last)."
+            + one_q_text(q.get("one_q")))
+
+
 def expected_starter(info):
     """The latest starter, unless he is on the reserve list or listed Out/Doubtful; then the healthy QB with most starts."""
     rows = info.get("qbs", [])
@@ -697,7 +746,10 @@ def starter_line(t, info):
         return None
     out = {"team": t, "name": q["name"], "starts": q["starts"], "dropbacks": q["dropbacks"], "adj_epa_db": q["adj_epa_db"],
            "sr": q.get("sr"), "sack_rate": q["sack_rate"], "int_worthy": q["int_worthy"], "low": q["starts"] < 4,
-           "latest": bool(q["latest_starter"])}
+           "latest": bool(q["latest_starter"]),
+           "kept": round(qb_weight(q["dropbacks"]), 3) if q["dropbacks"] else None,
+           "range": round(qb_range(q["dropbacks"]), 3) if q["dropbacks"] else None, "one_q": q.get("one_q"),
+           "note": sample_note(q)}
     if news and q.get("news"):
         other = q.get("sample_team") and q["sample_team"] != t
         out.update({"news": news["conf"], "news_status": q.get("news_status"), "sample_team": q.get("sample_team") if other else None,
@@ -1059,7 +1111,7 @@ def qb_context(t, d_team, MM, qbs, T, hsign):
         if q["adj_epa_db"] is None:
             continue
         eff = q["adj_epa_db"] - m["mean"]
-        w = tau2 / (tau2 + rv / q["dropbacks"])
+        w = qb_weight(q["dropbacks"], tau2, rv)
         rows.append({**q, "exp_db": m["mean"] + w * eff + wd * ed + m["home"] * hsign, "w": w})
     text = caution = None
     flags = info.get("flags", [])
@@ -2128,7 +2180,7 @@ are mapped by stadium name. The historical study uses 2002-{meta['season'] - 1} 
 and the away team's residual is averaged by time-zone direction (2+ zones east or west, one zone, same zone) and kickoff slot (early before 3pm ET, late, night from 7pm ET), and by kickoff time on the
 away team's home clock. Relocated franchises use their city at the time; a few home games played away from the usual stadium are not corrected.</p>
 <h3>Quarterback scenarios</h3>
-<p>Per-quarterback opponent-adjusted EPA per dropback is shrunk with the same method as team effects, using his own dropbacks as the sample size, then combined with the opposing defence's effect.
+<p>Per-quarterback opponent-adjusted EPA per dropback is shrunk towards the league average, using his own dropbacks as the sample size, then combined with the opposing defence's effect. {qb_method()}
 Status comes from each team's latest weekly roster (reserve list) and latest injury report (game status, or practice participation before game statuses are published). Team-level tables are not changed.</p>
 <h3>Not available, and proxies used</h3>
 <ul>
