@@ -1,6 +1,6 @@
 {
  "season": 2026,
- "checked": "2026-10-28",
+ "checked": "2026-11-11",
  "how_to_update": "Hand-kept. Re-check at each weekly rollover: search for play-calling changes and coordinator firings since 'checked', add a 'changes' entry with the first week the new caller called plays (from the schedule, not the announcement date), add its source, and update 'checked'. Confidence: confirmed = a 2026 report says this person calls the plays; reported = named as the play-caller in 2026 preview coverage with no change found since; assumed = only the coordinator title is known (shown as not confirmed); unclear = sources conflict.",
  "sources": {
   "S1": {"title": "ESPN: Who calls plays for every NFL team in 2026? (republished by ABC7)", "date": "2026-09-03", "url": "https://abc7news.com/post/calls-plays-every-nfl-team-2026-what-know/19783946/"},
@@ -17,7 +17,8 @@
   "S12": {"title": "AP via WTOP: Macdonald's focus on defense (primary defensive play-caller)", "date": "2026-02", "url": "https://wtop.com/nfl/2026/02/macdonalds-focus-on-defense-a-perfect-fit-for-seahawks-heading-into-super-bowl/"},
   "S13": {"title": "Yahoo Sports: NFL defensive playcaller rankings, the 10 best defensive minds in 2026", "date": "2026", "url": "https://sports.yahoo.com/articles/nfl-defensive-playcaller-rankings-10-165342602.html"},
   "S14": {"title": "Philadelphia Tribune (AP): Commanders set to hire Jones as defensive coordinator", "date": "2026-01", "url": "https://www.phillytrib.com/commanders-set-to-hire-jones-as-defensive-coordinator/article_beb98048-91a0-475d-a186-57bd7eade15f.html"},
-  "S15": {"title": "Bleacher Report: Kyle Shanahan explains third-down play call vs Cardinals (week 3)", "date": "2026-10-02", "url": "https://bleacherreport.com/articles/25505717-kyle-shanahan-explains-screw-it-play-call-led-80-yard-49ers-td-vs-cardinals"}
+  "S15": {"title": "Bleacher Report: Kyle Shanahan explains third-down play call vs Cardinals (week 3)", "date": "2026-10-02", "url": "https://bleacherreport.com/articles/25505717-kyle-shanahan-explains-screw-it-play-call-led-80-yard-49ers-td-vs-cardinals"},
+  "S16": {"title": "NFL.com: Panthers fire defensive coordinator Ejiro Evero; Todd Wash to serve as interim DC", "date": "2026-10-30", "url": "https://www.nfl.com/news/panthers-fire-defensive-coordinator-ejiro-evero"}
  },
  "teams": {
   "ARI": {"hc": "Mike LaFleur", "oc": "Nathaniel Hackett", "dc": "Nick Rallis", "stc": "Michael Ghobrial",
@@ -28,8 +29,8 @@
           "off": {"caller": "Declan Doyle", "conf": "confirmed", "src": ["S1"]}, "def": {"caller": "Jesse Minter", "conf": "confirmed", "src": ["S11"]}},
   "BUF": {"hc": "Joe Brady", "oc": "Pete Carmichael Jr.", "dc": "Jim Leonhard", "stc": "Jeff Rodgers",
           "off": {"caller": "Joe Brady", "conf": "confirmed", "src": ["S1"]}, "def": {"caller": "Jim Leonhard", "conf": "assumed", "src": ["S4"]}},
-  "CAR": {"hc": "Dave Canales", "oc": "Brad Idzik", "dc": "Ejiro Evero", "stc": "Tracy Smith",
-          "off": {"caller": "Brad Idzik", "conf": "confirmed", "src": ["S1"]}, "def": {"caller": "Ejiro Evero", "conf": "assumed", "src": ["S4"]}},
+  "CAR": {"hc": "Dave Canales", "oc": "Brad Idzik", "dc": "Todd Wash (interim)", "stc": "Tracy Smith",
+          "off": {"caller": "Brad Idzik", "conf": "confirmed", "src": ["S1"]}, "def": {"caller": "Todd Wash", "conf": "confirmed", "src": ["S16"], "changes": [{"from_week": 9, "caller": "Todd Wash", "previous": "Ejiro Evero", "note": "Evero was fired on 30 Oct after the week 8 loss at Green Bay; defensive line coach Wash is interim DC and calls the defence"}]}},
   "CHI": {"hc": "Ben Johnson", "oc": "Press Taylor", "dc": "Dennis Allen", "stc": "Richard Hightower",
           "off": {"caller": "Ben Johnson", "conf": "confirmed", "src": ["S1"]}, "def": {"caller": "Dennis Allen", "conf": "assumed", "src": ["S4"]}},
   "CIN": {"hc": "Zac Taylor", "oc": "Dan Pitcher", "dc": "Al Golden", "stc": "Darrin Simmons",
