@@ -509,7 +509,26 @@ def penalty_detail(p: pd.DataFrame, teams: list[str], ep_yard: float = 0.07):
     out["pd_declined"] = x[x.declined].groupby("penalty_team").size()
     out["pd_offsetting"] = x[x.offsetting].groupby("penalty_team").size()
     out["pd_accepted"] = a.groupby("penalty_team").size()
-    # drawn
+    # drawn: the other team in the game drew each accepted foul (any unit)
+    a = a.assign(drawn_by=np.where(a.penalty_team == a.posteam, a.defteam, a.posteam))
+    out["pd_drawn_pg"] = a.groupby("drawn_by").size() / games
+    out["pd_drawn_yds_pg"] = a.groupby("drawn_by").penalty_yards.sum() / games
+    out["pd_net_pg"] = out.pd_drawn_pg.fillna(0) - out.pd_total_pg.fillna(0)            # positive = draws more than it commits
+    out["pd_net_yds_pg"] = out.pd_drawn_yds_pg.fillna(0) - out.pd_total_yds_pg.fillna(0)
+    presnap_all = ["False Start", "Delay of Game", "Illegal Formation", "Illegal Shift", "Illegal Motion", "Defensive Offside",
+                   "Neutral Zone Infraction", "Encroachment", "Defensive Delay of Game", "Offensive Offside"]
+    out["pd_presnap_pg"] = a[a.penalty_type.isin(presnap_all)].groupby("penalty_team").size() / games
+    out["pd_d1_off_pg"] = a[(a.phase == "off") & (a.down == 1)].groupby("penalty_team").size() / games
+    out["pd_d34_pg"] = a[a.down.isin([3, 4]) & (a.phase != "st")].groupby("penalty_team").size() / games
+    out["pd_d34_drawn_pg"] = a[a.down.isin([3, 4]) & (a.phase != "st")].groupby("drawn_by").size() / games
+    d34 = a[a.down.isin([3, 4]) & (a.phase == "def")]                                   # defensive fouls on the offence's 3rd/4th down
+    out["pd_d34_def_pg"] = d34.groupby("penalty_team").size() / games
+    out["pd_d34_def_drawn_pg"] = d34.groupby("posteam").size() / games
+    out["pd_off_drawn_pg"] = a[a.phase == "off"].groupby("defteam").size() / games      # offensive fouls a defence draws
+    out["pd_def_yds_pg"] = a[a.phase == "def"].groupby("penalty_team").penalty_yards.sum() / games
+    out["pd_off_yds_pg"] = a[a.phase == "off"].groupby("penalty_team").penalty_yards.sum() / games
+    out["pd_drawn_def_yds_pg"] = a[a.phase == "def"].groupby("posteam").penalty_yards.sum() / games
+    out["pd_off_drawn_yds_pg"] = a[a.phase == "off"].groupby("defteam").penalty_yards.sum() / games
     out["pd_drawn_def_pg"] = a[a.phase == "def"].groupby("posteam").size() / games
     db = p[p.db]
     out["pd_dpi_drawn_per100db"] = 100 * a[a.penalty_type == "Defensive Pass Interference"].groupby("posteam").size() / db.groupby("posteam").size()

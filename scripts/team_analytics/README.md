@@ -42,7 +42,7 @@ reads or changes the forecasting model, and it uses no market data (spread, tota
 | `ep_scale.py` | Warns if nflverse switches play-by-play to a revised EP valuation |
 | `caller_check.py` | Compares the hand-kept play-caller file with Sam Hoppen's public dataset and lists differences to verify |
 | `publish_public.py` | Copies the newest report to the public page |
-| `*_2026.json` | Small hand-kept inputs, each with its source (ESPN win rates, play-callers, referee assignments, and quarterback news the rosters cannot show yet: trades, signings, named starters) |
+| `*_2026.json` | Small hand-kept inputs, each with its source (ESPN win rates, play-callers, referee assignments, this season's referee flag rates from Hashtag Football, and quarterback news the rosters cannot show yet: trades, signings, named starters) |
 
 Outputs for each week are in [`reports/team_analytics/`](../../reports/team_analytics/).
 
@@ -61,4 +61,4 @@ python -m pytest -q
 Play-by-play, rosters, injuries, depth charts, snap counts, schedules and players from nflverse; charting data from FTN and
 advanced stats from Pro Football Reference, both via nflverse; Next Gen Stats via nflverse; ESPN team win rates copied by hand
 with their date; weather forecasts from the National Weather Service and Open-Meteo; play-callers cross-checked against Sam Hoppen's
-public dataset (github.com/samhoppen/NFL_public), which is read at build time and not copied here. Built with Claude Code.
+public dataset (github.com/samhoppen/NFL_public), which is read at build time and not copied here; this season's flags per referee copied by hand, with their date, from Hashtag Football's penalty tracker. Built with Claude Code.

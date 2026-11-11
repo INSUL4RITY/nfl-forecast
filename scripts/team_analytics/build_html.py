@@ -42,7 +42,8 @@ SAMPLE_MIN = {
 PLAYER_MIN = {"epa_tgt": ("targets", 10), "ypt": ("targets", 10), "sr_tgt": ("targets", 10), "catch_rate": ("targets", 10),
               "adot": ("targets", 10), "yac_pr": ("rec", 10), "yacoe_pr": ("rec", 10), "sep": ("targets", 10),
               "epa_car": ("carries", 10), "ypc": ("carries", 10), "sr_car": ("carries", 10), "stuff": ("carries", 10),
-              "expl_run": ("carries", 10), "ryoe_att": ("carries", 10)}
+              "expl_run": ("carries", 10), "ryoe_att": ("carries", 10), "ybc_att": ("carries", 10), "yaco_att": ("carries", 10),
+              "brk_per_car": ("carries", 10)}
 SAMPLE_LABEL = {"targets": "targets", "carries": "carries", "rec": "catches", "db_blitz": "blitzed dropbacks", "db_noblitz": "dropbacks vs 4 or fewer",
                 "db_hit": "dropbacks hit or sacked", "scrambles": "scrambles","off_g2g_trips": "goal-to-go trips", "def_g2g_trips": "goal-to-go trips", "eoh_drives": "end-of-half drives",
                 "off_plays_leading": "plays leading by 9+", "off_plays_trailing": "plays trailing by 9+",
@@ -601,7 +602,9 @@ MATCH_ROWS = {
         ("Sack rate", "sack_rate", "off_sack_rate", "def_sack_rate", "pct", -1),
         ("Pressure rate (PFR)", "pressure", "off_pressure_rate", "def_pressure_rate", "pct", -1),
         ("Pass block vs pass rush win rate (ESPN)", None, "pbwr", "prwr", "pct", 1, True),
+        ("Air yards per completion (raw)", None, "off_air_per_cmp", "def_air_per_cmp", "n1", 1),
         ("YAC per completion (raw)", None, "off_yac_per_cmp", "def_yac_per_cmp", "n1", 1),
+        ("YAC over expected per catch (NGS)", None, "off_yacoe", "def_yacoe", "n2", 1),
         ("Broken tackles after catch per game (PFR)", None, "rec_brk_tkl_pg", "def_rec_brk_tkl_allowed_pg", "n2", 1),
         ("Contested-target rate (FTN)", None, "off_contested_rate", "def_contested_rate", "pct", -1, True),
         ("EPA per target to wide receivers", None, "off_epa_tgt_WR", "def_epa_tgt_WR", "epa", 1),
@@ -623,7 +626,16 @@ MATCH_ROWS = {
         ("EPA per outside run", None, "off_epa_out", "def_epa_out", "epa", 1),
         ("Run block vs run stop win rate (ESPN)", None, "rbwr", "rswr", "pct", 1, True),
         ("Yards before contact (PFR)", None, "ybc_per_att", "def_ybc_allowed", "n1", 1),
+        ("Yards after contact (PFR)", None, "yac_per_att", "def_yac_allowed", "n1", 1),
+        ("Broken tackles on runs per game (PFR)", None, "rush_broken_tackles_pg", "def_rush_brk_tkl_allowed_pg", "n2", 1),
         ("Rushing yards per game (raw)", None, "off_rush_yds_pg", "def_rush_yds_pg", "n1", 1),
+    ],
+    "Discipline (penalties)": [
+        ("Offensive fouls per game (committed vs drawn by this defence)", None, "pd_off_pg", "pd_off_drawn_pg", "n2", -1),
+        ("Offensive penalty yards per game", None, "pd_off_yds_pg", "pd_off_drawn_yds_pg", "n1", -1),
+        ("Defensive fouls per game (drawn by this offence vs committed)", None, "pd_drawn_def_pg", "pd_def_pg", "n2", 1),
+        ("Defensive penalty yards per game", None, "pd_drawn_def_yds_pg", "pd_def_yds_pg", "n1", 1),
+        ("Defensive fouls on 3rd/4th down per game (offence drew vs defence committed)", None, "pd_d34_def_drawn_pg", "pd_d34_def_pg", "n2", 1),
     ],
     "Overall and situational": [
         ("EPA per play", "epa_play", "off_epa_play", "def_epa_play", "epa", 1),
@@ -1388,6 +1400,14 @@ def main():
     NU = DP.get("nextup", {})
     A["next_up_quality"] = [NU.get(f"{t}|{n}", {}).get("text") for t, n in zip(A.team, A.player)]
     REF = json.loads((d / "referees.json").read_text(encoding="utf-8"))
+    rr_file = Path(__file__).resolve().parent / f"referee_rates_{meta['season']}.json"
+    if rr_file.exists():                       # this season's rates from a hand-kept, dated source (see the file)
+        RR = json.loads(rr_file.read_text(encoding="utf-8"))
+        order = sorted(RR["refs"], key=lambda k: -RR["refs"][k]["flags_pg"])
+        for i, k in enumerate(order):
+            RR["refs"][k]["rank"] = i + 1
+        RR["n"] = len(order)
+        REF["season_rates"] = RR
     ARR = json.loads((d / "arrivals.json").read_text(encoding="utf-8"))
     UN = json.loads((d / "unusual.json").read_text(encoding="utf-8"))
     WX = json.loads((d / "weather.json").read_text(encoding="utf-8")) if (d / "weather.json").exists() else None
@@ -1743,6 +1763,9 @@ def main():
         C("carries", "Carries", "int", 1), C("car_share", "Carry share", "pct", 1), C("car_share_l3", "Carry share, last 3", "pct", 1),
         C("rush_yds", "Rush yds", "int", 1), C("ypc", "Yds/carry", "n2", 1), C("epa_car", "EPA/carry", "epa", 1),
         C("sr_car", "Success", "pct", 1), C("ryoe_att", "RYOE/att", "s2", 1, "Next Gen rush yards over expected per attempt"),
+        C("ybc_att", "Yds before contact/att", "n2", 1, "PFR: mostly the blocking (games PFR has charted)"),
+        C("yaco_att", "Yds after contact/att", "n2", 1, "PFR: the runner's power, balance and tackle-breaking"),
+        C("brk_tkl_rush", "Broken tackles (runs)", "int", 1), C("brk_per_car", "Broken tackles/carry", "pct", 1),
         C("expl_run", "10+ yd runs", "pct", 1), C("stuff", "Stuffed", "pct", -1), C("rush_td", "Rush TD", "int", 1),
         C("rz_car", "RZ carries", "int", 0), C("gl_car", "Carries inside 5", "int", 0),
         C("targets", "Targets", "int", 1), C("tgt_share", "Target share", "pct", 1), C("rec_yds", "Rec yds", "int", 1),
@@ -1755,6 +1778,7 @@ def main():
         C("ypt", "Yds/target", "n2", 1), C("epa_tgt", "EPA/target", "epa", 1), C("sr_tgt", "Success", "pct", 1),
         C("catch_rate", "Catch rate", "pct", 1), C("adot", "aDOT", "n1", 0, "Average depth of target (air yards)"),
         C("yac_pr", "YAC/rec.", "n1", 1), C("yacoe_pr", "YAC over exp./rec.", "s2", 1),
+        C("brk_tkl_rec", "Broken tackles after catch", "int", 1, "PFR, games PFR has charted"), C("drops", "Drops", "int", -1, "PFR"),
         C("sep", "Separation (yd)", "n2", 1, "Next Gen, target-weighted over his weekly rows"),
         C("rz_tgt", "RZ targets", "int", 1), C("rz_tgt_share", "RZ target share", "pct", 1),
         C("epa_total", "Total EPA", "s1", 1, "Sum of EPA on his targets (and carries)"),
@@ -1870,6 +1894,16 @@ def main():
         C("def_ppd_short_field", "Pts/drive on short fields", "n2", -1), C("def_ppd_long_field", "Pts/drive on long fields", "n2", -1),
         C("def_q4_pts_pg", "4th-quarter pts allowed/game", "n2", -1),
     ], "def_close_h2_minus_h1", "Split samples are small (often under 100 plays). Late-game numbers mix fatigue with game script, opponent play-calling and personnel.", desc=False))
+    tables.append(table("pen_net", "Flags committed, drawn and net", [
+        C("pd_total_pg", "Committed/game", "n2", -1), C("pd_total_yds_pg", "Yards/game", "n1", -1),
+        C("pd_drawn_pg", "Drawn/game", "n2", 1, "Accepted fouls by the opponent, all units"), C("pd_drawn_yds_pg", "Drawn yds/game", "n1", 1),
+        C("pd_net_pg", "Net flags/game", "s2", 1, "Drawn minus committed: positive = the team gains from flags"),
+        C("pd_net_yds_pg", "Net yards/game", "s1", 1, "Penalty yards drawn minus yards conceded"),
+        C("pd_presnap_pg", "Pre-snap/game", "n2", -1, "False start, delay of game, illegal formation/shift/motion, offside, neutral zone, encroachment"),
+        C("pd_d1_off_pg", "Off. fouls on 1st down/game", "n2", -1, "Put the offence behind schedule from the first snap of a series"),
+        C("pd_d34_pg", "Fouls on 3rd/4th down/game", "n2", -1, "Offence or defence, the downs where a flag most often decides a punt, field goal or new set of downs"),
+        C("pd_d34_drawn_pg", "Drawn on 3rd/4th/game", "n2", 1),
+    ], "pd_net_yds_pg", "Accepted penalties only (declined and offsetting fouls are not counted). Per game played. Counts from nflfastR play-by-play.", desc=True))
     tables.append(table("pen_detail", "Penalty impact and situations", [
         C("pd_total_pg", "Penalties/game", "n2", -1), C("pd_off_pg", "Offence/game", "n2", -1), C("pd_def_pg", "Defence/game", "n2", -1), C("pd_st_pg", "Special teams/game", "n2", -1),
         C("pd_total_yds_pg", "Yards/game", "n1", -1), C("pd_off_yds_per_snap", "Off. yds/snap", "n2", -1), C("pd_def_yds_per_snap", "Def. yds/snap", "n2", -1),
@@ -2301,7 +2335,9 @@ with no sample. The team rows are not changed: they still describe the quarterba
 <li><b>Big plays allowed by position</b>: completions of 20+ yards and yards after the catch allowed to the receiver's weekly-roster position, per target and per game.</li>
 <li><b>Referee crews</b>: accepted penalties per game (same rules as the team tables) in the games each referee worked in {esc(REF['pool'])}; the referee comes from the
 nflverse schedules, which name him for {REF['cur_games_with_ref']} of {REF['cur_games']} {REF['season']} games so far. This week's assignments come from a hand-kept file with
-its source and date ({'loaded' if REF['assign_loaded'] else 'not loaded yet'}).</li>
+its source and date ({'loaded' if REF['assign_loaded'] else 'not loaded yet'}).{(" This season's rates per referee (accepted flags and yards per game, both teams) are copied by hand from "
++ esc(REF['season_rates']['source']['title']) + " (" + esc(REF['season_rates']['source']['updated']) + "), because nflverse names few of this season's referees; "
++ esc(REF['season_rates']['check'])) if REF.get('season_rates') else ""}</li>
 <li><b>Absences</b>: snap-count players are linked to rosters through the nflverse players table (PFR id to gsis id), then the roster's own PFR id, then team and name.
 Each player's status is his latest weekly-roster row. A regular inactive (INA) for each of the team's last three games with no injury designation counts as out
 ("inactive 3+ games"); a player active on a roster dated after a missed game is not flagged; a report for a game the player then played is not counted.</li>

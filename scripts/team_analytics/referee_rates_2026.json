@@ -1,0 +1,123 @@
+{
+ "season": 2026,
+ "through_week": 9,
+ "source": {
+  "title": "Hashtag Football, NFL Penalty Tracker: Flags by referee",
+  "url": "https://hashtagfootball.com/nfl-penalty-tracker",
+  "updated": "Updated 09 November 2026 (all 136 games through week 9)",
+  "retrieved": "2026-11-11"
+ },
+ "definition": "Accepted flags per game on both teams in the games each referee worked; yards = accepted penalty yards per game.",
+ "league": {
+  "games": 136,
+  "flags": 1974,
+  "flags_pg": 14.5,
+  "yds_pg": 118.4
+ },
+ "check": "Against this report's own play-by-play for the 80 games where the referee is known (nflverse weeks 1-5 and the hand-kept week 9): correlation 0.83 per referee, league totals 1,959 accepted flags here vs 1,974 there.",
+ "how_to_update": "Hand-kept. Each Tuesday copy the 'Flags by referee' list (games, flags, yds/G) and the league totals from the source page, and update through_week, source.updated and source.retrieved. flags_pg is flags / games.",
+ "refs": {
+  "Scott Novak": {
+   "games": 9,
+   "flags": 163,
+   "flags_pg": 18.11,
+   "yds_pg": 164.1
+  },
+  "Craig Wrolstad": {
+   "games": 8,
+   "flags": 137,
+   "flags_pg": 17.12,
+   "yds_pg": 151.8
+  },
+  "Alex Moore": {
+   "games": 8,
+   "flags": 133,
+   "flags_pg": 16.62,
+   "yds_pg": 141.4
+  },
+  "Adrian Hill": {
+   "games": 7,
+   "flags": 115,
+   "flags_pg": 16.43,
+   "yds_pg": 122.0
+  },
+  "Clete Blakeman": {
+   "games": 8,
+   "flags": 128,
+   "flags_pg": 16.0,
+   "yds_pg": 126.0
+  },
+  "Brad Allen": {
+   "games": 8,
+   "flags": 120,
+   "flags_pg": 15.0,
+   "yds_pg": 110.3
+  },
+  "Alan Eck": {
+   "games": 8,
+   "flags": 114,
+   "flags_pg": 14.25,
+   "yds_pg": 120.0
+  },
+  "Shawn Hochuli": {
+   "games": 8,
+   "flags": 114,
+   "flags_pg": 14.25,
+   "yds_pg": 109.3
+  },
+  "Land Clark": {
+   "games": 8,
+   "flags": 112,
+   "flags_pg": 14.0,
+   "yds_pg": 114.8
+  },
+  "Ron Torbert": {
+   "games": 8,
+   "flags": 110,
+   "flags_pg": 13.75,
+   "yds_pg": 115.1
+  },
+  "Bill Vinovich": {
+   "games": 7,
+   "flags": 96,
+   "flags_pg": 13.71,
+   "yds_pg": 109.6
+  },
+  "John Hussey": {
+   "games": 8,
+   "flags": 108,
+   "flags_pg": 13.5,
+   "yds_pg": 105.0
+  },
+  "Shawn Smith": {
+   "games": 8,
+   "flags": 105,
+   "flags_pg": 13.12,
+   "yds_pg": 111.0
+  },
+  "Clay Martin": {
+   "games": 9,
+   "flags": 118,
+   "flags_pg": 13.11,
+   "yds_pg": 106.9
+  },
+  "Alex Kemp": {
+   "games": 8,
+   "flags": 105,
+   "flags_pg": 13.12,
+   "yds_pg": 105.6
+  },
+  "Carl Cheffers": {
+   "games": 8,
+   "flags": 104,
+   "flags_pg": 13.0,
+   "yds_pg": 104.0
+  },
+  "Brad Rogers": {
+   "games": 8,
+   "flags": 92,
+   "flags_pg": 11.5,
+   "yds_pg": 92.0
+  }
+ }
+}

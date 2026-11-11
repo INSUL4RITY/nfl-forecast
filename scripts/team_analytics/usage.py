@@ -106,6 +106,16 @@ def build(p: pd.DataFrame, season: int, through_week: int, absences: pd.DataFram
     nv["sep_x"] = nv.avg_separation * nv.targets
     ng_v = nv.groupby("player_gsis_id").agg(sep_x=("sep_x", "sum"), ngs_tgt=("targets", "sum"))
 
+    # PFR advanced rushing and receiving (games PFR has charted): contact and tackle-breaking per player
+    def pfr(kind, cols):
+        d = fetch(f"pfr_advstats/advstats_week_{kind}_{season}.parquet")
+        d = d[(d.week <= through_week) & (d.game_type == "REG")].copy()
+        d["team"] = d.team.replace({"LAR": "LA"})
+        d["gsis"] = d.pfr_player_id.map(pfr_g)
+        return d.dropna(subset=["gsis"]).groupby(["team", "gsis"])[cols].sum()
+    pr = pfr("rush", ["carries", "rushing_yards_before_contact", "rushing_yards_after_contact", "rushing_broken_tackles"])
+    pv = pfr("rec", ["receiving_broken_tackles", "receiving_drop"])
+
     rows = []
     for x in U.itertuples(index=False):
         t, g = x.team, x.gsis
@@ -114,6 +124,8 @@ def build(p: pd.DataFrame, season: int, through_week: int, absences: pd.DataFram
         sc = st.get((t, g))
         rr = ng_r.loc[g] if g in ng_r.index else None
         vv = ng_v.loc[g] if g in ng_v.index else None
+        rp = pr.loc[(t, g)] if (t, g) in pr.index else None
+        vp = pv.loc[(t, g)] if (t, g) in pv.index else None
         rows.append({
             "id": g, "name": str(name.get(g, g)), "team": t, "pos": pp,
             "games": int(max(x.tgt_games if x.tgt_games == x.tgt_games else 0, x.car_games if x.car_games == x.car_games else 0)),
@@ -137,6 +149,12 @@ def build(p: pd.DataFrame, season: int, through_week: int, absences: pd.DataFram
             "epa_total": _f((x.epa_rec_total if tgt else 0) + (x.epa_rush_total if car else 0)),
             "ryoe_att": _f(rr.ryoe / rr.ngs_att) if rr is not None and rr.ngs_att else None,
             "sep": _f(vv.sep_x / vv.ngs_tgt) if vv is not None and vv.ngs_tgt else None,
+            "ybc_att": _f(rp.rushing_yards_before_contact / rp.carries) if rp is not None and rp.carries else None,
+            "yaco_att": _f(rp.rushing_yards_after_contact / rp.carries) if rp is not None and rp.carries else None,
+            "brk_tkl_rush": int(rp.rushing_broken_tackles) if rp is not None else None,
+            "brk_per_car": _f(rp.rushing_broken_tackles / rp.carries) if rp is not None and rp.carries else None,
+            "brk_tkl_rec": int(vp.receiving_broken_tackles) if vp is not None else None,
+            "drops": int(vp.receiving_drop) if vp is not None else None,
             "yds_total": int((x.rec_yds if tgt else 0) + (x.rush_yds if car else 0)),
             "td_total": int((x.rec_td if tgt else 0) + (x.rush_td if car else 0)),
         })

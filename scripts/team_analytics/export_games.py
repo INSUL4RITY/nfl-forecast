@@ -165,6 +165,12 @@ def main():
         L += ["", f"Referee: {ref}" + (f" (crew {fmt(rr['total'], 'n1')} accepted penalties per game in {D['ref_meta']['pool']}, league {fmt(D['ref_meta']['league']['total'], 'n1')}; "
                                        f"home minus away {fmt(rr['home_minus_away'], 's2')})" if rr else "") if ref else
               f"Referee: assignment not loaded (week {M['through_week'] + 1} assignments are not in nflverse yet)."]
+        sr = (D["ref_meta"].get("season_rates") or {}).get("refs", {}).get(ref) if ref else None
+        if sr:
+            S_ = D["ref_meta"]["season_rates"]
+            L.append(f"{S_['season']} so far: {fmt(sr['flags_pg'], 'n1')} accepted flags and {fmt(sr['yds_pg'], 'n1')} penalty yards per game (both teams) in "
+                     f"{sr['games']} games, {sr['rank']} of {S_['n']} referees; league {fmt(S_['league']['flags_pg'], 'n1')} flags per game "
+                     f"(source: {S_['source']['title']}, {S_['source']['updated']}).")
         L += ["", "## Biggest edges (report screen)"] + [f"- {e['what']}: {e['detail']} · edge to {e['favours']} (score {e['score']:+.1f})" for e in g.get("edges", [])] + [""]
         L += ["## Expected in this matchup"] + [f"- {x}" for x in g.get("expect", [])] + [""]
         for sd in g["sides"]:

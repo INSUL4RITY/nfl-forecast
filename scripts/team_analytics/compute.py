@@ -907,6 +907,7 @@ def main():
     g = prr.groupby("opponent")
     T["def_ybc_allowed"] = g.rushing_yards_before_contact.sum() / g.carries.sum()
     T["def_yac_allowed"] = g.rushing_yards_after_contact.sum() / g.carries.sum()
+    T["def_rush_brk_tkl_allowed_pg"] = g.rushing_broken_tackles.sum() / g.game_id.nunique()
     # receiving: broken tackles after the catch and drops (PFR, per game with PFR data)
     prc = fetch(f"pfr_advstats/advstats_week_rec_{S}.parquet")
     prc = prc[(prc.week <= W) & (prc.game_type == "REG")].copy()

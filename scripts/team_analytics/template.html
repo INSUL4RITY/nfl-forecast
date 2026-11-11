@@ -371,6 +371,7 @@ footer { color: var(--muted); font-size: 0.82rem; border-top: 1px solid var(--ru
   <p class="lead">Counts are accepted penalties. Pre-snap fouls are the most clearly controllable. Pass interference, holding and illegal contact also come with aggressive coverage, and some calls are judgement calls by the officials.</p>
   <div data-table="pen_off"></div>
   <div data-table="pen_def"></div>
+  <div data-table="pen_net"></div>
   <div data-table="pen_detail"></div>
   <div data-table="pen_tend"></div>
   <div class="controls"><label for="pen-phase">Penalty types for</label><select id="pen-phase"><option value="off">offence</option><option value="def">defence</option><option value="st">special teams</option></select></div>
@@ -596,9 +597,12 @@ if (!DATA.wr.ok) document.querySelectorAll(".wr-banner").forEach(el => { el.inne
   const RM = DATA.ref_meta, host = document.getElementById("ref-assign");
   const byRef = Object.fromEntries(DATA.refs.map(r => [r.referee, r]));
   const rows = DATA.games.map(g => { const r = RM.assign[g.id]; const x = r && byRef[r];
-    return `<tr><td>${esc(g.label)}</td><td>${r ? esc(r) : `<span class="muted">assignment not loaded</span>`}</td><td>${x ? fmt(x.total, "n1") : ""}</td><td>${x ? fmt(x.home_minus_away, "s2") : ""}</td><td>${x ? x.games : ""}</td></tr>`; }).join("");
+    const s = r && RM.season_rates && RM.season_rates.refs[r];
+    return `<tr><td>${esc(g.label)}</td><td>${r ? esc(r) : `<span class="muted">assignment not loaded</span>`}</td><td>${s ? fmt(s.flags_pg, "n1") + ` <span class="rk">${s.rank} of ${RM.season_rates.n}</span>` : ""}</td><td>${s ? fmt(s.yds_pg, "n1") : ""}</td><td>${s ? s.games : ""}</td><td>${x ? fmt(x.total, "n1") : ""}</td><td>${x ? fmt(x.home_minus_away, "s2") : ""}</td><td>${x ? x.games : ""}</td></tr>`; }).join("");
+  const SR = RM.season_rates;
   host.innerHTML = `<p class="lead">Each referee's crew: accepted penalties per game in the games he worked in ${esc(RM.pool)}, with this season's games where nflverse names the referee. ${RM.assign_loaded ? "" : `Week ${M.through_week + 1} assignments are not in nflverse and have not been added to the hand-kept file yet (they are usually published by Thursday), so each game shows "assignment not loaded".`}</p>
-    <div class="table-wrap"><table class="mt"><thead><tr><th>Week ${M.through_week + 1} game</th><th>Referee</th><th>Crew penalties/game</th><th>Home minus away</th><th>Games ${esc(RM.pool)}</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+    <div class="table-wrap"><table class="mt"><thead><tr><th>Week ${M.through_week + 1} game</th><th>Referee</th><th>${SR ? SR.season + " flags/game (rank)" : ""}</th><th>${SR ? SR.season + " yds/game" : ""}</th><th>${SR ? "Games " + SR.season : ""}</th><th>Crew penalties/game ${esc(RM.pool)}</th><th>Home minus away</th><th>Games ${esc(RM.pool)}</th></tr></thead><tbody>${rows}</tbody></table></div>
+    ${SR ? `<p class="tnote">${SR.season} columns: accepted flags and penalty yards per game on both teams in the games each referee worked (rank 1 = most flags; league ${fmt(SR.league.flags_pg, "n1")} flags and ${fmt(SR.league.yds_pg, "n1")} yards per game), from <a href="${esc(SR.source.url)}">${esc(SR.source.title)}</a>, ${esc(SR.source.updated)}${SR.through_week < M.through_week ? `; runs through week ${SR.through_week} only` : ""}. ${esc(SR.check)}</p>` : ""}`;
 })();
 document.getElementById("inj-note").textContent = DATA.meta.inj_note || "";
 // play-callers: sources and mid-season splits
@@ -1093,7 +1097,7 @@ function renderGame(id) {
   const g = GBY[id]; if (!g) return;
   const S = g.summary, A = g.away, H = g.home;
   let h = `<div class="game-head"><h3>${esc(NAME[A])} (${esc(S[A].record)}) at ${esc(NAME[H])} (${esc(S[H].record)})</h3>
-    <p class="meta">${esc(g.when)} · ${esc(g.venue)}${g.neutral ? " · neutral site" : ""}${g.div ? " · divisional game" : ""} · rest days: ${A} ${g.rest[A] ?? "n/a"}, ${H} ${g.rest[H] ?? "n/a"} · referee: ${g.referee ? esc(g.referee) + " (crew rates under Situational)" : "assignment not loaded"}</p>
+    <p class="meta">${esc(g.when)} · ${esc(g.venue)}${g.neutral ? " · neutral site" : ""}${g.div ? " · divisional game" : ""} · rest days: ${A} ${g.rest[A] ?? "n/a"}, ${H} ${g.rest[H] ?? "n/a"} · referee: ${g.referee ? esc(g.referee) + ((DATA.ref_meta.season_rates || {refs: {}}).refs[g.referee] ? ` (${DATA.ref_meta.season_rates.season}: ${fmt(DATA.ref_meta.season_rates.refs[g.referee].flags_pg, "n1")} flags/game, ${DATA.ref_meta.season_rates.refs[g.referee].rank} of ${DATA.ref_meta.season_rates.n}; league ${fmt(DATA.ref_meta.season_rates.league.flags_pg, "n1")}; more under Situational)` : " (crew rates under Situational)") : "assignment not loaded"}</p>
     ${g.weather ? `<p class="meta"><b>Weather.</b> ${esc(g.weather)}</p>` : ""}
     ${g.final ? `<p class="final">${esc(g.final)}</p>` : ""}</div>`;
   h += `<div class="table-wrap"><table><thead><tr><th>Team</th><th>Record</th><th>Overall rating</th><th>With 2025 prior</th><th>Offence (adj.)</th><th>Defence (adj.)</th><th>Special teams</th><th title="Opponent-adjusted net EPA/play over the team's last four games, and the change from its season figure">Net EPA last 4 (change)</th><th style="text-align:left">QB starts</th></tr></thead><tbody>${[A, H].map(t =>
