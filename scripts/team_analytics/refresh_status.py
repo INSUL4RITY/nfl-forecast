@@ -28,10 +28,11 @@ import usage  # noqa: E402
 import nextup  # noqa: E402
 import arrivals  # noqa: E402
 import referees  # noqa: E402
+import caller_check  # noqa: E402
 import game_weather  # noqa: E402
 
 STATUS_FILES = ("injuries/injuries_{S}.parquet", "weekly_rosters/roster_weekly_{S}.parquet", "depth_charts/depth_charts_{S}.parquet")
-QC_PREFIXES = ("Absences:", "Absence classes", "Injury reports", "Duplicate players", "Next man up", "Arrivals", "Status refresh", "Weather")
+QC_PREFIXES = ("Absences:", "Absence classes", "Injury reports", "Duplicate players", "Next man up", "Arrivals", "Status refresh", "Weather", "Play-caller check")
 
 
 def main():
@@ -69,6 +70,8 @@ def main():
     qc.append(f"Next man up: {sum(1 for r in DPj['depth']['absences'] if r.get('next_up'))} absences have a listed replacement; "
               f"{len(DPj['nextup'])} matched to his own 2026 sample.")
     qc.append(arrivals.qc_line(ARR, W))
+    if not a.no_download:
+        qc.append(caller_check.run(S, W)[1])
     ref_path = out_dir / "referees.json"
     REF = json.loads(ref_path.read_text(encoding="utf-8"))
     REF.update(referees.assignments(cp.fetch("schedules/games.parquet"), S, W))

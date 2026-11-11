@@ -38,6 +38,7 @@ reads or changes the forecasting model, and it uses no market data (spread, tota
 | `context.py`, `players.py`, `usage.py`, `depth.py`, `nextup.py`, `arrivals.py`, `garbage.py`, `unusual.py`, `referees.py`, `callers.py`, `game_weather.py` | One topic each |
 | `backtest_matchups.py`, `matchup_calibration.json` | The 2021-25 backtest of the matchup expectations and the calibration fitted from it (refitted once a year) |
 | `ep_scale.py` | Warns if nflverse switches play-by-play to a revised EP valuation |
+| `caller_check.py` | Compares the hand-kept play-caller file with Sam Hoppen's public dataset and lists differences to verify |
 | `publish_public.py` | Copies the newest report to the public page |
 | `*_2026.json` | Small hand-kept inputs, each with its source (ESPN win rates, play-callers, referee assignments) |
 
@@ -57,4 +58,5 @@ python -m pytest -q
 
 Play-by-play, rosters, injuries, depth charts, snap counts, schedules and players from nflverse; charting data from FTN and
 advanced stats from Pro Football Reference, both via nflverse; Next Gen Stats via nflverse; ESPN team win rates copied by hand
-with their date; weather forecasts from the National Weather Service and Open-Meteo. Built with Claude Code.
+with their date; weather forecasts from the National Weather Service and Open-Meteo; play-callers cross-checked against Sam Hoppen's
+public dataset (github.com/samhoppen/NFL_public), which is read at build time and not copied here. Built with Claude Code.

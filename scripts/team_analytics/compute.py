@@ -46,6 +46,7 @@ import referees  # noqa: E402
 import arrivals  # noqa: E402
 import game_weather  # noqa: E402
 import ep_scale  # noqa: E402
+import caller_check  # noqa: E402
 import unusual  # noqa: E402
 
 BASE = "https://github.com/nflverse/nflverse-data/releases/download/"
@@ -1044,6 +1045,8 @@ def main():
                                                      indent=1, default=str))
     # play-caller attribution (hand-kept names with sources; stats split where a caller changed mid-season)
     (out_dir / "callers.json").write_text(json.dumps(callers.build(p, pf, S, W), indent=1), encoding="utf-8")
+    qc.append(caller_check.run(S, W)[1])
+    print(qc[-1], flush=True)
     # garbage-time splits (display only)
     (out_dir / "garbage.json").write_text(json.dumps(garbage.build(p), indent=1), encoding="utf-8")
     # depth charts (next man up, starter checks) and Next Gen receiving
