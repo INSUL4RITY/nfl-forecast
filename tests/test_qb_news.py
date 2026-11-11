@@ -73,7 +73,8 @@ def test_qb_context_leads_with_the_reported_starter():
     assert cx["text"].startswith("expected EPA/dropback vs DDD with Moved Qb (expected starter, not confirmed)")
     assert "with Third Qb" in cx["text"] and cx["caution"]
     ax = bh.qb_context("AAA", "DDD", m, s, None, 0)
-    assert ax["text"].startswith("no 2026 sample for Rookie Qb")
+    assert ax["text"].startswith("expected EPA/dropback vs DDD with Rookie Qb (reported starter; did not open the season as a starter; no 2026 sample)")
+    assert abs(ax["rows"][-1]["exp_db"] - bh.ROLE["backup_adj"]) < 1e-9 or any(abs(r["exp_db"] - bh.ROLE["backup_adj"]) < 1e-9 for r in ax["rows"])
 
 
 def test_no_news_leaves_the_rule_unchanged():
@@ -104,3 +105,13 @@ def test_player_rates_show_a_range_and_point_to_usage():
     t = nextup.text("Next Man", q)
     assert "+0.310 EPA/target, ±0.8" in t and "(too few for a rate)" in t and "steadier guide" in t
     assert "Efficiency settles slowly" in bh.player_note("rec") and "Efficiency settles slowly" in bh.player_note("rb")
+
+
+def test_backup_role_lowers_the_expectation_and_is_flagged():
+    m = {"epa_db": {"mean": 0.0, "resid_var": 1.8, "home": 0.0, "off": {"tau2": 0.01}, "def": {"w": {"DDD": 0.5}, "eff": {"DDD": 0.0}}}}
+    hot_backup = dict(qrow("B9", "Hot Backup", 2, 51, True, 0.26), opened_season=False)
+    starter = dict(qrow("S1", "Long Starter", 5, 198, False, -0.10), opened_season=True)
+    e_b = bh.qb_expect(hot_backup, m["epa_db"], 0.5, 0.0, 0)
+    e_s = bh.qb_expect(starter, m["epa_db"], 0.5, 0.0, 0)
+    assert e_b < e_s                      # 51 hot dropbacks by a backup no longer beat 198 poor ones by the starter
+    assert "did not open the season" in bh.role_text(hot_backup) and bh.role_text(starter) == ""

@@ -10,6 +10,11 @@ EPA by more than noise (bootstrap 95% intervals of the correlation gain include 
 Selection: only passers who went on to 150+ more dropbacks that season, so mostly starters; a backup who loses the job
 early is under-represented.
 
+Role: a second fit (passers with 50+ more dropbacks, so backups are included) adds whether the passer opened the season as
+his team's starter (he threw the first dropback of the team's first game). Backups fell short of what their own shrunk
+numbers suggested, so the report's quarterback expectations add the fitted starter or backup offset. A passer's previous
+two seasons were also tested: they barely helped overall and made backups' predictions worse, so they are not used.
+
     .venv\\Scripts\\python.exe scripts\\team_analytics\\backtest_qb_sample.py --write
 """
 from __future__ import annotations
@@ -22,11 +27,13 @@ import numpy as np
 import pandas as pd
 
 import compute as cp
+import context as ctx
 
 HERE = Path(__file__).resolve().parent
 OUT = HERE / "qb_shrinkage.json"
 KS = (30, 60, 120, 200)
 SEASONS = range(2021, 2026)
+ROLE_REST = 50
 
 
 def samples() -> pd.DataFrame:
@@ -42,6 +49,60 @@ def samples() -> pd.DataFrame:
                 rows.append({"season": s, "pid": pid, "K": K, "raw": a.epa.mean(), "cap": a.epa.clip(-1.5, 1.5).mean(),
                              "sr": a.success.mean(), "fut": b.epa.mean(), "s2": a.epa.var()})
     return pd.DataFrame(rows)
+
+
+def role_samples() -> pd.DataFrame:
+    rows = []
+    for s in SEASONS:
+        p = cp.add_unit_flags(cp.load_pbp(s))
+        st = ctx.qb_starts(p)
+        first = st.sort_values("week").drop_duplicates("posteam")
+        opened = set(first.passer_id)
+        d = p[p.db & p.passer_id.notna()].sort_values(["game_id", "play_id"])
+        for pid, g in d.groupby("passer_id"):
+            for K in KS:
+                if len(g) < K + ROLE_REST:
+                    continue
+                a, b = g.iloc[:K], g.iloc[K:]
+                rows.append({"season": s, "pid": pid, "K": K, "raw": a.epa.mean(), "fut": b.epa.mean(), "n_fut": len(b),
+                             "backup": pid not in opened})
+    return pd.DataFrame(rows)
+
+
+def _role_lsq(R, tau2, s2, mu, role=True):
+    X = [np.ones(len(R)), tau2 / (tau2 + s2 / R.K) * (R.raw - mu)] + ([R.backup.astype(float)] if role else [])
+    X, w = np.column_stack(X), np.sqrt(R.n_fut.values)
+    return np.linalg.lstsq(X * w[:, None], R.fut * w, rcond=None)[0], X
+
+
+def role_fit(tau2: float, s2: float) -> dict:
+    R = role_samples()
+    mu = float(R.fut.mean())
+    b, _ = _role_lsq(R, tau2, s2, mu)
+    err = {True: [], False: []}
+    errb = {True: [], False: []}
+    for s in SEASONS:
+        tr, te = R[R.season != s], R[R.season == s]
+        m = float(tr.fut.mean())
+        for role in (True, False):
+            bb, _ = _role_lsq(tr, tau2, s2, m, role)
+            _, X = _role_lsq(te, tau2, s2, m, role)
+            e = te.fut - X @ bb
+            err[role] += list(e)
+            errb[role] += list(e[te.backup])
+    rng = np.random.default_rng(1)
+    pids = R.pid.unique()
+    boot = []
+    for _ in range(500):
+        pick = rng.choice(pids, len(pids))
+        boot.append(_role_lsq(pd.concat([R[R.pid == x] for x in pick]), tau2, s2, mu)[0][2])
+    rm = lambda e: round(float(np.sqrt(np.mean(np.square(e)))), 4)   # noqa: E731
+    return {"definition": "backup = did not throw the first dropback of his team's first game of the season",
+            "rest_min": ROLE_REST, "rows": int(len(R)), "backup_seasons": int(R[R.backup].drop_duplicates(["season", "pid"]).shape[0]),
+            "cur_coef": round(float(b[1]), 3), "starter_adj": round(float(b[0] - mu), 4), "backup_adj": round(float(b[0] + b[2] - mu), 4),
+            "backup_gap": round(float(b[2]), 4), "backup_gap_ci": [round(float(x), 3) for x in np.percentile(boot, [2.5, 97.5])],
+            "loso_rmse_with_role": rm(err[True]), "loso_rmse_without": rm(err[False]),
+            "loso_rmse_backups_with_role": rm(errb[True]), "loso_rmse_backups_without": rm(errb[False])}
 
 
 def predict(g: pd.DataFrame, tau2: float, s2: float, mu: float) -> np.ndarray:
@@ -80,6 +141,7 @@ def run(team_tau2: float | None = None, team_rv: float | None = None) -> dict:
             "rows": int(len(R)), "loso_rmse": round(float(np.sqrt(np.mean(np.square(loso)))), 4),
             "mean_only_rmse": round(float(R.fut.std(ddof=0)), 4),
             "team_weight_rmse": old, "team_weight_from": {"tau2": team_tau2, "resid_var": team_rv}, "by_sample": by_k,
+            "role": role_fit(tau2, s2),
             "note": "Per-quarterback shrinkage of EPA per dropback; see backtest_qb_sample.py."}
 
 

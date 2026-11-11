@@ -596,6 +596,7 @@ def qb_scenarios(p: pd.DataFrame, Q: pd.DataFrame, ros_cur: pd.DataFrame, inj_la
               .sort_values("n", ascending=False).drop_duplicates(["posteam", "game_id"]))
     starts["week"] = starts.game_id.str[5:7].astype(int)     # main passer of each game: most dropbacks
     true = qb_starts(p)                                        # the quarterback who started it
+    opened = true.sort_values("week").drop_duplicates("posteam").set_index("posteam").passer_id   # each team's first starter
     sc = p[p.sc]
     out = {}
     qn = Q.set_index("passer_id")
@@ -630,6 +631,7 @@ def qb_scenarios(p: pd.DataFrame, Q: pd.DataFrame, ros_cur: pd.DataFrame, inj_la
                 "report_week": int(ij.week.iloc[0]) if len(ij) else None,
                 "latest_starter": pid == latest,
                 "one_q": one_quarter(d[(d.posteam == t) & (d.passer_id == pid)]),
+                "opened_season": bool(pid in set(opened.values)),
             })
         primary = max(rows, key=lambda r: (r["starts"], r["dropbacks"]))["id"] if rows else None
         flags = []
@@ -663,6 +665,11 @@ def qb_scenarios(p: pd.DataFrame, Q: pd.DataFrame, ros_cur: pd.DataFrame, inj_la
             elif r is most and status(r):
                 flags.append(f"{r['name']} ({r['starts']} starts, the most on the team) {status(r)}. If he returns, "
                              f"the passing profile could differ from the recent games.")
+        for r in rows:
+            if r["one_q"] and r["roster_status"] != "RES":
+                o = r["one_q"]
+                flags.append(f"{r['name']}: one quarter (week {o['week']}, {'overtime' if o['qtr'] == 5 else 'Q' + str(o['qtr'])}) produced {o['epa']:+.2f} "
+                             f"of his {o['total']:+.2f} EPA; without it {o['without']:+.3f} per dropback.")
         out[t] = {"qbs": rows, "latest": latest, "primary": primary, "flags": flags}
     return out
 
@@ -716,7 +723,8 @@ def apply_qb_news(qbs: dict, news: dict, Q: pd.DataFrame, p: pd.DataFrame, week:
                    "team_epa_play_in_starts": None, "team_plays_in_starts": 0,
                    "roster_status": None, "report_status": None, "practice_status": None, "report_week": None,
                    "latest_starter": False, "sample_team": None if q is None else str(q.teams),
-                   "one_q": None if pid is None else one_quarter(p[p.db & (p.passer_id == pid)])}
+                   "one_q": None if pid is None else one_quarter(p[p.db & (p.passer_id == pid)]),
+                   "opened_season": bool(pid is not None and pid in set(true.sort_values("week").drop_duplicates("posteam").passer_id))}
             rows.append(row)
         row["news"] = True
         row["news_status"] = "reported starter" if e["conf"] == "named" else "expected starter, not confirmed"

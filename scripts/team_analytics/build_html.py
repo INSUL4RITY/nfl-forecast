@@ -681,6 +681,35 @@ def qb_weight(n, team_tau2=None, rv=None):
     return team_tau2 / (team_tau2 + rv / n) if n else 0.0
 
 
+ROLE = (QB_SHRINK or {}).get("role")
+
+
+def is_backup(q):
+    return q.get("opened_season") is False
+
+
+def qb_expect(q, m, wd, ed, hsign, tau2=None, rv=None):
+    """Expected EPA per dropback for a passer against a defence: league mean + role offset (did he open the season as a
+    starter?) + the fitted share of his own gap from average + the defence's effect + home. Without the role fit, the
+    plain shrinkage. A passer with no sample gets the role offset alone."""
+    base = m["mean"] + wd * ed + m["home"] * hsign
+    own = 0.0
+    if q.get("adj_epa_db") is not None and q.get("dropbacks"):
+        own = qb_weight(q["dropbacks"], tau2, rv) * (q["adj_epa_db"] - m["mean"])
+    if not ROLE:
+        return base + own
+    return base + (ROLE["backup_adj"] if is_backup(q) else ROLE["starter_adj"]) + ROLE["cur_coef"] * own
+
+
+def role_text(q):
+    if not ROLE or not is_backup(q):
+        return ""
+    lo, hi = sorted(abs(x) for x in ROLE["backup_gap_ci"])
+    return (f" He did not open the season as his team's starter: in 2021-25 such quarterbacks played about {abs(ROLE['backup_gap']):.2f} EPA per "
+            f"dropback below what their own numbers suggested (95% range {lo:.2f}-{hi:.2f}, {ROLE['backup_seasons']} backup seasons), and the "
+            f"matchup expectations include that.")
+
+
 def qb_range(n):
     """Half-width of a 95% interval for a passer's EPA per dropback on n dropbacks (per-dropback SD from 2021-25)."""
     s2 = QB_SHRINK["s2"] if QB_SHRINK else 2.4
@@ -744,17 +773,24 @@ def qb_method():
             f"{k[120]['carried_forward']:.0%} after 120 and {k[200]['carried_forward']:.0%} after 200 carried forward, less than the team-level spread "
             f"implied, so a short hot or cold run moves the expectation little. Capping big plays, success rate and dropping a passer's best quarter "
             f"were tested and predicted no better beyond noise, so they are not used. When one quarter supplied more than half of a passer's total EPA and leaving it out moves his average by 0.10 or more per dropback, "
-            f"the quarterback line says so and gives his average without it, as a warning only.")
+            f"the quarterback line says so and gives his average without it, as a warning only."
+            + (f" A second fit ({ROLE['rows']} samples, passers with {ROLE['rest_min']}+ more dropbacks so backups are included) adds whether the passer "
+               f"opened the season as his team's starter (he threw its first dropback of the season). Quarterbacks who did not ({ROLE['backup_seasons']} "
+               f"backup seasons) played {abs(ROLE['backup_gap']):.3f} EPA per dropback below what their own numbers suggested (95% range "
+               f"{min(abs(x) for x in ROLE['backup_gap_ci']):.3f}-{max(abs(x) for x in ROLE['backup_gap_ci']):.3f}); adding it lowered the "
+               f"out-of-sample error for backups from {ROLE['loso_rmse_backups_without']:.3f} to {ROLE['loso_rmse_backups_with_role']:.3f}, so quarterback "
+               f"expectations start a backup below average and a season-opening starter slightly above. A passer's previous two seasons were also tested "
+               f"and made backups' predictions worse, so they are not used." if ROLE else ""))
 
 
 def sample_note(q):
     """Plain-language uncertainty for a passer's own numbers."""
     n = q["dropbacks"]
     if not n or q["adj_epa_db"] is None:
-        return ""
+        return role_text(q).strip()
     return (f"On {n} dropbacks his EPA per dropback is uncertain by about ±{qb_range(n):.2f}; the matchup expectations keep about "
-            f"{qb_weight(n):.0%} of his gap from average (fitted on 2021-25 quarterbacks: a short hot or cold run mostly did not last)."
-            + one_q_text(q.get("one_q")))
+            f"{qb_weight(n) * (ROLE['cur_coef'] if ROLE else 1):.0%} of his gap from average (fitted on 2021-25 quarterbacks: a short hot or cold run mostly did not last)."
+            + role_text(q) + one_q_text(q.get("one_q")))
 
 
 def expected_starter(info):
@@ -787,7 +823,7 @@ def starter_line(t, info):
            "latest": bool(q["latest_starter"]),
            "kept": round(qb_weight(q["dropbacks"]), 3) if q["dropbacks"] else None,
            "range": round(qb_range(q["dropbacks"]), 3) if q["dropbacks"] else None, "one_q": q.get("one_q"),
-           "note": sample_note(q)}
+           "note": sample_note(q), "backup": is_backup(q)}
     if news and q.get("news"):
         other = q.get("sample_team") and q["sample_team"] != t
         out.update({"news": news["conf"], "news_status": q.get("news_status"), "sample_team": q.get("sample_team") if other else None,
@@ -907,6 +943,11 @@ def build_matchups(T, nxt, MM, A, mm, notes, PL, US, QBS, REF, ARR, UN, WX=None)
                 cautions.append(f"{t} season figures mix quarterbacks ({r.qb_starts}).")
             if QBS.get(t, {}).get("news"):
                 cautions.append(f"{t} quarterback change the season figures do not reflect yet. " + QBS[t]["news"]["flag"])
+            xs = expected_starter(QBS.get(t, {}))
+            if xs and ((ROLE and is_backup(xs)) or xs.get("one_q")):
+                cautions.append(f"{t} expected quarterback {xs['name']}: be wary of his own numbers ("
+                                + (f"{xs['dropbacks']} dropbacks, ±{qb_range(xs['dropbacks']):.2f}" if xs["dropbacks"] else "no 2026 dropbacks") + ")."
+                                + role_text(xs) + one_q_text(xs.get("one_q")))
             outs = A[(A.team == t) & A.status_class.isin(["confirmed: reserve list", "listed Out/Doubtful", "inactive 3+ games"]) & (A.term == "new")]
             if len(outs):
                 cautions.append(f"{t} regulars newly out (0-1 games missed): " + ", ".join(
@@ -1146,21 +1187,24 @@ def qb_context(t, d_team, MM, qbs, T, hsign):
     wd, ed = m["def"]["w"][d_team], m["def"]["eff"][d_team]
     rows = []
     for q in info.get("qbs", []):
-        if q["adj_epa_db"] is None:
+        if q["adj_epa_db"] is None and not (q.get("news") and ROLE):
             continue
-        eff = q["adj_epa_db"] - m["mean"]
-        w = qb_weight(q["dropbacks"], tau2, rv)
-        rows.append({**q, "exp_db": m["mean"] + w * eff + wd * ed + m["home"] * hsign, "w": w})
+        rows.append({**q, "exp_db": qb_expect(q, m, wd, ed, hsign, tau2, rv), "w": qb_weight(q["dropbacks"], tau2, rv)})
     text = caution = None
     flags = info.get("flags", [])
     news = next((r for r in info.get("qbs", []) if r.get("news")), None)
 
     def lab(r):
+        tail = "; did not open the season as a starter" if is_backup(r) and ROLE else ""
+        tail += "; one quarter carried his total" if r.get("one_q") else ""
+        tail += "; no 2026 sample" if r.get("adj_epa_db") is None else ""
         if r.get("news"):
-            return r["name"] + f" ({r['news_status']})"
+            return r["name"] + f" ({r['news_status']}{tail})"
         if r.get("news_status"):
             return r["name"] + f" ({r['news_status']}; reference only)"
-        return r["name"] + (" (on the reserve list; reference only)" if r.get("roster_status") == "RES" else "")
+        if r.get("roster_status") == "RES":
+            return r["name"] + " (on the reserve list; reference only)"
+        return r["name"] + (f" ({tail[2:]})" if tail else "")
     if news is not None:
         lead = next((r for r in rows if r.get("news")), None)
         oth = [r for r in rows if r is not lead and (r["starts"] >= 2 or r["latest_starter"])]

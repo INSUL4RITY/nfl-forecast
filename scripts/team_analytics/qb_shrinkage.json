@@ -52,5 +52,23 @@
    "corr_success": 0.38
   }
  ],
+ "role": {
+  "definition": "backup = did not throw the first dropback of his team's first game of the season",
+  "rest_min": 50,
+  "rows": 865,
+  "backup_seasons": 94,
+  "cur_coef": 0.88,
+  "starter_adj": 0.0424,
+  "backup_adj": -0.0457,
+  "backup_gap": -0.088,
+  "backup_gap_ci": [
+   -0.123,
+   -0.057
+  ],
+  "loso_rmse_with_role": 0.1369,
+  "loso_rmse_without": 0.1446,
+  "loso_rmse_backups_with_role": 0.163,
+  "loso_rmse_backups_without": 0.1867
+ },
  "note": "Per-quarterback shrinkage of EPA per dropback; see backtest_qb_sample.py."
 }
