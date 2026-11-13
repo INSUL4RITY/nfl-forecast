@@ -69,6 +69,9 @@ td.sn { color: var(--muted); font-style: italic; }
 [data-table]:empty { min-height: 420px; }        /* placeholder until the table is drawn */
 details [data-table]:empty { min-height: 0; }
 td.sn small { font-style: normal; margin-left: 3px; }
+.rel { display: inline-block; font-size: 0.62rem; font-weight: 700; letter-spacing: 0.03em; padding: 0 5px; margin-left: 4px; border-radius: 999px; border: 1px solid var(--rule-strong); color: var(--muted); font-style: normal; vertical-align: 1px; }
+.rel-high { border-color: var(--good); color: var(--good); }
+.rel-medium { border-color: var(--accent); color: var(--accent); }
 .more { margin: 2px 0 0; }
 .btn.sm { padding: 3px 9px; font-size: 0.8rem; }
 .seg { display: inline-flex; border: 1px solid var(--rule-strong); border-radius: 6px; overflow: hidden; }
@@ -512,7 +515,8 @@ function renderTable(spec, host, rows) {
           if (c.min) title = (title ? title + "; " : "") + `n = ${r[c.n]} ${DATA.nlabels[c.n] || ""}`;
         }
         if (!num(v) && c.f !== "str") cls = "na";
-        h += `<td class="${cls}"${title ? ` title="${esc(title)}"` : ""}>${esc(fmt(v, c.f))}${rk}</td>`;
+        const badge = c.b && r[c.b] && num(v) ? ` <span class="rel rel-${esc(String(r[c.b]).toLowerCase())}" title="Reliability: how much of this figure is likely to last at this sample">${esc(r[c.b])}</span>` : "";
+        h += `<td class="${cls}"${title ? ` title="${esc(title)}"` : ""}>${esc(fmt(v, c.f))}${rk}${badge}</td>`;
       }
       h += "</tr>";
     }

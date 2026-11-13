@@ -44,6 +44,23 @@ PLAYER_MIN = {"epa_tgt": ("targets", 10), "ypt": ("targets", 10), "sr_tgt": ("ta
               "epa_car": ("carries", 10), "ypc": ("carries", 10), "sr_car": ("carries", 10), "stuff": ("carries", 10),
               "expl_run": ("carries", 10), "ryoe_att": ("carries", 10), "ybc_att": ("carries", 10), "yaco_att": ("carries", 10),
               "brk_per_car": ("carries", 10)}
+# player ranking tables rank on usage only: in 2021-25 only about 3% of a player's per-carry or per-target efficiency gap at 10
+# opportunities, and about 20% at 80, lasted (backtest_player_sample.py); efficiency columns carry a reliability badge instead
+PLAYER_USAGE_KEYS = {"games", "snap_pct", "carries", "car_share", "car_share_l3", "rz_car", "gl_car", "targets", "tgt_share",
+                     "tgt_share_l3", "air_share", "rz_tgt", "rz_tgt_share"}
+
+
+def player_col_rule(c: dict) -> dict:
+    """Usage columns keep their rank; every other numeric column is context (no rank or colour). Efficiency columns get the
+    badge of the sample they rest on."""
+    if c["k"] in PLAYER_USAGE_KEYS or c["f"] == "str":
+        return c
+    c["d"] = 0
+    if c["k"] in PLAYER_MIN:
+        c["b"] = "rel_car" if PLAYER_MIN[c["k"]][0] == "carries" else "rel_tgt"
+    return c
+
+
 SAMPLE_LABEL = {"targets": "targets", "carries": "carries", "rec": "catches", "db_blitz": "blitzed dropbacks", "db_noblitz": "dropbacks vs 4 or fewer",
                 "db_hit": "dropbacks hit or sacked", "scrambles": "scrambles","off_g2g_trips": "goal-to-go trips", "def_g2g_trips": "goal-to-go trips", "eoh_drives": "end-of-half drives",
                 "off_plays_leading": "plays leading by 9+", "off_plays_trailing": "plays trailing by 9+",
@@ -174,6 +191,8 @@ def finish_tables(tables, T, wr_ok, practice_ok=True):
                     c["l"] += " (yd)"
             if t["rows"] in ("rb", "wr", "te") and c["k"] in PLAYER_MIN:
                 c["n"], c["min"] = PLAYER_MIN[c["k"]]
+            if t["rows"] in ("rb", "wr", "te"):
+                c = player_col_rule(c)
             if t["rows"] == "teams":
                 if c["k"] in SAMPLE_MIN:
                     c["n"], c["min"] = SAMPLE_MIN[c["k"]]
@@ -1841,7 +1860,9 @@ def main():
         C("rz_car", "RZ carries", "int", 0), C("gl_car", "Carries inside 5", "int", 0),
         C("targets", "Targets", "int", 1), C("tgt_share", "Target share", "pct", 1), C("rec_yds", "Rec yds", "int", 1),
         C("epa_tgt", "EPA/target", "epa", 1), C("epa_total", "Total EPA (rush + rec)", "s1", 1, "Sum of EPA on his carries and targets"),
-    ], "epa_total", "Season figures only. Total EPA rewards volume and efficiency together; per-carry columns show efficiency alone. Running-back EPA also reflects the blocking and the play call." + player_note("rb"), rows="rb"))
+    ], "carries", "Season figures only, ranked on usage only (snaps, carries, targets and their shares). Efficiency and production columns are context: "
+       "each efficiency value carries a badge for how much of it is likely to last at that sample (Low under 20%, Medium 20-50%). Total EPA rewards volume "
+       "and efficiency together; running-back EPA also reflects the blocking and the play call." + player_note("rb"), rows="rb"))
     rec_cols = [
         C("targets", "Targets", "int", 1), C("tgt_share", "Target share", "pct", 1), C("tgt_share_l3", "Target share, last 3", "pct", 1),
         C("air_share", "Air-yards share", "pct", 1, "Share of the team's intended air yards"),
@@ -1854,10 +1875,12 @@ def main():
         C("rz_tgt", "RZ targets", "int", 1), C("rz_tgt_share", "RZ target share", "pct", 1),
         C("epa_total", "Total EPA", "s1", 1, "Sum of EPA on his targets (and carries)"),
     ]
-    rec_note = ("Season figures only. Receiver EPA includes the quarterback's throw and the play call, so it measures usage and production, "
+    rec_note = ("Season figures only, ranked on usage only (snaps, targets and their shares). Efficiency and production columns are context, each efficiency "
+                "value with a badge for how much of it is likely to last at that sample (Low under 20%, Medium 20-50%; tight ends use the wide-receiver fit). "
+                "Receiver EPA includes the quarterback's throw and the play call, so it measures usage and production, "
                 "not the receiver alone. Yards per route run needs routes, which free data does not record." + player_note("rec"))
-    tables.append(table("rank_wr", f"Wide receivers ({US['rec_min']}+ targets)", rk_common + rec_cols, "epa_total", rec_note, rows="wr"))
-    tables.append(table("rank_te", f"Tight ends ({US['rec_min']}+ targets)", rk_common + rec_cols, "epa_total", rec_note, rows="te"))
+    tables.append(table("rank_wr", f"Wide receivers ({US['rec_min']}+ targets)", rk_common + rec_cols, "targets", rec_note, rows="wr"))
+    tables.append(table("rank_te", f"Tight ends ({US['rec_min']}+ targets)", rk_common + rec_cols, "targets", rec_note, rows="te"))
     tables.append(table("sos", "Strength of schedule", [
         C("record", "Record", "str", 0), C("sos_net", "Opp. net adj. EPA/play", "epa", 0, "Positive = tougher schedule"),
         C("sos_off", "Defences faced (adj. EPA allowed effect)", "epa", 0, "Positive = faced defences that allow more (easier for the offence)"),

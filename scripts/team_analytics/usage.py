@@ -17,6 +17,7 @@ from __future__ import annotations
 import numpy as np
 import pandas as pd
 
+import reliability
 from depth import OUT_CLASSES, STATUS_TEXT, _norm
 
 RB_MIN, REC_MIN = 40, 20
@@ -157,6 +158,8 @@ def build(p: pd.DataFrame, season: int, through_week: int, absences: pd.DataFram
             "drops": int(vp.receiving_drop) if vp is not None else None,
             "yds_total": int((x.rec_yds if tgt else 0) + (x.rush_yds if car else 0)),
             "td_total": int((x.rec_td if tgt else 0) + (x.rush_td if car else 0)),
+            "rel_tgt": reliability.level(reliability.player_kept(f"target_{pp}", tgt)) if tgt else None,
+            "rel_car": reliability.level(reliability.player_kept("carry", car)) if car else None,
         })
     P = pd.DataFrame(rows)
 
