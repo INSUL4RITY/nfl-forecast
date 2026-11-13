@@ -141,6 +141,23 @@ def fit(Z: pd.DataFrame) -> tuple[float, float, pd.Series]:
     return a, b, k.clip(0.0, K_MAX)
 
 
+def forward_check(Z: pd.DataFrame) -> dict:
+    """Forward-only validation: each season from the second on is predicted from a calibration fitted on earlier seasons only
+    (2022 from 2021, 2023 from 2021-22, ...), as the report uses it: never with a later season in the fit."""
+    seasons = sorted(Z.season.unique())
+    out = {}
+    for m, g in Z.groupby("metric"):
+        e0 = e1 = n = 0.0
+        for s in seasons[1:]:
+            aa, bb, kk = fit(Z[Z.season < s])
+            te = g[g.season == s]
+            e0 += float(np.sum(te.n * (te.actual - te.shr) ** 2))
+            e1 += float(np.sum(te.n * (te.actual - te.shr * factor(aa, bb, te.W, kk[m])) ** 2))
+            n += float(te.n.sum())
+        out[m] = {"error_before": float(np.sqrt(e0 / n)), "error_after": float(np.sqrt(e1 / n)), "seasons": [int(x) for x in seasons[1:]]}
+    return out
+
+
 def calibration(R: pd.DataFrame) -> dict:
     """The fitted factor by cut week with its out-of-sample check (each season predicted from the other four)."""
     Z = standardise(R)
@@ -155,6 +172,7 @@ def calibration(R: pd.DataFrame) -> dict:
             e1 += float(np.sum(te.n * (te.actual - te.shr * factor(aa, bb, te.W, kk[m])) ** 2))
             n += float(te.n.sum())
         loso[m] = {"error_before": float(np.sqrt(e0 / n)), "error_after": float(np.sqrt(e1 / n))}
+    fwd = forward_check(Z)
     weeks = list(range(1, 19))
     f = pd.Series([float(factor(a, b, w, k[m])) for m, w in zip(R.metric, R.W)], index=R.index)
     E = R[R.metric.isin(EDGE_METRICS)]
@@ -165,7 +183,8 @@ def calibration(R: pd.DataFrame) -> dict:
             "cut_weeks": [int(min(WEEKS)), int(max(WEEKS))], "team_games": int(len(R) / R.metric.nunique()),
             "intercept": a, "per_week": b, "measure_scalar": {m: round(float(v), 3) for m, v in k.items()},
             "factor": {m: {str(w): round(float(factor(a, b, min(max(w, min(WEEKS)), max(WEEKS)), k[m])), 3) for w in weeks} for m in k.index},
-            "leave_one_season_out": loso, "edges": edges, "pooled_slope_by_weeks": {str(i): round(float(v), 2) for i, v in pooled.items()},
+            "leave_one_season_out": loso, "forward_only": fwd,
+            "forward_improved": int(sum(v["error_after"] < v["error_before"] for v in fwd.values())), "edges": edges, "pooled_slope_by_weeks": {str(i): round(float(v), 2) for i, v in pooled.items()},
             "improved": int(sum(v["error_after"] < v["error_before"] for v in loso.values())), "measures": len(loso),
             "note": "Each shrinkage weight is multiplied by factor[measure][through_week] = measure_scalar * (intercept + per_week * week), "
                     "kept between 0 and 1. Error is in units of the league-average error for that measure (below 1 = better than "
@@ -209,6 +228,8 @@ def main():
     print("\nline:", round(C["intercept"], 3), "+", round(C["per_week"], 4), "x week; measure scalars:", C["measure_scalar"])
     print(pd.DataFrame(C["leave_one_season_out"]).T.round(4).to_string())
     print(f"out of sample: lower error on {C['improved']} of {C['measures']} measures")
+    print(f"forward only (each season from earlier seasons): lower error on {C['forward_improved']} of {C['measures']} measures")
+    print(pd.DataFrame(C["forward_only"]).T[["error_before", "error_after"]].round(4).to_string())
     if a.write_calibration:
         CAL_FILE.write_text(json.dumps(C, indent=1) + "\n", encoding="utf-8")
         print("wrote", CAL_FILE)

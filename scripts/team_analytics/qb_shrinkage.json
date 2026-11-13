@@ -52,6 +52,17 @@
    "corr_success": 0.38
   }
  ],
+ "forward_only": {
+  "seasons": [
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "rmse": 0.1169,
+  "mean_only_rmse": 0.1258,
+  "team_weight_rmse": 0.1172
+ },
  "role": {
   "definition": "backup = did not throw the first dropback of his team's first game of the season",
   "rest_min": 50,

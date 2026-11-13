@@ -54,7 +54,11 @@
      "corr_capped": 0.211,
      "share_corr": NaN
     }
-   ]
+   ],
+   "forward_only": {
+    "rmse": 0.1147,
+    "mean_only_rmse": 0.1157
+   }
   },
   "target_RB": {
    "tau2": 0.0001,
@@ -95,7 +99,11 @@
      "corr_capped": -0.118,
      "share_corr": -0.272
     }
-   ]
+   ],
+   "forward_only": {
+    "rmse": 0.193,
+    "mean_only_rmse": 0.1929
+   }
   },
   "target_TE": {
    "tau2": 0.0196,
@@ -146,7 +154,11 @@
      "corr_capped": 0.082,
      "share_corr": 0.514
     }
-   ]
+   ],
+   "forward_only": {
+    "rmse": 0.2106,
+    "mean_only_rmse": 0.2156
+   }
   },
   "target_WR": {
    "tau2": 0.0079,
@@ -197,7 +209,11 @@
      "corr_capped": 0.346,
      "share_corr": 0.023
     }
-   ]
+   ],
+   "forward_only": {
+    "rmse": 0.2151,
+    "mean_only_rmse": 0.2165
+   }
   }
  }
 }

@@ -127,6 +127,14 @@ def run(team_tau2: float | None = None, team_rv: float | None = None) -> dict:
         tr, te = R[R.season != s], R[R.season == s]
         t = fit_tau2(tr, s2)
         loso += list(te.fut - predict(te, t, s2, tr.fut.mean()))
+    fwd, fwd_mean, fwd_old = [], [], []
+    for s in list(SEASONS)[1:]:            # forward only: fit on earlier seasons, predict this one
+        tr, te = R[R.season < s], R[R.season == s]
+        t, mu = fit_tau2(tr, s2), tr.fut.mean()
+        fwd += list(te.fut - predict(te, t, s2, mu))
+        fwd_mean += list(te.fut - mu)
+        if team_tau2:
+            fwd_old += list(te.fut - (mu + team_tau2 / (team_tau2 + team_rv / te.K) * (te.raw - mu)))
     old = None
     if team_tau2:
         old = round(float(np.sqrt(np.mean(np.square(R.fut - (R.fut.mean() + team_tau2 / (team_tau2 + team_rv / R.K) * (R.raw - R.fut.mean())))))), 4)
@@ -141,6 +149,9 @@ def run(team_tau2: float | None = None, team_rv: float | None = None) -> dict:
             "rows": int(len(R)), "loso_rmse": round(float(np.sqrt(np.mean(np.square(loso)))), 4),
             "mean_only_rmse": round(float(R.fut.std(ddof=0)), 4),
             "team_weight_rmse": old, "team_weight_from": {"tau2": team_tau2, "resid_var": team_rv}, "by_sample": by_k,
+            "forward_only": {"seasons": [int(x) for x in list(SEASONS)[1:]], "rmse": round(float(np.sqrt(np.mean(np.square(fwd)))), 4),
+                             "mean_only_rmse": round(float(np.sqrt(np.mean(np.square(fwd_mean)))), 4),
+                             "team_weight_rmse": round(float(np.sqrt(np.mean(np.square(fwd_old)))), 4) if fwd_old else None},
             "role": role_fit(tau2, s2),
             "note": "Per-quarterback shrinkage of EPA per dropback; see backtest_qb_sample.py."}
 

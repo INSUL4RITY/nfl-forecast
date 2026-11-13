@@ -76,6 +76,14 @@ def run() -> dict:
                 continue
             t, mu = fit_tau2(tr, s2), tr.fut.mean()
             loso += list(te.fut - (mu + t / (t + s2 / te.K) * (te.raw - mu)))
+        fwd, fwd_mean = [], []
+        for s in list(SEASONS)[1:]:        # forward only: fit on earlier seasons, predict this one
+            tr, te = g[g.season < s], g[g.season == s]
+            if not len(te) or not len(tr):
+                continue
+            t, mu = fit_tau2(tr, s2), tr.fut.mean()
+            fwd += list(te.fut - (mu + t / (t + s2 / te.K) * (te.raw - mu)))
+            fwd_mean += list(te.fut - mu)
         by_k = []
         for K, h in g.groupby("K"):
             row = {"K": int(K), "player_seasons": int(len(h)),
@@ -88,7 +96,9 @@ def run() -> dict:
         out["measures"][kind] = {"tau2": round(tau2, 5), "s2": round(s2, 4), "mean": round(float(g.fut.mean()), 4),
                                  "players": int(g.pid.nunique()), "rows": int(len(g)),
                                  "loso_rmse": round(float(np.sqrt(np.mean(np.square(loso)))), 4),
-                                 "mean_only_rmse": round(float(g.fut.std(ddof=0)), 4), "by_sample": by_k}
+                                 "mean_only_rmse": round(float(g.fut.std(ddof=0)), 4), "by_sample": by_k,
+                                 "forward_only": {"rmse": round(float(np.sqrt(np.mean(np.square(fwd)))), 4) if fwd else None,
+                                                  "mean_only_rmse": round(float(np.sqrt(np.mean(np.square(fwd_mean)))), 4) if fwd else None}}
     return out
 
 
