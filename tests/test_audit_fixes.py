@@ -85,3 +85,16 @@ def test_player_badge_fields_reach_the_page():
           "logs": {}, "team_players": {}}
     row = bh.trim_usage(US, tables)["rb"][0]
     assert row["rel_car"] == "Low" and "secret" not in row
+
+
+# ---- item 5: raw tables flag teams whose schedule was more than 1 SD easier or harder
+def test_schedule_flags():
+    import pandas as pd
+    T = pd.DataFrame({"sos_off": [0.05, -0.05, 0.0, 0.0, 0.0, 0.0], "sos_def": [0.0, 0.0, 0.05, -0.05, 0.0, 0.0]}, index=list("ABCDEF"))
+    f = bh.sos_flags(T)
+    assert f["A"] == {"sos_flag_off": "softer schedule"}       # faced defences that allow more
+    assert f["B"] == {"sos_flag_off": "harder schedule"}
+    assert f["C"] == {"sos_flag_def": "harder schedule"}       # faced stronger offences
+    assert f["D"] == {"sos_flag_def": "softer schedule"}
+    assert f["E"] == {} and f["F"] == {}
+    assert "rank_rb" in bh.SOS_TABLES["off"] and "eff_def" in bh.SOS_TABLES["def"] and "sos" not in bh.SOS_TABLES["off"]

@@ -919,6 +919,29 @@ def team_badges(MM: dict, team: str) -> dict:
     return out
 
 
+# raw (not opponent-adjusted) tables whose rows get a schedule flag; the adjusted ratings already account for the schedule
+SOS_TABLES = {"off": {"eff_off", "drives_off", "pass_off", "receiving", "tgt_pos_off", "zones_off", "rush_off", "run_dir_off", "expl_off",
+                      "press_off", "rank_rb", "rank_wr", "rank_te"},
+              "def": {"eff_def", "drives_def", "pass_def", "tgt_pos_def", "zones_def", "rush_def", "run_dir_def", "expl_def", "press_def",
+                      "big_pos_def"}}
+SOS_SD = 1.0
+
+
+def sos_flags(T: pd.DataFrame) -> dict:
+    """Per team: 'softer' or 'harder' schedule for its offence and its defence when the opponents' adjusted effect is more than
+    SOS_SD standard deviations from the league average. sos_off > 0: the defences faced allow more (easier for an offence);
+    sos_def > 0: the offences faced are stronger (harder for a defence)."""
+    out = {t: {} for t in T.index}
+    for side, col, easier_if_high in (("off", "sos_off", True), ("def", "sos_def", False)):
+        z = (T[col] - T[col].mean()) / T[col].std()
+        for t, v in z.items():
+            if v != v or abs(v) <= SOS_SD:
+                continue
+            soft = (v > 0) == easier_if_high
+            out[t][f"sos_flag_{side}"] = "softer schedule" if soft else "harder schedule"
+    return out
+
+
 NGS_LABELS = {  # column -> (label, unit); usage shares unless noted
     "off_11p": ("11 personnel", "%"), "off_12p": ("12 personnel", "%"), "off_13p": ("13 personnel", "%"), "off_21p": ("21 personnel", "%"),
     "off_called_pass": ("called pass rate", "%"), "off_ed_play_action": ("early-down play action", "%"), "off_motion": ("motion", "%"),
@@ -2208,6 +2231,7 @@ def main():
              "sack_rate", "pressure_rate", "to_pd")}
     used |= {f"def_{m}_{x}" for m in ("rate20", "n20pg", "yac_rec") for x in ("WR", "TE", "RB")}
     keep = [k for k in T.columns if k in used]
+    SOSF = sos_flags(T)
     teams_js = []
     for t in T.index:
         r = T.loc[t, keep]
@@ -2215,6 +2239,7 @@ def main():
         rec["team"] = t
         rec["cov"] = "n/a"
         rec.update(team_badges(MM, t))
+        rec.update(SOSF.get(t, {}))
         teams_js.append(rec)
     qcols = ["name_full", "team", "teams", "games", "dropbacks", "epa_db", "adj_epa_db", "sr", "cpoe", "ypa", "adot", "sack_rate", "int_rate",
              "int_worthy_rate", "pressure_rate", "p2s", "epa_clean", "epa_hit_sack", "epa_vs_blitz", "epa_no_blitz", "blitzed_rate",
@@ -2225,6 +2250,13 @@ def main():
 
     tm = pd.read_parquet(ROOT / "data" / "cache" / "team_analytics" / "teams__teams_colors_logos.parquet")
     colors = {t: team_colour(c1, c2) for t, c1, c2 in zip(tm.team_abbr, tm.team_color, tm.team_color2) if t in T.index}
+    sos_note = (" A soft or tough schedule pill marks a team whose opponents were more than 1 SD easier or harder than average "
+                "(opponent-adjusted, Strength of schedule table); these raw figures are not adjusted for that.")
+    for tb in tables:
+        side = next((s for s, ids in SOS_TABLES.items() if tb["id"] in ids), None)
+        if side:
+            tb["sos"] = side
+            tb["note"] = (tb.get("note") or "") + sos_note
     data = {"colors": colors, "takeaways": takeaways(T, mm, A, meta, ARR), "refs": REF["refs"], "ref_meta": {k: v for k, v in REF.items() if k != "refs"},
             "wr": {"ok": not wr_probs, "problems": wr_probs, "corr": win_rate_corr(T) if not wr_probs else [],
                    "source": (WR or {}).get("source"), "through_week": (WR or {}).get("through_week")},
