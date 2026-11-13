@@ -42,3 +42,27 @@ def test_special_teams_weight():
     real = cp.st_weight([9])[0]                      # the fitted file: about a quarter kept after 9 games
     assert 0.15 < real < 0.4
     assert (cp.st_weight([9], {}) == 1.0).all()      # no fit: full weight, as before
+
+
+# ---- item 3: headline edges report their record by measure; explosive runs are not a headline
+def test_edge_record_by_measure_and_week():
+    import numpy as np
+    import pandas as pd
+    import backtest_matchups as bm
+    E = pd.DataFrame({"metric": ["epa_db"] * 4 + ["expl_run"] * 4, "W": [5, 9, 13, 14] * 2,
+                      "z": [2.0, 2.0, -2.0, 0.1] * 2, "actual": [1.0, -1.0, -1.0, 1.0] * 2})
+    z = E.z.abs()
+    r = bm.edge_record(E, z, 1.0, 0.5)
+    assert r["notable_cases"] == 3 and abs(r["notable_right"] - 2 / 3) < 1e-9          # headline measures only
+    assert r["notable_by_measure"]["expl_run"]["cases"] == 3                           # still measured
+    assert r["notable_by_weeks"]["4-7"] == {"cases": 1, "right": 1.0}
+    assert "expl_run" not in r["headline_measures"]
+
+
+def test_explosive_runs_are_not_a_headline_edge():
+    assert "expl_run" not in [k for k, *_ in bh.EDGE_SPECS]
+    cal = {"fitted_on": [2021, 2025], "edges": {"notable": 1.0, "notable_cases": 888, "notable_right": 0.673, "small": 0.5, "small_right": 0.533,
+           "notable_by_measure": {"pressure": {"cases": 211, "right": 0.72}, "expl_run": {"cases": 106, "right": 0.575}},
+           "notable_by_weeks": {"4-7": {"cases": 34, "right": 0.588}}}}
+    t = bh.edge_note(cal)
+    assert "pass rush vs protection 72% (211)" in t and "big runs are left out" in t and "weeks 4-7 had 34" in t

@@ -3,7 +3,7 @@
   2021,
   2025
  ],
- "fitted_utc": "2026-11-10T22:37:02+00:00",
+ "fitted_utc": "2026-11-13T12:22:25+00:00",
  "cut_weeks": [
   4,
   16
@@ -444,11 +444,53 @@
  },
  "edges": {
   "notable": 1.0,
-  "notable_cases": 994,
-  "notable_right": 0.6629778672032193,
+  "notable_cases": 888,
+  "notable_right": 0.6734234234234234,
   "small": 0.5,
-  "small_cases": 6162,
-  "small_right": 0.5306718597857838
+  "small_cases": 4763,
+  "small_right": 0.5328574427881587,
+  "headline_measures": [
+   "epa_db",
+   "epa_rush",
+   "pressure",
+   "expl_pass"
+  ],
+  "notable_by_measure": {
+   "epa_db": {
+    "cases": 355,
+    "right": 0.6648
+   },
+   "epa_rush": {
+    "cases": 169,
+    "right": 0.6982
+   },
+   "pressure": {
+    "cases": 211,
+    "right": 0.7204
+   },
+   "expl_pass": {
+    "cases": 153,
+    "right": 0.6013
+   },
+   "expl_run": {
+    "cases": 106,
+    "right": 0.5755
+   }
+  },
+  "notable_by_weeks": {
+   "4-7": {
+    "cases": 34,
+    "right": 0.5882
+   },
+   "8-11": {
+    "cases": 201,
+    "right": 0.6567
+   },
+   "12-16": {
+    "cases": 653,
+    "right": 0.683
+   }
+  }
  },
  "pooled_slope_by_weeks": {
   "4-5": 0.37,

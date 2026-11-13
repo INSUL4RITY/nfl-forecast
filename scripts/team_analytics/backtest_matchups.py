@@ -29,7 +29,22 @@ import compute as cp  # noqa: E402
 
 SEASONS = list(range(2021, 2026))
 WEEKS = range(4, 17)
-EDGE_METRICS = ["epa_db", "epa_rush", "pressure", "expl_pass", "expl_run"]
+EDGE_METRICS = ["epa_db", "epa_rush", "pressure", "expl_pass", "expl_run"]   # measured here
+HEADLINE_METRICS = ["epa_db", "epa_rush", "pressure", "expl_pass"]   # shown as headline edges: explosive runs were right only 57.5%
+EDGE_WEEKS = (("4-7", 4, 7), ("8-11", 8, 11), ("12-16", 12, 16))
+
+
+def edge_record(E: pd.DataFrame, z: pd.Series, notable: float, small: float) -> dict:
+    """Share of edges pointing the right way: pooled over the headline measures, by measure, and by cut week."""
+    right = np.sign(E.z) == np.sign(E.actual)
+    head = E.metric.isin(HEADLINE_METRICS)
+    n, s = (z >= notable), (z < small)
+    rate = lambda m: {"cases": int(m.sum()), "right": round(float(right[m].mean()), 4) if m.any() else None}   # noqa: E731
+    return {"notable": notable, "notable_cases": int((n & head).sum()), "notable_right": float(right[n & head].mean()),
+            "small": small, "small_cases": int((s & head).sum()), "small_right": float(right[s & head].mean()),
+            "headline_measures": HEADLINE_METRICS,
+            "notable_by_measure": {m: rate(n & (E.metric == m)) for m in EDGE_METRICS},
+            "notable_by_weeks": {lab: rate(n & head & E.W.between(lo, hi)) for lab, lo, hi in EDGE_WEEKS}}
 BUCKETS = ([3, 5, 7, 9, 11, 13, 16], ["4-5", "6-7", "8-9", "10-11", "12-13", "14-16"])
 CAL_FILE = Path(__file__).resolve().parent / "matchup_calibration.json"
 
@@ -144,9 +159,7 @@ def calibration(R: pd.DataFrame) -> dict:
     f = pd.Series([float(factor(a, b, w, k[m])) for m, w in zip(R.metric, R.W)], index=R.index)
     E = R[R.metric.isin(EDGE_METRICS)]
     z = (E.z * f[E.index]).abs()
-    right = np.sign(E.z) == np.sign(E.actual)
-    edges = {"notable": NOTABLE, "notable_cases": int((z >= NOTABLE).sum()), "notable_right": float(right[z >= NOTABLE].mean()),
-             "small": SMALL, "small_cases": int((z < SMALL).sum()), "small_right": float(right[z < SMALL].mean())}
+    edges = edge_record(E, z, NOTABLE, SMALL)
     pooled = Z.assign(weeks=pd.cut(Z.W, BUCKETS[0], labels=BUCKETS[1])).groupby("weeks", observed=True).apply(slope, include_groups=False)
     return {"fitted_on": [int(R.season.min()), int(R.season.max())], "fitted_utc": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds"),
             "cut_weeks": [int(min(WEEKS)), int(max(WEEKS))], "team_games": int(len(R) / R.metric.nunique()),

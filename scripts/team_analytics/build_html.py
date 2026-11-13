@@ -573,8 +573,8 @@ EDGE_SPECS = [
      lambda T, o, d: f"{d} pressure rate {fmt(T.def_pressure_rate[d], 'pct')} ({ordinal(rank(T.def_pressure_rate)[d])}); {o} allows {fmt(T.off_pressure_rate[o], 'pct')} ({ordinal(rank(T.off_pressure_rate, False)[o])} in protection)"),
     ("expl_pass", 1, "{o} big passing plays vs {d} deep prevention",
      lambda T, o, d: f"{o} 20+ yard pass rate {fmt(T.off_expl_pass_rate[o], 'pct')} ({ordinal(rank(T.off_expl_pass_rate)[o])}); {d} allows {fmt(T.def_expl_pass_rate[d], 'pct')} ({ordinal(rank(T.def_expl_pass_rate, False)[d])} in prevention)"),
-    ("expl_run", 1, "{o} big runs vs {d} run fits",
-     lambda T, o, d: f"{o} 10+ yard run rate {fmt(T.off_expl_run_rate[o], 'pct')} ({ordinal(rank(T.off_expl_run_rate)[o])}); {d} allows {fmt(T.def_expl_run_rate[d], 'pct')} ({ordinal(rank(T.def_expl_run_rate, False)[d])} in prevention)"),
+    # explosive runs are not a headline edge: notable ones pointed the right way only 57.5% of the time in 2021-25
+    # (backtest_matchups.py); the matchup tables still show the 10+ yard run rates
 ]
 
 
@@ -2246,8 +2246,18 @@ def edge_note(CAL):
     if not CAL:
         return "1.5 or more is notable"
     e = CAL["edges"]
-    return (f"{e['notable']:.1f} or more is notable: in {cal_years(CAL)} an edge that size pointed the right way in {e['notable_right']:.0%} of "
-            f"{e['notable_cases']:,} cases, against {e['small_right']:.0%} for edges under {e['small']:.1f}")
+    txt = (f"{e['notable']:.1f} or more is notable: in {cal_years(CAL)} an edge that size pointed the right way in {e['notable_right']:.0%} of "
+           f"{e['notable_cases']:,} cases, against {e['small_right']:.0%} for edges under {e['small']:.1f}")
+    bm, bw = e.get("notable_by_measure"), e.get("notable_by_weeks")
+    if bm:
+        lab = {"pressure": "pass rush vs protection", "epa_rush": "run game", "epa_db": "passing", "expl_pass": "big passing plays",
+               "expl_run": "big runs"}
+        parts = [f"{lab[m]} {v['right']:.0%} ({v['cases']})" for m, v in sorted(bm.items(), key=lambda kv: -(kv[1]["right"] or 0)) if v["right"] is not None]
+        txt += ". By measure: " + ", ".join(parts) + "; big runs are left out of the headlines for that reason"
+    if bw and bw.get("4-7"):
+        w = bw["4-7"]
+        txt += f". Early in a season the record is thinner: weeks 4-7 had {w['cases']} notable edges, {w['right']:.0%} right"
+    return txt
 
 
 def cal_note(CAL):
