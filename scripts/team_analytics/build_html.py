@@ -18,6 +18,7 @@ import numpy as np
 import pandas as pd
 
 import game_weather  # noqa: E402
+import reliability  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[2]
 WORDS = {1: "one", 2: "two", 3: "three", 4: "four", 5: "five", 6: "six", 7: "seven", 8: "eight", 9: "nine", 10: "ten",
@@ -194,6 +195,8 @@ def finish_tables(tables, T, wr_ok, practice_ok=True):
             if t["rows"] in ("rb", "wr", "te"):
                 c = player_col_rule(c)
             if t["rows"] == "teams":
+                if c["k"] in REL_COLS:
+                    c["b"] = f"rel__{c['k']}"
                 if c["k"] in SAMPLE_MIN:
                     c["n"], c["min"] = SAMPLE_MIN[c["k"]]
                 ni = n_info(c["k"], T)
@@ -888,6 +891,32 @@ def presence(x):
 
 def long_term_text(x):
     return f"{x.player} ({x.position}, out since week {int(x.out_since_week)}): {presence(x)}"
+
+
+def rel_columns() -> dict:
+    """Team-table columns that have a matchup model: column -> (model key, 'off' or 'def'). Raw and opponent-adjusted
+    versions of the same measure share the model's shrinkage weight."""
+    out = {}
+    for rows in MATCH_ROWS.values():
+        for lab, key, oc, dc, *_ in rows:
+            if key:
+                out[oc], out[dc] = (key, "off"), (key, "def")
+    for key, adj in (("epa_play", "epa"), ("sr", "sr"), ("epa_db", "epa_db"), ("sr_db", "sr_db"), ("epa_rush", "epa_rush"), ("sr_rush", "sr_rush")):
+        out[f"off_adj_{adj}"], out[f"def_adj_{adj}"] = (key, "off"), (key, "def")
+    return out
+
+
+REL_COLS = rel_columns()
+
+
+def team_badges(MM: dict, team: str) -> dict:
+    """Reliability level of each modelled team-table cell, from the calibrated shrinkage weight of that team's unit."""
+    out = {}
+    for col, (key, side) in REL_COLS.items():
+        w = (MM.get(key) or {}).get(side, {}).get("w", {}).get(team)
+        if w is not None:
+            out[f"rel__{col}"] = reliability.level(w)
+    return out
 
 
 NGS_LABELS = {  # column -> (label, unit); usage shares unless noted
@@ -2185,6 +2214,7 @@ def main():
         rec = {k: (None if (isinstance(v, float) and math.isnan(v)) else (v.item() if hasattr(v, "item") else v)) for k, v in r.items()}
         rec["team"] = t
         rec["cov"] = "n/a"
+        rec.update(team_badges(MM, t))
         teams_js.append(rec)
     qcols = ["name_full", "team", "teams", "games", "dropbacks", "epa_db", "adj_epa_db", "sr", "cpoe", "ypa", "adot", "sack_rate", "int_rate",
              "int_worthy_rate", "pressure_rate", "p2s", "epa_clean", "epa_hit_sack", "epa_vs_blitz", "epa_no_blitz", "blitzed_rate",

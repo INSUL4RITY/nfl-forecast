@@ -66,3 +66,22 @@ def test_explosive_runs_are_not_a_headline_edge():
            "notable_by_weeks": {"4-7": {"cases": 34, "right": 0.588}}}}
     t = bh.edge_note(cal)
     assert "pass rush vs protection 72% (211)" in t and "big runs are left out" in t and "weeks 4-7 had 34" in t
+
+
+# ---- item 4: team-table cells get a reliability badge from the calibrated shrinkage weight
+def test_team_badges_follow_the_shrinkage_weight():
+    assert bh.REL_COLS["off_adj_epa"] == ("epa_play", "off") and bh.REL_COLS["def_adj_epa_rush"] == ("epa_rush", "def")
+    assert bh.REL_COLS["off_epa_db"] == ("epa_db", "off") and bh.REL_COLS["def_rz_td_rate"] == ("rz_td", "def")
+    MM = {"epa_play": {"off": {"w": {"AAA": 0.55}}, "def": {"w": {"AAA": 0.3}}}, "rz_td": {"off": {"w": {"AAA": 0.01}}, "def": {"w": {"AAA": 0.02}}}}
+    b = bh.team_badges(MM, "AAA")
+    assert b["rel__off_adj_epa"] == "High" and b["rel__off_epa_play"] == "High"
+    assert b["rel__def_adj_epa"] == "Medium" and b["rel__off_rz_td_rate"] == "Low"
+    assert "rel__off_epa_db" not in b                     # no model for that measure in this toy file: no badge
+
+
+def test_player_badge_fields_reach_the_page():
+    tables = [{"rows": "rb", "cols": [bh.player_col_rule({"k": "epa_car", "l": "EPA/carry", "f": "epa", "d": 1, "t": "", "n": "carries"})]}]
+    US = {"rb": [{"name": "A", "team": "AAA", "epa_car": 0.1, "carries": 50, "rel_car": "Low", "secret": 1}], "wr": [], "te": [],
+          "logs": {}, "team_players": {}}
+    row = bh.trim_usage(US, tables)["rb"][0]
+    assert row["rel_car"] == "Low" and "secret" not in row

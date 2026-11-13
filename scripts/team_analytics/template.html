@@ -522,7 +522,7 @@ function renderTable(spec, host, rows) {
     }
     h += "</tbody></table></div>";
     if (wide) h += `<p class="more"><button type="button" class="btn sm more-btn" aria-expanded="${all}">${all ? "Fewer columns" : `More columns (${spec.cols.length - cols.length} hidden)`}</button></p>`;
-    h += `<p class="tnote">${esc(spec.note || "")} Small grey numbers are league ranks (1 = best). Blue marks the top five, red the bottom five (light fill: top and bottom three). ▲ higher is better, ▼ lower is better; unmarked columns are context. Italic values with n= are below the sample minimum and get no rank. Hover a header for its definition, a cell for its sample size. n/a = not available.</p>`;
+    h += `<p class="tnote">${esc(spec.note || "")} Small grey numbers are league ranks (1 = best). Blue marks the top five, red the bottom five (light fill: top and bottom three). ▲ higher is better, ▼ lower is better; unmarked columns are context. Italic values with n= are below the sample minimum and get no rank. Low/Medium/High pills: how much of the figure is likely to last, from its fitted shrinkage weight (High 50% or more, Medium 20-50%, Low under 20%). Hover a header for its definition, a cell for its sample size. n/a = not available.</p>`;
     host.innerHTML = h;
     host.querySelectorAll("th button").forEach(b => b.addEventListener("click", () => {
       const k = b.dataset.k, c = colByKey[k];
