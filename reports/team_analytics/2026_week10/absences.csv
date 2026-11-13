@@ -1,101 +1,176 @@
 team,player,gsis_id,position,group,unit,games,share,status_class,reason,last_report_injury,last_practice_status,last_report_week,last_week,out_since_week,games_missed,term,team_games
+ARI,Hjalte Froholdt,00-0035258,OL,OL,off,9,1.0,did not practise,week 10 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,10.0,9,,0,new,9
 ARI,Paris Johnson,00-0038540,OL,OL,off,4,0.995,confirmed: reserve list,reserve list (week 10 roster),,,,4,5.0,5,long-term,9
 ARI,Will Johnson,00-0040751,CB,DB,def,2,0.895,confirmed: reserve list,reserve list (week 10 roster),,,,2,3.0,7,long-term,9
-ARI,Jon Gaines,00-0038571,OL,OL,off,6,0.5966666666666667,listed Out/Doubtful,last week's report (week 9): Out,Ankle,Did Not Participate In Practice,9.0,6,7.0,3,long-term,9
+ARI,Michael Wilson,00-0038559,WR,WR/TE,off,9,0.8822222222222221,confirmed: reserve list,reserve list (week 10 roster),,,,9,,0,new,9
+ARI,Andrew Wingard,00-0035378,S,DB,def,6,0.84,did not practise,week 10 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,10.0,9,,0,new,9
+ARI,Max Melton,00-0039807,CB,DB,def,8,0.65,limited in practice,week 10 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,10.0,9,,0,new,9
+ARI,Jon Gaines,00-0038571,OL,OL,off,6,0.5966666666666667,inactive 3+ games,inactive (INA) on the roster for each of the team's last three games; no injury designation,,Did Not Participate In Practice,10.0,6,7.0,3,long-term,9
+ARI,Dante Stills,00-0038623,DL,DL/EDGE,def,9,0.5933333333333333,limited in practice,week 10 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,10.0,9,,0,new,9
+ARI,Josh Sweat,00-0034381,LB,LB,def,9,0.5844444444444444,did not practise,week 10 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,10.0,9,,0,new,9
 ARI,Kendrick Bourne,00-0033307,WR,WR/TE,off,8,0.54875,confirmed: reserve list,reserve list (week 10 roster),,,,8,9.0,1,new,9
+ATL,Jawaan Taylor,00-0035237,T,OL,off,9,0.9577777777777777,did not practise,week 10 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,10.0,9,,0,new,9
+ATL,Divine Deablo,00-0036990,LB,LB,def,7,0.7828571428571429,did not practise,week 10 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,10.0,9,,0,new,9
+ATL,Kendal Daniels,00-0041066,LB,LB,def,9,0.6866666666666666,limited in practice,week 10 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,10.0,9,,0,new,9
+ATL,Cameron Thomas,00-0037815,DE,DL/EDGE,def,9,0.6322222222222222,limited in practice,week 10 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,10.0,9,,0,new,9
+ATL,Gervon Dexter,00-0039070,DT,DL/EDGE,def,9,0.5677777777777778,limited in practice,week 10 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,10.0,9,,0,new,9
 BAL,Nate Wiggins,00-0039232,CB,DB,def,8,0.94625,listed Questionable,last week's report (week 9): Questionable,Stinger,Did Not Participate In Practice,9.0,8,9.0,1,new,9
 BAL,Jovaughn Gwyn,00-0038629,OL,OL,off,3,0.9066666666666666,confirmed: reserve list,reserve list (week 10 roster),,,,3,4.0,6,long-term,9
 BAL,Jaylinn Hawkins,00-0036302,S,DB,def,6,0.8133333333333334,listed Out/Doubtful,last week's report (week 9): Out,Knee,Did Not Participate In Practice,9.0,6,7.0,3,long-term,9
 BAL,Tyler Huntley,00-0035993,QB,QB,off,5,0.736,confirmed: reserve list,reserve list (week 10 roster),Toe,Did Not Participate In Practice,9.0,8,9.0,1,new,9
 BAL,Tavius Robinson,00-0038505,LB,LB,def,6,0.7216666666666667,confirmed: reserve list,reserve list (week 10 roster),,,,6,7.0,3,long-term,9
-BUF,Dion Dawkins,00-0033904,T,OL,off,7,0.9928571428571429,listed Questionable,last week's report (week 9): Questionable,Rib,Did Not Participate In Practice,9.0,8,9.0,1,new,8
-BUF,Alec Anderson,00-0037428,C,OL,off,7,0.99,listed Questionable,last week's report (week 9): Questionable,Ankle,Limited Participation in Practice,9.0,8,9.0,1,new,8
-CAR,Bobby Okereke,00-0035687,LB,LB,def,7,0.89,listed Out/Doubtful,last week's report (week 9): Out,Foot,Did Not Participate In Practice,9.0,8,9.0,1,new,8
-CAR,Damien Lewis,00-0036417,G,OL,off,5,0.8879999999999999,listed Out/Doubtful,last week's report (week 9): Out,Knee,Did Not Participate In Practice,9.0,7,8.0,2,long-term,8
+BUF,Dion Dawkins,00-0033904,T,OL,off,7,0.9928571428571429,limited in practice,week 10 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,10.0,8,9.0,1,new,8
+BUF,Alec Anderson,00-0037428,C,OL,off,7,0.99,limited in practice,week 10 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,10.0,8,9.0,1,new,8
+BUF,Connor McGovern,00-0035679,C,OL,off,8,0.98875,limited in practice,week 10 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,10.0,9,,0,new,8
+BUF,Spencer Brown,00-0036976,T,OL,off,7,0.8871428571428571,did not practise,week 10 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,10.0,9,,0,new,8
+BUF,Christian Benford,00-0037288,CB,DB,def,7,0.8714285714285713,limited in practice,week 10 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,10.0,9,,0,new,8
+BUF,Dalton Kincaid,00-0038933,TE,WR/TE,off,8,0.64125,limited in practice,week 10 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,10.0,9,,0,new,8
+CAR,Bobby Okereke,00-0035687,LB,LB,def,7,0.89,did not practise,week 10 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,10.0,8,9.0,1,new,8
+CAR,Damien Lewis,00-0036417,G,OL,off,5,0.8879999999999999,limited in practice,week 10 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,10.0,7,8.0,2,long-term,8
 CAR,Jaycee Horn,00-0036944,CB,DB,def,3,0.8733333333333334,confirmed: reserve list,reserve list (week 10 roster),,,,3,4.0,5,long-term,8
-CAR,Will Lee,00-0041063,CB,DB,def,7,0.7300000000000001,listed Out/Doubtful,last week's report (week 9): Out,Hamstring,Did Not Participate In Practice,9.0,8,9.0,1,new,8
-CAR,Michael Jackson,00-0035277,CB,DB,def,3,0.69,confirmed: reserve list,reserve list (week 10 roster),,,,3,4.0,5,long-term,8
-CAR,Jaelan Phillips,00-0036934,LB,LB,def,5,0.642,listed Out/Doubtful,last week's report (week 9): Out,Hamstring,Did Not Participate In Practice,9.0,6,7.0,3,long-term,8
+CAR,Michael Jackson,00-0035277,CB,DB,def,3,0.69,confirmed: reserve list,reserve list (week 10 roster),,Full Participation in Practice,10.0,3,4.0,5,long-term,8
+CAR,Jaelan Phillips,00-0036934,LB,LB,def,5,0.642,inactive 3+ games,inactive (INA) on the roster for each of the team's last three games; no injury designation,,Limited Participation in Practice,10.0,6,7.0,3,long-term,8
 CAR,Akayleb Evans,00-0038101,CB,DB,def,6,0.6066666666666667,confirmed: reserve list,reserve list (week 10 roster),,,,7,8.0,2,long-term,8
-CAR,Xavier Legette,00-0039342,WR,WR/TE,off,2,0.515,confirmed: reserve list,reserve list (week 10 roster),,,,2,3.0,6,long-term,8
+CAR,Xavier Legette,00-0039342,WR,WR/TE,off,2,0.515,confirmed: reserve list,reserve list (week 10 roster),,Full Participation in Practice,10.0,2,3.0,6,long-term,8
 CHI,Malik Muhammad,00-0041060,DB,DB,def,7,0.7471428571428571,listed Questionable,last week's report (week 9): Questionable,Toe,Limited Participation in Practice,9.0,7,8.0,2,long-term,9
 CHI,Braxton Jones,00-0037081,OL,OL,off,3,0.65,confirmed: reserve list,reserve list (week 9 roster),,,,3,4.0,6,long-term,9
 CHI,Cole Kmet,00-0036290,TE,WR/TE,off,7,0.6142857142857142,confirmed: reserve list,reserve list (week 9 roster),,,,7,8.0,2,long-term,9
 CHI,Dayo Odeyingbo,00-0036480,DL,DL/EDGE,def,5,0.564,confirmed: reserve list,reserve list (week 9 roster),,,,5,6.0,4,long-term,9
-CIN,Jalen Davis,00-0034446,CB,DB,def,3,0.6133333333333334,confirmed: reserve list,reserve list (week 10 roster),,,,3,4.0,5,long-term,8
-CIN,Andrei Iosivas,00-0038619,WR,WR/TE,off,2,0.5700000000000001,confirmed: reserve list,reserve list (week 10 roster),,,,2,3.0,6,long-term,8
-CLE,Deshaun Watson,00-0033537,QB,QB,off,8,0.99125,listed Questionable,last week's report (week 9): Questionable,Concussion,Limited Participation in Practice,9.0,8,9.0,1,new,9
-CLE,Maliek Collins,00-0033131,DT,DL/EDGE,def,8,0.62125,listed Out/Doubtful,last week's report (week 9): Out,Elbow,Did Not Participate In Practice,9.0,8,9.0,1,new,9
+CIN,Jonathan Allen,00-0033523,DT,DL/EDGE,def,8,0.6275000000000001,did not practise,week 10 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,10.0,9,,0,new,8
+CIN,Jalen Davis,00-0034446,CB,DB,def,3,0.6133333333333334,confirmed: reserve list,reserve list (week 10 roster),,Full Participation in Practice,10.0,3,4.0,5,long-term,8
+CIN,Andrei Iosivas,00-0038619,WR,WR/TE,off,2,0.5700000000000001,confirmed: reserve list,reserve list (week 10 roster),,Full Participation in Practice,10.0,2,3.0,6,long-term,8
+CLE,Elgton Jenkins,00-0035526,C,OL,off,8,1.0,limited in practice,week 10 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,10.0,9,,0,new,9
+CLE,Austin Barber,00-0041049,T,OL,off,9,1.0,limited in practice,week 10 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,10.0,9,,0,new,9
+CLE,Carson Schwesinger,00-0040579,LB,LB,def,9,1.0,limited in practice,week 10 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,10.0,9,,0,new,9
+CLE,Ronnie Hickman,00-0038715,S,DB,def,9,0.9877777777777779,did not practise,week 10 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,10.0,9,,0,new,9
+CLE,Denzel Ward,00-0034856,CB,DB,def,9,0.9877777777777779,limited in practice,week 10 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,10.0,9,,0,new,9
+CLE,Quincy Williams,00-0035680,LB,LB,def,9,0.9577777777777777,limited in practice,week 10 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,10.0,9,,0,new,9
+CLE,Denzel Boston,00-0041037,WR,WR/TE,off,9,0.9055555555555556,did not practise,week 10 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,10.0,9,,0,new,9
+CLE,Tytus Howard,00-0035234,T,OL,off,9,0.9022222222222221,limited in practice,week 10 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,10.0,9,,0,new,9
+CLE,Harold Fannin,00-0040663,TE,WR/TE,off,9,0.8644444444444445,limited in practice,week 10 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,10.0,9,,0,new,9
+CLE,Maliek Collins,00-0033131,DT,DL/EDGE,def,8,0.62125,limited in practice,week 10 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,10.0,8,9.0,1,new,9
 DAL,Jalen Thompson,00-0035705,S,DB,def,3,0.8066666666666666,confirmed: reserve list,reserve list (week 10 roster),,,,3,4.0,6,long-term,9
-DAL,George Pickens,00-0037247,WR,WR/TE,off,8,0.78,listed Questionable,last week's report (week 9): Questionable,Hamstring,Limited Participation in Practice,9.0,8,9.0,1,new,9
-DAL,Joey Porter Jr.,00-0039167,CB,DB,def,4,0.535,listed Questionable,last week's report (week 9): Questionable,Ankle,Limited Participation in Practice,9.0,8,9.0,1,new,9
+DAL,George Pickens,00-0037247,WR,WR/TE,off,8,0.78,limited in practice,week 10 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,10.0,8,9.0,1,new,9
+DAL,Donovan Ezeiruaku,00-0040725,LB,LB,def,9,0.6511111111111112,did not practise,week 10 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,10.0,9,,0,new,9
+DAL,Malik Hooker,00-0033877,S,DB,def,7,0.6385714285714287,did not practise,week 10 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,10.0,9,,0,new,9
+DAL,Jake Ferguson,00-0038041,TE,WR/TE,off,9,0.5644444444444444,did not practise,week 10 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,10.0,9,,0,new,9
+DAL,Joey Porter Jr.,00-0039167,CB,DB,def,4,0.535,did not practise,week 10 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,10.0,8,9.0,1,new,9
 DEN,Talanoa Hufanga,00-0036564,S,DB,def,5,0.9259999999999999,listed Questionable,last week's report (week 9): Questionable,Ankle,Limited Participation in Practice,9.0,5,6.0,4,long-term,9
 DEN,Brandon Jones,00-0036221,S,DB,def,8,0.9075,listed Out/Doubtful,last week's report (week 9): Out,Hamstring,Did Not Participate In Practice,9.0,8,9.0,1,new,9
 DEN,Jonah Elliss,00-0039809,LB,LB,def,6,0.5833333333333334,confirmed: reserve list,reserve list (week 9 roster),,,,6,7.0,3,long-term,9
 DEN,Eyioma Uwazurike,00-0038106,DL,DL/EDGE,def,8,0.52125,confirmed: reserve list,reserve list (week 9 roster),Shoulder,Did Not Participate In Practice,9.0,8,9.0,1,new,9
-DET,Jack Campbell,00-0039018,LB,LB,def,7,0.9671428571428571,confirmed: reserve list,reserve list (week 10 roster),Neck,Did Not Participate In Practice,9.0,8,9.0,1,new,8
-DET,D.J. Reed,00-0034384,CB,DB,def,7,0.9400000000000001,listed Out/Doubtful,last week's report (week 9): Out,Hip,Did Not Participate In Practice,9.0,8,9.0,1,new,8
+DET,Jack Campbell,00-0039018,LB,LB,def,7,0.9671428571428571,confirmed: reserve list,reserve list (week 10 roster),,,,8,9.0,1,new,8
+DET,D.J. Reed,00-0034384,CB,DB,def,7,0.9400000000000001,listed Out/Doubtful,week 10 report: Out,Hip,Did Not Participate In Practice,10.0,8,9.0,1,new,8
 DET,Ben Bartch,00-0036272,OL,OL,off,2,0.9299999999999999,confirmed: reserve list,reserve list (week 10 roster),,,,2,3.0,6,long-term,8
+DET,Amon-Ra St. Brown,00-0036963,WR,WR/TE,off,8,0.8325,limited in practice,week 10 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,10.0,9,,0,new,8
 DET,Avonte Maddox,00-0034377,DB,DB,def,2,0.6499999999999999,confirmed: reserve list,reserve list (week 10 roster),,,,2,3.0,6,long-term,8
-DET,D.J. Wonnum,00-0036335,DE,DL/EDGE,def,7,0.5414285714285715,listed Out/Doubtful,last week's report (week 9): Out,Concussion,Did Not Participate In Practice,9.0,8,9.0,1,new,8
 DET,Thomas Harper,00-0039660,S,DB,def,2,0.525,confirmed: reserve list,reserve list (week 10 roster),,,,2,3.0,6,long-term,8
-GB,Travis Glover,00-0039819,G,OL,off,4,1.0,listed Out/Doubtful,last week's report (week 9): Out,Knee,Did Not Participate In Practice,9.0,7,8.0,2,long-term,9
-GB,Zaire Franklin,00-0034431,LB,LB,def,6,0.9883333333333333,listed Out/Doubtful,last week's report (week 9): Out,Shin,Did Not Participate In Practice,9.0,6,7.0,3,long-term,9
-GB,Sean Rhyan,00-0037076,C,OL,off,7,0.8657142857142857,listed Out/Doubtful,last week's report (week 9): Out,Ankle,Did Not Participate In Practice,9.0,7,8.0,2,long-term,9
+GB,Travis Glover,00-0039819,G,OL,off,4,1.0,limited in practice,week 10 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,10.0,7,8.0,2,long-term,9
+GB,Zaire Franklin,00-0034431,LB,LB,def,6,0.9883333333333333,inactive 3+ games,inactive (INA) on the roster for each of the team's last three games; no injury designation,,Did Not Participate In Practice,10.0,6,7.0,3,long-term,9
+GB,Sean Rhyan,00-0037076,C,OL,off,7,0.8657142857142857,did not practise,week 10 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,10.0,7,8.0,2,long-term,9
 GB,Edgerrin Cooper,00-0039850,LB,LB,def,4,0.825,confirmed: reserve list,reserve list (week 10 roster),,,,4,5.0,5,long-term,9
 GB,Jacob Monk,00-0039817,C,OL,off,4,0.74,confirmed: reserve list,reserve list (week 10 roster),,,,7,8.0,2,long-term,9
+GB,Javon Bullard,00-0039867,S,DB,def,9,0.7277777777777777,did not practise,week 10 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,10.0,9,,0,new,9
+GB,Lukas Van Ness,00-0039112,DE,DL/EDGE,def,9,0.6333333333333333,did not practise,week 10 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,10.0,9,,0,new,9
 GB,Zach Bako-Bewele,00-0037817,OL,OL,off,2,0.525,confirmed: reserve list,reserve list (week 10 roster),,,,2,3.0,7,long-term,9
-HOU,Reed Blankenship,00-0037130,S,DB,def,6,0.855,listed Out/Doubtful,last week's report (week 9): Out,Concussion,Did Not Participate In Practice,9.0,6,7.0,2,long-term,8
-IND,Akeem Davis-Gaither,00-0036298,LB,LB,def,8,0.9175,listed Out/Doubtful,last week's report (week 9): Out,Knee,Did Not Participate In Practice,9.0,8,9.0,1,new,9
-IND,A.J. Haulcy,00-0041043,S,DB,def,8,0.8275,listed Out/Doubtful,last week's report (week 9): Out,Ankle,Limited Participation in Practice,9.0,8,9.0,1,new,9
-IND,Justin Walley,00-0040139,CB,DB,def,7,0.7214285714285714,listed Out/Doubtful,last week's report (week 9): Out,Knee,Did Not Participate In Practice,9.0,7,8.0,2,long-term,9
-IND,Arden Key,00-0034825,DE,DL/EDGE,def,4,0.6475,confirmed: reserve list,reserve list (week 10 roster),,,,4,5.0,5,long-term,9
+HOU,Keylan Rutledge,00-0041532,C,OL,off,8,1.0,did not practise,week 10 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,10.0,9,,0,new,8
+HOU,Azeez Al-Shaair,00-0035166,LB,LB,def,7,0.9357142857142857,did not practise,week 10 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,10.0,9,,0,new,8
+HOU,Reed Blankenship,00-0037130,S,DB,def,6,0.855,limited in practice,week 10 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,10.0,6,7.0,2,long-term,8
+HOU,Woody Marks,00-0040583,RB,RB,off,8,0.6225,limited in practice,week 10 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,10.0,9,,0,new,8
+IND,Jalen Travis,00-0040163,T,OL,off,9,0.9277777777777777,did not practise,week 10 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,10.0,9,,0,new,9
+IND,Akeem Davis-Gaither,00-0036298,LB,LB,def,8,0.9175,did not practise,week 10 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,10.0,8,9.0,1,new,9
+IND,Arden Key,00-0034825,DE,DL/EDGE,def,4,0.6475,confirmed: reserve list,reserve list (week 10 roster),,Full Participation in Practice,10.0,4,5.0,5,long-term,9
+IND,Grover Stewart,00-0033952,DT,DL/EDGE,def,9,0.5944444444444444,did not practise,week 10 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,10.0,9,,0,new,9
+JAX,Robert Hainsey,00-0036985,OL,OL,off,8,0.9550000000000001,limited in practice,week 10 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,10.0,9,,0,new,8
 JAX,Anton Harrison,00-0038934,OL,OL,off,5,0.916,confirmed: reserve list,reserve list (week 10 roster),,,,5,6.0,3,long-term,8
-JAX,Eric Murray,00-0033038,S,DB,def,6,0.6716666666666667,confirmed: reserve list,reserve list (week 10 roster),,Did Not Participate In Practice,9.0,8,9.0,1,new,8
-KC,Mansoor Delane,00-0041543,CB,DB,def,5,0.788,listed Out/Doubtful,last week's report (week 9): Out,Shoulder,Limited Participation in Practice,9.0,7,8.0,2,long-term,8
+JAX,Ezra Cleveland,00-0036327,OL,OL,off,8,0.89375,limited in practice,week 10 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,10.0,9,,0,new,8
+JAX,Antonio Johnson,00-0038596,S,DB,def,7,0.8514285714285714,limited in practice,week 10 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,10.0,9,,0,new,8
+JAX,Jakobi Meyers,00-0034960,WR,WR/TE,off,8,0.75,limited in practice,week 10 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,10.0,9,,0,new,8
+JAX,Travon Walker,00-0037235,DE,DL/EDGE,def,8,0.74,limited in practice,week 10 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,10.0,9,,0,new,8
+JAX,Eric Murray,00-0033038,S,DB,def,6,0.6716666666666667,confirmed: reserve list,reserve list (week 10 roster),,,,8,9.0,1,new,8
+JAX,Bhayshul Tuten,00-0040719,RB,RB,off,8,0.5237499999999999,did not practise,week 10 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,10.0,9,,0,new,8
+KC,Jaylon Moore,00-0036557,OL,OL,off,7,0.8728571428571429,did not practise,week 10 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,10.0,9,,0,new,8
 KC,L'Jarius Sneed,00-0036374,CB,DB,def,6,0.6366666666666666,confirmed: reserve list,reserve list (week 10 roster),,,,7,8.0,2,long-term,8
 KC,Tyquan Thornton,00-0038104,WR,WR/TE,off,4,0.5900000000000001,confirmed: reserve list,reserve list (week 10 roster),,,,4,6.0,4,long-term,8
-LA,Trent McDuffie,00-0037191,CB,DB,def,6,0.965,listed Questionable,last week's report (week 9): Questionable,Back,Did Not Participate In Practice,9.0,8,9.0,1,new,9
-LA,Jaylen Watson,00-0037195,CB,DB,def,7,0.84,confirmed: reserve list,reserve list (week 10 roster),Shoulder,Did Not Participate In Practice,9.0,8,9.0,1,new,9
+LA,Trent McDuffie,00-0037191,CB,DB,def,6,0.965,did not practise,week 10 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,10.0,8,9.0,1,new,9
+LA,Kamren Curl,00-0036349,S,DB,def,9,0.9377777777777777,did not practise,week 10 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,10.0,9,,0,new,9
+LA,Steve Avila,00-0039058,OL,OL,off,9,0.911111111111111,did not practise,week 10 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,10.0,9,,0,new,9
+LA,Puka Nacua,00-0039075,WR,WR/TE,off,7,0.87,did not practise,week 10 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,10.0,9,,0,new,9
+LA,Jaylen Watson,00-0037195,CB,DB,def,7,0.84,confirmed: reserve list,reserve list (week 10 roster),,,,8,9.0,1,new,9
 LA,Davante Adams,00-0031381,WR,WR/TE,off,6,0.7399999999999999,confirmed: reserve list,reserve list (week 10 roster),,,,6,7.0,3,long-term,9
+LA,Colby Parkinson,00-0036244,TE,WR/TE,off,7,0.6571428571428571,limited in practice,week 10 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,10.0,9,,0,new,9
 LA,Kobie Turner,00-0039138,DE,DL/EDGE,def,6,0.6066666666666667,confirmed: reserve list,reserve list (week 10 roster),,,,6,7.0,3,long-term,9
+LA,Davis Allen,00-0039074,TE,WR/TE,off,9,0.5,limited in practice,week 10 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,10.0,9,,0,new,9
 LAC,Rashawn Slater,00-0037009,T,OL,off,4,0.9625,confirmed: reserve list,reserve list (week 10 roster),,,,4,5.0,4,long-term,8
 LAC,Derwin James,00-0034790,S,DB,def,3,0.9433333333333334,confirmed: reserve list,reserve list (week 10 roster),,,,3,4.0,5,long-term,8
 LAC,Kayode Awosika,00-0036736,G,OL,off,2,0.69,listed Out/Doubtful,last week's report (week 9): Doubtful,Fibula,Limited Participation in Practice,9.0,2,3.0,6,long-term,8
 LAC,Trevor Penning,00-0037241,OL,OL,off,3,0.68,confirmed: reserve list,reserve list (week 10 roster),,,,4,5.0,4,long-term,8
+MIA,Malik Willis,00-0038128,QB,QB,off,8,1.0,confirmed: reserve list,reserve list (week 10 roster),,,,9,,0,new,8
+MIA,Aaron Brewer,00-0036171,C,OL,off,8,1.0,did not practise,week 10 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,10.0,9,,0,new,8
+MIA,Zach Sieler,00-0034285,DL,DL/EDGE,def,8,0.76,confirmed: reserve list,reserve list (week 10 roster),,,,9,,0,new,8
+MIA,Chris Bell,00-0041525,WR,WR/TE,off,8,0.62125,did not practise,week 10 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,10.0,9,,0,new,8
 MIA,De'Von Achane,00-0039040,RB,RB,off,3,0.5566666666666666,confirmed: reserve list,reserve list (week 10 roster),,,,3,4.0,5,long-term,8
-MIN,Kyler Murray,00-0035228,QB,QB,off,6,0.8616666666666667,listed Out/Doubtful,last week's report (week 9): Out,Hamstring,Did Not Participate In Practice,9.0,8,9.0,1,new,8
+MIN,Blake Cashman,00-0035276,LB,LB,def,8,0.94875,did not practise,week 10 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,10.0,9,,0,new,8
+MIN,Kyler Murray,00-0035228,QB,QB,off,6,0.8616666666666667,did not practise,week 10 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,10.0,8,9.0,1,new,8
 MIN,Donovan Jackson,00-0040661,G,OL,off,4,0.7725,confirmed: reserve list,reserve list (week 10 roster),,,,4,5.0,4,long-term,8
-MIN,Jauan Jennings,00-0036259,WR,WR/TE,off,6,0.6716666666666667,listed Out/Doubtful,last week's report (week 9): Out,Calf,Did Not Participate In Practice,9.0,8,9.0,1,new,8
-MIN,Theo Jackson,00-0037301,S,DB,def,7,0.5871428571428571,listed Questionable,last week's report (week 9): Questionable,Quadricep,Limited Participation in Practice,9.0,8,9.0,1,new,8
+MIN,T.J. Hockenson,00-0035229,TE,WR/TE,off,8,0.6825,did not practise,week 10 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,10.0,9,,0,new,8
+MIN,Jauan Jennings,00-0036259,WR,WR/TE,off,6,0.6716666666666667,did not practise,week 10 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,10.0,8,9.0,1,new,8
+MIN,Tyrion Ingram-Dawkins,00-0040173,DL,DL/EDGE,def,8,0.58625,did not practise,week 10 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,10.0,9,,0,new,8
 MIN,Josh Oliver,00-0035249,TE,WR/TE,off,3,0.5533333333333333,confirmed: reserve list,reserve list (week 10 roster),,,,3,4.0,5,long-term,8
+NE,Kevin Byard,00-0033132,S,DB,def,9,0.9600000000000001,limited in practice,week 10 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,10.0,9,,0,new,9
 NE,Alijah Vera-Tucker,00-0036979,G,OL,off,6,0.8866666666666667,confirmed: reserve list,reserve list (week 10 roster),,,,6,7.0,3,long-term,9
+NE,Carlton Davis,00-0034778,CB,DB,def,5,0.8699999999999999,listed Out/Doubtful,week 10 report: Out,Knee,Did Not Participate In Practice,10.0,9,,0,new,9
+NE,Morgan Moses,00-0031330,T,OL,off,9,0.8388888888888889,limited in practice,week 10 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,10.0,9,,0,new,9
+NE,Hunter Henry,00-0033090,TE,WR/TE,off,9,0.6433333333333333,limited in practice,week 10 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,10.0,9,,0,new,9
+NE,Rhamondre Stevenson,00-0036875,RB,RB,off,9,0.64,limited in practice,week 10 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,10.0,9,,0,new,9
 NE,Michael Onwenu,00-0036198,OL,OL,off,2,0.635,confirmed: reserve list,reserve list (week 10 roster),,,,2,3.0,7,long-term,9
+NE,Ben Brown,00-0037413,C,OL,off,7,0.5771428571428572,listed Out/Doubtful,week 10 report: Out,Knee,Did Not Participate In Practice,10.0,9,,0,new,9
 NE,Romeo Doubs,00-0037816,WR,WR/TE,off,6,0.5766666666666667,confirmed: reserve list,reserve list (week 10 roster),,,,6,7.0,3,long-term,9
-NO,Travis Etienne,00-0036973,RB,RB,off,3,0.5033333333333333,confirmed: reserve list,reserve list (week 10 roster),,,,3,4.0,5,long-term,8
+NO,David Edwards,00-0035668,G,OL,off,8,1.0,limited in practice,week 10 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,10.0,9,,0,new,8
+NO,Taliese Fuaga,00-0039339,T,OL,off,8,1.0,limited in practice,week 10 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,10.0,9,,0,new,8
+NO,Erik McCoy,00-0035242,C,OL,off,8,0.965,did not practise,week 10 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,10.0,9,,0,new,8
+NO,Quincy Riley,00-0040166,CB,DB,def,8,0.6775,limited in practice,week 10 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,10.0,9,,0,new,8
+NO,Travis Etienne,00-0036973,RB,RB,off,3,0.5033333333333333,confirmed: reserve list,reserve list (week 10 roster),,Limited Participation in Practice,10.0,3,4.0,5,long-term,8
 NYG,Tremaine Edmunds,00-0034673,LB,LB,def,6,1.0,confirmed: reserve list,reserve list (week 10 roster),,,,6,7.0,2,long-term,8
-NYG,Abdul Carter,00-0040677,LB,LB,def,8,0.86875,limited in practice,week 10 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,10.0,9,,0,new,8
 NYG,Brian Burns,00-0035713,LB,LB,def,3,0.6466666666666666,confirmed: reserve list,reserve list (week 10 roster),,,,3,4.0,5,long-term,8
 NYG,Chauncey Golston,00-0036982,DL,DL/EDGE,def,4,0.5175,confirmed: reserve list,reserve list (week 10 roster),,,,4,5.0,4,long-term,8
-NYJ,Garrett Wilson,00-0037740,WR,WR/TE,off,8,0.8925,listed Out/Doubtful,last week's report (week 9): Out,Concussion,Did Not Participate In Practice,9.0,8,9.0,1,new,9
+NYJ,Garrett Wilson,00-0037740,WR,WR/TE,off,8,0.8925,limited in practice,week 10 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,10.0,8,9.0,1,new,9
+NYJ,Omar Cooper,00-0041511,WR,WR/TE,off,5,0.634,limited in practice,week 10 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,10.0,9,,0,new,9
+NYJ,Harrison Phillips,00-0034782,DL,DL/EDGE,def,9,0.5566666666666666,did not practise,week 10 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,10.0,9,,0,new,9
+NYJ,Jarvis Brownlee,00-0039372,DB,DB,def,8,0.53125,did not practise,week 10 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,10.0,9,,0,new,9
 PHI,Lane Johnson,00-0030561,T,OL,off,3,1.0,inactive 3+ games,inactive (INA) on the roster for each of the team's last three games; no injury designation,,,,3,4.0,6,long-term,9
 PHI,Jalen Hurts,00-0036389,QB,QB,off,5,0.984,confirmed: reserve list,reserve list (week 9 roster),,,,5,6.0,4,long-term,9
 PHI,DeVonta Smith,00-0036912,WR,WR/TE,off,4,0.8725,listed Out/Doubtful,last week's report (week 9): Out,Hamstring,Did Not Participate In Practice,9.0,6,7.0,3,long-term,9
 PHI,Jihaad Campbell,00-0040708,LB,LB,def,7,0.8242857142857142,listed Out/Doubtful,last week's report (week 9): Out,Hamstring,Did Not Participate In Practice,9.0,7,8.0,2,long-term,9
 PHI,Dontayvion Wicks,00-0038393,WR,WR/TE,off,6,0.7983333333333333,listed Out/Doubtful,last week's report (week 9): Out,Ankle,Did Not Participate In Practice,9.0,6,7.0,3,long-term,9
 PIT,Michael Pittman Jr.,00-0036252,WR,WR/TE,off,3,0.7766666666666667,confirmed: reserve list,reserve list (week 10 roster),,,,4,5.0,4,long-term,8
-SEA,Charles Cross,00-0037821,T,OL,off,7,0.9757142857142858,listed Out/Doubtful,last week's report (week 9): Out,Ankle,Did Not Participate In Practice,9.0,7,8.0,2,long-term,9
-SEA,Sam Darnold,00-0034869,QB,QB,off,7,0.8714285714285713,listed Out/Doubtful,last week's report (week 9): Out,Quadricep,Did Not Participate In Practice,9.0,8,9.0,1,new,9
-SEA,Leonard Williams,00-0031933,DT,DL/EDGE,def,8,0.715,listed Out/Doubtful,last week's report (week 9): Out,Stinger,Did Not Participate In Practice,9.0,8,9.0,1,new,9
-SEA,Uchenna Nwosu,00-0034350,LB,LB,def,7,0.51,listed Out/Doubtful,last week's report (week 9): Out,Ankle,Did Not Participate In Practice,9.0,7,8.0,2,long-term,9
-SEA,Rashid Shaheed,00-0037545,WR,WR/TE,off,7,0.5028571428571429,listed Out/Doubtful,last week's report (week 9): Out,Knee,Did Not Participate In Practice,9.0,7,8.0,2,long-term,9
-SF,Deebo Samuel,00-0035719,WR,WR/TE,off,5,0.576,listed Out/Doubtful,last week's report (week 9): Out,Hamstring,Did Not Participate In Practice,9.0,5,6.0,3,long-term,8
-SF,Mike Evans,00-0031408,WR,WR/TE,off,6,0.54,listed Out/Doubtful,last week's report (week 9): Out,Ribs,Did Not Participate In Practice,9.0,6,7.0,2,long-term,8
+PIT,T.J. Watt,00-0033886,LB,LB,def,8,0.6625,limited in practice,week 10 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,10.0,8,,0,new,8
+PIT,Cameron Heyward,00-0027969,DT,DL/EDGE,def,8,0.62875,did not practise,week 10 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,10.0,8,,0,new,8
+SEA,Charles Cross,00-0037821,T,OL,off,7,0.9757142857142858,did not practise,week 10 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,10.0,7,8.0,2,long-term,9
+SEA,Sam Darnold,00-0034869,QB,QB,off,7,0.8714285714285713,did not practise,week 10 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,10.0,8,9.0,1,new,9
+SEA,Jaxon Smith-Njigba,00-0038543,WR,WR/TE,off,9,0.8422222222222222,did not practise,week 10 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,10.0,9,,0,new,9
+SEA,Leonard Williams,00-0031933,DT,DL/EDGE,def,8,0.715,did not practise,week 10 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,10.0,8,9.0,1,new,9
+SEA,Derick Hall,00-0039047,LB,LB,def,9,0.5444444444444445,limited in practice,week 10 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,10.0,9,,0,new,9
+SEA,Uchenna Nwosu,00-0034350,LB,LB,def,7,0.51,limited in practice,week 10 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,10.0,7,8.0,2,long-term,9
+SF,Renardo Green,00-0039345,CB,DB,def,8,0.9662499999999999,did not practise,week 10 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,10.0,9,,0,new,8
+SF,Deommodore Lenoir,00-0036563,DB,DB,def,8,0.9512499999999999,did not practise,week 10 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,10.0,9,,0,new,8
+SF,Trent Williams,00-0027857,T,OL,off,8,0.92,did not practise,week 10 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,10.0,9,,0,new,8
+SF,Dre Greenlaw,00-0034982,LB,LB,def,7,0.7442857142857143,did not practise,week 10 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,10.0,9,,0,new,8
+SF,Christian McCaffrey,00-0033280,RB,RB,off,8,0.68875,did not practise,week 10 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,10.0,9,,0,new,8
+SF,Deebo Samuel,00-0035719,WR,WR/TE,off,5,0.576,inactive 3+ games,inactive (INA) on the roster for each of the team's last three games; no injury designation,,Limited Participation in Practice,10.0,5,6.0,3,long-term,8
+SF,Upton Stout,00-0040152,CB,DB,def,7,0.5700000000000001,limited in practice,week 10 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,10.0,9,,0,new,8
+SF,Mike Evans,00-0031408,WR,WR/TE,off,6,0.54,did not practise,week 10 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,10.0,6,7.0,2,long-term,8
 TB,YaYa Diaby,00-0039068,LB,LB,def,8,0.5275,listed Out/Doubtful,last week's report (week 9): Out,Knee,Did Not Participate In Practice,9.0,8,9.0,1,new,9
-TEN,Carnell Tate,00-0041438,WR,WR/TE,off,7,0.8200000000000001,listed Out/Doubtful,last week's report (week 8): Out,Shoulder,Did Not Participate In Practice,8.0,7,8.0,1,new,8
+TEN,Anthony Hill,00-0041479,LB,LB,def,8,0.995,did not practise,week 10 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,10.0,8,,0,new,8
+TEN,Kevin Winston,00-0040141,S,DB,def,6,0.9866666666666667,limited in practice,week 10 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,10.0,8,,0,new,8
+TEN,Peter Skoronski,00-0039034,G,OL,off,8,0.9725,did not practise,week 10 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,10.0,8,,0,new,8
+TEN,Carnell Tate,00-0041438,WR,WR/TE,off,7,0.8200000000000001,did not practise,week 10 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,10.0,7,8.0,1,new,8
+TEN,Cody Barton,00-0035672,LB,LB,def,8,0.7325,did not practise,week 10 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,10.0,8,,0,new,8
 TEN,Fernando Carmona,00-0040881,G,OL,off,3,0.6733333333333333,confirmed: reserve list,reserve list (week 10 roster),,,,3,4.0,5,long-term,8
-WAS,Lucas Patrick,00-0033082,G,OL,off,7,0.7685714285714286,did not practise,week 10 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,10.0,9,,0,new,8
+TEN,Tony Pollard,00-0035261,RB,RB,off,8,0.6175,did not practise,week 10 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,10.0,8,,0,new,8
+WAS,Amik Robertson,00-0036375,CB,DB,def,8,0.985,limited in practice,week 10 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,10.0,9,,0,new,8
+WAS,Lucas Patrick,00-0033082,G,OL,off,7,0.7685714285714286,listed Out/Doubtful,week 10 report: Out,Concussion,Did Not Participate In Practice,10.0,9,,0,new,8
 WAS,Daron Payne,00-0034333,DT,DL/EDGE,def,6,0.7383333333333333,confirmed: reserve list,reserve list (week 10 roster),,,,6,8.0,2,long-term,8
 WAS,Javon Kinlaw,00-0036260,DT,DL/EDGE,def,6,0.6016666666666667,confirmed: reserve list,reserve list (week 10 roster),,,,6,8.0,2,long-term,8
 WAS,Terry McLaurin,00-0035659,WR,WR/TE,off,5,0.6,confirmed: reserve list,reserve list (week 10 roster),,,,6,8.0,2,long-term,8
-WAS,Treylon Burks,00-0037742,WR,WR/TE,off,6,0.5333333333333333,limited in practice,week 10 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,10.0,8,9.0,1,new,8
+WAS,Treylon Burks,00-0037742,WR,WR/TE,off,6,0.5333333333333333,did not practise,week 10 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,10.0,8,9.0,1,new,8

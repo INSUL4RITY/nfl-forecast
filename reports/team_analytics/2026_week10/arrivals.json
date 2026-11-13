@@ -1,6 +1,53 @@
 {
  "teams": {
+  "MIN": [
+   {
+    "team": "MIN",
+    "name": "Kirk Cousins",
+    "pos": "QB",
+    "kind": "trade or move",
+    "prev_team": "LV",
+    "first_week": 10,
+    "status": "ACT",
+    "games_new": 0,
+    "snaps_new": 0,
+    "share_new": null,
+    "last_share": null,
+    "games_prev": 9,
+    "share_prev": 0.9811111111111112,
+    "former_regular": true,
+    "role": "qb",
+    "recent": true,
+    "dropbacks": 353,
+    "epa_db": 0.16208586040210785,
+    "text": "Kirk Cousins (QB, from LV, first week 10): no games yet for MIN; a regular for LV (98% of snaps in 9 games). 2026: 353 dropbacks (+0.162 EPA/dropback)."
+   }
+  ],
   "SF": [
+   {
+    "team": "SF",
+    "name": "Keenan Allen",
+    "pos": "WR",
+    "kind": "trade or move",
+    "prev_team": "IND",
+    "first_week": 10,
+    "status": "ACT",
+    "games_new": 0,
+    "snaps_new": 0,
+    "share_new": null,
+    "last_share": null,
+    "games_prev": 8,
+    "share_prev": 0.5800000000000001,
+    "former_regular": true,
+    "role": "skill",
+    "recent": true,
+    "targets": 58,
+    "epa_tgt": 0.12030644700993387,
+    "rec_yds": 351,
+    "carries": 0,
+    "epa_car": null,
+    "text": "Keenan Allen (WR, from IND, first week 10): no games yet for SF; a regular for IND (58% of snaps in 8 games). 2026: 58 targets (+0.120 EPA/target)."
+   },
    {
     "team": "SF",
     "name": "DeForest Buckner",
@@ -98,32 +145,6 @@
     "text": "Laken Tomlinson (OL, from DAL, first week 4): 6 games and 390 snaps for GB (98% of snaps). GB offence EPA/dropback in his 6 starts +0.293 (244 dropbacks) vs other games +0.033 (140)."
    }
   ],
-  "WAS": [
-   {
-    "team": "WAS",
-    "name": "Lucas Patrick",
-    "pos": "OL",
-    "kind": "signed in season",
-    "prev_team": null,
-    "first_week": 2,
-    "status": "ACT",
-    "games_new": 7,
-    "snaps_new": 345,
-    "share_new": 0.7685714285714286,
-    "last_share": 0.44,
-    "games_prev": 0,
-    "share_prev": null,
-    "former_regular": false,
-    "role": "ol",
-    "recent": false,
-    "starts_new": 5,
-    "db_with": 204,
-    "db_without": 129,
-    "epa_db_with": 0.03439337621659189,
-    "epa_db_without": 0.05990146774672408,
-    "text": "Lucas Patrick (OL, signed in season, first week 2): 7 games and 345 snaps for WAS (77% of snaps). WAS offence EPA/dropback in his 5 starts +0.034 (204 dropbacks) vs other games +0.060 (129)."
-   }
-  ],
   "BAL": [
    {
     "team": "BAL",
@@ -145,6 +166,30 @@
     "dropbacks": 352,
     "epa_db": -0.024941008706758912,
     "text": "Jacoby Brissett (QB, from ARI, first week 10): no games yet for BAL; a regular for ARI (95% of snaps in 8 games). 2026: 352 dropbacks (-0.025 EPA/dropback)."
+   },
+   {
+    "team": "BAL",
+    "name": "Ryan Neuzil",
+    "pos": "OL",
+    "kind": "trade or move",
+    "prev_team": "ATL",
+    "first_week": 10,
+    "status": "ACT",
+    "games_new": 0,
+    "snaps_new": 0,
+    "share_new": null,
+    "last_share": null,
+    "games_prev": 9,
+    "share_prev": 1.0,
+    "former_regular": true,
+    "role": "ol",
+    "recent": true,
+    "starts_new": 0,
+    "db_with": 0,
+    "db_without": 306,
+    "epa_db_with": null,
+    "epa_db_without": 0.03991446379893492,
+    "text": "Ryan Neuzil (OL, from ATL, first week 10): no games yet for BAL; a regular for ATL (100% of snaps in 9 games). 0 starts for BAL; too few dropbacks for a with/without split (0 with, 306 without)."
    },
    {
     "team": "BAL",
@@ -242,6 +287,52 @@
     "text": "Kenny Moore II (DB, signed in season, first week 3): 6 games and 173 snaps for PHI (41% of snaps). PHI defence EPA/dropback allowed in his 3 starts +0.257 (121 dropbacks) vs other games +0.105 (234)."
    }
   ],
+  "NYG": [
+   {
+    "team": "NYG",
+    "name": "Dawuane Smoot",
+    "pos": "DL",
+    "kind": "signed in season",
+    "prev_team": null,
+    "first_week": 6,
+    "status": "ACT",
+    "games_new": 1,
+    "snaps_new": 34,
+    "share_new": 0.49,
+    "last_share": 0.49,
+    "games_prev": 0,
+    "share_prev": null,
+    "former_regular": false,
+    "role": "rush",
+    "recent": false,
+    "sacks": 1.0,
+    "qb_hits": 1,
+    "pressures": null,
+    "pfr_games": null,
+    "text": "Dawuane Smoot (DL, signed in season, first week 6): 1 game and 34 snaps for NYG (49% of snaps). 2026: 1 sack, 1 QB hit."
+   },
+   {
+    "team": "NYG",
+    "name": "J.J. McCarthy",
+    "pos": "QB",
+    "kind": "trade or move",
+    "prev_team": "MIN",
+    "first_week": 4,
+    "status": "ACT",
+    "games_new": 4,
+    "snaps_new": 148,
+    "share_new": 0.535,
+    "last_share": 0.76,
+    "games_prev": 0,
+    "share_prev": null,
+    "former_regular": false,
+    "role": "qb",
+    "recent": false,
+    "dropbacks": 81,
+    "epa_db": 0.20907814992426296,
+    "text": "J.J. McCarthy (QB, from MIN, first week 4): 4 games and 148 snaps for NYG (54% of snaps). 2026: 81 dropbacks (+0.209 EPA/dropback)."
+   }
+  ],
   "SEA": [
    {
     "team": "SEA",
@@ -294,6 +385,105 @@
     "text": "Matt Pryor (OL, from ARI, first week 4): 5 games and 223 snaps for NE (74% of snaps). NE offence EPA/dropback in his 4 starts +0.129 (145 dropbacks) vs other games +0.185 (202)."
    }
   ],
+  "JAX": [
+   {
+    "team": "JAX",
+    "name": "Jessie Bates",
+    "pos": "DB",
+    "kind": "trade or move",
+    "prev_team": "ATL",
+    "first_week": 10,
+    "status": "ACT",
+    "games_new": 0,
+    "snaps_new": 0,
+    "share_new": null,
+    "last_share": null,
+    "games_prev": 9,
+    "share_prev": 0.9677777777777776,
+    "former_regular": true,
+    "role": "db",
+    "recent": true,
+    "starts_new": 0,
+    "db_with": 0,
+    "db_without": 312,
+    "epa_db_with": null,
+    "epa_db_without": -0.06678658235454171,
+    "text": "Jessie Bates (DB, from ATL, first week 10): no games yet for JAX; a regular for ATL (97% of snaps in 9 games). 0 starts for JAX; too few dropbacks for a with/without split (0 with, 312 without)."
+   },
+   {
+    "team": "JAX",
+    "name": "Jordan Davis",
+    "pos": "DL",
+    "kind": "trade or move",
+    "prev_team": "PHI",
+    "first_week": 10,
+    "status": "ACT",
+    "games_new": 0,
+    "snaps_new": 0,
+    "share_new": null,
+    "last_share": null,
+    "games_prev": 9,
+    "share_prev": 0.5222222222222223,
+    "former_regular": true,
+    "role": "rush",
+    "recent": true,
+    "sacks": 1.5,
+    "qb_hits": 3,
+    "pressures": 3,
+    "pfr_games": 4,
+    "text": "Jordan Davis (DL, from PHI, first week 10): no games yet for JAX; a regular for PHI (52% of snaps in 9 games). 2026: 1.5 sacks, 3 QB hits, 3 PFR pressures in 4 games with PFR data."
+   },
+   {
+    "team": "JAX",
+    "name": "Kaevon Merriweather",
+    "pos": "DB",
+    "kind": "promoted from the practice squad",
+    "prev_team": null,
+    "first_week": 5,
+    "status": "ACT",
+    "games_new": 4,
+    "snaps_new": 142,
+    "share_new": 0.585,
+    "last_share": 0.62,
+    "games_prev": 0,
+    "share_prev": null,
+    "former_regular": false,
+    "role": "db",
+    "recent": false,
+    "starts_new": 3,
+    "db_with": 99,
+    "db_without": 213,
+    "epa_db_with": -0.20552286875315975,
+    "epa_db_without": -0.002303519662226298,
+    "text": "Kaevon Merriweather (DB, promoted from the practice squad, first week 5): 4 games and 142 snaps for JAX (58% of snaps). 3 starts for JAX; too few dropbacks for a with/without split (99 with, 213 without)."
+   }
+  ],
+  "BUF": [
+   {
+    "team": "BUF",
+    "name": "Amani Hooker",
+    "pos": "DB",
+    "kind": "trade or move",
+    "prev_team": "TEN",
+    "first_week": 10,
+    "status": "ACT",
+    "games_new": 0,
+    "snaps_new": 0,
+    "share_new": null,
+    "last_share": null,
+    "games_prev": 7,
+    "share_prev": 0.9928571428571428,
+    "former_regular": true,
+    "role": "db",
+    "recent": true,
+    "starts_new": 0,
+    "db_with": 0,
+    "db_without": 352,
+    "epa_db_with": null,
+    "epa_db_without": 0.07156414970889573,
+    "text": "Amani Hooker (DB, from TEN, first week 10): no games yet for BUF; a regular for TEN (99% of snaps in 7 games). 0 starts for BUF; too few dropbacks for a with/without split (0 with, 352 without)."
+   }
+  ],
   "CHI": [
    {
     "team": "CHI",
@@ -343,32 +533,6 @@
     "epa_db_with": 0.056606446607934076,
     "epa_db_without": -0.03704023052125582,
     "text": "Taylor Rapp (DB, promoted from the practice squad, first week 6): 4 games and 217 snaps for DEN (72% of snaps). DEN defence EPA/dropback allowed in his 4 starts +0.057 (207 dropbacks) vs other games -0.037 (197)."
-   }
-  ],
-  "BUF": [
-   {
-    "team": "BUF",
-    "name": "Geno Stone",
-    "pos": "DB",
-    "kind": "promoted from the practice squad",
-    "prev_team": null,
-    "first_week": 8,
-    "status": "ACT",
-    "games_new": 2,
-    "snaps_new": 44,
-    "share_new": 0.445,
-    "last_share": 0.52,
-    "games_prev": 0,
-    "share_prev": null,
-    "former_regular": false,
-    "role": "db",
-    "recent": true,
-    "starts_new": 1,
-    "db_with": 36,
-    "db_without": 316,
-    "epa_db_with": -0.8259436097373446,
-    "epa_db_without": 0.17381186913948005,
-    "text": "Geno Stone (DB, promoted from the practice squad, first week 8): 2 games and 44 snaps for BUF (44% of snaps). 1 start for BUF; too few dropbacks for a with/without split (36 with, 316 without)."
    }
   ],
   "CLE": [
@@ -472,30 +636,54 @@
     "text": "Jared Wayne (WR, from HOU, first week 7): 2 games and 16 snaps for MIA (13% of snaps); a regular for HOU (41% of snaps in 5 games). 2026: 12 targets (-0.301 EPA/target)."
    }
   ],
-  "JAX": [
+  "KC": [
    {
-    "team": "JAX",
-    "name": "Kaevon Merriweather",
-    "pos": "DB",
+    "team": "KC",
+    "name": "Josh Downs",
+    "pos": "WR",
+    "kind": "trade or move",
+    "prev_team": "IND",
+    "first_week": 10,
+    "status": "ACT",
+    "games_new": 0,
+    "snaps_new": 0,
+    "share_new": null,
+    "last_share": null,
+    "games_prev": 9,
+    "share_prev": 0.8055555555555556,
+    "former_regular": true,
+    "role": "skill",
+    "recent": true,
+    "targets": 57,
+    "epa_tgt": 0.2664256672696377,
+    "rec_yds": 354,
+    "carries": 1,
+    "epa_car": 0.7583505036891438,
+    "text": "Josh Downs (WR, from IND, first week 10): no games yet for KC; a regular for IND (81% of snaps in 9 games). 2026: 57 targets (+0.266 EPA/target), 1 carries (too few for a rate)."
+   },
+   {
+    "team": "KC",
+    "name": "Andrew Armstrong",
+    "pos": "WR",
     "kind": "promoted from the practice squad",
     "prev_team": null,
-    "first_week": 5,
+    "first_week": 6,
     "status": "ACT",
     "games_new": 4,
-    "snaps_new": 142,
-    "share_new": 0.585,
-    "last_share": 0.62,
+    "snaps_new": 117,
+    "share_new": 0.48000000000000004,
+    "last_share": 0.33,
     "games_prev": 0,
     "share_prev": null,
     "former_regular": false,
-    "role": "db",
+    "role": "skill",
     "recent": false,
-    "starts_new": 3,
-    "db_with": 99,
-    "db_without": 213,
-    "epa_db_with": -0.20552286875315975,
-    "epa_db_without": -0.002303519662226298,
-    "text": "Kaevon Merriweather (DB, promoted from the practice squad, first week 5): 4 games and 142 snaps for JAX (58% of snaps). 3 starts for JAX; too few dropbacks for a with/without split (99 with, 213 without)."
+    "targets": 4,
+    "epa_tgt": -1.4315889051140402,
+    "rec_yds": 16,
+    "carries": 0,
+    "epa_car": null,
+    "text": "Andrew Armstrong (WR, promoted from the practice squad, first week 6): 4 games and 117 snaps for KC (48% of snaps). 2026: 4 targets (too few for a rate)."
    }
   ],
   "DAL": [
@@ -527,7 +715,7 @@
   "NO": [
    {
     "team": "NO",
-    "name": "Audric Estim\u00e9",
+    "name": "Audric Estime",
     "pos": "RB",
     "kind": "trade or move",
     "prev_team": "CLE",
@@ -547,7 +735,7 @@
     "rec_yds": 5,
     "carries": 24,
     "epa_car": 0.03714279699488543,
-    "text": "Audric Estim\u00e9 (RB, from CLE, first week 9): 1 game and 35 snaps for NO (47% of snaps). 2026: 1 targets (too few for a rate), 24 carries (+0.037 EPA/carry)."
+    "text": "Audric Estime (RB, from CLE, first week 9): 1 game and 35 snaps for NO (47% of snaps). 2026: 1 targets (too few for a rate), 24 carries (+0.037 EPA/carry)."
    }
   ],
   "HOU": [
@@ -574,55 +762,6 @@
     "carries": 0,
     "epa_car": null,
     "text": "Marvin Harrison Jr. (WR, from ARI, first week 6): 3 games and 57 snaps for HOU (29% of snaps); a regular for ARI (74% of snaps in 4 games). 2026: 24 targets (+0.141 EPA/target)."
-   }
-  ],
-  "NYG": [
-   {
-    "team": "NYG",
-    "name": "J.J. McCarthy",
-    "pos": "QB",
-    "kind": "trade or move",
-    "prev_team": "MIN",
-    "first_week": 4,
-    "status": "ACT",
-    "games_new": 4,
-    "snaps_new": 148,
-    "share_new": 0.535,
-    "last_share": 0.76,
-    "games_prev": 0,
-    "share_prev": null,
-    "former_regular": false,
-    "role": "qb",
-    "recent": false,
-    "dropbacks": 81,
-    "epa_db": 0.20907814992426296,
-    "text": "J.J. McCarthy (QB, from MIN, first week 4): 4 games and 148 snaps for NYG (54% of snaps). 2026: 81 dropbacks (+0.209 EPA/dropback)."
-   }
-  ],
-  "KC": [
-   {
-    "team": "KC",
-    "name": "Andrew Armstrong",
-    "pos": "WR",
-    "kind": "promoted from the practice squad",
-    "prev_team": null,
-    "first_week": 6,
-    "status": "ACT",
-    "games_new": 4,
-    "snaps_new": 117,
-    "share_new": 0.48000000000000004,
-    "last_share": 0.33,
-    "games_prev": 0,
-    "share_prev": null,
-    "former_regular": false,
-    "role": "skill",
-    "recent": false,
-    "targets": 4,
-    "epa_tgt": -1.4315889051140402,
-    "rec_yds": 16,
-    "carries": 0,
-    "epa_car": null,
-    "text": "Andrew Armstrong (WR, promoted from the practice squad, first week 6): 4 games and 117 snaps for KC (48% of snaps). 2026: 4 targets (too few for a rate)."
    }
   ],
   "LAC": [
@@ -653,7 +792,54 @@
   ]
  },
  "departures": {
+  "LV": [
+   {
+    "team": "LV",
+    "name": "Kirk Cousins",
+    "pos": "QB",
+    "new_team": "MIN",
+    "first_week_new": 10,
+    "last_week": 9,
+    "share": 0.9811111111111112,
+    "games": 9,
+    "team_games": 9,
+    "games_since": 0,
+    "new": true,
+    "status_now": "ACT",
+    "text": "Kirk Cousins (QB, to MIN): last game for LV week 9, 98% of snaps, played 9 of its 9 games"
+   }
+  ],
   "IND": [
+   {
+    "team": "IND",
+    "name": "Josh Downs",
+    "pos": "WR",
+    "new_team": "KC",
+    "first_week_new": 10,
+    "last_week": 9,
+    "share": 0.8055555555555556,
+    "games": 9,
+    "team_games": 9,
+    "games_since": 0,
+    "new": true,
+    "status_now": "ACT",
+    "text": "Josh Downs (WR, to KC): last game for IND week 9, 81% of snaps, played 9 of its 9 games"
+   },
+   {
+    "team": "IND",
+    "name": "Keenan Allen",
+    "pos": "WR",
+    "new_team": "SF",
+    "first_week_new": 10,
+    "last_week": 9,
+    "share": 0.5800000000000001,
+    "games": 8,
+    "team_games": 9,
+    "games_since": 0,
+    "new": true,
+    "status_now": "ACT",
+    "text": "Keenan Allen (WR, to SF): last game for IND week 9, 58% of snaps, played 8 of its 9 games"
+   },
    {
     "team": "IND",
     "name": "Quenton Nelson",
@@ -717,7 +903,54 @@
     "text": "Marvin Harrison Jr. (WR, to HOU): last game for ARI week 4, 74% of snaps, played 4 of its 9 games"
    }
   ],
+  "ATL": [
+   {
+    "team": "ATL",
+    "name": "Ryan Neuzil",
+    "pos": "OL",
+    "new_team": "BAL",
+    "first_week_new": 10,
+    "last_week": 9,
+    "share": 1.0,
+    "games": 9,
+    "team_games": 9,
+    "games_since": 0,
+    "new": true,
+    "status_now": "ACT",
+    "text": "Ryan Neuzil (OL, to BAL): last game for ATL week 9, 100% of snaps, played 9 of its 9 games"
+   },
+   {
+    "team": "ATL",
+    "name": "Jessie Bates",
+    "pos": "DB",
+    "new_team": "JAX",
+    "first_week_new": 10,
+    "last_week": 9,
+    "share": 0.9677777777777776,
+    "games": 9,
+    "team_games": 9,
+    "games_since": 0,
+    "new": true,
+    "status_now": "ACT",
+    "text": "Jessie Bates (DB, to JAX): last game for ATL week 9, 97% of snaps, played 9 of its 9 games"
+   }
+  ],
   "TEN": [
+   {
+    "team": "TEN",
+    "name": "Amani Hooker",
+    "pos": "DB",
+    "new_team": "BUF",
+    "first_week_new": 10,
+    "last_week": 8,
+    "share": 0.9928571428571428,
+    "games": 7,
+    "team_games": 8,
+    "games_since": 0,
+    "new": true,
+    "status_now": "ACT",
+    "text": "Amani Hooker (DB, to BUF): last game for TEN week 8, 99% of snaps, played 7 of its 8 games"
+   },
    {
     "team": "TEN",
     "name": "Jeffery Simmons",
@@ -735,6 +968,21 @@
    }
   ],
   "PHI": [
+   {
+    "team": "PHI",
+    "name": "Jordan Davis",
+    "pos": "DL",
+    "new_team": "JAX",
+    "first_week_new": 10,
+    "last_week": 9,
+    "share": 0.5222222222222223,
+    "games": 9,
+    "team_games": 9,
+    "games_since": 0,
+    "new": true,
+    "status_now": "ACT",
+    "text": "Jordan Davis (DL, to JAX): last game for PHI week 9, 52% of snaps, played 9 of its 9 games"
+   },
    {
     "team": "PHI",
     "name": "Cam Jurgens",
@@ -786,11 +1034,11 @@
    }
   ]
  },
- "n": 26,
- "n_former_regular": 8,
- "n_recent": 7,
- "n_departures": 8,
- "n_new_departures": 2,
+ "n": 32,
+ "n_former_regular": 15,
+ "n_recent": 13,
+ "n_departures": 15,
+ "n_new_departures": 9,
  "share_min": 0.4,
  "through_week": 9,
  "roster_week": 10
