@@ -17,7 +17,7 @@ reads or changes the forecasting model, and it uses no market data (spread, tota
   W+1 (about 1,900 team-games per measure). The shrunk expectations beat a league-average guess on 14 of 17 measures but
   were too extreme early in a season (the real gap was 37% of the expected one at weeks 4-5), so each weight is multiplied
   by a week-and-measure factor (`matchup_calibration.json`). Each season predicted from the other four, that lowered the
-  error on all 17 measures. Calibrated edges of 1.0 or more pointed the right way 66% of the time, small ones 53%.
+  error on all 17 measures, and predicting each season only from earlier ones (forward-only) on 16 of 17. Notable headline edges pointed the right way 67% of the time (pass rush vs protection 72%, big passing plays 60%); explosive runs (58%) are not a headline edge.
 - **Player availability.** Regular players are matched across weekly rosters, injury reports, depth charts and snap counts.
   Absences are split into new and long-term, with the next player up and his own 2026 sample. Arrivals and departures from
   trades and signings are shown too.
@@ -40,6 +40,9 @@ reads or changes the forecasting model, and it uses no market data (spread, tota
 | `backtest_qb_sample.py`, `qb_shrinkage.json` | How much of a quarterback's early EPA per dropback lasts (2021-25), and the quarterback shrinkage fitted from it |
 | `backtest_player_sample.py`, `player_shrinkage.json` | The same test for running backs (EPA per carry) and receivers (EPA per target): efficiency settles slowly, usage quickly |
 | `ngs_trends.py`, `ngs_trends_2026.json`, `backtest_coverage.py`, `coverage_backtest.json` | Next Gen Stats coverage, personnel, pass-rush and scheme usage (read weekly from NFL.com's Next Gen Trends pages), and the 2018-25 test that decided they are shown as description only |
+| `reliability.py` | The Low/Medium/High reliability badges, from the fitted shrinkage weights (team measures and player efficiency) |
+| `backtest_special_teams.py`, `st_shrinkage.json` | How much special-teams EPA per game lasts; the combined rating keeps that share (about 27% after 9 games) |
+| `game_variance_test.json` | Test of game-level variance in the matchup shrinkage (2021-25): no gain, so it stays off |
 | `ep_scale.py` | Warns if nflverse switches play-by-play to a revised EP valuation |
 | `caller_check.py` | Compares the hand-kept play-caller file with Sam Hoppen's public dataset and lists differences to verify |
 | `publish_public.py` | Copies the newest report to the public page |
