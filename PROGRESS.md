@@ -426,6 +426,9 @@ market lines, QB availability, injury display, weather display). A changed artif
      since 2016; ATL 0.74, IND 0.82, ARI 0.90, DAL 0.97) and each release records `dome_input`. Week 10: Model total
      +2.1 to +2.7 at the four such games; margins unchanged (market-adjusted <= 0.01), picks unchanged. Correction
      `roof-input:blank-retractable-2026` (215 earlier releases, 18 games; no game-page banner).
+  3. Fumble-recovery share (Team ratings luck table, display only): `luck.fumble_share` credited by `posteam`, but on
+     punts the receiving team fumbles, so 26 of 334 fumble plays in 2026 were flipped. Now credited from the fumbling
+     team (`fumbled_1_team`). 22 teams' shares change, e.g. CHI 7/22 -> 10/22, CAR 12/20 -> 10/20.
 
 ## 3. Tests and checks (2026-09-25)
 - Live head-to-head (2026-10-13, user request; display only): `picks.head_to_head` compares combined, stats-only and market

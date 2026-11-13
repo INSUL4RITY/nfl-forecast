@@ -34,12 +34,19 @@ def win_model(tg: pl.DataFrame, season: int) -> LogisticRegression:
 
 
 def fumble_share(pbp: pl.DataFrame) -> dict[str, tuple[int, int]]:
-    """{team: (fumbles recovered by the team, all fumbles in its games)} from plays with a fumble."""
-    f = pbp.filter(pl.col("fumble") == 1).select("game_id", "posteam", "defteam", "fumble_lost").drop_nulls(["posteam", "defteam"])
+    """{team: (fumbles recovered by the team, all fumbles in its games)} from plays with a fumble.
+
+    `fumble_lost` is from the FUMBLING team's side (nflverse `fumbled_1_team`), which is not always the team in
+    possession at the snap: on a punt the receiving team (defteam) fumbles the return (2026 to week 10: 24 punts, plus a
+    pass and a field goal, of 334 fumble plays). Crediting by `posteam` flipped those (audit 2026-11-13)."""
+    cols = ["game_id", "posteam", "defteam", "fumble_lost"] + (["fumbled_1_team"] if "fumbled_1_team" in pbp.columns else [])
+    f = pbp.filter(pl.col("fumble") == 1).select(cols).drop_nulls(["posteam", "defteam"])
     out: dict[str, list[int]] = {}
     for r in f.iter_rows(named=True):
         lost = int(r["fumble_lost"] or 0)
-        for team, recovered in ((r["posteam"], 1 - lost), (r["defteam"], lost)):
+        fumbler = r.get("fumbled_1_team") or r["posteam"]
+        other = r["defteam"] if fumbler == r["posteam"] else r["posteam"]
+        for team, recovered in ((fumbler, 1 - lost), (other, lost)):
             s = out.setdefault(team, [0, 0])
             s[0] += recovered
             s[1] += 1
