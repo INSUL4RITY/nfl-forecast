@@ -56,7 +56,7 @@ tested, result noted · **parked** = needs a user decision or data we do not hav
 |---|---|---|---|
 | B13 | Kicker rating: FG accuracy vs expected by distance, follows the kicker between teams | open | e.g. Rams kicker change (Mevis -> McManus). |
 | B14 | Split special teams into skill (kicking, punting distance) and randomness (blocks, return TDs, muffs) | open | v2's special-teams group helped (+0.39) but is noisy early in the season. |
-| B15 | Luck-adjusted EPA: replace actual turnovers with expected ones (league INT rate for the dropbacks, half of fumbles lost) | open | |
+| B15 | Luck-adjusted EPA: replace actual turnovers with expected ones (league INT rate for the dropbacks, half of fumbles lost) | open | Audit 2026-11-13: in the v1.0 Model line the fumbles-lost rate has the wrong sign (+106 pts per unit of own fumbles lost per play, i.e. more fumbles lost = more points), and the defence's interception rate (-61 per unit for the opponent's), starting field position and points per drive all carry turnover luck. Replace them with expected turnovers (and B16's regression terms) rather than adding more turnover inputs. |
 | B16 | Regression features: turnover margin, fumble recovery, one-score record, red zone, 3rd/4th down, without double counting | open | Research plan item 3. v2's luck group helped slightly (+0.18). |
 | B17 | Discount extreme-weather games when building team ratings | open | ATL@TB wk 8: TB dropped back 5 times all game; compare both teams in the same game. |
 
