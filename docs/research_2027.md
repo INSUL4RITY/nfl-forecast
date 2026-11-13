@@ -24,6 +24,7 @@ tested, result noted · **parked** = needs a user decision or data we do not hav
 | A10 | Mid-week injury practice readings: calibrate with the injury versions collected in 2026 | open | Limitation 2. |
 | A12 | Refit on one consistent EPA version across all seasons | open | nflfastR PR 618 (open on 2026-11-10) revalues scoring plays net of the next kickoff: touchdown ~5.9 not 7, EPA compressed toward 0, kickoff EPA ~-0.07 instead of ~+0.2. Re-download every season under the same version before 2027 fitting. |
 | A11 | Re-check the exploratory new-QB carry-over hint (NQ lowered early-season total error) | open | Not pre-specified; exploratory only. |
+| A13 | Put intervals on every spread backtest result | open | Audit 2026-11-13. Backtest records vs the line use untimed (~closing) lines and the actual starter, and are reported with no interval. At ~1,900 games the 95% interval on a win rate is about +/-2.2 points (1.96 x sqrt(0.25/1900)), so 51.4% vs 49.9% is not a difference. Add intervals (and paired differences on identical games) to the reports; a real test of picks vs the line needs timestamped historical lines, i.e. the paid backfill (D5). |
 
 ## B. Model inputs to test
 
