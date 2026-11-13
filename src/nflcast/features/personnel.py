@@ -39,17 +39,30 @@ QB_HALF_LIFE_GAMES = 16.0
 QB_SEASON_CARRY = 0.8
 QB_SHRINK_DROPBACKS = 250.0
 NEWCOMER_CAREER_DB = 200
+MIN_STARTER_DB = 5          # a non-QB passer counts as the starter only with at least this many dropbacks
 
 
 # ------------------------------------------------------------------ QB game table
-def qb_games(pbp: pl.DataFrame, games: pl.DataFrame) -> pl.DataFrame:
-    """One row per (game, team, dropback player): dropbacks, EPA sum, starter flag."""
+def qb_games(pbp: pl.DataFrame, games: pl.DataFrame, positions: dict[str, str] | None = None) -> pl.DataFrame:
+    """One row per (game, team, dropback player): dropbacks, EPA sum, starter flag.
+
+    Starter = the first dropback passer among the team's ELIGIBLE passers: listed at QB (nflverse players table), or
+    with >= MIN_STARTER_DB dropbacks in the game. A trick-play pass by a running back or receiver (2026 wk 9: Derrick
+    Henry, 1 dropback, before Joe Fagnano's 20) is therefore not the starter, while non-QBs who really played
+    quarterback (Taysom Hill, listed TE, 2020-21; Kendall Hinton, WR, 2020) still are. If no passer is eligible, the
+    first dropback passer is used as before. `positions` = {gsis_id: position}; None treats every passer as eligible
+    only by dropbacks."""
     p = pbp.filter((pl.col("qb_dropback") == 1) & (pl.col("qb_spike").fill_null(0) == 0)
                    & pl.col("passer_id").is_not_null() & (pl.col("play_type") != "no_play")).with_columns(
         team=franchise(pl.col("posteam")))
-    first = p.sort("play_id").group_by(["game_id", "team"]).agg(starter_id=pl.col("passer_id").first())
-    agg = p.group_by(["game_id", "team", "passer_id"]).agg(db=pl.len(), epa=pl.col("epa").fill_null(0).sum())
-    out = agg.join(first, on=["game_id", "team"]).with_columns(is_starter=pl.col("passer_id") == pl.col("starter_id"))
+    agg = p.group_by(["game_id", "team", "passer_id"]).agg(db=pl.len(), epa=pl.col("epa").fill_null(0).sum(),
+                                                           first_play=pl.col("play_id").min())
+    qb_ids = [k for k, v in (positions or {}).items() if v == "QB"]
+    agg = agg.with_columns(eligible=pl.col("passer_id").is_in(qb_ids) | (pl.col("db") >= MIN_STARTER_DB))
+    first = (agg.sort(["game_id", "team", pl.col("eligible").not_(), "first_play"])
+             .group_by(["game_id", "team"]).agg(starter_id=pl.col("passer_id").first()))
+    out = (agg.join(first, on=["game_id", "team"]).with_columns(is_starter=pl.col("passer_id") == pl.col("starter_id"))
+           .drop("first_play", "eligible"))
     g = games.select("game_id", "season", "week", "kickoff_utc")
     return out.join(g, on="game_id").rename({"passer_id": "qb_id"}).drop("starter_id").sort(["kickoff_utc", "game_id"])
 

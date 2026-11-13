@@ -94,7 +94,8 @@ def build() -> None:
     pbp = pl.concat([S.fetch("pbp", s).select(PBP_COLS) for s in all_s], how="diagonal_relaxed")
     tg = attach_game_info(team_game_stats(pbp), games)
     tg.write_parquet(PROCESSED_DIR / "team_games.parquet")
-    qbg = P.qb_games(pbp, games)
+    pos = S.fetch("players").select("gsis_id", "position").drop_nulls()
+    qbg = P.qb_games(pbp, games, dict(zip(pos["gsis_id"].to_list(), pos["position"].to_list())))
     qbg.write_parquet(PROCESSED_DIR / "qb_games.parquet")
     print(f"[build] team-games: {tg.height} rows from {pbp.height} plays; qb-games {qbg.height}")
     try:                         # model v2.0 inputs (features/v2.py); a failure leaves the stats-only line on v1.0

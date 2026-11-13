@@ -415,6 +415,13 @@ market lines, QB availability, injury display, weather display). A changed artif
   DEN offence Payton from wk 5, HOU defence Ryans from wk 5, CAR defence Wash from wk 9). Game page Coaching staff panel adds
   "Calls the offence/defence"; Method note; research item B19 updated. In 16 of 32 teams the coordinator is not the caller.
 
+- Audit fixes (2026-11-13, user-supplied audit; input/report bug fixes only, frozen artifacts unchanged, no refit):
+  1. Trick-play "starter": `personnel.qb_games` took the first dropback passer, so Derrick Henry (RB, 1 dropback) was
+     BAL's week 9 starter, giving every BAL week 10 scenario a QB-change penalty and a wrong baseline. Starter is now the
+     first dropback among passers listed at QB or with >= 5 dropbacks (keeps Taysom Hill / Kendall Hinton starts). 8 of
+     8,466 team-games change since 2011, all trick plays. LAC@BAL (same inputs): Model line BAL by 1.76 -> 2.28 (Fagnano
+     scenario -0.81 -> +0.50); pick unchanged (LAC +4.5). Frozen QB start rates (in the artifact) not recomputed.
+
 ## 3. Tests and checks (2026-09-25)
 - Live head-to-head (2026-10-13, user request; display only): `picks.head_to_head` compares combined, stats-only and market
   on the same finished, publicly verifiable games by week (margin error, winner correct) plus the vs-line records of the
