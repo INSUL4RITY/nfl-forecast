@@ -98,3 +98,26 @@ def test_schedule_flags():
     assert f["D"] == {"sos_flag_def": "softer schedule"}
     assert f["E"] == {} and f["F"] == {}
     assert "rank_rb" in bh.SOS_TABLES["off"] and "eff_def" in bh.SOS_TABLES["def"] and "sos" not in bh.SOS_TABLES["off"]
+
+
+# ---- item 6: forward-only validation never fits on the season it predicts, or later ones
+def test_forward_check_uses_only_earlier_seasons(monkeypatch):
+    import numpy as np
+    import pandas as pd
+    import backtest_matchups as bm
+    rng = np.random.default_rng(0)
+    rows = [{"season": s, "metric": m, "W": w, "n": 50, "shr": x, "actual": 0.5 * x + rng.normal(0, 0.1)}
+            for s in (2021, 2022, 2023) for m in ("a", "b") for w in (5, 10) for x in rng.normal(0, 1, 20)]
+    Z = pd.DataFrame(rows)
+    seen = []
+    real_fit = bm.fit
+
+    def spy(z):
+        seen.append(sorted(z.season.unique()))
+        return real_fit(z)
+    monkeypatch.setattr(bm, "fit", spy)
+    out = bm.forward_check(Z)
+    assert set(out) == {"a", "b"} and out["a"]["seasons"] == [2022, 2023]
+    assert all(max(s) < t for s, t in zip(seen, [2022, 2023, 2022, 2023]))      # each fit is on earlier seasons only
+    assert out["a"]["error_after"] < out["a"]["error_before"]                   # actual = half the expectation: calibration helps
+
