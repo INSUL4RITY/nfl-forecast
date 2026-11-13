@@ -167,7 +167,7 @@ TP_KEYS = ("name", "pos", "games", "snap_pct", "targets", "tgt_share", "tgt_shar
 
 def trim_usage(US, tables):
     """Only the player fields the page shows (rank-table columns, sample sizes, the usage table and game logs)."""
-    rk = {c[x] for tb in tables if tb["rows"] in ("rb", "wr", "te") for c in tb["cols"] for x in ("k", "n") if c.get(x)}
+    rk = {c[x] for tb in tables if tb["rows"] in ("rb", "wr", "te") for c in tb["cols"] for x in ("k", "n", "b") if c.get(x)}
     rk |= {"label", "sub", "team", "name"}
     return {"rb": [{k: v for k, v in r.items() if k in rk} for r in US["rb"]],
             "wr": [{k: v for k, v in r.items() if k in rk} for r in US["wr"]],
