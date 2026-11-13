@@ -115,3 +115,12 @@ def test_backup_role_lowers_the_expectation_and_is_flagged():
     e_s = bh.qb_expect(starter, m["epa_db"], 0.5, 0.0, 0)
     assert e_b < e_s                      # 51 hot dropbacks by a backup no longer beat 198 poor ones by the starter
     assert "did not open the season" in bh.role_text(hot_backup) and bh.role_text(starter) == ""
+
+
+def test_ngs_signature_lists_only_extreme_tendencies():
+    rec = {"def_zone": 0.84, "def_zone_pct": 87, "def_man": 0.16, "def_man_pct": 13, "def_blitz": 0.32, "def_blitz_pct": 50,
+           "off_tempo_sec": 32.6, "off_tempo_sec_pct": 93}
+    s = bh.ngs_signature(rec, "def_")
+    assert "zone coverage 84% (high, 87th percentile)" in s and "man coverage 16% (low, 13th percentile)" in s and "blitz" not in s
+    assert "seconds between snaps 32.6 s (fast, 93rd percentile)" == bh.ngs_signature(rec, "off_")
+    assert bh.ngs_signature({"def_blitz": 0.3, "def_blitz_pct": 50}, "def_") == "no tendency in the top or bottom fifth"

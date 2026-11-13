@@ -39,6 +39,7 @@ reads or changes the forecasting model, and it uses no market data (spread, tota
 | `backtest_matchups.py`, `matchup_calibration.json` | The 2021-25 backtest of the matchup expectations and the calibration fitted from it (refitted once a year) |
 | `backtest_qb_sample.py`, `qb_shrinkage.json` | How much of a quarterback's early EPA per dropback lasts (2021-25), and the quarterback shrinkage fitted from it |
 | `backtest_player_sample.py`, `player_shrinkage.json` | The same test for running backs (EPA per carry) and receivers (EPA per target): efficiency settles slowly, usage quickly |
+| `ngs_trends.py`, `ngs_trends_2026.json`, `backtest_coverage.py`, `coverage_backtest.json` | Next Gen Stats coverage, personnel, pass-rush and scheme usage (read weekly from NFL.com's Next Gen Trends pages), and the 2018-25 test that decided they are shown as description only |
 | `ep_scale.py` | Warns if nflverse switches play-by-play to a revised EP valuation |
 | `caller_check.py` | Compares the hand-kept play-caller file with Sam Hoppen's public dataset and lists differences to verify |
 | `publish_public.py` | Copies the newest report to the public page |
@@ -61,4 +62,4 @@ python -m pytest -q
 Play-by-play, rosters, injuries, depth charts, snap counts, schedules and players from nflverse; charting data from FTN and
 advanced stats from Pro Football Reference, both via nflverse; Next Gen Stats via nflverse; ESPN team win rates copied by hand
 with their date; weather forecasts from the National Weather Service and Open-Meteo; play-callers cross-checked against Sam Hoppen's
-public dataset (github.com/samhoppen/NFL_public), which is read at build time and not copied here; this season's flags per referee copied by hand, with their date, from Hashtag Football's penalty tracker. Built with Claude Code.
+public dataset (github.com/samhoppen/NFL_public), which is read at build time and not copied here; this season's flags per referee copied by hand, with their date, from Hashtag Football's penalty tracker; coverage, personnel and scheme usage from NFL Next Gen Stats (NFL.com Next Gen Trends), read weekly with the date. Built with Claude Code.

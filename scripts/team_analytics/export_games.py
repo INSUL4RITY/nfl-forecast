@@ -194,6 +194,9 @@ def main():
                     e = (fmt(r["exp"], r["f"]), fmt(r["lg"], r["f"]), r["lean"], r["conf"]) if "exp" in r else ("season figures only", "", "", "")
                     L.append(f"| {r['lab']} | {fmt(r['o'], r['f'])} ({ordn(r['o_rank'])}) | {fmt(r['d'], r['f'])} ({ordn(r['d_rank'])}) | {e[0]} | {e[1]} | {e[2]} | {e[3]} |")
             L.append("")
+            if sd.get("scheme"):
+                L += [f"How they play (Next Gen Stats, description only): {sd['off']} offence: {sd['scheme']['off']}. "
+                      f"{sd['def']} defence: {sd['scheme']['def']}.", ""]
         if R.get("mismatches"):
             L.append("## Mismatches (evidence, mechanism, neutralisers)")
             for x in R["mismatches"]:

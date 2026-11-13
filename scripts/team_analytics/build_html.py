@@ -871,7 +871,41 @@ def long_term_text(x):
     return f"{x.player} ({x.position}, out since week {int(x.out_since_week)}): {presence(x)}"
 
 
-def build_matchups(T, nxt, MM, A, mm, notes, PL, US, QBS, REF, ARR, UN, WX=None):
+NGS_LABELS = {  # column -> (label, unit); usage shares unless noted
+    "off_11p": ("11 personnel", "%"), "off_12p": ("12 personnel", "%"), "off_13p": ("13 personnel", "%"), "off_21p": ("21 personnel", "%"),
+    "off_called_pass": ("called pass rate", "%"), "off_ed_play_action": ("early-down play action", "%"), "off_motion": ("motion", "%"),
+    "off_tempo_sec": ("seconds between snaps", "s"), "off_quick_pass": ("quick passes", "%"), "off_in_breaking": ("in-breaking targets", "%"),
+    "off_out_breaking": ("out-breaking targets", "%"), "off_10plus_air": ("targets 10+ air yards", "%"), "off_inside_zone": ("inside zone runs", "%"),
+    "off_outside_zone": ("outside zone runs", "%"), "off_gap": ("gap runs", "%"), "off_man_blocking": ("man-blocking runs", "%"),
+    "def_base": ("base personnel", "%"), "def_nickel": ("nickel", "%"), "def_dime": ("dime", "%"), "def_zone": ("zone coverage", "%"),
+    "def_man": ("man coverage", "%"), "def_press": ("press coverage", "%"), "def_single_high": ("single-high shells", "%"),
+    "def_split_safety": ("split-safety shells", "%"), "def_cover0": ("cover 0", "%"), "def_blitz": ("blitz rate", "%"),
+    "def_pressure_blitz": ("pressure when blitzing", "%"), "def_pressure_no_blitz": ("pressure without a blitz", "%")}
+
+
+def load_ngs(season):
+    f = Path(__file__).resolve().parent / f"ngs_trends_{season}.json"
+    return json.loads(f.read_text(encoding="utf-8")) if f.exists() else None
+
+
+def ngs_signature(rec, side, n=5):
+    """The unit's most distinctive NGS tendencies (80th percentile or higher, or 20th or lower), most extreme first."""
+    if not rec:
+        return None
+    out = []
+    for k, (lab, unit) in NGS_LABELS.items():
+        if not k.startswith(side) or rec.get(k + "_pct") is None:
+            continue
+        p = rec[k + "_pct"]
+        if p >= 80 or p <= 20:
+            v = rec[k]
+            val = f"{v:.1f} s" if unit == "s" else f"{100 * v:.0f}%"
+            word = ("fast" if p >= 80 else "slow") if k == "off_tempo_sec" else ("high" if p >= 80 else "low")
+            out.append((abs(p - 50), f"{lab} {val} ({word}, {ordinal(p)} percentile)"))
+    return "; ".join(x[1] for x in sorted(out, reverse=True)[:n]) or "no tendency in the top or bottom fifth"
+
+
+def build_matchups(T, nxt, MM, A, mm, notes, PL, US, QBS, REF, ARR, UN, WX=None, NG=None):
     games = []
     mm_by = {m["game"]: m for m in mm}
     lg_go = T.fd_go_rate.mean()
@@ -907,6 +941,8 @@ def build_matchups(T, nxt, MM, A, mm, notes, PL, US, QBS, REF, ARR, UN, WX=None)
             ex = {r["lab"]: r for grp in groups for r in grp["rows"]}
             sides.append({"off": o, "def": d, "home": o == h, "groups": groups, "exp_epa": ex["EPA per play"]["exp"],
                           "starter": starter_line(o, QBS.get(o, {})),
+                          "scheme": ({"off": ngs_signature(NG["teams"].get(o), "off_"), "def": ngs_signature(NG["teams"].get(d), "def_")}
+                                     if NG else None),
                           "exp_ppd": ex["Points per drive"]["exp"], "conf_epa": ex["EPA per play"]["conf"]})
         st = []
         for lab, col, f, dd in ST_ROWS:
@@ -1376,6 +1412,12 @@ def main():
     nxt = pd.read_csv(d / "next_week_schedule.csv")
     meta = json.loads((d / "bundle_meta.json").read_text())
     WK.update(thru=meta["through_week"], word=WORDS.get(meta["through_week"], str(meta["through_week"])))
+    NG = load_ngs(meta["season"])
+    if NG:
+        for t, rec in NG["teams"].items():
+            for k, v in rec.items():
+                if k in NGS_LABELS and t in T.index:
+                    T.loc[t, f"ngs_{k}"] = v
     CAL = meta.get("calibration")
     if CAL:
         NOTABLE["v"] = CAL["edges"]["notable"]
@@ -1750,6 +1792,35 @@ def main():
         C("pbwr", "Pass block win rate (ESPN)", "pct", 1, "Share of pass-blocking snaps where the line holds its blocks for 2.5 s (ESPN Analytics)"),
         C("off_qb_fault_sack_share", "Sacks on the QB", "pct", 0, "FTN: share of sacks charted as the quarterback's fault, not the line's"),
     ], "off_pressure_rate", "Pressure allowed also reflects the QB's hold time and receivers getting open; pass block win rate isolates the line." + wr_note, desc=False))
+    if NG:
+        cbf = Path(__file__).resolve().parent / "coverage_backtest.json"
+        CB = json.loads(cbf.read_text(encoding="utf-8")) if cbf.exists() else None
+        src = (f"Next Gen Stats via NFL.com Next Gen Trends ({NG['source']['url']}), read {NG['source']['retrieved']}"
+               + ("" if NG["through_week"] == meta["through_week"] else f"; runs through week {NG['through_week']} only") + ". Usage shares, not efficiency.")
+        tables.append(table("ngs_off", "Offensive scheme (Next Gen Stats)", [
+            C("ngs_off_11p", "11 personnel", "pct", 0, "1 RB, 1 TE, 3 WR"), C("ngs_off_12p", "12 personnel", "pct", 0), C("ngs_off_13p", "13 personnel", "pct", 0),
+            C("ngs_off_21p", "21 personnel", "pct", 0), C("ngs_off_called_pass", "Called pass rate", "pct", 0),
+            C("ngs_off_ed_play_action", "Early-down play action", "pct", 0), C("ngs_off_motion", "Motion", "pct", 0),
+            C("ngs_off_tempo_sec", "Seconds between snaps", "n1", 0), C("ngs_off_quick_pass", "Quick passes", "pct", 0),
+            C("ngs_off_in_breaking", "In-breaking targets", "pct", 0), C("ngs_off_out_breaking", "Out-breaking targets", "pct", 0),
+            C("ngs_off_10plus_air", "Targets 10+ air yards", "pct", 0), C("ngs_off_inside_zone", "Inside zone", "pct", 0),
+            C("ngs_off_outside_zone", "Outside zone", "pct", 0), C("ngs_off_gap", "Gap", "pct", 0), C("ngs_off_man_blocking", "Man blocking", "pct", 0),
+        ], "ngs_off_called_pass", "How each offence lines up and calls plays, as charted by Next Gen Stats tracking. " + src
+           + (f" Personnel tendencies hold up well within a season (11 personnel: first-half to second-half correlation "
+              f"{CB['tendencies']['offence 11 personnel rate']['corr']:.2f}, {CB['seasons'][0]}-{CB['seasons'][-1]})." if CB else ""), desc=False))
+        tables.append(table("ngs_def", "Coverage, personnel and pass rush (Next Gen Stats)", [
+            C("ngs_def_zone", "Zone", "pct", 0), C("ngs_def_man", "Man", "pct", 0), C("ngs_def_press", "Press", "pct", 0),
+            C("ngs_def_single_high", "Single-high", "pct", 0, "One deep safety (middle of the field closed)"),
+            C("ngs_def_split_safety", "Split-safety", "pct", 0, "Two deep safeties"), C("ngs_def_cover0", "Cover 0", "pct", 0),
+            C("ngs_def_base", "Base", "pct", 0), C("ngs_def_nickel", "Nickel", "pct", 0), C("ngs_def_dime", "Dime", "pct", 0),
+            C("ngs_def_blitz", "Blitz rate", "pct", 0, "5+ rushers"), C("ngs_def_pressure_blitz", "Pressure when blitzing", "pct", 1),
+            C("ngs_def_pressure_no_blitz", "Pressure without a blitz", "pct", 1, "4 or fewer rushers"),
+        ], "ngs_def_zone", "How each defence lines up, covers and rushes, as charted by Next Gen Stats. " + src
+           + (f" Tested on {CB['seasons'][0]}-{CB['seasons'][-1]} charting: coverage and personnel tendencies hold up within a season (first-half to "
+              f"second-half correlation: zone {CB['tendencies']['defence zone rate']['corr']:.2f}, single-high {CB['tendencies']['defence single-high rate']['corr']:.2f}, "
+              f"blitz {CB['tendencies']['defence blitz rate (5+ rushers)']['corr']:.2f}, dime {CB['tendencies']['defence dime rate']['corr']:.2f}); "
+              f"pressure rates much less so ({CB['tendencies']['defence pressure rate without blitz']['corr']:.2f} without a blitz). EPA allowed in a given "
+              f"coverage did not hold up beyond the defence's overall figure, so it is not shown." if CB else ""), desc=False))
     tables.append(table("presnap", "Pre-snap motion, RPO and tempo", [
         C("off_motion_rate", "Motion rate", "pct", 0, "FTN: share of scrimmage plays with pre-snap motion"),
         C("off_epa_motion", "EPA/play with motion", "epa", 1), C("off_epa_nomotion", "EPA/play without", "epa", 1),
@@ -2073,7 +2144,7 @@ def main():
     }
 
     tables = finish_tables(tables, T, not wr_probs, bool((A.last_report_week == meta["through_week"] + 1).any()))
-    games = build_matchups(T, nxt, MM, A, mm, notes, PL, US, CTX["qb"], REF, ARR, UN, WX)
+    games = build_matchups(T, nxt, MM, A, mm, notes, PL, US, CTX["qb"], REF, ARR, UN, WX, NG)
     pen_types_js = PEN_T.to_dict("records")
     # embed only the team fields the page or the per-game export reads (table columns, sample sizes, keys named in the
     # page's script or the exporter, and the team-chart measures, whose keys the page builds at run time)
@@ -2307,7 +2378,7 @@ Status comes from each team's latest weekly roster (reserve list) and latest inj
 <li><b>Run direction, targets by position and throw zones</b>: play-by-play run location (inside = middle or guard gap; outside = tackle or end), the targeted receiver's position on the weekly roster (fullbacks count as RBs), and nflfastR throw location (deep = 15+ air yards; left, middle, right). Run direction is not the blocking scheme, and position is not alignment: free data has neither run concepts nor slot vs outside receivers.</li>
 <li><b>Win rates</b> (pass block, pass rush, run block, run stop): ESPN Analytics, built from NFL Next Gen Stats tracking. They are not in nflverse, so they are copied by hand each week from ESPN's team table with its date (the win-rates file in the analytics scripts), shown for context only and not used in any rating, composite or matchup expectation. A pass block win means the line held its blocks for 2.5 seconds; a pass rush win means a rusher beat his block within 2.5 seconds.</li>
 <li><b>DVOA</b>: FTN's proprietary metric. It is not in nflverse and is not used or shown in this report. The closest computed analogues here are opponent-adjusted EPA and success rate. They are not DVOA.</li>
-<li><b>Coverage (man/zone), time to pressure, pressure by play</b>: not in free data. PFR pressures are game-level, so pressure-when-blitzing uses the hit-or-sack proxy.</li>
+<li><b>Coverage, personnel and scheme</b>: this season's usage rates (man, zone, press, single-high, split-safety, cover 0, base, nickel, dime, blitz, pressure with and without a blitz; offensive personnel, play action, motion, tempo, quick passes, route direction and run concepts) are read by hand each week from NFL.com's Next Gen Trends team pages, with the date, because nflverse has no 2026 coverage data yet. The 2018-25 test (<code>backtest_coverage.py</code>, nflverse participation charting, weeks 1-9 against 10-18) found the usage tendencies stable within a season but the EPA a defence allows in a given coverage no more predictable than its overall EPA, and weighting an offence's results against man and zone by the defence's coverage mix predicted second-half games slightly worse than the plain matchup. So the tendencies are shown as description and do not change any expectation. Time to pressure and pressure by play remain unavailable; PFR pressures are game-level, so pressure-when-blitzing in the main tables uses the hit-or-sack proxy.</li>
 <li><b>Pressure coverage</b>: PFR advanced stats are available for {T.off_pfr_games.sum()/2:.0f} of {meta['games']} games; pressure rates use only those games.</li>
 {ftn_note}
 <li><b>Participation data</b> (players on field per play) is not published for 2026, so personnel groupings and on/off splits are not possible. Availability uses snap counts, weekly rosters and injury reports.</li>

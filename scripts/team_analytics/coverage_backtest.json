@@ -1,0 +1,86 @@
+{
+ "seasons": [
+  2018,
+  2019,
+  2020,
+  2021,
+  2022,
+  2023,
+  2024,
+  2025
+ ],
+ "split": "weeks 1-9 vs 10-18",
+ "shrink_k": 150,
+ "tendencies": {
+  "defence zone rate": {
+   "corr": 0.721,
+   "teams": 256
+  },
+  "defence man rate": {
+   "corr": 0.721,
+   "teams": 256
+  },
+  "defence single-high rate": {
+   "corr": 0.634,
+   "teams": 256
+  },
+  "defence split-safety rate": {
+   "corr": 0.635,
+   "teams": 256
+  },
+  "defence blitz rate (5+ rushers)": {
+   "corr": 0.647,
+   "teams": 256
+  },
+  "defence nickel rate": {
+   "corr": 0.779,
+   "teams": 256
+  },
+  "defence dime rate": {
+   "corr": 0.831,
+   "teams": 256
+  },
+  "offence 11 personnel rate": {
+   "corr": 0.787,
+   "teams": 256
+  },
+  "defence pressure rate without blitz": {
+   "corr": 0.208,
+   "teams": 256
+  },
+  "defence pressure rate when blitzing": {
+   "corr": 0.149,
+   "teams": 256
+  }
+ },
+ "effects": {
+  "EPA/dropback allowed overall": {
+   "corr": 0.252
+  },
+  "EPA/dropback allowed in zone": {
+   "corr": 0.185,
+   "gap_vs_overall_corr": 0.061
+  },
+  "EPA/dropback allowed in man": {
+   "corr": -0.012,
+   "gap_vs_overall_corr": -0.087
+  },
+  "EPA/dropback allowed in single-high": {
+   "corr": 0.086,
+   "gap_vs_overall_corr": -0.07
+  },
+  "EPA/dropback allowed in split-safety": {
+   "corr": 0.021,
+   "gap_vs_overall_corr": -0.072
+  }
+ },
+ "matchups": {
+  "team_games": 2088,
+  "rmse_plain": 0.2853,
+  "rmse_coverage_mix": 0.298,
+  "difference_ci": [
+   0.0095,
+   0.016
+  ]
+ }
+}
