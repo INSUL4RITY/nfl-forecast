@@ -82,14 +82,14 @@ def next_week(name, fr, mask, y, P, DR, tg, W):
     return g
 
 
-def predictions(seasons=SEASONS) -> pd.DataFrame:
+def predictions(seasons=SEASONS, game_var=False) -> pd.DataFrame:
     rows = []
     for S in seasons:
         P, DR, tg, teams = season_frames(S)
         for W in WEEKS:
             if not (P.week == W + 1).any():
                 continue
-            MM = cp.matchup_models(P[P.week <= W], DR[DR.week <= W], tg[tg.week <= W], teams, calibrate=False)
+            MM = cp.matchup_models(P[P.week <= W], DR[DR.week <= W], tg[tg.week <= W], teams, calibrate=False, game_var=game_var)
             for name, fr, mask, y in cp.MATCHUP_METRICS:
                 m = MM[name]
                 for r in next_week(name, fr, mask, y, P, DR, tg, W).itertuples():
@@ -219,8 +219,9 @@ def main():
     ap.add_argument("--write-calibration", action="store_true")
     ap.add_argument("--save", help="write the predictions to this parquet file")
     ap.add_argument("--load", help="read predictions from this parquet file instead of recomputing")
+    ap.add_argument("--game-var", action="store_true", help="shrinkage with game-level variance (compute.game_variance)")
     a = ap.parse_args()
-    R = pd.read_parquet(a.load) if a.load else predictions()
+    R = pd.read_parquet(a.load) if a.load else predictions(game_var=a.game_var)
     if a.save:
         R.to_parquet(a.save)
     C = calibration(R)

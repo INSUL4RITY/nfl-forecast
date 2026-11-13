@@ -121,3 +121,55 @@ def test_forward_check_uses_only_earlier_seasons(monkeypatch):
     assert all(max(s) < t for s, t in zip(seen, [2022, 2023, 2022, 2023]))      # each fit is on earlier seasons only
     assert out["a"]["error_after"] < out["a"]["error_before"]                   # actual = half the expectation: calibration helps
 
+
+# ---- item 7: game-level variance in the matchup shrinkage
+def _games(game_sd, seed):
+    import numpy as np
+    import pandas as pd
+    rng = np.random.default_rng(seed)
+    rows = []
+    for g in range(400):
+        shift = rng.normal(0, game_sd)
+        for _ in range(60):
+            rows.append({"game_id": f"g{g}", "posteam": f"T{g % 20}", "r": shift + rng.normal(0, 1.0)})
+    d = pd.DataFrame(rows)
+    return d, d.r, pd.Series(1.0, index=d.index)
+
+
+def test_game_variance_recovers_shared_game_shifts():
+    import compute as cp
+    d, r, v = _games(0.3, 1)
+    gv = cp.game_variance(r, d, "posteam", v)
+    assert abs(gv - 0.09) < 0.03                           # true game variance 0.3^2
+    d0, r0, v0 = _games(0.0, 2)
+    assert cp.game_variance(r0, d0, "posteam", v0) < 0.01   # independent plays: no excess
+
+
+def test_game_variance_lowers_the_weight():
+    import numpy as np
+    import pandas as pd
+    import compute as cp
+    rng = np.random.default_rng(3)
+    teams = [f"T{i}" for i in range(8)]
+    rows = []
+    for w in range(1, 6):
+        for i in range(0, 8, 2):
+            o, dd = teams[i], teams[i + 1]
+            for side_o, side_d in ((o, dd), (dd, o)):
+                shift = rng.normal(0, 0.25) + (0.1 if side_o in ("T0", "T2") else 0)
+                for _ in range(30):
+                    rows.append({"game_id": f"{w}_{o}", "week": w, "posteam": side_o, "defteam": side_d, "is_home": 0,
+                                 "location": "Home", "home_team": o, "y": shift + rng.normal(0, 1)})
+    d = pd.DataFrame(rows)
+    a = cp.adjust(d, "y", teams)
+    assert len(a["resid"]) == len(d)
+    gv = cp.game_variance(a["resid"], d, "posteam", pd.Series(a["resid_var"], index=d.index))
+    assert gv > 0
+    n, games = 150, 5
+    assert a["resid_var"] / n + gv / games > a["resid_var"] / n      # more noise per team, so a smaller weight
+
+
+def test_game_variance_is_off_in_the_report():
+    import compute as cp
+    assert cp.GAME_VAR is False      # tested on 2021-25 and not adopted (game_variance_test.json)
+

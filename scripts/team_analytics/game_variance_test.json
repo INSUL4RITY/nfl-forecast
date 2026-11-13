@@ -1,0 +1,42 @@
+{
+ "tested": "2026-11-13",
+ "seasons": [
+  2021,
+  2025
+ ],
+ "team_games_per_measure": 1916,
+ "question": "Does adding game-to-game variance to each team effect's sampling noise (plays in one game are not independent) remove the early-season over-confidence that the calibration factor corrects?",
+ "uncalibrated_slope_by_cut_week": {
+  "plays_independent": {
+   "4-5": 0.37,
+   "6-7": 0.61,
+   "8-9": 0.71,
+   "10-11": 0.82,
+   "12-13": 0.81,
+   "14-16": 1.03
+  },
+  "with_game_variance": {
+   "4-5": 0.38,
+   "6-7": 0.62,
+   "8-9": 0.73,
+   "10-11": 0.84,
+   "12-13": 0.83,
+   "14-16": 1.05
+  }
+ },
+ "mean_error_vs_league_average": {
+  "plays_independent": {
+   "uncalibrated_forward": 0.9848,
+   "calibrated_loso": 0.9746,
+   "calibrated_forward": 0.9759
+  },
+  "with_game_variance": {
+   "uncalibrated_forward": 0.9841,
+   "calibrated_loso": 0.9747,
+   "calibrated_forward": 0.9759
+  }
+ },
+ "calibrated_forward_better_on": "9 of 17 measures, all within 0.0005",
+ "verdict": "Not the cause: the early over-confidence is almost unchanged (slope 0.37 -> 0.38 at weeks 4-5) and calibrated error is identical. compute.GAME_VAR stays False; the option remains for the yearly refit.",
+ "how": "backtest_matchups.py --game-var --save, compared with the saved predictions without it"
+}

@@ -196,7 +196,8 @@ def adjust(df: pd.DataFrame, y: str, teams: list[str]) -> dict:
     sos_off = d.defteam.map(de).groupby(d.posteam).mean()     # >0: faced defences that allow more (easier)
     sos_def = d.posteam.map(off).groupby(d.defteam).mean()    # >0: faced offences that produce more (harder)
     return {"off": mean + off, "def": mean + de, "off_eff": off, "def_eff": de, "home": float(coef[1]),
-            "sos_off": sos_off, "sos_def": sos_def, "resid_var": float(resid.var()), "mean": mean}
+            "sos_off": sos_off, "sos_def": sos_def, "resid_var": float(resid.var()), "mean": mean,
+            "resid": pd.Series(resid, index=d.index)}
 
 
 # --------------------------------------------------------------------------------------- drives
@@ -458,6 +459,7 @@ def fit_prior(H: pd.DataFrame, side: str, play_var: float) -> dict:
 
 # ------------------------------------------------------------------------------------------- main
 ST_FILE = Path(__file__).resolve().parent / "st_shrinkage.json"
+GAME_VAR = False   # game-level variance in the matchup shrinkage: off until a backtest and a refitted calibration support it
 
 
 def st_weight(games, fit: dict | None = None):
@@ -1151,7 +1153,15 @@ def calibration_factors(week: int) -> tuple[dict, dict | None]:
     return out, C
 
 
-def matchup_models(p, dr, tg, teams, calibrate=True):
+def game_variance(resid: pd.Series, d: pd.DataFrame, key: str, row_noise: pd.Series) -> float:
+    """Variance of a unit's team-game mean residual beyond what independent rows explain (method of moments): plays in one
+    game share game script, weather and personnel, so a game's plays are not independent draws. 0 when no excess shows."""
+    g = pd.DataFrame({"r": resid, "v": row_noise, "game": d.game_id, "team": d[key]}).groupby(["game", "team"])
+    stats = g.agg(m=("r", "mean"), n=("r", "size"), v=("v", "mean"))
+    return max(float(stats.m.var(ddof=1) - (stats.v / stats.n).mean()), 0.0)
+
+
+def matchup_models(p, dr, tg, teams, calibrate=True, game_var=GAME_VAR):
     """Additive offence + defence + home models with empirical-Bayes shrinkage of each team effect.
 
     Shrinkage weight w = tau2 / (tau2 + resid_var / n), with tau2 the between-team variance of the
@@ -1161,7 +1171,10 @@ def matchup_models(p, dr, tg, teams, calibrate=True):
     The method-of-moments weight proved too large early in a season when backtested on 2021-25 (the real gap was
     about 40% of the expected one at weeks 4-5, about right from week 12), so with calibrate=True each weight is
     multiplied by a factor for the cut week, fitted on those seasons (matchup_calibration.json). `w_mom` keeps the
-    weight before the factor."""
+    weight before the factor.
+
+    With game_var=True the sampling variance of a team effect also counts game-to-game variation: noise = row variance / n
+    + game variance / games, so a few hot or cold games weigh less than the same number of plays spread over many games."""
     cals, _ = calibration_factors(int(p.week.max())) if calibrate else ({}, None)
     neutral_ids = set(p.loc[p.location == "Neutral", "game_id"])       # no home side at a neutral site, as in the play models
     frames = {"plays": p, "drives": dr[~dr.excluded].assign(
@@ -1186,13 +1199,20 @@ def matchup_models(p, dr, tg, teams, calibrate=True):
             if fr == "pfr":      # one row per team-game: use dropbacks as the sample size
                 n = d.groupby(key).db.sum().reindex(teams).fillna(0)
                 noise = (a["mean"] * (1 - a["mean"])) / n
+                row_noise = (a["mean"] * (1 - a["mean"])) / d.db
             else:
                 noise = a["resid_var"] / n
+                row_noise = pd.Series(a["resid_var"], index=d.index)
+            gv = 0.0
+            if game_var:
+                gv = game_variance(a["resid"], d, key, row_noise)
+                games = d.groupby(key).game_id.nunique().reindex(teams).fillna(0)
+                noise = noise + gv / games.replace(0, np.nan)
             e = a[eff].reindex(teams)
             tau2 = max(float(e.var(ddof=1) - noise.mean()), 1e-9)
             w = tau2 / (tau2 + noise)
             res[side] = {"eff": e.round(5).to_dict(), "w": (w * cal).round(3).to_dict(), "w_mom": w.round(3).to_dict(),
-                         "n": n.astype(int).to_dict(), "tau2": tau2}
+                         "n": n.astype(int).to_dict(), "tau2": tau2, "game_var": gv}
         out[name] = res
     return out
 
