@@ -457,6 +457,19 @@ def fit_prior(H: pd.DataFrame, side: str, play_var: float) -> dict:
 
 
 # ------------------------------------------------------------------------------------------- main
+ST_FILE = Path(__file__).resolve().parent / "st_shrinkage.json"
+
+
+def st_weight(games, fit: dict | None = None):
+    """Share of special-teams EPA per game the combined rating keeps after this many games (backtest_special_teams.py).
+    Without the fit file, 1.0 (the old behaviour)."""
+    fit = fit if fit is not None else (json.loads(ST_FILE.read_text(encoding="utf-8")) if ST_FILE.exists() else None)
+    if not fit:
+        return np.ones_like(np.asarray(games, dtype=float))
+    g = np.asarray(games, dtype=float)
+    return fit["tau2"] / (fit["tau2"] + fit["s2"] / g)
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--season", type=int, default=2026)
@@ -673,7 +686,11 @@ def main():
     plays_pg = float(sc.groupby(["game_id", "posteam"]).size().mean())
     T["rating_off_pg"] = (T.off_adj_epa - adj["epa"]["mean"]) * plays_pg
     T["rating_def_pg"] = (adj["epa"]["mean"] - T.def_adj_epa) * plays_pg
-    T["rating_pg"] = T.rating_off_pg + T.rating_def_pg + T.st_epa_pg
+    T["st_w"] = st_weight(T.games)
+    T["st_epa_pg_kept"] = T.st_w * (T.st_epa_pg - T.st_epa_pg.mean()) + T.st_epa_pg.mean()
+    T["rating_pg"] = T.rating_off_pg + T.rating_def_pg + T.st_epa_pg_kept
+    qc.append(f"Special teams in the combined rating: {100 * float(T.st_w.median()):.0f}% of each team's special-teams EPA per game is kept "
+              f"(fitted on 2021-25, where the first-half to second-half correlation is about 0.24); the special-teams tables show the full figure.")
 
     # ---- prior-season stabilisation
     play_var = adj["epa"]["resid_var"]
@@ -687,7 +704,7 @@ def main():
         T[f"{side}_prior_2025"] = prior
         T[f"{side}_w2026"] = w
         T[f"{side}_stab_epa"] = w * x26 + (1 - w) * prior
-    T["stab_rating_pg"] = ((T.off_stab_epa - adj["epa"]["mean"]) + (adj["epa"]["mean"] - T.def_stab_epa)) * plays_pg + T.st_epa_pg
+    T["stab_rating_pg"] = ((T.off_stab_epa - adj["epa"]["mean"]) + (adj["epa"]["mean"] - T.def_stab_epa)) * plays_pg + T.st_epa_pg_kept
 
     # ---- composites (weights fitted on history, applied to 2026 z-scores)
     def comp(side, wts):

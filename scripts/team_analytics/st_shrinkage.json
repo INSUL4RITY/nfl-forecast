@@ -1,0 +1,26 @@
+{
+ "tau2": 0.9484,
+ "s2": 21.787,
+ "fitted_on": [
+  2021,
+  2025
+ ],
+ "samples": 2078,
+ "split_half_corr": 0.238,
+ "split_half_slope": 0.275,
+ "weight_by_games": {
+  "2": 0.08,
+  "4": 0.148,
+  "6": 0.207,
+  "8": 0.258,
+  "9": 0.281,
+  "12": 0.343,
+  "16": 0.411
+ },
+ "loso_rmse": {
+  "shrunk": 1.8099,
+  "full": 2.3163,
+  "zero": 1.8522
+ },
+ "note": "Special-teams EPA per game kept in the combined rating: w = tau2 / (tau2 + s2 / games)."
+}

@@ -30,3 +30,15 @@ def test_player_tables_rank_usage_only():
     assert prod["d"] == 0 and "b" not in prod
     use = bh.player_col_rule({"k": "car_share", "l": "Carry share", "f": "pct", "d": 1, "t": ""})
     assert use["d"] == 1 and "b" not in use
+
+
+# ---- item 2: special teams enter the combined rating shrunk, not at full weight
+def test_special_teams_weight():
+    import compute as cp
+    fit = {"tau2": 1.0, "s2": 20.0}
+    w = cp.st_weight([4, 9, 16], fit)
+    assert 0 < w[0] < w[1] < w[2] < 1
+    assert abs(w[1] - 1.0 / (1.0 + 20.0 / 9)) < 1e-12
+    real = cp.st_weight([9])[0]                      # the fitted file: about a quarter kept after 9 games
+    assert 0.15 < real < 0.4
+    assert (cp.st_weight([9], {}) == 1.0).all()      # no fit: full weight, as before

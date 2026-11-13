@@ -1490,7 +1490,7 @@ def main():
     # ---------------- tables
     tables = []
     tables.append(table("power", "Power rankings: all ten categories", [
-        C("record", "Record", "str", 0), C("rating_pg", "Overall team", "s1", 1, "Opponent-adjusted net EPA converted to points per game (offence + defence) plus special-teams EPA per game"),
+        C("record", "Record", "str", 0), C("rating_pg", "Overall team", "s1", 1, "Opponent-adjusted net EPA converted to points per game (offence + defence) plus the kept share of special-teams EPA per game (see Method)"),
         C("off_composite", "Offence overall", "s2", 1, "Weighted z-score: 61% adj. EPA/play, 39% adj. success rate (weights fitted on 2021-25)"),
         C("def_composite", "Defence overall", "s2", 1, "Weighted z-score: 53% adj. EPA/play, 35% adj. success rate, 12% points per drive allowed"),
         C("off_adj_epa", "Off. efficiency", "epa", 1, "Opponent-adjusted EPA per play"),
@@ -2339,7 +2339,9 @@ weeks 1-{meta['through_week']}, predicted a team's opponent-adjusted EPA/play ov
 <p>{WORDS.get(meta['through_week'], meta['through_week']).capitalize()}-week defensive numbers explain only about a tenth of rest-of-season defensive performance (R² {cd['r2']:.2f}), against about a third for offence
 ({co['r2']:.2f}). Read defensive rankings with more caution.</p>
 <p><b>Overall team rating</b> = (adj. offensive EPA/play − league mean) × {meta['plays_per_game']:.1f} plays + (league mean − adj. defensive EPA/play) × {meta['plays_per_game']:.1f}
-+ special-teams EPA per game, in points per game. EPA is in points, so this needs no arbitrary weights. Special teams is kept separate everywhere else.
++ the kept share of special-teams EPA per game, in points per game. EPA is in points, so this needs no arbitrary weights. Special-teams EPA is noisy
+(first-half to second-half correlation about 0.24 in 2021-25), so the rating keeps w = &tau;² / (&tau;² + s² / games) of it, about {100 * float(T.st_w.median()):.0f}% now
+(<code>backtest_special_teams.py</code>; out of sample this predicted the rest of a season better than the full figure or zero). The special-teams tables show the full figure.
 <b>Situational</b> = equal-weight z-scores of late-down conversion and red-zone TD rate (two distinct situations). <b>Passing, rushing, pass D, run D</b>
 rank on one adjusted metric each.</p>
 <h3>Prior-season stabilisation</h3>
