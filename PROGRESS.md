@@ -421,6 +421,11 @@ market lines, QB availability, injury display, weather display). A changed artif
      first dropback among passers listed at QB or with >= 5 dropbacks (keeps Taysom Hill / Kendall Hinton starts). 8 of
      8,466 team-games change since 2011, all trick plays. LAC@BAL (same inputs): Model line BAL by 1.76 -> 2.28 (Fagnano
      scenario -0.81 -> +0.50); pick unchanged (LAC +4.5). Frozen QB start rates (in the artifact) not recomputed.
+  2. Roof input: nflverse leaves `roof` blank for upcoming games at retractable-roof stadiums, read as outdoors (dome 0)
+     while training used the game-day state. `release.dome_input` now uses the stadium's closed share (finished games
+     since 2016; ATL 0.74, IND 0.82, ARI 0.90, DAL 0.97) and each release records `dome_input`. Week 10: Model total
+     +2.1 to +2.7 at the four such games; margins unchanged (market-adjusted <= 0.01), picks unchanged. Correction
+     `roof-input:blank-retractable-2026` (215 earlier releases, 18 games; no game-page banner).
 
 ## 3. Tests and checks (2026-09-25)
 - Live head-to-head (2026-10-13, user request; display only): `picks.head_to_head` compares combined, stats-only and market

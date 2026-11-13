@@ -170,6 +170,36 @@ def _weather_display(g: dict, now: datetime) -> dict:
             "note": "Display only: weather did not pass the feature-group evaluation, so it is not used by the model."}
 
 
+ROOF_CLOSED = ("dome", "closed")
+ROOF_OPEN = ("outdoors", "open")
+
+
+def roof_closed_share(games_all: pl.DataFrame, now: datetime) -> dict[str, float]:
+    """{stadium_id: share of its finished games since core_start, before `now`, played under a dome or closed roof}."""
+    h = games_all.filter((pl.col("status") == "final") & (pl.col("kickoff_utc") < now)
+                         & (pl.col("season") >= settings()["seasons"]["core_start"])
+                         & pl.col("roof").is_in(ROOF_CLOSED + ROOF_OPEN) & pl.col("stadium_id").is_not_null())
+    t = h.group_by("stadium_id").agg(share=pl.col("roof").is_in(ROOF_CLOSED).mean())
+    return dict(zip(t["stadium_id"].to_list(), t["share"].to_list()))
+
+
+def dome_input(roof: str | None, stadium_id: str | None, shares: dict[str, float]) -> tuple[float, str]:
+    """The model's dome/closed-roof input for an upcoming game and where it came from.
+
+    Training used the game-day roof state (1 = dome or closed). nflverse leaves `roof` blank for upcoming games at
+    retractable-roof stadiums until the game is played; reading blank as "not closed" put those games at 0 (outdoors)
+    and the Model total ~2.8 pts low when the roof closes (audit 2026-11-13). A blank roof now gets the stadium's
+    historical closed share (expected value of the game-day state); a stadium with no history keeps 0."""
+    r = (roof or "").strip().lower()
+    if r in ROOF_CLOSED:
+        return 1.0, "schedule roof"
+    if r in ROOF_OPEN:
+        return 0.0, "schedule roof"
+    if stadium_id in shares:
+        return float(shares[stadium_id]), "stadium closed share (roof not yet set)"
+    return 0.0, "roof not set; no stadium history"
+
+
 def fit_production(season: int) -> dict:
     """Fit the production models (configs/production.yaml) on all completed final-horizon history available now."""
     cfg = settings()
@@ -355,10 +385,13 @@ def build_candidate(now: datetime | None = None, days_ahead: int = 8) -> dict | 
                                 f"{side}_off_bye": float((g[f"{side}_rest"] or 7) >= 13),
                                 f"{side}_short_week": float((g[f"{side}_rest"] or 7) <= 5)})
                 rows.append(rec)
+    shares = roof_closed_share(games_all, now)
+    roof_in = {g["game_id"]: dome_input(g["roof"], g["stadium_id"], shares) for g in upcoming.iter_rows(named=True)}
     feats = pl.DataFrame(rows).join(upcoming.select(
         "game_id", "season", "week", "home_id", "away_id", "neutral_site", "is_playoff",
         (pl.col("home_rest") - pl.col("away_rest")).alias("rest_diff"),
-        pl.col("roof").is_in(["dome", "closed"]).cast(pl.Float64).alias("dome")), on="game_id")
+        pl.col("game_id").replace_strict({k: v[0] for k, v in roof_in.items()}, return_dtype=pl.Float64).alias("dome")),
+        on="game_id")
     mk = market_asof(games_all, feats.select("game_id", "horizon", "cutoff_utc").unique(), allow_approx_closing=False)
     feats = feats.join(mk.drop("horizon", "cutoff_utc"), on="game_id", how="left")
 
@@ -490,7 +523,8 @@ def build_candidate(now: datetime | None = None, days_ahead: int = 8) -> dict | 
             "kickoff_utc": g["kickoff_utc"].isoformat(), "kickoff_time_known": g["kickoff_time_known"],
             "home_team": g["home_team"], "away_team": g["away_team"], "home_record": records.get(g["home_team"], "0-0"),
             "away_record": records.get(g["away_team"], "0-0"), "neutral_site": g["neutral_site"], "stadium": g["stadium"],
-            "roof": g["roof"], "release_label": label, "hours_to_kickoff": round(hours, 2), "status": status,
+            "roof": g["roof"], "dome_input": {"value": roof_in[g["game_id"]][0], "basis": roof_in[g["game_id"]][1]},
+            "release_label": label, "hours_to_kickoff": round(hours, 2), "status": status,
             "validation_problems": {k: v for k, v in problems.items() if v},
             "primary_model": model_label, "market_inputs_used": bool(mkt_ok and status == "ok"),
             "forecast": headline, "combined": prim, "football_only": stats, "market_only": mo, "market": market,
