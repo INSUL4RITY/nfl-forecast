@@ -81,5 +81,30 @@
   "loso_rmse_backups_with_role": 0.163,
   "loso_rmse_backups_without": 0.1867
  },
+ "opponent_adjusted": {
+  "s2": 2.4127,
+  "rows": 865,
+  "target": "rest-of-season EPA per dropback adjusted for the defences faced (full-season effects)",
+  "sample_adjustment": "each sample dropback minus the defence's dropback effect from earlier weeks only",
+  "adjusted": {
+   "tau2": 0.01984,
+   "cur_coef": 0.44,
+   "starter_adj": 0.0448,
+   "backup_adj": -0.0504,
+   "backup_gap": -0.0952,
+   "loso_rmse": 0.1367,
+   "forward_rmse": 0.1344
+  },
+  "raw": {
+   "tau2": 0.01215,
+   "cur_coef": 0.71,
+   "starter_adj": 0.0423,
+   "backup_adj": -0.0438,
+   "backup_gap": -0.0861,
+   "loso_rmse": 0.1357,
+   "forward_rmse": 0.1334
+  },
+  "use_adjusted": false
+ },
  "note": "Per-quarterback shrinkage of EPA per dropback; see backtest_qb_sample.py."
 }

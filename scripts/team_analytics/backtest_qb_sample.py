@@ -105,6 +105,86 @@ def role_fit(tau2: float, s2: float) -> dict:
             "loso_rmse_backups_with_role": rm(errb[True]), "loso_rmse_backups_without": rm(errb[False])}
 
 
+def adjusted_dropbacks(p: pd.DataFrame) -> pd.DataFrame:
+    """Dropbacks with EPA adjusted for the defence faced: epa_prior subtracts the defence's dropback effect estimated from
+    earlier weeks only (as a weekly report would), epa_full the full-season effect (used only for the target)."""
+    d = p[p.db & p.passer_id.notna() & p.epa.notna()].sort_values(["game_id", "play_id"]).copy()
+    teams = sorted(p.posteam.dropna().unique())
+    prior = {}
+    for w in sorted(d.week.unique()):
+        past = d[d.week < w]
+        prior[w] = cp.adjust(past, "epa", teams)["def_eff"] if past.week.nunique() >= 2 else pd.Series(0.0, index=teams)
+    full = cp.adjust(d, "epa", teams)["def_eff"]
+    d["epa_prior"] = d.epa - [prior[w].get(t, 0.0) for w, t in zip(d.week, d.defteam)]
+    d["epa_full"] = d.epa - d.defteam.map(full).fillna(0.0)
+    return d
+
+
+def adjusted_samples() -> pd.DataFrame:
+    rows = []
+    for s in SEASONS:
+        p = cp.add_unit_flags(cp.load_pbp(s))
+        st = ctx.qb_starts(p)
+        opened = set(st.sort_values("week").drop_duplicates("posteam").passer_id)
+        d = adjusted_dropbacks(p)
+        for pid, g in d.groupby("passer_id"):
+            for K in KS:
+                if len(g) < K + ROLE_REST:
+                    continue
+                a, b = g.iloc[:K], g.iloc[K:]
+                rows.append({"season": s, "pid": pid, "K": K, "raw": a.epa.mean(), "adj": a.epa_prior.mean(), "fut": b.epa_full.mean(),
+                             "n_fut": len(b), "backup": pid not in opened, "s2": a.epa_prior.var()})
+    return pd.DataFrame(rows)
+
+
+def _fit_model(R, x, s2, mu, tau2_grid=np.linspace(0.0005, 0.03, 120)):
+    """fut ~ c + coef * w(K) * (x - mu) + gap * backup, weighted by future dropbacks; tau2 chosen by least squares."""
+    best = None
+    for t in tau2_grid:
+        X = np.column_stack([np.ones(len(R)), t / (t + s2 / R.K) * (R[x] - mu), R.backup.astype(float)])
+        wt = np.sqrt(R.n_fut.values)
+        b = np.linalg.lstsq(X * wt[:, None], R.fut * wt, rcond=None)[0]
+        sse = float(np.sum(R.n_fut * (R.fut - X @ b) ** 2))
+        if best is None or sse < best[0]:
+            best = (sse, t, b)
+    return best[1], best[2]
+
+
+def _predict_model(R, x, s2, mu, t, b):
+    X = np.column_stack([np.ones(len(R)), t / (t + s2 / R.K) * (R[x] - mu), R.backup.astype(float)])
+    return X @ b
+
+
+def adjusted_comparison() -> dict:
+    """Refit the QB shrinkage and backup offset on opponent-adjusted EPA, and compare with the same model on raw EPA, both
+    predicting the passer's opponent-adjusted EPA for the rest of the season (leave-one-season-out and forward only)."""
+    R = adjusted_samples()
+    s2 = float(R.s2.mean())
+    mu = float(R.fut.mean())
+    out = {}
+    for x in ("adj", "raw"):
+        t, b = _fit_model(R, x, s2, mu)
+        loso, fwd = [], []
+        for s in SEASONS:
+            tr, te = R[R.season != s], R[R.season == s]
+            m = float(tr.fut.mean())
+            tt, bb = _fit_model(tr, x, s2, m)
+            loso += list(te.fut - _predict_model(te, x, s2, m, tt, bb))
+            if s > SEASONS[0]:
+                tf, trf = R[R.season < s], R[R.season == s]
+                mf = float(tf.fut.mean())
+                tt, bb = _fit_model(tf, x, s2, mf)
+                fwd += list(trf.fut - _predict_model(trf, x, s2, mf, tt, bb))
+        rm = lambda e: round(float(np.sqrt(np.mean(np.square(e)))), 4)   # noqa: E731
+        out[x] = {"tau2": round(t, 5), "cur_coef": round(float(b[1]), 3), "starter_adj": round(float(b[0] - mu), 4),
+                  "backup_adj": round(float(b[0] + b[2] - mu), 4), "backup_gap": round(float(b[2]), 4),
+                  "loso_rmse": rm(loso), "forward_rmse": rm(fwd)}
+    use = out["adj"]["loso_rmse"] <= out["raw"]["loso_rmse"] and out["adj"]["forward_rmse"] <= out["raw"]["forward_rmse"]
+    return {"s2": round(s2, 4), "rows": int(len(R)), "target": "rest-of-season EPA per dropback adjusted for the defences faced (full-season effects)",
+            "sample_adjustment": "each sample dropback minus the defence's dropback effect from earlier weeks only",
+            "adjusted": out["adj"], "raw": out["raw"], "use_adjusted": bool(use)}
+
+
 def predict(g: pd.DataFrame, tau2: float, s2: float, mu: float) -> np.ndarray:
     w = tau2 / (tau2 + s2 / g.K)
     return mu + w * (g.raw - mu)
@@ -152,7 +232,7 @@ def run(team_tau2: float | None = None, team_rv: float | None = None) -> dict:
             "forward_only": {"seasons": [int(x) for x in list(SEASONS)[1:]], "rmse": round(float(np.sqrt(np.mean(np.square(fwd)))), 4),
                              "mean_only_rmse": round(float(np.sqrt(np.mean(np.square(fwd_mean)))), 4),
                              "team_weight_rmse": round(float(np.sqrt(np.mean(np.square(fwd_old)))), 4) if fwd_old else None},
-            "role": role_fit(tau2, s2),
+            "role": role_fit(tau2, s2), "opponent_adjusted": adjusted_comparison(),
             "note": "Per-quarterback shrinkage of EPA per dropback; see backtest_qb_sample.py."}
 
 

@@ -173,3 +173,37 @@ def test_game_variance_is_off_in_the_report():
     import compute as cp
     assert cp.GAME_VAR is False      # tested on 2021-25 and not adopted (game_variance_test.json)
 
+
+# ---- item 8: opponent-adjusted QB refit uses only earlier weeks' defence effects for the sample
+def test_adjusted_dropbacks_use_only_earlier_weeks():
+    import numpy as np
+    import pandas as pd
+    import backtest_qb_sample as bq
+    rng = np.random.default_rng(4)
+    teams = ["AAA", "BBB", "CCC", "DDD"]
+    rows = []
+    for w in range(1, 6):
+        for i, (o, d) in enumerate((("AAA", "BBB"), ("CCC", "DDD"), ("BBB", "AAA"), ("DDD", "CCC"))):
+            for k in range(25):
+                rows.append({"game_id": f"{w}_{i // 2}", "play_id": k + 100 * i, "week": w, "posteam": o, "defteam": d, "is_home": 1 if i % 2 == 0 else -1,
+                             "db": True, "passer_id": f"QB_{o}", "epa": rng.normal(0.3 if d == "DDD" else 0.0, 1.0)})
+    p = pd.DataFrame(rows)
+    a = bq.adjusted_dropbacks(p)
+    w1 = a[a.week == 1]
+    assert np.allclose(w1.epa_prior, w1.epa)                       # no earlier weeks: nothing subtracted
+    later = p.copy()
+    later.loc[(later.week == 5) & (later.defteam == "DDD"), "epa"] += 5.0   # change only week 5, against one defence
+    b = bq.adjusted_dropbacks(later)
+    k = ["game_id", "play_id"]
+    m = a[a.week == 4].set_index(k).epa_prior.sort_index(), b[b.week == 4].set_index(k).epa_prior.sort_index()
+    assert np.allclose(m[0], m[1])                                 # week 4's sample adjustment does not see week 5
+    assert not np.allclose(a[a.week == 4].set_index(k).epa_full.sort_index(), b[b.week == 4].set_index(k).epa_full.sort_index())
+
+
+def test_qb_refit_result_is_recorded_and_not_adopted():
+    import json
+    from pathlib import Path
+    q = json.loads((Path(bh.__file__).resolve().parent / "qb_shrinkage.json").read_text(encoding="utf-8"))
+    oa = q["opponent_adjusted"]
+    assert oa["use_adjusted"] is False and oa["adjusted"]["loso_rmse"] > oa["raw"]["loso_rmse"]
+    assert oa["adjusted"]["backup_gap"] < -0.05 and oa["raw"]["backup_gap"] < -0.05     # the backup offset holds either way
