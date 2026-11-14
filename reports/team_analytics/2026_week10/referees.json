@@ -277,23 +277,24 @@
  "assign": {
   "2026_10_WAS_NYG": "Brad Rogers",
   "2026_10_NE_DET": "Clay Martin",
-  "2026_10_HOU_CLE": "Alan Eck",
-  "2026_10_KC_ATL": "Shawn Hochuli",
-  "2026_10_MIN_GB": "John Hussey",
-  "2026_10_CAR_NO": "Shawn Smith",
+  "2026_10_KC_ATL": "Alan Eck",
+  "2026_10_HOU_CLE": "Shawn Smith",
+  "2026_10_MIN_GB": "Clete Blakeman",
+  "2026_10_MIA_IND": "Don Willard (backup referee: usually a side judge; first regular-season game as referee)",
+  "2026_10_CAR_NO": "Duane Heydt (backup referee: usually an umpire; first regular-season game as referee)",
   "2026_10_BUF_NYJ": "Ron Torbert",
-  "2026_10_MIA_IND": "Carl Cheffers",
-  "2026_10_JAX_TEN": "Alex Moore",
-  "2026_10_LA_ARI": "Adrian Hill",
-  "2026_10_SF_DAL": "Bill Vinovich",
-  "2026_10_SEA_LV": "Brad Allen",
-  "2026_10_PIT_CIN": "Clete Blakeman",
-  "2026_10_LAC_BAL": "Land Clark"
+  "2026_10_JAX_TEN": "Barry Anderson (backup referee: usually an umpire; first regular-season game as referee)",
+  "2026_10_LA_ARI": "Land Clark",
+  "2026_10_SEA_LV": "Bill Vinovich",
+  "2026_10_SF_DAL": "John Hussey",
+  "2026_10_PIT_CIN": "Don Willard (backup referee: usually a side judge; first regular-season game as referee)",
+  "2026_10_LAC_BAL": "Adrian Hill"
  },
  "assign_source": {
-  "title": "nflrefstats (@nflrefstats1) on X: Week 10 NFL referee assignments, posted 2026-11-10 20:29 UTC",
-  "url": "https://x.com/nflrefstats1/status/2120252470865883569",
-  "retrieved": "2026-11-11"
+  "title": "Football Zebras, 'Week 10 referee assignments [updated due to FAA ground stop]' (Cameron Filipe), and the NFL's statement naming the three backup referees",
+  "url": "https://www.footballzebras.com/2026/11/week-10-referee-assignments-2026/",
+  "retrieved": "2026-11-14",
+  "note": "Week 10 crews were reshuffled so officials could drive to their games; the referee's own rates no longer describe the crew around him this week. Football Zebras' table leaves Steelers-Bengals blank after the change; the NFL statement and Football Zebras' text both name Don Willard, who works Dolphins-Colts first. Assignments were still 'subject to change'."
  },
  "assign_loaded": true
 }

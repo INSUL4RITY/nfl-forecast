@@ -522,9 +522,9 @@
      "team_epa_play_in_starts": -0.04136677195955391,
      "team_plays_in_starts": 197,
      "roster_status": "RES",
-     "report_status": "Out",
-     "practice_status": "Did Not Participate In Practice",
-     "report_week": 9,
+     "report_status": null,
+     "practice_status": null,
+     "report_week": null,
      "latest_starter": false,
      "one_q": null,
      "opened_season": false
@@ -554,9 +554,9 @@
      "team_epa_play_in_starts": 0.16046675802169222,
      "team_plays_in_starts": 247,
      "roster_status": "RES",
-     "report_status": "Out",
-     "practice_status": "Did Not Participate In Practice",
-     "report_week": 9,
+     "report_status": null,
+     "practice_status": null,
+     "report_week": null,
      "latest_starter": false,
      "one_q": null,
      "opened_season": true
@@ -583,8 +583,8 @@
      "team_plays_in_starts": 106,
      "roster_status": "ACT",
      "report_status": null,
-     "practice_status": "Full Participation in Practice",
-     "report_week": 9,
+     "practice_status": null,
+     "report_week": null,
      "latest_starter": true,
      "one_q": null,
      "opened_season": false
@@ -1598,7 +1598,7 @@
      "team_epa_play_in_starts": -0.1338607009941848,
      "team_plays_in_starts": 309,
      "roster_status": "ACT",
-     "report_status": null,
+     "report_status": "Out",
      "practice_status": "Did Not Participate In Practice",
      "report_week": 10,
      "latest_starter": false,
@@ -1628,7 +1628,7 @@
      "team_plays_in_starts": 160,
      "roster_status": "ACT",
      "report_status": null,
-     "practice_status": "Limited Participation in Practice",
+     "practice_status": "Full Participation in Practice",
      "report_week": 10,
      "latest_starter": true,
      "one_q": {
@@ -2115,7 +2115,7 @@
      "team_epa_play_in_starts": -0.09404855539839811,
      "team_plays_in_starts": 401,
      "roster_status": "ACT",
-     "report_status": null,
+     "report_status": "Out",
      "practice_status": "Did Not Participate In Practice",
      "report_week": 10,
      "latest_starter": false,
@@ -2156,7 +2156,7 @@
    "primary": "00-0034869",
    "flags": [
     "Season figures mix quarterbacks.",
-    "Sam Darnold (7 starts, the most on the team) practice status in the week 10 report: did not participate in practice. If he returns, the passing profile could differ from the recent games."
+    "Sam Darnold (7 starts, the most on the team) was listed Out in the week 10 report (did not participate in practice). If he returns, the passing profile could differ from the recent games."
    ]
   },
   "SF": {
