@@ -43,6 +43,7 @@ reads or changes the forecasting model, and it uses no market data (spread, tota
 | `reliability.py` | The Low/Medium/High reliability badges, from the fitted shrinkage weights (team measures and player efficiency) |
 | `backtest_special_teams.py`, `st_shrinkage.json` | How much special-teams EPA per game lasts; the combined rating keeps that share (about 27% after 9 games) |
 | `game_variance_test.json` | Test of game-level variance in the matchup shrinkage (2021-25): no gain, so it stays off |
+| `layout_audit_state.py`, `layout_audit_state.json` | Whether a browser layout audit is needed: fingerprints of the page-shaping files at the last build that passed the local and live audits (lets the unattended refresh skip it for data-only changes) |
 | `ep_scale.py` | Warns if nflverse switches play-by-play to a revised EP valuation |
 | `caller_check.py` | Compares the hand-kept play-caller file with Sam Hoppen's public dataset and lists differences to verify |
 | `publish_public.py` | Copies the newest report to the public page |
