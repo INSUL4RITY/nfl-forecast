@@ -89,7 +89,10 @@ Failures are written to `logs/operate.log`; the previous release and site stay i
 
 ## Scheduling (enabled 2026-09-25)
 
-Windows Task Scheduler task **`nflcast-operate`** runs `scripts/operate.ps1` every 30 minutes (hidden window). It runs only
+Windows Task Scheduler task **`nflcast-operate`** runs `scripts/operate.ps1` every 30 minutes with no window: since 2026-11-15
+(user request) the action is `conhost.exe --headless powershell.exe ... -File scripts\operate.ps1`, because on Windows 11
+`powershell -WindowStyle Hidden` alone still opened a console window that took focus; child processes (git, Python, npm,
+the alert toast script) inherit the headless console. It runs only
 **while you are logged in to Windows**: running while logged out needs administrator rights (S4U logon was refused). Updates
 pause while the PC is off or asleep and resume after login (catch-up run, then every 30 minutes).
 
