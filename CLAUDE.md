@@ -57,6 +57,10 @@ CLI stay `nflcast`; keep the URL and repo name (published evidence and links poi
   right/deserved, fortunate, unlucky, wrong/deserved, close or level, with a re-sampling chance and a "What made
   the difference" table. Display only: never refit it this season, never
   regrade a game with it, always show fortunate results too; it pauses if the pbp moves to the revised EP scale.
+- **Reserve lists (user, 2026-11-15):** display-only exception to "no design changes": game pages list players on
+  reserve lists (injured reserve, PUP, non-football, suspended) from the rosters_weekly snapshot (`predict/reserve_list.py`).
+  Built at export time only: never put it in the release JSON or "notable" (that would change the injury_report fingerprint
+  and re-release games), never feed it to any model line. Map codes to plain English; never show raw codes.
 - **Weekly publication (user decisions 2026-10-05, changed 2026-10-06 and 2026-10-13):** a week is first published at
   Tuesday 18:00 UK before its first game (`predict/schedule.py`), and waits up to 24 h if the previous week's finished
   games are not yet in the team data; from week 7 the model pick locks 24 h before each kickoff (see above). Operational only; do not move it without the user.

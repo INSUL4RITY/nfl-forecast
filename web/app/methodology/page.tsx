@@ -175,6 +175,12 @@ export default function Methodology() {
           Neither model line includes them (both rate teams from their games; quarterback changes are handled separately), so
           they show where the lines may be working from an out-of-date roster. A roster-change input is on the list for 2027,
           to be tested on unseen seasons first.</p>
+        <p className="small"><b>Reserve lists, 15 November 2026</b> (display only; not a model input). Players on injured reserve
+          and other reserve lists (physically unable to perform, non-football injury or illness, suspended) are not on the
+          weekly injury report, so game pages now list them under it, from the team&apos;s latest nflverse weekly roster file
+          (the week is shown; the files can lag the league&apos;s transactions by several days). Each row gives the list, the
+          first roster week showing it, and the player&apos;s share of his unit&apos;s snaps this season before the list and last
+          season. Players with at least 20% in either column are listed, plus kickers and punters; the rest are counted.</p>
         <p className="small"><b>Records at the top of each week, 28 October 2026.</b> The first row is the official model pick as
           published: weeks 3–6 followed the market-adjusted line (the rule then) and are not regraded; from week 7 it follows
           the model line. The second row is the model line&apos;s own record at every lock since week 3, with the Big and

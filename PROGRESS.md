@@ -435,6 +435,23 @@ market lines, QB availability, injury display, weather display). A changed artif
      Brier 0.432, coverage margin 80% 0.84 / 95% 0.99, total 0.81 / 0.98; stats-only log loss 0.655, Brier 0.425,
      margin 0.87 / 0.99, total 0.77 / 0.98. Small sample: within noise of calibrated.
 
+- Reserve lists (2026-11-15, user-authorised display-only exception to "no design changes in 2026"): game pages list
+  each team's players on reserve lists (they are missing from the weekly injury report), in the Lineup assumptions panel
+  after the injury report. `predict/reserve_list.py`, built at export time only (`export_web`, next to roster_moves);
+  never in the release JSON or "notable", so the injury_report fingerprint is unchanged and no game re-releases; no model
+  (official, v2 trial, shadow injury) or model input changes. Source: the nflverse rosters_weekly snapshot each cycle
+  already downloads (status RES + status_description_abbr), the team's latest file up to the game week (shown: "from
+  the week N roster"; the files lag transactions). Codes read from 2021-2026 roster transitions, not assumed: R01
+  injured reserve; R48 injured reserve, designated to return (always after R01); R04 physically unable to perform
+  (starts week 1, then active); R05 non-football injury; R27 non-football illness; R47/R49 their return designations;
+  R40 / R30 suspended (known 3-4 game and indefinite league suspensions); R33 suspended by the team; R03 did not report,
+  R06 left the team, others "Other reserve list"; RES with A01 = first week, type not yet given. Codes and player ids
+  never reach the page (verify-claims now also flags reserve codes). Shown: player, position, list, first roster week on
+  it, snap share this season (with the team, its games up to his last game before the list) and last season (regular
+  season, team he played most for, named if different). Threshold 20% of offensive or defensive snaps in either column
+  (same as Roster moves; about 5 players per team, max 11 in week 10), kickers/punters whenever they kicked; the rest
+  are counted. Roster moves no longer repeats players on the team's own reserve list when this panel is present.
+
 ## 3. Tests and checks (2026-09-25)
 - Live head-to-head (2026-10-13, user request; display only): `picks.head_to_head` compares combined, stats-only and market
   on the same finished, publicly verifiable games by week (margin error, winner correct) plus the vs-line records of the

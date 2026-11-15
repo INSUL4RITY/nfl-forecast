@@ -175,6 +175,9 @@ export interface WeekGame {
   deserved?: Deserved | null;
   /** Roster moves this season as of the game's week (display only; predict/roster_moves.py). */
   roster_moves?: RosterMoves | null;
+  /** Players on reserve lists (injured reserve, PUP, suspension...) as of the team's latest roster file (display only;
+   *  predict/reserve_list.py, export only). */
+  reserve_list?: ReserveList | null;
   /** Season-to-date matchup detail as of kickoff (display only; predict/matchup.py). */
   matchup_detail?: MatchupDetail | null;
   stats_only_grade?: { spread: "win" | "loss" | "push" | null; big_gap: boolean; biggest_gap?: boolean; market_adjusted?: "win" | "loss" | "push" | null; injury_adjusted?: "win" | "loss" | "push" | null; v2_trial?: "win" | "loss" | "push" | null; total: "win" | "loss" | "push" | null;
@@ -354,6 +357,15 @@ export interface RosterTeamMoves {
   specialists: { pos: string; now: string; since_week: number; before: { player: string; weeks: [number, number] }[] }[];
 }
 export interface RosterMoves { away: RosterTeamMoves; home: RosterTeamMoves }
+
+export interface ReserveShare { share: number; unit: "offence" | "defence"; games: number; team?: string | null }
+export interface ReserveTeam {
+  roster_week: number | null;
+  players: { player: string; pos: string | null; list: string; group: "injured" | "pup" | "nfi" | "suspended" | "other" | "pending";
+             since_week: number; specialist: boolean; this_season: ReserveShare | null; last_season: ReserveShare | null }[];
+  others: number;
+}
+export interface ReserveList { min_share: number; away: ReserveTeam; home: ReserveTeam }
 
 export type DeservedGroup = "right_deserved" | "right_fortunate" | "wrong_unlucky" | "wrong_deserved" | "close" | "level";
 export interface DeservedSide { plays: number; takeaways: number; success_rate: number; yards_per_play: number }

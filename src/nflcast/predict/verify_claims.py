@@ -46,7 +46,8 @@ def _redownload(url: str, local: bytes, get=requests.get) -> tuple[bool | None, 
 
 
 RAW_LABEL_RE = re.compile(r"00-00\d{5}|chain_qb|roster:|_stale\b|stale_(provider|retrieval)|report_not_available|designation_pending|"
-                          r"NotListed|nflverse_schedules|replacement_chain|no_candidate|depth_chart_|finished prev\b")
+                          r"NotListed|nflverse_schedules|replacement_chain|no_candidate|depth_chart_|finished prev\b|"
+                          r"\bR\d{2}\b|\bRES\b")          # roster reserve codes (predict/reserve_list.py maps them to words)
 
 
 def public_raw_labels(out_dir=None) -> dict[str, list[str]]:
