@@ -1,0 +1,18 @@
+{
+ "inputs": {
+  "template.html": "98d3e836167cd196dfd18c5e93541e307799bf01f02275f5cd16e51a3e55ca8a",
+  "build_html.py": "10d9725a48ae8d5c926468c3961a57bf722f947aff05e9c9696388d81bbd2024",
+  "publish_public.py": "30cd4314f946cfa06590801a633dd9df4953a5a1d3fc5897866078b076947c85",
+  "layout_audit.js": "444df7c596e3de59c764c2944bfb925d131213d54c92b93ed08ff0f415243fde"
+ },
+ "passed": {
+  "local": {
+   "at": "2026-11-13 12:30 UTC",
+   "note": "week 10 build after 6f4ceba (outputs 8f0e02a), 5 widths, 0 issues"
+  },
+  "live": {
+   "at": "2026-11-14 20:25 UTC",
+   "note": "public page 3758b68 and portfolio home, 5 widths, 0 issues"
+  }
+ }
+}
