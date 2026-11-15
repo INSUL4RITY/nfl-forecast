@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import LocalTime from "@/components/LocalTime";
 import InjuryReportTable from "@/components/InjuryReportTable";
 import RosterMoves from "@/components/RosterMoves";
+import ReserveList from "@/components/ReserveList";
 import CoachingStaff from "@/components/CoachingStaff";
 import MarginBreakdown from "@/components/MarginBreakdown";
 import MatchupDetail from "@/components/MatchupDetail";
@@ -362,9 +363,10 @@ export default async function GamePage({ params }: { params: Promise<{ id: strin
                 </p>
               </details>
             )}
+            {g.reserve_list && <ReserveList r={g.reserve_list} away={A} home={H} />}
           </div>
 
-          {g.roster_moves && <RosterMoves m={g.roster_moves} away={A} home={H} />}
+          {g.roster_moves && <RosterMoves m={g.roster_moves} away={A} home={H} reserveShown={!!g.reserve_list} />}
 
           <div className="two-col">
             <div className="panel">

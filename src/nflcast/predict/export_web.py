@@ -36,6 +36,7 @@ from nflcast.predict import roster_moves as RM
 from nflcast.predict import picks as PK
 from nflcast.predict import play_callers as PC
 from nflcast.predict import publication as PUB
+from nflcast.predict import reserve_list as RL
 from nflcast.predict.validation import entry_is_valid, select_frozen
 
 WEB_DATA = ROOT / "web" / "public" / "data"
@@ -398,6 +399,12 @@ def export() -> Path:
         rm_tables = RM.prepare(S.fetch("rosters_weekly", cur), S.fetch("snap_counts", cur), S.fetch("players"), cur)
     except Exception as e:  # noqa: BLE001 - a display extra never blocks the export
         print(f"[export] roster moves skipped: {type(e).__name__}: {e}")
+    rl_tables = None                       # reserve lists (display only; predict/reserve_list.py): same roster snapshot
+    try:
+        rl_tables = RL.prepare(S.fetch("rosters_weekly", cur), S.fetch("snap_counts", cur), S.fetch("players"), cur,
+                               S.fetch("snap_counts", cur - 1))
+    except Exception as e:  # noqa: BLE001 - a display extra never blocks the export
+        print(f"[export] reserve lists skipped: {type(e).__name__}: {e}")
     record = {"weeks": [], "straight_up": {"win": 0, "loss": 0, "tie": 0}, "spread": {"win": 0, "loss": 0, "push": 0}}
     wlp = lambda: {"win": 0, "loss": 0, "push": 0}
     record["stats_only"] = {"weeks": [], "spread": wlp(), "big_gap": wlp(), "biggest_gap": wlp(), "total": wlp(),
@@ -469,6 +476,12 @@ def export() -> Path:
                     item["roster_moves"] = RM.game_moves(rm_tables, g)
                 except Exception as e:  # noqa: BLE001 - display only
                     print(f"[export] roster moves for {g['game_id']} skipped: {type(e).__name__}: {e}")
+            item["reserve_list"] = None    # export only: never in the release JSON or "notable" (no re-release)
+            if rl_tables is not None and season == cur and (view["forecast"] or g["status"] == "final"):
+                try:
+                    item["reserve_list"] = RL.game_list(rl_tables, g)
+                except Exception as e:  # noqa: BLE001 - display only
+                    print(f"[export] reserve list for {g['game_id']} skipped: {type(e).__name__}: {e}")
             items.append(item)
         rel = [r for r in releases if r["season"] == season and r["week"] == week]
         doc = {"season": season, "week": week,
