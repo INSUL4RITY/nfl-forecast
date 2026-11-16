@@ -1033,6 +1033,37 @@ def hot_cold_note() -> str:
             f"rests on the season-long rating and the luck index, not on the streak.")
 
 
+OUT_CLASSES_CONFIRMED = ("confirmed: reserve list", "listed Out/Doubtful", "inactive 3+ games")
+_LB = Path(__file__).resolve().parent / "line_absence_backtest.json"
+LINE_BT = json.loads(_LB.read_text(encoding="utf-8")) if _LB.exists() else None
+
+
+def line_starters_out(A: pd.DataFrame, team: str, min_share: float = 0.5) -> pd.DataFrame:
+    """Offensive linemen confirmed out who played at least half of the team's snaps in the games they played (starters)."""
+    return A[(A.team == team) & (A.group == "OL") & A.status_class.isin(OUT_CLASSES_CONFIRMED) & (A.share >= min_share)]
+
+
+def line_caution(o: str, d: str, A: pd.DataFrame, T: pd.DataFrame) -> str | None:
+    x = line_starters_out(A, o)
+    if x.empty:
+        return None
+    who = "; ".join(f"{r.player} ({100 * r.share:.0f}% of snaps, {'new' if r.term == 'new' else 'out since week ' + str(int(r.out_since_week))})"
+                    for r in x.itertuples())
+    n = len(x)
+    txt = f"{o} offensive line: {n} starter{'s' if n > 1 else ''} out ({who})."
+    if LINE_BT:
+        e, h = LINE_BT["epa"], LINE_BT["hs"]
+        txt += (f" In {LINE_BT['fitted_on'][0]}-{LINE_BT['fitted_on'][1]} ({LINE_BT['team_games']:,} team-games) each missing line starter cost about "
+                f"{e['per_missing_starter']:+.3f} EPA per dropback (95% range {e['per_missing_ci'][0]:+.3f} to {e['per_missing_ci'][1]:+.3f}) and added "
+                f"{100 * h['per_missing_starter']:.1f} points of hit-or-sack rate; the cost was not larger against strong pass rushes")
+        if "def_pressure_rate" in T:
+            txt += f" ({d} pressure rate ranks {ordinal(int(rank(T.def_pressure_rate)[d]))})"
+        txt += "."
+    if (x.term != "new").any():
+        txt += " Starters out for a while are partly in the season figures already."
+    return txt
+
+
 def build_matchups(T, nxt, MM, A, mm, notes, PL, US, QBS, REF, ARR, UN, WX=None, NG=None, HC=None):
     games = []
     mm_by = {m["game"]: m for m in mm}
@@ -1117,6 +1148,9 @@ def build_matchups(T, nxt, MM, A, mm, notes, PL, US, QBS, REF, ARR, UN, WX=None,
             r = T.loc[t]
             if int(r.qb_starters_n) > 1:
                 cautions.append(f"{t} season figures mix quarterbacks ({r.qb_starts}).")
+            lc = line_caution(t, h if t == a else a, A, T)
+            if lc:
+                cautions.append(lc)
             hc = (HC or {}).get(t)
             if hc:
                 cautions.append(f"{t} is {hc['trend'].lower()} ({hc['last4']} in its last four): {hc['verdict'].lower()} (rating with the 2025 prior "

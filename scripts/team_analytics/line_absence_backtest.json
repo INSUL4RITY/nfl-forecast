@@ -1,0 +1,59 @@
+{
+ "fitted_on": [
+  2021,
+  2025
+ ],
+ "team_games": 2238,
+ "missing_share": {
+  "0": 737,
+  "1": 927,
+  "2": 440,
+  "3": 134
+ },
+ "definition": "starters = five OL with most offensive snaps in earlier weeks; missing = under 50% of this game's snaps",
+ "hs": {
+  "per_missing_starter": 0.0037,
+  "per_missing_ci": [
+   0.0003,
+   0.0072
+  ],
+  "extra_vs_strong_rush": 0.0009,
+  "extra_vs_strong_rush_ci": [
+   -0.004,
+   0.0059
+  ],
+  "opp_rush_coef": 0.345,
+  "own_line_coef": 0.578
+ },
+ "epa": {
+  "per_missing_starter": -0.047,
+  "per_missing_ci": [
+   -0.0609,
+   -0.0318
+  ],
+  "extra_vs_strong_rush": 0.0024,
+  "extra_vs_strong_rush_ci": [
+   -0.0191,
+   0.0234
+  ],
+  "opp_rush_coef": -0.933,
+  "own_line_coef": -1.077
+ },
+ "league_hs": 0.1382,
+ "league_epa": 0.0491,
+ "raw_0": {
+  "team_games": 737,
+  "hs": 0.1331,
+  "epa": 0.1039
+ },
+ "raw_1": {
+  "team_games": 927,
+  "hs": 0.1362,
+  "epa": 0.0459
+ },
+ "raw_2plus": {
+  "team_games": 574,
+  "hs": 0.1478,
+  "epa": -0.0147
+ }
+}

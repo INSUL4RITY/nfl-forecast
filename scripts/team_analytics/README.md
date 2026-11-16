@@ -42,6 +42,8 @@ reads or changes the forecasting model, and it uses no market data (spread, tota
 | `ngs_trends.py`, `ngs_trends_2026.json`, `backtest_coverage.py`, `coverage_backtest.json` | Next Gen Stats coverage, personnel, pass-rush and scheme usage (read weekly from NFL.com's Next Gen Trends pages), and the 2018-25 test that decided they are shown as description only |
 | `reliability.py` | The Low/Medium/High reliability badges, from the fitted shrinkage weights (team measures and player efficiency) |
 | `backtest_special_teams.py`, `st_shrinkage.json` | How much special-teams EPA per game lasts; the combined rating keeps that share (about 27% after 9 games) |
+| `backtest_streaks.py`, `streak_backtest.json` | Hot and cold teams (2021-25): how much of a last-four-games form change lasted (none measurable), and whether luck and one-score records carry on (they do not); the hot/cold verdicts quote it |
+| `backtest_line_absences.py`, `line_absence_backtest.json` | What missing offensive-line starters cost (2021-25: about -0.05 EPA per dropback each, slightly more hits and sacks, no extra cost against strong pass rushes); the line caution in the matchups quotes it |
 | `game_variance_test.json` | Test of game-level variance in the matchup shrinkage (2021-25): no gain, so it stays off |
 | `layout_audit_state.py`, `layout_audit_state.json` | Whether a browser layout audit is needed: fingerprints of the page-shaping files at the last build that passed the local and live audits (lets the unattended refresh skip it for data-only changes) |
 | `ep_scale.py` | Warns if nflverse switches play-by-play to a revised EP valuation |

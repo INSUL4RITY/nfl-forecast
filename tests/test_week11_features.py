@@ -60,3 +60,23 @@ def test_no_streak_but_lucky_is_listed():
     T.loc["MID", "luck_index"] = -1.3                                  # 2-2 in its last four, but well behind its play
     hc = bh.hot_cold(T, G)
     assert hc["MID"]["trend"] == "No streak" and hc["MID"]["verdict"].startswith("Unlucky")
+
+
+# ---- offensive line starters out
+def test_line_starters_out_and_caution():
+    import build_html as bh
+    A = pd.DataFrame([
+        {"team": "OFF", "player": "Left Tackle", "group": "OL", "status_class": "listed Out/Doubtful", "share": 0.98, "term": "new", "out_since_week": 10},
+        {"team": "OFF", "player": "Swing Guard", "group": "OL", "status_class": "listed Out/Doubtful", "share": 0.30, "term": "new", "out_since_week": 10},
+        {"team": "OFF", "player": "Centre", "group": "OL", "status_class": "listed Questionable", "share": 0.95, "term": "new", "out_since_week": 10},
+        {"team": "OFF", "player": "Right Guard", "group": "OL", "status_class": "confirmed: reserve list", "share": 0.90, "term": "long-term", "out_since_week": 6},
+        {"team": "OFF", "player": "Receiver", "group": "WR/TE", "status_class": "listed Out/Doubtful", "share": 0.90, "term": "new", "out_since_week": 10},
+    ])
+    out = bh.line_starters_out(A, "OFF")
+    assert list(out.player) == ["Left Tackle", "Right Guard"]                 # starters confirmed out only
+    T = pd.DataFrame({"def_pressure_rate": np.linspace(0.15, 0.30, 4)}, index=["OFF", "DEF", "X", "Y"])
+    c = bh.line_caution("OFF", "DEF", A, T)
+    assert c.startswith("OFF offensive line: 2 starters out") and "out since week 6" in c and "partly in the season figures" in c
+    assert bh.line_caution("DEF", "OFF", A, T) is None
+    if bh.LINE_BT:
+        assert "not larger against strong pass rushes" in c
