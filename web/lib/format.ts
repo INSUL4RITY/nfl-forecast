@@ -41,8 +41,32 @@ function visible(hex: string | undefined): number[] | null {
   for (let k = 0; k < 20 && (lum(c) + 0.05) / (PANEL_LUM + 0.05) < 3; k++) c = c.map((x) => x + (255 - x) * 0.12);
   return c;
 }
-const chroma = (c: number[]) => Math.max(...c) - Math.min(...c);
-const dist = (a: number[], b: number[]) => Math.hypot(a[0] - b[0], a[1] - b[1], a[2] - b[2]);
+/** OKLab [L, a, b] of an sRGB [r, g, b] colour (perceptual: equal distances look about equally different). */
+function oklab(c: number[]): number[] {
+  const [r, g, b] = c.map((x) => { const s = x / 255; return s <= 0.04045 ? s / 12.92 : ((s + 0.055) / 1.055) ** 2.4; });
+  const l = Math.cbrt(0.4122214708 * r + 0.5363325363 * g + 0.0514459929 * b);
+  const m = Math.cbrt(0.2119034982 * r + 0.6806995451 * g + 0.1073969566 * b);
+  const s = Math.cbrt(0.0883024619 * r + 0.2817188376 * g + 0.6299787005 * b);
+  return [0.2104542553 * l + 0.793617785 * m - 0.0040720468 * s, 1.9779984951 * l - 2.428592205 * m + 0.4505937099 * s,
+    0.0259040371 * l + 0.7827717662 * m - 0.808675766 * s];
+}
+const chroma = (c: number[]) => { const [, a, b] = oklab(c); return Math.hypot(a, b); };
+const hue = (c: number[]) => { const [, a, b] = oklab(c); return (Math.atan2(b, a) * 180) / Math.PI; };
+const vivid = (c: number[]) => Math.max(...c) - Math.min(...c);   // which of a team's two colours it shows first (unchanged)
+const CHROMATIC = 0.06;    // OKLCH chroma above which a colour reads as a hue rather than a grey
+/** Two team colours read as different teams: different hues (>= 50 degrees apart) when both are colourful, otherwise
+ *  clearly different lightness / colour (OKLab distance >= 0.15). Two shades of one hue (e.g. two golds) never pass. */
+export function distinctColors(x: number[], y: number[]): boolean {
+  const [L1, a1, b1] = oklab(x), [L2, a2, b2] = oklab(y);
+  const d = Math.hypot(L1 - L2, a1 - a2, b1 - b2);
+  if (chroma(x) >= CHROMATIC && chroma(y) >= CHROMATIC) {
+    const h = Math.abs(hue(x) - hue(y)) % 360;
+    return Math.min(h, 360 - h) >= 50 && d >= 0.12;
+  }
+  return d >= 0.15;
+}
+const NEUTRAL = [170, 179, 195];    // light grey-blue, visible on the panel
+const ACCENT = [217, 89, 38];       // orange (the site's away fallback)
 
 const PLAYOFF: Record<number, [string, string]> = {
   19: ["Wild Card", "WC"], 20: ["Divisional round", "DIV"], 21: ["Conference championships", "CONF"], 22: ["Super Bowl", "SB"],
@@ -54,17 +78,18 @@ export const weekShort = (week: number): string => PLAYOFF[week]?.[1] ?? `Wk ${w
 export const isPlayoffWeek = (week: number): boolean => week in PLAYOFF;
 
 /** One identity colour per team for charts on the dark page: each team's more vivid colour (primary or secondary), made
- *  visible on the panel; if the two teams would look alike, the away team switches to its other colour (or a neutral). */
+ *  visible on the panel. The two teams never share a colour family (see distinctColors): if their first choices clash,
+ *  the away team switches to its other colour, then the home team, then the away team takes a neutral or orange. */
 export function teamPairColors(home?: { color: string; color2: string }, away?: { color: string; color2: string }): { home: string; away: string } {
   const opts = (t?: { color: string; color2: string }) =>
-    [t?.color, t?.color2].map(visible).filter((c): c is number[] => !!c).sort((a, b) => chroma(b) - chroma(a));
+    [t?.color, t?.color2].map(visible).filter((c): c is number[] => !!c).sort((a, b) => vivid(b) - vivid(a));
   const h = opts(home), a = opts(away);
-  const hc = h[0] ?? [57, 135, 229];
-  let ac = a[0] ?? [217, 89, 38];
-  if (dist(hc, ac) < 110) {
-    const alt = a.find((c) => dist(hc, c) >= 110);
-    ac = alt ?? (dist(hc, [170, 179, 195]) >= 110 ? [170, 179, 195] : [217, 89, 38]);
-  }
+  if (!h.length) h.push([57, 135, 229]);
+  if (!a.length) a.push(ACCENT);
+  const tries: [number[], number[]][] = [[h[0], a[0]], ...a.slice(1).map((c): [number[], number[]] => [h[0], c]),
+    ...h.slice(1).flatMap((hc) => a.map((c): [number[], number[]] => [hc, c])),
+    ...h.flatMap((hc) => [NEUTRAL, ACCENT].map((c): [number[], number[]] => [hc, c]))];
+  const [hc, ac] = tries.find(([x, y]) => distinctColors(x, y)) ?? [h[0], NEUTRAL];
   return { home: toHex(hc), away: toHex(ac) };
 }
 
