@@ -472,6 +472,29 @@ def st_weight(games, fit: dict | None = None):
     return fit["tau2"] / (fit["tau2"] + fit["s2"] / g)
 
 
+BLITZ_OUTCOMES = ("sack", "cmp", "inc", "int", "scr")
+
+
+def blitz_outcomes(dbf: pd.DataFrame, T: pd.DataFrame) -> None:
+    """What happens on a dropback with and without a blitz (FTN: one or more blitzers), per defence (allowed) and per offence
+    (faced): the share ending in a sack, a completion, an incompletion, an interception or a scramble (these five add up to
+    100% of dropbacks), the success rate and the 20+ yard play rate (a pass completion or scramble of 20+ yards)."""
+    d = dbf.copy()
+    sack = d.sack.fillna(0) == 1
+    scr = (d.qb_scramble.fillna(0) == 1) & ~sack
+    intc = (d.interception.fillna(0) == 1) & ~sack & ~scr
+    cmp_ = (d.complete_pass.fillna(0) == 1) & ~sack & ~scr & ~intc
+    inc = ~(sack | scr | intc | cmp_)
+    d = d.assign(o_sack=sack, o_cmp=cmp_, o_inc=inc, o_int=intc, o_scr=scr,
+                 o_succ=d.success.fillna(0) == 1, o_expl=(cmp_ | scr) & (d.yards_gained.fillna(0) >= 20))
+    for side, key in (("def", "defteam"), ("off", "posteam")):
+        for lab, m in (("blitz", d.blitz), ("noblitz", ~d.blitz)):
+            g = d[m].groupby(key)
+            for o in BLITZ_OUTCOMES + ("succ", "expl"):
+                T[f"{side}_out_{o}_{lab}"] = g[f"o_{o}"].mean()
+        T[f"{side}_blitz_epa_gain"] = d[d.blitz].groupby(key).epa.mean() - d[~d.blitz].groupby(key).epa.mean()   # < 0: blitzing lowers EPA
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--season", type=int, default=2026)
@@ -804,6 +827,7 @@ def main():
     dbf = pf[pf.db & pf.n_pass_rushers.notna() & (pf.n_pass_rushers > 0)].copy()
     dbf["blitz"] = dbf.n_blitzers > 0
     dbf["rush5"] = dbf.n_pass_rushers >= 5
+    blitz_outcomes(dbf, T)
     for side, key in [("def", "defteam"), ("off", "posteam")]:
         g = dbf.groupby(key)
         T[f"{side}_blitz_rate"] = g.blitz.mean()

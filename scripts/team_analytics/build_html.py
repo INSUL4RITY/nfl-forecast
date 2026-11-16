@@ -27,7 +27,10 @@ WK = {"thru": 8, "word": "eight"}            # set from bundle_meta.json in main
 
 # Small samples: below the minimum a value is shown muted with its n, gets no rank or colour, and is not used in
 # mismatch findings. key -> (sample-size column, minimum)
+BLITZ_MIN = 40   # blitzed dropbacks needed before a defence's blitz-outcome rates are ranked
 SAMPLE_MIN = {
+    **{f"def_out_{o}_blitz": ("def_n_blitz", BLITZ_MIN) for o in ("sack", "cmp", "inc", "int", "scr", "succ", "expl")},
+    "def_blitz_epa_gain": ("def_n_blitz", BLITZ_MIN),
     "off_g2g_td_rate": ("off_g2g_trips", 5), "def_g2g_td_rate": ("def_g2g_trips", 5),
     "eoh_ppd": ("eoh_drives", 5),
     "off_epa_leading": ("off_plays_leading", 30), "off_epa_trailing": ("off_plays_trailing", 30),
@@ -625,6 +628,7 @@ MATCH_ROWS = {
         ("Pressure rate (PFR)", "pressure", "off_pressure_rate", "def_pressure_rate", "pct", -1),
         ("Pass block vs pass rush win rate (ESPN)", None, "pbwr", "prwr", "pct", 1, True),
         ("Air yards per completion (raw)", None, "off_air_per_cmp", "def_air_per_cmp", "n1", 1),
+        ("EPA per dropback vs the blitz (FTN)", None, "off_epa_blitz", "def_epa_blitz", "epa", 1),
         ("YAC per completion (raw)", None, "off_yac_per_cmp", "def_yac_per_cmp", "n1", 1),
         ("YAC over expected per catch (NGS)", None, "off_yacoe", "def_yacoe", "n2", 1),
         ("Broken tackles after catch per game (PFR)", None, "rec_brk_tkl_pg", "def_rec_brk_tkl_allowed_pg", "n2", 1),
@@ -1832,6 +1836,22 @@ def main():
         C("sos_net", "Schedule strength", "epa", 0, "Average opponent net adjusted EPA/play; positive = tougher"),
         C("opp_net_beaten", "Quality of teams beaten", "epa", 1), C("opp_net_lost", "Quality of teams lost to", "epa", 1),
     ], "luck_index"))
+    tables.append(table("blitz_out", "What happens when each defence blitzes", [
+        C("def_blitz_rate", "Blitz rate", "pct", 0, "FTN: share of charted dropbacks with at least one blitzer"),
+        C("def_n_blitz", "Blitzed dropbacks", "int", 0),
+        C("def_out_sack_blitz", "Sack", "pct", 1, "Share of blitzed dropbacks ending in a sack"),
+        C("def_out_inc_blitz", "Incomplete", "pct", 1, "Incomplete passes, throwaways included"),
+        C("def_out_int_blitz", "Intercepted", "pct", 1),
+        C("def_out_cmp_blitz", "Completed", "pct", -1),
+        C("def_out_scr_blitz", "QB scramble", "pct", -1),
+        C("def_out_succ_blitz", "Success allowed", "pct", -1, "Share of blitzed dropbacks with positive EPA for the offence"),
+        C("def_out_expl_blitz", "20+ yards allowed", "pct", -1, "Completions or scrambles of 20+ yards"),
+        C("def_epa_blitz", "EPA allowed, blitz", "epa", -1), C("def_epa_noblitz", "EPA allowed, no blitz", "epa", -1),
+        C("def_blitz_epa_gain", "Blitz minus no blitz", "epa", -1, "Negative = the defence does better when it blitzes"),
+        C("def_out_sack_noblitz", "Sack, no blitz", "pct", 1), C("def_out_succ_noblitz", "Success allowed, no blitz", "pct", -1),
+    ], "def_blitz_epa_gain", "Every blitzed dropback ends in one of five ways (sack, completion, incompletion, interception, scramble), so those shares add up "
+       "to 100%. FTN charting counts a blitz when at least one player beyond the usual rushers comes. Rates are ranked from 40 blitzed dropbacks; "
+       "a defence's blitz results swing a lot over a season, so read them as how it has gone, not a skill.", desc=False))
     tables.append(table("press_def", "Defensive pressure and blitzing", [
         C("def_pressure_rate", "Pressure rate", "pct", 1, "PFR pressures / dropbacks"), C("def_sack_rate", "Sack rate", "pct", 1),
         C("def_hurry_rate", "Hurry rate", "pct", 1), C("def_qbhit_rate", "QB hit rate", "pct", 1),
