@@ -980,7 +980,60 @@ def ngs_signature(rec, side, n=5):
     return "; ".join(x[1] for x in sorted(out, reverse=True)[:n]) or "no tendency in the top or bottom fifth"
 
 
-def build_matchups(T, nxt, MM, A, mm, notes, PL, US, QBS, REF, ARR, UN, WX=None, NG=None):
+LUCK_LINE = 0.75     # the report's over/underperformer line (wins)
+_SB = Path(__file__).resolve().parent / "streak_backtest.json"
+STREAKS = json.loads(_SB.read_text(encoding="utf-8")) if _SB.exists() else None
+
+
+def hot_cold(T: pd.DataFrame, G: pd.DataFrame) -> dict:
+    """Teams that won 3+ (hot) or 1 or fewer (cold) of their last four games, and teams with no streak whose luck index is past
+    +/-LUCK_LINE, with a verdict from what has lasted in 2021-25:
+    season-long quality (the rating with the 2025 prior; top 12 = good, 21st or worse = bad) and luck (the luck index,
+    which regressed fully). The change over the last four games is shown but did not predict the rest of a season."""
+    q = rank(T.stab_rating_pg)
+    out = {}
+    for t in T.index:
+        g = G[G.team == t].sort_values("week").tail(4)
+        if len(g) < 4:
+            continue
+        w4 = float(g.win.sum())
+        trend = "Hot" if w4 >= 3 else ("Cold" if w4 <= 1 else None)
+        luck, qr = float(T.loc[t, "luck_index"]), int(q[t])
+        if not trend and abs(luck) < LUCK_LINE:
+            continue
+        good, bad = qr <= 12, qr >= 21
+        if not trend:          # no streak, but results well ahead of or behind the play
+            trend = "No streak"
+            v = "Lucky: results ahead of play" if luck > 0 else "Unlucky: better than the results"
+        elif trend == "Hot":
+            v = ("Lucky streak: results ahead of play" if luck >= LUCK_LINE and not good else
+                 "Good team, also lucky: expect some regression" if luck >= LUCK_LINE else
+                 "Real: a good team winning" if good else "Results fit the play, but the play is average or worse")
+        else:
+            v = ("Unlucky: better than the results" if luck <= -LUCK_LINE and not bad else
+                 "Bad and unlucky" if luck <= -LUCK_LINE else
+                 "Good team in a rough patch" if good else "Genuinely bad" if bad else "Average team, results fit the play")
+        last4 = "".join("W" if w == 1 else ("T" if w == 0.5 else "L") for w in g.win)
+        out[t] = {"team": t, "label": t, "sub": str(T.loc[t, "record"]), "trend": trend, "last4": last4, "verdict": v,
+                  "stab_rating_pg": float(T.loc[t, "stab_rating_pg"]), "stab_rank": qr, "luck_index": luck,
+                  "one_score": f"{int(T.loc[t, 'one_w'])}-{int(T.loc[t, 'one_l'])}", "to_luck": float(T.loc[t, "to_luck"]),
+                  "form_net_change": float(T.loc[t, "form_net_change"])}
+    return out
+
+
+def hot_cold_note() -> str:
+    if not STREAKS:
+        return ""
+    s = STREAKS
+    return (f" Tested on {s['fitted_on'][0]}-{s['fitted_on'][1]} ({s['samples']:,} team-season samples, cut weeks {s['cut_weeks'][0]}-{s['cut_weeks'][1]}): "
+            f"a team's change over its last four games did not carry into the rest of the season (share kept {s['form_change_kept']:+.2f}, 95% range "
+            f"{s['form_change_kept_ci'][0]:+.2f} to {s['form_change_kept_ci'][1]:+.2f}); luck did not persist either (correlation "
+            f"{s['luck_persistence_corr']:.2f}: teams about {s['lucky_teams']['luck_pg']:.2f} wins a game above their play went on at "
+            f"{s['lucky_teams']['future_luck_pg']:+.3f}), and one-score records barely did ({s['close_record_persistence_corr']:.2f}). So the verdict "
+            f"rests on the season-long rating and the luck index, not on the streak.")
+
+
+def build_matchups(T, nxt, MM, A, mm, notes, PL, US, QBS, REF, ARR, UN, WX=None, NG=None, HC=None):
     games = []
     mm_by = {m["game"]: m for m in mm}
     lg_go = T.fd_go_rate.mean()
@@ -1064,6 +1117,11 @@ def build_matchups(T, nxt, MM, A, mm, notes, PL, US, QBS, REF, ARR, UN, WX=None,
             r = T.loc[t]
             if int(r.qb_starters_n) > 1:
                 cautions.append(f"{t} season figures mix quarterbacks ({r.qb_starts}).")
+            hc = (HC or {}).get(t)
+            if hc:
+                cautions.append(f"{t} is {hc['trend'].lower()} ({hc['last4']} in its last four): {hc['verdict'].lower()} (rating with the 2025 prior "
+                                f"{ordinal(hc['stab_rank'])}, luck index {hc['luck_index']:+.2f} wins, one-score games {hc['one_score']}). In 2021-25 a "
+                                f"four-game swing did not carry into the rest of the season; see Hot and cold teams.")
             if QBS.get(t, {}).get("news"):
                 cautions.append(f"{t} quarterback change the season figures do not reflect yet. " + QBS[t]["news"]["flag"])
             xs = expected_starter(QBS.get(t, {}))
@@ -1836,6 +1894,14 @@ def main():
         C("sos_net", "Schedule strength", "epa", 0, "Average opponent net adjusted EPA/play; positive = tougher"),
         C("opp_net_beaten", "Quality of teams beaten", "epa", 1), C("opp_net_lost", "Quality of teams lost to", "epa", 1),
     ], "luck_index"))
+    tables.append(table("hotcold", "Hot and cold teams: real or luck?", [
+        C("trend", "Trend", "str", 0, "Hot = won 3 or 4 of the last four; cold = won 1 or none; no streak = listed for its luck"), C("last4", "Last 4", "str", 0),
+        C("verdict", "Verdict", "str", 0), C("stab_rating_pg", "Rating (2025 prior)", "s1", 0, "Points per game; the best estimate of underlying strength"),
+        C("stab_rank", "Rating rank", "int", 0), C("luck_index", "Luck index (wins)", "s2", 0, "Wins above (or below) what points and EPA predict"),
+        C("one_score", "One-score games", "str", 0), C("to_luck", "Turnover luck", "s1", 0, "Turnover margin minus expected"),
+        C("form_net_change", "Net EPA change, last 4", "epa", 0, "Did not predict the rest of a season in 2021-25"),
+    ], "trend", "Lucky streak or unlucky slump? A luck index of +0.75 or more (or -0.75 or less) marks results well ahead of (or behind) the play; "
+       "good = rating rank 1-12, bad = 21-32." + hot_cold_note(), rows="hotcold", desc=False))
     tables.append(table("blitz_out", "What happens when each defence blitzes", [
         C("def_blitz_rate", "Blitz rate", "pct", 0, "FTN: share of charted dropbacks with at least one blitzer"),
         C("def_n_blitz", "Blitzed dropbacks", "int", 0),
@@ -2239,7 +2305,8 @@ def main():
     }
 
     tables = finish_tables(tables, T, not wr_probs, bool((A.last_report_week == meta["through_week"] + 1).any()))
-    games = build_matchups(T, nxt, MM, A, mm, notes, PL, US, CTX["qb"], REF, ARR, UN, WX, NG)
+    HCT = hot_cold(T, G)
+    games = build_matchups(T, nxt, MM, A, mm, notes, PL, US, CTX["qb"], REF, ARR, UN, WX, NG, HCT)
     pen_types_js = PEN_T.to_dict("records")
     # embed only the team fields the page or the per-game export reads (table columns, sample sizes, keys named in the
     # page's script or the exporter, and the team-chart measures, whose keys the page builds at run time)
@@ -2285,7 +2352,7 @@ def main():
             "ctx": {"fatigue": CTX["fatigue"], "travel": CTX["travel"], "qb": CTX["qb"], "penalty_groups": CTX["penalty_groups"]},
             "trv": TRV, "pen_types": pen_types_js, "cats": cats, "D": D, "E": E, "F": F, "dis": dis, "notes": notes, "order": order,
             "names": T.team_name.to_dict(), "depth_as_of": DP["depth"]["as_of"], "players": PL["teams"], "players_league": PL["league"],
-            "usage": trim_usage(US, tables), "callers": {"sources": CL["sources"], "splits": CL["splits"], "checked": CL["checked"], "league": CL["league"]}}
+            "usage": {**trim_usage(US, tables), "hotcold": list(HCT.values())}, "callers": {"sources": CL["sources"], "splits": CL["splits"], "checked": CL["checked"], "league": CL["league"]}}
     nxt_w = meta["through_week"] + 1
     n_rep = A.loc[A.last_report_week == nxt_w, "team"].nunique()
     data["meta"]["inj_note"] = (f"{n_rep} teams already have a week {nxt_w} injury report in the data; other statuses come from each team's latest report and roster."

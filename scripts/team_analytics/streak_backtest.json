@@ -1,0 +1,43 @@
+{
+ "fitted_on": [
+  2021,
+  2025
+ ],
+ "cut_weeks": [
+  6,
+  13
+ ],
+ "samples": 1280,
+ "xw_coef": 0.596,
+ "form_change_kept": -0.001,
+ "form_change_kept_ci": [
+  -0.103,
+  0.12
+ ],
+ "luck_persistence_corr": 0.04,
+ "luck_persistence_ci": [
+  -0.102,
+  0.2
+ ],
+ "luck_effect_on_future_win_pct": 0.183,
+ "luck_effect_ci": [
+  -0.198,
+  0.572
+ ],
+ "close_record_persistence_corr": 0.11,
+ "close_record_persistence_ci": [
+  -0.045,
+  0.25
+ ],
+ "lucky_teams": {
+  "n": 130,
+  "luck_pg": 0.11,
+  "future_luck_pg": 0.002
+ },
+ "unlucky_teams": {
+  "n": 103,
+  "luck_pg": -0.139,
+  "future_luck_pg": -0.013
+ },
+ "note": "luck_pg is wins minus EPA-expected wins per game; 0.75 over nine games is the report's over/underperformer line."
+}

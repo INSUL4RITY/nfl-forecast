@@ -27,3 +27,36 @@ def test_blitz_outcomes_add_up_and_classify():
     assert r.def_out_int_noblitz == 1.0
     assert abs(r.def_blitz_epa_gain - ((-2.0 + 1.8 - 0.5 + 0.3) / 4 - (-3.0))) < 1e-12
     assert T.loc["O"].off_out_sack_blitz == 0.25                          # the offence's view of the same plays
+
+
+# ---- hot and cold teams
+def _hc_frames():
+    import build_html as bh  # noqa: F401
+    teams = ["LUK", "GOOD", "UNL", "BAD", "MID"]
+    T = pd.DataFrame({"stab_rating_pg": [-3.0, 8.0, 1.0, -9.0, 0.5], "luck_index": [1.6, 0.2, -1.2, 0.1, 0.0],
+                      "one_w": [5, 3, 1, 1, 2], "one_l": [0, 1, 5, 3, 2], "to_luck": [2.0, 0.0, -1.0, -3.0, 0.0],
+                      "form_net_change": [0.01, 0.05, 0.1, -0.1, 0.0], "record": ["7-2", "6-3", "3-6", "1-8", "4-5"]}, index=teams)
+    T = pd.concat([T, pd.DataFrame({"stab_rating_pg": np.linspace(-6, 6, 27), "luck_index": 0.0, "one_w": 2, "one_l": 2, "to_luck": 0.0,
+                                    "form_net_change": 0.0, "record": "4-4"}, index=[f"X{i}" for i in range(27)])])
+    wins = {"LUK": [1, 1, 1, 1], "GOOD": [1, 0, 1, 1], "UNL": [0, 0, 1, 0], "BAD": [0, 0, 0, 0], "MID": [1, 0, 1, 0]}
+    G = pd.DataFrame([{"team": t, "week": w + 1, "win": x} for t, ws in wins.items() for w, x in enumerate(ws)])
+    return T, G
+
+
+def test_hot_cold_verdicts():
+    import build_html as bh
+    T, G = _hc_frames()
+    hc = bh.hot_cold(T, G)
+    assert set(hc) == {"LUK", "GOOD", "UNL", "BAD"}                      # MID went 2-2 with no luck: not listed
+    assert hc["LUK"]["trend"] == "Hot" and hc["LUK"]["verdict"].startswith("Lucky streak")
+    assert hc["GOOD"]["verdict"] == "Real: a good team winning" and hc["GOOD"]["last4"] == "WLWW"
+    assert hc["UNL"]["trend"] == "Cold" and hc["UNL"]["verdict"].startswith("Unlucky")
+    assert hc["BAD"]["verdict"] == "Genuinely bad"
+
+
+def test_no_streak_but_lucky_is_listed():
+    import build_html as bh
+    T, G = _hc_frames()
+    T.loc["MID", "luck_index"] = -1.3                                  # 2-2 in its last four, but well behind its play
+    hc = bh.hot_cold(T, G)
+    assert hc["MID"]["trend"] == "No streak" and hc["MID"]["verdict"].startswith("Unlucky")
