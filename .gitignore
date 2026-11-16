@@ -15,3 +15,5 @@ web/tsconfig.tsbuildinfo
 .scratch/
 releases/archive/.tmp/
 data/backup_repo/
+data/private_trials/
+data/.tsa_tmp/

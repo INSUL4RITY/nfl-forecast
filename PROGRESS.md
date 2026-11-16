@@ -452,6 +452,14 @@ market lines, QB availability, injury display, weather display). A changed artif
   (same as Roster moves; about 5 players per team, max 11 in week 10), kickers/punters whenever they kicked; the rest
   are counted. Roster moves no longer repeats players on the team's own reserve list when this panel is present.
 
+- QB evaluation v3 research (2026-11-16, user brief; research only, frozen model and site unchanged): audit and plan in
+  `reports/research/qb_v3_audit_2026-11-16.md`; user decision: candidate lines are logged privately (never shown, never
+  set the pick). Experiment C (leverage-weighted QB rating) pre-registered and RFC 3161-timestamped before any result
+  (`qb_v3c_preregistration_2026-11-16.md`, 18:30:10 GMT), run in `evaluation/qb_v3_eval.py` (exact reproduction of the
+  stored QB inputs with unit weights). FAILED: 2022-25 margin MSE 161.71 -> 162.12 (+0.41, CI -0.39 to +1.22). Not
+  logged prospectively yet (user to decide; see research list A16). `predict/private_trial.py` (RFC 3161 for private
+  files; `data/private_trials/` git-ignored) is ready for the private log.
+
 ## 3. Tests and checks (2026-09-25)
 - Live head-to-head (2026-10-13, user request; display only): `picks.head_to_head` compares combined, stats-only and market
   on the same finished, publicly verifiable games by week (margin error, winner correct) plus the vs-line records of the
