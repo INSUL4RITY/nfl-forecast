@@ -185,7 +185,7 @@ export default function Methodology() {
           published: weeks 3–6 followed the market-adjusted line (the rule then) and are not regraded; from week 7 it follows
           the model line. The second row is the model line&apos;s own record at every lock since week 3, with the Big and
           Biggest gap games. The market-adjusted line&apos;s record stays on the Performance page. The model v2 trial line is
-          shown on each game but its record is not tracked on the site.</p>
+          shown on each game page; its record is kept for the end-of-season review but is not shown on the site.</p>
         <p className="small"><b>Injury trial line retired from the site, 28 October 2026.</b> The &quot;model line + injuries&quot;
           trial (below) used the same snap-weighted injury inputs that model v2 now includes, so it no longer added
           information of its own; it is no longer shown. It is still calculated and archived in every forecast so it can be
@@ -199,8 +199,8 @@ export default function Methodology() {
           about 0.2 points to the opponent for each extra play a defence faced in its previous game. The trial line is now
           labelled &quot;Model v2 line (trial)&quot;; the Monday 26 October forecasts that used v2.1 stay as published.</p>
         <p className="small"><b>Line movement after the lock, 26 October 2026</b> (display only). The Performance page tracks how the
-          market line moved between each pick&apos;s lock and the last line recorded before kickoff, from the side the model pick, the
-          model line and the v2 trial line were on at the lock: in points, and as the change in the chance that the result lands on
+          market line moved between each pick&apos;s lock and the last line recorded before kickoff, from the side the model pick and the
+          model line were on at the lock: in points, and as the change in the chance that the result lands on
           that side. That chance uses key numbers: in 2,761 games from 2016–2025, final margins of 3 (2.7 times), 7 (1.7), 14, 6 and 10
           were more common than a smooth curve around the line predicts, so moves through them are worth more. We also tested whether
           key numbers could sharpen the picks themselves: in the 2019–2025 backtests, model lines that crossed 3 or 7 relative to the
@@ -214,7 +214,7 @@ export default function Methodology() {
           12.98 points; totals were better, 13.22 vs 13.31), so the model line stays on the frozen model. Removing one group at a time
           showed the garbage-time filter and travel / body clock made it worse. A version without those two (v2.1) matched the current
           model (12.977 vs 12.980), but it was chosen after seeing those results, so it is shown as a trial line only: frozen, fitted
-          once on games through week 7, displayed on game pages and tracked on the Performance page from week 8 on unseen games. Its
+          once on games through week 7, displayed on game pages from week 8 and judged after the season on unseen games; its record is not shown on the site. Its
           weather history is retrospective (reanalysis for 2016–18, archived forecasts from 2019). Pressure, blitz and coverage data
           and coaching quality are not included: no adequate free, dated source.</p>
         <p className="small"><b>Trial from 20 October 2026: model line + injuries</b> (display and tracking only; the model pick and
@@ -224,8 +224,8 @@ export default function Methodology() {
           injury model from the pre-season evaluation, which was not adopted then: with the market-adjusted model it added nothing,
           and with the stats-only model it was slightly better (2022–24 margin error 12.72 → 12.69 points) but not clearly so. It was
           fitted once on exactly the frozen model&apos;s training games and is itself frozen. Its record against the market line and
-          its margin error are tracked on the Performance page, on the same games as the model line, so it can be judged after the
-          season. The injury report is final only shortly before each game, so the line is most meaningful at the 24-hour lock.</p>
+          its margin error are archived with every forecast, on the same games as the model line, so it can be judged after the
+          season (it is no longer shown on the site). The injury report is final only shortly before each game, so the line is most meaningful at the 24-hour lock.</p>
         <p className="small"><b>Rule change, 19 October 2026: the model pick follows the model line (stats only)</b> (decided after
           week 6, before any week 7 forecast). From week 7 the model pick is the side of the market line on which the stats-only line
           falls, instead of the market-adjusted line. The market-adjusted line copies the market closely, so its picks were nearly always
