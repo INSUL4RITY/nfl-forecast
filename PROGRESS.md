@@ -458,6 +458,22 @@ market lines, QB availability, injury display, weather display). A changed artif
   right in the case that prompted it): its code is deleted; the reports stay as the record; useful ideas are on the
   research list (A16 closed; B5 evidence, B32, B33, C9). Nothing was logged privately.
 
+- EP-scale data fix (user decision 2026-11-17, "go with 2"): nflverse re-published 2026 play-by-play on the revised
+  nflfastR EP scale (PR 618) in the snapshot observed 2026-11-17T18:28:54Z (two-point probability 0.49, kickoff EPA
+  -0.07, scrimmage EPA ~20% compressed: old ~ 1.21 x new); the first week-11 release rel_20261117T183152Z used it, so its
+  2026 inputs were on a different scale from the frozen model's history. Fix (`data/ep_scale.py`, `configs/ep_scale.yaml`,
+  applied on read in build and export; raw snapshots untouched): plays held in the last old-scale snapshot
+  (20261116T194534Z, sha256-checked) keep their archived valuation columns exactly if the play is unchanged; other plays
+  (from MNF week 10, 2026_10_LAC_BAL) get epa/qb_epa converted with a frozen per-play-type line old = a + b x new fitted on
+  25,773 overlapping plays; success = epa > 0; column ep_scale = old/converted. Validation (fit weeks 1-5, test 6-10):
+  team offence EPA/play error sd 0.007 (unconverted 0.024), mean +0.001 (+0.012), max 0.015; team-game sd 0.016 (0.042);
+  QB EPA/dropback sd 0.012 (0.033); success flips 1.3% (2.3%). Each build re-checks the line on the overlap (2026-11-17:
+  sd 0.0043, mean 0.000) and alerts if it fails (`ep_scale_conversion_check`). Week-11 effect at the same moment: Model
+  line mean |0.24|, max 0.60 (ARI@KC); no pick side changed; three edge-size labels changed. Releases record it in
+  input_snapshots.pbp_ep_scale. Deserved results: shown for games with original values only (to week 10 SNF), not for
+  converted games. Not a model change: artifact, features and configs unchanged. Correction recorded
+  (`ep-scale:revised-2026-pbp`); earlier releases stay as published. 2027: refit on one EPA version (research A12).
+
 ## 3. Tests and checks (2026-09-25)
 - Live head-to-head (2026-10-13, user request; display only): `picks.head_to_head` compares combined, stats-only and market
   on the same finished, publicly verifiable games by week (margin error, winner correct) plus the vs-line records of the

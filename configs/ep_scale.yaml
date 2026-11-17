@@ -1,0 +1,29 @@
+# EP-scale harmonisation of the current season's play-by-play (data-consistency fix; src/nflcast/data/ep_scale.py).
+# User decision 2026-11-17 ("go with 2"). nflverse re-published 2026 play-by-play on the revised nflfastR EP scale
+# (PR 618) in the snapshot observed 2026-11-17T18:28:54Z; the frozen model's training history uses the old scale.
+# Plays held in the reference snapshot keep their archived old-scale values; later plays get epa/qb_epa converted with
+# the frozen per-play-type line below. Fitted once on 2026-11-17; never refit or retune this season. Not a model change:
+# the frozen v1.0 artifact, features and configs are unchanged.
+season: 2026
+reference_snapshot: pbp_2026__observed_20261116T194534Z.parquet       # last old-scale snapshot (weeks 1-10 to SNF)
+reference_file_sha256: eb39a1106b6f7693f764cfecfab66500b351e16f3c50e8da296a2bd3a6959ccd
+fit_snapshot: pbp_2026__observed_20261117T182854Z.parquet             # first revised-scale snapshot
+fit_file_sha256: f73141472c00d46a471648d71bd417758c4c4db2e077046a10a17699c796024e
+fit: "least squares old = a + b * new per play group, 25,773 unchanged plays with EPA in both snapshots (2026 weeks 1-10)"
+validation: >-
+  Fitted on weeks 1-5 only and tested on weeks 6-10: team offence EPA/play error vs the true old scale sd 0.007
+  (unconverted 0.024), mean +0.001 (unconverted +0.012), max 0.015; team-game sd 0.016 (0.042); QB EPA/dropback sd 0.012
+  (0.033); plays whose success (EPA > 0) differs from the old scale 1.3% (unconverted 2.3%). Team EPA/play sd is 0.138.
+maps:                      # group: [a, b]   old = a + b * new
+  kickoff: [0.317153, 1.266606]
+  td: [-0.12868, 1.155526]
+  pass: [0.000934, 1.234748]
+  run: [0.001933, 1.221786]
+  punt: [0.00553, 1.261881]
+  field_goal: [0.115135, 1.406483]
+  extra_point: [0.027697, 0.98251]
+  no_play: [-0.006368, 1.187789]
+  other: [-0.011345, 1.104199]
+check:                     # re-checked every build on the overlapping plays; outside these, a desktop alert is raised
+  team_error_sd_max: 0.015
+  team_error_mean_max: 0.01

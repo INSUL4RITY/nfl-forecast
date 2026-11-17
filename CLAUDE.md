@@ -61,6 +61,10 @@ CLI stay `nflcast`; keep the URL and repo name (published evidence and links poi
   reserve lists (injured reserve, PUP, non-football, suspended) from the rosters_weekly snapshot (`predict/reserve_list.py`).
   Built at export time only: never put it in the release JSON or "notable" (that would change the injury_report fingerprint
   and re-release games), never feed it to any model line. Map codes to plain English; never show raw codes.
+- **EP scale (user, 2026-11-17):** nflverse moved 2026 play-by-play to the revised EP scale. `data/ep_scale.py` keeps
+  plays from the last old-scale snapshot at their archived values and converts later plays' EPA with the frozen line in
+  `configs/ep_scale.yaml` (data-consistency fix, not a model change). Never refit or retune that line this season; read
+  current-season pbp through `EPS.load_pbp`, never raw `S.fetch("pbp", ...)`. Deserved results only for unconverted games.
 - **Weekly publication (user decisions 2026-10-05, changed 2026-10-06 and 2026-10-13):** a week is first published at
   Tuesday 18:00 UK before its first game (`predict/schedule.py`), and waits up to 24 h if the previous week's finished
   games are not yet in the team data; from week 7 the model pick locks 24 h before each kickoff (see above). Operational only; do not move it without the user.
