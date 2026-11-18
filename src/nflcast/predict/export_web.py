@@ -24,6 +24,7 @@ import polars as pl
 import yaml
 
 from nflcast.config import PROCESSED_DIR, RELEASES_DIR, REPORTS_DIR, ROOT, release_paths, settings, utc_now
+from nflcast.data import ep_scale as EPS
 from nflcast.data import sources as S
 from nflcast.data.games import build_games, franchise
 from nflcast.features.asof import AsOfFeatureBuilder
@@ -369,15 +370,20 @@ def export() -> Path:
     mu_tg = mu_starters = None             # matchup detail (display only): current season's play-by-play
     try:
         names = dict(S.fetch("players").select("gsis_id", "display_name").iter_rows())
-        mu_tg, mu_starters = MU.build(cur, games, S.fetch("pbp", cur),
+        mu_tg, mu_starters = MU.build(cur, games, EPS.load_pbp(cur),
                                       pl.read_parquet(PROCESSED_DIR / "qb_games.parquet"), names)
     except Exception as e:  # noqa: BLE001 - a display extra never blocks the export
         print(f"[export] matchup detail skipped: {type(e).__name__}: {e}")
     dq, dl, dq_note = None, None, None               # deserved margin (display only; predict/deserved.py)
     try:
         from nflcast.predict import alerts as AL
-        dpbp = S.fetch("pbp", cur)
-        dq_note = AL.ep_scale_problem(dpbp)  # weights were fit on the old EP scale: never apply them to the revised one
+        dpbp = EPS.load_pbp(cur)
+        # weights were fit on the old EP scale: never apply them to the revised one, nor to converted (estimated) plays
+        conv = EPS.converted_games(dpbp)
+        if conv:
+            print(f"[export] deserved margin not shown for {len(conv)} game(s) with converted EP-scale plays")
+            dpbp = dpbp.filter(~pl.col("game_id").is_in(sorted(conv)))
+        dq_note = AL.ep_scale_problem(dpbp)
         if dq_note is None:
             dq = DS.team_quality(dpbp.select(DS.PBP_COLS))
             try:
@@ -615,7 +621,7 @@ def _export_ratings(now) -> None:
                      "last_starter": names.get(qb), "last_starter_rating": qbm.rating(qb, now_us, season)[0]})
     from nflcast.predict import luck as LK
     try:
-        luck = LK.team_luck(tg, S.fetch("pbp", season), season, now)
+        luck = LK.team_luck(tg, EPS.load_pbp(season), season, now)
     except Exception as e:  # noqa: BLE001 - display extra; never blocks the export
         print(f"[export] luck table skipped: {e}")
         luck = []

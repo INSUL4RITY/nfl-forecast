@@ -91,7 +91,12 @@ def build() -> None:
     games = build_games()
     games.write_parquet(PROCESSED_DIR / "games.parquet")
     print(f"[build] games: {games.height} rows")
-    pbp = pl.concat([S.fetch("pbp", s).select(PBP_COLS) for s in all_s], how="diagonal_relaxed")
+    from nflcast.data import ep_scale as EPS     # current season kept on the training EP scale (data/ep_scale.py)
+    pbp_raw = {s: EPS.load_pbp(s) for s in all_s}
+    (PROCESSED_DIR / "ep_scale_status.json").write_text(json.dumps(EPS.status() or {"applied": False}), encoding="utf-8")
+    if EPS.status():
+        print(f"[build] EP scale: {EPS.status()}")
+    pbp = pl.concat([pbp_raw[s].select(PBP_COLS) for s in all_s], how="diagonal_relaxed")
     tg = attach_game_info(team_game_stats(pbp), games)
     tg.write_parquet(PROCESSED_DIR / "team_games.parquet")
     pos = S.fetch("players").select("gsis_id", "position").drop_nulls()
@@ -100,10 +105,11 @@ def build() -> None:
     print(f"[build] team-games: {tg.height} rows from {pbp.height} plays; qb-games {qbg.height}")
     try:                         # model v2.0 inputs (features/v2.py); a failure leaves the stats-only line on v1.0
         from nflcast.features import v2 as V2
-        pbp2 = pl.concat([S.fetch("pbp", s).select(V2.PBP_COLS_V2) for s in all_s], how="diagonal_relaxed")
+        pbp2 = pl.concat([pbp_raw[s].select(V2.PBP_COLS_V2) for s in all_s], how="diagonal_relaxed")
         V2.team_game_extra(pbp2, tg).write_parquet(PROCESSED_DIR / "team_games_v2.parquet")
     except Exception as e:  # noqa: BLE001
         print(f"[build] model v2.0 team-games failed (kept the last file): {type(e).__name__}: {e}")
+    del pbp_raw
     feats = build_feature_snapshots(games, tg, feat_s)
     qbm, dcs, avail = personnel_objects(games, tg, qbg)
     feats = P.add_personnel_features(feats, games, qbm, dcs, avail)

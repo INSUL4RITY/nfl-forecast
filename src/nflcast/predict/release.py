@@ -275,6 +275,15 @@ def _game_freshness(freshness, market_fresh, market, res, now) -> dict:
             "problems": problems, "all_fresh": not problems}
 
 
+def _ep_scale_status() -> dict | None:
+    """How the current season's play-by-play was put on the training EP scale in the last build (data/ep_scale.py)."""
+    p = PROCESSED_DIR / "ep_scale_status.json"
+    try:
+        return json.loads(p.read_text(encoding="utf-8")) if p.exists() else None
+    except (OSError, ValueError):
+        return None
+
+
 def build_candidate(now: datetime | None = None, days_ahead: int = 8) -> dict | None:
     """Compute a complete release for the next week's unplayed games WITHOUT writing it (None when there are none,
     or when that week's weekly publication time has not been reached; see predict/schedule.py)."""
@@ -560,7 +569,8 @@ def build_candidate(now: datetime | None = None, days_ahead: int = 8) -> dict | 
     return {
         "schema_version": SCHEMA_VERSION, "run_id": f"rel_{utc_stamp(now)}", "generated_at_utc": now.isoformat(),
         "information_cutoff_utc": now.isoformat(), "season": season, "week": week, "stage": "production_v1.1",
-        "input_snapshots": {"schedules": snap_info(sched_meta), "injuries": snap_info(inj_meta), "depth_charts": snap_info(dc_meta)},
+        "input_snapshots": {"schedules": snap_info(sched_meta), "injuries": snap_info(inj_meta), "depth_charts": snap_info(dc_meta),
+                            "pbp_ep_scale": _ep_scale_status()},
         "market_feed": OA.status(now),
         "publication_note": "Publication time is not recorded here. It is established from independent evidence in "
                             "releases/publication_evidence.json (GitHub server timestamps).",

@@ -40,7 +40,8 @@ Each cycle checks games kicking off within 48 h and raises a Windows notificatio
 `scripts/toast.ps1`) when a human should look: no QB identified or no valid new forecast; injury report not current within
 36 h (one combined alert if many teams); designations still pending within 24 h; an official Out kept despite unconfirmed
 data; lead QB below 90%; no market line within 24 h; The Odds API credits low; a failed or blocked run; and a "caught up"
-notice after >= 6 h without a completed run. Clicking opens the game page. Each issue alerts once, again if it changes (at
+notice after >= 6 h without a completed run; and a failed check of the EP-scale conversion (`data/ep_scale.py`, from
+2026-11-17). Clicking opens the game page. Each issue alerts once, again if it changes (at
 most every 2 h) or is still open after 12 h. Everything is also written to `logs/alerts.log` ("shown" / "NOT SHOWN").
 **Windows notifications must be on** (Settings > System > Notifications, and allow "Windows PowerShell" in the list of
 senders); otherwise alerts are only logged, marked NOT SHOWN, and retried.

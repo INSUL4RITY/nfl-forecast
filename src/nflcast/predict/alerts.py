@@ -9,7 +9,8 @@ Checked on every scheduled cycle against the freshly built candidate (the latest
   * the leading QB is below 90% to start (names and probabilities in the alert);
   * no market line within 24 h of kickoff;
 plus: The Odds API credits low, failed or blocked cycles, a "caught up" notice after >= 6 h without a completed run, and
-the current-season play-by-play switching to the revised nflfastR EP scale (PR 618; the model history uses the old one).
+the current-season play-by-play switching to the revised nflfastR EP scale (PR 618; the model history uses the old one)
+when it is not handled by data/ep_scale.py, or that conversion's check failing.
 Each issue has a stable key. It alerts when new, again when its content changes (at most every CHANGE_HOURS) or when still
 open after RESEND_HOURS, and is forgotten only after being absent for FORGET_HOURS. Only toasts that were actually shown
 count as sent; failed ones are retried (up to MAX_TRIES per RESEND_HOURS). One toast per cycle summarises the due items;
@@ -142,6 +143,20 @@ def ep_scale_items(season: int) -> list[dict]:
     found = ep_scale_problem(pl.read_parquet(path, columns=["play_type", "ep", "epa", "two_point_conversion_prob"]))
     if not found:
         return []
+    from nflcast.data import ep_scale as EPS
+    if EPS.config().get("season") == season:     # handled by the harmonisation (data/ep_scale.py): alert only if its check fails
+        try:
+            EPS.harmonise(pl.read_parquet(path), season)
+            st = EPS.status()
+        except Exception as e:  # noqa: BLE001
+            st = {"ok": False, "error": f"{type(e).__name__}: {e}"}
+        if st.get("ok"):
+            return []
+        detail = st.get("error") or (f"team EPA/play error sd {st.get('check_team_error_sd')}, "
+                                     f"mean {st.get('check_team_error_mean')}")
+        return [_item("ep_scale_conversion_check", f"nflverse play-by-play {season}: the EP-scale conversion check failed "
+                      f"({detail}); nflverse may have changed the scale again. Forecasts are still running; ask Claude "
+                      "to look.", None, content=str(season))]
     return [_item("ep_scale_changed", f"nflverse play-by-play {season} looks like the revised EPA scale ({found}); the "
                   "frozen model's history uses the old one. Forecasts are still running; ask Claude to look.", None,
                   content=str(season))]

@@ -175,6 +175,11 @@ export default function Methodology() {
           Neither model line includes them (both rate teams from their games; quarterback changes are handled separately), so
           they show where the lines may be working from an out-of-date roster. A roster-change input is on the list for 2027,
           to be tested on unseen seasons first.</p>
+        <p className="small"><b>Expected-points data fix, 17 November 2026</b> (data only; the model is unchanged). nflverse
+          re-published this season&apos;s play-by-play on a revised expected-points scale, which the model was not trained on.
+          Plays already held keep their original values and later plays are converted back to the original scale (details under
+          Data sources). It moved the model lines for week 11 by 0.2 points on average (at most 0.6) and changed no pick. Week 11
+          forecasts published with the revised values before the fix stay as published.</p>
         <p className="small"><b>Reserve lists, 15 November 2026</b> (display only; not a model input). Players on injured reserve
           and other reserve lists (physically unable to perform, non-football injury or illness, suspended) are not on the
           weekly injury report, so game pages now list them under it, from the team&apos;s latest nflverse weekly roster file
@@ -291,7 +296,9 @@ export default function Methodology() {
           The model line rates teams on similar play-quality numbers, so it looks better on this measure partly by construction; the
           deserved margin is never used to regrade a game, and the record stays the scoreboard. The method follows nfl_simulator by
           dgrifka (MIT licence), refitted on this project&apos;s data, and was fixed on 10 November 2026, before any week-10 game.
-          If the play-by-play data moves to a revised expected-points scale, it is paused rather than mixed.</p>
+          If the play-by-play data moves to a revised expected-points scale, it is paused rather than mixed: since 17 November 2026 it is
+          shown only for games whose plays keep their original values (up to week 10&apos;s Sunday games), not for games whose EPA is
+          converted (see Data sources).</p>
       </div>
 
       <div className="panel">
@@ -309,6 +316,13 @@ export default function Methodology() {
             and the game page says so. Earlier forecasts keep the nflverse lines they were made with. The model&apos;s weights, features and calibration did
             not change. It was trained on nflverse lines; in the first comparison (29 games, 25 September 2026) the API consensus spread and total
             were each within 1 point of the nflverse line (mean differences 0.17 and 0.29 points).</li>
+          <li><b>Expected-points scale (data fix, 17 November 2026):</b> on 17 November 2026 nflverse re-published the 2026 play-by-play
+            with a revised expected-points model (EPA about 20% narrower; kickoffs valued differently). The model was trained on the earlier
+            scale, so every play already in this project&apos;s 16 November copy keeps its original values, and later plays have their EPA
+            converted back with a fixed straight line per play type, fitted on the 2026 plays present in both versions. Fitted on weeks 1-5
+            and tested on weeks 6-10, the typical team error in EPA per play was 0.007 (0.024 without the conversion; teams differ by
+            about 0.14). The model, its weights and features
+            did not change. Releases made with the revised values before the fix stay as published (corrections log).</li>
           <li><b>Injury reports:</b> only the final weekly report survives historically, so early-week injury information cannot be backtested.</li>
           <li><b>Weather:</b> archived operational forecasts exist only from about April 2026, so weather is not in the historical model.</li>
           <li><b>Coordinators and play-callers:</b> not available in any free feed; not modelled.</li>
