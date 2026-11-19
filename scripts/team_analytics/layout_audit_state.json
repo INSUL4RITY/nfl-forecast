@@ -9,6 +9,10 @@
   "local": {
    "at": "2026-11-19 18:56 UTC",
    "note": "week 11 build (hot/cold, blitz outcomes, line caution, QB row fix), 5 widths, 0 issues"
+  },
+  "live": {
+   "at": "2026-11-19 18:57 UTC",
+   "note": "public page fdf8538 (week 11 build), 5 widths, 0 issues"
   }
  }
 }
