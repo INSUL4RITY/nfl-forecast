@@ -1,0 +1,214 @@
+{
+ "history": {
+  "years": [
+   2021,
+   2025
+  ],
+  "groups": {
+   "calm_dry": {
+    "games": 771,
+    "pass_rate": 0.6114448463817459,
+    "epa_db": 0.06604905206927833,
+    "epa_rush": -0.06199444821417496,
+    "ypc": 4.188799243121075
+   },
+   "wind": {
+    "games": 80,
+    "pass_rate": 0.586068211068211,
+    "epa_db": -0.023688467345329863,
+    "epa_rush": -0.08509955107719339,
+    "ypc": 4.087456271864068
+   },
+   "rain": {
+    "games": 50,
+    "pass_rate": 0.5991801411979049,
+    "epa_db": -0.03213954821010528,
+    "epa_rush": -0.09299825666115098,
+    "ypc": 4.064238151194673
+   },
+   "rain_wind": {
+    "games": 10,
+    "pass_rate": 0.5441176470588235,
+    "epa_db": -0.08339753725210289,
+    "epa_rush": -0.06325175246796497,
+    "ypc": 4.177504393673111
+   },
+   "snow": {
+    "games": 11,
+    "pass_rate": 0.5846338535414166,
+    "epa_db": 0.006673437763001409,
+    "epa_rush": -0.009422207733713007,
+    "ypc": 4.630397236614853
+   }
+  },
+  "games_used": 922
+ },
+ "games": {
+  "2026_11_IND_HOU": {
+   "kickoff_utc": "2026-11-20T01:15+00:00",
+   "kind": "roof_unknown",
+   "source": "National Weather Service",
+   "read_utc": "2026-11-19T18:52+00:00",
+   "lead_days": 0.3,
+   "temp": 67.0,
+   "wind": 0.0,
+   "gust": null,
+   "pop": 0,
+   "inches": null,
+   "snow": false,
+   "text": "Roof not listed, so open or closed is not known yet. If open: Dry: 67\u00b0F at kickoff, wind 0 mph, 0% chance of precipitation (National Weather Service, read 19 Nov 18:52 UTC)."
+  },
+  "2026_11_MIA_BUF": {
+   "kickoff_utc": "2026-11-22T18:00+00:00",
+   "kind": "forecast",
+   "source": "National Weather Service",
+   "read_utc": "2026-11-19T18:52+00:00",
+   "lead_days": 3.0,
+   "temp": 64.0,
+   "wind": 5.5,
+   "gust": null,
+   "pop": 2,
+   "inches": null,
+   "snow": false,
+   "text": "Dry: 64\u00b0F at kickoff, wind 6 mph, 2% chance of precipitation (National Weather Service, read 19 Nov 18:52 UTC; early forecast, 3 days before kickoff)."
+  },
+  "2026_11_BAL_CAR": {
+   "kickoff_utc": "2026-11-22T18:00+00:00",
+   "kind": "forecast",
+   "source": "National Weather Service",
+   "read_utc": "2026-11-19T18:52+00:00",
+   "lead_days": 3.0,
+   "temp": 65.0,
+   "wind": 10.25,
+   "gust": null,
+   "pop": 14,
+   "inches": null,
+   "snow": false,
+   "text": "Dry: 65\u00b0F at kickoff, wind 10 mph, 14% chance of precipitation (National Weather Service, read 19 Nov 18:52 UTC; early forecast, 3 days before kickoff)."
+  },
+  "2026_11_NO_CHI": {
+   "kickoff_utc": "2026-11-22T18:00+00:00",
+   "kind": "forecast",
+   "source": "National Weather Service",
+   "read_utc": "2026-11-19T18:52+00:00",
+   "lead_days": 3.0,
+   "temp": 56.0,
+   "wind": 15.0,
+   "gust": null,
+   "pop": 56,
+   "inches": null,
+   "snow": false,
+   "text": "Rain likely: 56\u00b0F at kickoff, wind 15 mph, 56% chance of precipitation (National Weather Service, read 19 Nov 18:52 UTC; early forecast, 3 days before kickoff). In 2021-25 games with rain and wind of 15+ mph (10 games), teams passed on 54.4% of plays in close games (61.1% with dry conditions and wind under 15 mph), EPA/dropback -0.083 (+0.066), EPA/rush -0.063 (-0.062). Raw averages, not adjusted for teams."
+  },
+  "2026_11_TEN_DAL": {
+   "kickoff_utc": "2026-11-22T18:00+00:00",
+   "kind": "roof_unknown",
+   "source": "National Weather Service",
+   "read_utc": "2026-11-19T18:52+00:00",
+   "lead_days": 3.0,
+   "temp": 62.0,
+   "wind": 15.0,
+   "gust": null,
+   "pop": 0,
+   "inches": null,
+   "snow": false,
+   "text": "Roof not listed, so open or closed is not known yet. If open: Dry: 62\u00b0F at kickoff, wind 15 mph, 0% chance of precipitation (National Weather Service, read 19 Nov 18:52 UTC; early forecast, 3 days before kickoff)."
+  },
+  "2026_11_TB_DET": {
+   "kickoff_utc": "2026-11-22T18:00+00:00",
+   "kind": "indoors",
+   "text": "Indoors, so no weather effect."
+  },
+  "2026_11_ARI_KC": {
+   "kickoff_utc": "2026-11-22T18:00+00:00",
+   "kind": "forecast",
+   "source": "National Weather Service",
+   "read_utc": "2026-11-19T18:52+00:00",
+   "lead_days": 3.0,
+   "temp": 49.0,
+   "wind": 13.75,
+   "gust": null,
+   "pop": 1,
+   "inches": null,
+   "snow": false,
+   "text": "Dry: 49\u00b0F at kickoff, wind 14 mph, 1% chance of precipitation (National Weather Service, read 19 Nov 18:52 UTC; early forecast, 3 days before kickoff)."
+  },
+  "2026_11_JAX_NYG": {
+   "kickoff_utc": "2026-11-22T18:00+00:00",
+   "kind": "forecast",
+   "source": "National Weather Service",
+   "read_utc": "2026-11-19T18:52+00:00",
+   "lead_days": 3.0,
+   "temp": 59.0,
+   "wind": 5.0,
+   "gust": null,
+   "pop": 30,
+   "inches": null,
+   "snow": false,
+   "text": "Some chance of rain: 59\u00b0F at kickoff, wind 5 mph, 30% chance of precipitation (National Weather Service, read 19 Nov 18:52 UTC; early forecast, 3 days before kickoff)."
+  },
+  "2026_11_NYJ_LAC": {
+   "kickoff_utc": "2026-11-22T21:05+00:00",
+   "kind": "indoors",
+   "text": "Indoors, so no weather effect."
+  },
+  "2026_11_LV_DEN": {
+   "kickoff_utc": "2026-11-22T21:25+00:00",
+   "kind": "forecast",
+   "source": "National Weather Service",
+   "read_utc": "2026-11-19T18:52+00:00",
+   "lead_days": 3.1,
+   "temp": 47.0,
+   "wind": 4.5,
+   "gust": null,
+   "pop": 0,
+   "inches": null,
+   "snow": false,
+   "text": "Dry: 47\u00b0F at kickoff, wind 4 mph, 0% chance of precipitation (National Weather Service, read 19 Nov 18:52 UTC; early forecast, 3 days before kickoff)."
+  },
+  "2026_11_PIT_PHI": {
+   "kickoff_utc": "2026-11-22T21:25+00:00",
+   "kind": "forecast",
+   "source": "National Weather Service",
+   "read_utc": "2026-11-19T18:52+00:00",
+   "lead_days": 3.1,
+   "temp": 62.0,
+   "wind": 6.25,
+   "gust": null,
+   "pop": 77,
+   "inches": null,
+   "snow": false,
+   "text": "Rain likely: 62\u00b0F at kickoff, wind 6 mph, 77% chance of precipitation (National Weather Service, read 19 Nov 18:52 UTC; early forecast, 3 days before kickoff). In 2021-25 games with rain and wind under 15 mph (50 games), teams passed on 59.9% of plays in close games (61.1% with dry conditions and wind under 15 mph), EPA/dropback -0.032 (+0.066), EPA/rush -0.093 (-0.062). Raw averages, not adjusted for teams."
+  },
+  "2026_11_MIN_SF": {
+   "kickoff_utc": "2026-11-23T01:20+00:00",
+   "kind": "forecast",
+   "source": "Open-Meteo",
+   "read_utc": "2026-11-19T18:52+00:00",
+   "lead_days": 3.3,
+   "temp": 67.4,
+   "wind": 1.95,
+   "gust": 15.4,
+   "pop": 40,
+   "inches": 0,
+   "snow": false,
+   "text": "Some chance of rain: 67\u00b0F at kickoff, wind 2 mph (gusts 15), 40% chance of precipitation (Open-Meteo, read 19 Nov 18:52 UTC; early forecast, 3 days before kickoff)."
+  },
+  "2026_11_CIN_WAS": {
+   "kickoff_utc": "2026-11-24T01:15+00:00",
+   "kind": "forecast",
+   "source": "National Weather Service",
+   "read_utc": "2026-11-19T18:52+00:00",
+   "lead_days": 4.3,
+   "temp": 52.0,
+   "wind": 9.25,
+   "gust": null,
+   "pop": 0,
+   "inches": null,
+   "snow": false,
+   "text": "Dry: 52\u00b0F at kickoff, wind 9 mph, 0% chance of precipitation (National Weather Service, read 19 Nov 18:52 UTC; early forecast, 4 days before kickoff)."
+  }
+ },
+ "wet_pop": 50,
+ "wind_min": 15
+}

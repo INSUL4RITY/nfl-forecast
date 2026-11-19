@@ -1,0 +1,14 @@
+game_id,gameday,weekday,gametime,away_team,home_team,location,roof,surface,stadium,away_coach,home_coach,away_rest,home_rest,away_score,home_score,div_game
+2026_11_IND_HOU,2026-11-19,Thursday,20:15,IND,HOU,Home,,astroturf,Reliant Stadium,Shane Steichen,DeMeco Ryans,4,4,,,1
+2026_11_MIA_BUF,2026-11-22,Sunday,13:00,MIA,BUF,Home,outdoors,a_turf,Highmark Stadium,Jeff Hafley,Joe Brady,7,7,,,1
+2026_11_BAL_CAR,2026-11-22,Sunday,13:00,BAL,CAR,Home,outdoors,grass,Bank of America Stadium,Jesse Minter,Dave Canales,6,7,,,0
+2026_11_NO_CHI,2026-11-22,Sunday,13:00,NO,CHI,Home,outdoors,grass,Soldier Field,Kellen Moore,Ben Johnson,7,14,,,0
+2026_11_TEN_DAL,2026-11-22,Sunday,13:00,TEN,DAL,Home,,matrixturf,AT&T Stadium,Robert Saleh,Brian Schottenheimer,7,7,,,0
+2026_11_TB_DET,2026-11-22,Sunday,13:00,TB,DET,Home,dome,fieldturf,Ford Field,Todd Bowles,Dan Campbell,14,7,,,0
+2026_11_ARI_KC,2026-11-22,Sunday,13:00,ARI,KC,Home,outdoors,grass,GEHA Field at Arrowhead Stadium,Mike LaFleur,Andy Reid,7,7,,,0
+2026_11_JAX_NYG,2026-11-22,Sunday,13:00,JAX,NYG,Home,outdoors,fieldturf,MetLife Stadium,Liam Coen,John Harbaugh,7,10,,,0
+2026_11_NYJ_LAC,2026-11-22,Sunday,16:05,NYJ,LAC,Home,dome,matrixturf,SoFi Stadium,Aaron Glenn,Jim Harbaugh,7,6,,,0
+2026_11_LV_DEN,2026-11-22,Sunday,16:25,LV,DEN,Home,outdoors,grass,Empower Field at Mile High,Klint Kubiak,Sean Payton,7,14,,,1
+2026_11_PIT_PHI,2026-11-22,Sunday,16:25,PIT,PHI,Home,outdoors,grass,Lincoln Financial Field,Mike McCarthy,Nick Sirianni,7,14,,,0
+2026_11_MIN_SF,2026-11-22,Sunday,20:20,MIN,SF,Neutral,outdoors,grass,Estadio Banorte,Kevin O'Connell,Kyle Shanahan,7,7,,,0
+2026_11_CIN_WAS,2026-11-23,Monday,20:15,CIN,WAS,Home,outdoors,grass,Northwest Stadium,Zac Taylor,Dan Quinn,8,11,,,0
