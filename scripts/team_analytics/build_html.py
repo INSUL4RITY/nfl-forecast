@@ -839,7 +839,7 @@ def expected_starter(info):
     news = next((r for r in rows if r.get("news")), None)        # hand-kept news: trades, signings, named starters
     if news:
         return news
-    down = lambda r: r["roster_status"] == "RES" or r["report_status"] in ("Out", "Doubtful")   # noqa: E731
+    down = lambda r: r["roster_status"] == "RES" or r["report_status"] in ("Out", "Doubtful") or bool(r.get("now_team"))   # noqa: E731
     lat = next((r for r in rows if r["latest_starter"]), None)
     if lat and not down(lat):
         return lat

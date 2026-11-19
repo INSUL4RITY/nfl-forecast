@@ -621,10 +621,12 @@ def qb_scenarios(p: pd.DataFrame, Q: pd.DataFrame, ros_cur: pd.DataFrame, inj_la
     qn = Q.set_index("passer_id")
     for t in teams:
         st = starts[starts.posteam == t].sort_values("week")
-        latest = st.iloc[-1].passer_id if len(st) else None
+        tr = true[true.posteam == t].sort_values("week")
+        latest = tr.iloc[-1].passer_id if len(tr) else (st.iloc[-1].passer_id if len(st) else None)   # who started the latest game
         tq = d[d.posteam == t].groupby("passer_id").size()
         rows = []
-        for pid, ndb in tq[tq >= 30].sort_values(ascending=False).items():
+        keep = (tq >= 30) | (tq.index == latest)                   # the latest starter is kept however few his dropbacks
+        for pid, ndb in tq[keep].sort_values(ascending=False).items():
             gids = set(st[st.passer_id == pid].game_id)
             off_games = sc[(sc.posteam == t) & sc.game_id.isin(gids)]
             r = qn.loc[pid] if pid in qn.index else None
@@ -645,6 +647,7 @@ def qb_scenarios(p: pd.DataFrame, Q: pd.DataFrame, ros_cur: pd.DataFrame, inj_la
                 "team_epa_play_in_starts": float(off_games.epa.mean()) if len(off_games) else None,
                 "team_plays_in_starts": int(len(off_games)),
                 "roster_status": ro.status.iloc[0] if len(ro) else None,
+                "now_team": (ro.team.iloc[0] if len(ro) and ro.team.iloc[0] != t else None) if "team" in ro else None,
                 "report_status": ij.report_status.iloc[0] if len(ij) and pd.notna(ij.report_status.iloc[0]) else None,
                 "practice_status": ij.practice_status.iloc[0] if len(ij) and pd.notna(ij.practice_status.iloc[0]) else None,
                 "report_week": int(ij.week.iloc[0]) if len(ij) else None,
@@ -679,7 +682,9 @@ def qb_scenarios(p: pd.DataFrame, Q: pd.DataFrame, ros_cur: pd.DataFrame, inj_la
         for r in rows:
             if r is lr or r["starts"] < 2:
                 continue
-            if r["roster_status"] == "RES":
+            if r.get("now_team"):
+                flags.append(f"{r['name']} ({r['starts']} starts) is now on {r['now_team']}'s roster: his games are in the season figures, but he will not play for {t}.")
+            elif r["roster_status"] == "RES":
                 flags.append(f"{r['name']} ({r['starts']} starts) {status(r)}: his games are in the season figures, but he will not play.")
             elif r is most and status(r):
                 flags.append(f"{r['name']} ({r['starts']} starts, the most on the team) {status(r)}. If he returns, "

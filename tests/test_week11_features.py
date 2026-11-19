@@ -80,3 +80,34 @@ def test_line_starters_out_and_caution():
     assert bh.line_caution("DEF", "OFF", A, T) is None
     if bh.LINE_BT:
         assert "not larger against strong pass rushes" in c
+
+
+# ---- quarterback rows: a short-sample latest starter is kept, a traded quarterback is not expected
+def test_qb_scenarios_latest_starter_and_departed():
+    import context as ctx
+    import build_html as bh
+    rows, pid = [], 0
+    # weeks 1-8 started by OLD (40 dropbacks each); week 9 NEW starts with 12 dropbacks; week 10 STAR starts, gets hurt, RELIEF throws more
+    plan = {w: [("OLD", 40)] for w in range(1, 9)}
+    plan[9] = [("NEW", 12)]
+    plan[10] = [("NEW", 8), ("RELIEF", 9)]
+    for w, seq in plan.items():
+        for qb, n in seq:
+            for _ in range(n):
+                pid += 1
+                rows.append({"game_id": f"2026_{w:02d}_ARI_XXX", "play_id": pid, "week": w, "posteam": "ARI", "passer_id": qb, "db": True,
+                             "sc": True, "epa": 0.0, "qtr": 1})
+    p = pd.DataFrame(rows)
+    Q = pd.DataFrame({"passer_id": ["OLD", "NEW", "RELIEF"], "name_full": ["Old Starter", "New Starter", "Relief Arm"], "name": ["O", "N", "R"]})
+    for c in ("epa_db", "adj_epa_db", "sr", "sack_rate", "int_worthy_rate", "epa_vs_blitz", "epa_hit_sack", "scr_rate"):
+        Q[c] = 0.0
+    Q["db_blitz"], Q["db_hit"] = 0, 0
+    ros = pd.DataFrame({"gsis_id": ["OLD", "NEW", "RELIEF"], "status": ["ACT"] * 3, "team": ["BAL", "ARI", "ARI"]})
+    inj = pd.DataFrame(columns=["gsis_id", "report_status", "practice_status", "week"])
+    out = ctx.qb_scenarios(p, Q, ros, inj, ["ARI"], 10)["ARI"]
+    names = {r["name"]: r for r in out["qbs"]}
+    assert "New Starter" in names and names["New Starter"]["latest_starter"]       # 20 dropbacks, but he started the latest game
+    assert not names.get("Relief Arm", {}).get("latest_starter", False)              # more dropbacks in week 10, but did not start it
+    assert names["Old Starter"]["now_team"] == "BAL"
+    assert any("is now on BAL's roster" in f for f in out["flags"])
+    assert bh.expected_starter(out)["name"] == "New Starter"
