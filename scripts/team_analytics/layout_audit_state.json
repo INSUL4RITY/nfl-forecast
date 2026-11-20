@@ -1,18 +1,14 @@
 {
  "inputs": {
-  "template.html": "090e11d698b6d3a60e9da992c6e4df9f368b8e106fcc49d99792ae0eb039100c",
-  "build_html.py": "35f01b6d1d87bf3e20629743e411bfd509ba7e30cb72924b85c9dc970d51ea1b",
-  "publish_public.py": "30cd4314f946cfa06590801a633dd9df4953a5a1d3fc5897866078b076947c85",
-  "layout_audit.js": "444df7c596e3de59c764c2944bfb925d131213d54c92b93ed08ff0f415243fde"
+  "template.html": "f386a52303d89e5d2b48ab67a99e30b3e796e62742c1fed1ee6543956ec2bab8",
+  "build_html.py": "81cb96775f858f2c57e37c2143cc6eee5fae3622bcbb68b1e7883b4c8ed6b72a",
+  "publish_public.py": "0cfa69c8ad2a241c925e3c81854d8074a4990bf27ff6d955fc2c4a5b08abf114",
+  "layout_audit.js": "be266bbe1bf54702ee1e30e0b0ab7bbd883b21f957bc85d7fc12428fb37d6d26"
  },
  "passed": {
   "local": {
-   "at": "2026-11-19 18:56 UTC",
-   "note": "week 11 build (hot/cold, blitz outcomes, line caution, QB row fix), 5 widths, 0 issues"
-  },
-  "live": {
-   "at": "2026-11-19 18:57 UTC",
-   "note": "public page fdf8538 (week 11 build), 5 widths, 0 issues"
+   "at": "2026-11-20 18:57 UTC",
+   "note": "audit phases A+B branch: standards mode, axe-core 4.10.2 in the audit, 5 widths, 0 issues (0 axe findings of any impact)"
   }
  }
 }
