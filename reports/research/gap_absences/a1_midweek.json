@@ -1,0 +1,88 @@
+{
+ "rows": 777,
+ "games": 58,
+ "assumed_play_rate": 0.865,
+ "table": [
+  {
+   "practice": "DNP",
+   "regular": false,
+   "n": 39,
+   "played": 0.46153846153846156,
+   "out_or_doubtful": 0.28205128205128205,
+   "charged_lost": 1.1923588254275568,
+   "realised_lost": 3.83
+  },
+  {
+   "practice": "Full",
+   "regular": false,
+   "n": 276,
+   "played": 0.75,
+   "out_or_doubtful": 0.0,
+   "charged_lost": 8.039654727331394,
+   "realised_lost": 6.808333333333334
+  },
+  {
+   "practice": "Limited",
+   "regular": false,
+   "n": 44,
+   "played": 0.8181818181818182,
+   "out_or_doubtful": 0.06818181818181818,
+   "charged_lost": 1.313303216091212,
+   "realised_lost": 0.9966666666666667
+  },
+  {
+   "practice": "DNP",
+   "regular": true,
+   "n": 59,
+   "played": 0.6610169491525424,
+   "out_or_doubtful": 0.2542372881355932,
+   "charged_lost": 5.834780036570935,
+   "realised_lost": 14.821666666666665
+  },
+  {
+   "practice": "Full",
+   "regular": true,
+   "n": 307,
+   "played": 0.990228013029316,
+   "out_or_doubtful": 0.0,
+   "charged_lost": 31.898745831988805,
+   "realised_lost": 1.9866666666666668
+  },
+  {
+   "practice": "Limited",
+   "regular": true,
+   "n": 52,
+   "played": 1.0,
+   "out_or_doubtful": 0.0,
+   "charged_lost": 5.506117026997955,
+   "realised_lost": 0.0
+  }
+ ],
+ "by_slot_dnp_regulars": [
+  {
+   "slot": "Monday",
+   "n": 3,
+   "played": 1.0
+  },
+  {
+   "slot": "Sunday early",
+   "n": 18,
+   "played": 1.0
+  },
+  {
+   "slot": "Sunday early international",
+   "n": 3,
+   "played": 0.6666666666666666
+  },
+  {
+   "slot": "Sunday late / night",
+   "n": 15,
+   "played": 0.8666666666666667
+  },
+  {
+   "slot": "Thursday",
+   "n": 20,
+   "played": 0.15
+  }
+ ]
+}

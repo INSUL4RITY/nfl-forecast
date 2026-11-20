@@ -1,0 +1,111 @@
+{
+ "shadow_points_per_starter_equivalent": {
+  "ol": -0.4510045184887001,
+  "skill": -0.35873965077551506,
+  "front": -0.6074166112970332,
+  "db": -0.9012709328089196
+ },
+ "shadow_alpha": 100.0,
+ "ridge_orthogonal_shrink_factor": 0.9824129440731622,
+ "calibration_slope": {
+  "skill": {
+   "slope_realised_on_expected": 0.899924489661125,
+   "team_games_with_listing": 3646
+  },
+  "db": {
+   "slope_realised_on_expected": 0.9667749999292431,
+   "team_games_with_listing": 3397
+  },
+  "front": {
+   "slope_realised_on_expected": 0.8565637916881513,
+   "team_games_with_listing": 3649
+  },
+  "ol": {
+   "slope_realised_on_expected": 0.935290717052503,
+   "team_games_with_listing": 3297
+  }
+ },
+ "no_status_did_not_play_roster": [
+  {
+   "roster": "RES",
+   "n": 585
+  },
+  {
+   "roster": "ACT",
+   "n": 244
+  },
+  {
+   "roster": "INA",
+   "n": 37
+  },
+  {
+   "roster": "not on this team's roster that week",
+   "n": 30
+  },
+  {
+   "roster": "RET",
+   "n": 7
+  },
+  {
+   "roster": "DEV",
+   "n": 2
+  },
+  {
+   "roster": "CUT",
+   "n": 1
+  }
+ ],
+ "analytics_missing_starters_2021_25": {
+  "n_missing": 2236,
+  "kinds": [
+   {
+    "kind": "no game status, did not play (late scratch, reserve list, trade, benched)",
+    "n": 979,
+    "share": 0.43783542039355994
+   },
+   {
+    "kind": "known absent (Out/Doubtful)",
+    "n": 547,
+    "share": 0.24463327370304114
+   },
+   {
+    "kind": "played some snaps (in-game exit, benching, rotation)",
+    "n": 489,
+    "share": 0.21869409660107333
+   },
+   {
+    "kind": "Questionable, did not play",
+    "n": 221,
+    "share": 0.09883720930232558
+   }
+  ],
+  "analytics_json": {
+   "team_games": 2238,
+   "missing_counts": {
+    "0": 737,
+    "1": 927,
+    "2": 440,
+    "3+": 134
+   },
+   "epa_per_missing": -0.047,
+   "ci": [
+    -0.0609,
+    -0.0318
+   ],
+   "controls": "own season-to-date hit-or-sack rate allowed, opponent's rate; NOT own offensive efficiency"
+  }
+ },
+ "conversions": {
+  "analytics_per_missing_starter_epa_35_40_db": [
+   -1.645,
+   -1.88
+  ],
+  "analytics_ci_per_game_37db": [
+   -2.2533000000000003,
+   -1.1766
+  ],
+  "shadow_per_full_time_ol_starter_out": -0.4284542925642651,
+  "b11_note": "0.39 pts = how far the Model line sits from the market line per extra starter-equivalent missing (weeks 3-10 2026, 118 games, corr 0.14): a model-vs-market difference, not a cost",
+  "hand_estimate_note": "1.25-1.5 pts per starting tackle (19 Nov): a position-specific value assumed, not estimated; ~3x the OL unit mean"
+ }
+}

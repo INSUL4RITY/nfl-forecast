@@ -1,0 +1,978 @@
+{
+ "lock": {
+  "HOU": {
+   "snapshot_observed": "2026-11-18 18:10:17.107708+00:00",
+   "provider_last_modified": "Wed, 18 Nov 2026 16:38:43 GMT",
+   "units": {
+    "ol": 0.15826180488329564,
+    "skill": 0.16343228998601697,
+    "front": 0.16725395288802836,
+    "db": 0.1883855006991502
+   },
+   "points_by_unit": {
+    "ol": -0.07137678910654335,
+    "skill": -0.05862964263502644,
+    "front": -0.10159282928927982,
+    "db": -0.16978637594279847
+   },
+   "points": -0.4013856369736481,
+   "units_b8": {
+    "ol": 0.14393457838704743,
+    "skill": 0.2219587041198335,
+    "front": 0.04441876588860645,
+    "db": 0.05457893492585064
+   },
+   "points_b8": -0.22071163706825164,
+   "players": [
+    {
+     "full_name": "Kamari Lassiter",
+     "position": "CB",
+     "unit": "db",
+     "status": "None",
+     "practice_status": "Did Not Participate In Practice",
+     "recent_share": 0.9933333333333333,
+     "p_miss": 0.1348822200709906,
+     "lost": 0.13398300527051732,
+     "lost_b8": 0.02136838960262927
+    },
+    {
+     "full_name": "Keylan Rutledge",
+     "position": "G",
+     "unit": "ol",
+     "status": "None",
+     "practice_status": "Full Participation in Practice",
+     "recent_share": 0.8333333333333334,
+     "p_miss": 0.1348822200709906,
+     "lost": 0.11240185005915884,
+     "lost_b8": 0.017926501344487644
+    },
+    {
+     "full_name": "Woody Marks",
+     "position": "RB",
+     "unit": "skill",
+     "status": "None",
+     "practice_status": "Did Not Participate In Practice",
+     "recent_share": 0.6783333333333333,
+     "p_miss": 0.1348822200709906,
+     "lost": 0.0914951059481553,
+     "lost_b8": 0.024298975425622076
+    },
+    {
+     "full_name": "Azeez Al-Shaair",
+     "position": "LB",
+     "unit": "front",
+     "status": "None",
+     "practice_status": "Did Not Participate In Practice",
+     "recent_share": 0.6316666666666667,
+     "p_miss": 0.1348822200709906,
+     "lost": 0.0852006023448424,
+     "lost_b8": 0.022627301440566995
+    },
+    {
+     "full_name": "Danielle Hunter",
+     "position": "DE",
+     "unit": "front",
+     "status": "None",
+     "practice_status": "Did Not Participate In Practice",
+     "recent_share": 0.6083333333333333,
+     "p_miss": 0.1348822200709906,
+     "lost": 0.08205335054318594,
+     "lost_b8": 0.021791464448039453
+    },
+    {
+     "full_name": "Reed Blankenship",
+     "position": "S",
+     "unit": "db",
+     "status": "None",
+     "practice_status": "Full Participation in Practice",
+     "recent_share": 0.4033333333333333,
+     "p_miss": 0.1348822200709906,
+     "lost": 0.054402495428632874,
+     "lost_b8": 0.033210545323221374
+    },
+    {
+     "full_name": "Tank Dell",
+     "position": "WR",
+     "unit": "skill",
+     "status": "None",
+     "practice_status": "Full Participation in Practice",
+     "recent_share": 0.19833333333333333,
+     "p_miss": 0.1348822200709906,
+     "lost": 0.026751640314079804,
+     "lost_b8": 0.07350471160815988
+    },
+    {
+     "full_name": "Febechi Nwaiwu",
+     "position": "G",
+     "unit": "ol",
+     "status": "None",
+     "practice_status": "Full Participation in Practice",
+     "recent_share": 0.16666666666666666,
+     "p_miss": 0.1348822200709906,
+     "lost": 0.022480370011831764,
+     "lost_b8": 0.06176866521694108
+    },
+    {
+     "full_name": "Blake Fisher",
+     "position": "T",
+     "unit": "ol",
+     "status": "None",
+     "practice_status": "Full Participation in Practice",
+     "recent_share": 0.155,
+     "p_miss": 0.1348822200709906,
+     "lost": 0.02090674411100354,
+     "lost_b8": 0.0574448586517552
+    },
+    {
+     "full_name": "Marvin Harrison Jr.",
+     "position": "WR",
+     "unit": "skill",
+     "status": "None",
+     "practice_status": "Did Not Participate In Practice",
+     "recent_share": 0.14333333333333334,
+     "p_miss": 0.1348822200709906,
+     "lost": 0.01933311821017532,
+     "lost_b8": 0.05312105208656933
+    },
+    {
+     "full_name": "David Montgomery",
+     "position": "RB",
+     "unit": "skill",
+     "status": "None",
+     "practice_status": "Full Participation in Practice",
+     "recent_share": 0.11666666666666668,
+     "p_miss": 0.1348822200709906,
+     "lost": 0.01573625900828224,
+     "lost_b8": 0.04323806565185876
+    },
+    {
+     "full_name": "Brevin Jordan",
+     "position": "TE",
+     "unit": "skill",
+     "status": "None",
+     "practice_status": "Did Not Participate In Practice",
+     "recent_share": 0.075,
+     "p_miss": 0.1348822200709906,
+     "lost": 0.010116166505324294,
+     "lost_b8": 0.027795899347623484
+    },
+    {
+     "full_name": "Wyatt Teller",
+     "position": "G",
+     "unit": "ol",
+     "status": "None",
+     "practice_status": "Full Participation in Practice",
+     "recent_share": 0.018333333333333333,
+     "p_miss": 0.1348822200709906,
+     "lost": 0.0024728407013014943,
+     "lost_b8": 0.006794553173863518
+    },
+    {
+     "full_name": "Jaylin Smith",
+     "position": "CB",
+     "unit": "db",
+     "status": "None",
+     "practice_status": "Full Participation in Practice",
+     "recent_share": 0.0,
+     "p_miss": 0.1348822200709906,
+     "lost": 0.0,
+     "lost_b8": 0.0
+    },
+    {
+     "full_name": "Jacob Hummel",
+     "position": "LB",
+     "unit": "front",
+     "status": "None",
+     "practice_status": "Limited Participation in Practice",
+     "recent_share": 0.0,
+     "p_miss": 0.1348822200709906,
+     "lost": 0.0,
+     "lost_b8": 0.0
+    }
+   ],
+   "missing_regulars": [
+    {
+     "player": "Azeez Al-Shaair",
+     "pos": "LB",
+     "unit": "front",
+     "kind": "Injured reserve",
+     "since_week": 11,
+     "season_share": 0.795,
+     "rating_share": 0.736258544890254
+    },
+    {
+     "player": "Jayden Higgins",
+     "pos": "WR",
+     "unit": "skill",
+     "kind": "Injured reserve",
+     "since_week": 1,
+     "season_share": null,
+     "rating_share": 0.1722488205218855
+    },
+    {
+     "player": "Jaylin Noel",
+     "pos": "WR",
+     "unit": "skill",
+     "kind": "Injured reserve",
+     "since_week": 9,
+     "season_share": 0.437,
+     "rating_share": 0.2697605686937696
+    },
+    {
+     "player": "E.J. Speed",
+     "pos": "LB",
+     "unit": "front",
+     "kind": "Physically unable to perform",
+     "since_week": 1,
+     "season_share": null,
+     "rating_share": 0.10796210597077646
+    },
+    {
+     "player": "Mario Edwards",
+     "pos": "DL",
+     "unit": "front",
+     "kind": "Injured reserve",
+     "since_week": 4,
+     "season_share": 0.296,
+     "rating_share": 0.11708398895769276
+    },
+    {
+     "player": "Dylan Horton",
+     "pos": "DL",
+     "unit": "front",
+     "kind": "Injured reserve",
+     "since_week": 1,
+     "season_share": null,
+     "rating_share": 0.07924666232832067
+    },
+    {
+     "player": "Jared Wayne",
+     "pos": "WR",
+     "unit": "skill",
+     "kind": "Now with MIA",
+     "since_week": 5,
+     "season_share": 0.227,
+     "rating_share": 0.1344005079308909
+    }
+   ],
+   "missing_points": -0.8388292310367751
+  },
+  "IND": {
+   "snapshot_observed": "2026-11-18 18:10:17.107708+00:00",
+   "provider_last_modified": "Wed, 18 Nov 2026 16:38:43 GMT",
+   "units": {
+    "ol": 0.23491986662364195,
+    "skill": 0.0355189846186942,
+    "front": 0.05507690652898783,
+    "db": 0.20996665591050867
+   },
+   "points_by_unit": {
+    "ol": -0.10594992133002529,
+    "skill": -0.012742068138011247,
+    "front": -0.03345462792456123,
+    "db": -0.1892368438312336
+   },
+   "points": -0.34138346122383134,
+   "units_b8": {
+    "ol": 0.11358818344224128,
+    "skill": 0.0975944910427669,
+    "front": 0.08166754567920181,
+    "db": 0.04300271072563668
+   },
+   "points_b8": -0.17460311467208361,
+   "players": [
+    {
+     "full_name": "Charvarius Ward",
+     "position": "CB",
+     "unit": "db",
+     "status": "None",
+     "practice_status": "Did Not Participate In Practice",
+     "recent_share": 0.8916666666666666,
+     "p_miss": 0.1348822200709906,
+     "lost": 0.12026997956329995,
+     "lost_b8": 0.019181356438601777
+    },
+    {
+     "full_name": "Bernhard Raimann",
+     "position": "T",
+     "unit": "ol",
+     "status": "None",
+     "practice_status": "Did Not Participate In Practice",
+     "recent_share": 0.8283333333333333,
+     "p_miss": 0.1348822200709906,
+     "lost": 0.11172743895880387,
+     "lost_b8": 0.017818942336420715
+    },
+    {
+     "full_name": "Jalen Travis",
+     "position": "T",
+     "unit": "ol",
+     "status": "None",
+     "practice_status": "Did Not Participate In Practice",
+     "recent_share": 0.725,
+     "p_miss": 0.1348822200709906,
+     "lost": 0.09778960955146818,
+     "lost_b8": 0.025970649410677157
+    },
+    {
+     "full_name": "Sauce Gardner",
+     "position": "CB",
+     "unit": "db",
+     "status": "None",
+     "practice_status": "Did Not Participate In Practice",
+     "recent_share": 0.6649999999999999,
+     "p_miss": 0.1348822200709906,
+     "lost": 0.08969667634720874,
+     "lost_b8": 0.023821354287034906
+    },
+    {
+     "full_name": "Jerry Tillery",
+     "position": "DT",
+     "unit": "front",
+     "status": "None",
+     "practice_status": "Did Not Participate In Practice",
+     "recent_share": 0.24166666666666667,
+     "p_miss": 0.1348822200709906,
+     "lost": 0.03259653651715606,
+     "lost_b8": 0.01989888046226074
+    },
+    {
+     "full_name": "Dalton Tucker",
+     "position": "G",
+     "unit": "ol",
+     "status": "None",
+     "practice_status": "Full Participation in Practice",
+     "recent_share": 0.18833333333333332,
+     "p_miss": 0.1348822200709906,
+     "lost": 0.025402818113369894,
+     "lost_b8": 0.06979859169514341
+    },
+    {
+     "full_name": "Will Mallory",
+     "position": "TE",
+     "unit": "skill",
+     "status": "None",
+     "practice_status": "Did Not Participate In Practice",
+     "recent_share": 0.16833333333333333,
+     "p_miss": 0.1348822200709906,
+     "lost": 0.022705173711950084,
+     "lost_b8": 0.062386351869110485
+    },
+    {
+     "full_name": "Jaylon Carlies",
+     "position": "LB",
+     "unit": "front",
+     "status": "None",
+     "practice_status": "Did Not Participate In Practice",
+     "recent_share": 0.16666666666666666,
+     "p_miss": 0.1348822200709906,
+     "lost": 0.022480370011831764,
+     "lost_b8": 0.06176866521694108
+    },
+    {
+     "full_name": "Anthony Gould",
+     "position": "WR",
+     "unit": "skill",
+     "status": "None",
+     "practice_status": "Limited Participation in Practice",
+     "recent_share": 0.09500000000000001,
+     "p_miss": 0.1348822200709906,
+     "lost": 0.012813810906744109,
+     "lost_b8": 0.03520813917365642
+    },
+    {
+     "full_name": "Charlie Heck",
+     "position": "T",
+     "unit": "ol",
+     "status": "None",
+     "practice_status": "Did Not Participate In Practice",
+     "recent_share": 0.0,
+     "p_miss": 0.1348822200709906,
+     "lost": 0.0,
+     "lost_b8": 0.0
+    }
+   ],
+   "missing_regulars": [
+    {
+     "player": "Akeem Davis-Gaither",
+     "pos": "LB",
+     "unit": "front",
+     "kind": "Injured reserve",
+     "since_week": 10,
+     "season_share": 0.918,
+     "rating_share": 0.47507698027606354
+    },
+    {
+     "player": "Alec Pierce",
+     "pos": "WR",
+     "unit": "skill",
+     "kind": "Injured reserve",
+     "since_week": 3,
+     "season_share": 0.412,
+     "rating_share": 0.261354534024547
+    },
+    {
+     "player": "Micheal Clemons",
+     "pos": "DL",
+     "unit": "front",
+     "kind": "Injured reserve",
+     "since_week": 3,
+     "season_share": 0.257,
+     "rating_share": 0.025483001291014624
+    },
+    {
+     "player": "Mo Alie-Cox",
+     "pos": "TE",
+     "unit": "skill",
+     "kind": "Injured reserve",
+     "since_week": 10,
+     "season_share": 0.381,
+     "rating_share": 0.3378040540550792
+    },
+    {
+     "player": "Jaylon Carlies",
+     "pos": "LB",
+     "unit": "front",
+     "kind": "Injured reserve",
+     "since_week": 11,
+     "season_share": 0.388,
+     "rating_share": 0.22283154317970413
+    },
+    {
+     "player": "Cam Taylor-Britt",
+     "pos": "DB",
+     "unit": "db",
+     "kind": "Injured reserve",
+     "since_week": 8,
+     "season_share": 0.211,
+     "rating_share": 0.10206914952645775
+    },
+    {
+     "player": "Josh Downs",
+     "pos": "WR",
+     "unit": "skill",
+     "kind": "Now with KC",
+     "since_week": 9,
+     "season_share": 0.731,
+     "rating_share": 0.6563273743561331
+    },
+    {
+     "player": "Quenton Nelson",
+     "pos": "OL",
+     "unit": "ol",
+     "kind": "Now with SEA",
+     "since_week": 7,
+     "season_share": 0.714,
+     "rating_share": 0.7037456924827822
+    },
+    {
+     "player": "DeForest Buckner",
+     "pos": "DL",
+     "unit": "front",
+     "kind": "Now with SF",
+     "since_week": 8,
+     "season_share": 0.558,
+     "rating_share": 0.4585504475674436
+    },
+    {
+     "player": "Keenan Allen",
+     "pos": "WR",
+     "unit": "skill",
+     "kind": "Now with SF",
+     "since_week": 9,
+     "season_share": 0.473,
+     "rating_share": 0.3189647036649455
+    }
+   ],
+   "missing_points": -1.6921335144745004
+  }
+ },
+ "final": {
+  "HOU": {
+   "snapshot_observed": "2026-11-19 18:27:12.632356+00:00",
+   "provider_last_modified": "Thu, 19 Nov 2026 16:30:35 GMT",
+   "units": {
+    "ol": 0.16312378380096454,
+    "skill": 0.938825996305384,
+    "front": 0.6933110213017253,
+    "db": 0.1883855006991502
+   },
+   "points_by_unit": {
+    "ol": -0.07356956356720883,
+    "skill": -0.33679411005356846,
+    "front": -0.42112863113397914,
+    "db": -0.16978637594279847
+   },
+   "points": -1.0012786806975549,
+   "units_b8": {
+    "ol": 0.14775319761670053,
+    "skill": 1.01275858836732,
+    "front": 0.6304789773444994,
+    "db": 0.05457893492585064
+   },
+   "points_b8": -0.8621078335620354,
+   "players": [
+    {
+     "full_name": "Woody Marks",
+     "position": "RB",
+     "unit": "skill",
+     "status": "Out",
+     "practice_status": "Did Not Participate In Practice",
+     "recent_share": 0.6783333333333333,
+     "p_miss": 0.9996335654085746,
+     "lost": 0.6780847685354832,
+     "lost_b8": 0.6777962523093164
+    },
+    {
+     "full_name": "Danielle Hunter",
+     "position": "DE",
+     "unit": "front",
+     "status": "Out",
+     "practice_status": "Did Not Participate In Practice",
+     "recent_share": 0.6083333333333333,
+     "p_miss": 0.9996335654085746,
+     "lost": 0.6081104189568829,
+     "lost_b8": 0.6078516759039324
+    },
+    {
+     "full_name": "Marvin Harrison Jr.",
+     "position": "WR",
+     "unit": "skill",
+     "status": "Out",
+     "practice_status": "Did Not Participate In Practice",
+     "recent_share": 0.14333333333333334,
+     "p_miss": 0.9996335654085746,
+     "lost": 0.1432808110418957,
+     "lost_b8": 0.14325864165363905
+    },
+    {
+     "full_name": "Kamari Lassiter",
+     "position": "CB",
+     "unit": "db",
+     "status": "None",
+     "practice_status": "Full Participation in Practice",
+     "recent_share": 0.9933333333333333,
+     "p_miss": 0.1348822200709906,
+     "lost": 0.13398300527051732,
+     "lost_b8": 0.02136838960262927
+    },
+    {
+     "full_name": "Keylan Rutledge",
+     "position": "G",
+     "unit": "ol",
+     "status": "None",
+     "practice_status": "Full Participation in Practice",
+     "recent_share": 0.8333333333333334,
+     "p_miss": 0.1348822200709906,
+     "lost": 0.11240185005915884,
+     "lost_b8": 0.017926501344487644
+    },
+    {
+     "full_name": "Azeez Al-Shaair",
+     "position": "LB",
+     "unit": "front",
+     "status": "None",
+     "practice_status": "Did Not Participate In Practice",
+     "recent_share": 0.6316666666666667,
+     "p_miss": 0.1348822200709906,
+     "lost": 0.0852006023448424,
+     "lost_b8": 0.022627301440566995
+    },
+    {
+     "full_name": "Brevin Jordan",
+     "position": "TE",
+     "unit": "skill",
+     "status": "Out",
+     "practice_status": "Did Not Participate In Practice",
+     "recent_share": 0.075,
+     "p_miss": 0.9996335654085746,
+     "lost": 0.07497251740564309,
+     "lost_b8": 0.07496091714434601
+    },
+    {
+     "full_name": "Reed Blankenship",
+     "position": "S",
+     "unit": "db",
+     "status": "None",
+     "practice_status": "Full Participation in Practice",
+     "recent_share": 0.4033333333333333,
+     "p_miss": 0.1348822200709906,
+     "lost": 0.054402495428632874,
+     "lost_b8": 0.033210545323221374
+    },
+    {
+     "full_name": "Tank Dell",
+     "position": "WR",
+     "unit": "skill",
+     "status": "None",
+     "practice_status": "Full Participation in Practice",
+     "recent_share": 0.19833333333333333,
+     "p_miss": 0.1348822200709906,
+     "lost": 0.026751640314079804,
+     "lost_b8": 0.07350471160815988
+    },
+    {
+     "full_name": "Febechi Nwaiwu",
+     "position": "G",
+     "unit": "ol",
+     "status": "None",
+     "practice_status": "Full Participation in Practice",
+     "recent_share": 0.16666666666666666,
+     "p_miss": 0.1348822200709906,
+     "lost": 0.022480370011831764,
+     "lost_b8": 0.06176866521694108
+    },
+    {
+     "full_name": "Blake Fisher",
+     "position": "T",
+     "unit": "ol",
+     "status": "None",
+     "practice_status": "Full Participation in Practice",
+     "recent_share": 0.155,
+     "p_miss": 0.1348822200709906,
+     "lost": 0.02090674411100354,
+     "lost_b8": 0.0574448586517552
+    },
+    {
+     "full_name": "David Montgomery",
+     "position": "RB",
+     "unit": "skill",
+     "status": "None",
+     "practice_status": "Full Participation in Practice",
+     "recent_share": 0.11666666666666668,
+     "p_miss": 0.1348822200709906,
+     "lost": 0.01573625900828224,
+     "lost_b8": 0.04323806565185876
+    },
+    {
+     "full_name": "Wyatt Teller",
+     "position": "G",
+     "unit": "ol",
+     "status": "Questionable",
+     "practice_status": "Full Participation in Practice",
+     "recent_share": 0.018333333333333333,
+     "p_miss": 0.40008107012565874,
+     "lost": 0.007334819618970411,
+     "lost_b8": 0.010613172403516615
+    },
+    {
+     "full_name": "Jaylin Smith",
+     "position": "CB",
+     "unit": "db",
+     "status": "Questionable",
+     "practice_status": "Full Participation in Practice",
+     "recent_share": 0.0,
+     "p_miss": 0.40008107012565874,
+     "lost": 0.0,
+     "lost_b8": 0.0
+    },
+    {
+     "full_name": "Jacob Hummel",
+     "position": "LB",
+     "unit": "front",
+     "status": "Questionable",
+     "practice_status": "Full Participation in Practice",
+     "recent_share": 0.0,
+     "p_miss": 0.40008107012565874,
+     "lost": 0.0,
+     "lost_b8": 0.0
+    }
+   ],
+   "missing_regulars": [
+    {
+     "player": "Azeez Al-Shaair",
+     "pos": "LB",
+     "unit": "front",
+     "kind": "Injured reserve",
+     "since_week": 11,
+     "season_share": 0.795,
+     "rating_share": 0.736258544890254
+    },
+    {
+     "player": "Jayden Higgins",
+     "pos": "WR",
+     "unit": "skill",
+     "kind": "Injured reserve",
+     "since_week": 1,
+     "season_share": null,
+     "rating_share": 0.1722488205218855
+    },
+    {
+     "player": "Jaylin Noel",
+     "pos": "WR",
+     "unit": "skill",
+     "kind": "Injured reserve",
+     "since_week": 9,
+     "season_share": 0.437,
+     "rating_share": 0.2697605686937696
+    },
+    {
+     "player": "E.J. Speed",
+     "pos": "LB",
+     "unit": "front",
+     "kind": "Physically unable to perform",
+     "since_week": 1,
+     "season_share": null,
+     "rating_share": 0.10796210597077646
+    },
+    {
+     "player": "Mario Edwards",
+     "pos": "DL",
+     "unit": "front",
+     "kind": "Injured reserve",
+     "since_week": 4,
+     "season_share": 0.296,
+     "rating_share": 0.11708398895769276
+    },
+    {
+     "player": "Dylan Horton",
+     "pos": "DL",
+     "unit": "front",
+     "kind": "Injured reserve",
+     "since_week": 1,
+     "season_share": null,
+     "rating_share": 0.07924666232832067
+    },
+    {
+     "player": "Jared Wayne",
+     "pos": "WR",
+     "unit": "skill",
+     "kind": "Now with MIA",
+     "since_week": 5,
+     "season_share": 0.227,
+     "rating_share": 0.1344005079308909
+    }
+   ],
+   "missing_points": -0.8388292310367751
+  },
+  "IND": {
+   "snapshot_observed": "2026-11-19 18:27:12.632356+00:00",
+   "provider_last_modified": "Thu, 19 Nov 2026 16:30:35 GMT",
+   "units": {
+    "ol": 1.5781669563813556,
+    "skill": 0.20627935183904766,
+    "front": 0.26405848165223733,
+    "db": 1.1573938407895419
+   },
+   "points_by_unit": {
+    "ol": -0.7117604282575507,
+    "skill": -0.07400058264093956,
+    "front": -0.1603935081094418,
+    "db": -1.0431254265156886
+   },
+   "points": -1.9892799455236208,
+   "units_b8": {
+    "ol": 1.6225578949413824,
+    "skill": 0.2232411437624011,
+    "front": 0.3034353318836077,
+    "db": 1.0718076991307433
+   },
+   "points_b8": -1.9621671779080057,
+   "players": [
+    {
+     "full_name": "Charvarius Ward",
+     "position": "CB",
+     "unit": "db",
+     "status": "Out",
+     "practice_status": "Did Not Participate In Practice",
+     "recent_share": 0.8916666666666666,
+     "p_miss": 0.9996335654085746,
+     "lost": 0.8913399291559789,
+     "lost_b8": 0.8916666666666666
+    },
+    {
+     "full_name": "Bernhard Raimann",
+     "position": "T",
+     "unit": "ol",
+     "status": "Out",
+     "practice_status": "Did Not Participate In Practice",
+     "recent_share": 0.8283333333333333,
+     "p_miss": 0.9996335654085746,
+     "lost": 0.8280298033467692,
+     "lost_b8": 0.8283333333333333
+    },
+    {
+     "full_name": "Jalen Travis",
+     "position": "T",
+     "unit": "ol",
+     "status": "Out",
+     "practice_status": "Did Not Participate In Practice",
+     "recent_share": 0.725,
+     "p_miss": 0.9996335654085746,
+     "lost": 0.7247343349212165,
+     "lost_b8": 0.7244259699129058
+    },
+    {
+     "full_name": "Sauce Gardner",
+     "position": "CB",
+     "unit": "db",
+     "status": "Questionable",
+     "practice_status": "Did Not Participate In Practice",
+     "recent_share": 0.6649999999999999,
+     "p_miss": 0.40008107012565874,
+     "lost": 0.266053911633563,
+     "lost_b8": 0.1801410324640766
+    },
+    {
+     "full_name": "Jerry Tillery",
+     "position": "DT",
+     "unit": "front",
+     "status": "Out",
+     "practice_status": "Did Not Participate In Practice",
+     "recent_share": 0.24166666666666667,
+     "p_miss": 0.9996335654085746,
+     "lost": 0.24157811164040555,
+     "lost_b8": 0.24166666666666667
+    },
+    {
+     "full_name": "Will Mallory",
+     "position": "TE",
+     "unit": "skill",
+     "status": "Out",
+     "practice_status": "Did Not Participate In Practice",
+     "recent_share": 0.16833333333333333,
+     "p_miss": 0.9996335654085746,
+     "lost": 0.16827165017711007,
+     "lost_b8": 0.16824561403508773
+    },
+    {
+     "full_name": "Anthony Gould",
+     "position": "WR",
+     "unit": "skill",
+     "status": "Questionable",
+     "practice_status": "Full Participation in Practice",
+     "recent_share": 0.09500000000000001,
+     "p_miss": 0.40008107012565874,
+     "lost": 0.038007701661937586,
+     "lost_b8": 0.05499552972731337
+    },
+    {
+     "full_name": "Dalton Tucker",
+     "position": "G",
+     "unit": "ol",
+     "status": "None",
+     "practice_status": "Full Participation in Practice",
+     "recent_share": 0.18833333333333332,
+     "p_miss": 0.1348822200709906,
+     "lost": 0.025402818113369894,
+     "lost_b8": 0.06979859169514341
+    },
+    {
+     "full_name": "Jaylon Carlies",
+     "position": "LB",
+     "unit": "front",
+     "status": "None",
+     "practice_status": "Did Not Participate In Practice",
+     "recent_share": 0.16666666666666666,
+     "p_miss": 0.1348822200709906,
+     "lost": 0.022480370011831764,
+     "lost_b8": 0.06176866521694108
+    },
+    {
+     "full_name": "Charlie Heck",
+     "position": "T",
+     "unit": "ol",
+     "status": "None",
+     "practice_status": "Did Not Participate In Practice",
+     "recent_share": 0.0,
+     "p_miss": 0.1348822200709906,
+     "lost": 0.0,
+     "lost_b8": 0.0
+    }
+   ],
+   "missing_regulars": [
+    {
+     "player": "Akeem Davis-Gaither",
+     "pos": "LB",
+     "unit": "front",
+     "kind": "Injured reserve",
+     "since_week": 10,
+     "season_share": 0.918,
+     "rating_share": 0.47507698027606354
+    },
+    {
+     "player": "Alec Pierce",
+     "pos": "WR",
+     "unit": "skill",
+     "kind": "Injured reserve",
+     "since_week": 3,
+     "season_share": 0.412,
+     "rating_share": 0.261354534024547
+    },
+    {
+     "player": "Micheal Clemons",
+     "pos": "DL",
+     "unit": "front",
+     "kind": "Injured reserve",
+     "since_week": 3,
+     "season_share": 0.257,
+     "rating_share": 0.025483001291014624
+    },
+    {
+     "player": "Mo Alie-Cox",
+     "pos": "TE",
+     "unit": "skill",
+     "kind": "Injured reserve",
+     "since_week": 10,
+     "season_share": 0.381,
+     "rating_share": 0.3378040540550792
+    },
+    {
+     "player": "Jaylon Carlies",
+     "pos": "LB",
+     "unit": "front",
+     "kind": "Injured reserve",
+     "since_week": 11,
+     "season_share": 0.388,
+     "rating_share": 0.22283154317970413
+    },
+    {
+     "player": "Cam Taylor-Britt",
+     "pos": "DB",
+     "unit": "db",
+     "kind": "Injured reserve",
+     "since_week": 8,
+     "season_share": 0.211,
+     "rating_share": 0.10206914952645775
+    },
+    {
+     "player": "Josh Downs",
+     "pos": "WR",
+     "unit": "skill",
+     "kind": "Now with KC",
+     "since_week": 9,
+     "season_share": 0.731,
+     "rating_share": 0.6563273743561331
+    },
+    {
+     "player": "Quenton Nelson",
+     "pos": "OL",
+     "unit": "ol",
+     "kind": "Now with SEA",
+     "since_week": 7,
+     "season_share": 0.714,
+     "rating_share": 0.7037456924827822
+    },
+    {
+     "player": "DeForest Buckner",
+     "pos": "DL",
+     "unit": "front",
+     "kind": "Now with SF",
+     "since_week": 8,
+     "season_share": 0.558,
+     "rating_share": 0.4585504475674436
+    },
+    {
+     "player": "Keenan Allen",
+     "pos": "WR",
+     "unit": "skill",
+     "kind": "Now with SF",
+     "since_week": 9,
+     "season_share": 0.473,
+     "rating_share": 0.3189647036649455
+    }
+   ],
+   "missing_points": -1.6921335144745004
+  }
+ }
+}
