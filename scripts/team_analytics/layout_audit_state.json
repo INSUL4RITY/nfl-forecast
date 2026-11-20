@@ -9,6 +9,10 @@
   "local": {
    "at": "2026-11-20 18:57 UTC",
    "note": "audit phases A+B branch: standards mode, axe-core 4.10.2 in the audit, 5 widths, 0 issues (0 axe findings of any impact)"
+  },
+  "live": {
+   "at": "2026-11-20 20:03 UTC",
+   "note": "public page 0d635d3 (week 11, audit A+B), 5 widths, 0 issues; axe 0 serious/critical, 3 moderate (region: phone Top link outside a landmark)"
   }
  }
 }
