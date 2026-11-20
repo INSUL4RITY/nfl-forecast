@@ -17,7 +17,7 @@
      "blitzes": 3,
      "share": 0.15873015873015872,
      "per100": 2.5839793281653747,
-     "status": "did not practise"
+     "status": ""
     },
     {
      "name": "Darius Robinson",
@@ -59,7 +59,7 @@
      "blitzes": 0,
      "share": 0.09523809523809523,
      "per100": 1.935483870967742,
-     "status": "did not practise"
+     "status": ""
     },
     {
      "name": "Budda Baker",
@@ -73,7 +73,7 @@
      "blitzes": 27,
      "share": 0.07936507936507936,
      "per100": 0.7836990595611284,
-     "status": "did not practise"
+     "status": ""
     },
     {
      "name": "L.J. Collier",
@@ -121,7 +121,7 @@
      "ypt": 7.027027027027027,
      "rating": 96.67792792792793,
      "share": 0.12333333333333334,
-     "status": "limited in practice"
+     "status": ""
     },
     {
      "name": "Mack Wilson",
@@ -137,7 +137,7 @@
      "ypt": 9.294117647058824,
      "rating": 116.78921568627452,
      "share": 0.11333333333333333,
-     "status": "did not practise"
+     "status": ""
     },
     {
      "name": "Budda Baker",
@@ -153,7 +153,7 @@
      "ypt": 8.323529411764707,
      "rating": 105.3921568627451,
      "share": 0.11333333333333333,
-     "status": "did not practise"
+     "status": ""
     },
     {
      "name": "Jack Gibbens",
@@ -500,7 +500,7 @@
      "ypt": 8.061224489795919,
      "rating": 88.39285714285712,
      "share": 0.1590909090909091,
-     "status": ""
+     "status": "did not practise"
     },
     {
      "name": "Kyle Hamilton",
@@ -747,7 +747,7 @@
      "ypt": 7.555555555555555,
      "rating": 96.06481481481481,
      "share": 0.10557184750733138,
-     "status": "limited in practice"
+     "status": ""
     },
     {
      "name": "Maxwell Hairston",
@@ -779,7 +779,7 @@
      "ypt": 7.518518518518518,
      "rating": 76.62037037037037,
      "share": 0.07917888563049853,
-     "status": "did not practise"
+     "status": "limited in practice"
     }
    ],
    "top3_press_share": 0.5887850467289719,
@@ -1229,7 +1229,7 @@
      "blitzes": 0,
      "share": 0.15789473684210525,
      "per100": 4.189944134078212,
-     "status": ""
+     "status": "did not practise"
     },
     {
      "name": "Myles Murphy",
@@ -1321,7 +1321,7 @@
      "ypt": 7.9523809523809526,
      "rating": 90.77380952380952,
      "share": 0.1320754716981132,
-     "status": ""
+     "status": "did not practise"
     },
     {
      "name": "Demetrius Knight",
@@ -1623,7 +1623,7 @@
      "blitzes": 12,
      "share": 0.13541666666666666,
      "per100": 3.258145363408521,
-     "status": "did not practise"
+     "status": "limited in practice"
     },
     {
      "name": "Otito Ogbonnia",
@@ -1791,7 +1791,7 @@
      "blitzes": 0,
      "share": 0.22429906542056074,
      "per100": 5.429864253393665,
-     "status": "limited in practice"
+     "status": ""
     },
     {
      "name": "Nik Bonitto",
@@ -2835,7 +2835,7 @@
      "blitzes": 0,
      "share": 0.06976744186046512,
      "per100": 1.639344262295082,
-     "status": "did not practise"
+     "status": ""
     },
     {
      "name": "Dennis Gardeck",
@@ -3109,7 +3109,7 @@
      "ypt": 6.1,
      "rating": 85.83333333333333,
      "share": 0.09584664536741214,
-     "status": "limited in practice"
+     "status": ""
     },
     {
      "name": "Mansoor Delane",
@@ -3400,7 +3400,7 @@
      "blitzes": 6,
      "share": 0.15942028985507245,
      "per100": 2.722772277227723,
-     "status": "did not practise"
+     "status": ""
     },
     {
      "name": "Akheem Mesidor",
@@ -4099,7 +4099,7 @@
      "ypt": 6.0285714285714285,
      "rating": 53.39285714285714,
      "share": 0.1346153846153846,
-     "status": ""
+     "status": "limited in practice"
     },
     {
      "name": "James Pierre",
@@ -5150,7 +5150,7 @@
      "blitzes": 1,
      "share": 0.20833333333333334,
      "per100": 3.978779840848806,
-     "status": "did not practise"
+     "status": ""
     },
     {
      "name": "Alex Highsmith",
@@ -5178,7 +5178,7 @@
      "blitzes": 0,
      "share": 0.1388888888888889,
      "per100": 2.793296089385475,
-     "status": "did not practise"
+     "status": ""
     },
     {
      "name": "Nick Herbig",
@@ -5254,7 +5254,7 @@
      "ypt": 5.377358490566038,
      "rating": 114.11163522012579,
      "share": 0.13910761154855644,
-     "status": "did not practise"
+     "status": ""
     },
     {
      "name": "Asante Samuel Jr.",
@@ -5644,7 +5644,7 @@
      "ypt": 7.222222222222222,
      "rating": 65.50925925925925,
      "share": 0.1355421686746988,
-     "status": "limited in practice"
+     "status": ""
     },
     {
      "name": "Fred Warner",
@@ -5692,7 +5692,7 @@
      "ypt": 4.314285714285714,
      "rating": 81.96428571428571,
      "share": 0.10542168674698796,
-     "status": "did not practise"
+     "status": "limited in practice"
     },
     {
      "name": "Ji'Ayir Brown",
@@ -5970,7 +5970,7 @@
      "blitzes": 0,
      "share": 0.12941176470588237,
      "per100": 3.313253012048193,
-     "status": "limited in practice"
+     "status": ""
     },
     {
      "name": "Alontae Taylor",
@@ -6311,5 +6311,5 @@
  },
  "press_flag": 0.15,
  "tgt_flag": 0.2,
- "matched_status": 86
+ "matched_status": 76
 }

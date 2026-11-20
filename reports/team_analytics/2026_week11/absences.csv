@@ -1,53 +1,45 @@
 team,player,gsis_id,position,group,unit,games,share,status_class,reason,last_report_injury,last_practice_status,last_report_week,last_week,out_since_week,games_missed,term,team_games
-ARI,Hjalte Froholdt,00-0035258,OL,OL,off,9,1.0,limited in practice,week 11 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,11.0,9,10.0,1,new,10
 ARI,Paris Johnson,00-0038540,OL,OL,off,4,0.995,confirmed: reserve list,reserve list (week 11 roster),,,,4,5.0,6,long-term,10
-ARI,Isaac Seumalo,00-0032954,OL,OL,off,10,0.9949999999999999,did not practise,week 11 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,11.0,10,,0,new,10
-ARI,Mack Wilson,00-0035144,LB,LB,def,10,0.9890000000000001,did not practise,week 11 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,11.0,10,,0,new,10
-ARI,Budda Baker,00-0033890,S,DB,def,10,0.985,did not practise,week 11 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,11.0,10,,0,new,10
 ARI,Will Johnson,00-0040751,CB,DB,def,2,0.895,confirmed: reserve list,reserve list (week 11 roster),,,,2,3.0,8,long-term,10
 ARI,Michael Wilson,00-0038559,WR,WR/TE,off,9,0.8822222222222221,confirmed: reserve list,reserve list (week 11 roster),,,,9,10.0,1,new,10
 ARI,Andrew Wingard,00-0035378,S,DB,def,7,0.8628571428571429,confirmed: reserve list,reserve list (week 11 roster),,,,10,,0,new,10
-ARI,Max Melton,00-0039807,CB,DB,def,9,0.6111111111111112,limited in practice,week 11 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,11.0,10,,0,new,10
-ARI,Walter Nolen,00-0040706,DL,DL/EDGE,def,8,0.60625,did not practise,week 11 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,11.0,10,,0,new,10
-ARI,Jon Gaines,00-0038571,OL,OL,off,6,0.5966666666666667,inactive 3+ games,inactive (INA) on the roster for each of the team's last three games; no injury designation,,Limited Participation in Practice,11.0,6,7.0,4,long-term,10
-ARI,Josh Sweat,00-0034381,LB,LB,def,10,0.5940000000000001,did not practise,week 11 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,11.0,10,,0,new,10
+ARI,Jon Gaines,00-0038571,OL,OL,off,6,0.5966666666666667,inactive 3+ games,inactive (INA) on the roster for each of the team's last three games; no injury designation,,Did Not Participate In Practice,11.0,6,7.0,4,long-term,10
 ARI,Kendrick Bourne,00-0033307,WR,WR/TE,off,8,0.54875,confirmed: reserve list,reserve list (week 11 roster),,,,8,9.0,2,long-term,10
 ATL,Divine Deablo,00-0036990,LB,LB,def,7,0.7828571428571429,listed Out/Doubtful,last week's report (week 10): Doubtful,Forearm,Did Not Participate In Practice,10.0,9,10.0,1,new,10
 BAL,Jovaughn Gwyn,00-0038629,OL,OL,off,3,0.9066666666666666,confirmed: reserve list,reserve list (week 11 roster),,,,3,4.0,7,long-term,10
-BAL,Olaivavega Ioane,00-0040866,G,OL,off,9,0.8622222222222222,limited in practice,week 11 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,11.0,10,,0,new,10
 BAL,Jaylinn Hawkins,00-0036302,S,DB,def,6,0.8133333333333334,inactive 3+ games,inactive (INA) on the roster for each of the team's last three games; no injury designation,,Limited Participation in Practice,11.0,6,7.0,4,long-term,10
+BAL,Marlon Humphrey,00-0033281,CB,DB,def,10,0.79,did not practise,week 11 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,11.0,10,,0,new,10
 BAL,Tyler Huntley,00-0035993,QB,QB,off,5,0.736,confirmed: reserve list,reserve list (week 11 roster),,,,8,9.0,2,long-term,10
 BAL,Tavius Robinson,00-0038505,LB,LB,def,6,0.7216666666666667,confirmed: reserve list,reserve list (week 11 roster),,,,6,7.0,4,long-term,10
 BAL,Nnamdi Madubuike,00-0036130,DL,DL/EDGE,def,8,0.7025,did not practise,week 11 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,11.0,10,,0,new,10
 BAL,Emery Jones,00-0040068,G,OL,off,6,0.5616666666666666,inactive 3+ games,inactive (INA) on the roster for each of the team's last three games; no injury designation,,,,7,8.0,3,long-term,10
-BUF,O'Cyrus Torrence,00-0038548,G,OL,off,9,0.9955555555555556,did not practise,week 11 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,11.0,10,,0,new,9
-BUF,Cole Bishop,00-0039872,S,DB,def,9,0.9722222222222222,limited in practice,week 11 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,11.0,10,,0,new,9
 BUF,Christian Benford,00-0037288,CB,DB,def,8,0.85625,did not practise,week 11 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,11.0,10,,0,new,9
 BUF,Dalton Kincaid,00-0038933,TE,WR/TE,off,9,0.6211111111111111,did not practise,week 11 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,11.0,10,,0,new,9
 BUF,Dorian Williams,00-0038557,LB,LB,def,9,0.6033333333333333,did not practise,week 11 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,11.0,10,,0,new,9
-BUF,Dee Alford,00-0037034,CB,DB,def,7,0.53,did not practise,week 11 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,11.0,10,,0,new,9
+BUF,Dee Alford,00-0037034,CB,DB,def,7,0.53,limited in practice,week 11 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,11.0,10,,0,new,9
 CAR,Bobby Okereke,00-0035687,LB,LB,def,7,0.89,did not practise,week 11 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,11.0,8,9.0,2,long-term,9
 CAR,Jaycee Horn,00-0036944,CB,DB,def,3,0.8733333333333334,confirmed: reserve list,reserve list (week 11 roster),,,,3,4.0,6,long-term,9
-CAR,Chuba Hubbard,00-0036555,RB,RB,off,9,0.8044444444444445,did not practise,week 11 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,11.0,10,,0,new,9
 CAR,Michael Jackson,00-0035277,CB,DB,def,3,0.69,confirmed: reserve list,reserve list (week 11 roster),,Full Participation in Practice,11.0,3,4.0,6,long-term,9
 CAR,Akayleb Evans,00-0038101,CB,DB,def,6,0.6066666666666667,confirmed: reserve list,reserve list (week 11 roster),,,,7,8.0,3,long-term,9
-CAR,Tommy Tremble,00-0037005,TE,WR/TE,off,9,0.5822222222222222,did not practise,week 11 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,11.0,10,,0,new,9
-CAR,Darren Waller,00-0031610,TE,WR/TE,off,9,0.5,did not practise,week 11 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,11.0,10,,0,new,9
+CAR,Tommy Tremble,00-0037005,TE,WR/TE,off,9,0.5822222222222222,limited in practice,week 11 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,11.0,10,,0,new,9
+CAR,Darren Waller,00-0031610,TE,WR/TE,off,9,0.5,limited in practice,week 11 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,11.0,10,,0,new,9
 CHI,Braxton Jones,00-0037081,OL,OL,off,3,0.65,confirmed: reserve list,reserve list (week 11 roster),,,,3,4.0,6,long-term,9
 CHI,Cole Kmet,00-0036290,TE,WR/TE,off,7,0.6142857142857142,confirmed: reserve list,reserve list (week 11 roster),,,,7,8.0,2,long-term,9
 CHI,Dayo Odeyingbo,00-0036480,DL,DL/EDGE,def,5,0.564,confirmed: reserve list,reserve list (week 11 roster),,,,5,6.0,4,long-term,9
-CIN,Jalen Davis,00-0034446,CB,DB,def,3,0.6133333333333334,confirmed: reserve list,reserve list (week 11 roster),Hamstring,Full Participation in Practice,10.0,3,4.0,6,long-term,9
-CIN,Andrei Iosivas,00-0038619,WR,WR/TE,off,2,0.5700000000000001,confirmed: reserve list,reserve list (week 11 roster),Thumb,Full Participation in Practice,10.0,2,3.0,7,long-term,9
+CIN,Dylan Fairchild,00-0040140,G,OL,off,9,0.9922222222222222,limited in practice,week 11 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,11.0,10,,0,new,9
+CIN,Daxton Hill,00-0037743,CB,DB,def,9,0.9522222222222223,did not practise,week 11 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,11.0,10,,0,new,9
+CIN,Dalton Risner,00-0035702,G,OL,off,9,0.9355555555555556,did not practise,week 11 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,11.0,10,,0,new,9
+CIN,Jalen Davis,00-0034446,CB,DB,def,3,0.6133333333333334,confirmed: reserve list,reserve list (week 11 roster),,Full Participation in Practice,11.0,3,4.0,6,long-term,9
+CIN,Jonathan Allen,00-0033523,DT,DL/EDGE,def,9,0.6033333333333333,did not practise,week 11 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,11.0,10,,0,new,9
+CIN,Andrei Iosivas,00-0038619,WR,WR/TE,off,2,0.5700000000000001,confirmed: reserve list,reserve list (week 11 roster),,Full Participation in Practice,11.0,2,3.0,7,long-term,9
 CLE,Ronnie Hickman,00-0038715,S,DB,def,9,0.9877777777777779,listed Out/Doubtful,last week's report (week 10): Out,Concussion,Did Not Participate In Practice,10.0,9,10.0,1,new,10
 DAL,Tyler Booker,00-0040007,G,OL,off,10,0.9400000000000001,did not practise,week 11 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,11.0,10,,0,new,10
 DAL,DaRon Bland,00-0037275,CB,DB,def,10,0.893,did not practise,week 11 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,11.0,10,,0,new,10
-DAL,Jalen Thompson,00-0035705,S,DB,def,3,0.8066666666666666,confirmed: reserve list,reserve list (week 11 roster),,Limited Participation in Practice,11.0,3,4.0,7,long-term,10
-DAL,Donovan Ezeiruaku,00-0040725,LB,LB,def,9,0.6511111111111112,did not practise,week 11 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,11.0,9,10.0,1,new,10
+DAL,Jalen Thompson,00-0035705,S,DB,def,3,0.8066666666666666,confirmed: reserve list,reserve list (week 11 roster),,Full Participation in Practice,11.0,3,4.0,7,long-term,10
+DAL,Donovan Ezeiruaku,00-0040725,LB,LB,def,9,0.6511111111111112,limited in practice,week 11 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,11.0,9,10.0,1,new,10
 DAL,Jake Ferguson,00-0038041,TE,WR/TE,off,9,0.5644444444444444,did not practise,week 11 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,11.0,9,10.0,1,new,10
 DEN,Talanoa Hufanga,00-0036564,S,DB,def,5,0.9259999999999999,inactive 3+ games,inactive (INA) on the roster for each of the team's last three games; no injury designation,,Full Participation in Practice,11.0,5,6.0,4,long-term,9
 DEN,Brandon Jones,00-0036221,S,DB,def,8,0.9075,limited in practice,week 11 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,11.0,8,9.0,1,new,9
-DEN,Courtland Sutton,00-0034348,WR,WR/TE,off,9,0.7811111111111111,limited in practice,week 11 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,11.0,9,,0,new,9
-DEN,Zach Allen,00-0035248,DL,DL/EDGE,def,9,0.6866666666666666,limited in practice,week 11 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,11.0,9,,0,new,9
 DEN,Jonah Elliss,00-0039809,LB,LB,def,6,0.5833333333333334,confirmed: reserve list,reserve list (week 11 roster),,,,6,7.0,3,long-term,9
 DEN,Eyioma Uwazurike,00-0038106,DL,DL/EDGE,def,8,0.52125,confirmed: reserve list,reserve list (week 11 roster),,,,8,9.0,1,new,9
 DET,Jack Campbell,00-0039018,LB,LB,def,7,0.9671428571428571,confirmed: reserve list,reserve list (week 11 roster),,,,8,9.0,2,long-term,9
@@ -75,9 +67,7 @@ JAX,Antonio Johnson,00-0038596,S,DB,def,8,0.87,limited in practice,week 11 repor
 JAX,Travon Walker,00-0037235,DE,DL/EDGE,def,9,0.7611111111111112,limited in practice,week 11 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,11.0,10,,0,new,9
 JAX,Jakobi Meyers,00-0034960,WR,WR/TE,off,9,0.7566666666666667,limited in practice,week 11 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,11.0,10,,0,new,9
 JAX,Eric Murray,00-0033038,S,DB,def,6,0.6716666666666667,confirmed: reserve list,reserve list (week 11 roster),,,,8,9.0,2,long-term,9
-JAX,Arik Armstead,00-0032164,DT,DL/EDGE,def,9,0.66,did not practise,week 11 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,11.0,10,,0,new,9
-JAX,Bhayshul Tuten,00-0040719,RB,RB,off,9,0.5433333333333333,limited in practice,week 11 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,11.0,10,,0,new,9
-KC,Nick Bolton,00-0036621,LB,LB,def,9,0.98,limited in practice,week 11 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,11.0,10,,0,new,9
+JAX,Bhayshul Tuten,00-0040719,RB,RB,off,9,0.5433333333333333,did not practise,week 11 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,11.0,10,,0,new,9
 KC,Trey Smith,00-0036660,G,OL,off,9,0.9066666666666667,did not practise,week 11 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,11.0,10,,0,new,9
 KC,Jaylon Moore,00-0036557,OL,OL,off,7,0.8728571428571429,did not practise,week 11 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,11.0,9,10.0,1,new,9
 KC,Kenneth Walker III,00-0038134,RB,RB,off,8,0.74,did not practise,week 11 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,11.0,9,10.0,1,new,9
@@ -91,14 +81,13 @@ LA,Kobie Turner,00-0039138,DE,DL/EDGE,def,6,0.6066666666666667,confirmed: reserv
 LAC,Rashawn Slater,00-0037009,T,OL,off,4,0.9625,confirmed: reserve list,reserve list (week 11 roster),,,,4,5.0,5,long-term,9
 LAC,Derwin James,00-0034790,S,DB,def,3,0.9433333333333334,confirmed: reserve list,reserve list (week 11 roster),,,,3,4.0,6,long-term,9
 LAC,Daiyan Henley,00-0038553,LB,LB,def,9,0.87,did not practise,week 11 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,11.0,10,,0,new,9
-LAC,Khalil Mack,00-0031040,LB,LB,def,9,0.6966666666666668,did not practise,week 11 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,11.0,10,,0,new,9
 LAC,Trevor Penning,00-0037241,OL,OL,off,3,0.68,confirmed: reserve list,reserve list (week 11 roster),,,,4,5.0,5,long-term,9
 LAC,Charlie Kolar,00-0038046,TE,WR/TE,off,7,0.6542857142857142,did not practise,week 11 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,11.0,10,,0,new,9
 LAC,Ladd McConkey,00-0039915,WR,WR/TE,off,6,0.5316666666666667,limited in practice,week 11 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,11.0,8,9.0,2,long-term,9
 LAC,Donte Jackson,00-0034356,CB,DB,def,6,0.5,limited in practice,week 11 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,11.0,10,,0,new,9
-LV,Brock Bowers,00-0039338,TE,WR/TE,off,8,0.7725,did not practise,week 11 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,11.0,10,,0,new,10
-MIA,Aaron Brewer,00-0036171,C,OL,off,8,1.0,did not practise,week 11 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,11.0,9,10.0,1,new,9
+LV,Brock Bowers,00-0039338,TE,WR/TE,off,8,0.7725,limited in practice,week 11 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,11.0,10,,0,new,10
 MIA,Malik Willis,00-0038128,QB,QB,off,8,1.0,confirmed: reserve list,reserve list (week 11 roster),,,,9,10.0,1,new,9
+MIA,Aaron Brewer,00-0036171,C,OL,off,8,1.0,limited in practice,week 11 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,11.0,9,10.0,1,new,9
 MIA,Dante Trader,00-0040182,S,DB,def,9,0.8522222222222222,did not practise,week 11 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,11.0,10,,0,new,9
 MIA,Caleb Douglas,00-0041523,WR,WR/TE,off,6,0.815,limited in practice,week 11 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,11.0,10,,0,new,9
 MIA,Zach Sieler,00-0034285,DL,DL/EDGE,def,8,0.76,confirmed: reserve list,reserve list (week 11 roster),,,,9,10.0,1,new,9
@@ -109,6 +98,7 @@ MIA,De'Von Achane,00-0039040,RB,RB,off,3,0.5566666666666666,confirmed: reserve l
 MIA,Zeek Biggers,00-0040248,DL,DL/EDGE,def,9,0.5466666666666666,confirmed: reserve list,reserve list (week 11 roster),,,,10,,0,new,9
 MIN,Jordan Addison,00-0038994,WR,WR/TE,off,7,0.9171428571428571,did not practise,week 11 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,11.0,9,10.0,1,new,9
 MIN,Kyler Murray,00-0035228,QB,QB,off,6,0.8616666666666667,did not practise,week 11 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,11.0,8,9.0,2,long-term,9
+MIN,Isaiah Rodgers,00-0036222,CB,DB,def,9,0.8322222222222222,limited in practice,week 11 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,11.0,10,,0,new,9
 MIN,Andrew Van Ginkel,00-0035272,LB,LB,def,9,0.8122222222222223,limited in practice,week 11 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,11.0,10,,0,new,9
 MIN,Donovan Jackson,00-0040661,G,OL,off,4,0.7725,confirmed: reserve list,reserve list (week 11 roster),,,,4,5.0,5,long-term,9
 MIN,T.J. Hockenson,00-0035229,TE,WR/TE,off,8,0.6825,limited in practice,week 11 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,11.0,9,10.0,1,new,9
@@ -125,47 +115,43 @@ NO,Pete Werner,00-0036927,LB,LB,def,9,0.7444444444444445,did not practise,week 1
 NO,Asim Richards,00-0038601,OL,OL,off,9,0.68,did not practise,week 11 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,11.0,10,,0,new,9
 NYG,Tremaine Edmunds,00-0034673,LB,LB,def,6,1.0,confirmed: reserve list,reserve list (week 11 roster),,,,6,7.0,3,long-term,9
 NYG,Brian Burns,00-0035713,LB,LB,def,3,0.6466666666666666,confirmed: reserve list,reserve list (week 11 roster),,,,3,4.0,6,long-term,9
-NYG,Jason Pinnock,00-0036502,S,DB,def,6,0.5483333333333333,limited in practice,week 11 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,11.0,10,,0,new,9
 NYG,Chauncey Golston,00-0036982,DL,DL/EDGE,def,4,0.5175,confirmed: reserve list,reserve list (week 11 roster),,,,4,5.0,5,long-term,9
 NYJ,Geno Smith,00-0030565,QB,QB,off,10,0.9480000000000001,limited in practice,week 11 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,11.0,10,,0,new,10
 NYJ,Dylan Parham,00-0037255,OL,OL,off,6,0.7933333333333333,limited in practice,week 11 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,11.0,10,,0,new,10
 NYJ,Isaiah Williams,00-0039451,WR,WR/TE,off,10,0.569,did not practise,week 11 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,11.0,10,,0,new,10
-NYJ,Harrison Phillips,00-0034782,DL,DL/EDGE,def,10,0.554,did not practise,week 11 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,11.0,10,,0,new,10
+NYJ,Harrison Phillips,00-0034782,DL,DL/EDGE,def,10,0.554,limited in practice,week 11 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,11.0,10,,0,new,10
 NYJ,Omar Cooper,00-0041511,WR,WR/TE,off,6,0.53,did not practise,week 11 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,11.0,10,,0,new,10
 PHI,Lane Johnson,00-0030561,T,OL,off,3,1.0,inactive 3+ games,inactive (INA) on the roster for each of the team's last three games; no injury designation,,,,3,4.0,6,long-term,9
 PHI,Jalen Hurts,00-0036389,QB,QB,off,5,0.984,confirmed: reserve list,reserve list (week 11 roster),,,,5,6.0,4,long-term,9
 PHI,Zack Baun,00-0036418,LB,LB,def,8,0.925,did not practise,week 11 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,11.0,9,,0,new,9
-PHI,DeVonta Smith,00-0036912,WR,WR/TE,off,4,0.8725,inactive 3+ games,inactive (INA) on the roster for each of the team's last three games; no injury designation,,Limited Participation in Practice,11.0,6,7.0,3,long-term,9
+PHI,DeVonta Smith,00-0036912,WR,WR/TE,off,4,0.8725,inactive 3+ games,inactive (INA) on the roster for each of the team's last three games; no injury designation,,Full Participation in Practice,11.0,6,7.0,3,long-term,9
 PHI,Dontayvion Wicks,00-0038393,WR,WR/TE,off,6,0.7983333333333333,inactive 3+ games,inactive (INA) on the roster for each of the team's last three games; no injury designation,,Limited Participation in Practice,11.0,6,7.0,3,long-term,9
 PHI,Nolan Smith,00-0039013,LB,LB,def,8,0.655,limited in practice,week 11 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,11.0,9,,0,new,9
 PIT,Patrick Queen,00-0036323,LB,LB,def,9,0.9988888888888889,limited in practice,week 11 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,11.0,10,,0,new,9
-PIT,Jalen Ramsey,00-0033055,CB,DB,def,9,0.9977777777777779,did not practise,week 11 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,11.0,10,,0,new,9
 PIT,Mason McCormick,00-0039358,G,OL,off,9,0.9266666666666666,confirmed: reserve list,reserve list (week 11 roster),,,,10,,0,new,9
-PIT,Michael Pittman Jr.,00-0036252,WR,WR/TE,off,3,0.7766666666666667,confirmed: reserve list,reserve list (week 11 roster),,Limited Participation in Practice,11.0,4,5.0,5,long-term,9
-PIT,T.J. Watt,00-0033886,LB,LB,def,9,0.6566666666666667,did not practise,week 11 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,11.0,10,,0,new,9
-PIT,Darnell Washington,00-0038558,TE,WR/TE,off,9,0.6288888888888889,did not practise,week 11 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,11.0,10,,0,new,9
-PIT,Cameron Heyward,00-0027969,DT,DL/EDGE,def,9,0.6266666666666666,did not practise,week 11 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,11.0,10,,0,new,9
+PIT,Michael Pittman Jr.,00-0036252,WR,WR/TE,off,3,0.7766666666666667,confirmed: reserve list,reserve list (week 11 roster),,Full Participation in Practice,11.0,4,5.0,5,long-term,9
 PIT,Nick Herbig,00-0038577,LB,LB,def,9,0.5244444444444444,did not practise,week 11 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,11.0,10,,0,new,9
 SEA,Charles Cross,00-0037821,T,OL,off,7,0.9757142857142858,listed Out/Doubtful,last week's report (week 10): Out,Ankle,Did Not Participate In Practice,10.0,7,8.0,3,long-term,10
 SEA,Sam Darnold,00-0034869,QB,QB,off,7,0.8714285714285713,listed Out/Doubtful,last week's report (week 10): Out,Ribs,Did Not Participate In Practice,10.0,8,9.0,2,long-term,10
 SEA,Leonard Williams,00-0031933,DT,DL/EDGE,def,8,0.715,listed Out/Doubtful,last week's report (week 10): Out,Stinger,Did Not Participate In Practice,10.0,8,9.0,2,long-term,10
-SF,Renardo Green,00-0039345,CB,DB,def,9,0.9299999999999999,limited in practice,week 11 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,11.0,10,,0,new,9
-SF,Trent Williams,00-0027857,T,OL,off,9,0.9288888888888889,did not practise,week 11 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,11.0,10,,0,new,9
 SF,Ji'Ayir Brown,00-0038554,S,DB,def,9,0.9044444444444445,limited in practice,week 11 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,11.0,10,,0,new,9
-SF,Dre Greenlaw,00-0034982,LB,LB,def,8,0.76,did not practise,week 11 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,11.0,10,,0,new,9
-SF,Christian McCaffrey,00-0033280,RB,RB,off,9,0.6788888888888889,did not practise,week 11 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,11.0,10,,0,new,9
+SF,Dre Greenlaw,00-0034982,LB,LB,def,8,0.76,limited in practice,week 11 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,11.0,10,,0,new,9
 SF,Upton Stout,00-0040152,CB,DB,def,8,0.60375,limited in practice,week 11 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,11.0,10,,0,new,9
-SF,Mike Evans,00-0031408,WR,WR/TE,off,6,0.54,inactive 3+ games,inactive (INA) on the roster for each of the team's last three games; no injury designation,,Did Not Participate In Practice,11.0,6,7.0,3,long-term,9
-TB,Baker Mayfield,00-0034855,QB,QB,off,6,0.9733333333333333,did not practise,week 11 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,11.0,9,,0,new,9
+SF,Mike Evans,00-0031408,WR,WR/TE,off,6,0.54,inactive 3+ games,inactive (INA) on the roster for each of the team's last three games; no injury designation,,Limited Participation in Practice,11.0,6,7.0,3,long-term,9
+TB,Baker Mayfield,00-0034855,QB,QB,off,6,0.9733333333333333,limited in practice,week 11 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,11.0,9,,0,new,9
 TB,Antoine Winfield Jr.,00-0036411,S,DB,def,6,0.8883333333333333,did not practise,week 11 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,11.0,9,,0,new,9
+TB,Chris Godwin,00-0033921,WR,WR/TE,off,9,0.8322222222222222,did not practise,week 11 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,11.0,9,,0,new,9
+TB,Bucky Irving,00-0039361,RB,RB,off,9,0.63,did not practise,week 11 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,11.0,9,,0,new,9
 TB,YaYa Diaby,00-0039068,LB,LB,def,8,0.5275,limited in practice,week 11 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,11.0,8,9.0,1,new,9
 TEN,Anthony Hill,00-0041479,LB,LB,def,8,0.995,limited in practice,week 11 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,11.0,8,10.0,1,new,9
+TEN,Kevin Winston,00-0040141,S,DB,def,7,0.9885714285714285,limited in practice,week 11 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,11.0,10,,0,new,9
 TEN,Peter Skoronski,00-0039034,G,OL,off,8,0.9725,confirmed: reserve list,reserve list (week 11 roster),,,,8,10.0,1,new,9
 TEN,Carnell Tate,00-0041438,WR,WR/TE,off,7,0.8200000000000001,limited in practice,week 11 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,11.0,7,8.0,2,long-term,9
 TEN,Fernando Carmona,00-0040881,G,OL,off,3,0.6733333333333333,confirmed: reserve list,reserve list (week 11 roster),,Limited Participation in Practice,11.0,3,4.0,6,long-term,9
 TEN,Wan'Dale Robinson,00-0038117,WR,WR/TE,off,9,0.6533333333333333,confirmed: reserve list,reserve list (week 11 roster),,,,10,,0,new,9
-TEN,John Franklin-Myers,00-0034805,DL,DL/EDGE,def,9,0.5222222222222223,limited in practice,week 11 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,11.0,10,,0,new,9
-WAS,Lucas Patrick,00-0033082,G,OL,off,7,0.7685714285714286,listed Out/Doubtful,last week's report (week 10): Out,Concussion,Did Not Participate In Practice,10.0,9,10.0,1,new,9
+TEN,Tony Pollard,00-0035261,RB,RB,off,9,0.6288888888888889,did not practise,week 11 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,11.0,10,,0,new,9
 WAS,Daron Payne,00-0034333,DT,DL/EDGE,def,6,0.7383333333333333,confirmed: reserve list,reserve list (week 11 roster),,,,6,8.0,3,long-term,9
+WAS,Stefon Diggs,00-0031588,WR,WR/TE,off,8,0.6125,did not practise,week 11 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,11.0,10,,0,new,9
+WAS,Quan Martin,00-0039149,S,DB,def,9,0.6122222222222222,limited in practice,week 11 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,11.0,10,,0,new,9
 WAS,Javon Kinlaw,00-0036260,DT,DL/EDGE,def,6,0.6016666666666667,confirmed: reserve list,reserve list (week 11 roster),,,,6,8.0,3,long-term,9
 WAS,Terry McLaurin,00-0035659,WR,WR/TE,off,5,0.6,confirmed: reserve list,reserve list (week 11 roster),,,,6,8.0,3,long-term,9

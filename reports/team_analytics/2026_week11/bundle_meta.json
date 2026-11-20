@@ -1,7 +1,7 @@
 {
  "season": 2026,
  "through_week": 10,
- "generated_utc": "2026-11-19T18:53:32+00:00",
+ "generated_utc": "2026-11-20T19:54:34+00:00",
  "games": 150,
  "plays": 19282,
  "drives": 3134,
@@ -53,23 +53,23 @@
  "prior_off": {
   "slope": 0.4098368426953944,
   "resid_var": 0.006623335206626388,
-  "tau2": 0.005456782658861474,
+  "tau2": 0.004914316975573949,
   "pairs": 128
  },
  "prior_def": {
   "slope": 0.2027936818847687,
   "resid_var": 0.003907570517966981,
-  "tau2": 0.0027417527790548728,
+  "tau2": 0.0021996287936935886,
   "pairs": 128
  },
  "epa_win_coef": 0.5962582176061835,
  "plays_per_game": 64.27333333333333,
- "home_coef": -0.009904847935076178,
- "league_epa_play": 0.011825520121967702,
+ "home_coef": -0.014036704530848421,
+ "league_epa_play": 0.004086897512830825,
  "league": {
-  "sr": 0.4356394564879162,
-  "epa_db": 0.06558557488645157,
-  "epa_rush": -0.07262794190938548,
+  "sr": 0.4355875946478581,
+  "epa_db": 0.06558568083321398,
+  "epa_rush": -0.09252359116460308,
   "ppd": 2.1180599872367583,
   "expl_rate": 0.08852816097915155,
   "sack_rate": 0.060855542352741473,
@@ -83,12 +83,13 @@
  },
  "fum_lost_rate": 0.4864975450081833,
  "qc": [
-  "EP scale: WARNING. nflverse play-by-play looks like the revised EP valuation (nflfastR PR 618) for 2026 (two-point probability [0.49]; mean EP 1.57; kickoff EPA -0.07). This report's historical fits use the original scale, so EPA and success-rate figures may mix the two. Treat EPA-based numbers with care until the report is rebuilt on one scale.",
+  "EP scale: play-by-play 2021-2026 is on the original nflfastR EP valuation (two-point probability 0.4735), the scale every historical fit here uses (2026 converted back from the revised valuation; see the next line).",
+  "EP scale: 2026 play-by-play is on the original nflfastR EP valuation, like every historical fit here. nflverse re-published 2026 on the revised valuation (nflfastR PR 618) on 17 Nov; 26,062 plays keep their archived original values from the last original-scale snapshot and 184 later or edited plays have EPA converted with the forecast's frozen per-play-type line (old = a + b \u00d7 new; success re-derived as EPA > 0; their other valuation columns as published). Residual check on the overlapping plays, team offence EPA per play converted vs archived: sd 0.0043, mean -0.0000 (within the forecast's limits: sd 0.015, mean 0.01). Same conversion as the forecast (forecast repository main, src/nflcast/data/ep_scale.py and configs/ep_scale.yaml, commit 8ef6b29).",
   "Schedule lists 150 regular-season games in weeks 1-10; play-by-play contains 150; 150 have final scores.",
-  "Opponent adjustment: home-field coefficient -0.010 EPA/play for the offence (half the home/away gap); play-level residual variance 1.269.",
+  "Opponent adjustment: home-field coefficient -0.014 EPA/play for the offence (half the home/away gap); play-level residual variance 1.859.",
   "Drive points reconcile with final scores in 150 of 150 games (max gap 0 pts; gaps come from scores on plays outside a scrimmage drive).",
   "Drives: 3286 built, 152 excluded (kneel-only, or started with 30 s or less left in a half).",
-  "Recent form: last four games per team; season values from the same residual method differ from the adjusted EPA/play by at most 0.0018.",
+  "Recent form: last four games per team; season values from the same residual method differ from the adjusted EPA/play by at most 0.0022.",
   "Special teams in the combined rating: 28% of each team's special-teams EPA per game is kept (fitted on 2021-25, where the first-half to second-half correlation is about 0.24); the special-teams tables show the full figure.",
   "FTN charting: 100.0% of 2026 pass attempts charted (missing: none). League P(INT | interception-worthy) = 0.588; P(INT | not) = 0.0038. Historical own-fumble loss rate 0.486 (2021-2025).",
   "FTN box counts: 7,487 charted designed rushes; 55.1% faced 7 or more in the box, 8.2% 8 or more. QB-fault sacks: 137 of 717 charted sacks.",
@@ -99,15 +100,15 @@
   "Referees: crew rates from 2024-25 (18 referees); nflverse schedules name the referee for 65 of 150 2026 games (weeks 1, 2, 3, 4, 5); week 11 assignments loaded for 13 games.",
   "Unusual games: rain, snow or 15+ mph wind and under 56 combined dropbacks (bottom 2% of 1359 2021-25 games, median 79, lowest 40): 2 flagged this season, 9 met both tests in 2021-25. 6 quarterbacks threw 2+ interceptions in their team's latest game.",
   "Absences: 755 regulars; 755 linked to a gsis id (754 through the nflverse players table); 0 with no weekly-roster match.",
-  "Injury reports: 46 regulars listed on a report for a game they then played are not flagged.",
-  "Absence classes: 62 on the reserve list, 8 inactive 3+ games, 0 unconfirmed; 54 regulars who missed a game are active on a later roster and not flagged; 25 OL regulars counted out; 24 confirmed absences are new (0-1 games missed), 62 long-term.",
+  "Injury reports: 38 regulars listed on a report for a game they then played are not flagged.",
+  "Absence classes: 62 on the reserve list, 8 inactive 3+ games, 0 unconfirmed; 51 regulars who missed a game are active on a later roster and not flagged; 24 OL regulars counted out; 23 confirmed absences are new (0-1 games missed), 62 long-term.",
   "Duplicate players in absences: 0 (16 players listed at two positions were merged under their most-played position, and 0 duplicate roster ids removed; 0 remain).",
   "Quarterback news: no hand-kept entries for week 11; expected starters follow the rosters and injury reports only.",
-  "Next man up: 170 absences have a listed replacement; 159 matched to his own 2026 sample.",
-  "Arrivals: 32 active players on a new team since week 1 who were regulars elsewhere or play 40%+ of snaps (14 former regulars elsewhere, 11 arrived in weeks 9-11). Departures: 16 former regulars now on another team (7 new). Rosters through week 11.",
-  "Play-caller check against Sam Hoppen's play-caller dataset (read 19 Nov 2026 21:40 UTC), games through week 10: 1 difference in 891 entries, to verify against a news source (NYJ defence week 10: file Aaron Glenn, dataset Brian Duker). Marked unclear in the file: WAS defence (Daronte Jones or Dan Quinn; the dataset lists Dan Quinn).",
-  "Weather: 9 forecasts, 2 with the roof not listed, 2 indoors, 0 already started, 0 not loaded. History from 922 outdoor games with a usable weather text.",
-  "Status refresh 2026-11-19T21:40:15+00:00: injury reports (latest week 11), weekly rosters and depth charts re-downloaded; absences, next man up, arrivals and quarterback scenarios rebuilt. Team performance numbers are unchanged."
+  "Next man up: 156 absences have a listed replacement; 146 matched to his own 2026 sample.",
+  "Arrivals: 30 active players on a new team since week 1 who were regulars elsewhere or play 40%+ of snaps (13 former regulars elsewhere, 11 arrived in weeks 9-11). Departures: 16 former regulars now on another team (7 new). Rosters through week 11.",
+  "Play-caller check against Sam Hoppen's play-caller dataset (read 20 Nov 2026 19:55 UTC), games through week 10: 1 difference in 891 entries, to verify against a news source (NYJ defence week 10: file Aaron Glenn, dataset Brian Duker). Marked unclear in the file: WAS defence (Daronte Jones or Dan Quinn; the dataset lists Dan Quinn).",
+  "Weather: 9 forecasts, 1 with the roof not listed, 2 indoors, 1 already started, 0 not loaded. History from 922 outdoor games with a usable weather text.",
+  "Status refresh 2026-11-20T19:55:07+00:00: injury reports (latest week 11), weekly rosters and depth charts re-downloaded; absences, next man up, arrivals and quarterback scenarios rebuilt. Team performance numbers are unchanged."
  ],
  "sources": [
   {
@@ -210,10 +211,10 @@
   },
   {
    "url": "https://github.com/nflverse/nflverse-data/releases/download/weekly_rosters/roster_weekly_2026.parquet",
-   "retrieved_utc": "2026-11-19T21:39:44+00:00",
-   "http_last_modified": "Thu, 19 Nov 2026 16:33:59 GMT",
-   "sha256": "bf8b55781431fd8fb7367578328584281240fd8c87b828850a77015b21c5f8bf",
-   "bytes": 833139
+   "retrieved_utc": "2026-11-20T19:54:38+00:00",
+   "http_last_modified": "Fri, 20 Nov 2026 16:09:30 GMT",
+   "sha256": "cefb464dcebd741a1c41ec2c37bc4936d94ce65fc90cb96d3ee97e5bf48aaa33",
+   "bytes": 828349
   },
   {
    "url": "https://github.com/nflverse/nflverse-data/releases/download/pfr_advstats/advstats_week_pass_2026.parquet",
@@ -266,17 +267,17 @@
   },
   {
    "url": "https://github.com/nflverse/nflverse-data/releases/download/weekly_rosters/roster_weekly_2026.parquet",
-   "retrieved_utc": "2026-11-19T21:39:44+00:00",
-   "http_last_modified": "Thu, 19 Nov 2026 16:33:59 GMT",
-   "sha256": "bf8b55781431fd8fb7367578328584281240fd8c87b828850a77015b21c5f8bf",
-   "bytes": 833139
+   "retrieved_utc": "2026-11-20T19:54:38+00:00",
+   "http_last_modified": "Fri, 20 Nov 2026 16:09:30 GMT",
+   "sha256": "cefb464dcebd741a1c41ec2c37bc4936d94ce65fc90cb96d3ee97e5bf48aaa33",
+   "bytes": 828349
   },
   {
    "url": "https://github.com/nflverse/nflverse-data/releases/download/injuries/injuries_2026.parquet",
-   "retrieved_utc": "2026-11-19T21:39:43+00:00",
-   "http_last_modified": "Thu, 19 Nov 2026 16:30:35 GMT",
-   "sha256": "f590b3623cca888dbf83e3cf4ad02f83089f914b8a9c75d32f428921f502c80b",
-   "bytes": 68602
+   "retrieved_utc": "2026-11-20T19:54:37+00:00",
+   "http_last_modified": "Fri, 20 Nov 2026 16:04:51 GMT",
+   "sha256": "ebfbecb41a8a53bbb7f795960a65164bfce2270086839c265ad9c98aafcee100",
+   "bytes": 69005
   },
   {
    "url": "https://github.com/nflverse/nflverse-data/releases/download/players/players.parquet",
@@ -287,10 +288,10 @@
   },
   {
    "url": "https://github.com/nflverse/nflverse-data/releases/download/weekly_rosters/roster_weekly_2026.parquet",
-   "retrieved_utc": "2026-11-19T21:39:44+00:00",
-   "http_last_modified": "Thu, 19 Nov 2026 16:33:59 GMT",
-   "sha256": "bf8b55781431fd8fb7367578328584281240fd8c87b828850a77015b21c5f8bf",
-   "bytes": 833139
+   "retrieved_utc": "2026-11-20T19:54:38+00:00",
+   "http_last_modified": "Fri, 20 Nov 2026 16:09:30 GMT",
+   "sha256": "cefb464dcebd741a1c41ec2c37bc4936d94ce65fc90cb96d3ee97e5bf48aaa33",
+   "bytes": 828349
   },
   {
    "url": "https://github.com/nflverse/nflverse-data/releases/download/nextgen_stats/ngs_passing.parquet",
@@ -315,17 +316,17 @@
   },
   {
    "url": "https://github.com/nflverse/nflverse-data/releases/download/weekly_rosters/roster_weekly_2026.parquet",
-   "retrieved_utc": "2026-11-19T21:39:44+00:00",
-   "http_last_modified": "Thu, 19 Nov 2026 16:33:59 GMT",
-   "sha256": "bf8b55781431fd8fb7367578328584281240fd8c87b828850a77015b21c5f8bf",
-   "bytes": 833139
+   "retrieved_utc": "2026-11-20T19:54:38+00:00",
+   "http_last_modified": "Fri, 20 Nov 2026 16:09:30 GMT",
+   "sha256": "cefb464dcebd741a1c41ec2c37bc4936d94ce65fc90cb96d3ee97e5bf48aaa33",
+   "bytes": 828349
   },
   {
    "url": "https://github.com/nflverse/nflverse-data/releases/download/injuries/injuries_2026.parquet",
-   "retrieved_utc": "2026-11-19T21:39:43+00:00",
-   "http_last_modified": "Thu, 19 Nov 2026 16:30:35 GMT",
-   "sha256": "f590b3623cca888dbf83e3cf4ad02f83089f914b8a9c75d32f428921f502c80b",
-   "bytes": 68602
+   "retrieved_utc": "2026-11-20T19:54:37+00:00",
+   "http_last_modified": "Fri, 20 Nov 2026 16:04:51 GMT",
+   "sha256": "ebfbecb41a8a53bbb7f795960a65164bfce2270086839c265ad9c98aafcee100",
+   "bytes": 69005
   },
   {
    "url": "https://github.com/nflverse/nflverse-data/releases/download/pbp/play_by_play_2021.parquet",
@@ -385,17 +386,17 @@
   },
   {
    "url": "https://github.com/nflverse/nflverse-data/releases/download/weekly_rosters/roster_weekly_2026.parquet",
-   "retrieved_utc": "2026-11-19T21:39:44+00:00",
-   "http_last_modified": "Thu, 19 Nov 2026 16:33:59 GMT",
-   "sha256": "bf8b55781431fd8fb7367578328584281240fd8c87b828850a77015b21c5f8bf",
-   "bytes": 833139
+   "retrieved_utc": "2026-11-20T19:54:38+00:00",
+   "http_last_modified": "Fri, 20 Nov 2026 16:09:30 GMT",
+   "sha256": "cefb464dcebd741a1c41ec2c37bc4936d94ce65fc90cb96d3ee97e5bf48aaa33",
+   "bytes": 828349
   },
   {
    "url": "https://github.com/nflverse/nflverse-data/releases/download/depth_charts/depth_charts_2026.parquet",
-   "retrieved_utc": "2026-11-19T21:39:45+00:00",
-   "http_last_modified": "Thu, 19 Nov 2026 16:31:01 GMT",
-   "sha256": "7439a2b6ccc175d6643058e2a78eee6853473d5c4b7dc773fd0ea0440089cd48",
-   "bytes": 3572983
+   "retrieved_utc": "2026-11-20T19:54:39+00:00",
+   "http_last_modified": "Fri, 20 Nov 2026 16:05:14 GMT",
+   "sha256": "cac240cb4cb852a61478c1c8d62e26bf010893b0834fda20b50a759e945e2278",
+   "bytes": 3576853
   },
   {
    "url": "https://github.com/nflverse/nflverse-data/releases/download/nextgen_stats/ngs_receiving.parquet",
@@ -420,10 +421,10 @@
   },
   {
    "url": "https://github.com/nflverse/nflverse-data/releases/download/weekly_rosters/roster_weekly_2026.parquet",
-   "retrieved_utc": "2026-11-19T21:39:44+00:00",
-   "http_last_modified": "Thu, 19 Nov 2026 16:33:59 GMT",
-   "sha256": "bf8b55781431fd8fb7367578328584281240fd8c87b828850a77015b21c5f8bf",
-   "bytes": 833139
+   "retrieved_utc": "2026-11-20T19:54:38+00:00",
+   "http_last_modified": "Fri, 20 Nov 2026 16:09:30 GMT",
+   "sha256": "cefb464dcebd741a1c41ec2c37bc4936d94ce65fc90cb96d3ee97e5bf48aaa33",
+   "bytes": 828349
   },
   {
    "url": "https://github.com/nflverse/nflverse-data/releases/download/snap_counts/snap_counts_2026.parquet",
@@ -462,10 +463,10 @@
   },
   {
    "url": "https://github.com/nflverse/nflverse-data/releases/download/weekly_rosters/roster_weekly_2026.parquet",
-   "retrieved_utc": "2026-11-19T21:39:44+00:00",
-   "http_last_modified": "Thu, 19 Nov 2026 16:33:59 GMT",
-   "sha256": "bf8b55781431fd8fb7367578328584281240fd8c87b828850a77015b21c5f8bf",
-   "bytes": 833139
+   "retrieved_utc": "2026-11-20T19:54:38+00:00",
+   "http_last_modified": "Fri, 20 Nov 2026 16:09:30 GMT",
+   "sha256": "cefb464dcebd741a1c41ec2c37bc4936d94ce65fc90cb96d3ee97e5bf48aaa33",
+   "bytes": 828349
   },
   {
    "url": "https://github.com/nflverse/nflverse-data/releases/download/snap_counts/snap_counts_2026.parquet",
@@ -496,7 +497,7 @@
    "bytes": 13361
   }
  ],
- "ep_scale_warning": "nflverse play-by-play looks like the revised EP valuation (nflfastR PR 618) for 2026 (two-point probability [0.49]; mean EP 1.57; kickoff EPA -0.07). This report's historical fits use the original scale, so EPA and success-rate figures may mix the two. Treat EPA-based numbers with care until the report is rebuilt on one scale.",
+ "ep_scale_warning": null,
  "calibration": {
   "factors": {
    "d3_conv": 0.697,
@@ -589,8 +590,8 @@
  },
  "tiers": {
   "ARI": "weak",
-  "ATL": "weak",
-  "BAL": "average",
+  "ATL": "average",
+  "BAL": "weak",
   "BUF": "strong",
   "CAR": "average",
   "CHI": "strong",
@@ -599,7 +600,7 @@
   "DAL": "average",
   "DEN": "strong",
   "DET": "average",
-  "GB": "average",
+  "GB": "strong",
   "HOU": "average",
   "IND": "weak",
   "JAX": "strong",
@@ -608,7 +609,7 @@
   "LAC": "weak",
   "LV": "average",
   "MIA": "weak",
-  "MIN": "strong",
+  "MIN": "average",
   "NE": "average",
   "NO": "weak",
   "NYG": "average",
@@ -622,38 +623,38 @@
   "WAS": "weak"
  },
  "net_eff": {
-  "ARI": -0.10125531310945013,
-  "ATL": -0.05280688616730376,
-  "BAL": -0.04613184271079856,
-  "BUF": 0.12864549578105783,
-  "CAR": -0.013883497664934363,
-  "CHI": 0.05975351723826486,
-  "CIN": 0.1500197921600325,
-  "CLE": -0.05570868780079929,
-  "DAL": -0.03394363358897046,
-  "DEN": 0.07063119985229384,
-  "DET": 0.03559600086019573,
-  "GB": 0.04382347534327942,
-  "HOU": 0.017588173353835203,
-  "IND": -0.13097902032826444,
-  "JAX": 0.1620846910716197,
-  "KC": 0.14487141118668728,
-  "LA": 0.13730059016240342,
-  "LAC": -0.1300583033420054,
-  "LV": -0.04645639738712106,
-  "MIA": -0.09145595625686086,
-  "MIN": 0.0510517174999183,
-  "NE": -0.006784953724807977,
-  "NO": -0.09723892361418067,
-  "NYG": -0.036093423860237506,
-  "NYJ": -0.08732357185881845,
-  "PHI": -0.14759856493465182,
-  "PIT": -0.0008632799513946035,
-  "SEA": 0.059899674315461233,
-  "SF": 0.18088561313934765,
-  "TB": 0.059566073372690986,
-  "TEN": -0.16064376952319842,
-  "WAS": -0.06249139951329057
+  "ARI": -0.11512587087838691,
+  "ATL": -0.058212330721024906,
+  "BAL": -0.06069337232685048,
+  "BUF": 0.16021470223276457,
+  "CAR": -0.007769774847753871,
+  "CHI": 0.08374518267984514,
+  "CIN": 0.1596684996428393,
+  "CLE": -0.07552351671612835,
+  "DAL": -0.04214903288944197,
+  "DEN": 0.08726185966257903,
+  "DET": 0.04631267030225442,
+  "GB": 0.06661519660879314,
+  "HOU": 0.014364068091728778,
+  "IND": -0.1651607948633831,
+  "JAX": 0.19186136955984973,
+  "KC": 0.16549013942703775,
+  "LA": 0.15745300083664912,
+  "LAC": -0.15160723266021844,
+  "LV": -0.06016924626150323,
+  "MIA": -0.11944298480893151,
+  "MIN": 0.06472510914901652,
+  "NE": -0.012834221722205295,
+  "NO": -0.12328101764946658,
+  "NYG": -0.031121194646199175,
+  "NYJ": -0.0907001685384445,
+  "PHI": -0.18289896331556293,
+  "PIT": -0.016420864437159982,
+  "SEA": 0.07888395910435983,
+  "SF": 0.2184592544832979,
+  "TB": 0.08086399774673972,
+  "TEN": -0.18920138617995177,
+  "WAS": -0.07360703606514166
  },
- "status_refreshed_utc": "2026-11-19T21:40:15+00:00"
+ "status_refreshed_utc": "2026-11-20T19:55:07+00:00"
 }
