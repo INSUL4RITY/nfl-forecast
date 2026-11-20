@@ -46,6 +46,7 @@ import referees  # noqa: E402
 import arrivals  # noqa: E402
 import game_weather  # noqa: E402
 import ep_scale  # noqa: E402
+import ep_harmonise  # noqa: E402
 import caller_check  # noqa: E402
 import unusual  # noqa: E402
 
@@ -86,7 +87,11 @@ def fetch(rel: str, refresh: bool = False) -> pd.DataFrame:
     MANIFEST.append(json.loads(meta_path.read_text()))
     df = pd.read_parquet(path)
     drop = set(banned_columns(list(df.columns))) | (MARKET_COLS & set(df.columns))
-    return df.drop(columns=sorted(drop))
+    df = df.drop(columns=sorted(drop))
+    m = re.fullmatch(r"pbp/play_by_play_(\d{4})\.parquet", rel)
+    if m:                                   # 2026 on the original EP scale, as the forecast does (ep_harmonise.py)
+        df = ep_harmonise.harmonise(df, int(m.group(1)))
+    return df
 
 
 PBP_COLS = [
@@ -510,9 +515,15 @@ def main():
     qc: list[str] = []
 
     p = add_unit_flags(load_pbp(S, W))
-    ep_cols = ["play_type", "ep", "epa", "two_point_conversion_prob"]
-    ep_warn, ep_qc = ep_scale.check({s: fetch(f"pbp/play_by_play_{s}.parquet")[ep_cols] for s in range(args.first_history, S + 1)})
+    ep_cols = ["play_type", "ep", "epa", "two_point_conversion_prob", "ep_scale"]
+    ep_warn, ep_qc = ep_scale.check({s: (lambda f: f[[c for c in ep_cols if c in f]])(fetch(f"pbp/play_by_play_{s}.parquet"))
+                                     for s in range(args.first_history, S + 1)})
     qc.append(ep_qc)
+    if ep_harmonise.STATUS.get("applied"):
+        qc.append(ep_harmonise.qc_line(ep_harmonise.STATUS))
+        if not ep_harmonise.STATUS["ok"]:
+            ep_warn = ("The 2026 EP-scale conversion no longer matches the archived original-scale plays within the forecast's "
+                       "limits (Method, quality checks): nflverse may have changed the scale again. Treat EPA figures with care.")
     if ep_warn:
         print("WARNING:", ep_warn, flush=True)
     teams = sorted(p.posteam.dropna().unique())
@@ -1567,12 +1578,24 @@ POS_GROUP = {"QB": "QB", "T": "OL", "G": "OL", "C": "OL", "OL": "OL", "WR": "WR/
 
 
 # ---------------------------------------------------------------------------------------- quarterbacks
+def team_label(g: pd.DataFrame) -> str:
+    """Every team a passer has dropped back for, in the order he played for them, with games; the latest marked 'now'.
+    'LV 9 g, MIN 1 g (now)' for a traded quarterback, just 'LV' for one team."""
+    by = g.sort_values(["week", "play_id"]).groupby("posteam", sort=False).agg(first=("week", "min"), games=("game_id", "nunique"))
+    if len(by) == 1:
+        return str(by.index[0])
+    by = by.sort_values("first")
+    now = g.sort_values(["week", "play_id"]).posteam.iloc[-1]
+    return ", ".join(f"{t} {int(r.games)} g" + (" (now)" if t == now else "") for t, r in by.iterrows())
+
+
 def qb_table(p, pf, adj, S, W, pfr):
     d = pf[pf.db & pf.passer_id.notna()].copy()
     g = d.groupby("passer_id")
     q = pd.DataFrame({"name": g.passer.agg(lambda s: s.mode().iloc[0]),
                       "team": g.posteam.agg(lambda s: s.value_counts().index[0]),
                       "teams": g.posteam.agg(lambda s: "/".join(sorted(s.unique()))),
+                      "team_label": g.apply(team_label, include_groups=False),
                       "games": g.game_id.nunique(), "dropbacks": g.size(), "epa_db": g.epa.mean(),
                       "sr": g.success.mean()})
     # opponent adjustment: subtract the dropback-defence effect of each opponent faced

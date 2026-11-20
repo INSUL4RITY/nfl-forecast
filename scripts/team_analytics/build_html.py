@@ -18,6 +18,8 @@ import numpy as np
 import pandas as pd
 
 import game_weather  # noqa: E402
+import glossary  # noqa: E402
+import og_card  # noqa: E402
 import reliability  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -423,8 +425,8 @@ def validate_win_rates(WR, teams, through_week):
                 probs.append(f"{t} {k} value {v}")
             if not isinstance(rk, int) or not 1 <= rk <= 32:
                 probs.append(f"{t} {k} rank {rk}")
-    if WR.get("through_week") != through_week:
-        probs.append(f"file runs through week {WR.get('through_week')}, the report through week {through_week}")
+    if WR.get("through_week") not in (through_week, through_week - 1):        # shown when at most one week behind
+        probs.append(f"file runs through week {WR.get('through_week')}, more than one week behind the report (week {through_week})")
     return probs
 
 
@@ -1034,7 +1036,7 @@ def hot_cold_note() -> str:
 
 
 OUT_CLASSES_CONFIRMED = ("confirmed: reserve list", "listed Out/Doubtful", "inactive 3+ games")
-_LB = Path(__file__).resolve().parent / "line_absence_backtest.json"
+_LB = Path(__file__).resolve().parent / "line_absence_pregame.json"   # pre-game definition (week 11 on); line_absence_backtest.json kept for history
 LINE_BT = json.loads(_LB.read_text(encoding="utf-8")) if _LB.exists() else None
 
 
@@ -1053,15 +1055,39 @@ def line_caution(o: str, d: str, A: pd.DataFrame, T: pd.DataFrame) -> str | None
     txt = f"{o} offensive line: {n} starter{'s' if n > 1 else ''} out ({who})."
     if LINE_BT:
         e, h = LINE_BT["epa"], LINE_BT["hs"]
-        txt += (f" In {LINE_BT['fitted_on'][0]}-{LINE_BT['fitted_on'][1]} ({LINE_BT['team_games']:,} team-games) each missing line starter cost about "
-                f"{e['per_missing_starter']:+.3f} EPA per dropback (95% range {e['per_missing_ci'][0]:+.3f} to {e['per_missing_ci'][1]:+.3f}) and added "
-                f"{100 * h['per_missing_starter']:.1f} points of hit-or-sack rate; the cost was not larger against strong pass rushes")
+        hs_clear = h["per_missing_ci"][0] > 0
+        txt += (f" In {LINE_BT['fitted_on'][0]}-{LINE_BT['fitted_on'][1]} ({LINE_BT['team_games']:,} team-games) each line starter known to be out before kickoff "
+                f"cost about {e['per_missing_starter']:+.3f} EPA per dropback (95% range {e['per_missing_ci'][0]:+.3f} to {e['per_missing_ci'][1]:+.3f})"
+                + (f" and added {100 * h['per_missing_starter']:.1f} points of hit-or-sack rate" if hs_clear else
+                   "; the change in hit-or-sack rate was not clearly different from zero")
+                + "; the cost was not larger against strong pass rushes")
         if "def_pressure_rate" in T:
             txt += f" ({d} pressure rate ranks {ordinal(int(rank(T.def_pressure_rate)[d]))})"
         txt += "."
     if (x.term != "new").any():
         txt += " Starters out for a while are partly in the season figures already."
     return txt
+
+
+def line_method() -> str:
+    """Method paragraph for the offensive-line caution: the pre-game cost it quotes and the earlier in-game definition."""
+    if not LINE_BT:
+        return ""
+    e, h, o = LINE_BT["epa"], LINE_BT["hs"], LINE_BT.get("vs_in_game_definition")
+    old = (f" The first version of this test (kept for history) counted a starter as missing when he played under half of the snaps, which "
+           f"includes players hurt during the game; it gave {o['epa_per_missing_old']:+.3f} ({o['epa_per_missing_old_ci'][0]:+.3f} to "
+           f"{o['epa_per_missing_old_ci'][1]:+.3f}). The pre-game figure is about {100 * (1 - e['per_missing_starter'] / o['epa_per_missing_old']):.0f}% smaller: "
+           "part of the old cost came from in-game injuries, which nobody knows before kickoff.") if o else ""
+    return (f"<h3>Offensive line starters out</h3><p>A matchup caution lists an offence's starting linemen (at least half of the snaps in the games "
+            f"they played) who are confirmed out. The cost it quotes comes from <code>backtest_line_absences_pregame.py</code> "
+            f"({LINE_BT['fitted_on'][0]}-{LINE_BT['fitted_on'][1]}, {LINE_BT['team_games']:,} team-games from week 4): starters are each team's five "
+            f"linemen with the most offensive snaps in earlier weeks, and one is missing only when that was known before kickoff (no offensive "
+            f"snap in the game, or listed Out or Doubtful on that week's injury report). Each missing starter cost {e['per_missing_starter']:+.3f} "
+            f"EPA per dropback (95% {e['per_missing_ci'][0]:+.3f} to {e['per_missing_ci'][1]:+.3f}), controlling for both teams' season-to-date "
+            f"pass-rush figures; hit-or-sack rate rose by {100 * h['per_missing_starter']:.1f} points (95% {100 * h['per_missing_ci'][0]:+.1f} to "
+            f"{100 * h['per_missing_ci'][1]:+.1f}). The cost was no larger against strong pass rushes (extra effect "
+            f"{e['extra_vs_strong_rush']:+.3f}, 95% {e['extra_vs_strong_rush_ci'][0]:+.3f} to {e['extra_vs_strong_rush_ci'][1]:+.3f}).{old}</p>"
+            "<p>No other position has a pre-game cost measured this way, so other absences are listed with snap shares but no cost.</p>")
 
 
 def build_matchups(T, nxt, MM, A, mm, notes, PL, US, QBS, REF, ARR, UN, WX=None, NG=None, HC=None):
@@ -1643,7 +1669,7 @@ def main():
         C("def_composite", "Defence overall", "s2", 1, "Weighted z-score: 53% adj. EPA/play, 35% adj. success rate, 12% points per drive allowed"),
         C("off_adj_epa", "Off. efficiency", "epa", 1, "Opponent-adjusted EPA per play"),
         C("def_adj_epa", "Def. efficiency", "epa", -1, "Opponent-adjusted EPA per play allowed"),
-        C("off_adj_epa_db", "Passing O", "epa", 1, "Adj. EPA per dropback"),
+        C("off_adj_epa_db", "Passing O (adj. EPA/db)", "epa", 1, "Opponent-adjusted EPA per dropback, 2026 plays only"),
         C("off_adj_epa_rush", "Rushing O", "epa", 1, "Adj. EPA per designed rush"),
         C("def_adj_epa_db", "Pass D", "epa", -1, "Adj. EPA per dropback allowed"),
         C("def_adj_epa_rush", "Run D", "epa", -1, "Adj. EPA per designed rush allowed"),
@@ -1663,7 +1689,7 @@ def main():
         C("off_adj_shift", "Rank change after adj.", "s1", 0, "Positive = ranks higher once opponents are accounted for"),
         C("off_epa_play_neutral", "EPA/play, WP 10-90%", "epa", 1, "Excludes plays when either team's win probability is above 90%"),
         C("off_sr", "Success rate", "pct", 1), C("off_adj_sr", "Adj. success", "pct", 1),
-        C("off_epa_db", "EPA/dropback", "epa", 1), C("off_epa_rush", "EPA/designed rush", "epa", 1),
+        C("off_epa_db", "EPA/db (raw)", "epa", 1), C("off_epa_rush", "EPA/designed rush (raw)", "epa", 1),
         C("off_early_epa", "Early-down EPA", "epa", 1), C("off_early_sr", "Early-down SR", "pct", 1),
         C("off_d3_conv", "3rd-down conv.", "pct", 1), C("off_d4_conv", "4th-down conv.", "pct", 1), C("off_d4_n", "4th-down att.", "int", 0),
         C("off_rz_td_rate", "Red-zone TD%", "pct", 1), C("off_g2g_td_rate", "Goal-to-go TD%", "pct", 1),
@@ -1675,7 +1701,7 @@ def main():
         C("def_adj_shift", "Rank change after adj.", "s1", 0),
         C("def_epa_play_neutral", "EPA/play, WP 10-90%", "epa", -1),
         C("def_sr", "Success allowed", "pct", -1), C("def_adj_sr", "Adj. success", "pct", -1),
-        C("def_epa_db", "EPA/dropback", "epa", -1), C("def_epa_rush", "EPA/designed rush", "epa", -1),
+        C("def_epa_db", "EPA/db (raw)", "epa", -1), C("def_epa_rush", "EPA/designed rush (raw)", "epa", -1),
         C("def_early_epa", "Early-down EPA", "epa", -1), C("def_early_sr", "Early-down SR", "pct", -1),
         C("def_d3_conv", "3rd-down conv. allowed", "pct", -1), C("def_d4_conv", "4th-down conv. allowed", "pct", -1), C("def_d4_n", "4th-down att. faced", "int", 0),
         C("def_rz_td_rate", "Red-zone TD% allowed", "pct", -1), C("def_expl_rate", "Explosive rate allowed", "pct", -1),
@@ -1721,7 +1747,7 @@ def main():
         C("def_return_td", "Defensive TDs", "int", 1),
     ], "def_ppd", desc=False))
     tables.append(table("pass_off", "Passing offence", [
-        C("off_dropbacks", "Dropbacks", "int", 0), C("off_epa_db", "EPA/dropback", "epa", 1), C("off_adj_epa_db", "Adj. EPA/db", "epa", 1),
+        C("off_dropbacks", "Dropbacks", "int", 0), C("off_epa_db", "EPA/db (raw)", "epa", 1), C("off_adj_epa_db", "EPA/db (opp.-adj.)", "epa", 1),
         C("off_sr_db", "Success", "pct", 1), C("off_cpoe", "CPOE", "n1", 1, "Completion % over expected (nflfastR model)"),
         C("off_ypa", "Y/A", "n2", 1), C("off_nya", "NY/A", "n2", 1, "(Passing yards + sack yards) / (attempts + sacks)"),
         C("off_pass_fd", "1st downs/db", "pct", 1), C("off_expl_pass_rate", "20+ yd rate", "pct", 1), C("off_n_expl_pass", "20+ yd passes", "int", 1),
@@ -1771,7 +1797,7 @@ def main():
         C("off_zone_share_deep_right", "Deep right: share", "pct", 0), C("off_epa_deep_right", "Deep right: EPA/att", "epa", 1),
     ], "off_zone_share_deep_middle", "nflfastR throw location: deep = 15+ air yards; left, middle and right are where the ball was thrown. Shares add to 100% across the six zones; deep-zone EPA rests on few throws."))
     tables.append(table("pass_def", "Pass defence", [
-        C("def_dropbacks", "Dropbacks faced", "int", 0), C("def_epa_db", "EPA/db allowed", "epa", -1), C("def_adj_epa_db", "Adj. EPA/db", "epa", -1),
+        C("def_dropbacks", "Dropbacks faced", "int", 0), C("def_epa_db", "EPA/db allowed (raw)", "epa", -1), C("def_adj_epa_db", "EPA/db allowed (opp.-adj.)", "epa", -1),
         C("def_sr_db", "Success allowed", "pct", -1), C("def_cpoe", "CPOE allowed", "n1", -1), C("def_ypa", "Y/A allowed", "n2", -1),
         C("def_nya", "NY/A allowed", "n2", -1), C("def_pass_fd", "1st downs/db", "pct", -1),
         C("def_expl_pass_rate", "20+ yd rate", "pct", -1), C("def_n_expl_pass", "20+ yd allowed", "int", -1),
@@ -1917,7 +1943,7 @@ def main():
         C("pyth_xw", "Pythagorean xW", "n2", 1, "Games x PF^2.37 / (PF^2.37 + PA^2.37)"),
         C("eff_xw", "EPA-based xW", "n2", 1, "Sum of single-game win probabilities from net EPA (logistic fitted on 2021-25 games)"),
         C("w_minus_pyth", "W - Pyth", "s2", 0), C("w_minus_eff", "W - EPA xW", "s2", 0),
-        C("luck_index", "Luck index", "s2", 0, "Mean of the two differences; +/-0.75 sets the categories"),
+        C("luck_index", "Luck index (points and EPA)", "s2", 0, "Mean of the two differences; +/-0.75 sets the categories. Not the forecast's Luck figure (wins minus EPA-expected wins only)"),
         C("one_score", "One-score", "str", 0), C("three_pt", "3 pts or less", "str", 0), C("ot_rec", "OT", "str", 0),
         C("close_off_epa", "Close-late off. EPA", "epa", 1, "4th quarter/OT plays with the score within 8"),
         C("close_def_epa", "Close-late def. EPA", "epa", -1),
@@ -1931,7 +1957,7 @@ def main():
     tables.append(table("hotcold", "Hot and cold teams: real or luck?", [
         C("trend", "Trend", "str", 0, "Hot = won 3 or 4 of the last four; cold = won 1 or none; no streak = listed for its luck"), C("last4", "Last 4", "str", 0),
         C("verdict", "Verdict", "str", 0), C("stab_rating_pg", "Rating (2025 prior)", "s1", 0, "Points per game; the best estimate of underlying strength"),
-        C("stab_rank", "Rating rank", "int", 0), C("luck_index", "Luck index (wins)", "s2", 0, "Wins above (or below) what points and EPA predict"),
+        C("stab_rank", "Rating rank", "int", 0), C("luck_index", "Luck index (points and EPA)", "s2", 0, "Wins above (or below) what points and EPA predict"),
         C("one_score", "One-score games", "str", 0), C("to_luck", "Turnover luck", "s1", 0, "Turnover margin minus expected"),
         C("form_net_change", "Net EPA change, last 4", "epa", 0, "Did not predict the rest of a season in 2021-25"),
     ], "trend", "Lucky streak or unlucky slump? A luck index of +0.75 or more (or -0.75 or less) marks results well ahead of (or behind) the play; "
@@ -2365,7 +2391,7 @@ def main():
     qcols = ["name_full", "team", "teams", "games", "dropbacks", "epa_db", "adj_epa_db", "sr", "cpoe", "ypa", "adot", "sack_rate", "int_rate",
              "int_worthy_rate", "pressure_rate", "p2s", "epa_clean", "epa_hit_sack", "epa_vs_blitz", "epa_no_blitz", "blitzed_rate",
              "scr_rate", "epa_scr", "designed_runs", "epa_designed_run", "fd_td_rate", "epa_early", "epa_d3", "epa_rz", "game_sd",
-             "time_to_throw", "yacoe", "drop_rate", "db_clean", "db_hit", "db_blitz", "db_noblitz", "scrambles", "hit_sack_rate", "qb_fault_sacks", "qb_fault_sack_share", "team_pressure_allowed", "qb_composite", "team_db_share", "latest_starter", "qualified"]
+             "time_to_throw", "yacoe", "drop_rate", "db_clean", "db_hit", "db_blitz", "db_noblitz", "scrambles", "hit_sack_rate", "qb_fault_sacks", "qb_fault_sack_share", "team_pressure_allowed", "qb_composite", "team_db_share", "latest_starter", "qualified", "team_label"]
     qbs = Q[qcols].replace({np.nan: None}).to_dict("records")
     absn = A.replace({np.nan: None}).to_dict("records")
 
@@ -2396,6 +2422,13 @@ def main():
     page = page.replace("{{WEEKS_WORD}}", WK["word"]).replace("{{WEEKS_WORD_CAP}}", WK["word"].capitalize())
     page = page.replace("{{METHOD}}", method_html(meta, T, A, data["wr"], REF, ARR, UN, WX, MM))
     page = page.replace("{{EDGE_NOTE}}", edge_note(CAL)).replace("{{CAL_NOTE}}", cal_note(CAL))
+    png = d / og_card.IMAGE
+    og_problem = og_card.render(T, meta, png)
+    if og_problem:
+        print("PREVIEW IMAGE NOT MADE:", og_problem)
+        png.unlink(missing_ok=True)
+    page = page.replace("{{HEAD_EXTRA}}", og_card.head_tags(meta, png.exists()))
+    glossary.write(d)                                            # shared metric definitions, linked from the page
     if meta.get("ep_scale_warning"):
         page = page.replace('<div class="tk" id="tk"></div>', f'<div class="callout warn"><b>EPA scale changed.</b> {esc(meta["ep_scale_warning"])}</div>\n  '
                             '<div class="tk" id="tk"></div>', 1)
@@ -2524,7 +2557,7 @@ defences each passer faced.</p>
 <p>EPA/play, success rate and points per drive measure overlapping things, so the composites are weighted by how well each one, measured over
 weeks 1-{meta['through_week']}, predicted a team's opponent-adjusted EPA/play over the rest of the season in {meta['history_seasons'][0]}-{meta['history_seasons'][-1]}
 (non-negative least squares on within-season z-scores, {co['n']} team-seasons). The regression handles their correlation, so nothing is double-counted.</p>
-<div class="table-wrap"><table class="mini"><tr><th></th><th>adj. EPA/play</th><th>adj. success</th><th>pts/drive</th><th>R² (combined)</th></tr>
+<div class="table-wrap"><table class="mini"><tr><th>Weights and fit</th><th>adj. EPA/play</th><th>adj. success</th><th>pts/drive</th><th>R² (combined)</th></tr>
 <tr><td>Offence weights</td><td>{co['weights']['o_epa']:.0%}</td><td>{co['weights']['o_sr']:.0%}</td><td>{co['weights']['o_ppd']:.0%}</td><td>{co['r2']:.2f}</td></tr>
 <tr><td>Offence single-metric R²</td><td>{co['single_r2']['o_epa']:.2f}</td><td>{co['single_r2']['o_sr']:.2f}</td><td>{co['single_r2']['o_ppd']:.2f}</td><td></td></tr>
 <tr><td>Defence weights</td><td>{cd['weights']['d_epa']:.0%}</td><td>{cd['weights']['d_sr']:.0%}</td><td>{cd['weights']['d_ppd']:.0%}</td><td>{cd['r2']:.2f}</td></tr>
@@ -2535,6 +2568,7 @@ weeks 1-{meta['through_week']}, predicted a team's opponent-adjusted EPA/play ov
 + the kept share of special-teams EPA per game, in points per game. EPA is in points, so this needs no arbitrary weights. Special-teams EPA is noisy
 (first-half to second-half correlation about 0.24 in 2021-25), so the rating keeps w = &tau;² / (&tau;² + s² / games) of it, about {100 * float(T.st_w.median()):.0f}% now
 (<code>backtest_special_teams.py</code>; out of sample this predicted the rest of a season better than the full figure or zero). The special-teams tables show the full figure.
+<b>How it differs from the forecast's Team ratings.</b> This report's <b>overall rating</b> is in points per game: 2026 plays only, opponent-adjusted with one least-squares fit, no prior and no shrinkage, plus a kept share of special-teams EPA. The forecast's <a href=\"https://insul4rity.github.io/nfl-forecast/ratings/\">Team ratings</a> are in net adjusted EPA per play, fitted only on games before each moment, leaning on last season early in the year and shrunk towards average. They answer different questions (what a team has done this season vs the forecast's best estimate of its strength), so their ranks differ, sometimes by several places; neither is wrong. The <a href=\"glossary.html\">glossary</a> lists both.
 <b>Situational</b> = equal-weight z-scores of late-down conversion and red-zone TD rate (two distinct situations). <b>Passing, rushing, pass D, run D</b>
 rank on one adjusted metric each.</p>
 <h3>Prior-season stabilisation</h3>
@@ -2550,7 +2584,7 @@ expected points at the first snap. That measures finishing relative to field pos
 <h3>Expected wins, luck and turnovers</h3>
 <ul><li>Pythagorean expected wins use exponent {2.37}.</li>
 <li>EPA-based expected wins: P(win) = logistic({meta['epa_win_coef']:.3f} × game net EPA), fitted on {meta['history_seasons'][0]}-{meta['history_seasons'][-1]} games, summed over games played.</li>
-<li>Luck index = mean of (wins − Pythagorean xW) and (wins − EPA xW). At +0.75 or more a team is a potential overperformer, at −0.75 or less a potential underperformer. With 6-7 games the sampling error of either difference is about one win.</li>
+<li>Luck index (points and EPA) = mean of (wins − Pythagorean xW) and (wins − EPA xW). It is not the same number as the forecast's <a href="https://insul4rity.github.io/nfl-forecast/ratings/">Luck and regression watch</a>, which is wins minus EPA-expected wins only (its logistic has an intercept and is fitted on earlier seasons): averaging in the points-based gap pulls this index towards zero when a team's scoring margin fits its record, so the two can differ by a win or more (DEN, HOU). Both read the same way: positive = results ahead of play. At +0.75 or more a team is a potential overperformer, at −0.75 or less a potential underperformer. With 6-7 games the sampling error of either difference is about one win.</li>
 <li>Expected interceptions: each charted attempt gets the league rate for its FTN interception-worthy status (worthy {lg['p_int_worthy']:.1%}, not worthy {lg['p_int_not']:.2%}).
 Expected fumbles lost: own fumbles × {meta['fum_lost_rate']:.3f}, the 2021-25 loss rate.</li></ul>
 <h3>Fourth downs</h3>
@@ -2574,6 +2608,7 @@ what could neutralise it, and whether a more specific split supports it: run dir
 <i>strong</i> only when both ranks are extreme and the shrinkage step keeps at least half of each team's record, <i>moderate</i> when it keeps at least a third, otherwise <i>limited</i>.
 Penalty vulnerabilities are hypotheses built from rates per opportunity (per 100 snaps or dropbacks) and fouls drawn by the opponent. Workload levels: <i>plausible</i> = a top-8 defensive snap count
 in the last game plus a short week; <i>minor</i> = one of those, or a top-8 three-and-out or quick-turnaround rate on a short week.</p>
+{line_method()}
 <h3>Workload and fatigue</h3>
 <p>Team snaps come from PFR snap counts (the most snaps any player on the unit played). Possession time, plays and three-and-outs come from nflfastR drives. Real rest is wall-clock time between the
 last play of one defensive drive and the first play of the next in the same half, so it includes kicks and stoppages. The fatigue study pools {meta['history_seasons'][0]}-{meta['season']} play-by-play. It regresses EPA (and success)
@@ -2652,8 +2687,8 @@ of the true effects), so a measure with no reliable signal cannot top the list. 
 matchup report.</li>
 <li><b>Player rates</b> are shown with their sample and only from a minimum: 10 targets or carries for EPA per target or carry, 20 dropbacks for a
 quarterback's EPA against the blitz or when hit, 100 dropbacks on each side of a with/without split.</li>
-<li><b>ESPN win rates</b>: the hand-copied file is checked on load (32 teams, four metrics, values 0-100, ranks 1-32, same through-week as the report);
-{"it passed, through week " + str(WRI["through_week"]) + " (" + esc((WRI.get("source") or {}).get("updated") or "") + ")" if WRI["ok"] else "it failed (" + esc("; ".join(WRI["problems"][:3])) + "), so the columns are hidden"}.
+<li><b>ESPN win rates</b>: the hand-copied file is checked on load (32 teams, four metrics, values 0-100, ranks 1-32, and at most one week behind the report);
+{"it passed, through week " + str(WRI["through_week"]) + " (" + esc((WRI.get("source") or {}).get("updated") or "") + ")" if WRI["ok"] else "it failed (" + esc("; ".join(WRI["problems"][:3])) + "), so the pass-block, pass-rush, run-block and run-stop win rates are not shown this week"}.
 {("Across the 32 teams: " + "; ".join(f"{esc(lab)} r = {r:+.2f}" for lab, r in WRI["corr"]) + ". Run-block win rate is barely related to yards before contact, so it is context only.") if WRI["corr"] else ""}</li>
 </ul>
 <h3>Sign conventions</h3>

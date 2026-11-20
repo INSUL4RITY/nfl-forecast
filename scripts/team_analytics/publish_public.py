@@ -39,7 +39,8 @@ def public_page(html: str, meta: dict) -> str:
     assert not PLAYER_ID.search(html), "a player ID is still in the public page"
     desc = (f"Opponent-adjusted NFL team analytics entering week {meta['through_week'] + 1} of {meta['season']}, "
             "built in Python from public nflverse data.")
-    html = html.replace("</title>", f'</title>\n<meta name="description" content="{desc}">', 1)
+    if '<meta name="description"' not in html:                  # the report carries its own sharing tags (og_card.py)
+        html = html.replace("</title>", f'</title>\n<meta name="description" content="{desc}">', 1)
     note = (f'\n  <p class="meta">Built in Python from public <a href="https://github.com/nflverse">nflverse</a> data, no market data · '
             f'<a href="{CODE}">Code</a> · <a href="{PORTFOLIO}">Portfolio</a></p>')
     assert html.count(ANCHOR) == 1, "report header changed"
@@ -56,6 +57,9 @@ def main():
     page = public_page((d / "report.html").read_text(encoding="utf-8"), meta)
     out.mkdir(parents=True, exist_ok=True)
     (out / "index.html").write_text(page, encoding="utf-8")
+    for extra in ("og.png", "glossary.html"):                    # sharing preview image (og_card.py), shared glossary (glossary.py)
+        if (d / extra).exists():
+            (out / extra).write_bytes((d / extra).read_bytes())
     print("wrote", out / "index.html", f"{len(page.encode()) / 1e6:.2f} MB")
 
 

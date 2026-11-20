@@ -1,3 +1,6 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>NFL Week {{WEEK}} Team Analytics</title>
@@ -32,7 +35,7 @@ p { margin: 0 0 10px; max-width: 78ch; }
 ul { margin: 0 0 10px; padding-left: 20px; max-width: 86ch; }
 li { margin-bottom: 4px; }
 code, .mono { font-family: var(--font-mono); font-size: 0.86em; }
-pre { font-family: var(--font-mono); font-size: 0.82rem; background: var(--surface-2); border: 1px solid var(--rule); padding: 10px 12px; overflow-x: auto; border-radius: 6px; }
+pre { position: relative; font-family: var(--font-mono); font-size: 0.82rem; background: var(--surface-2); border: 1px solid var(--rule); padding: 10px 12px; overflow-x: auto; border-radius: 6px; }
 .meta { color: var(--ink-2); font-size: 0.9rem; }
 .meta b { color: var(--ink); }
 nav.sections { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--surface); border-bottom: 1px solid var(--rule); }
@@ -49,7 +52,7 @@ section:first-child { border-top: 0; margin-top: 0; }
 .callout { background: var(--info-bg); border: 1px solid var(--info-border); border-radius: 8px; padding: 12px 14px; margin: 12px 0; max-width: 90ch; }
 .callout.warn { background: var(--warn-bg); border-color: var(--warn-border); }
 .callout.warn b { color: var(--warn-ink); }
-.table-wrap { overflow-x: auto; border: 1px solid var(--rule); border-radius: 8px; background: var(--surface); margin: 8px 0 4px; }
+.table-wrap { position: relative; overflow-x: auto; border: 1px solid var(--rule); border-radius: 8px; background: var(--surface); margin: 8px 0 4px; }
 table { border-collapse: collapse; font-size: 0.84rem; font-variant-numeric: tabular-nums; width: max-content; min-width: 100%; }
 th, td { padding: 5px 8px; border-bottom: 1px solid var(--rule); text-align: right; white-space: nowrap; }
 th { background: var(--surface-2); color: var(--ink-2); font-weight: 600; font-size: 0.76rem; vertical-align: bottom; position: sticky; top: 0; }
@@ -202,14 +205,37 @@ h4.rh { margin: 16px 0 6px; font-size: 0.95rem; }
 .pill.wl-minor { border-color: var(--rule-strong); color: var(--ink-2); }
 .pill.wl-none { color: var(--muted); }
 footer { color: var(--muted); font-size: 0.82rem; border-top: 1px solid var(--rule); padding-block: 20px 40px; }
+footer ul.credits { margin: 4px 0 10px; padding-left: 18px; max-width: 110ch; }
+footer ul.credits li { margin-bottom: 2px; }
+footer a { color: var(--ink-2); }
 @media (max-width: 640px) {
   .profile div { grid-template-columns: 1fr; gap: 2px; }
   .mm { grid-template-columns: 1fr; }
 }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+p a, li a, .tnote a, .lead a, .callout a, .meta a, footer a, .find a, .srclist a { text-decoration: underline; text-underline-offset: 2px; }
+td .rk .mk { margin-left: 1px; }
+.rec { white-space: nowrap; }
+.table-wrap:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.mnav { display: none; }
+@media (max-width: 640px) {
+  .mnav { display: flex; position: fixed; right: max(12px, env(safe-area-inset-right, 0px)); bottom: max(12px, env(safe-area-inset-bottom, 0px)); z-index: 20; gap: 6px; align-items: flex-end; }
+  .mnav a.totop, .mnav summary { display: inline-flex; align-items: center; min-height: 40px; padding: 0 14px; border-radius: 999px; background: var(--surface-2); border: 1px solid var(--rule-strong); color: var(--ink); font-weight: 700; font-size: 0.85rem; box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45); cursor: pointer; list-style: none; }
+  .mnav summary::-webkit-details-marker { display: none; }
+  .mnav a.totop { text-decoration: none; }
+  .mnav details { position: relative; }
+  .mnav details > nav { position: absolute; right: 0; bottom: 48px; display: grid; min-width: 220px; max-height: 70vh; overflow-y: auto; background: var(--surface); border: 1px solid var(--rule-strong); border-radius: 10px; padding: 6px; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5); }
+  .mnav details > nav a { padding: 9px 10px; border-radius: 6px; color: var(--ink); font-weight: 600; text-decoration: none; }
+  .mnav details > nav a:hover, .mnav details > nav a:focus-visible { background: var(--surface-2); }
+  footer { padding-bottom: 80px; }
+}
 @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
 </style>
+{{HEAD_EXTRA}}
+</head>
+<body>
 
-<header class="top"><div class="wrap">
+<header class="top" id="top"><div class="wrap">
   <div class="brand">Insularity NFL Forecast · team analytics</div>
   <h1>NFL Week {{WEEK}} Team Analytics, 2026</h1>
   <div class="meta" id="meta-line"></div>
@@ -219,6 +245,7 @@ footer { color: var(--muted); font-size: 0.82rem; border-top: 1px solid var(--ru
   <a href="#defence">Defence</a><a href="#stc">Special teams &amp; coaching</a><a href="#situational">Situational</a><a href="#profiles">Team profiles</a><a href="#method">Method</a>
 </div></nav>
 
+<div class="mnav"><details id="mnav-menu"><summary>Sections</summary><nav aria-label="Sections menu"><a href="#summary">Takeaways</a><a href="#rankings">Rankings &amp; chart</a><a href="#matchups">Matchups</a><a href="#offence">Offence</a><a href="#defence">Defence</a><a href="#stc">Special teams &amp; coaching</a><a href="#situational">Situational</a><a href="#profiles">Team profiles</a><a href="#method">Method</a></nav></details><a class="totop" href="#top">Top</a></div>
 <main><div class="wrap">
 
 <section id="summary">
@@ -231,11 +258,12 @@ footer { color: var(--muted); font-size: 0.82rem; border-top: 1px solid var(--ru
 
 <section id="rankings">
   <div class="sec-head"><span class="sec-num">2</span><h2>Rankings and team chart</h2></div>
-  <nav class="subnav" aria-label="In this section"><a href="#rk">Team rankings</a><a href="#chart">Team chart</a><a href="#form">Recent form</a><a href="#power-full">Full power rankings</a></nav>
+  <nav class="subnav" aria-label="In this section: Rankings"><a href="#rk">Team rankings</a><a href="#chart">Team chart</a><a href="#form">Recent form</a><a href="#power-full">Full power rankings</a></nav>
   <h3 class="sub" id="rk">Team rankings</h3>
   <div class="controls" id="rk-controls"></div>
   <div id="rk-table"></div>
-  <p class="tnote">Small numbers are league ranks (1 = best for that side of the ball). Blue marks the top five, red the bottom five. Opponent-adjusted applies to EPA/play, success, dropback EPA and rush EPA; the other columns are raw in both views.</p>
+  <p class="tnote">Small numbers are league ranks (1 = best for that side of the ball). Blue and ▴ mark the top five, red and ▾ the bottom five. The header says which view each column is in. Opponent-adjusted applies to EPA/play, success, dropback EPA and rush EPA; the other columns are raw in both views.</p>
+  <p class="tnote">This report's <b>overall rating</b> is in points per game: 2026 plays only, opponent-adjusted with one least-squares fit, no prior and no shrinkage, plus a kept share of special-teams EPA. The forecast's <a href="https://insul4rity.github.io/nfl-forecast/ratings/">Team ratings</a> are in net adjusted EPA per play, fitted only on games before each moment, leaning on last season early in the year and shrunk towards average. They answer different questions (what a team has done this season vs the forecast's best estimate of its strength), so their ranks differ, sometimes by several places; neither is wrong. The <a href="glossary.html">glossary</a> lists both.</p>
   <h3 class="sub" id="chart">Team chart</h3>
   <p class="lead">Pick any two measures for offence or defence. Axes are oriented so up and right are always better: a defence's EPA allowed is flipped, as is any measure where lower is better. Dashed lines mark the league average. Hover or tap a team for its values and ranks.</p>
   <div class="chart-controls" id="tc-controls"></div>
@@ -265,7 +293,7 @@ footer { color: var(--muted); font-size: 0.82rem; border-top: 1px solid var(--ru
 
 <section id="offence">
   <div class="sec-head"><span class="sec-num">4</span><h2>Offence</h2></div>
-  <nav class="subnav" aria-label="In this section"><a href="#efficiency">Efficiency</a><a href="#drives">Drives</a><a href="#passing">Passing</a><a href="#protection">Protection</a><a href="#qbs">Quarterbacks</a><a href="#usage">Players</a><a href="#rushing">Rushing</a><a href="#explosive">Explosives</a></nav>
+  <nav class="subnav" aria-label="In this section: Offence"><a href="#efficiency">Efficiency</a><a href="#drives">Drives</a><a href="#passing">Passing</a><a href="#protection">Protection</a><a href="#qbs">Quarterbacks</a><a href="#usage">Players</a><a href="#rushing">Rushing</a><a href="#explosive">Explosives</a></nav>
   <div class="callout"><b>EPA and DVOA are different measures.</b> EPA (expected points added) values each play by the change in nflfastR's expected points from before to after the snap,
   from down, distance, field position and time. It is open, play-by-play and unadjusted unless an adjustment is applied. DVOA (FTN) compares each play's success with a league baseline
   for the same situation, then adjusts for opponent and removes some luck-driven outcomes. DVOA is proprietary, is not in nflverse and is not shown here.
@@ -318,7 +346,7 @@ footer { color: var(--muted); font-size: 0.82rem; border-top: 1px solid var(--ru
 
 <section id="defence">
   <div class="sec-head"><span class="sec-num">5</span><h2>Defence</h2></div>
-  <nav class="subnav" aria-label="In this section"><a href="#def-eff">Efficiency</a><a href="#coverage">Coverage</a><a href="#pressure">Pressure</a><a href="#run-def">Run defence</a><a href="#def-expl">Explosives allowed</a></nav>
+  <nav class="subnav" aria-label="In this section: Defence"><a href="#def-eff">Efficiency</a><a href="#coverage">Coverage</a><a href="#pressure">Pressure</a><a href="#run-def">Run defence</a><a href="#def-expl">Explosives allowed</a></nav>
   <p class="legend">Defence tables show what each defence allows: for EPA, success and yards, lower is better (▼); for sacks, pressure and takeaways, higher is better (▲). Ranks are always 1 = best defence.</p>
   <h3 class="sub" id="def-eff">Efficiency and drives</h3>
   <div data-table="eff_def"></div>
@@ -349,7 +377,7 @@ footer { color: var(--muted); font-size: 0.82rem; border-top: 1px solid var(--ru
 
 <section id="stc">
   <div class="sec-head"><span class="sec-num">6</span><h2>Special teams and coaching</h2></div>
-  <nav class="subnav" aria-label="In this section"><a href="#coaching">Coaching</a><a href="#specialteams">Special teams</a></nav>
+  <nav class="subnav" aria-label="In this section: Special teams and coaching"><a href="#coaching">Coaching</a><a href="#specialteams">Special teams</a></nav>
   <h3 class="sub" id="coaching">Coaching: who decides what</h3>
   <p class="lead">Each tendency is credited to the person who owns that decision. The head coach owns game management (fourth downs, two-point tries, end of half) even when he calls no plays; the play-callers own the play choices; the special-teams coordinator owns the units, with the head coach making the risky calls. These are observed decisions, not judgements of coaching quality.</p>
   <div data-table="staff"></div>
@@ -368,7 +396,7 @@ footer { color: var(--muted); font-size: 0.82rem; border-top: 1px solid var(--ru
 
 <section id="situational">
   <div class="sec-head"><span class="sec-num">7</span><h2>Situational</h2></div>
-  <nav class="subnav" aria-label="In this section"><a href="#turnovers">Turnovers</a><a href="#luck">Luck</a><a href="#penalties">Penalties</a><a href="#refs">Referees</a><a href="#workload">Workload</a><a href="#travel">Rest &amp; travel</a><a href="#schedule">Schedule</a><a href="#depth">Depth &amp; injuries</a></nav>
+  <nav class="subnav" aria-label="In this section: Situational"><a href="#turnovers">Turnovers</a><a href="#luck">Luck</a><a href="#penalties">Penalties</a><a href="#refs">Referees</a><a href="#workload">Workload</a><a href="#travel">Rest &amp; travel</a><a href="#schedule">Schedule</a><a href="#depth">Depth &amp; injuries</a></nav>
   <h3 class="sub" id="turnovers">Turnovers, margin and sustainability</h3>
   <p class="lead">Expected values use FTN's interception-worthy charting and fumble counts. A large gap between actual and expected margin suggests regression is possible, not certain.</p>
   <div data-table="turnovers"></div>
@@ -412,7 +440,7 @@ footer { color: var(--muted); font-size: 0.82rem; border-top: 1px solid var(--ru
 
 <section id="profiles">
   <div class="sec-head"><span class="sec-num">8</span><h2>Team profiles</h2></div>
-  <nav class="subnav" aria-label="In this section"><a href="#identity">Identity</a><a href="#comparison">Comparison</a><a href="#overunder">Over/under</a><a href="#sustainable">Sustainable</a><a href="#exploitable">Exploitable</a></nav>
+  <nav class="subnav" aria-label="In this section: Team profiles"><a href="#identity">Identity</a><a href="#comparison">Comparison</a><a href="#overunder">Over/under</a><a href="#sustainable">Sustainable</a><a href="#exploitable">Exploitable</a></nav>
   <h3 class="sub" id="identity">Team identity and underlying weaknesses</h3>
   <p class="lead">Each answer is generated from the rankings, so every statement carries its number and rank.</p>
   <div class="controls"><label for="prof-team">Team</label><select id="prof-team"></select></div>
@@ -422,7 +450,7 @@ footer { color: var(--muted); font-size: 0.82rem; border-top: 1px solid var(--ru
   <details class="full"><summary>Open the comparison tables (same team order, by overall rating, so rows line up)</summary>
   <div data-table="B0"></div><div data-table="B1"></div><div data-table="B2"></div><div data-table="B3"></div><div data-table="B4"></div></details>
   <h3 class="sub" id="overunder">Biggest statistical overperformers and underperformers</h3>
-  <p class="lead">Regression candidates, not predictions. Luck index of +0.75 or more = potentially overperforming; −0.75 or less = potentially underperforming.</p>
+  <p class="lead">Regression candidates, not predictions. Luck index (points and EPA) of +0.75 or more = potentially overperforming; −0.75 or less = potentially underperforming. It averages the points-based and EPA-based gaps, so it is not the forecast's <a href="https://insul4rity.github.io/nfl-forecast/ratings/">Luck</a> figure (EPA only); see the <a href="glossary.html">glossary</a>.</p>
   <details class="full"><summary>Open the over- and underperformers</summary>
   <h4 class="rh"><span class="pill over">Potentially overperforming</span></h4><div class="cat-list" id="cat-over"></div>
   <h4 class="rh"><span class="pill under">Potentially underperforming</span></h4><div class="cat-list" id="cat-under"></div>
@@ -442,10 +470,49 @@ footer { color: var(--muted); font-size: 0.82rem; border-top: 1px solid var(--ru
 </section>
 
 </div></main>
-<footer><div class="wrap">Data: nflverse (nflfastR play-by-play, FTN charting, PFR advanced stats, Next Gen Stats, snap counts, rosters, injuries, schedules). ESPN win rates copied by hand with their date. For analysis and education only. Generated by scripts/team_analytics in the nflcast project.</div></footer>
+<footer><div class="wrap">
+  <h2 class="sr-only">Data credits and licences</h2>
+  <p><b>Data credits.</b> Each source with the licence or terms it publishes (checked 20 Nov 2026):</p>
+  <ul class="credits">
+    <li><a href="https://github.com/nflverse/nflverse-data">nflverse</a> (nflfastR play-by-play, snap counts, rosters, injuries, schedules, depth charts): <a href="https://github.com/nflverse/nflverse-data/blob/main/LICENSE.md">CC BY 4.0</a>.</li>
+    <li>FTN charting via nflverse: <a href="https://nflreadr.nflverse.com/reference/load_ftn_charting.html">CC BY-SA 4.0</a>, attributed to FTN Data via nflverse.</li>
+    <li>Pro Football Reference advanced stats via nflverse: no licence stated by nflverse; Sports Reference's own terms apply.</li>
+    <li>NFL Next Gen Stats, via nflverse and NFL.com Next Gen Trends: no licence stated; the NFL's terms apply.</li>
+    <li>National Weather Service forecasts: <a href="https://www.weather.gov/disclaimer">public domain</a> (US government); no endorsement implied.</li>
+    <li>Open-Meteo forecasts: <a href="https://open-meteo.com/en/licence">CC BY 4.0</a>, weather data by <a href="https://open-meteo.com/">Open-Meteo.com</a>.</li>
+    <li>ESPN Analytics win rates, copied by hand with their date: no data licence stated; <a href="https://disneytermsofuse.com/english/">ESPN/Disney terms of use</a> apply.</li>
+    <li>Referee flag rates, copied by hand from <a href="https://hashtagfootball.com/nfl-penalty-tracker">Hashtag Football</a>: no licence stated; its <a href="https://hashtagfootball.com/terms-conditions">terms</a> apply.</li>
+    <li>Play-callers cross-checked against <a href="https://github.com/samhoppen/NFL_public">Sam Hoppen's public dataset</a> (no licence stated; read at build time, not copied).</li>
+  </ul>
+  <p>Metric definitions shared with the Insularity NFL Forecast: <a href="glossary.html">glossary</a>. No market data. For analysis and education only. Generated by scripts/team_analytics in the nflcast project.</p>
+</div></footer>
 
 <script>
 const DATA = /*DATA*/;
+(() => {
+  const used = new Map();
+  const label = w => {                       // the nearest heading before the frame (looking up through its parents), unique on the page
+    let n = null;
+    for (let x = w; x && !n && x !== document.body; x = x.parentElement) {
+      for (let p = x.previousElementSibling; p && !n; p = p.previousElementSibling) {
+        if (/^H[2-5]$/.test(p.tagName)) n = p;
+        else { const hs = p.querySelectorAll ? p.querySelectorAll("h2, h3, h4, h5") : []; if (hs.length) n = hs[hs.length - 1]; }
+      }
+    }
+    const th = w.querySelector("th");
+    const base = ((n && n.textContent) || (th && th.textContent) || "Table").replace(/\s+/g, " ").trim().slice(0, 110);
+    const k = (used.get(base) || 0) + 1; used.set(base, k);
+    return k > 1 ? `${base} (table ${k})` : base;
+  };
+  const fix = root => root.querySelectorAll(".table-wrap:not([tabindex]), pre:not([tabindex])").forEach(w => {
+    w.setAttribute("tabindex", "0"); w.setAttribute("role", "region");
+    w.setAttribute("aria-label", w.tagName === "PRE" ? "Code: " + label(w) : label(w));
+  });
+  new MutationObserver(ms => ms.forEach(m => m.addedNodes.forEach(n => { if (n.nodeType === 1) fix(n.parentElement || n); })))
+    .observe(document.documentElement, {childList: true, subtree: true});
+  document.addEventListener("DOMContentLoaded", () => fix(document));
+  document.addEventListener("click", e => { const m = document.getElementById("mnav-menu"); if (m && e.target.closest("#mnav-menu nav a")) m.open = false; });
+})();
 const TEAMS = DATA.teams, BY = Object.fromEntries(TEAMS.map(t => [t.team, t]));
 const NAME = DATA.names;
 const ord = n => { n = Math.round(n); const s = (n % 100 >= 11 && n % 100 <= 13) ? "th" : ({1: "st", 2: "nd", 3: "rd"}[n % 10] || "th"); return n + s; };
@@ -464,6 +531,13 @@ function fmt(v, f) {
   }
 }
 const esc = s => String(s).replace(/[&<>"]/g, c => ({"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;"}[c]));
+// records and scores never break at the hyphen (non-breaking hyphen between digits)
+const rec = s => `<span class="rec">${esc(s ?? "").replace(/(\d)-(\d)/g, "$1&#8209;$2")}</span>`;
+// a rank as text: ", rank 3 of 32" for screen readers and copy-paste; a visible mark for the top and bottom five
+const rkSpan = (q, n) => {
+  const top = q <= 5, bot = q > n - 5;
+  return `<span class="rk"><span class="sr-only">, rank </span>${q}${top ? '<span class="mk" aria-hidden="true">▴</span>' : bot ? '<span class="mk" aria-hidden="true">▾</span>' : ""}<span class="sr-only"> of ${n}${top ? ", top five" : bot ? ", bottom five" : ""}</span></span>`;
+};
 const num = v => typeof v === "number" && !isNaN(v);
 
 // a value below its column's sample minimum: shown muted with its n, no rank, no colour
@@ -506,7 +580,7 @@ function renderTable(spec, host, rows) {
     for (const r of rs) {
       const sf = spec.sos ? (r["sos_flag_" + spec.sos] ?? (BY[r.team] || {})["sos_flag_" + spec.sos]) : null;
       const sfp = sf ? ` <span class="sosf ${sf.startsWith("softer") ? "sos-soft" : "sos-hard"}" title="${esc((spec.sos === "off" ? "This offence's" : "This defence's") + " opponents were more than 1 SD " + (sf.startsWith("softer") ? "easier" : "harder") + " than average; the raw figures here are not adjusted for that")}">${sf.startsWith("softer") ? "soft sched." : "tough sched."}</span>` : "";
-      h += `<tr><td class="tm">${esc(r.label ?? r.team)}${sfp}${hasRec ? "" : `<small>${esc(r.sub ?? r.record ?? "")}</small>`}</td>`;
+      h += `<tr><td class="tm">${esc(r.label ?? r.team)}${sfp}${hasRec ? "" : `<small>${rec(r.sub ?? r.record ?? "")}</small>`}</td>`;
       for (const c of cols) {
         const v = r[c.k];
         let cls = "", rk = "", title = c.nk && num(r[c.nk]) ? `n = ${r[c.nk]} ${c.nl}` : "";
@@ -516,7 +590,7 @@ function renderTable(spec, host, rows) {
         }
         if (rankers[c.k] && num(v)) {
           const R = rankers[c.k], q = R.q(v);
-          if (!c.nr) rk = `<span class="rk">${q}</span>`;
+          if (!c.nr) rk = rkSpan(q, R.n);
           cls = q <= 3 ? "t5 f3" : q <= 5 ? "t5" : q > R.n - 3 ? "b5 l3" : q > R.n - 5 ? "b5" : "";
           if (c.min) title = (title ? title + "; " : "") + `n = ${r[c.n]} ${DATA.nlabels[c.n] || ""}`;
         }
@@ -586,11 +660,11 @@ document.getElementById("notes-method").innerHTML = para((NOTES.sections || {}).
 const tm = t => `<b>${esc(t)}</b>`;
 const F = DATA.F;
 const fItems = [
-  ["Five strongest teams", F.overall, t => `${fmt(BY[t].rating_pg, "s1")} pts/game, ${BY[t].record}`],
+  ["Five strongest teams", F.overall, t => `${fmt(BY[t].rating_pg, "s1")} pts/game, ${rec(BY[t].record)}`],
   ["Five strongest offences", F.offence, t => `composite ${fmt(BY[t].off_composite, "s2")}, adj. EPA/play ${fmt(BY[t].off_adj_epa, "epa")}`],
   ["Five strongest defences", F.defence, t => `composite ${fmt(BY[t].def_composite, "s2")}, adj. EPA/play ${fmt(BY[t].def_adj_epa, "epa")}`],
-  ["Rating far above record", F.underrated, t => `rating ${ord(BY[t].rating_rank)}, record ${ord(BY[t].winpct_rank)} (${BY[t].record})`],
-  ["Record far above rating", F.overrated, t => `record ${ord(BY[t].winpct_rank)} (${BY[t].record}), rating ${ord(BY[t].rating_rank)}`],
+  ["Rating far above record", F.underrated, t => `rating ${ord(BY[t].rating_rank)}, record ${ord(BY[t].winpct_rank)} (${rec(BY[t].record)})`],
+  ["Record far above rating", F.overrated, t => `record ${ord(BY[t].winpct_rank)} (${rec(BY[t].record)}), rating ${ord(BY[t].rating_rank)}`],
   ["Positive regression candidates", F.pos_reg, t => `luck index ${fmt(BY[t].luck_index, "s2")}`],
   ["Negative regression candidates", F.neg_reg, t => `luck index ${fmt(BY[t].luck_index, "s2")}`],
   ["Most concerning availability", F.injury, t => `${fmt(BY[t].absent_snap_weighted, "n2")} snap-weighted regulars out (${fmt(BY[t].absent_n, "int")})`],
@@ -603,7 +677,7 @@ document.getElementById("f-grid").innerHTML = fItems.map(([h, list, f]) =>
   `<div class="card"><h4>${esc(h)}</h4><ol>${list.length ? list.map(t => `<li>${tm(t)} <span class="v">${esc(f(t))}</span></li>`).join("") : "<li>None meet the threshold</li>"}</ol></div>`).join("");
 
 // ESPN win rates: hidden with a banner when the hand-copied file failed validation
-if (!DATA.wr.ok) document.querySelectorAll(".wr-banner").forEach(el => { el.innerHTML = `<div class="callout warn"><b>Win rates not updated.</b> The ESPN pass-block, pass-rush, run-block and run-stop win rates are hidden: ${esc(DATA.wr.problems.slice(0, 3).join("; "))}.</div>`; });
+// ESPN win rates that failed validation are left out; Method says why (one line, not a notice in each section)
 // referee assignments for this week
 (function refAssign() {
   const RM = DATA.ref_meta, host = document.getElementById("ref-assign");
@@ -613,7 +687,7 @@ if (!DATA.wr.ok) document.querySelectorAll(".wr-banner").forEach(el => { el.inne
     return `<tr><td>${esc(g.label)}</td><td>${r ? esc(r) : `<span class="muted">assignment not loaded</span>`}</td><td>${s ? fmt(s.flags_pg, "n1") + ` <span class="rk">${s.rank} of ${RM.season_rates.n}</span>` : ""}</td><td>${s ? fmt(s.yds_pg, "n1") : ""}</td><td>${s ? s.games : ""}</td><td>${x ? fmt(x.total, "n1") : ""}</td><td>${x ? fmt(x.home_minus_away, "s2") : ""}</td><td>${x ? x.games : ""}</td></tr>`; }).join("");
   const SR = RM.season_rates;
   host.innerHTML = `<p class="lead">Each referee's crew: accepted penalties per game in the games he worked in ${esc(RM.pool)}, with this season's games where nflverse names the referee. ${RM.assign_loaded ? "" : `Week ${M.through_week + 1} assignments are not in nflverse and have not been added to the hand-kept file yet (they are usually published by Thursday), so each game shows "assignment not loaded".`}</p>
-    <div class="table-wrap"><table class="mt"><thead><tr><th>Week ${M.through_week + 1} game</th><th>Referee</th><th>${SR ? SR.season + " flags/game (rank)" : ""}</th><th>${SR ? SR.season + " yds/game" : ""}</th><th>${SR ? "Games " + SR.season : ""}</th><th>Crew penalties/game ${esc(RM.pool)}</th><th>Home minus away</th><th>Games ${esc(RM.pool)}</th></tr></thead><tbody>${rows}</tbody></table></div>
+    <div class="table-wrap"><table class="mt"><thead><tr><th>Week ${M.through_week + 1} game</th><th>Referee</th><th>${SR ? SR.season + " flags/game (rank)" : "Flags/game"}</th><th>${SR ? SR.season + " yds/game" : ""}</th><th>${SR ? "Games " + SR.season : ""}</th><th>Crew penalties/game ${esc(RM.pool)}</th><th>Home minus away</th><th>Games ${esc(RM.pool)}</th></tr></thead><tbody>${rows}</tbody></table></div>
     ${SR ? `<p class="tnote">${SR.season} columns: accepted flags and penalty yards per game on both teams in the games each referee worked (rank 1 = most flags; league ${fmt(SR.league.flags_pg, "n1")} flags and ${fmt(SR.league.yds_pg, "n1")} yards per game), from <a href="${esc(SR.source.url)}">${esc(SR.source.title)}</a>, ${esc(SR.source.updated)}${SR.through_week < M.through_week ? `; runs through week ${SR.through_week} only` : ""}. ${esc(SR.check)}</p>` : ""}`;
 })();
 document.getElementById("inj-note").textContent = DATA.meta.inj_note || "";
@@ -709,15 +783,15 @@ function drawRk() {
   let h = `<div class="table-wrap"><table><thead><tr><th scope="col"><button type="button" data-i="-1">Team</button></th><th scope="col" title="Games played">G</th>`;
   RK_COLS.forEach((c, i) => {
     const adjLab = RK.adj && c[RK.side][1] ? "adj. " : (RK.adj ? "raw " : "");
-    h += `<th scope="col" class="${i === i0 ? "sorted" : ""}" title="${esc((RK.side === "off" ? "Offence: " : "Defence allowed: ") + adjLab + c.l + (RK.side === "off" ? ". Higher is better." : ". Lower is better."))}"><button type="button" data-i="${i}">${esc(c.l)}<span class="dir">${i === i0 ? (RK.desc ? "▼" : "▲") : ""}</span></button></th>`;
+    h += `<th scope="col" class="${i === i0 ? "sorted" : ""}" title="${esc((RK.side === "off" ? "Offence: " : "Defence allowed: ") + adjLab + c.l + (RK.side === "off" ? ". Higher is better." : ". Lower is better."))}"><button type="button" data-i="${i}">${esc(c.l)}${adjLab ? ` <small class="muted">(${adjLab.trim()})</small>` : ""}<span class="dir">${i === i0 ? (RK.desc ? "▼" : "▲") : ""}</span></button></th>`;
   });
   h += "</tr></thead><tbody>";
   for (const r of rows) {
-    h += `<tr><td class="tm">${esc(r.team)}<small>${esc(BY[r.team].record)}</small></td><td>${r.g}</td>`;
+    h += `<tr><td class="tm">${esc(r.team)}<small>${rec(BY[r.team].record)}</small></td><td>${r.g}</td>`;
     RK_COLS.forEach((c, i) => {
       const v = r["v" + i], q = R[i](v);
       const cls = q === null ? "na" : q <= 5 ? "t5" : q > 27 ? "b5" : "";
-      h += `<td class="${cls}">${esc(fmt(v, c.f))}${q ? `<span class="rk">${q}</span>` : ""}</td>`;
+      h += `<td class="${cls}">${esc(fmt(v, c.f))}${q ? rkSpan(q, 32) : ""}</td>`;
     });
     h += "</tr>";
   }
@@ -842,7 +916,7 @@ function tcSVG(W, H, opts = {}) {
     const on = !TC.spot || p.t === TC.spot, big = p.t === TC.spot, L = lab[i], op = on ? 1 : 0.25;
     s += `<g data-t="${p.t}" opacity="${op}"><circle cx="${p.X}" cy="${p.Y}" r="${(big ? 8 : 6) * sc}" fill="${COL[p.t] || cssv("--accent")}" stroke="${surf}" stroke-width="${2 * sc}"/>`
       + (L ? `<text x="${L[0]}" y="${L[1]}" text-anchor="${L[2]}" fill="${big ? ink : ink2}" font-size="${big ? fs * 1.12 : fs}" font-weight="${big ? 800 : 600}">${p.t}</text>` : "")
-      + (opts.export ? "" : `<circle class="hit" cx="${p.X}" cy="${p.Y}" r="${13 * sc}" fill="transparent" tabindex="0" aria-label="${esc(NAME[p.t])}: ${esc(fmt(p.x, mx.f))}, ${esc(fmt(p.y, my.f))}"/>`) + `</g>`;
+      + (opts.export ? "" : `<circle class="hit" cx="${p.X}" cy="${p.Y}" r="${13 * sc}" fill="transparent" tabindex="0" role="img" aria-label="${esc(NAME[p.t])}: ${esc(fmt(p.x, mx.f))}, ${esc(fmt(p.y, my.f))}"/>`) + `</g>`;
   });
   return {svg: s + "</svg>", S, P};
 }
@@ -857,7 +931,7 @@ function tcDraw() {
   const show = g => {
     if (!g) { tip.style.display = "none"; return; }
     const p = P.find(q => q.t === g.dataset.t);
-    tip.innerHTML = `<b>${esc(p.t)} &#183; ${esc(NAME[p.t])}</b> <span>(${esc(BY[p.t].record)}, ${p.g} games)</span><br>${esc(tcLabel(TC.xs, S.mx))}: ${esc(fmt(p.x, S.mx.f))} <span>${ord(p.rx)}</span><br>${esc(tcLabel(TC.ys, S.my))}: ${esc(fmt(p.y, S.my.f))} <span>${ord(p.ry)}</span>`;
+    tip.innerHTML = `<b>${esc(p.t)} &#183; ${esc(NAME[p.t])}</b> <span>(${rec(BY[p.t].record)}, ${p.g} games)</span><br>${esc(tcLabel(TC.xs, S.mx))}: ${esc(fmt(p.x, S.mx.f))} <span>${ord(p.rx)}</span><br>${esc(tcLabel(TC.ys, S.my))}: ${esc(fmt(p.y, S.my.f))} <span>${ord(p.ry)}</span>`;
     tip.style.display = "block";
     const k = box.clientWidth / W, cx = p.X * k, cy = p.Y * k, tw = tip.offsetWidth, th = tip.offsetHeight;
     tip.style.left = Math.max(4, Math.min(box.clientWidth - tw - 4, cx + 12)) + "px";
@@ -923,7 +997,7 @@ document.getElementById("dis-press").innerHTML = `<div class="callout"><b>Best f
 // quarterbacks
 const QCOLS = [
   {k: "team", l: "Team", f: "str", d: 0}, {k: "games", l: "G", f: "int", d: 0}, {k: "dropbacks", l: "Dropbacks", f: "int", d: 0},
-  {k: "qb_composite", l: "Composite", f: "s2", d: 1}, {k: "epa_db", l: "EPA/db", f: "epa", d: 1}, {k: "adj_epa_db", l: "Adj. EPA/db", f: "epa", d: 1},
+  {k: "qb_composite", l: "Composite", f: "s2", d: 1}, {k: "epa_db", l: "EPA/db (raw)", f: "epa", d: 1}, {k: "adj_epa_db", l: "EPA/db (opp.-adj.)", f: "epa", d: 1},
   {k: "sr", l: "Success", f: "pct", d: 1}, {k: "cpoe", l: "CPOE", f: "n1", d: 1}, {k: "ypa", l: "Y/A", f: "n2", d: 1}, {k: "adot", l: "aDOT", f: "n1", d: 0},
   {k: "sack_rate", l: "Sack rate", f: "pct", d: -1}, {k: "p2s", l: "Sacks/pressure", f: "pct", d: -1}, {k: "int_rate", l: "INT rate", f: "pct", d: -1},
   {k: "int_worthy_rate", l: "INT-worthy", f: "pct", d: -1}, {k: "pressure_rate", l: "Pressured", f: "pct", d: 0},
@@ -944,7 +1018,7 @@ function drawQB() {
   const spec = {first: "Passer", title: qbAll ? "All passers with 20+ dropbacks" : `Qualified passers (${M.through_week > 0 ? "100+" : ""} dropbacks)`, cols: QCOLS, sort: "qb_composite", desc: true,
     note: "Pressured = PFR pressures per dropback in games with PFR data. EPA vs 5+ uses FTN rusher counts. Receivers' YAC over expected and drop rate describe the supporting cast."};
   const rr = rows.map(q => Object.assign({}, q, {team: q.name_full || q.team, record: q.latest_starter ? "" : "not latest starter"}));
-  rr.forEach((r, i) => r.team_abbr = rows[i].team);
+  rr.forEach((r, i) => r.team_abbr = rows[i].team_label || rows[i].team);
   spec.cols = QCOLS.map(c => c.k === "team" ? {k: "team_abbr", l: "Team", f: "str", d: 0} : c);
   renderTable(spec, host, rr);
   document.getElementById("qb-count").textContent = `${rows.length} passers shown`;
@@ -988,7 +1062,7 @@ profSel.innerHTML = DATA.order.map(t => `<option value="${t}">${t} · ${esc(NAME
 function drawProfile() {
   const t = profSel.value, p = DATA.profiles[t], r = BY[t];
   const note = (NOTES.teams || {})[t];
-  document.getElementById("profile").innerHTML = `<p class="meta"><b>${esc(NAME[t])}</b> · ${r.record} · overall rating ${fmt(r.rating_pg, "s1")} (${ord(r.rating_rank)}) · with 2025 prior ${fmt(r.stab_rating_pg, "s1")} (${ord(r.stab_rank)}) · QB starts: ${esc(r.qb_starts)}</p>` +
+  document.getElementById("profile").innerHTML = `<p class="meta"><b>${esc(NAME[t])}</b> · ${rec(r.record)} · overall rating ${fmt(r.rating_pg, "s1")} (${ord(r.rating_rank)}) · with 2025 prior ${fmt(r.stab_rating_pg, "s1")} (${ord(r.stab_rank)}) · QB starts: ${esc(r.qb_starts)}</p>` +
     (note ? `<div class="callout">${note}</div>` : "") +
     `<dl class="profile">${p.lines.map(([q, a]) => `<div><dt>${esc(q)}</dt><dd>${esc(a)}</dd></div>`).join("")}</dl>`;
   try { localStorage.setItem("ta-team", t); } catch (e) {}
@@ -1048,12 +1122,12 @@ drawUsage();
 const lazyFor = id => document.getElementById(id).closest("details");
 whenOpen(lazyFor("identity-table"), () => document.getElementById("identity-table").innerHTML = `<div class="table-wrap"><table><thead><tr><th>Team</th><th>Record</th><th>Rating</th><th style="text-align:left">Best offensive area</th><th style="text-align:left">Best defensive area</th><th style="text-align:left">Weakest area</th><th>Balance</th></tr></thead><tbody>${DATA.order.map(t => {
   const p = DATA.profiles[t], r = BY[t];
-  return `<tr><td class="tm">${t}</td><td>${r.record}</td><td>${fmt(r.rating_pg, "s1")}</td><td style="text-align:left">${esc(p.best_off)}</td><td style="text-align:left">${esc(p.best_def)}</td><td style="text-align:left">${esc(p.worst)}</td><td>${esc(r.balance || "")}</td></tr>`;
+  return `<tr><td class="tm">${t}</td><td>${rec(r.record)}</td><td>${fmt(r.rating_pg, "s1")}</td><td style="text-align:left">${esc(p.best_off)}</td><td style="text-align:left">${esc(p.best_def)}</td><td style="text-align:left">${esc(p.worst)}</td><td>${esc(r.balance || "")}</td></tr>`;
 }).join("")}</tbody></table></div>`);
 
 // matchups: overview cards
 const GAMES = DATA.games, GBY = Object.fromEntries(GAMES.map(g => [g.id, g]));
-document.getElementById("mm").innerHTML = GAMES.map(g => `<div class="card"><h4><button type="button" class="linkbtn" data-game="${esc(g.id)}">${esc(g.label)}</button> · ${esc(g.when)}</h4>${g.final ? `<p class="meta"><b>${esc(g.final)}</b></p>` : ""}<ul>${g.edges.map(e =>
+document.getElementById("mm").innerHTML = GAMES.map(g => `<div class="card"><h4><button type="button" class="linkbtn" data-game="${esc(g.id)}">${esc(g.label)}</button> · ${esc(g.when)}</h4>${g.final ? `<p class="meta"><b>${rec(g.final)}</b></p>` : ""}<ul>${g.edges.map(e =>
   `<li><span class="sc">${e.score >= 0 ? "+" : "−"}${Math.abs(e.score).toFixed(1)}</span>${esc(e.what)} <span class="det">${esc(e.detail)} · edge to ${esc(e.favours)}${Math.abs(e.score) < 1.5 ? " (modest)" : ""}; shrinkage keeps ${Math.round(100 * e.w_off)}% / ${Math.round(100 * e.w_def)}%</span></li>`).join("")}</ul></div>`).join("");
 
 // matchups: one game in detail
@@ -1108,12 +1182,12 @@ function unusualBlock(u) {
 function renderGame(id) {
   const g = GBY[id]; if (!g) return;
   const S = g.summary, A = g.away, H = g.home;
-  let h = `<div class="game-head"><h3>${esc(NAME[A])} (${esc(S[A].record)}) at ${esc(NAME[H])} (${esc(S[H].record)})</h3>
+  let h = `<div class="game-head"><h3>${esc(NAME[A])} (${rec(S[A].record)}) at ${esc(NAME[H])} (${rec(S[H].record)})</h3>
     <p class="meta">${esc(g.when)} · ${esc(g.venue)}${g.neutral ? " · neutral site" : ""}${g.div ? " · divisional game" : ""} · rest days: ${A} ${g.rest[A] ?? "n/a"}, ${H} ${g.rest[H] ?? "n/a"} · referee: ${g.referee ? esc(g.referee) + ((DATA.ref_meta.season_rates || {refs: {}}).refs[g.referee] ? ` (${DATA.ref_meta.season_rates.season}: ${fmt(DATA.ref_meta.season_rates.refs[g.referee].flags_pg, "n1")} flags/game, ${DATA.ref_meta.season_rates.refs[g.referee].rank} of ${DATA.ref_meta.season_rates.n}; league ${fmt(DATA.ref_meta.season_rates.league.flags_pg, "n1")}; more under Situational)` : " (crew rates under Situational)") : "assignment not loaded"}</p>
     ${g.weather ? `<p class="meta"><b>Weather.</b> ${esc(g.weather)}</p>` : ""}
-    ${g.final ? `<p class="final">${esc(g.final)}</p>` : ""}</div>`;
+    ${g.final ? `<p class="final">${rec(g.final)}</p>` : ""}</div>`;
   h += `<div class="table-wrap"><table><thead><tr><th>Team</th><th>Record</th><th>Overall rating</th><th>With 2025 prior</th><th>Offence (adj.)</th><th>Defence (adj.)</th><th>Special teams</th><th title="Opponent-adjusted net EPA/play over the team's last four games, and the change from its season figure">Net EPA last 4 (change)</th><th style="text-align:left">QB starts</th></tr></thead><tbody>${[A, H].map(t =>
-    `<tr><td class="tm">${t}${t === H ? "<small>home</small>" : ""}</td><td>${esc(S[t].record)}</td><td>${fmt(S[t].rating, "s1")}${rk(S[t].rating_rank)}</td><td>${ord(S[t].stab_rank)}</td><td>${ord(S[t].off_rank)}</td><td>${ord(S[t].def_rank)}</td><td>${ord(S[t].st_rank)}</td><td title="weeks ${esc(g.form[t].weeks)}">${fmt(g.form[t].net_l4, "epa")} <span class="rk">${fmt(g.form[t].net_change, "epa")}</span></td><td style="text-align:left">${esc(S[t].qb)}</td></tr>`).join("")}</tbody></table></div>`;
+    `<tr><td class="tm">${t}${t === H ? "<small>home</small>" : ""}</td><td>${rec(S[t].record)}</td><td>${fmt(S[t].rating, "s1")}${rk(S[t].rating_rank)}</td><td>${ord(S[t].stab_rank)}</td><td>${ord(S[t].off_rank)}</td><td>${ord(S[t].def_rank)}</td><td>${ord(S[t].st_rank)}</td><td title="weeks ${esc(g.form[t].weeks)}">${fmt(g.form[t].net_l4, "epa")} <span class="rk">${fmt(g.form[t].net_change, "epa")}</span></td><td style="text-align:left">${esc(S[t].qb)}</td></tr>`).join("")}</tbody></table></div>`;
   for (const t of [A, H]) for (const u of (g.unusual || {})[t] || []) h += unusualBlock(u);
   if (g.note) h += `<div class="callout">${g.note}</div>`;
   if (g.post) h += `<div class="callout"><b>After the game.</b> ${g.post}</div>`;
@@ -1131,7 +1205,7 @@ function renderGame(id) {
   h += `<div class="split"><div class="card"><h4>Expected values, from the numbers</h4><ul>${g.expect.map(e => `<li>${esc(e)}</li>`).join("")}</ul></div>
     <div class="card warnc"><h4>Be careful with</h4><ul>${g.cautions.map(e => `<li>${esc(e)}</li>`).join("")}</ul></div></div>`;
   for (const sd of g.sides) {
-    h += `<h3>${esc(sd.off)} offence vs ${esc(sd.def)} defence${sd.home ? " (offence at home)" : ""}</h3><div class="table-wrap"><table class="mt"><thead><tr><th>Measure</th><th>${esc(sd.off)} offence</th><th>${esc(sd.def)} defence allows</th><th>Expected in this matchup</th><th>League average</th><th>Leans</th><th>Confidence</th></tr></thead><tbody>`;
+    h += `<h3>${esc(sd.off)} offence vs ${esc(sd.def)} defence${sd.home ? " (offence at home)" : ""}</h3><div class="table-wrap"><table class="mt"><thead><tr><th>Measure</th><th>${esc(sd.off)} offence (season, raw)</th><th>${esc(sd.def)} defence allows (season, raw)</th><th>Expected in this matchup (opp.-adjusted, shrunk)</th><th>League average</th><th>Leans</th><th>Confidence</th></tr></thead><tbody>`;
     for (const grp of sd.groups) {
       h += `<tr class="grp"><td colspan="7">${esc(grp.name)}</td></tr>`;
       const q = sd.starter;
@@ -1167,7 +1241,7 @@ function renderGame(id) {
     ${crow("Defensive blitz rate", c => `${fmt(c.blitz_rate, "pct")} (${esc(c.blitz)}${c.def_weeks !== "all" ? `, weeks ${esc(c.def_weeks)}` : ""})`)}
     ${crow("Penalties per game, all units", c => fmt(c.pen_pg, "n1"))}
     ${crow("2nd-half minus 1st-half net EPA/play", c => fmt(c.h2, "epa"))}
-    ${crow("One-score record", c => esc(c.one_score))}
+    ${crow("One-score record", c => rec(c.one_score))}
     </tbody></table></div><p class="tnote">Fourth-down approach compares each team's go rate in neutral situations (win probability 20-80%, more than 2:00 left in the half) with the league: aggressive or conservative = at least 0.75 standard deviations from the mean. An aggressive staff creates more fourth-down attempts and more variable drives; a conservative one kicks more in borderline spots. Small samples: one or two decisions move these rates noticeably.</p>`;
   document.getElementById("game").innerHTML = h;
   try { localStorage.setItem("ta-game", id); } catch (e) {}
@@ -1248,12 +1322,12 @@ function catItems(list, cls) {
 whenOpen(lazyFor("cat-over"), () => {
   document.getElementById("cat-over").innerHTML = catItems(DATA.cats.over, "over");
   document.getElementById("cat-under").innerHTML = catItems(DATA.cats.under, "under");
-  document.getElementById("cat-ok").innerHTML = DATA.cats.supported.map(t => `${tm(t)} <span class="v">${BY[t].record}</span>`).join(" · ");
+  document.getElementById("cat-ok").innerHTML = DATA.cats.supported.map(t => `${tm(t)} <span class="v">${rec(BY[t].record)}</span>`).join(" · ");
 });
 
 // sustainable
 whenOpen(lazyFor("sus"), () => document.getElementById("sus").innerHTML = `<div class="table-wrap"><table><thead><tr><th>Team</th><th>Rating with 2025 prior</th><th>2026-only rating</th><th>Balance</th><th>Worst main unit</th><th>Snap-weighted absences</th><th>QBs started</th><th>New primary QB</th></tr></thead><tbody>${DATA.D.map((s, i) =>
-  `<tr><td class="tm">${i + 1}. ${s.team}<small>${BY[s.team].record}</small></td><td>${fmt(s.stab, "s1")}</td><td>${fmt(s.rating, "s1")}</td><td>${esc(s.balance)}</td><td>${ord(s.worst)}</td><td>${fmt(s.absent, "n2")}</td><td>${s.qbs}</td><td>${s.qbchg ? "yes" : "no"}</td></tr>`).join("")}</tbody></table></div>${para((NOTES.sections || {}).sustainable)}`);
+  `<tr><td class="tm">${i + 1}. ${s.team}<small>${rec(BY[s.team].record)}</small></td><td>${fmt(s.stab, "s1")}</td><td>${fmt(s.rating, "s1")}</td><td>${esc(s.balance)}</td><td>${ord(s.worst)}</td><td>${fmt(s.absent, "n2")}</td><td>${s.qbs}</td><td>${s.qbchg ? "yes" : "no"}</td></tr>`).join("")}</tbody></table></div>${para((NOTES.sections || {}).sustainable)}`);
 
 // exploitable
 const MECH = {
@@ -1267,6 +1341,8 @@ const MECH = {
   "Red-zone defence": "red-zone efficiency once inside the 20",
   "Third/fourth-down defence": "late-down conversions that extend drives",
 };
-whenOpen(lazyFor("expl-list"), () => document.getElementById("expl-list").innerHTML = DATA.E.map(e => `<div class="cat-item"><div class="hd"><b>${esc(e.team)} · ${esc(NAME[e.team])}</b><span class="v">${BY[e.team].record} · rating ${fmt(e.rating, "s1")}</span></div><ul>${e.weak.map(w =>
+whenOpen(lazyFor("expl-list"), () => document.getElementById("expl-list").innerHTML = DATA.E.map(e => `<div class="cat-item"><div class="hd"><b>${esc(e.team)} · ${esc(NAME[e.team])}</b><span class="v">${rec(BY[e.team].record)} · rating ${fmt(e.rating, "s1")}</span></div><ul>${e.weak.map(w =>
   `<li><b>${esc(w.unit)}</b> ${ord(w.rank)} (${esc(w.value)}). Exposed to ${esc(MECH[w.unit] || "")}.</li>`).join("")}</ul>${((NOTES.exploit || {})[e.team]) ? `<p>${NOTES.exploit[e.team]}</p>` : ""}</div>`).join(""));
 </script>
+</body>
+</html>

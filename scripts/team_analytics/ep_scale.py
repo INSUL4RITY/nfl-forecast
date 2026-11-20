@@ -37,11 +37,13 @@ def problem(pbp: pd.DataFrame, season: int | None = None) -> str | None:
 
 def check(frames: dict) -> tuple[str | None, str]:
     """frames: {season: play-by-play}. Returns (warning or None, quality-check line)."""
-    bad = {s: m for s, m in ((s, problem(f, s)) for s, f in frames.items()) if m}
+    conv = sorted(s for s, f in frames.items() if "ep_scale" in f)     # put back on the original scale (ep_harmonise.py)
+    bad = {s: m for s, m in ((s, problem(f, s)) for s, f in frames.items() if s not in conv) if m}
     seasons = sorted(frames)
     if not bad:
+        tail = f" ({', '.join(map(str, conv))} converted back from the revised valuation; see the next line)" if conv else ""
         return None, (f"EP scale: play-by-play {seasons[0]}-{seasons[-1]} is on the original nflfastR EP valuation "
-                      "(two-point probability 0.4735), the scale every historical fit here uses.")
+                      f"(two-point probability 0.4735), the scale every historical fit here uses{tail}.")
     which = ", ".join(f"{s} ({m})" for s, m in sorted(bad.items()))
     warn = (f"nflverse play-by-play looks like the revised EP valuation (nflfastR PR 618) for {which}. This report's historical "
             "fits use the original scale, so EPA and success-rate figures may mix the two. Treat EPA-based numbers with care "

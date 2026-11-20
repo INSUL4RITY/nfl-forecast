@@ -43,15 +43,23 @@ reads or changes the forecasting model, and it uses no market data (spread, tota
 | `reliability.py` | The Low/Medium/High reliability badges, from the fitted shrinkage weights (team measures and player efficiency) |
 | `backtest_special_teams.py`, `st_shrinkage.json` | How much special-teams EPA per game lasts; the combined rating keeps that share (about 27% after 9 games) |
 | `backtest_streaks.py`, `streak_backtest.json` | Hot and cold teams (2021-25): how much of a last-four-games form change lasted (none measurable), and whether luck and one-score records carry on (they do not); the hot/cold verdicts quote it |
-| `backtest_line_absences.py`, `line_absence_backtest.json` | What missing offensive-line starters cost (2021-25: about -0.05 EPA per dropback each, slightly more hits and sacks, no extra cost against strong pass rushes); the line caution in the matchups quotes it |
+| `backtest_line_absences_pregame.py`, `line_absence_pregame.json` | What an offensive-line starter known to be out before kickoff costs (2021-25, 2,238 team-games: -0.036 EPA per dropback each, 95% -0.051 to -0.020; no extra cost against strong pass rushes); the line caution quotes it from week 11 |
+| `backtest_line_absences.py`, `line_absence_backtest.json` | Kept for history: the first version counted a starter as missing when he played under half the snaps, so it included in-game injuries (-0.047) |
 | `game_variance_test.json` | Test of game-level variance in the matchup shrinkage (2021-25): no gain, so it stays off |
 | `layout_audit_state.py`, `layout_audit_state.json` | Whether a browser layout audit is needed: fingerprints of the page-shaping files at the last build that passed the local and live audits (lets the unattended refresh skip it for data-only changes) |
-| `ep_scale.py` | Warns if nflverse switches play-by-play to a revised EP valuation |
+| `ep_scale.py`, `ep_harmonise.py`, `ep_scale_2026.yaml` | Puts 2026 play-by-play back on the original EP valuation exactly as the forecast does (archived values for plays in the last original-scale snapshot, the forecast's frozen line for later plays; `ep_scale_2026.yaml` is a verbatim copy of main's `configs/ep_scale.yaml`), checks the residual each build, and warns if any season is still on a revised scale |
 | `caller_check.py` | Compares the hand-kept play-caller file with Sam Hoppen's public dataset and lists differences to verify |
-| `publish_public.py` | Copies the newest report to the public page |
+| `publish_public.py` | Copies the newest report to the public page, with its preview image and glossary |
+| `og_card.py` | Open Graph and Twitter card tags and the 1200 x 630 preview image (top of that week's ratings), screenshotted by headless Edge or Chrome at build time |
+| `glossary.py` | The shared glossary of metric definitions (raw, opponent-adjusted, weighted and shrunk; luck; ratings) for this page and the forecast, written as `glossary.html` |
 | `*_2026.json` | Small hand-kept inputs, each with its source (ESPN win rates, play-callers, referee assignments, this season's referee flag rates from Hashtag Football, and quarterback news the rosters cannot show yet: trades, signings, named starters) |
 
 Outputs for each week are in [`reports/team_analytics/`](../../reports/team_analytics/).
+
+## Page checks
+
+The page is a standard HTML document (`lang="en-GB"`). `scripts/layout_audit.js` checks it at 1280, 768, 414, 375 and 320 px for sideways
+scrolling and overflowing panels, and runs axe-core 4 in the same pass: any serious or critical accessibility violation fails the audit.
 
 ## Run it
 
