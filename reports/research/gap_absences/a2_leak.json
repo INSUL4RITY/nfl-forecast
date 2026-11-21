@@ -1,0 +1,289 @@
+{
+ "n": 40,
+ "week1_targets": 1,
+ "max_abs_diff_excluding_week1": 1.7763568394002505e-15,
+ "max_abs_diff_week1": 2.915376169362102,
+ "passed": true,
+ "rows": [
+  {
+   "game_id": "2020_04_CLE_DAL",
+   "team": "CLE",
+   "season": 2020,
+   "week": 4,
+   "max_abs_diff": 6.938893903907228e-17
+  },
+  {
+   "game_id": "2021_08_PIT_CLE",
+   "team": "PIT",
+   "season": 2021,
+   "week": 8,
+   "max_abs_diff": 5.551115123125783e-17
+  },
+  {
+   "game_id": "2019_05_GB_DAL",
+   "team": "GB",
+   "season": 2019,
+   "week": 5,
+   "max_abs_diff": 1.1102230246251565e-16
+  },
+  {
+   "game_id": "2020_02_SF_NYJ",
+   "team": "SF",
+   "season": 2020,
+   "week": 2,
+   "max_abs_diff": 1.3877787807814457e-17
+  },
+  {
+   "game_id": "2026_07_SF_ATL",
+   "team": "ATL",
+   "season": 2026,
+   "week": 7,
+   "max_abs_diff": 4.163336342344337e-17
+  },
+  {
+   "game_id": "2023_13_SF_PHI",
+   "team": "PHI",
+   "season": 2023,
+   "week": 13,
+   "max_abs_diff": 1.1102230246251565e-16
+  },
+  {
+   "game_id": "2023_03_DEN_MIA",
+   "team": "DEN",
+   "season": 2023,
+   "week": 3,
+   "max_abs_diff": 2.220446049250313e-16
+  },
+  {
+   "game_id": "2024_11_WAS_PHI",
+   "team": "PHI",
+   "season": 2024,
+   "week": 11,
+   "max_abs_diff": 5.551115123125783e-17
+  },
+  {
+   "game_id": "2024_12_SF_GB",
+   "team": "GB",
+   "season": 2024,
+   "week": 12,
+   "max_abs_diff": 5.551115123125783e-17
+  },
+  {
+   "game_id": "2019_08_OAK_HOU",
+   "team": "HOU",
+   "season": 2019,
+   "week": 8,
+   "max_abs_diff": 1.1102230246251565e-16
+  },
+  {
+   "game_id": "2021_03_CHI_CLE",
+   "team": "CHI",
+   "season": 2021,
+   "week": 3,
+   "max_abs_diff": 7.494005416219807e-16
+  },
+  {
+   "game_id": "2026_03_LV_NO",
+   "team": "LV",
+   "season": 2026,
+   "week": 3,
+   "max_abs_diff": 1.6653345369377348e-16
+  },
+  {
+   "game_id": "2021_02_DAL_LAC",
+   "team": "LAC",
+   "season": 2021,
+   "week": 2,
+   "max_abs_diff": 1.7763568394002505e-15
+  },
+  {
+   "game_id": "2020_18_BAL_TEN",
+   "team": "TEN",
+   "season": 2020,
+   "week": 18,
+   "max_abs_diff": 1.1102230246251565e-16
+  },
+  {
+   "game_id": "2020_03_DAL_SEA",
+   "team": "SEA",
+   "season": 2020,
+   "week": 3,
+   "max_abs_diff": 1.1102230246251565e-16
+  },
+  {
+   "game_id": "2021_06_CIN_DET",
+   "team": "DET",
+   "season": 2021,
+   "week": 6,
+   "max_abs_diff": 1.1102230246251565e-16
+  },
+  {
+   "game_id": "2023_04_MIA_BUF",
+   "team": "MIA",
+   "season": 2023,
+   "week": 4,
+   "max_abs_diff": 1.1102230246251565e-16
+  },
+  {
+   "game_id": "2020_16_TEN_GB",
+   "team": "TEN",
+   "season": 2020,
+   "week": 16,
+   "max_abs_diff": 5.551115123125783e-17
+  },
+  {
+   "game_id": "2021_06_TB_PHI",
+   "team": "PHI",
+   "season": 2021,
+   "week": 6,
+   "max_abs_diff": 1.1102230246251565e-16
+  },
+  {
+   "game_id": "2021_07_DET_LA",
+   "team": "DET",
+   "season": 2021,
+   "week": 7,
+   "max_abs_diff": 2.220446049250313e-16
+  },
+  {
+   "game_id": "2021_17_NYG_CHI",
+   "team": "CHI",
+   "season": 2021,
+   "week": 17,
+   "max_abs_diff": 1.1102230246251565e-16
+  },
+  {
+   "game_id": "2021_07_DEN_CLE",
+   "team": "CLE",
+   "season": 2021,
+   "week": 7,
+   "max_abs_diff": 1.1102230246251565e-16
+  },
+  {
+   "game_id": "2021_14_BAL_CLE",
+   "team": "BAL",
+   "season": 2021,
+   "week": 14,
+   "max_abs_diff": 5.551115123125783e-17
+  },
+  {
+   "game_id": "2019_17_CLE_CIN",
+   "team": "CIN",
+   "season": 2019,
+   "week": 17,
+   "max_abs_diff": 1.1102230246251565e-16
+  },
+  {
+   "game_id": "2024_19_PIT_BAL",
+   "team": "PIT",
+   "season": 2024,
+   "week": 19,
+   "max_abs_diff": 2.0816681711721685e-17
+  },
+  {
+   "game_id": "2021_05_BUF_KC",
+   "team": "BUF",
+   "season": 2021,
+   "week": 5,
+   "max_abs_diff": 1.1102230246251565e-16
+  },
+  {
+   "game_id": "2019_06_HOU_KC",
+   "team": "KC",
+   "season": 2019,
+   "week": 6,
+   "max_abs_diff": 2.220446049250313e-16
+  },
+  {
+   "game_id": "2023_14_DEN_LAC",
+   "team": "DEN",
+   "season": 2023,
+   "week": 14,
+   "max_abs_diff": 8.326672684688674e-17
+  },
+  {
+   "game_id": "2019_15_CHI_GB",
+   "team": "GB",
+   "season": 2019,
+   "week": 15,
+   "max_abs_diff": 2.7755575615628914e-17
+  },
+  {
+   "game_id": "2019_16_NO_TEN",
+   "team": "NO",
+   "season": 2019,
+   "week": 16,
+   "max_abs_diff": 5.551115123125783e-17
+  },
+  {
+   "game_id": "2020_07_DAL_WAS",
+   "team": "WAS",
+   "season": 2020,
+   "week": 7,
+   "max_abs_diff": 1.1102230246251565e-16
+  },
+  {
+   "game_id": "2026_11_IND_HOU",
+   "team": "IND",
+   "season": 2026,
+   "week": 11,
+   "max_abs_diff": 2.220446049250313e-16
+  },
+  {
+   "game_id": "2020_14_HOU_CHI",
+   "team": "HOU",
+   "season": 2020,
+   "week": 14,
+   "max_abs_diff": 2.220446049250313e-16
+  },
+  {
+   "game_id": "2021_07_IND_SF",
+   "team": "IND",
+   "season": 2021,
+   "week": 7,
+   "max_abs_diff": 5.551115123125783e-17
+  },
+  {
+   "game_id": "2024_05_NO_KC",
+   "team": "NO",
+   "season": 2024,
+   "week": 5,
+   "max_abs_diff": 4.440892098500626e-16
+  },
+  {
+   "game_id": "2021_09_GB_KC",
+   "team": "KC",
+   "season": 2021,
+   "week": 9,
+   "max_abs_diff": 5.551115123125783e-17
+  },
+  {
+   "game_id": "2022_01_PHI_DET",
+   "team": "PHI",
+   "season": 2022,
+   "week": 1,
+   "max_abs_diff": 2.915376169362102
+  },
+  {
+   "game_id": "2020_11_PHI_CLE",
+   "team": "PHI",
+   "season": 2020,
+   "week": 11,
+   "max_abs_diff": 5.551115123125783e-17
+  },
+  {
+   "game_id": "2025_15_DET_LA",
+   "team": "DET",
+   "season": 2025,
+   "week": 15,
+   "max_abs_diff": 1.1102230246251565e-16
+  },
+  {
+   "game_id": "2024_08_CAR_DEN",
+   "team": "CAR",
+   "season": 2024,
+   "week": 8,
+   "max_abs_diff": 1.1102230246251565e-16
+  }
+ ]
+}
