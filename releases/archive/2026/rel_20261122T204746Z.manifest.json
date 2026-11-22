@@ -1,0 +1,55 @@
+{
+ "game_ids": [
+  "2026_11_NYJ_LAC",
+  "2026_11_JAX_NYG",
+  "2026_11_LV_DEN",
+  "2026_11_MIN_SF",
+  "2026_11_CIN_WAS"
+ ],
+ "generated_at_utc": "2026-11-22T20:47:46.189520+00:00",
+ "information_cutoff_utc": "2026-11-22T20:47:46.189520+00:00",
+ "input_snapshots": {
+  "depth_charts": {
+   "content_sha256": "bb83b423c45e3a9148583e44004e3e36ececc3dccd24bde80c13c2cd5678eb21",
+   "http_last_modified": "Sun, 22 Nov 2026 15:12:59 GMT",
+   "last_confirmed_at_utc": "2026-11-22T20:45:35.778075+00:00",
+   "observed_at_utc": "2026-11-22T15:15:35.483341+00:00"
+  },
+  "injuries": {
+   "content_sha256": "6abb2c2d6d5eb2bc6d0752ab60611ea78eca4bfb63e4411530e1d3d7d3bdabc0",
+   "http_last_modified": "Sun, 22 Nov 2026 15:13:18 GMT",
+   "last_confirmed_at_utc": "2026-11-22T20:45:35.397578+00:00",
+   "observed_at_utc": "2026-11-22T11:09:18.310988+00:00"
+  },
+  "pbp_ep_scale": {
+   "applied": true,
+   "check_team_error_mean": -0.0,
+   "check_team_error_sd": 0.0043,
+   "ok": true,
+   "plays_converted": 332,
+   "plays_old_values": 26062,
+   "reference_snapshot": "pbp_2026__observed_20261116T194534Z.parquet",
+   "season": 2026
+  },
+  "schedules": {
+   "content_sha256": "7963657565515fa80b048ff95599e246a116e99f17565bc53143e678a3d1a34c",
+   "http_last_modified": "Sun, 22 Nov 2026 20:36:22 GMT",
+   "last_confirmed_at_utc": "2026-11-22T20:45:32.926153+00:00",
+   "observed_at_utc": "2026-11-22T20:15:32.663260+00:00"
+  }
+ },
+ "manifest_created_at_utc": "2026-11-22T20:47:59.954441+00:00",
+ "model_version": {
+  "code_hash": "3a5e919dbd51a525ad2d0579337b1c4ec6f809e6a397d04999efb6ef0de00f28",
+  "oof_source_run": "locked_20260924T234835Z",
+  "production_config_sha256_at_archiving": "93370fd999d74861e7ac08a4d9522756fc384a2be04d04c60dad10fefd9f23f8",
+  "qb_start_rates": "v3_start_practice_listed_through_2025",
+  "stage": "production_v1.1"
+ },
+ "note": "Manifest creation time is when this archive entry was made; it is not a publication time.",
+ "release_path": "releases/2026/week_11/rel_20261122T204746Z.json",
+ "run_id": "rel_20261122T204746Z",
+ "schema_version": 3,
+ "sha256": "cfb922da77b0331f33b387ef9801f41291ae3fe1cbf65f55fca8765f3930214d",
+ "size_bytes": 108221
+}
