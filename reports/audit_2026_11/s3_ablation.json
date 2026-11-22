@@ -1,0 +1,3780 @@
+{
+ "groups": {
+  "efficiency": [
+   "team_off_epa_play",
+   "team_off_succ_play",
+   "team_adj_off_epa",
+   "opp_def_epa_play",
+   "opp_def_succ_play",
+   "opp_adj_def_epa"
+  ],
+  "passing": [
+   "team_off_epa_db",
+   "team_off_expl_db",
+   "team_off_sack_rate",
+   "opp_def_epa_db",
+   "opp_def_expl_db",
+   "opp_def_sack_rate"
+  ],
+  "rushing": [
+   "team_off_epa_rush",
+   "team_off_expl_rush",
+   "opp_def_epa_rush",
+   "opp_def_expl_rush"
+  ],
+  "turnovers": [
+   "team_off_int_rate",
+   "team_off_fum_rate",
+   "team_off_start_fp",
+   "opp_def_int_rate",
+   "opp_def_fum_rate",
+   "opp_def_start_fp"
+  ],
+  "pace": [
+   "team_off_neutral_pass",
+   "team_off_plays_pg",
+   "opp_def_neutral_pass",
+   "opp_def_plays_pg"
+  ],
+  "scoring": [
+   "team_off_pts_drive",
+   "team_off_rz_td",
+   "team_off_points_pg",
+   "team_adj_off_pts",
+   "opp_def_pts_drive",
+   "opp_def_rz_td",
+   "opp_def_points_pg",
+   "opp_adj_def_pts"
+  ],
+  "qb": [
+   "team_qb_rating",
+   "team_qb_log_db",
+   "team_qb_delta",
+   "team_qb_change"
+  ],
+  "rest": [
+   "team_off_bye",
+   "team_short_week",
+   "opp_off_bye",
+   "opp_short_week",
+   "rest_adv"
+  ],
+  "home_field": [
+   "venue"
+  ],
+  "other": [
+   "is_playoff",
+   "own_games_this_season",
+   "opp_games_this_season"
+  ],
+  "roof": [
+   "dome"
+  ]
+ },
+ "drop_one": [
+  {
+   "cand": "drop_efficiency",
+   "base": "full",
+   "loss": "ae_margin",
+   "n_games": 1675,
+   "n_blocks": 130,
+   "mean_diff_ae": 0.007675920414543045,
+   "ci95_ae": [
+    -0.006450599967368794,
+    0.020709702661461896
+   ],
+   "mean_diff_se": 0.38224034817012453,
+   "ci95_se": [
+    0.016782952095855477,
+    0.7453422199184248
+   ],
+   "cand_mae": 10.082223319117105,
+   "base_mae": 10.074547398702563,
+   "cand_rmse": 13.044256511923043,
+   "base_rmse": 13.029596601609606,
+   "seasons_better": 1,
+   "per_season": [
+    {
+     "season": 2019,
+     "n": 267,
+     "cand_mae": 10.36568336715515,
+     "base_mae": 10.356064883109285,
+     "better": false
+    },
+    {
+     "season": 2020,
+     "n": 269,
+     "cand_mae": 9.950256900130315,
+     "base_mae": 9.93526114794902,
+     "better": false
+    },
+    {
+     "season": 2021,
+     "n": 285,
+     "cand_mae": 10.927561569873111,
+     "base_mae": 10.917725863848217,
+     "better": false
+    },
+    {
+     "season": 2022,
+     "n": 284,
+     "cand_mae": 9.012882435101224,
+     "base_mae": 9.004080232793932,
+     "better": false
+    },
+    {
+     "season": 2023,
+     "n": 285,
+     "cand_mae": 10.238610333828431,
+     "base_mae": 10.24864147812956,
+     "better": true
+    },
+    {
+     "season": 2024,
+     "n": 285,
+     "cand_mae": 10.005087334147326,
+     "base_mae": 9.991715233898898,
+     "better": false
+    }
+   ],
+   "verdict": "no demonstrated improvement"
+  },
+  {
+   "cand": "drop_passing",
+   "base": "full",
+   "loss": "ae_margin",
+   "n_games": 1675,
+   "n_blocks": 130,
+   "mean_diff_ae": 0.0017533791365068397,
+   "ci95_ae": [
+    -0.028479589901660884,
+    0.03106260827828285
+   ],
+   "mean_diff_se": -0.07471268735430701,
+   "ci95_se": [
+    -0.8168485599388485,
+    0.7264035090544136
+   ],
+   "cand_mae": 10.076300777839071,
+   "base_mae": 10.074547398702563,
+   "cand_rmse": 13.026729248484529,
+   "base_rmse": 13.029596601609606,
+   "seasons_better": 3,
+   "per_season": [
+    {
+     "season": 2019,
+     "n": 267,
+     "cand_mae": 10.400896453687444,
+     "base_mae": 10.356064883109285,
+     "better": false
+    },
+    {
+     "season": 2020,
+     "n": 269,
+     "cand_mae": 9.961542772619838,
+     "base_mae": 9.93526114794902,
+     "better": false
+    },
+    {
+     "season": 2021,
+     "n": 285,
+     "cand_mae": 10.901031162415716,
+     "base_mae": 10.917725863848217,
+     "better": true
+    },
+    {
+     "season": 2022,
+     "n": 284,
+     "cand_mae": 8.96700816572324,
+     "base_mae": 9.004080232793932,
+     "better": true
+    },
+    {
+     "season": 2023,
+     "n": 285,
+     "cand_mae": 10.236667995784224,
+     "base_mae": 10.24864147812956,
+     "better": true
+    },
+    {
+     "season": 2024,
+     "n": 285,
+     "cand_mae": 10.000824086872905,
+     "base_mae": 9.991715233898898,
+     "better": false
+    }
+   ],
+   "verdict": "no demonstrated improvement"
+  },
+  {
+   "cand": "drop_rushing",
+   "base": "full",
+   "loss": "ae_margin",
+   "n_games": 1675,
+   "n_blocks": 130,
+   "mean_diff_ae": 0.0241570790840012,
+   "ci95_ae": [
+    -0.004646854852954912,
+    0.05208713177693193
+   ],
+   "mean_diff_se": 0.5441853703675961,
+   "ci95_se": [
+    -0.09736072803046507,
+    1.1748504130036286
+   ],
+   "cand_mae": 10.098704477786567,
+   "base_mae": 10.074547398702563,
+   "cand_rmse": 13.050462557742703,
+   "base_rmse": 13.029596601609606,
+   "seasons_better": 2,
+   "per_season": [
+    {
+     "season": 2019,
+     "n": 267,
+     "cand_mae": 10.34242802216252,
+     "base_mae": 10.356064883109285,
+     "better": true
+    },
+    {
+     "season": 2020,
+     "n": 269,
+     "cand_mae": 9.976555758995438,
+     "base_mae": 9.93526114794902,
+     "better": false
+    },
+    {
+     "season": 2021,
+     "n": 285,
+     "cand_mae": 10.95943030977511,
+     "base_mae": 10.917725863848217,
+     "better": false
+    },
+    {
+     "season": 2022,
+     "n": 284,
+     "cand_mae": 8.993354621550289,
+     "base_mae": 9.004080232793932,
+     "better": true
+    },
+    {
+     "season": 2023,
+     "n": 285,
+     "cand_mae": 10.28385228673285,
+     "base_mae": 10.24864147812956,
+     "better": false
+    },
+    {
+     "season": 2024,
+     "n": 285,
+     "cand_mae": 10.041263040983434,
+     "base_mae": 9.991715233898898,
+     "better": false
+    }
+   ],
+   "verdict": "no demonstrated improvement"
+  },
+  {
+   "cand": "drop_turnovers",
+   "base": "full",
+   "loss": "ae_margin",
+   "n_games": 1675,
+   "n_blocks": 130,
+   "mean_diff_ae": 0.00708525135277895,
+   "ci95_ae": [
+    -0.023995422461676852,
+    0.035172868699090115
+   ],
+   "mean_diff_se": 0.028166313264564213,
+   "ci95_se": [
+    -0.7354294039866885,
+    0.7812806743090059
+   ],
+   "cand_mae": 10.081632650055342,
+   "base_mae": 10.074547398702563,
+   "cand_rmse": 13.030677415773178,
+   "base_rmse": 13.029596601609606,
+   "seasons_better": 3,
+   "per_season": [
+    {
+     "season": 2019,
+     "n": 267,
+     "cand_mae": 10.419756110097763,
+     "base_mae": 10.356064883109285,
+     "better": false
+    },
+    {
+     "season": 2020,
+     "n": 269,
+     "cand_mae": 9.930227762950837,
+     "base_mae": 9.93526114794902,
+     "better": true
+    },
+    {
+     "season": 2021,
+     "n": 285,
+     "cand_mae": 10.935686328426375,
+     "base_mae": 10.917725863848217,
+     "better": false
+    },
+    {
+     "season": 2022,
+     "n": 284,
+     "cand_mae": 8.970443610944153,
+     "base_mae": 9.004080232793932,
+     "better": true
+    },
+    {
+     "season": 2023,
+     "n": 285,
+     "cand_mae": 10.270674828719926,
+     "base_mae": 10.24864147812956,
+     "better": false
+    },
+    {
+     "season": 2024,
+     "n": 285,
+     "cand_mae": 9.97196359269469,
+     "base_mae": 9.991715233898898,
+     "better": true
+    }
+   ],
+   "verdict": "no demonstrated improvement"
+  },
+  {
+   "cand": "drop_pace",
+   "base": "full",
+   "loss": "ae_margin",
+   "n_games": 1675,
+   "n_blocks": 130,
+   "mean_diff_ae": 0.0026480270119820085,
+   "ci95_ae": [
+    -0.025239011079820833,
+    0.03113543532445798
+   ],
+   "mean_diff_se": -0.26213277603004176,
+   "ci95_se": [
+    -1.0493099904768235,
+    0.5266917555129574
+   ],
+   "cand_mae": 10.077195425714546,
+   "base_mae": 10.074547398702563,
+   "cand_rmse": 13.019533587062424,
+   "base_rmse": 13.029596601609606,
+   "seasons_better": 3,
+   "per_season": [
+    {
+     "season": 2019,
+     "n": 267,
+     "cand_mae": 10.339541942398382,
+     "base_mae": 10.356064883109285,
+     "better": true
+    },
+    {
+     "season": 2020,
+     "n": 269,
+     "cand_mae": 9.904022120798235,
+     "base_mae": 9.93526114794902,
+     "better": true
+    },
+    {
+     "season": 2021,
+     "n": 285,
+     "cand_mae": 10.940191870608105,
+     "base_mae": 10.917725863848217,
+     "better": false
+    },
+    {
+     "season": 2022,
+     "n": 284,
+     "cand_mae": 9.046745728073752,
+     "base_mae": 9.004080232793932,
+     "better": false
+    },
+    {
+     "season": 2023,
+     "n": 285,
+     "cand_mae": 10.306059962532148,
+     "base_mae": 10.24864147812956,
+     "better": false
+    },
+    {
+     "season": 2024,
+     "n": 285,
+     "cand_mae": 9.929842560487208,
+     "base_mae": 9.991715233898898,
+     "better": true
+    }
+   ],
+   "verdict": "no demonstrated improvement"
+  },
+  {
+   "cand": "drop_scoring",
+   "base": "full",
+   "loss": "ae_margin",
+   "n_games": 1675,
+   "n_blocks": 130,
+   "mean_diff_ae": 0.023664983608278713,
+   "ci95_ae": [
+    0.00013769538229643297,
+    0.04686374167604954
+   ],
+   "mean_diff_se": 1.0482921769053732,
+   "ci95_se": [
+    0.4475825946146242,
+    1.6619647423958699
+   ],
+   "cand_mae": 10.098212382310841,
+   "base_mae": 10.074547398702563,
+   "cand_rmse": 13.069762039822377,
+   "base_rmse": 13.029596601609606,
+   "seasons_better": 1,
+   "per_season": [
+    {
+     "season": 2019,
+     "n": 267,
+     "cand_mae": 10.396620297318876,
+     "base_mae": 10.356064883109285,
+     "better": false
+    },
+    {
+     "season": 2020,
+     "n": 269,
+     "cand_mae": 9.957606827110125,
+     "base_mae": 9.93526114794902,
+     "better": false
+    },
+    {
+     "season": 2021,
+     "n": 285,
+     "cand_mae": 10.9256948021188,
+     "base_mae": 10.917725863848217,
+     "better": false
+    },
+    {
+     "season": 2022,
+     "n": 284,
+     "cand_mae": 8.97214960104565,
+     "base_mae": 9.004080232793932,
+     "better": true
+    },
+    {
+     "season": 2023,
+     "n": 285,
+     "cand_mae": 10.252471707892877,
+     "base_mae": 10.24864147812956,
+     "better": false
+    },
+    {
+     "season": 2024,
+     "n": 285,
+     "cand_mae": 10.09173313138107,
+     "base_mae": 9.991715233898898,
+     "better": false
+    }
+   ],
+   "verdict": "worse (CI above zero)"
+  },
+  {
+   "cand": "drop_qb",
+   "base": "full",
+   "loss": "ae_margin",
+   "n_games": 1675,
+   "n_blocks": 130,
+   "mean_diff_ae": 0.08965541565511606,
+   "ci95_ae": [
+    0.019696784286303805,
+    0.16202048537980424
+   ],
+   "mean_diff_se": 3.6681871368691086,
+   "ci95_se": [
+    1.743645937275202,
+    5.801668400915641
+   ],
+   "cand_mae": 10.164202814357681,
+   "base_mae": 10.074547398702563,
+   "cand_rmse": 13.169607994832106,
+   "base_rmse": 13.029596601609606,
+   "seasons_better": 1,
+   "per_season": [
+    {
+     "season": 2019,
+     "n": 267,
+     "cand_mae": 10.443194017252038,
+     "base_mae": 10.356064883109285,
+     "better": false
+    },
+    {
+     "season": 2020,
+     "n": 269,
+     "cand_mae": 10.006256984750944,
+     "base_mae": 9.93526114794902,
+     "better": false
+    },
+    {
+     "season": 2021,
+     "n": 285,
+     "cand_mae": 11.109911926253686,
+     "base_mae": 10.917725863848217,
+     "better": false
+    },
+    {
+     "season": 2022,
+     "n": 284,
+     "cand_mae": 8.96698093541254,
+     "base_mae": 9.004080232793932,
+     "better": true
+    },
+    {
+     "season": 2023,
+     "n": 285,
+     "cand_mae": 10.337068461609638,
+     "base_mae": 10.24864147812956,
+     "better": false
+    },
+    {
+     "season": 2024,
+     "n": 285,
+     "cand_mae": 10.126357145075817,
+     "base_mae": 9.991715233898898,
+     "better": false
+    }
+   ],
+   "verdict": "worse (CI above zero)"
+  },
+  {
+   "cand": "drop_rest",
+   "base": "full",
+   "loss": "ae_margin",
+   "n_games": 1675,
+   "n_blocks": 130,
+   "mean_diff_ae": -0.00028004425787171114,
+   "ci95_ae": [
+    -0.013159487268573192,
+    0.0129858981669739
+   ],
+   "mean_diff_se": -0.12033157328141018,
+   "ci95_se": [
+    -0.501804416775424,
+    0.2520712932704548
+   ],
+   "cand_mae": 10.074267354444691,
+   "base_mae": 10.074547398702563,
+   "cand_rmse": 13.024978158422961,
+   "base_rmse": 13.029596601609606,
+   "seasons_better": 2,
+   "per_season": [
+    {
+     "season": 2019,
+     "n": 267,
+     "cand_mae": 10.341421133872316,
+     "base_mae": 10.356064883109285,
+     "better": true
+    },
+    {
+     "season": 2020,
+     "n": 269,
+     "cand_mae": 9.937435833111255,
+     "base_mae": 9.93526114794902,
+     "better": false
+    },
+    {
+     "season": 2021,
+     "n": 285,
+     "cand_mae": 10.909845401746058,
+     "base_mae": 10.917725863848217,
+     "better": true
+    },
+    {
+     "season": 2022,
+     "n": 284,
+     "cand_mae": 9.009407951538662,
+     "base_mae": 9.004080232793932,
+     "better": false
+    },
+    {
+     "season": 2023,
+     "n": 285,
+     "cand_mae": 10.260631660395442,
+     "base_mae": 10.24864147812956,
+     "better": false
+    },
+    {
+     "season": 2024,
+     "n": 285,
+     "cand_mae": 9.99231689788321,
+     "base_mae": 9.991715233898898,
+     "better": false
+    }
+   ],
+   "verdict": "no demonstrated improvement"
+  },
+  {
+   "cand": "drop_home_field",
+   "base": "full",
+   "loss": "ae_margin",
+   "n_games": 1675,
+   "n_blocks": 130,
+   "mean_diff_ae": 0.06730228380391068,
+   "ci95_ae": [
+    0.004865823357846238,
+    0.13274635891218328
+   ],
+   "mean_diff_se": 2.6609125440647627,
+   "ci95_se": [
+    0.965524298256639,
+    4.360192239894637
+   ],
+   "cand_mae": 10.141849682506475,
+   "base_mae": 10.074547398702563,
+   "cand_rmse": 13.131309917321325,
+   "base_rmse": 13.029596601609606,
+   "seasons_better": 1,
+   "per_season": [
+    {
+     "season": 2019,
+     "n": 267,
+     "cand_mae": 10.436823639002561,
+     "base_mae": 10.356064883109285,
+     "better": false
+    },
+    {
+     "season": 2020,
+     "n": 269,
+     "cand_mae": 9.913720128774152,
+     "base_mae": 9.93526114794902,
+     "better": true
+    },
+    {
+     "season": 2021,
+     "n": 285,
+     "cand_mae": 10.939730966689249,
+     "base_mae": 10.917725863848217,
+     "better": false
+    },
+    {
+     "season": 2022,
+     "n": 284,
+     "cand_mae": 9.102473802452304,
+     "base_mae": 9.004080232793932,
+     "better": false
+    },
+    {
+     "season": 2023,
+     "n": 285,
+     "cand_mae": 10.33430389881987,
+     "base_mae": 10.24864147812956,
+     "better": false
+    },
+    {
+     "season": 2024,
+     "n": 285,
+     "cand_mae": 10.126221387290743,
+     "base_mae": 9.991715233898898,
+     "better": false
+    }
+   ],
+   "verdict": "worse (CI above zero)"
+  },
+  {
+   "cand": "drop_other",
+   "base": "full",
+   "loss": "ae_margin",
+   "n_games": 1675,
+   "n_blocks": 130,
+   "mean_diff_ae": 0.0026632607780489783,
+   "ci95_ae": [
+    0.00041199871618716004,
+    0.005185094336208199
+   ],
+   "mean_diff_se": 0.11916221923676704,
+   "ci95_se": [
+    0.05462839117039541,
+    0.18466218061545056
+   ],
+   "cand_mae": 10.077210659480613,
+   "base_mae": 10.074547398702563,
+   "cand_rmse": 13.034168551154822,
+   "base_rmse": 13.029596601609606,
+   "seasons_better": 0,
+   "per_season": [
+    {
+     "season": 2019,
+     "n": 267,
+     "cand_mae": 10.357764199694573,
+     "base_mae": 10.356064883109285,
+     "better": false
+    },
+    {
+     "season": 2020,
+     "n": 269,
+     "cand_mae": 9.935672084171681,
+     "base_mae": 9.93526114794902,
+     "better": false
+    },
+    {
+     "season": 2021,
+     "n": 285,
+     "cand_mae": 10.92687111730189,
+     "base_mae": 10.917725863848217,
+     "better": false
+    },
+    {
+     "season": 2022,
+     "n": 284,
+     "cand_mae": 9.004959767511066,
+     "base_mae": 9.004080232793932,
+     "better": false
+    },
+    {
+     "season": 2023,
+     "n": 285,
+     "cand_mae": 10.250461124706748,
+     "base_mae": 10.24864147812956,
+     "better": false
+    },
+    {
+     "season": 2024,
+     "n": 285,
+     "cand_mae": 9.99354652534663,
+     "base_mae": 9.991715233898898,
+     "better": false
+    }
+   ],
+   "verdict": "worse (CI above zero)"
+  },
+  {
+   "cand": "drop_roof",
+   "base": "full",
+   "loss": "ae_margin",
+   "n_games": 1675,
+   "n_blocks": 130,
+   "mean_diff_ae": 0.006979617374407907,
+   "ci95_ae": [
+    -0.009265442742318582,
+    0.024505772795963873
+   ],
+   "mean_diff_se": 0.3619955508503628,
+   "ci95_se": [
+    -0.2085943153847547,
+    0.9957796199929305
+   ],
+   "cand_mae": 10.08152701607697,
+   "base_mae": 10.074547398702563,
+   "cand_rmse": 13.043480484576461,
+   "base_rmse": 13.029596601609606,
+   "seasons_better": 2,
+   "per_season": [
+    {
+     "season": 2019,
+     "n": 267,
+     "cand_mae": 10.35663016503678,
+     "base_mae": 10.356064883109285,
+     "better": false
+    },
+    {
+     "season": 2020,
+     "n": 269,
+     "cand_mae": 9.939231949600506,
+     "base_mae": 9.93526114794902,
+     "better": false
+    },
+    {
+     "season": 2021,
+     "n": 285,
+     "cand_mae": 10.960874694290519,
+     "base_mae": 10.917725863848217,
+     "better": false
+    },
+    {
+     "season": 2022,
+     "n": 284,
+     "cand_mae": 8.997666588905116,
+     "base_mae": 9.004080232793932,
+     "better": true
+    },
+    {
+     "season": 2023,
+     "n": 285,
+     "cand_mae": 10.24936344094714,
+     "base_mae": 10.24864147812956,
+     "better": false
+    },
+    {
+     "season": 2024,
+     "n": 285,
+     "cand_mae": 9.99097867940276,
+     "base_mae": 9.991715233898898,
+     "better": true
+    }
+   ],
+   "verdict": "no demonstrated improvement"
+  }
+ ],
+ "drop_grouped": [
+  {
+   "cand": "drop_scoring+efficiency",
+   "base": "full",
+   "loss": "ae_margin",
+   "n_games": 1675,
+   "n_blocks": 130,
+   "mean_diff_ae": 0.05768466723561316,
+   "ci95_ae": [
+    0.019382442062376236,
+    0.09426457359195405
+   ],
+   "mean_diff_se": 2.236027324028842,
+   "ci95_se": [
+    1.2961614113751567,
+    3.172701587346623
+   ],
+   "cand_mae": 10.132232065938178,
+   "base_mae": 10.074547398702563,
+   "cand_rmse": 13.115121613035292,
+   "base_rmse": 13.029596601609606,
+   "seasons_better": 1,
+   "per_season": [
+    {
+     "season": 2019,
+     "n": 267,
+     "cand_mae": 10.444183973558873,
+     "base_mae": 10.356064883109285,
+     "better": false
+    },
+    {
+     "season": 2020,
+     "n": 269,
+     "cand_mae": 9.994210964900287,
+     "base_mae": 9.93526114794902,
+     "better": false
+    },
+    {
+     "season": 2021,
+     "n": 285,
+     "cand_mae": 10.962629537691956,
+     "base_mae": 10.917725863848217,
+     "better": false
+    },
+    {
+     "season": 2022,
+     "n": 284,
+     "cand_mae": 9.02545439537006,
+     "base_mae": 9.004080232793932,
+     "better": false
+    },
+    {
+     "season": 2023,
+     "n": 285,
+     "cand_mae": 10.238921616790137,
+     "base_mae": 10.24864147812956,
+     "better": true
+    },
+    {
+     "season": 2024,
+     "n": 285,
+     "cand_mae": 10.13606214959844,
+     "base_mae": 9.991715233898898,
+     "better": false
+    }
+   ],
+   "verdict": "worse (CI above zero)"
+  },
+  {
+   "cand": "drop_passing+rushing",
+   "base": "full",
+   "loss": "ae_margin",
+   "n_games": 1675,
+   "n_blocks": 130,
+   "mean_diff_ae": 0.03496919282096891,
+   "ci95_ae": [
+    -0.005875492469453803,
+    0.07356144087902731
+   ],
+   "mean_diff_se": 0.5760466953566954,
+   "ci95_se": [
+    -0.47544674746616983,
+    1.633966562008029
+   ],
+   "cand_mae": 10.109516591523533,
+   "base_mae": 10.074547398702563,
+   "cand_rmse": 13.051683197811434,
+   "base_rmse": 13.029596601609606,
+   "seasons_better": 1,
+   "per_season": [
+    {
+     "season": 2019,
+     "n": 267,
+     "cand_mae": 10.382985900611727,
+     "base_mae": 10.356064883109285,
+     "better": false
+    },
+    {
+     "season": 2020,
+     "n": 269,
+     "cand_mae": 9.999991717959182,
+     "base_mae": 9.93526114794902,
+     "better": false
+    },
+    {
+     "season": 2021,
+     "n": 285,
+     "cand_mae": 10.941944199513959,
+     "base_mae": 10.917725863848217,
+     "better": false
+    },
+    {
+     "season": 2022,
+     "n": 284,
+     "cand_mae": 8.95960519025475,
+     "base_mae": 9.004080232793932,
+     "better": true
+    },
+    {
+     "season": 2023,
+     "n": 285,
+     "cand_mae": 10.348094133960142,
+     "base_mae": 10.24864147812956,
+     "better": false
+    },
+    {
+     "season": 2024,
+     "n": 285,
+     "cand_mae": 10.031566611000349,
+     "base_mae": 9.991715233898898,
+     "better": false
+    }
+   ],
+   "verdict": "no demonstrated improvement"
+  },
+  {
+   "cand": "drop_scoring+efficiency+passing+rushing",
+   "base": "full",
+   "loss": "ae_margin",
+   "n_games": 1675,
+   "n_blocks": 130,
+   "mean_diff_ae": 0.2198036045198543,
+   "ci95_ae": [
+    0.11261229360386163,
+    0.33147118785250257
+   ],
+   "mean_diff_se": 7.682173977530337,
+   "ci95_se": [
+    4.635607279651468,
+    10.763915394113784
+   ],
+   "cand_mae": 10.294351003222419,
+   "base_mae": 10.074547398702563,
+   "cand_rmse": 13.321132143260458,
+   "base_rmse": 13.029596601609606,
+   "seasons_better": 0,
+   "per_season": [
+    {
+     "season": 2019,
+     "n": 267,
+     "cand_mae": 10.789811252743245,
+     "base_mae": 10.356064883109285,
+     "better": false
+    },
+    {
+     "season": 2020,
+     "n": 269,
+     "cand_mae": 10.313692840176447,
+     "base_mae": 9.93526114794902,
+     "better": false
+    },
+    {
+     "season": 2021,
+     "n": 285,
+     "cand_mae": 11.020083421398207,
+     "base_mae": 10.917725863848217,
+     "better": false
+    },
+    {
+     "season": 2022,
+     "n": 284,
+     "cand_mae": 9.026771672332448,
+     "base_mae": 9.004080232793932,
+     "better": false
+    },
+    {
+     "season": 2023,
+     "n": 285,
+     "cand_mae": 10.298507019885575,
+     "base_mae": 10.24864147812956,
+     "better": false
+    },
+    {
+     "season": 2024,
+     "n": 285,
+     "cand_mae": 10.345170249822269,
+     "base_mae": 9.991715233898898,
+     "better": false
+    }
+   ],
+   "verdict": "worse (CI above zero)"
+  },
+  {
+   "cand": "drop_pace+other+roof+rest",
+   "base": "full",
+   "loss": "ae_margin",
+   "n_games": 1675,
+   "n_blocks": 130,
+   "mean_diff_ae": 0.0028824776365583183,
+   "ci95_ae": [
+    -0.03028963630728643,
+    0.038337804317407874
+   ],
+   "mean_diff_se": -0.4824411704578961,
+   "ci95_se": [
+    -1.475336454777399,
+    0.4885681103015571
+   ],
+   "cand_mae": 10.077429876339124,
+   "base_mae": 10.074547398702563,
+   "cand_rmse": 13.011070149308193,
+   "base_rmse": 13.029596601609606,
+   "seasons_better": 3,
+   "per_season": [
+    {
+     "season": 2019,
+     "n": 267,
+     "cand_mae": 10.336479356406834,
+     "base_mae": 10.356064883109285,
+     "better": true
+    },
+    {
+     "season": 2020,
+     "n": 269,
+     "cand_mae": 9.910060041469952,
+     "base_mae": 9.93526114794902,
+     "better": true
+    },
+    {
+     "season": 2021,
+     "n": 285,
+     "cand_mae": 10.942688988345083,
+     "base_mae": 10.917725863848217,
+     "better": false
+    },
+    {
+     "season": 2022,
+     "n": 284,
+     "cand_mae": 9.049202960046527,
+     "base_mae": 9.004080232793932,
+     "better": false
+    },
+    {
+     "season": 2023,
+     "n": 285,
+     "cand_mae": 10.338029302852137,
+     "base_mae": 10.24864147812956,
+     "better": false
+    },
+    {
+     "season": 2024,
+     "n": 285,
+     "cand_mae": 9.891475613710758,
+     "base_mae": 9.991715233898898,
+     "better": true
+    }
+   ],
+   "verdict": "no demonstrated improvement"
+  }
+ ],
+ "leave_one_in": [
+  {
+   "cand": "only_home+efficiency",
+   "base": "only_home",
+   "loss": "ae_margin",
+   "n_games": 1675,
+   "n_blocks": 130,
+   "mean_diff_ae": -0.9125526081823856,
+   "ci95_ae": [
+    -1.0795446775535034,
+    -0.7449828507084963
+   ],
+   "mean_diff_se": -31.168381996815008,
+   "ci95_se": [
+    -36.57148443856913,
+    -25.701287593603904
+   ],
+   "cand_mae": 10.196119211763122,
+   "base_mae": 11.108671819945506,
+   "cand_rmse": 13.19256094837503,
+   "base_rmse": 14.3252241299536,
+   "seasons_better": 6,
+   "per_season": [
+    {
+     "season": 2019,
+     "n": 267,
+     "cand_mae": 10.613650880678378,
+     "base_mae": 11.613189792305011,
+     "better": true
+    },
+    {
+     "season": 2020,
+     "n": 269,
+     "cand_mae": 10.086005015991931,
+     "base_mae": 11.051906679950235,
+     "better": true
+    },
+    {
+     "season": 2021,
+     "n": 285,
+     "cand_mae": 11.137268269125789,
+     "base_mae": 12.063342076032866,
+     "better": true
+    },
+    {
+     "season": 2022,
+     "n": 284,
+     "cand_mae": 8.84788934509016,
+     "base_mae": 9.651143362926412,
+     "better": true
+    },
+    {
+     "season": 2023,
+     "n": 285,
+     "cand_mae": 10.386988244925009,
+     "base_mae": 11.103150234825303,
+     "better": true
+    },
+    {
+     "season": 2024,
+     "n": 285,
+     "cand_mae": 10.120371455263824,
+     "base_mae": 11.192862116810508,
+     "better": true
+    }
+   ],
+   "verdict": "IMPROVEMENT"
+  },
+  {
+   "cand": "only_home+passing",
+   "base": "only_home",
+   "loss": "ae_margin",
+   "n_games": 1675,
+   "n_blocks": 130,
+   "mean_diff_ae": -0.795863367126442,
+   "ci95_ae": [
+    -0.958076437405295,
+    -0.6171073108586185
+   ],
+   "mean_diff_se": -26.716699649268595,
+   "ci95_se": [
+    -32.26040906621856,
+    -21.140441191442033
+   ],
+   "cand_mae": 10.312808452819066,
+   "base_mae": 11.108671819945506,
+   "cand_rmse": 13.36021507027998,
+   "base_rmse": 14.3252241299536,
+   "seasons_better": 6,
+   "per_season": [
+    {
+     "season": 2019,
+     "n": 267,
+     "cand_mae": 10.752840816250965,
+     "base_mae": 11.613189792305011,
+     "better": true
+    },
+    {
+     "season": 2020,
+     "n": 269,
+     "cand_mae": 10.10333986949032,
+     "base_mae": 11.051906679950235,
+     "better": true
+    },
+    {
+     "season": 2021,
+     "n": 285,
+     "cand_mae": 11.332270973537277,
+     "base_mae": 12.063342076032866,
+     "better": true
+    },
+    {
+     "season": 2022,
+     "n": 284,
+     "cand_mae": 8.875193659906412,
+     "base_mae": 9.651143362926412,
+     "better": true
+    },
+    {
+     "season": 2023,
+     "n": 285,
+     "cand_mae": 10.52518960353513,
+     "base_mae": 11.103150234825303,
+     "better": true
+    },
+    {
+     "season": 2024,
+     "n": 285,
+     "cand_mae": 10.299003409687625,
+     "base_mae": 11.192862116810508,
+     "better": true
+    }
+   ],
+   "verdict": "IMPROVEMENT"
+  },
+  {
+   "cand": "only_home+rushing",
+   "base": "only_home",
+   "loss": "ae_margin",
+   "n_games": 1675,
+   "n_blocks": 130,
+   "mean_diff_ae": -0.2773681652355591,
+   "ci95_ae": [
+    -0.36960539033397605,
+    -0.18834283412256972
+   ],
+   "mean_diff_se": -11.385612787330682,
+   "ci95_se": [
+    -14.363530255898567,
+    -8.467726039731682
+   ],
+   "cand_mae": 10.831303654709949,
+   "base_mae": 11.108671819945506,
+   "cand_rmse": 13.922156211811236,
+   "base_rmse": 14.3252241299536,
+   "seasons_better": 6,
+   "per_season": [
+    {
+     "season": 2019,
+     "n": 267,
+     "cand_mae": 11.281122108888319,
+     "base_mae": 11.613189792305011,
+     "better": true
+    },
+    {
+     "season": 2020,
+     "n": 269,
+     "cand_mae": 10.758407092364179,
+     "base_mae": 11.051906679950235,
+     "better": true
+    },
+    {
+     "season": 2021,
+     "n": 285,
+     "cand_mae": 11.683317351377621,
+     "base_mae": 12.063342076032866,
+     "better": true
+    },
+    {
+     "season": 2022,
+     "n": 284,
+     "cand_mae": 9.452567103623457,
+     "base_mae": 9.651143362926412,
+     "better": true
+    },
+    {
+     "season": 2023,
+     "n": 285,
+     "cand_mae": 10.973581217777474,
+     "base_mae": 11.103150234825303,
+     "better": true
+    },
+    {
+     "season": 2024,
+     "n": 285,
+     "cand_mae": 10.858306530111419,
+     "base_mae": 11.192862116810508,
+     "better": true
+    }
+   ],
+   "verdict": "IMPROVEMENT"
+  },
+  {
+   "cand": "only_home+turnovers",
+   "base": "only_home",
+   "loss": "ae_margin",
+   "n_games": 1675,
+   "n_blocks": 130,
+   "mean_diff_ae": -0.26343180790331094,
+   "ci95_ae": [
+    -0.38500039348541604,
+    -0.13716516468752935
+   ],
+   "mean_diff_se": -9.793184139406078,
+   "ci95_se": [
+    -13.366730469480121,
+    -6.099114480143695
+   ],
+   "cand_mae": 10.845240012042197,
+   "base_mae": 11.108671819945506,
+   "cand_rmse": 13.97922967241038,
+   "base_rmse": 14.3252241299536,
+   "seasons_better": 6,
+   "per_season": [
+    {
+     "season": 2019,
+     "n": 267,
+     "cand_mae": 11.255472378120409,
+     "base_mae": 11.613189792305011,
+     "better": true
+    },
+    {
+     "season": 2020,
+     "n": 269,
+     "cand_mae": 10.691555195877033,
+     "base_mae": 11.051906679950235,
+     "better": true
+    },
+    {
+     "season": 2021,
+     "n": 285,
+     "cand_mae": 11.822670684765107,
+     "base_mae": 12.063342076032866,
+     "better": true
+    },
+    {
+     "season": 2022,
+     "n": 284,
+     "cand_mae": 9.40015914563875,
+     "base_mae": 9.651143362926412,
+     "better": true
+    },
+    {
+     "season": 2023,
+     "n": 285,
+     "cand_mae": 10.886524521748798,
+     "base_mae": 11.103150234825303,
+     "better": true
+    },
+    {
+     "season": 2024,
+     "n": 285,
+     "cand_mae": 11.027269180013127,
+     "base_mae": 11.192862116810508,
+     "better": true
+    }
+   ],
+   "verdict": "IMPROVEMENT"
+  },
+  {
+   "cand": "only_home+pace",
+   "base": "only_home",
+   "loss": "ae_margin",
+   "n_games": 1675,
+   "n_blocks": 130,
+   "mean_diff_ae": -0.03532954320824542,
+   "ci95_ae": [
+    -0.11417302162574249,
+    0.049617136516138916
+   ],
+   "mean_diff_se": 0.06325870343940795,
+   "ci95_se": [
+    -2.1817158757299318,
+    2.3557764435043804
+   ],
+   "cand_mae": 11.073342276737263,
+   "base_mae": 11.108671819945506,
+   "cand_rmse": 14.32743190794653,
+   "base_rmse": 14.3252241299536,
+   "seasons_better": 3,
+   "per_season": [
+    {
+     "season": 2019,
+     "n": 267,
+     "cand_mae": 11.649667038377713,
+     "base_mae": 11.613189792305011,
+     "better": false
+    },
+    {
+     "season": 2020,
+     "n": 269,
+     "cand_mae": 11.14691063380738,
+     "base_mae": 11.051906679950235,
+     "better": false
+    },
+    {
+     "season": 2021,
+     "n": 285,
+     "cand_mae": 11.975806463758065,
+     "base_mae": 12.063342076032866,
+     "better": true
+    },
+    {
+     "season": 2022,
+     "n": 284,
+     "cand_mae": 9.395057335851511,
+     "base_mae": 9.651143362926412,
+     "better": true
+    },
+    {
+     "season": 2023,
+     "n": 285,
+     "cand_mae": 11.036718270866293,
+     "base_mae": 11.103150234825303,
+     "better": true
+    },
+    {
+     "season": 2024,
+     "n": 285,
+     "cand_mae": 11.270534810681083,
+     "base_mae": 11.192862116810508,
+     "better": false
+    }
+   ],
+   "verdict": "no demonstrated improvement"
+  },
+  {
+   "cand": "only_home+scoring",
+   "base": "only_home",
+   "loss": "ae_margin",
+   "n_games": 1675,
+   "n_blocks": 130,
+   "mean_diff_ae": -0.9302179141628011,
+   "ci95_ae": [
+    -1.1193373286940271,
+    -0.7373392059397791
+   ],
+   "mean_diff_se": -32.278411483986716,
+   "ci95_se": [
+    -38.373789932265545,
+    -26.03412134533853
+   ],
+   "cand_mae": 10.178453905782705,
+   "base_mae": 11.108671819945506,
+   "cand_rmse": 13.150423373010398,
+   "base_rmse": 14.3252241299536,
+   "seasons_better": 6,
+   "per_season": [
+    {
+     "season": 2019,
+     "n": 267,
+     "cand_mae": 10.503153421224027,
+     "base_mae": 11.613189792305011,
+     "better": true
+    },
+    {
+     "season": 2020,
+     "n": 269,
+     "cand_mae": 10.035407549166438,
+     "base_mae": 11.051906679950235,
+     "better": true
+    },
+    {
+     "season": 2021,
+     "n": 285,
+     "cand_mae": 11.083905291851426,
+     "base_mae": 12.063342076032866,
+     "better": true
+    },
+    {
+     "season": 2022,
+     "n": 284,
+     "cand_mae": 8.959900332657805,
+     "base_mae": 9.651143362926412,
+     "better": true
+    },
+    {
+     "season": 2023,
+     "n": 285,
+     "cand_mae": 10.404071056412294,
+     "base_mae": 11.103150234825303,
+     "better": true
+    },
+    {
+     "season": 2024,
+     "n": 285,
+     "cand_mae": 10.09248682197709,
+     "base_mae": 11.192862116810508,
+     "better": true
+    }
+   ],
+   "verdict": "IMPROVEMENT"
+  },
+  {
+   "cand": "only_home+qb",
+   "base": "only_home",
+   "loss": "ae_margin",
+   "n_games": 1675,
+   "n_blocks": 130,
+   "mean_diff_ae": -0.7662726525130188,
+   "ci95_ae": [
+    -0.9267342945386281,
+    -0.6010176282800709
+   ],
+   "mean_diff_se": -24.773892900982965,
+   "ci95_se": [
+    -29.908053657081858,
+    -19.6258483089269
+   ],
+   "cand_mae": 10.34239916743249,
+   "base_mae": 11.108671819945506,
+   "cand_rmse": 13.432726955924547,
+   "base_rmse": 14.3252241299536,
+   "seasons_better": 6,
+   "per_season": [
+    {
+     "season": 2019,
+     "n": 267,
+     "cand_mae": 11.00487571775058,
+     "base_mae": 11.613189792305011,
+     "better": true
+    },
+    {
+     "season": 2020,
+     "n": 269,
+     "cand_mae": 10.322044055614818,
+     "base_mae": 11.051906679950235,
+     "better": true
+    },
+    {
+     "season": 2021,
+     "n": 285,
+     "cand_mae": 11.19959661487819,
+     "base_mae": 12.063342076032866,
+     "better": true
+    },
+    {
+     "season": 2022,
+     "n": 284,
+     "cand_mae": 8.942055441266598,
+     "base_mae": 9.651143362926412,
+     "better": true
+    },
+    {
+     "season": 2023,
+     "n": 285,
+     "cand_mae": 10.405790690597254,
+     "base_mae": 11.103150234825303,
+     "better": true
+    },
+    {
+     "season": 2024,
+     "n": 285,
+     "cand_mae": 10.215816878840052,
+     "base_mae": 11.192862116810508,
+     "better": true
+    }
+   ],
+   "verdict": "IMPROVEMENT"
+  },
+  {
+   "cand": "only_home+rest",
+   "base": "only_home",
+   "loss": "ae_margin",
+   "n_games": 1675,
+   "n_blocks": 130,
+   "mean_diff_ae": 0.00125290028050303,
+   "ci95_ae": [
+    -0.022028595452344153,
+    0.024780342357812422
+   ],
+   "mean_diff_se": 0.07465875692186161,
+   "ci95_se": [
+    -0.5588213111065283,
+    0.7527644693026285
+   ],
+   "cand_mae": 11.109924720226012,
+   "base_mae": 11.108671819945506,
+   "cand_rmse": 14.327829742509042,
+   "base_rmse": 14.3252241299536,
+   "seasons_better": 4,
+   "per_season": [
+    {
+     "season": 2019,
+     "n": 267,
+     "cand_mae": 11.659788968744838,
+     "base_mae": 11.613189792305011,
+     "better": false
+    },
+    {
+     "season": 2020,
+     "n": 269,
+     "cand_mae": 11.021216859522527,
+     "base_mae": 11.051906679950235,
+     "better": true
+    },
+    {
+     "season": 2021,
+     "n": 285,
+     "cand_mae": 12.061659465999995,
+     "base_mae": 12.063342076032866,
+     "better": true
+    },
+    {
+     "season": 2022,
+     "n": 284,
+     "cand_mae": 9.643818246142914,
+     "base_mae": 9.651143362926412,
+     "better": true
+    },
+    {
+     "season": 2023,
+     "n": 285,
+     "cand_mae": 11.086309834491914,
+     "base_mae": 11.103150234825303,
+     "better": true
+    },
+    {
+     "season": 2024,
+     "n": 285,
+     "cand_mae": 11.21135889111353,
+     "base_mae": 11.192862116810508,
+     "better": false
+    }
+   ],
+   "verdict": "no demonstrated improvement"
+  },
+  {
+   "cand": "only_home+other",
+   "base": "only_home",
+   "loss": "ae_margin",
+   "n_games": 1675,
+   "n_blocks": 130,
+   "mean_diff_ae": -0.003641375910196993,
+   "ci95_ae": [
+    -0.01330085328960492,
+    0.007220988596060308
+   ],
+   "mean_diff_se": -0.18106202302136143,
+   "ci95_se": [
+    -0.40620349110527465,
+    0.017355507094033128
+   ],
+   "cand_mae": 11.105030444035311,
+   "base_mae": 11.108671819945506,
+   "cand_rmse": 14.318903042844571,
+   "base_rmse": 14.3252241299536,
+   "seasons_better": 2,
+   "per_season": [
+    {
+     "season": 2019,
+     "n": 267,
+     "cand_mae": 11.614081326829295,
+     "base_mae": 11.613189792305011,
+     "better": false
+    },
+    {
+     "season": 2020,
+     "n": 269,
+     "cand_mae": 11.03395728307306,
+     "base_mae": 11.051906679950235,
+     "better": true
+    },
+    {
+     "season": 2021,
+     "n": 285,
+     "cand_mae": 12.063354545793878,
+     "base_mae": 12.063342076032866,
+     "better": false
+    },
+    {
+     "season": 2022,
+     "n": 284,
+     "cand_mae": 9.65117884145589,
+     "base_mae": 9.651143362926412,
+     "better": false
+    },
+    {
+     "season": 2023,
+     "n": 285,
+     "cand_mae": 11.106372474363644,
+     "base_mae": 11.103150234825303,
+     "better": false
+    },
+    {
+     "season": 2024,
+     "n": 285,
+     "cand_mae": 11.184297468879668,
+     "base_mae": 11.192862116810508,
+     "better": true
+    }
+   ],
+   "verdict": "no demonstrated improvement"
+  },
+  {
+   "cand": "only_home+roof",
+   "base": "only_home",
+   "loss": "ae_margin",
+   "n_games": 1675,
+   "n_blocks": 130,
+   "mean_diff_ae": -0.015916584013465566,
+   "ci95_ae": [
+    -0.03301936189613777,
+    0.0015093033898754035
+   ],
+   "mean_diff_se": -0.7311165609944376,
+   "ci95_se": [
+    -1.3532561023285454,
+    -0.12006034457490779
+   ],
+   "cand_mae": 11.09275523593204,
+   "base_mae": 11.108671819945506,
+   "cand_rmse": 14.299682857057022,
+   "base_rmse": 14.3252241299536,
+   "seasons_better": 4,
+   "per_season": [
+    {
+     "season": 2019,
+     "n": 267,
+     "cand_mae": 11.598333884844921,
+     "base_mae": 11.613189792305011,
+     "better": true
+    },
+    {
+     "season": 2020,
+     "n": 269,
+     "cand_mae": 11.051906679950235,
+     "base_mae": 11.051906679950235,
+     "better": false
+    },
+    {
+     "season": 2021,
+     "n": 285,
+     "cand_mae": 12.047521852713752,
+     "base_mae": 12.063342076032866,
+     "better": true
+    },
+    {
+     "season": 2022,
+     "n": 284,
+     "cand_mae": 9.587111717557526,
+     "base_mae": 9.651143362926412,
+     "better": true
+    },
+    {
+     "season": 2023,
+     "n": 285,
+     "cand_mae": 11.103150234825303,
+     "base_mae": 11.103150234825303,
+     "better": false
+    },
+    {
+     "season": 2024,
+     "n": 285,
+     "cand_mae": 11.192862116810506,
+     "base_mae": 11.192862116810508,
+     "better": true
+    }
+   ],
+   "verdict": "no demonstrated improvement"
+  }
+ ],
+ "leave_one_in_vs_full": [
+  {
+   "cand": "only_home+efficiency",
+   "base": "full",
+   "loss": "ae_margin",
+   "n_games": 1675,
+   "n_blocks": 130,
+   "mean_diff_ae": 0.12157181306055827,
+   "ci95_ae": [
+    0.03908655578228431,
+    0.2099124524913072
+   ],
+   "mean_diff_se": 4.273276775913275,
+   "ci95_se": [
+    1.8133811092158374,
+    6.935400312017615
+   ],
+   "cand_mae": 10.196119211763122,
+   "base_mae": 10.074547398702563,
+   "cand_rmse": 13.19256094837503,
+   "base_rmse": 13.029596601609606,
+   "seasons_better": 1,
+   "per_season": [
+    {
+     "season": 2019,
+     "n": 267,
+     "cand_mae": 10.613650880678378,
+     "base_mae": 10.356064883109285,
+     "better": false
+    },
+    {
+     "season": 2020,
+     "n": 269,
+     "cand_mae": 10.086005015991931,
+     "base_mae": 9.93526114794902,
+     "better": false
+    },
+    {
+     "season": 2021,
+     "n": 285,
+     "cand_mae": 11.137268269125789,
+     "base_mae": 10.917725863848217,
+     "better": false
+    },
+    {
+     "season": 2022,
+     "n": 284,
+     "cand_mae": 8.84788934509016,
+     "base_mae": 9.004080232793932,
+     "better": true
+    },
+    {
+     "season": 2023,
+     "n": 285,
+     "cand_mae": 10.386988244925009,
+     "base_mae": 10.24864147812956,
+     "better": false
+    },
+    {
+     "season": 2024,
+     "n": 285,
+     "cand_mae": 10.120371455263824,
+     "base_mae": 9.991715233898898,
+     "better": false
+    }
+   ],
+   "verdict": "worse (CI above zero)"
+  },
+  {
+   "cand": "only_home+passing",
+   "base": "full",
+   "loss": "ae_margin",
+   "n_games": 1675,
+   "n_blocks": 130,
+   "mean_diff_ae": 0.2382610541165018,
+   "ci95_ae": [
+    0.12979829412770605,
+    0.34854941496643577
+   ],
+   "mean_diff_se": 8.724959123459685,
+   "ci95_se": [
+    5.9630110827706195,
+    11.57165878924635
+   ],
+   "cand_mae": 10.312808452819066,
+   "base_mae": 10.074547398702563,
+   "cand_rmse": 13.36021507027998,
+   "base_rmse": 13.029596601609606,
+   "seasons_better": 1,
+   "per_season": [
+    {
+     "season": 2019,
+     "n": 267,
+     "cand_mae": 10.752840816250965,
+     "base_mae": 10.356064883109285,
+     "better": false
+    },
+    {
+     "season": 2020,
+     "n": 269,
+     "cand_mae": 10.10333986949032,
+     "base_mae": 9.93526114794902,
+     "better": false
+    },
+    {
+     "season": 2021,
+     "n": 285,
+     "cand_mae": 11.332270973537277,
+     "base_mae": 10.917725863848217,
+     "better": false
+    },
+    {
+     "season": 2022,
+     "n": 284,
+     "cand_mae": 8.875193659906412,
+     "base_mae": 9.004080232793932,
+     "better": true
+    },
+    {
+     "season": 2023,
+     "n": 285,
+     "cand_mae": 10.52518960353513,
+     "base_mae": 10.24864147812956,
+     "better": false
+    },
+    {
+     "season": 2024,
+     "n": 285,
+     "cand_mae": 10.299003409687625,
+     "base_mae": 9.991715233898898,
+     "better": false
+    }
+   ],
+   "verdict": "worse (CI above zero)"
+  },
+  {
+   "cand": "only_home+rushing",
+   "base": "full",
+   "loss": "ae_margin",
+   "n_games": 1675,
+   "n_blocks": 130,
+   "mean_diff_ae": 0.7567562560073845,
+   "ci95_ae": [
+    0.5812703698837675,
+    0.9241666721529128
+   ],
+   "mean_diff_se": 24.056045985397603,
+   "ci95_se": [
+    18.748807668162662,
+    29.376350139247727
+   ],
+   "cand_mae": 10.831303654709949,
+   "base_mae": 10.074547398702563,
+   "cand_rmse": 13.922156211811236,
+   "base_rmse": 13.029596601609606,
+   "seasons_better": 0,
+   "per_season": [
+    {
+     "season": 2019,
+     "n": 267,
+     "cand_mae": 11.281122108888319,
+     "base_mae": 10.356064883109285,
+     "better": false
+    },
+    {
+     "season": 2020,
+     "n": 269,
+     "cand_mae": 10.758407092364179,
+     "base_mae": 9.93526114794902,
+     "better": false
+    },
+    {
+     "season": 2021,
+     "n": 285,
+     "cand_mae": 11.683317351377621,
+     "base_mae": 10.917725863848217,
+     "better": false
+    },
+    {
+     "season": 2022,
+     "n": 284,
+     "cand_mae": 9.452567103623457,
+     "base_mae": 9.004080232793932,
+     "better": false
+    },
+    {
+     "season": 2023,
+     "n": 285,
+     "cand_mae": 10.973581217777474,
+     "base_mae": 10.24864147812956,
+     "better": false
+    },
+    {
+     "season": 2024,
+     "n": 285,
+     "cand_mae": 10.858306530111419,
+     "base_mae": 9.991715233898898,
+     "better": false
+    }
+   ],
+   "verdict": "worse (CI above zero)"
+  },
+  {
+   "cand": "only_home+turnovers",
+   "base": "full",
+   "loss": "ae_margin",
+   "n_games": 1675,
+   "n_blocks": 130,
+   "mean_diff_ae": 0.7706926133396329,
+   "ci95_ae": [
+    0.606185550071153,
+    0.9526076753277662
+   ],
+   "mean_diff_se": 25.648474633322206,
+   "ci95_se": [
+    19.90419289898179,
+    31.44803180099959
+   ],
+   "cand_mae": 10.845240012042197,
+   "base_mae": 10.074547398702563,
+   "cand_rmse": 13.97922967241038,
+   "base_rmse": 13.029596601609606,
+   "seasons_better": 0,
+   "per_season": [
+    {
+     "season": 2019,
+     "n": 267,
+     "cand_mae": 11.255472378120409,
+     "base_mae": 10.356064883109285,
+     "better": false
+    },
+    {
+     "season": 2020,
+     "n": 269,
+     "cand_mae": 10.691555195877033,
+     "base_mae": 9.93526114794902,
+     "better": false
+    },
+    {
+     "season": 2021,
+     "n": 285,
+     "cand_mae": 11.822670684765107,
+     "base_mae": 10.917725863848217,
+     "better": false
+    },
+    {
+     "season": 2022,
+     "n": 284,
+     "cand_mae": 9.40015914563875,
+     "base_mae": 9.004080232793932,
+     "better": false
+    },
+    {
+     "season": 2023,
+     "n": 285,
+     "cand_mae": 10.886524521748798,
+     "base_mae": 10.24864147812956,
+     "better": false
+    },
+    {
+     "season": 2024,
+     "n": 285,
+     "cand_mae": 11.027269180013127,
+     "base_mae": 9.991715233898898,
+     "better": false
+    }
+   ],
+   "verdict": "worse (CI above zero)"
+  },
+  {
+   "cand": "only_home+pace",
+   "base": "full",
+   "loss": "ae_margin",
+   "n_games": 1675,
+   "n_blocks": 130,
+   "mean_diff_ae": 0.9987948780346985,
+   "ci95_ae": [
+    0.7936901417732581,
+    1.2103408357017231
+   ],
+   "mean_diff_se": 35.50491747616769,
+   "ci95_se": [
+    29.20359747977987,
+    41.81196943396103
+   ],
+   "cand_mae": 11.073342276737263,
+   "base_mae": 10.074547398702563,
+   "cand_rmse": 14.32743190794653,
+   "base_rmse": 13.029596601609606,
+   "seasons_better": 0,
+   "per_season": [
+    {
+     "season": 2019,
+     "n": 267,
+     "cand_mae": 11.649667038377713,
+     "base_mae": 10.356064883109285,
+     "better": false
+    },
+    {
+     "season": 2020,
+     "n": 269,
+     "cand_mae": 11.14691063380738,
+     "base_mae": 9.93526114794902,
+     "better": false
+    },
+    {
+     "season": 2021,
+     "n": 285,
+     "cand_mae": 11.975806463758065,
+     "base_mae": 10.917725863848217,
+     "better": false
+    },
+    {
+     "season": 2022,
+     "n": 284,
+     "cand_mae": 9.395057335851511,
+     "base_mae": 9.004080232793932,
+     "better": false
+    },
+    {
+     "season": 2023,
+     "n": 285,
+     "cand_mae": 11.036718270866293,
+     "base_mae": 10.24864147812956,
+     "better": false
+    },
+    {
+     "season": 2024,
+     "n": 285,
+     "cand_mae": 11.270534810681083,
+     "base_mae": 9.991715233898898,
+     "better": false
+    }
+   ],
+   "verdict": "worse (CI above zero)"
+  },
+  {
+   "cand": "only_home+scoring",
+   "base": "full",
+   "loss": "ae_margin",
+   "n_games": 1675,
+   "n_blocks": 130,
+   "mean_diff_ae": 0.10390650708014272,
+   "ci95_ae": [
+    0.024649825466242788,
+    0.18500324104198437
+   ],
+   "mean_diff_se": 3.163247288741565,
+   "ci95_se": [
+    1.120280621520205,
+    5.411837630085253
+   ],
+   "cand_mae": 10.178453905782705,
+   "base_mae": 10.074547398702563,
+   "cand_rmse": 13.150423373010398,
+   "base_rmse": 13.029596601609606,
+   "seasons_better": 1,
+   "per_season": [
+    {
+     "season": 2019,
+     "n": 267,
+     "cand_mae": 10.503153421224027,
+     "base_mae": 10.356064883109285,
+     "better": false
+    },
+    {
+     "season": 2020,
+     "n": 269,
+     "cand_mae": 10.035407549166438,
+     "base_mae": 9.93526114794902,
+     "better": false
+    },
+    {
+     "season": 2021,
+     "n": 285,
+     "cand_mae": 11.083905291851426,
+     "base_mae": 10.917725863848217,
+     "better": false
+    },
+    {
+     "season": 2022,
+     "n": 284,
+     "cand_mae": 8.959900332657805,
+     "base_mae": 9.004080232793932,
+     "better": true
+    },
+    {
+     "season": 2023,
+     "n": 285,
+     "cand_mae": 10.404071056412294,
+     "base_mae": 10.24864147812956,
+     "better": false
+    },
+    {
+     "season": 2024,
+     "n": 285,
+     "cand_mae": 10.09248682197709,
+     "base_mae": 9.991715233898898,
+     "better": false
+    }
+   ],
+   "verdict": "worse (CI above zero)"
+  },
+  {
+   "cand": "only_home+qb",
+   "base": "full",
+   "loss": "ae_margin",
+   "n_games": 1675,
+   "n_blocks": 130,
+   "mean_diff_ae": 0.267851768729925,
+   "ci95_ae": [
+    0.1337480409394309,
+    0.4075365145177326
+   ],
+   "mean_diff_se": 10.667765871745319,
+   "ci95_se": [
+    6.838504561631536,
+    14.645124229158265
+   ],
+   "cand_mae": 10.34239916743249,
+   "base_mae": 10.074547398702563,
+   "cand_rmse": 13.432726955924547,
+   "base_rmse": 13.029596601609606,
+   "seasons_better": 1,
+   "per_season": [
+    {
+     "season": 2019,
+     "n": 267,
+     "cand_mae": 11.00487571775058,
+     "base_mae": 10.356064883109285,
+     "better": false
+    },
+    {
+     "season": 2020,
+     "n": 269,
+     "cand_mae": 10.322044055614818,
+     "base_mae": 9.93526114794902,
+     "better": false
+    },
+    {
+     "season": 2021,
+     "n": 285,
+     "cand_mae": 11.19959661487819,
+     "base_mae": 10.917725863848217,
+     "better": false
+    },
+    {
+     "season": 2022,
+     "n": 284,
+     "cand_mae": 8.942055441266598,
+     "base_mae": 9.004080232793932,
+     "better": true
+    },
+    {
+     "season": 2023,
+     "n": 285,
+     "cand_mae": 10.405790690597254,
+     "base_mae": 10.24864147812956,
+     "better": false
+    },
+    {
+     "season": 2024,
+     "n": 285,
+     "cand_mae": 10.215816878840052,
+     "base_mae": 9.991715233898898,
+     "better": false
+    }
+   ],
+   "verdict": "worse (CI above zero)"
+  },
+  {
+   "cand": "only_home+rest",
+   "base": "full",
+   "loss": "ae_margin",
+   "n_games": 1675,
+   "n_blocks": 130,
+   "mean_diff_ae": 1.035377321523447,
+   "ci95_ae": [
+    0.8277674698027556,
+    1.241154003367123
+   ],
+   "mean_diff_se": 35.516317529650145,
+   "ci95_se": [
+    28.680209011297762,
+    42.206179540054556
+   ],
+   "cand_mae": 11.109924720226012,
+   "base_mae": 10.074547398702563,
+   "cand_rmse": 14.327829742509042,
+   "base_rmse": 13.029596601609606,
+   "seasons_better": 0,
+   "per_season": [
+    {
+     "season": 2019,
+     "n": 267,
+     "cand_mae": 11.659788968744838,
+     "base_mae": 10.356064883109285,
+     "better": false
+    },
+    {
+     "season": 2020,
+     "n": 269,
+     "cand_mae": 11.021216859522527,
+     "base_mae": 9.93526114794902,
+     "better": false
+    },
+    {
+     "season": 2021,
+     "n": 285,
+     "cand_mae": 12.061659465999995,
+     "base_mae": 10.917725863848217,
+     "better": false
+    },
+    {
+     "season": 2022,
+     "n": 284,
+     "cand_mae": 9.643818246142914,
+     "base_mae": 9.004080232793932,
+     "better": false
+    },
+    {
+     "season": 2023,
+     "n": 285,
+     "cand_mae": 11.086309834491914,
+     "base_mae": 10.24864147812956,
+     "better": false
+    },
+    {
+     "season": 2024,
+     "n": 285,
+     "cand_mae": 11.21135889111353,
+     "base_mae": 9.991715233898898,
+     "better": false
+    }
+   ],
+   "verdict": "worse (CI above zero)"
+  },
+  {
+   "cand": "only_home+other",
+   "base": "full",
+   "loss": "ae_margin",
+   "n_games": 1675,
+   "n_blocks": 130,
+   "mean_diff_ae": 1.0304830453327467,
+   "ci95_ae": [
+    0.8234446073539163,
+    1.2377046854861524
+   ],
+   "mean_diff_se": 35.26059674970693,
+   "ci95_se": [
+    28.48773421703723,
+    41.998499219639896
+   ],
+   "cand_mae": 11.105030444035311,
+   "base_mae": 10.074547398702563,
+   "cand_rmse": 14.318903042844571,
+   "base_rmse": 13.029596601609606,
+   "seasons_better": 0,
+   "per_season": [
+    {
+     "season": 2019,
+     "n": 267,
+     "cand_mae": 11.614081326829295,
+     "base_mae": 10.356064883109285,
+     "better": false
+    },
+    {
+     "season": 2020,
+     "n": 269,
+     "cand_mae": 11.03395728307306,
+     "base_mae": 9.93526114794902,
+     "better": false
+    },
+    {
+     "season": 2021,
+     "n": 285,
+     "cand_mae": 12.063354545793878,
+     "base_mae": 10.917725863848217,
+     "better": false
+    },
+    {
+     "season": 2022,
+     "n": 284,
+     "cand_mae": 9.65117884145589,
+     "base_mae": 9.004080232793932,
+     "better": false
+    },
+    {
+     "season": 2023,
+     "n": 285,
+     "cand_mae": 11.106372474363644,
+     "base_mae": 10.24864147812956,
+     "better": false
+    },
+    {
+     "season": 2024,
+     "n": 285,
+     "cand_mae": 11.184297468879668,
+     "base_mae": 9.991715233898898,
+     "better": false
+    }
+   ],
+   "verdict": "worse (CI above zero)"
+  },
+  {
+   "cand": "only_home+roof",
+   "base": "full",
+   "loss": "ae_margin",
+   "n_games": 1675,
+   "n_blocks": 130,
+   "mean_diff_ae": 1.0182078372294783,
+   "ci95_ae": [
+    0.8138207444333088,
+    1.2265049837051007
+   ],
+   "mean_diff_se": 34.710542211733845,
+   "ci95_se": [
+    28.075857349840966,
+    41.286074707965234
+   ],
+   "cand_mae": 11.09275523593204,
+   "base_mae": 10.074547398702563,
+   "cand_rmse": 14.299682857057022,
+   "base_rmse": 13.029596601609606,
+   "seasons_better": 0,
+   "per_season": [
+    {
+     "season": 2019,
+     "n": 267,
+     "cand_mae": 11.598333884844921,
+     "base_mae": 10.356064883109285,
+     "better": false
+    },
+    {
+     "season": 2020,
+     "n": 269,
+     "cand_mae": 11.051906679950235,
+     "base_mae": 9.93526114794902,
+     "better": false
+    },
+    {
+     "season": 2021,
+     "n": 285,
+     "cand_mae": 12.047521852713752,
+     "base_mae": 10.917725863848217,
+     "better": false
+    },
+    {
+     "season": 2022,
+     "n": 284,
+     "cand_mae": 9.587111717557526,
+     "base_mae": 9.004080232793932,
+     "better": false
+    },
+    {
+     "season": 2023,
+     "n": 285,
+     "cand_mae": 11.103150234825303,
+     "base_mae": 10.24864147812956,
+     "better": false
+    },
+    {
+     "season": 2024,
+     "n": 285,
+     "cand_mae": 11.192862116810506,
+     "base_mae": 9.991715233898898,
+     "better": false
+    }
+   ],
+   "verdict": "worse (CI above zero)"
+  }
+ ],
+ "baselines": [
+  {
+   "cand": "full",
+   "base": "baseline_market_only",
+   "loss": "ae_margin",
+   "n_games": 1675,
+   "n_blocks": 130,
+   "mean_diff_ae": 0.22618918974733992,
+   "ci95_ae": [
+    0.11783600410014329,
+    0.3316207478157921
+   ],
+   "mean_diff_se": 6.0041189439601945,
+   "ci95_se": [
+    2.722449588339689,
+    9.214130042526781
+   ],
+   "cand_mae": 10.074547398702563,
+   "base_mae": 9.848358208955224,
+   "cand_rmse": 13.029596601609606,
+   "base_rmse": 12.797119545300669,
+   "seasons_better": 0,
+   "per_season": [
+    {
+     "season": 2019,
+     "n": 267,
+     "cand_mae": 10.356064883109285,
+     "base_mae": 10.176029962546817,
+     "better": false
+    },
+    {
+     "season": 2020,
+     "n": 269,
+     "cand_mae": 9.93526114794902,
+     "base_mae": 9.78996282527881,
+     "better": false
+    },
+    {
+     "season": 2021,
+     "n": 285,
+     "cand_mae": 10.917725863848217,
+     "base_mae": 10.666666666666666,
+     "better": false
+    },
+    {
+     "season": 2022,
+     "n": 284,
+     "cand_mae": 9.004080232793932,
+     "base_mae": 8.783450704225352,
+     "better": false
+    },
+    {
+     "season": 2023,
+     "n": 285,
+     "cand_mae": 10.24864147812956,
+     "base_mae": 9.98421052631579,
+     "better": false
+    },
+    {
+     "season": 2024,
+     "n": 285,
+     "cand_mae": 9.991715233898898,
+     "base_mae": 9.703508771929824,
+     "better": false
+    }
+   ],
+   "verdict": "worse (CI above zero)"
+  },
+  {
+   "cand": "full",
+   "base": "baseline_elo",
+   "loss": "ae_margin",
+   "n_games": 1675,
+   "n_blocks": 130,
+   "mean_diff_ae": -0.13840897958842838,
+   "ci95_ae": [
+    -0.2529139513860144,
+    -0.024990761447174673
+   ],
+   "mean_diff_se": -4.058627893356165,
+   "ci95_se": [
+    -7.629285842015304,
+    -0.9071375545293694
+   ],
+   "cand_mae": 10.074547398702563,
+   "base_mae": 10.212956378290992,
+   "cand_rmse": 13.029596601609606,
+   "base_rmse": 13.184423214309861,
+   "seasons_better": 6,
+   "per_season": [
+    {
+     "season": 2019,
+     "n": 267,
+     "cand_mae": 10.356064883109285,
+     "base_mae": 10.441151181751371,
+     "better": true
+    },
+    {
+     "season": 2020,
+     "n": 269,
+     "cand_mae": 9.93526114794902,
+     "base_mae": 10.006558284474462,
+     "better": true
+    },
+    {
+     "season": 2021,
+     "n": 285,
+     "cand_mae": 10.917725863848217,
+     "base_mae": 11.152071086848796,
+     "better": true
+    },
+    {
+     "season": 2022,
+     "n": 284,
+     "cand_mae": 9.004080232793932,
+     "base_mae": 9.06430834528646,
+     "better": true
+    },
+    {
+     "season": 2023,
+     "n": 285,
+     "cand_mae": 10.24864147812956,
+     "base_mae": 10.49642608673821,
+     "better": true
+    },
+    {
+     "season": 2024,
+     "n": 285,
+     "cand_mae": 9.991715233898898,
+     "base_mae": 10.116017982640404,
+     "better": true
+    }
+   ],
+   "verdict": "IMPROVEMENT"
+  },
+  {
+   "cand": "full",
+   "base": "baseline_srs",
+   "loss": "ae_margin",
+   "n_games": 1675,
+   "n_blocks": 130,
+   "mean_diff_ae": -0.1485965538189706,
+   "ci95_ae": [
+    -0.24001249646734862,
+    -0.061272345609714854
+   ],
+   "mean_diff_se": -3.6825122044491256,
+   "ci95_se": [
+    -6.2611226467797065,
+    -1.2134005640908032
+   ],
+   "cand_mae": 10.074547398702563,
+   "base_mae": 10.223143952521534,
+   "cand_rmse": 13.029596601609606,
+   "base_rmse": 13.170151852014682,
+   "seasons_better": 6,
+   "per_season": [
+    {
+     "season": 2019,
+     "n": 267,
+     "cand_mae": 10.356064883109285,
+     "base_mae": 10.50562397767185,
+     "better": true
+    },
+    {
+     "season": 2020,
+     "n": 269,
+     "cand_mae": 9.93526114794902,
+     "base_mae": 10.088389681995453,
+     "better": true
+    },
+    {
+     "season": 2021,
+     "n": 285,
+     "cand_mae": 10.917725863848217,
+     "base_mae": 11.098763371162804,
+     "better": true
+    },
+    {
+     "season": 2022,
+     "n": 284,
+     "cand_mae": 9.004080232793932,
+     "base_mae": 9.082695173714255,
+     "better": true
+    },
+    {
+     "season": 2023,
+     "n": 285,
+     "cand_mae": 10.24864147812956,
+     "base_mae": 10.367742798836659,
+     "better": true
+    },
+    {
+     "season": 2024,
+     "n": 285,
+     "cand_mae": 9.991715233898898,
+     "base_mae": 10.201922828749874,
+     "better": true
+    }
+   ],
+   "verdict": "IMPROVEMENT"
+  },
+  {
+   "cand": "full",
+   "base": "baseline_naive_home",
+   "loss": "ae_margin",
+   "n_games": 1675,
+   "n_blocks": 130,
+   "mean_diff_ae": -1.0259337596341296,
+   "ci95_ae": [
+    -1.2393754973193851,
+    -0.8230994557798715
+   ],
+   "mean_diff_se": -35.15064071624317,
+   "ci95_se": [
+    -41.696103285949675,
+    -28.676008114999085
+   ],
+   "cand_mae": 10.074547398702563,
+   "base_mae": 11.100481158336693,
+   "cand_rmse": 13.029596601609606,
+   "base_rmse": 14.315062986830332,
+   "seasons_better": 6,
+   "per_season": [
+    {
+     "season": 2019,
+     "n": 267,
+     "cand_mae": 10.356064883109285,
+     "base_mae": 11.622008748606227,
+     "better": true
+    },
+    {
+     "season": 2020,
+     "n": 269,
+     "cand_mae": 9.93526114794902,
+     "base_mae": 11.083808225306505,
+     "better": true
+    },
+    {
+     "season": 2021,
+     "n": 285,
+     "cand_mae": 10.917725863848217,
+     "base_mae": 12.044399871630294,
+     "better": true
+    },
+    {
+     "season": 2022,
+     "n": 284,
+     "cand_mae": 9.004080232793932,
+     "base_mae": 9.583393013447917,
+     "better": true
+    },
+    {
+     "season": 2023,
+     "n": 285,
+     "cand_mae": 10.24864147812956,
+     "base_mae": 11.103112862369827,
+     "better": true
+    },
+    {
+     "season": 2024,
+     "n": 285,
+     "cand_mae": 9.991715233898898,
+     "base_mae": 11.192843672699663,
+     "better": true
+    }
+   ],
+   "verdict": "IMPROVEMENT"
+  }
+ ],
+ "drop_one_totals": [
+  {
+   "cand": "drop_efficiency",
+   "base": "full",
+   "loss": "ae_total",
+   "n_games": 1675,
+   "n_blocks": 130,
+   "mean_diff_ae": -0.01340856856199284,
+   "ci95_ae": [
+    -0.0314437860953769,
+    0.004631560311704609
+   ],
+   "mean_diff_se": -0.3179932400956862,
+   "ci95_se": [
+    -0.7481924302542301,
+    0.11420141950054728
+   ],
+   "cand_mae": 10.515138616303243,
+   "base_mae": 10.528547184865237,
+   "cand_rmse": 13.303482521779891,
+   "base_rmse": 13.315428661796764,
+   "seasons_better": 4,
+   "per_season": [
+    {
+     "season": 2019,
+     "n": 267,
+     "cand_mae": 10.967424927021112,
+     "base_mae": 10.943259271689449,
+     "better": false
+    },
+    {
+     "season": 2020,
+     "n": 269,
+     "cand_mae": 10.515441657404,
+     "base_mae": 10.537883521091649,
+     "better": true
+    },
+    {
+     "season": 2021,
+     "n": 285,
+     "cand_mae": 10.88501720673002,
+     "base_mae": 10.899247193988987,
+     "better": true
+    },
+    {
+     "season": 2022,
+     "n": 284,
+     "cand_mae": 10.550062140898563,
+     "base_mae": 10.573277351761078,
+     "better": true
+    },
+    {
+     "season": 2023,
+     "n": 285,
+     "cand_mae": 10.370432772074743,
+     "base_mae": 10.428962247446494,
+     "better": true
+    },
+    {
+     "season": 2024,
+     "n": 285,
+     "cand_mae": 9.831157996410774,
+     "base_mae": 9.815526958685172,
+     "better": false
+    }
+   ],
+   "verdict": "no demonstrated improvement"
+  },
+  {
+   "cand": "drop_passing",
+   "base": "full",
+   "loss": "ae_total",
+   "n_games": 1675,
+   "n_blocks": 130,
+   "mean_diff_ae": 0.01859224270419537,
+   "ci95_ae": [
+    -0.011830413692581457,
+    0.049624179969708845
+   ],
+   "mean_diff_se": -0.2390715914968218,
+   "ci95_se": [
+    -1.0315830071064855,
+    0.513747536831144
+   ],
+   "cand_mae": 10.547139427569432,
+   "base_mae": 10.528547184865237,
+   "cand_rmse": 13.306448393763903,
+   "base_rmse": 13.315428661796764,
+   "seasons_better": 4,
+   "per_season": [
+    {
+     "season": 2019,
+     "n": 267,
+     "cand_mae": 10.933792986787996,
+     "base_mae": 10.943259271689449,
+     "better": true
+    },
+    {
+     "season": 2020,
+     "n": 269,
+     "cand_mae": 10.528936755675387,
+     "base_mae": 10.537883521091649,
+     "better": true
+    },
+    {
+     "season": 2021,
+     "n": 285,
+     "cand_mae": 10.881859026595874,
+     "base_mae": 10.899247193988987,
+     "better": true
+    },
+    {
+     "season": 2022,
+     "n": 284,
+     "cand_mae": 10.638255840629114,
+     "base_mae": 10.573277351761078,
+     "better": false
+    },
+    {
+     "season": 2023,
+     "n": 285,
+     "cand_mae": 10.53311806231238,
+     "base_mae": 10.428962247446494,
+     "better": false
+    },
+    {
+     "season": 2024,
+     "n": 285,
+     "cand_mae": 9.790591920534041,
+     "base_mae": 9.815526958685172,
+     "better": true
+    }
+   ],
+   "verdict": "no demonstrated improvement"
+  },
+  {
+   "cand": "drop_rushing",
+   "base": "full",
+   "loss": "ae_total",
+   "n_games": 1675,
+   "n_blocks": 130,
+   "mean_diff_ae": 0.006873019378800011,
+   "ci95_ae": [
+    -0.015891256627383093,
+    0.027161174265292562
+   ],
+   "mean_diff_se": 0.22967746712507572,
+   "ci95_se": [
+    -0.37120921460339423,
+    0.7778567060115518
+   ],
+   "cand_mae": 10.535420204244035,
+   "base_mae": 10.528547184865237,
+   "cand_rmse": 13.324050356949416,
+   "base_rmse": 13.315428661796764,
+   "seasons_better": 3,
+   "per_season": [
+    {
+     "season": 2019,
+     "n": 267,
+     "cand_mae": 10.95404035397672,
+     "base_mae": 10.943259271689449,
+     "better": false
+    },
+    {
+     "season": 2020,
+     "n": 269,
+     "cand_mae": 10.516300233470636,
+     "base_mae": 10.537883521091649,
+     "better": true
+    },
+    {
+     "season": 2021,
+     "n": 285,
+     "cand_mae": 10.92751026387712,
+     "base_mae": 10.899247193988987,
+     "better": false
+    },
+    {
+     "season": 2022,
+     "n": 284,
+     "cand_mae": 10.572923132216115,
+     "base_mae": 10.573277351761078,
+     "better": true
+    },
+    {
+     "season": 2023,
+     "n": 285,
+     "cand_mae": 10.47985087256263,
+     "base_mae": 10.428962247446494,
+     "better": false
+    },
+    {
+     "season": 2024,
+     "n": 285,
+     "cand_mae": 9.787393724065506,
+     "base_mae": 9.815526958685172,
+     "better": true
+    }
+   ],
+   "verdict": "no demonstrated improvement"
+  },
+  {
+   "cand": "drop_turnovers",
+   "base": "full",
+   "loss": "ae_total",
+   "n_games": 1675,
+   "n_blocks": 130,
+   "mean_diff_ae": -0.0012389757354436032,
+   "ci95_ae": [
+    -0.029026517952252254,
+    0.028869006604820894
+   ],
+   "mean_diff_se": 0.4429923452903119,
+   "ci95_se": [
+    -0.34805209554846767,
+    1.2718216878132291
+   ],
+   "cand_mae": 10.527308209129792,
+   "base_mae": 10.528547184865237,
+   "cand_rmse": 13.332052834904648,
+   "base_rmse": 13.315428661796764,
+   "seasons_better": 4,
+   "per_season": [
+    {
+     "season": 2019,
+     "n": 267,
+     "cand_mae": 10.919661176879348,
+     "base_mae": 10.943259271689449,
+     "better": true
+    },
+    {
+     "season": 2020,
+     "n": 269,
+     "cand_mae": 10.57261567405751,
+     "base_mae": 10.537883521091649,
+     "better": false
+    },
+    {
+     "season": 2021,
+     "n": 285,
+     "cand_mae": 10.88792596385237,
+     "base_mae": 10.899247193988987,
+     "better": true
+    },
+    {
+     "season": 2022,
+     "n": 284,
+     "cand_mae": 10.555743727761588,
+     "base_mae": 10.573277351761078,
+     "better": true
+    },
+    {
+     "season": 2023,
+     "n": 285,
+     "cand_mae": 10.419634428663143,
+     "base_mae": 10.428962247446494,
+     "better": true
+    },
+    {
+     "season": 2024,
+     "n": 285,
+     "cand_mae": 9.835691821729585,
+     "base_mae": 9.815526958685172,
+     "better": false
+    }
+   ],
+   "verdict": "no demonstrated improvement"
+  },
+  {
+   "cand": "drop_pace",
+   "base": "full",
+   "loss": "ae_total",
+   "n_games": 1675,
+   "n_blocks": 130,
+   "mean_diff_ae": 0.047195707057240376,
+   "ci95_ae": [
+    0.01120885185553182,
+    0.08444399343344137
+   ],
+   "mean_diff_se": 0.892379911616137,
+   "ci95_se": [
+    0.006968421336191192,
+    1.8201673233188331
+   ],
+   "cand_mae": 10.575742891922477,
+   "base_mae": 10.528547184865237,
+   "cand_rmse": 13.348895847934948,
+   "base_rmse": 13.315428661796764,
+   "seasons_better": 1,
+   "per_season": [
+    {
+     "season": 2019,
+     "n": 267,
+     "cand_mae": 10.98484089649185,
+     "base_mae": 10.943259271689449,
+     "better": false
+    },
+    {
+     "season": 2020,
+     "n": 269,
+     "cand_mae": 10.497798768829457,
+     "base_mae": 10.537883521091649,
+     "better": true
+    },
+    {
+     "season": 2021,
+     "n": 285,
+     "cand_mae": 10.952795605370524,
+     "base_mae": 10.899247193988987,
+     "better": false
+    },
+    {
+     "season": 2022,
+     "n": 284,
+     "cand_mae": 10.648313202687577,
+     "base_mae": 10.573277351761078,
+     "better": false
+    },
+    {
+     "season": 2023,
+     "n": 285,
+     "cand_mae": 10.563925066116706,
+     "base_mae": 10.428962247446494,
+     "better": false
+    },
+    {
+     "season": 2024,
+     "n": 285,
+     "cand_mae": 9.828500402998479,
+     "base_mae": 9.815526958685172,
+     "better": false
+    }
+   ],
+   "verdict": "worse (CI above zero)"
+  },
+  {
+   "cand": "drop_scoring",
+   "base": "full",
+   "loss": "ae_total",
+   "n_games": 1675,
+   "n_blocks": 130,
+   "mean_diff_ae": -0.013058702680739076,
+   "ci95_ae": [
+    -0.04439788215262715,
+    0.018461746623750327
+   ],
+   "mean_diff_se": -0.1704720556048179,
+   "ci95_se": [
+    -1.0550044579853415,
+    0.6620767925972327
+   ],
+   "cand_mae": 10.515488482184496,
+   "base_mae": 10.528547184865237,
+   "cand_rmse": 13.309025824296606,
+   "base_rmse": 13.315428661796764,
+   "seasons_better": 3,
+   "per_season": [
+    {
+     "season": 2019,
+     "n": 267,
+     "cand_mae": 10.970362408839947,
+     "base_mae": 10.943259271689449,
+     "better": false
+    },
+    {
+     "season": 2020,
+     "n": 269,
+     "cand_mae": 10.455935799167943,
+     "base_mae": 10.537883521091649,
+     "better": true
+    },
+    {
+     "season": 2021,
+     "n": 285,
+     "cand_mae": 10.897362815856848,
+     "base_mae": 10.899247193988987,
+     "better": true
+    },
+    {
+     "season": 2022,
+     "n": 284,
+     "cand_mae": 10.576799548537336,
+     "base_mae": 10.573277351761078,
+     "better": false
+    },
+    {
+     "season": 2023,
+     "n": 285,
+     "cand_mae": 10.437788994768638,
+     "base_mae": 10.428962247446494,
+     "better": false
+    },
+    {
+     "season": 2024,
+     "n": 285,
+     "cand_mae": 9.78028202354288,
+     "base_mae": 9.815526958685172,
+     "better": true
+    }
+   ],
+   "verdict": "no demonstrated improvement"
+  },
+  {
+   "cand": "drop_qb",
+   "base": "full",
+   "loss": "ae_total",
+   "n_games": 1675,
+   "n_blocks": 130,
+   "mean_diff_ae": 0.1317788365955089,
+   "ci95_ae": [
+    0.0663961409413186,
+    0.20011550077395762
+   ],
+   "mean_diff_se": 3.8246089346034613,
+   "ci95_se": [
+    2.061928412971672,
+    5.521976925781526
+   ],
+   "cand_mae": 10.660326021460744,
+   "base_mae": 10.528547184865237,
+   "cand_rmse": 13.45827809870201,
+   "base_rmse": 13.315428661796764,
+   "seasons_better": 0,
+   "per_season": [
+    {
+     "season": 2019,
+     "n": 267,
+     "cand_mae": 10.955147597576058,
+     "base_mae": 10.943259271689449,
+     "better": false
+    },
+    {
+     "season": 2020,
+     "n": 269,
+     "cand_mae": 10.702616540609919,
+     "base_mae": 10.537883521091649,
+     "better": false
+    },
+    {
+     "season": 2021,
+     "n": 285,
+     "cand_mae": 11.150218863879644,
+     "base_mae": 10.899247193988987,
+     "better": false
+    },
+    {
+     "season": 2022,
+     "n": 284,
+     "cand_mae": 10.693540506026698,
+     "base_mae": 10.573277351761078,
+     "better": false
+    },
+    {
+     "season": 2023,
+     "n": 285,
+     "cand_mae": 10.499542076513317,
+     "base_mae": 10.428962247446494,
+     "better": false
+    },
+    {
+     "season": 2024,
+     "n": 285,
+     "cand_mae": 9.982001600864193,
+     "base_mae": 9.815526958685172,
+     "better": false
+    }
+   ],
+   "verdict": "worse (CI above zero)"
+  },
+  {
+   "cand": "drop_rest",
+   "base": "full",
+   "loss": "ae_total",
+   "n_games": 1675,
+   "n_blocks": 130,
+   "mean_diff_ae": -0.018273093945183838,
+   "ci95_ae": [
+    -0.03732069426441643,
+    0.0003159949160848627
+   ],
+   "mean_diff_se": -0.4172578478160603,
+   "ci95_se": [
+    -0.9109953741666256,
+    0.1261566399625544
+   ],
+   "cand_mae": 10.510274090920051,
+   "base_mae": 10.528547184865237,
+   "cand_rmse": 13.299751223221534,
+   "base_rmse": 13.315428661796764,
+   "seasons_better": 6,
+   "per_season": [
+    {
+     "season": 2019,
+     "n": 267,
+     "cand_mae": 10.910729221655764,
+     "base_mae": 10.943259271689449,
+     "better": true
+    },
+    {
+     "season": 2020,
+     "n": 269,
+     "cand_mae": 10.537624361491519,
+     "base_mae": 10.537883521091649,
+     "better": true
+    },
+    {
+     "season": 2021,
+     "n": 285,
+     "cand_mae": 10.860340593192115,
+     "base_mae": 10.899247193988987,
+     "better": true
+    },
+    {
+     "season": 2022,
+     "n": 284,
+     "cand_mae": 10.563723721954625,
+     "base_mae": 10.573277351761078,
+     "better": true
+    },
+    {
+     "season": 2023,
+     "n": 285,
+     "cand_mae": 10.424985683475736,
+     "base_mae": 10.428962247446494,
+     "better": true
+    },
+    {
+     "season": 2024,
+     "n": 285,
+     "cand_mae": 9.791255863095884,
+     "base_mae": 9.815526958685172,
+     "better": true
+    }
+   ],
+   "verdict": "no demonstrated improvement"
+  },
+  {
+   "cand": "drop_home_field",
+   "base": "full",
+   "loss": "ae_total",
+   "n_games": 1675,
+   "n_blocks": 130,
+   "mean_diff_ae": -0.007697462654623919,
+   "ci95_ae": [
+    -0.027218465628323793,
+    0.01034348846522911
+   ],
+   "mean_diff_se": -0.10454486891890838,
+   "ci95_se": [
+    -0.5247165348602019,
+    0.35483185684014085
+   ],
+   "cand_mae": 10.520849722210611,
+   "base_mae": 10.528547184865237,
+   "cand_rmse": 13.311502378712925,
+   "base_rmse": 13.315428661796764,
+   "seasons_better": 2,
+   "per_season": [
+    {
+     "season": 2019,
+     "n": 267,
+     "cand_mae": 10.915779260113307,
+     "base_mae": 10.943259271689449,
+     "better": true
+    },
+    {
+     "season": 2020,
+     "n": 269,
+     "cand_mae": 10.54230003491374,
+     "base_mae": 10.537883521091649,
+     "better": false
+    },
+    {
+     "season": 2021,
+     "n": 285,
+     "cand_mae": 10.903390310574695,
+     "base_mae": 10.899247193988987,
+     "better": false
+    },
+    {
+     "season": 2022,
+     "n": 284,
+     "cand_mae": 10.580857550258228,
+     "base_mae": 10.573277351761078,
+     "better": false
+    },
+    {
+     "season": 2023,
+     "n": 285,
+     "cand_mae": 10.433185681835852,
+     "base_mae": 10.428962247446494,
+     "better": false
+    },
+    {
+     "season": 2024,
+     "n": 285,
+     "cand_mae": 9.77594319561538,
+     "base_mae": 9.815526958685172,
+     "better": true
+    }
+   ],
+   "verdict": "no demonstrated improvement"
+  },
+  {
+   "cand": "drop_other",
+   "base": "full",
+   "loss": "ae_total",
+   "n_games": 1675,
+   "n_blocks": 130,
+   "mean_diff_ae": -0.0154497954315337,
+   "ci95_ae": [
+    -0.05009638070824658,
+    0.015069911586709658
+   ],
+   "mean_diff_se": -0.6760507764965669,
+   "ci95_se": [
+    -1.4682275462806407,
+    0.07069133020162828
+   ],
+   "cand_mae": 10.5130973894337,
+   "base_mae": 10.528547184865237,
+   "cand_rmse": 13.290018422519292,
+   "base_rmse": 13.315428661796764,
+   "seasons_better": 5,
+   "per_season": [
+    {
+     "season": 2019,
+     "n": 267,
+     "cand_mae": 10.881630802967823,
+     "base_mae": 10.943259271689449,
+     "better": true
+    },
+    {
+     "season": 2020,
+     "n": 269,
+     "cand_mae": 10.566738288174214,
+     "base_mae": 10.537883521091649,
+     "better": false
+    },
+    {
+     "season": 2021,
+     "n": 285,
+     "cand_mae": 10.893149570417119,
+     "base_mae": 10.899247193988987,
+     "better": true
+    },
+    {
+     "season": 2022,
+     "n": 284,
+     "cand_mae": 10.565508367277856,
+     "base_mae": 10.573277351761078,
+     "better": true
+    },
+    {
+     "season": 2023,
+     "n": 285,
+     "cand_mae": 10.3915179526537,
+     "base_mae": 10.428962247446494,
+     "better": true
+    },
+    {
+     "season": 2024,
+     "n": 285,
+     "cand_mae": 9.80651046669503,
+     "base_mae": 9.815526958685172,
+     "better": true
+    }
+   ],
+   "verdict": "no demonstrated improvement"
+  },
+  {
+   "cand": "drop_roof",
+   "base": "full",
+   "loss": "ae_total",
+   "n_games": 1675,
+   "n_blocks": 130,
+   "mean_diff_ae": 0.06218025727802513,
+   "ci95_ae": [
+    0.02157875908445883,
+    0.10206720771431224
+   ],
+   "mean_diff_se": 1.9021117259207783,
+   "ci95_se": [
+    0.7926364227136016,
+    2.9550790878488726
+   ],
+   "cand_mae": 10.590727442143258,
+   "base_mae": 10.528547184865237,
+   "cand_rmse": 13.386663220284564,
+   "base_rmse": 13.315428661796764,
+   "seasons_better": 0,
+   "per_season": [
+    {
+     "season": 2019,
+     "n": 267,
+     "cand_mae": 10.969299774200605,
+     "base_mae": 10.943259271689449,
+     "better": false
+    },
+    {
+     "season": 2020,
+     "n": 269,
+     "cand_mae": 10.607361812212329,
+     "base_mae": 10.537883521091649,
+     "better": false
+    },
+    {
+     "season": 2021,
+     "n": 285,
+     "cand_mae": 11.002959857787257,
+     "base_mae": 10.899247193988987,
+     "better": false
+    },
+    {
+     "season": 2022,
+     "n": 284,
+     "cand_mae": 10.693796252519856,
+     "base_mae": 10.573277351761078,
+     "better": false
+    },
+    {
+     "season": 2023,
+     "n": 285,
+     "cand_mae": 10.472020521513532,
+     "base_mae": 10.428962247446494,
+     "better": false
+    },
+    {
+     "season": 2024,
+     "n": 285,
+     "cand_mae": 9.82413177044533,
+     "base_mae": 9.815526958685172,
+     "better": false
+    }
+   ],
+   "verdict": "worse (CI above zero)"
+  }
+ ],
+ "contribution_corr": {
+  "groups": [
+   "efficiency",
+   "passing",
+   "rushing",
+   "turnovers",
+   "pace",
+   "scoring",
+   "qb",
+   "rest",
+   "home_field",
+   "other",
+   "roof"
+  ],
+  "matrix": [
+   [
+    1.0,
+    0.56,
+    0.325,
+    0.439,
+    0.298,
+    0.878,
+    0.389,
+    0.017,
+    -0.008,
+    -0.043,
+    NaN
+   ],
+   [
+    0.56,
+    1.0,
+    0.212,
+    0.309,
+    0.171,
+    0.705,
+    0.231,
+    -0.011,
+    0.014,
+    -0.019,
+    NaN
+   ],
+   [
+    0.325,
+    0.212,
+    1.0,
+    0.08,
+    -0.064,
+    0.341,
+    0.089,
+    0.003,
+    0.013,
+    0.021,
+    NaN
+   ],
+   [
+    0.439,
+    0.309,
+    0.08,
+    1.0,
+    0.055,
+    0.567,
+    0.129,
+    -0.007,
+    0.035,
+    -0.022,
+    NaN
+   ],
+   [
+    0.298,
+    0.171,
+    -0.064,
+    0.055,
+    1.0,
+    0.278,
+    0.1,
+    0.003,
+    -0.028,
+    -0.048,
+    NaN
+   ],
+   [
+    0.878,
+    0.705,
+    0.341,
+    0.567,
+    0.278,
+    1.0,
+    0.352,
+    0.003,
+    -0.003,
+    -0.062,
+    NaN
+   ],
+   [
+    0.389,
+    0.231,
+    0.089,
+    0.129,
+    0.1,
+    0.352,
+    1.0,
+    -0.006,
+    0.004,
+    -0.047,
+    NaN
+   ],
+   [
+    0.017,
+    -0.011,
+    0.003,
+    -0.007,
+    0.003,
+    0.003,
+    -0.006,
+    1.0,
+    -0.016,
+    -0.177,
+    NaN
+   ],
+   [
+    -0.008,
+    0.014,
+    0.013,
+    0.035,
+    -0.028,
+    -0.003,
+    0.004,
+    -0.016,
+    1.0,
+    -0.024,
+    NaN
+   ],
+   [
+    -0.043,
+    -0.019,
+    0.021,
+    -0.022,
+    -0.048,
+    -0.062,
+    -0.047,
+    -0.177,
+    -0.024,
+    1.0,
+    NaN
+   ],
+   [
+    NaN,
+    NaN,
+    NaN,
+    NaN,
+    NaN,
+    NaN,
+    NaN,
+    NaN,
+    NaN,
+    NaN,
+    NaN
+   ]
+  ]
+ },
+ "contribution_mean_abs": {
+  "efficiency": 0.8383831897978126,
+  "passing": 0.820294535223511,
+  "rushing": 0.4979496220530881,
+  "turnovers": 0.6162531421447824,
+  "pace": 0.5309336509886495,
+  "scoring": 1.3264572834142667,
+  "qb": 1.1397954829580648,
+  "rest": 0.10837991273970447,
+  "home_field": 1.3862247336885982,
+  "other": 0.0005970591924131763,
+  "roof": 0.0
+ },
+ "contribution_sd": {
+  "efficiency": 1.0442453869751158,
+  "passing": 1.0495839495774486,
+  "rushing": 0.6310304829346356,
+  "turnovers": 0.7767699326265316,
+  "pace": 0.6679439901614783,
+  "scoring": 1.6640223882849126,
+  "qb": 1.5899846319213402,
+  "rest": 0.2634712301019566,
+  "home_field": 0.24988073329569968,
+  "other": 0.001867182115632176,
+  "roof": 0.0
+ },
+ "live_2026": {
+  "drop_efficiency": {
+   "n_games": 118,
+   "margin_mae": 9.100773581692208,
+   "margin_rmse": 11.579664711382774,
+   "total_mae": 10.498911161592341,
+   "total_rmse": 12.871880364965097,
+   "home_pts_mae": 6.426536537139243,
+   "away_pts_mae": 7.722432791662215,
+   "margin_bias": 2.0816483765551905,
+   "total_bias": -0.5114012276727089,
+   "winner_accuracy": 0.6410256410256411,
+   "n_decided": 117
+  },
+  "drop_home_field": {
+   "n_games": 118,
+   "margin_mae": 8.736253522235147,
+   "margin_rmse": 11.395027615632042,
+   "total_mae": 10.457585429325398,
+   "total_rmse": 12.815267529376307,
+   "home_pts_mae": 6.31528712476784,
+   "away_pts_mae": 7.61183737755064,
+   "margin_bias": 0.3365823230962356,
+   "total_bias": -0.4517286842404244,
+   "winner_accuracy": 0.717948717948718,
+   "n_decided": 117
+  },
+  "drop_other": {
+   "n_games": 118,
+   "margin_mae": 9.099243773315468,
+   "margin_rmse": 11.565541729157683,
+   "total_mae": 10.462666257076567,
+   "total_rmse": 12.845718584751484,
+   "home_pts_mae": 6.390104399558427,
+   "away_pts_mae": 7.71479537672923,
+   "margin_bias": 2.0740093686761916,
+   "total_bias": -0.6792541191571402,
+   "winner_accuracy": 0.6410256410256411,
+   "n_decided": 117
+  },
+  "drop_pace": {
+   "n_games": 118,
+   "margin_mae": 9.162171411327627,
+   "margin_rmse": 11.67591100187861,
+   "total_mae": 10.370627393497191,
+   "total_rmse": 12.783668092538367,
+   "home_pts_mae": 6.444015254461273,
+   "away_pts_mae": 7.680723369527989,
+   "margin_bias": 2.1345177211574304,
+   "total_bias": -0.33557697553230414,
+   "winner_accuracy": 0.6581196581196581,
+   "n_decided": 117
+  },
+  "drop_passing": {
+   "n_games": 118,
+   "margin_mae": 9.142928899803293,
+   "margin_rmse": 11.605041818874282,
+   "total_mae": 10.460072672930204,
+   "total_rmse": 12.795088953552234,
+   "home_pts_mae": 6.395114418702032,
+   "away_pts_mae": 7.721529674476863,
+   "margin_bias": 1.9953323974387145,
+   "total_bias": -0.4454154930770086,
+   "winner_accuracy": 0.6495726495726496,
+   "n_decided": 117
+  },
+  "drop_qb": {
+   "n_games": 118,
+   "margin_mae": 9.226543525341397,
+   "margin_rmse": 11.775567468751523,
+   "total_mae": 10.656429750884746,
+   "total_rmse": 13.07737224133772,
+   "home_pts_mae": 6.619658141961864,
+   "away_pts_mae": 7.753436013342334,
+   "margin_bias": 2.2378510683617705,
+   "total_bias": -0.7860220511364688,
+   "winner_accuracy": 0.6324786324786325,
+   "n_decided": 117
+  },
+  "drop_rest": {
+   "n_games": 118,
+   "margin_mae": 9.130166202564006,
+   "margin_rmse": 11.647668640386263,
+   "total_mae": 10.482020485627828,
+   "total_rmse": 12.84628482844308,
+   "home_pts_mae": 6.4073410037518626,
+   "away_pts_mae": 7.73928152831264,
+   "margin_bias": 2.0761209900904474,
+   "total_bias": -0.5204667915890854,
+   "winner_accuracy": 0.6410256410256411,
+   "n_decided": 117
+  },
+  "drop_roof": {
+   "n_games": 118,
+   "margin_mae": 9.092159620622406,
+   "margin_rmse": 11.555906818650719,
+   "total_mae": 10.498143389452796,
+   "total_rmse": 12.829256493034427,
+   "home_pts_mae": 6.323012070137452,
+   "away_pts_mae": 7.7712521004215995,
+   "margin_bias": 2.0860510224623874,
+   "total_bias": -0.43027318003567155,
+   "winner_accuracy": 0.6495726495726496,
+   "n_decided": 117
+  },
+  "drop_rushing": {
+   "n_games": 118,
+   "margin_mae": 9.087827126536515,
+   "margin_rmse": 11.595769712429226,
+   "total_mae": 10.481933745699887,
+   "total_rmse": 12.78188152017992,
+   "home_pts_mae": 6.500864006113614,
+   "away_pts_mae": 7.657274080969096,
+   "margin_bias": 2.06523020976402,
+   "total_bias": 0.4042325368999717,
+   "winner_accuracy": 0.6666666666666666,
+   "n_decided": 117
+  },
+  "drop_scoring": {
+   "n_games": 118,
+   "margin_mae": 9.009578899769648,
+   "margin_rmse": 11.537352249197715,
+   "total_mae": 10.519096679765026,
+   "total_rmse": 12.792755652490449,
+   "home_pts_mae": 6.366921288292382,
+   "away_pts_mae": 7.712454339800954,
+   "margin_bias": 2.0186121010929607,
+   "total_bias": 0.18416710293454722,
+   "winner_accuracy": 0.6324786324786325,
+   "n_decided": 117
+  },
+  "drop_turnovers": {
+   "n_games": 118,
+   "margin_mae": 9.19547899388603,
+   "margin_rmse": 11.719113469551422,
+   "total_mae": 10.54568860478389,
+   "total_rmse": 12.95681128391291,
+   "home_pts_mae": 6.387485478661615,
+   "away_pts_mae": 7.87167562319638,
+   "margin_bias": 1.9998788760406832,
+   "total_bias": -2.032103293895131,
+   "winner_accuracy": 0.6495726495726496,
+   "n_decided": 117
+  },
+  "full": {
+   "n_games": 118,
+   "margin_mae": 9.098689383992244,
+   "margin_rmse": 11.562776208507481,
+   "total_mae": 10.46504804099234,
+   "total_rmse": 12.839593243226302,
+   "home_pts_mae": 6.394720231162045,
+   "away_pts_mae": 7.711531690580842,
+   "margin_bias": 2.073947757349209,
+   "total_bias": -0.5421666619108118,
+   "winner_accuracy": 0.6410256410256411,
+   "n_decided": 117
+  }
+ }
+}

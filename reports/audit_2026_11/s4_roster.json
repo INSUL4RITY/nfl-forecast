@@ -1,0 +1,431 @@
+{
+ "threshold_regular": 0.6,
+ "min_prior_games": 2,
+ "n_team_games": 2814,
+ "absent_regulars_distribution": [
+  {
+   "n_abs": 0,
+   "n": 189
+  },
+  {
+   "n_abs": 1,
+   "n": 378
+  },
+  {
+   "n_abs": 2,
+   "n": 461
+  },
+  {
+   "n_abs": 3,
+   "n": 447
+  },
+  {
+   "n_abs": 4,
+   "n": 427
+  },
+  {
+   "n_abs": 5,
+   "n": 300
+  },
+  {
+   "n_abs": 6,
+   "n": 232
+  },
+  {
+   "n_abs": 7,
+   "n": 134
+  },
+  {
+   "n_abs": 8,
+   "n": 100
+  },
+  {
+   "n_abs": 9,
+   "n": 50
+  },
+  {
+   "n_abs": 10,
+   "n": 38
+  },
+  {
+   "n_abs": 11,
+   "n": 21
+  },
+  {
+   "n_abs": 12,
+   "n": 17
+  },
+  {
+   "n_abs": 13,
+   "n": 6
+  },
+  {
+   "n_abs": 14,
+   "n": 4
+  },
+  {
+   "n_abs": 15,
+   "n": 4
+  },
+  {
+   "n_abs": 16,
+   "n": 1
+  },
+  {
+   "n_abs": 17,
+   "n": 2
+  },
+  {
+   "n_abs": 18,
+   "n": 2
+  },
+  {
+   "n_abs": 20,
+   "n": 1
+  }
+ ],
+ "mean_regulars": 20.221748400852878,
+ "mean_absent": 3.7469793887704337,
+ "share_team_games_newly_missing_2plus_regulars": 0.3383084577114428,
+ "absence_tags_share": {
+  "reported": 0.25132776934749623,
+  "roster_prev": 0.4191009104704097,
+  "known": 0.6666350531107739,
+  "new": 0.337443095599393,
+  "n_player_games": 10544
+ },
+ "bias_all": {
+  "n": 2814,
+  "coef": {
+   "const": -0.38872071683122866,
+   "off_abs": -0.3653152062809115,
+   "opp_def_abs": 0.6479964134236593
+  },
+  "ci95": {
+   "const": [
+    -1.0363437494508068,
+    0.26670291725842316
+   ],
+   "off_abs": [
+    -0.6375444691211082,
+    -0.10139399764878566
+   ],
+   "opp_def_abs": [
+    0.3636519702413344,
+    0.9198929123529679
+   ]
+  }
+ },
+ "bias_weeks_3_16": {
+  "n": 2496,
+  "coef": {
+   "const": -0.3159092790717756,
+   "off_abs": -0.35488474465516867,
+   "opp_def_abs": 0.5350764314707597
+  },
+  "ci95": {
+   "const": [
+    -1.0209181258331332,
+    0.42205690027257897
+   ],
+   "off_abs": [
+    -0.6765892647593506,
+    -0.05801808682127012
+   ],
+   "opp_def_abs": [
+    0.17494334760804164,
+    0.8767867916386667
+   ]
+  }
+ },
+ "bias_new_vs_continuing": {
+  "n": 2814,
+  "coef": {
+   "const": -0.3447727565835941,
+   "off_new": -0.612368863367583,
+   "off_cont": -0.2684277561539795,
+   "opp_def_new": 0.4811336470282569,
+   "opp_def_cont": 0.7203040147797826
+  },
+  "ci95": {
+   "const": [
+    -0.9931422488161201,
+    0.32142260886763013
+   ],
+   "off_new": [
+    -1.0675824908756906,
+    -0.20916772830358982
+   ],
+   "off_cont": [
+    -0.613302757539717,
+    0.09345561246100345
+   ],
+   "opp_def_new": [
+    -0.0412397932800193,
+    0.9432913862011799
+   ],
+   "opp_def_cont": [
+    0.37258556736123516,
+    1.056916969506452
+   ]
+  }
+ },
+ "bias_new_vs_continuing_weeks_3_16": {
+  "n": 2496,
+  "coef": {
+   "const": -0.24102724086545999,
+   "off_new": -0.5700213007515804,
+   "off_cont": -0.28762606340937524,
+   "opp_def_new": 0.2836582068394915,
+   "opp_def_cont": 0.6308844925698819
+  },
+  "ci95": {
+   "const": [
+    -0.9447340867134862,
+    0.5256096223639917
+   ],
+   "off_new": [
+    -1.10624330256069,
+    -0.045722254670433914
+   ],
+   "off_cont": [
+    -0.7223925252071179,
+    0.10357309453151677
+   ],
+   "opp_def_new": [
+    -0.2986359062125967,
+    0.8533080354733967
+   ],
+   "opp_def_cont": [
+    0.2067180854447972,
+    1.04432357024784
+   ]
+  }
+ },
+ "bias_known_vs_unknown": {
+  "n": 2814,
+  "coef": {
+   "const": -0.3951432690142385,
+   "off_known": -0.42154030415439314,
+   "off_unknown": -0.28333859970483555,
+   "opp_def_known": 0.8137412785191142,
+   "opp_def_unknown": 0.2879120876253705
+  },
+  "ci95": {
+   "const": [
+    -1.0382388975914807,
+    0.2604364462051005
+   ],
+   "off_known": [
+    -0.7709860574962513,
+    -0.05324374850044362
+   ],
+   "off_unknown": [
+    -0.7164598836008349,
+    0.10809814215398947
+   ],
+   "opp_def_known": [
+    0.4827160488714062,
+    1.1233315198765266
+   ],
+   "opp_def_unknown": [
+    -0.26002644491777577,
+    0.7691469590317085
+   ]
+  }
+ },
+ "bias_known_vs_unknown_weeks_3_16": {
+  "n": 2496,
+  "coef": {
+   "const": -0.29106567586882437,
+   "off_known": -0.39456313537538235,
+   "off_unknown": -0.3257313187967449,
+   "opp_def_known": 0.7789703680616133,
+   "opp_def_unknown": -0.049415469105482404
+  },
+  "ci95": {
+   "const": [
+    -0.9924784053289131,
+    0.4377370010281614
+   ],
+   "off_known": [
+    -0.8468814299177798,
+    0.0461791720877256
+   ],
+   "off_unknown": [
+    -0.8175022117859849,
+    0.185239783008001
+   ],
+   "opp_def_known": [
+    0.38168693291973416,
+    1.1497818671041378
+   ],
+   "opp_def_unknown": [
+    -0.6560864965843917,
+    0.5222470233849946
+   ]
+  }
+ },
+ "mean_resid_by_own_offence_absent": [
+  {
+   "b": "0",
+   "n": 571,
+   "mean_res": 0.6035896065678493,
+   "se": 0.40131951751386513
+  },
+  {
+   "b": "<1.2",
+   "n": 795,
+   "mean_res": 0.16757669430713282,
+   "se": 0.32897047357917314
+  },
+  {
+   "b": ">=1.2",
+   "n": 1448,
+   "mean_res": -0.3131717695399899,
+   "se": 0.24391594392739077
+  }
+ ],
+ "mean_resid_by_opp_defence_absent": [
+  {
+   "b": "0",
+   "n": 560,
+   "mean_res": -0.6805650317115607,
+   "se": 0.40231147748530016
+  },
+  {
+   "b": "<1.2",
+   "n": 802,
+   "mean_res": -0.5580576641419476,
+   "se": 0.3237544008519303
+  },
+  {
+   "b": ">=1.2",
+   "n": 1452,
+   "mean_res": 0.5875200271562142,
+   "se": 0.245276850986041
+  }
+ ],
+ "ind_2026_absent_regulars": [
+  {
+   "name": "Keenan Allen",
+   "pos": "WR",
+   "unit": "off",
+   "share": 0.6366666666666667,
+   "first_week_absent": 4,
+   "games_absent": 1,
+   "reported_ever": false,
+   "roster_prev_ever": false
+  },
+  {
+   "name": "Jaylon Carlies",
+   "pos": "LB",
+   "unit": "def",
+   "share": 0.6,
+   "first_week_absent": 5,
+   "games_absent": 2,
+   "reported_ever": true,
+   "roster_prev_ever": false
+  },
+  {
+   "name": "Arden Key",
+   "pos": "DE",
+   "unit": "def",
+   "share": 0.6475000000000001,
+   "first_week_absent": 5,
+   "games_absent": 5,
+   "reported_ever": true,
+   "roster_prev_ever": true
+  },
+  {
+   "name": "Tyler Warren",
+   "pos": "TE",
+   "unit": "off",
+   "share": 0.9099999999999999,
+   "first_week_absent": 6,
+   "games_absent": 2,
+   "reported_ever": true,
+   "roster_prev_ever": false
+  },
+  {
+   "name": "Sauce Gardner",
+   "pos": "CB",
+   "unit": "def",
+   "share": 0.8866666666666667,
+   "first_week_absent": 7,
+   "games_absent": 1,
+   "reported_ever": true,
+   "roster_prev_ever": false
+  },
+  {
+   "name": "DeForest Buckner",
+   "pos": "DT",
+   "unit": "def",
+   "share": 0.8257142857142857,
+   "first_week_absent": 8,
+   "games_absent": 3,
+   "reported_ever": false,
+   "roster_prev_ever": true
+  },
+  {
+   "name": "Quenton Nelson",
+   "pos": "G",
+   "unit": "off",
+   "share": 0.9928571428571429,
+   "first_week_absent": 8,
+   "games_absent": 3,
+   "reported_ever": false,
+   "roster_prev_ever": true
+  },
+  {
+   "name": "Justin Walley",
+   "pos": "CB",
+   "unit": "def",
+   "share": 0.7214285714285713,
+   "first_week_absent": 8,
+   "games_absent": 2,
+   "reported_ever": true,
+   "roster_prev_ever": false
+  },
+  {
+   "name": "A.J. Haulcy",
+   "pos": "S",
+   "unit": "def",
+   "share": 0.8275,
+   "first_week_absent": 9,
+   "games_absent": 1,
+   "reported_ever": true,
+   "roster_prev_ever": false
+  },
+  {
+   "name": "Akeem Davis-Gaither",
+   "pos": "LB",
+   "unit": "def",
+   "share": 0.9175,
+   "first_week_absent": 9,
+   "games_absent": 2,
+   "reported_ever": true,
+   "roster_prev_ever": false
+  },
+  {
+   "name": "Josh Downs",
+   "pos": "WR",
+   "unit": "off",
+   "share": 0.8055555555555556,
+   "first_week_absent": 10,
+   "games_absent": 1,
+   "reported_ever": false,
+   "roster_prev_ever": false
+  },
+  {
+   "name": "Jalen Travis",
+   "pos": "T",
+   "unit": "off",
+   "share": 0.9277777777777777,
+   "first_week_absent": 10,
+   "games_absent": 1,
+   "reported_ever": true,
+   "roster_prev_ever": false
+  }
+ ]
+}

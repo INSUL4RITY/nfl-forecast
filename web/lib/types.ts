@@ -344,7 +344,7 @@ export interface MatchupUnitRow {
   def_value: number | null; def_rank: number | null; edge: "offence" | "defence" | "even" | "none";
 }
 export interface MatchupLogRow {
-  week: number; opp: string; home: boolean; net_epa: number; margin: number; pf: number; pa: number;
+  week: number; opp: string; home: boolean; neutral?: boolean; net_epa: number; margin: number; pf: number; pa: number;
   qb: string | null; other_qb: boolean;
 }
 export interface MatchupDetail {

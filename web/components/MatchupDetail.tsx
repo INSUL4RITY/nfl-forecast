@@ -89,7 +89,7 @@ function LogColumn({ t, rows, color, metric, max }: { t: string; rows: MatchupLo
         const w = Math.min(50, (Math.abs(v) / max) * 50);
         return (
           <div className="mu-log-row" key={r.week}>
-            <span className="mu-log-game"><b>{weekShort(r.week)}</b> {r.home ? "vs" : "@"} {r.opp}
+            <span className="mu-log-game"><b>{weekShort(r.week)}</b> {r.neutral || r.home ? "vs" : "@"} {r.opp}{r.neutral ? " (neutral)" : ""}
               <span className="small muted mu-log-qb">{r.qb ?? "QB unknown"}{r.other_qb && <span className="tag warn mu-tag">Other QB</span>}</span></span>
             <span className="mu-div" aria-hidden="true">
               <span style={{ background: color, width: `${w}%`, left: v >= 0 ? "50%" : `${50 - w}%`, opacity: v >= 0 ? 1 : 0.55 }} />

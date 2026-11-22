@@ -7,6 +7,38 @@ Moneylines, prices and betting returns are excluded by design and enforced in co
 
 **Live site: https://insul4rity.github.io/nfl-forecast/** · Status and results are in [PROGRESS.md](PROGRESS.md).
 
+## For reviewers (in brief)
+
+- **What it is:** an end-to-end forecasting system for every NFL game in the 2026 season, built and run by me with
+  Claude Code as a coding assistant. It covers:
+  - data ingestion (nflverse);
+  - point-in-time features;
+  - ridge models;
+  - calibrated probabilities and ranges;
+  - automated publishing every 30 minutes;
+  - a static Next.js site.
+- **How it is kept honest:**
+  - **Frozen model.** It was fixed before the season (`configs/model_freeze.yaml`) and is never retrained mid-season.
+  - **Immutable releases.** Every forecast is a timestamped file that is never edited. Errors are recorded as
+    corrections.
+  - **Independent publication proof.** Publication times come from GitHub's own records and RFC 3161 trusted
+    timestamps.
+- **How it is tested:**
+  - walk-forward validation (each season predicted only from earlier seasons);
+  - paired comparisons on identical games with block-bootstrap intervals;
+  - pass rules written and timestamped **before** results are computed.
+- **Results, reported as they are:**
+  - The market line is hard to beat. The model line beats Elo and other simple baselines, but not the market.
+  - Several ideas failed their pre-registered tests and are documented, not hidden. One example is better injury
+    inputs: `reports/research/absences_v1_evaluation_2026-11-21.md`.
+  - The live 2026 record is on the site and is not edited.
+- **Where to look:**
+  - [docs/audit-2026-11.md](docs/audit-2026-11.md): a full audit of the model;
+  - `reports/research/`: pre-registrations and evaluations;
+  - [docs/research_2027.md](docs/research_2027.md): what is planned next.
+- **Stack:** Python (polars, scikit-learn), TypeScript and Next.js (static export), GitHub Actions and Pages, Windows
+  Task Scheduler.
+
 ## Setup (Windows, PowerShell)
 
 ```powershell

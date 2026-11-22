@@ -108,11 +108,13 @@ def team_games(pbp: pl.DataFrame, games: pl.DataFrame) -> pl.DataFrame:
     off = off.join(dp, on=["game_id", "posteam"], how="left").rename({"posteam": "team"}).with_columns(
         pl.col("drives", "drive_pts", "rz_trips", "rz_tds").fill_null(0))
     sums = [c for c in off.columns if c not in ("game_id", "team")]
+    # neutral-site games (e.g. international) are shown as neutral in the game log, not as home/away (audit 2026-11 bug)
+    neu = (pl.col("neutral_site").fill_null(False) if "neutral_site" in games.columns else pl.lit(False)).alias("neutral")
     gm = pl.concat([
         games.select("game_id", "season", "week", "kickoff_utc", pl.col("home_team").alias("team"), pl.col("away_team").alias("opp"),
-                     pl.lit(True).alias("is_home"), pl.col("home_score").alias("pf"), pl.col("away_score").alias("pa")),
+                     pl.lit(True).alias("is_home"), neu, pl.col("home_score").alias("pf"), pl.col("away_score").alias("pa")),
         games.select("game_id", "season", "week", "kickoff_utc", pl.col("away_team").alias("team"), pl.col("home_team").alias("opp"),
-                     pl.lit(False).alias("is_home"), pl.col("away_score").alias("pf"), pl.col("home_score").alias("pa"))])
+                     pl.lit(False).alias("is_home"), neu, pl.col("away_score").alias("pf"), pl.col("home_score").alias("pa"))])
     out = gm.join(off, on=["game_id", "team"], how="inner")
     opp = off.rename({c: f"d_{c}" for c in sums}).rename({"team": "opp"})
     return out.join(opp, on=["game_id", "opp"], how="inner")
@@ -120,7 +122,7 @@ def team_games(pbp: pl.DataFrame, games: pl.DataFrame) -> pl.DataFrame:
 
 def _rates(df: pl.DataFrame) -> pl.DataFrame:
     """Season-to-date rates per team from summed per-game rows."""
-    ids = {"game_id", "team", "opp", "season", "week", "kickoff_utc", "is_home"}
+    ids = {"game_id", "team", "opp", "season", "week", "kickoff_utc", "is_home", "neutral"}
     s = df.group_by("team").agg(games=pl.len(), *[pl.col(c).sum() for c in df.columns if c not in ids])
 
     def r(a: str, b: str) -> pl.Expr:
@@ -206,7 +208,7 @@ def game_detail(tg: pl.DataFrame, game: dict, starters: dict, expected_qb: dict 
         for gr in games_t.iter_rows(named=True):
             qb = starters.get((gr["game_id"], t))
             exp = (expected_qb or {}).get(side)
-            log.append({"week": gr["week"], "opp": gr["opp"], "home": gr["is_home"],
+            log.append({"week": gr["week"], "opp": gr["opp"], "home": gr["is_home"], "neutral": bool(gr.get("neutral") or False),
                         "net_epa": _r(gr["epa_sum"] / gr["plays"] - gr["d_epa_sum"] / gr["d_plays"]),
                         "margin": int(gr["pf"] - gr["pa"]), "pf": int(gr["pf"]), "pa": int(gr["pa"]),
                         "qb": qb, "other_qb": bool(qb and exp and qb != exp)})

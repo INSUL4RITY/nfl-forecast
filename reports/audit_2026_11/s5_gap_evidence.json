@@ -1,0 +1,119 @@
+{
+ "tiers": [
+  {
+   "model": "B_qb",
+   "tier": "1 tiny <0.5",
+   "n": 248,
+   "model_side": 119,
+   "rate": 0.4798387096774194,
+   "ci95": [
+    0.4184420990011863,
+    0.5418504023171029
+   ]
+  },
+  {
+   "model": "B_qb",
+   "tier": "2 small 0.5-1.5",
+   "n": 495,
+   "model_side": 254,
+   "rate": 0.5131313131313131,
+   "ci95": [
+    0.4691674163312377,
+    0.556892960349456
+   ]
+  },
+  {
+   "model": "B_qb",
+   "tier": "3 moderate 1.5-3",
+   "n": 500,
+   "model_side": 238,
+   "rate": 0.476,
+   "ci95": [
+    0.4325734008661452,
+    0.5197925808233381
+   ]
+  },
+  {
+   "model": "B_qb",
+   "tier": "4 large 3-4",
+   "n": 202,
+   "model_side": 117,
+   "rate": 0.5792079207920792,
+   "ci95": [
+    0.5102699079349308,
+    0.6451894355602615
+   ]
+  },
+  {
+   "model": "B_qb",
+   "tier": "5 large 4+",
+   "n": 188,
+   "model_side": 96,
+   "rate": 0.5106382978723404,
+   "ci95": [
+    0.43968636335809874,
+    0.5811641716666298
+   ]
+  },
+  {
+   "model": "B_qb",
+   "tier": "gap >= 3 (Big gap)",
+   "n": 390,
+   "model_side": 213,
+   "rate": 0.5461538461538461,
+   "ci95": [
+    0.49653081166288504,
+    0.5948764952341008
+   ]
+  },
+  {
+   "model": "C_resid_noinj",
+   "tier": "1 tiny <0.5",
+   "n": 1364,
+   "model_side": 668,
+   "rate": 0.4897360703812317,
+   "ci95": [
+    0.4632727650587709,
+    0.5162570284494832
+   ]
+  },
+  {
+   "model": "C_resid_noinj",
+   "tier": "2 small 0.5-1.5",
+   "n": 269,
+   "model_side": 148,
+   "rate": 0.550185873605948,
+   "ci95": [
+    0.490445130157769,
+    0.6085133864320764
+   ]
+  }
+ ],
+ "wording_inventory": [
+  "web/app/globals.css:133:.pick-edge { font-size: 0.84rem; font-weight: 700; color: var(--ink); }",
+  "web/app/globals.css:134:.pick-edge.tiny { font-weight: 600; color: var(--ink-2); }",
+  "web/app/globals.css:275:.mu-edge { font-size: 0.74rem; font-weight: 700; padding: 3px 8px; border-radius: 999px; border: 1px solid var(--rule);",
+  "web/app/globals.css:277:.mu-edge.even, .mu-edge.none { color: var(--muted); }",
+  "web/app/methodology/page.tsx:30:            has shown value. A direct formulation and a gradient-boosting variant were tested and not selected.</p></div>",
+  "web/app/methodology/page.tsx:168:          sack rate, third down, red zone and points per drive, each offence set against the defence it faces with an edge label when",
+  "web/app/methodology/page.tsx:254:          the edge (tiny under 0.5 points, about a coin flip; small 0.5\u00e2\u20ac\u201c1.5; moderate 1.5\u00e2\u20ac\u201c3; large 3 or more) and the <b>stats-only</b>",
+  "web/app/methodology/page.tsx:257:          the line in 52.2% (2019\u00e2\u20ac\u201c21), 57.5% (2022\u00e2\u20ac\u201c24) and 51.5% (2025) of such games: not a reliable edge, and the 2026 sample is small.",
+  "web/app/methodology/page.tsx:309:          <li><b>No free timestamped history of market lines.</b> Historical lines are one untimed value per game (about the closing line), so market-based",
+  "web/components/Deserved.tsx:80:        {p.quality === \"close\" ? \"within 1.5 points of the line on play quality\" : `${f1(Math.abs(p.edge))} points ${p.quality} of the line on play quality`}.{\" \"}",
+  "web/components/Deserved.tsx:110:           actual_margin: number; deserved_margin: number; edge: number; chance?: number | null; group: DeservedGroup }[];",
+  "web/components/LineMovement.tsx:11: *  before kickoff, from the side each line was on at the lock; the value weighs moves through 3 and 7 more. */",
+  "web/components/LineMovement.tsx:30:          <th className=\"r\">Avg value</th></tr></thead>",
+  "web/components/MarginBreakdown.tsx:13:/** Each shown group's value in tenths of a point, rounded so that the parts add up exactly to the model line as",
+  "web/components/MatchupDetail.tsx:74:          <span className={`mu-edge ${r.edge}`} style={r.edge === \"offence\" ? { borderColor: offColor }",
+  "web/components/MatchupDetail.tsx:75:            : r.edge === \"defence\" ? { borderColor: defColor } : undefined}>",
+  "web/components/MatchupDetail.tsx:76:            {r.edge === \"offence\" ? `${off} edge` : r.edge === \"defence\" ? `${def} edge` : r.edge === \"even\" ? \"Even\" : \"\u00e2\u20ac\u201d\"}</span>",
+  "web/components/MatchupDetail.tsx:150:        Longer bars mean a better league rank; the edge label appears when one side ranks at least 8 places better.</p>",
+  "web/components/Pick.tsx:30:  \"Edge: how far the margin behind the pick was from the line (under 0.5 points is about a coin flip). Big gap: the model \" +",
+  "web/components/Pick.tsx:39:const EDGE: Record<string, string> = { tiny: \"Tiny edge \u00c2\u00b7 about a coin flip\", small: \"Small edge\", moderate: \"Moderate edge\", large: \"Large edge\" };",
+  "web/components/Pick.tsx:41:/** Size of the model pick's edge over the line, e.g. \"Tiny edge \u00c2\u00b7 about a coin flip (0.10 pts)\"; null without a pick. */",
+  "web/components/Pick.tsx:44:  if (!l || l.status !== \"lean\" || !l.strength || !EDGE[l.strength]) return null;",
+  "web/components/Pick.tsx:45:  return `${EDGE[l.strength]} (${l.difference!.toFixed(2)} pts)`;",
+  "web/components/Pick.tsx:129:  const edge = lp ? edgeText(lp) : null;",
+  "web/components/Pick.tsx:137:        {edge && <span className={`pick-edge${lp!.lean?.strength === \"tiny\" ? \" tiny\" : \"\"}`}>{edge}</span>}"
+ ]
+}

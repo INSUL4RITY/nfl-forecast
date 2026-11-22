@@ -1,0 +1,472 @@
+{
+ "decisions": [
+  {
+   "cand": "A_known_absences",
+   "base": "full",
+   "loss": "ae_margin",
+   "n_games": 1675,
+   "n_blocks": 130,
+   "mean_diff_ae": -0.011950859791704677,
+   "ci95_ae": [
+    -0.03556307111092667,
+    0.011778773722450321
+   ],
+   "mean_diff_se": -0.6829377443308532,
+   "ci95_se": [
+    -1.41460301690095,
+    0.04354833417054474
+   ],
+   "cand_mae": 10.06259653891086,
+   "base_mae": 10.074547398702563,
+   "cand_rmse": 13.003363021016748,
+   "base_rmse": 13.029596601609608,
+   "seasons_better": 3,
+   "per_season": [
+    {
+     "season": 2019,
+     "n": 267,
+     "cand_mae": 10.403925895739938,
+     "base_mae": 10.356064883109285,
+     "better": false
+    },
+    {
+     "season": 2020,
+     "n": 269,
+     "cand_mae": 9.882688486974489,
+     "base_mae": 9.93526114794902,
+     "better": true
+    },
+    {
+     "season": 2021,
+     "n": 285,
+     "cand_mae": 10.932202743559353,
+     "base_mae": 10.917725863848219,
+     "better": false
+    },
+    {
+     "season": 2022,
+     "n": 284,
+     "cand_mae": 9.011640609197194,
+     "base_mae": 9.00408023279393,
+     "better": false
+    },
+    {
+     "season": 2023,
+     "n": 285,
+     "cand_mae": 10.172660808776017,
+     "base_mae": 10.24864147812956,
+     "better": true
+    },
+    {
+     "season": 2024,
+     "n": 285,
+     "cand_mae": 9.980230666980368,
+     "base_mae": 9.991715233898898,
+     "better": true
+    }
+   ],
+   "verdict": "no demonstrated improvement"
+  },
+  {
+   "cand": "B_roster_only_absences",
+   "base": "full",
+   "loss": "ae_margin",
+   "n_games": 1675,
+   "n_blocks": 130,
+   "mean_diff_ae": 0.002525701172333211,
+   "ci95_ae": [
+    -0.015569834064450226,
+    0.02124491957714588
+   ],
+   "mean_diff_se": -0.30869077069154055,
+   "ci95_se": [
+    -0.788206413686696,
+    0.18104746633196026
+   ],
+   "cand_mae": 10.077073099874896,
+   "base_mae": 10.074547398702563,
+   "cand_rmse": 13.017745458795279,
+   "base_rmse": 13.029596601609608,
+   "seasons_better": 2,
+   "per_season": [
+    {
+     "season": 2019,
+     "n": 267,
+     "cand_mae": 10.394226537293491,
+     "base_mae": 10.356064883109285,
+     "better": false
+    },
+    {
+     "season": 2020,
+     "n": 269,
+     "cand_mae": 9.92331975201574,
+     "base_mae": 9.93526114794902,
+     "better": true
+    },
+    {
+     "season": 2021,
+     "n": 285,
+     "cand_mae": 10.919964429667397,
+     "base_mae": 10.917725863848219,
+     "better": false
+    },
+    {
+     "season": 2022,
+     "n": 284,
+     "cand_mae": 9.011004177060702,
+     "base_mae": 9.00408023279393,
+     "better": false
+    },
+    {
+     "season": 2023,
+     "n": 285,
+     "cand_mae": 10.211211097345178,
+     "base_mae": 10.24864147812956,
+     "better": true
+    },
+    {
+     "season": 2024,
+     "n": 285,
+     "cand_mae": 10.0103709896738,
+     "base_mae": 9.991715233898898,
+     "better": false
+    }
+   ],
+   "verdict": "no demonstrated improvement"
+  }
+ ],
+ "decisions_total": [
+  {
+   "cand": "A_known_absences",
+   "base": "full",
+   "loss": "ae_total",
+   "n_games": 1675,
+   "n_blocks": 130,
+   "mean_diff_ae": -0.013504467390606335,
+   "ci95_ae": [
+    -0.0407994830579303,
+    0.013879635068001769
+   ],
+   "mean_diff_se": -0.78344795038997,
+   "ci95_se": [
+    -1.364021361874679,
+    -0.23018212129637836
+   ],
+   "cand_mae": 10.515042717474627,
+   "base_mae": 10.528547184865234,
+   "cand_rmse": 13.285977287990853,
+   "base_rmse": 13.315428661796764,
+   "seasons_better": 4,
+   "per_season": [
+    {
+     "season": 2019,
+     "n": 267,
+     "cand_mae": 10.916609328486057,
+     "base_mae": 10.943259271689447,
+     "better": true
+    },
+    {
+     "season": 2020,
+     "n": 269,
+     "cand_mae": 10.482982604108555,
+     "base_mae": 10.537883521091649,
+     "better": true
+    },
+    {
+     "season": 2021,
+     "n": 285,
+     "cand_mae": 10.916280032642375,
+     "base_mae": 10.89924719398899,
+     "better": false
+    },
+    {
+     "season": 2022,
+     "n": 284,
+     "cand_mae": 10.613844328215654,
+     "base_mae": 10.573277351761078,
+     "better": false
+    },
+    {
+     "season": 2023,
+     "n": 285,
+     "cand_mae": 10.40048816298033,
+     "base_mae": 10.428962247446494,
+     "better": true
+    },
+    {
+     "season": 2024,
+     "n": 285,
+     "cand_mae": 9.783960756467748,
+     "base_mae": 9.81552695868517,
+     "better": true
+    }
+   ],
+   "verdict": "no demonstrated improvement"
+  },
+  {
+   "cand": "B_roster_only_absences",
+   "base": "full",
+   "loss": "ae_total",
+   "n_games": 1675,
+   "n_blocks": 130,
+   "mean_diff_ae": -0.012643964436220276,
+   "ci95_ae": [
+    -0.02950468326936399,
+    0.0035520984444500645
+   ],
+   "mean_diff_se": -0.5580090792227,
+   "ci95_se": [
+    -0.9675177574065008,
+    -0.15463851081274638
+   ],
+   "cand_mae": 10.515903220429013,
+   "base_mae": 10.528547184865234,
+   "cand_rmse": 13.29445867149829,
+   "base_rmse": 13.315428661796764,
+   "seasons_better": 5,
+   "per_season": [
+    {
+     "season": 2019,
+     "n": 267,
+     "cand_mae": 10.933662559047924,
+     "base_mae": 10.943259271689447,
+     "better": true
+    },
+    {
+     "season": 2020,
+     "n": 269,
+     "cand_mae": 10.524609542503079,
+     "base_mae": 10.537883521091649,
+     "better": true
+    },
+    {
+     "season": 2021,
+     "n": 285,
+     "cand_mae": 10.897421404823785,
+     "base_mae": 10.89924719398899,
+     "better": true
+    },
+    {
+     "season": 2022,
+     "n": 284,
+     "cand_mae": 10.577712826654944,
+     "base_mae": 10.573277351761078,
+     "better": false
+    },
+    {
+     "season": 2023,
+     "n": 285,
+     "cand_mae": 10.398510176665091,
+     "base_mae": 10.428962247446494,
+     "better": true
+    },
+    {
+     "season": 2024,
+     "n": 285,
+     "cand_mae": 9.790593265000497,
+     "base_mae": 9.81552695868517,
+     "better": true
+    }
+   ],
+   "verdict": "no demonstrated improvement"
+  }
+ ],
+ "coverage": {
+  "team_games_with_known_absence": 0.6222947440742013
+ },
+ "coef_fold2024_A": {
+  "team_kn_off": -0.245477727117439,
+  "opp_kn_def": 0.4642306787860413
+ },
+ "coef_fold2024_B": {
+  "team_ro_off": -0.2773922063832633,
+  "opp_ro_def": 0.5224988852930385
+ },
+ "live_2026": {
+  "A_known_absences": {
+   "n_games": 118,
+   "margin_mae": 9.047279126742742,
+   "margin_rmse": 11.591643059948828,
+   "total_mae": 10.40013886446465,
+   "total_rmse": 12.71390729190069,
+   "home_pts_mae": 6.448927586236618,
+   "away_pts_mae": 7.59573867856311,
+   "margin_bias": 1.9833734955107154,
+   "total_bias": -0.4003624581237157,
+   "winner_accuracy": 0.6495726495726496,
+   "n_decided": 117
+  },
+  "B_roster_only_absences": {
+   "n_games": 118,
+   "margin_mae": 9.086452711663531,
+   "margin_rmse": 11.579126491804871,
+   "total_mae": 10.463060410353414,
+   "total_rmse": 12.793751974929977,
+   "home_pts_mae": 6.416981585933286,
+   "away_pts_mae": 7.6698322854055405,
+   "margin_bias": 2.052996234494783,
+   "total_bias": -0.6260921517295762,
+   "winner_accuracy": 0.6495726495726496,
+   "n_decided": 117
+  },
+  "full": {
+   "n_games": 118,
+   "margin_mae": 9.098689383992244,
+   "margin_rmse": 11.562776208507481,
+   "total_mae": 10.46504804099234,
+   "total_rmse": 12.839593243226302,
+   "home_pts_mae": 6.394720231162045,
+   "away_pts_mae": 7.711531690580842,
+   "margin_bias": 2.073947757349209,
+   "total_bias": -0.5421666619108118,
+   "winner_accuracy": 0.6410256410256411,
+   "n_decided": 117
+  }
+ },
+ "ind_2026_games": [
+  {
+   "game_id": "2026_03_HOU_IND",
+   "model": "A_known_absences",
+   "pred_margin": -1.2222470628717375,
+   "margin": 2.0
+  },
+  {
+   "game_id": "2026_03_HOU_IND",
+   "model": "B_roster_only_absences",
+   "pred_margin": -1.2059971232901532,
+   "margin": 2.0
+  },
+  {
+   "game_id": "2026_03_HOU_IND",
+   "model": "full",
+   "pred_margin": -1.3720204800087359,
+   "margin": 2.0
+  },
+  {
+   "game_id": "2026_04_IND_WAS",
+   "model": "A_known_absences",
+   "pred_margin": -1.5088793618895693,
+   "margin": -17.0
+  },
+  {
+   "game_id": "2026_04_IND_WAS",
+   "model": "B_roster_only_absences",
+   "pred_margin": -0.6045687727137334,
+   "margin": -17.0
+  },
+  {
+   "game_id": "2026_04_IND_WAS",
+   "model": "full",
+   "pred_margin": -0.6542149697053219,
+   "margin": -17.0
+  },
+  {
+   "game_id": "2026_05_IND_PIT",
+   "model": "A_known_absences",
+   "pred_margin": 1.655139883595794,
+   "margin": 12.0
+  },
+  {
+   "game_id": "2026_05_IND_PIT",
+   "model": "B_roster_only_absences",
+   "pred_margin": 1.7017700226601278,
+   "margin": 12.0
+  },
+  {
+   "game_id": "2026_05_IND_PIT",
+   "model": "full",
+   "pred_margin": 1.8232583584503885,
+   "margin": 12.0
+  },
+  {
+   "game_id": "2026_06_TEN_IND",
+   "model": "A_known_absences",
+   "pred_margin": 7.6022100685832825,
+   "margin": -6.0
+  },
+  {
+   "game_id": "2026_06_TEN_IND",
+   "model": "B_roster_only_absences",
+   "pred_margin": 7.355305840817735,
+   "margin": -6.0
+  },
+  {
+   "game_id": "2026_06_TEN_IND",
+   "model": "full",
+   "pred_margin": 7.978137078502144,
+   "margin": -6.0
+  },
+  {
+   "game_id": "2026_07_IND_MIN",
+   "model": "A_known_absences",
+   "pred_margin": 7.0449937141828585,
+   "margin": 6.0
+  },
+  {
+   "game_id": "2026_07_IND_MIN",
+   "model": "B_roster_only_absences",
+   "pred_margin": 6.353066196469449,
+   "margin": 6.0
+  },
+  {
+   "game_id": "2026_07_IND_MIN",
+   "model": "full",
+   "pred_margin": 6.8602956880576755,
+   "margin": 6.0
+  },
+  {
+   "game_id": "2026_08_IND_JAX",
+   "model": "A_known_absences",
+   "pred_margin": 9.190918460744804,
+   "margin": 35.0
+  },
+  {
+   "game_id": "2026_08_IND_JAX",
+   "model": "B_roster_only_absences",
+   "pred_margin": 9.427731529404184,
+   "margin": 35.0
+  },
+  {
+   "game_id": "2026_08_IND_JAX",
+   "model": "full",
+   "pred_margin": 9.70372189142563,
+   "margin": 35.0
+  },
+  {
+   "game_id": "2026_09_DAL_IND",
+   "model": "A_known_absences",
+   "pred_margin": -3.2143486560011922,
+   "margin": -4.0
+  },
+  {
+   "game_id": "2026_09_DAL_IND",
+   "model": "B_roster_only_absences",
+   "pred_margin": -1.652266174323401,
+   "margin": -4.0
+  },
+  {
+   "game_id": "2026_09_DAL_IND",
+   "model": "full",
+   "pred_margin": -1.690679470775656,
+   "margin": -4.0
+  },
+  {
+   "game_id": "2026_10_MIA_IND",
+   "model": "A_known_absences",
+   "pred_margin": 3.817611631616188,
+   "margin": 2.0
+  },
+  {
+   "game_id": "2026_10_MIA_IND",
+   "model": "B_roster_only_absences",
+   "pred_margin": 4.163686201908618,
+   "margin": 2.0
+  },
+  {
+   "game_id": "2026_10_MIA_IND",
+   "model": "full",
+   "pred_margin": 4.884907893782923,
+   "margin": 2.0
+  }
+ ]
+}
