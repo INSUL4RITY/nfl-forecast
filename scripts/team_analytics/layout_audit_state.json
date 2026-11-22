@@ -9,6 +9,10 @@
   "local": {
    "at": "2026-11-22 11:54 UTC",
    "note": "week 11 Sunday fixes (summary-list records, traded QB sample, Top link landmark), 5 widths, 0 issues, 0 axe findings"
+  },
+  "live": {
+   "at": "2026-11-22 12:02 UTC",
+   "note": "public page e00ba26 (week 11 Sunday fixes), 5 widths, 0 issues, 0 axe findings"
   }
  }
 }
