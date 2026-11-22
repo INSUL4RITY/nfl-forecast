@@ -652,7 +652,9 @@ def qb_scenarios(p: pd.DataFrame, Q: pd.DataFrame, ros_cur: pd.DataFrame, inj_la
                 "practice_status": ij.practice_status.iloc[0] if len(ij) and pd.notna(ij.practice_status.iloc[0]) else None,
                 "report_week": int(ij.week.iloc[0]) if len(ij) else None,
                 "latest_starter": pid == latest,
-                "one_q": one_quarter(d[(d.posteam == t) & (d.passer_id == pid)]),
+                "one_q": one_quarter(d[d.passer_id == pid]),          # his whole 2026 sample, every team
+                "dropbacks_season": int(r.dropbacks) if r is not None and "dropbacks" in r else None,   # sample behind his rates (all teams)
+                "season_teams": str(r.teams) if r is not None and "teams" in r else None,
                 "opened_season": bool(pid in set(opened.values)),
             })
         primary = max(rows, key=lambda r: (r["starts"], r["dropbacks"]))["id"] if rows else None

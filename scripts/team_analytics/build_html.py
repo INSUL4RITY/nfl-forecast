@@ -735,7 +735,7 @@ def qb_expect(q, m, wd, ed, hsign, tau2=None, rv=None):
     base = m["mean"] + wd * ed + m["home"] * hsign
     own = 0.0
     if q.get("adj_epa_db") is not None and q.get("dropbacks"):
-        own = qb_weight(q["dropbacks"], tau2, rv) * (q["adj_epa_db"] - m["mean"])
+        own = qb_weight(own_db(q), tau2, rv) * (q["adj_epa_db"] - m["mean"])
     if not ROLE:
         return base + own
     return base + (ROLE["backup_adj"] if is_backup(q) else ROLE["starter_adj"]) + ROLE["cur_coef"] * own
@@ -825,10 +825,10 @@ def qb_method():
 
 def sample_note(q):
     """Plain-language uncertainty for a passer's own numbers."""
-    n = q["dropbacks"]
+    n = own_db(q)
     if not n or q["adj_epa_db"] is None:
         return role_text(q).strip()
-    return (f"On {n} dropbacks his EPA per dropback is uncertain by about ±{qb_range(n):.2f}; the matchup expectations keep about "
+    return (f"On {n} dropbacks{with_teams(q)} his EPA per dropback is uncertain by about ±{qb_range(n):.2f}; the matchup expectations keep about "
             f"{qb_weight(n) * (ROLE['cur_coef'] if ROLE else 1):.0%} of his gap from average (fitted on 2021-25 quarterbacks: a short hot or cold run mostly did not last)."
             + role_text(q) + one_q_text(q.get("one_q")))
 
@@ -849,6 +849,18 @@ def expected_starter(info):
     return max(ok, key=lambda r: (r["starts"], r["dropbacks"])) if ok else lat
 
 
+def own_db(q) -> int:
+    """Dropbacks behind a quarterback's own rate figures: his whole 2026 sample (every team), not only this team's share.
+    A quarterback traded mid-season keeps the sample his adjusted EPA, success and sack rates come from."""
+    return int(q.get("dropbacks_season") or q.get("dropbacks") or 0)
+
+
+def with_teams(q) -> str:
+    """' with LV and MIN' for a quarterback whose 2026 sample spans teams; '' otherwise."""
+    tm = str(q.get("season_teams") or "")
+    return f" with {tm.replace('/', ' and ')}" if "/" in tm else ""
+
+
 def starter_line(t, info):
     """'with [expected starter]' figures when a team's season numbers mix quarterbacks; None otherwise."""
     rows = info.get("qbs", [])
@@ -858,16 +870,17 @@ def starter_line(t, info):
     q = expected_starter(info)
     if not q:
         return None
-    out = {"team": t, "name": q["name"], "starts": q["starts"], "dropbacks": q["dropbacks"], "adj_epa_db": q["adj_epa_db"],
+    n = own_db(q)
+    out = {"team": t, "name": q["name"], "starts": q["starts"], "dropbacks": n, "adj_epa_db": q["adj_epa_db"],
            "sr": q.get("sr"), "sack_rate": q["sack_rate"], "int_worthy": q["int_worthy"], "low": q["starts"] < 4,
            "latest": bool(q["latest_starter"]),
-           "kept": round(qb_weight(q["dropbacks"]), 3) if q["dropbacks"] else None,
-           "range": round(qb_range(q["dropbacks"]), 3) if q["dropbacks"] else None, "one_q": q.get("one_q"),
+           "kept": round(qb_weight(n), 3) if n else None,
+           "range": round(qb_range(n), 3) if n else None, "one_q": q.get("one_q"),
            "note": sample_note(q), "backup": is_backup(q)}
     if news and q.get("news"):
         other = q.get("sample_team") and q["sample_team"] != t
         out.update({"news": news["conf"], "news_status": q.get("news_status"), "sample_team": q.get("sample_team") if other else None,
-                    "no_sample": q["dropbacks"] < 30 or q["adj_epa_db"] is None,
+                    "no_sample": n < 30 or q["adj_epa_db"] is None,
                     "sources": "; ".join(f"{s['who']}, {s['when']}" for s in news["sources"])})
     return out
 
@@ -1187,7 +1200,7 @@ def build_matchups(T, nxt, MM, A, mm, notes, PL, US, QBS, REF, ARR, UN, WX=None,
             xs = expected_starter(QBS.get(t, {}))
             if xs and ((ROLE and is_backup(xs)) or xs.get("one_q")):
                 cautions.append(f"{t} expected quarterback {xs['name']}: be wary of his own numbers ("
-                                + (f"{xs['dropbacks']} dropbacks, ±{qb_range(xs['dropbacks']):.2f}" if xs["dropbacks"] else "no 2026 dropbacks") + ")."
+                                + (f"{own_db(xs)} dropbacks{with_teams(xs)}, ±{qb_range(own_db(xs)):.2f}" if own_db(xs) else "no 2026 dropbacks") + ")."
                                 + role_text(xs) + one_q_text(xs.get("one_q")))
             outs = A[(A.team == t) & A.status_class.isin(["confirmed: reserve list", "listed Out/Doubtful", "inactive 3+ games"]) & (A.term == "new")]
             if len(outs):
@@ -1430,7 +1443,7 @@ def qb_context(t, d_team, MM, qbs, T, hsign):
     for q in info.get("qbs", []):
         if q["adj_epa_db"] is None and not (q.get("news") and ROLE):
             continue
-        rows.append({**q, "exp_db": qb_expect(q, m, wd, ed, hsign, tau2, rv), "w": qb_weight(q["dropbacks"], tau2, rv)})
+        rows.append({**q, "exp_db": qb_expect(q, m, wd, ed, hsign, tau2, rv), "w": qb_weight(own_db(q), tau2, rv)})
     text = caution = None
     flags = info.get("flags", [])
     news = next((r for r in info.get("qbs", []) if r.get("news")), None)

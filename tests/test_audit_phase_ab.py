@@ -152,3 +152,11 @@ def test_line_caution_uses_pregame_definition():
     c = bh.line_caution("OFF", "DEF", A, pd.DataFrame({"def_pressure_rate": [0.2, 0.3]}, index=["OFF", "DEF"]))
     assert "known to be out before kickoff" in c and f"{bh.LINE_BT['epa']['per_missing_starter']:+.3f}" in c
     assert "pre-game figure is about" in bh.line_method()
+
+
+# ---- traded quarterbacks: the sample behind their rates is their whole 2026 season
+def test_own_db_uses_the_whole_season_sample():
+    import build_html as bh
+    q = {"dropbacks": 38, "dropbacks_season": 391, "season_teams": "LV/MIN"}
+    assert bh.own_db(q) == 391 and bh.with_teams(q) == " with LV and MIN"
+    assert bh.own_db({"dropbacks": 120}) == 120 and bh.with_teams({"season_teams": "MIN"}) == ""
