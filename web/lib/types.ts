@@ -178,6 +178,8 @@ export interface WeekGame {
   /** Players on reserve lists (injured reserve, PUP, suspension...) as of the team's latest roster file (display only;
    *  predict/reserve_list.py, export only). */
   reserve_list?: ReserveList | null;
+  /** Who is missing, for Big and Biggest gap games (display only; predict/absence_display.py, export only). */
+  absences?: Absences | null;
   /** Season-to-date matchup detail as of kickoff (display only; predict/matchup.py). */
   matchup_detail?: MatchupDetail | null;
   stats_only_grade?: { spread: "win" | "loss" | "push" | null; big_gap: boolean; biggest_gap?: boolean; market_adjusted?: "win" | "loss" | "push" | null; injury_adjusted?: "win" | "loss" | "push" | null; v2_trial?: "win" | "loss" | "push" | null; total: "win" | "loss" | "push" | null;
@@ -310,7 +312,9 @@ export interface SeasonRecord {
   straight_up: { win: number; loss: number; tie: number };
   spread: { win: number; loss: number; push: number };
   /** Display-only tracking record of the stats-only numbers from each locked version (not the official model pick). */
-  stats_only?: { weeks: number[]; spread: WLP; big_gap: WLP; biggest_gap?: WLP; total: WLP; market_adjusted?: WLP; injury_adjusted?: WLP; v2_trial?: WLP };
+  stats_only?: { weeks: number[]; spread: WLP; big_gap: WLP; biggest_gap?: WLP; total: WLP; market_adjusted?: WLP; injury_adjusted?: WLP; v2_trial?: WLP;
+    /** Gap bands 3-4 and 4+ points, each split by the locked line's size (display only, 2026-11-20). */
+    bands?: Record<GapBand, Record<LineSize, WLP>>; band_history?: BandHistory | null };
 }
 
 export interface WLP { win: number; loss: number; push: number }
@@ -381,4 +385,20 @@ export interface DeservedLedger {
   interceptions: number; fumbles_lost: number; fg_made: number; fg_att: number; rz_td: number; rz_trips: number;
   penalties: number; penalty_yards: number; avg_start: number | null; fourth_conv: number; fourth_att: number;
   explosive: number; st_epa: number;
+}
+
+export type GapBand = "3-4" | "4+";
+export type LineSize = "all" | "lt7" | "ge7";
+export interface BandRate { n: number; model_side: number; rate: number | null; ci95: [number, number] | null }
+/** Retrospective 2019-2025 rate of the model line's side by gap band and line size (reports/research/gap_band_history). */
+export interface BandHistory { source: string; lines: string; retrospective: boolean; bands: Record<GapBand, Record<LineSize, BandRate>> }
+
+export interface AbsencePlayer {
+  player: string; pos?: string | null; unit: string; status: string;
+  kind: "injury report" | "reserve list" | "left the team"; share: number; last_season_share?: number | null;
+}
+export interface AbsenceTeam { players: AbsencePlayer[]; others: number }
+export interface Absences {
+  gap: number; measured_at: string; provisional: boolean; final_at_lock: boolean; min_share: number;
+  away: AbsenceTeam; home: AbsenceTeam;
 }

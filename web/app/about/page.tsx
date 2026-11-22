@@ -21,9 +21,6 @@ export default function About() {
         <h2>Stack</h2>
         <p>Python (nflreadpy, Polars, scikit-learn, NumPy) for data, features, models and evaluation; versioned JSON as the interface; Next.js and
           TypeScript for this static site.</p>
-        <h2>Inspiration</h2>
-        <p>The weekly board layout is inspired by the clarity of <a href="https://davidsasser.com/nfl">davidsasser.com/nfl</a>. This project is independent: it does
-          not reproduce that site&apos;s model or assets and makes no claim about how it works.</p>
       </div>
     </>
   );

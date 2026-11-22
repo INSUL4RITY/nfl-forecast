@@ -29,6 +29,7 @@ from nflcast.data import sources as S
 from nflcast.data.games import build_games, franchise
 from nflcast.features.asof import AsOfFeatureBuilder
 from nflcast.features.personnel import QBModel
+from nflcast.predict import absence_display as AD
 from nflcast.predict import archive as ARCH
 from nflcast.predict import deserved as DS
 from nflcast.predict import linemove as LM
@@ -416,8 +417,14 @@ def export() -> Path:
     record["stats_only"] = {"weeks": [], "spread": wlp(), "big_gap": wlp(), "biggest_gap": wlp(), "total": wlp(),
                             "market_adjusted": wlp(),      # same games: the locked market-adjusted margin vs that line
                             "injury_adjusted": wlp(),      # trial: the locked injury-adjusted stats-only margin (from week 7)
-                            "v2_trial": wlp()}             # trial: the locked model v2.1 stats-only margin (from week 8)
+                            "v2_trial": wlp(),             # trial: the locked model v2.1 stats-only margin (from week 8)
+                            # gap bands shown separately (display only; user authorisation 2026-11-20, item B2): 3-4 and
+                            # 4+ points, each split by the locked line's size (under 7 / 7 or more), with the retrospective
+                            # 2019-2025 rate for the same band (reports/research/gap_band_history_2026-11-21.json)
+                            "bands": {b: {"all": wlp(), "lt7": wlp(), "ge7": wlp()} for b in ("3-4", "4+")},
+                            "band_history": _band_history()}
     h2h: list[dict] = []
+    abs_cache: dict = {}
     deserved_items: list[dict] = []
     lm_items: list[dict] = []
     for season, week in weeks:
@@ -488,6 +495,12 @@ def export() -> Path:
                     item["reserve_list"] = RL.game_list(rl_tables, g)
                 except Exception as e:  # noqa: BLE001 - display only
                     print(f"[export] reserve list for {g['game_id']} skipped: {type(e).__name__}: {e}")
+            item["absences"] = None        # export only (user authorisation 2026-11-20, item B1): never in the release JSON
+            if season == cur and (view["forecast"] or g["status"] == "final"):
+                try:
+                    item["absences"] = AD.game_absences(g, item["locked_pick"], now, rl_tables, rm_tables, abs_cache)
+                except Exception as e:  # noqa: BLE001 - display only
+                    print(f"[export] absences for {g['game_id']} skipped: {type(e).__name__}: {e}")
             items.append(item)
         rel = [r for r in releases if r["season"] == season and r["week"] == week]
         doc = {"season": season, "week": week,
@@ -522,6 +535,10 @@ def export() -> Path:
                                  ("injury_adjusted", sg.get("injury_adjusted")), ("v2_trial", sg.get("v2_trial"))):
                     if res:
                         so[key][res] += 1
+                if sg["big_gap"] and sg["spread"] and lk.get("line_home_spread") is not None:
+                    band = so["bands"]["4+" if sg["biggest_gap"] else "3-4"]
+                    band["all"][sg["spread"]] += 1
+                    band["ge7" if abs(lk["line_home_spread"]) >= 7 else "lt7"][sg["spread"]] += 1
         week_index.append({"season": season, "week": week, "n_games": wk.height, "has_forecasts": bool(rel),
                            "date_range": doc["date_range"]})
     with_fc = [w for w in week_index if w["has_forecasts"]]
@@ -540,6 +557,12 @@ def export() -> Path:
     _export_ratings(now)
     print(f"[export] wrote {WEB_DATA} ({len(week_index)} weeks, {len(releases)} releases)")
     return WEB_DATA
+
+
+def _band_history() -> dict | None:
+    """Retrospective 2019-2025 rate of the Model line's side by gap band and line size (display only, item B2)."""
+    p = REPORTS_DIR / "research" / "gap_band_history_2026-11-21.json"
+    return json.loads(p.read_text(encoding="utf-8")) if p.exists() else None
 
 
 def _export_performance(head_to_head: list[dict] | None = None, line_movement: dict | None = None,

@@ -18,7 +18,7 @@ const signed = (x: number, d = 1) => `${x > 0 ? "+" : x < 0 ? "−" : ""}${Math.
 /** Luck and regression watch: wins vs expected wins from play quality, plus the usual luck sources. Display only. */
 export default function LuckTable({ rows, teams }: { rows: LuckRow[]; teams: Record<string, Team> }) {
   return (
-    <div className="table-wrap"><table>
+    <div className="table-wrap" tabIndex={0}><table>
       <thead><tr><th>Team</th><th className="r">Record</th><th className="r">Expected wins</th><th className="r">Luck</th>
         <th className="r">One-score games</th><th className="r">Turnover margin</th><th className="r">Fumbles recovered</th><th>Read</th></tr></thead>
       <tbody>{rows.map((r) => {

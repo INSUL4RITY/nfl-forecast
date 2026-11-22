@@ -1,0 +1,713 @@
+{
+ "rows": 38178,
+ "seasons": [
+  2019,
+  2020,
+  2021,
+  2022,
+  2023,
+  2024,
+  2025
+ ],
+ "note": "played = took >= 1 offensive or defensive snap; special-teams-only = not played",
+ "participation_2021_25": [
+  {
+   "status": "Doubtful",
+   "practice": "DNP",
+   "band": "a <0.2",
+   "n": 139,
+   "played": 0.0,
+   "assumed": 0.010550557873281186
+  },
+  {
+   "status": "Doubtful",
+   "practice": "DNP",
+   "band": "b 0.2-0.5",
+   "n": 94,
+   "played": 0.0,
+   "assumed": 0.009906626165737786
+  },
+  {
+   "status": "Doubtful",
+   "practice": "DNP",
+   "band": "c 0.5-0.8",
+   "n": 145,
+   "played": 0.006896551724137931,
+   "assumed": 0.010168170209127303
+  },
+  {
+   "status": "Doubtful",
+   "practice": "DNP",
+   "band": "d 0.8+",
+   "n": 101,
+   "played": 0.009900990099009901,
+   "assumed": 0.009817631824300954
+  },
+  {
+   "status": "Doubtful",
+   "practice": "Limited",
+   "band": "a <0.2",
+   "n": 102,
+   "played": 0.0,
+   "assumed": 0.009801048913892885
+  },
+  {
+   "status": "Doubtful",
+   "practice": "Limited",
+   "band": "b 0.2-0.5",
+   "n": 45,
+   "played": 0.0,
+   "assumed": 0.009964381818393875
+  },
+  {
+   "status": "Doubtful",
+   "practice": "Limited",
+   "band": "c 0.5-0.8",
+   "n": 51,
+   "played": 0.0,
+   "assumed": 0.009600670131374223
+  },
+  {
+   "status": "None",
+   "practice": "DNP",
+   "band": "a <0.2",
+   "n": 314,
+   "played": 0.3885350318471338,
+   "assumed": 0.8632792271086488
+  },
+  {
+   "status": "None",
+   "practice": "DNP",
+   "band": "b 0.2-0.5",
+   "n": 393,
+   "played": 0.7684478371501272,
+   "assumed": 0.8635929075881017
+  },
+  {
+   "status": "None",
+   "practice": "DNP",
+   "band": "c 0.5-0.8",
+   "n": 566,
+   "played": 0.872791519434629,
+   "assumed": 0.8629097319092373
+  },
+  {
+   "status": "None",
+   "practice": "DNP",
+   "band": "d 0.8+",
+   "n": 385,
+   "played": 0.9090909090909091,
+   "assumed": 0.8633266096746549
+  },
+  {
+   "status": "None",
+   "practice": "Full",
+   "band": "a <0.2",
+   "n": 2604,
+   "played": 0.6551459293394777,
+   "assumed": 0.8625326564788661
+  },
+  {
+   "status": "None",
+   "practice": "Full",
+   "band": "b 0.2-0.5",
+   "n": 2850,
+   "played": 0.9382456140350878,
+   "assumed": 0.862329292743545
+  },
+  {
+   "status": "None",
+   "practice": "Full",
+   "band": "c 0.5-0.8",
+   "n": 3140,
+   "played": 0.9815286624203822,
+   "assumed": 0.8622556930267614
+  },
+  {
+   "status": "None",
+   "practice": "Full",
+   "band": "d 0.8+",
+   "n": 2352,
+   "played": 0.9889455782312925,
+   "assumed": 0.8621951780271421
+  },
+  {
+   "status": "None",
+   "practice": "Limited",
+   "band": "a <0.2",
+   "n": 300,
+   "played": 0.6566666666666666,
+   "assumed": 0.8624778285883801
+  },
+  {
+   "status": "None",
+   "practice": "Limited",
+   "band": "b 0.2-0.5",
+   "n": 448,
+   "played": 0.9196428571428571,
+   "assumed": 0.8627235050589619
+  },
+  {
+   "status": "None",
+   "practice": "Limited",
+   "band": "c 0.5-0.8",
+   "n": 621,
+   "played": 0.9597423510466989,
+   "assumed": 0.8623654308027542
+  },
+  {
+   "status": "None",
+   "practice": "Limited",
+   "band": "d 0.8+",
+   "n": 610,
+   "played": 0.9819672131147541,
+   "assumed": 0.8622017742576461
+  },
+  {
+   "status": "Out",
+   "practice": "DNP",
+   "band": "a <0.2",
+   "n": 1442,
+   "played": 0.0006934812760055479,
+   "assumed": 0.0002116986912864549
+  },
+  {
+   "status": "Out",
+   "practice": "DNP",
+   "band": "b 0.2-0.5",
+   "n": 1336,
+   "played": 0.0,
+   "assumed": 0.0002192280957272752
+  },
+  {
+   "status": "Out",
+   "practice": "DNP",
+   "band": "c 0.5-0.8",
+   "n": 1211,
+   "played": 0.0,
+   "assumed": 0.00021973203283165432
+  },
+  {
+   "status": "Out",
+   "practice": "DNP",
+   "band": "d 0.8+",
+   "n": 568,
+   "played": 0.0,
+   "assumed": 0.00021968740608768744
+  },
+  {
+   "status": "Out",
+   "practice": "Full",
+   "band": "a <0.2",
+   "n": 181,
+   "played": 0.0,
+   "assumed": 0.00029327537377787927
+  },
+  {
+   "status": "Out",
+   "practice": "Limited",
+   "band": "a <0.2",
+   "n": 272,
+   "played": 0.0,
+   "assumed": 0.0002715321356220324
+  },
+  {
+   "status": "Out",
+   "practice": "Limited",
+   "band": "b 0.2-0.5",
+   "n": 80,
+   "played": 0.0,
+   "assumed": 0.0002553141082927146
+  },
+  {
+   "status": "Out",
+   "practice": "Limited",
+   "band": "c 0.5-0.8",
+   "n": 44,
+   "played": 0.0,
+   "assumed": 0.00026901988605265714
+  },
+  {
+   "status": "Questionable",
+   "practice": "DNP",
+   "band": "a <0.2",
+   "n": 312,
+   "played": 0.27884615384615385,
+   "assumed": 0.6072282983958148
+  },
+  {
+   "status": "Questionable",
+   "practice": "DNP",
+   "band": "b 0.2-0.5",
+   "n": 255,
+   "played": 0.4666666666666667,
+   "assumed": 0.6078645202713437
+  },
+  {
+   "status": "Questionable",
+   "practice": "DNP",
+   "band": "c 0.5-0.8",
+   "n": 326,
+   "played": 0.5214723926380368,
+   "assumed": 0.6068868682667301
+  },
+  {
+   "status": "Questionable",
+   "practice": "DNP",
+   "band": "d 0.8+",
+   "n": 270,
+   "played": 0.5222222222222223,
+   "assumed": 0.6064089844577838
+  },
+  {
+   "status": "Questionable",
+   "practice": "Full",
+   "band": "a <0.2",
+   "n": 708,
+   "played": 0.4872881355932203,
+   "assumed": 0.6048950777322011
+  },
+  {
+   "status": "Questionable",
+   "practice": "Full",
+   "band": "b 0.2-0.5",
+   "n": 302,
+   "played": 0.7748344370860927,
+   "assumed": 0.6061372556015007
+  },
+  {
+   "status": "Questionable",
+   "practice": "Full",
+   "band": "c 0.5-0.8",
+   "n": 299,
+   "played": 0.862876254180602,
+   "assumed": 0.6071479184559032
+  },
+  {
+   "status": "Questionable",
+   "practice": "Full",
+   "band": "d 0.8+",
+   "n": 162,
+   "played": 0.9197530864197531,
+   "assumed": 0.6072193461560914
+  },
+  {
+   "status": "Questionable",
+   "practice": "Limited",
+   "band": "a <0.2",
+   "n": 1188,
+   "played": 0.4166666666666667,
+   "assumed": 0.6064911275646128
+  },
+  {
+   "status": "Questionable",
+   "practice": "Limited",
+   "band": "b 0.2-0.5",
+   "n": 1211,
+   "played": 0.6886870355078447,
+   "assumed": 0.6071251993729312
+  },
+  {
+   "status": "Questionable",
+   "practice": "Limited",
+   "band": "c 0.5-0.8",
+   "n": 1226,
+   "played": 0.7528548123980424,
+   "assumed": 0.6073445487341875
+  },
+  {
+   "status": "Questionable",
+   "practice": "Limited",
+   "band": "d 0.8+",
+   "n": 711,
+   "played": 0.7510548523206751,
+   "assumed": 0.6065005959121574
+  },
+  {
+   "status": "Questionable",
+   "practice": "none/other",
+   "band": "b 0.2-0.5",
+   "n": 34,
+   "played": 0.6470588235294118,
+   "assumed": 0.6075146240574776
+  },
+  {
+   "status": "Questionable",
+   "practice": "none/other",
+   "band": "d 0.8+",
+   "n": 36,
+   "played": 0.5277777777777778,
+   "assumed": 0.6075975817212081
+  }
+ ],
+ "participation_status_band_2021_25": [
+  {
+   "status": "Doubtful",
+   "band": "a <0.2",
+   "n": 267,
+   "played": 0.0,
+   "assumed": 0.01013315989883179
+  },
+  {
+   "status": "Doubtful",
+   "band": "b 0.2-0.5",
+   "n": 141,
+   "played": 0.0,
+   "assumed": 0.009928360818256099
+  },
+  {
+   "status": "Doubtful",
+   "band": "c 0.5-0.8",
+   "n": 202,
+   "played": 0.0049504950495049506,
+   "assumed": 0.009980346519775973
+  },
+  {
+   "status": "Doubtful",
+   "band": "d 0.8+",
+   "n": 130,
+   "played": 0.015384615384615385,
+   "assumed": 0.009727744363806301
+  },
+  {
+   "status": "None",
+   "band": "a <0.2",
+   "n": 3219,
+   "played": 0.6293880086983535,
+   "assumed": 0.8625995965166857
+  },
+  {
+   "status": "None",
+   "band": "b 0.2-0.5",
+   "n": 3692,
+   "played": 0.9176598049837487,
+   "assumed": 0.8625108331948461
+  },
+  {
+   "status": "None",
+   "band": "c 0.5-0.8",
+   "n": 4327,
+   "played": 0.9641784146059625,
+   "assumed": 0.8623569948909566
+  },
+  {
+   "status": "None",
+   "band": "d 0.8+",
+   "n": 3347,
+   "played": 0.9784881983866148,
+   "assumed": 0.8623265269619792
+  },
+  {
+   "status": "Out",
+   "band": "a <0.2",
+   "n": 1919,
+   "played": 0.0005211047420531526,
+   "assumed": 0.00022745421876124716
+  },
+  {
+   "status": "Out",
+   "band": "b 0.2-0.5",
+   "n": 1432,
+   "played": 0.0,
+   "assumed": 0.00022150761283079579
+  },
+  {
+   "status": "Out",
+   "band": "c 0.5-0.8",
+   "n": 1263,
+   "played": 0.000791765637371338,
+   "assumed": 0.0002215272343724095
+  },
+  {
+   "status": "Out",
+   "band": "d 0.8+",
+   "n": 586,
+   "played": 0.0,
+   "assumed": 0.00022028242541227705
+  },
+  {
+   "status": "Questionable",
+   "band": "a <0.2",
+   "n": 2237,
+   "played": 0.42109968708091194,
+   "assumed": 0.6061129227966318
+  },
+  {
+   "status": "Questionable",
+   "band": "b 0.2-0.5",
+   "n": 1802,
+   "played": 0.6709211986681465,
+   "assumed": 0.6070715968476248
+  },
+  {
+   "status": "Questionable",
+   "band": "c 0.5-0.8",
+   "n": 1879,
+   "played": 0.7291112293773284,
+   "assumed": 0.6072235609289353
+  },
+  {
+   "status": "Questionable",
+   "band": "d 0.8+",
+   "n": 1179,
+   "played": 0.7150127226463104,
+   "assumed": 0.6066118715151788
+  }
+ ],
+ "b8_check_regulars_0.5plus": {
+  "Questionable": {
+   "n": 3058,
+   "played": 0.723675604970569
+  },
+  "None": {
+   "n": 7674,
+   "played": 0.9704195986447746
+  },
+  "Doubtful": {
+   "n": 332,
+   "played": 0.009036144578313253
+  },
+  "Out": {
+   "n": 1849,
+   "played": 0.0005408328826392645
+  }
+ },
+ "composition_2019_25": {
+  "ol": {
+   "mean_total": 0.38560712654778195,
+   "sd_total": 0.4178397732914494,
+   "share_of_expected": {
+    "None": 0.24871628064612103,
+    "Questionable": 0.2686129127166026,
+    "Doubtful": 0.07374160286956304,
+    "Out": 0.4089292037677134
+   },
+   "share_of_variance": {
+    "None": 0.04013836885714824,
+    "Questionable": 0.19436385831431124,
+    "Doubtful": 0.12946858927461824,
+    "Out": 0.6362843506883952
+   },
+   "realised_mean": 0.30777933673469393,
+   "corr_expected_realised": 0.8136688704518654
+  },
+  "skill": {
+   "mean_total": 0.3911026384835553,
+   "sd_total": 0.3660569445277796,
+   "share_of_expected": {
+    "None": 0.2212889358087025,
+    "Questionable": 0.2716519852768533,
+    "Doubtful": 0.07491582185005125,
+    "Out": 0.4321432570643929
+   },
+   "share_of_variance": {
+    "None": 0.03298427040255536,
+    "Questionable": 0.18374810292097324,
+    "Doubtful": 0.13042278971599308,
+    "Out": 0.6531000040949515
+   },
+   "realised_mean": 0.2902406462585034,
+   "corr_expected_realised": 0.8355496366559143
+  },
+  "front": {
+   "mean_total": 0.40455875892722,
+   "sd_total": 0.3792546979520277,
+   "share_of_expected": {
+    "None": 0.2682717484966679,
+    "Questionable": 0.27356421716619467,
+    "Doubtful": 0.059408621833187916,
+    "Out": 0.3987554125039497
+   },
+   "share_of_variance": {
+    "None": 0.05907992264141679,
+    "Questionable": 0.2066117706768346,
+    "Doubtful": 0.11982364184173006,
+    "Out": 0.6147398319744914
+   },
+   "realised_mean": 0.2823159013605442,
+   "corr_expected_realised": 0.8012975891935995
+  },
+  "db": {
+   "mean_total": 0.3800468408189867,
+   "sd_total": 0.4159760094685579,
+   "share_of_expected": {
+    "None": 0.17778099934252503,
+    "Questionable": 0.27232987416715687,
+    "Doubtful": 0.07663082887651962,
+    "Out": 0.4732582976137986
+   },
+   "share_of_variance": {
+    "None": 0.025042412784666512,
+    "Questionable": 0.16361014023865705,
+    "Doubtful": 0.11862830056424549,
+    "Out": 0.6929743135469041
+   },
+   "realised_mean": 0.32987755102040817,
+   "corr_expected_realised": 0.8475721654490022
+  }
+ },
+ "team_games": 3920,
+ "calibration_2019_25": [
+  {
+   "status": "Doubtful",
+   "band": "a <0.2",
+   "n": 370,
+   "expected": 21.84435833442998,
+   "realised": 21.901666666666664,
+   "ratio": 1.0026234843504813
+  },
+  {
+   "status": "Doubtful",
+   "band": "b 0.2-0.5",
+   "n": 229,
+   "expected": 80.98726529094532,
+   "realised": 81.09666666666665,
+   "ratio": 1.001350846646424
+  },
+  {
+   "status": "Doubtful",
+   "band": "c 0.5-0.8",
+   "n": 279,
+   "expected": 177.4028864925597,
+   "realised": 177.39833333333337,
+   "ratio": 0.9999743343565803
+  },
+  {
+   "status": "Doubtful",
+   "band": "d 0.8+",
+   "n": 172,
+   "expected": 154.4646618945473,
+   "realised": 154.11499999999998,
+   "ratio": 0.9977362984500232
+  },
+  {
+   "status": "None",
+   "band": "a <0.2",
+   "n": 4455,
+   "expected": 42.87155403413142,
+   "realised": 69.545,
+   "ratio": 1.6221711940890455
+  },
+  {
+   "status": "None",
+   "band": "b 0.2-0.5",
+   "n": 5151,
+   "expected": 248.2343780311385,
+   "realised": 138.51333333333332,
+   "ratio": 0.5579941603251997
+  },
+  {
+   "status": "None",
+   "band": "c 0.5-0.8",
+   "n": 5962,
+   "expected": 523.9299306329107,
+   "realised": 142.89333333333337,
+   "ratio": 0.2727336710096278
+  },
+  {
+   "status": "None",
+   "band": "d 0.8+",
+   "n": 4706,
+   "expected": 590.4811163313074,
+   "realised": 92.12166666666666,
+   "ratio": 0.15601119852743775
+  },
+  {
+   "status": "Out",
+   "band": "a <0.2",
+   "n": 2617,
+   "expected": 149.25646060945238,
+   "realised": 149.15833333333336,
+   "ratio": 0.9993425592720185
+  },
+  {
+   "status": "Out",
+   "band": "b 0.2-0.5",
+   "n": 1971,
+   "expected": 685.7495071978263,
+   "realised": 685.9383333333333,
+   "ratio": 1.000275357303979
+  },
+  {
+   "status": "Out",
+   "band": "c 0.5-0.8",
+   "n": 1684,
+   "expected": 1075.6916967822476,
+   "realised": 1075.4233333333332,
+   "ratio": 0.9997505201074646
+  },
+  {
+   "status": "Out",
+   "band": "d 0.8+",
+   "n": 791,
+   "expected": 707.3868353521259,
+   "realised": 707.5783333333334,
+   "ratio": 1.00027071182504
+  },
+  {
+   "status": "Questionable",
+   "band": "a <0.2",
+   "n": 3037,
+   "expected": 72.6330529071687,
+   "realised": 84.85333333333334,
+   "ratio": 1.1682468234094912
+  },
+  {
+   "status": "Questionable",
+   "band": "b 0.2-0.5",
+   "n": 2547,
+   "expected": 354.96659225880705,
+   "realised": 295.43666666666667,
+   "ratio": 0.8322942865881391
+  },
+  {
+   "status": "Questionable",
+   "band": "c 0.5-0.8",
+   "n": 2573,
+   "expected": 646.2754296289609,
+   "realised": 461.86833333333334,
+   "ratio": 0.7146617558994944
+  },
+  {
+   "status": "Questionable",
+   "band": "d 0.8+",
+   "n": 1634,
+   "expected": 588.1805041494137,
+   "realised": 406.19499999999994,
+   "ratio": 0.6905958241295524
+  }
+ ],
+ "calibration_by_unit_2019_25": [
+  {
+   "unit": "db",
+   "expected": 1489.7836160104277,
+   "realised": 1293.12,
+   "ratio": 0.8679918251906381
+  },
+  {
+   "unit": "front",
+   "expected": 1585.8703349947016,
+   "realised": 1106.6783333333328,
+   "ratio": 0.6978365815368066
+  },
+  {
+   "unit": "ol",
+   "expected": 1511.5799360673057,
+   "realised": 1206.495,
+   "ratio": 0.7981681757029346
+  },
+  {
+   "unit": "skill",
+   "expected": 1533.1223428555372,
+   "realised": 1137.743333333333,
+   "ratio": 0.7421086377322075
+  }
+ ],
+ "no_status": {
+  "share_of_expected_lost": 0.2296462699600132,
+  "expected": 1405.5169790294879,
+  "realised": 443.0733333333333,
+  "regulars_0.5plus_expected": 1114.4110469642176,
+  "regulars_0.5plus_realised": 235.01500000000001
+ }
+}

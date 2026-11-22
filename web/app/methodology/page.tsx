@@ -165,7 +165,7 @@ export default function Methodology() {
         <p className="small"><b>Matchup section, 22 October 2026</b> (display only; not a model input). Each game page shows both teams&apos;
           season-to-date statistics as of that game&apos;s kickoff (only games played before it), with league ranks: EPA per play on
           offence and defence (also adjusted for the opponents faced), passing and rushing efficiency, success rate, explosive plays,
-          sack rate, third down, red zone and points per drive, each offence set against the defence it faces with an edge label when
+          sack rate, third down, red zone and points per drive, each offence set against the defence it faces with an advantage label when
           one side ranks at least 8 places better, play style in neutral situations, and a game log naming each game&apos;s starting
           quarterback (marked when it was not this week&apos;s expected starter). Definitions follow the standard nflverse play-by-play
           conventions and are listed under the section. It replaces the earlier &quot;How they rate&quot; percentile chart.</p>
@@ -175,6 +175,20 @@ export default function Methodology() {
           Neither model line includes them (both rate teams from their games; quarterback changes are handled separately), so
           they show where the lines may be working from an out-of-date roster. A roster-change input is on the list for 2027,
           to be tested on unseen seasons first.</p>
+        <p className="small"><b>Display additions, 21 November 2026</b> (display only; no model, pick, grading or release change).
+          <b> Who is missing:</b> cards and game pages of Big and Biggest gap games list each team&apos;s missing regulars: players
+          with a game status on the injury report (or, before game statuses are out, players who did not practise or were limited),
+          players on reserve lists and players traded or released this season, with position, unit, status and snap share. No
+          point values are shown: an absence adjustment that also counted reserve lists and departures was tested on 2019–2024
+          and did not improve the model line. When the pick locked before both teams&apos; final game statuses were in the injury
+          data this site uses (every Thursday game so far, because the data file updates the next morning), the page says
+          &quot;Measured before final injury reports reached the data&quot;. <b>Gap records:</b> the 3–4 point and 4+ point bands are
+          shown separately (the old &quot;3+&quot; record included 4+), each with a 95% range and the rate for the same band in
+          2019–2025 (retrospective), split by the size of the line on the Performance page. <b>Wording:</b> the size of the gap
+          between the margin behind a pick and the line is called a &quot;difference&quot; (it was &quot;edge&quot;), and the matchup
+          section&apos;s rank labels say &quot;advantage&quot;. <b>Explainer:</b> the model pick explanation appears once per page
+          (each card has an information toggle), and the &quot;Uses market spread &amp; total&quot; label sits on the
+          market-adjusted line it describes.</p>
         <p className="small"><b>Expected-points data fix, 17 November 2026</b> (data only; the model is unchanged). nflverse
           re-published this season&apos;s play-by-play on a revised expected-points scale, which the model was not trained on.
           Plays already held keep their original values and later plays are converted back to the original scale (details under
@@ -251,10 +265,10 @@ export default function Methodology() {
           valid forecast before kickoff, graded against that forecast&apos;s line. Finished weeks are not regraded; week 3 stays 8–6 with 1 level
           result among publicly verifiable forecasts (it would have been 9–6 under the new rule).</p>
         <p className="small"><b>Display additions, 6 October 2026</b> (no forecast, pick or grading change): the pick box shows the size of
-          the edge (tiny under 0.5 points, about a coin flip; small 0.5–1.5; moderate 1.5–3; large 3 or more) and the <b>stats-only</b>
+          the difference (called &quot;edge&quot; until 21 November 2026; tiny under 0.5 points, about a coin flip; small 0.5–1.5; moderate 1.5–3; large 3 or more) and the <b>stats-only</b>
           line, which is the football-only model with no market input, at the lock and now. <b>Big gap</b> marks a game where the stats-only
           margin was at least 3 points from the line when the pick was locked. In the backtests the result finished on the stats-only side of
-          the line in 52.2% (2019–21), 57.5% (2022–24) and 51.5% (2025) of such games: not a reliable edge, and the 2026 sample is small.
+          the line in 52.2% (2019–21), 57.5% (2022–24) and 51.5% (2025) of such games: not a reliable signal, and the 2026 sample is small.
           It is a prompt to check why the market disagrees, not a recommendation. From 6 October 2026 releases also store how each group of
           inputs adds up to the stats-only margin (Details page); earlier releases did not, so older games do not show it.</p>
         <p className="small"><b>Stats-only tracking record, 9 October 2026</b> (display only; not the official model pick and not part

@@ -474,6 +474,32 @@ market lines, QB availability, injury display, weather display). A changed artif
   converted games. Not a model change: artifact, features and configs unchanged. Correction recorded
   (`ep-scale:revised-2026-pbp`); earlier releases stay as published. 2027: refit on one EPA version (research A12).
 
+- Big-gap research (user brief 2026-11-20, Part A; offline, nothing published or frozen changed; branch
+  research/gaps-2026-11, worktree C:/Users/Craig/nflwt-gaps): PLAN.md; A1 diagnosis
+  (reports/research/gap_diagnosis_2026-11-20.md, scripts and outputs in reports/research/gap_absences/): final injury
+  statuses were in our data at 92 of 116 lock-24h team-locks but 0 of 10 at Thursday games; at those locks practice-only
+  rows get a flat 13.5% charge (DNP regulars played 66%, 15% before Thursday games; full-practice regulars 99%); frozen
+  costs 0.45/0.36/0.61/0.90 pts per starter-equivalent are consistent with history (the team-analytics 1.6-1.9 pts counts
+  in-game exits, reserve lists and benchings); at frozen costs absences account for ~9% of the 2026 big gaps.
+  A2/A3 pre-registered (absences_v1_preregistration_2026-11-21.md, RFC 3161 21 Nov 00:08:53 GMT) and run
+  (absences_v1_evaluation_2026-11-21.md): primary AV1 (rating-weight scaling + B8 play rates + reserve lists +
+  departures/arrivals) FAILED (+0.55 [-0.45, +1.57] squared points vs the current injury inputs, 1/6 seasons);
+  exploratory lead AV1-b8 (B8 rates only) -0.34 [-0.60, -0.09] vs current inputs but not significant vs v1.0; EDGE/CB
+  split no gain; leakage test passed (week-1 roster file disclosed). A4 lock proposal ("lock-final-status") and all
+  items recorded in docs/research_2027.md (A3, A7, A10, A12, B7-B11, C2, C5, C7, new C10 market view). No trial line was
+  created; nothing changes this season.
+
+- Big-gap display, Part B (user brief 2026-11-20, items B1-B5; display only, model/picks/grading/releases unchanged):
+  "Who is missing" on Big/Biggest gap cards and game pages (predict/absence_display.py, export only; IND@HOU is the worked
+  example: flagged "Measured before final injury reports reached the data"); gap records as separate 3-4 / 4+ bands with
+  Wilson ranges and the 2019-25 retrospective rate (home strip; Performance "Gap records in context" split by line size);
+  "edge" -> "difference", matchup "edge" -> "advantage"; pick explainer once per page with an info toggle per card;
+  "Uses market spread & total" moved to the market-adjusted row (game page); UK spelling; Open Graph/Twitter tags + preview
+  image; axe-core: 0 serious/critical on home, week, game, Performance, Method, Ratings, About (chip contrast, dl markup,
+  underlined text links, focusable table scroll areas, unique section labels). Method page entry dated 21 Nov 2026.
+  Tests 184 pass. B6 (user 2026-11-22, "do what u think is best"): option A "Scoreboard rail" (docs/design_b6_proposal.md)
+  replaces the Sasser-style week header (compact title, one row of record tiles incl. the gap bands); the davidsasser.com
+  credit was removed from the footer, About and README in the same change.
 ## 3. Tests and checks (2026-09-25)
 - Live head-to-head (2026-10-13, user request; display only): `picks.head_to_head` compares combined, stats-only and market
   on the same finished, publicly verifiable games by week (margin error, winner correct) plus the vs-line records of the

@@ -4,8 +4,8 @@ import type { Team } from "@/lib/types";
 import TeamBadge from "./TeamBadge";
 
 const COLS: [string, string, (x: number) => string][] = [
-  ["adj_off_epa", "Offense (adj. EPA/play)", (x) => x.toFixed(3)],
-  ["adj_def_epa", "Defense (adj., + = better)", (x) => x.toFixed(3)],
+  ["adj_off_epa", "Offence (adj. EPA/play)", (x) => x.toFixed(3)],
+  ["adj_def_epa", "Defence (adj., + = better)", (x) => x.toFixed(3)],
   ["off_pts_drive", "Pts / drive", (x) => x.toFixed(2)],
   ["def_pts_drive", "Pts / drive allowed", (x) => x.toFixed(2)],
   ["last_starter_rating", "Last starter QB rating", (x) => x.toFixed(3)],
@@ -18,7 +18,7 @@ export default function RatingsTable({ rows, teams }: { rows: any[]; teams: Reco
   const asc = sort === "def_pts_drive";
   const sorted = [...withNet].sort((a, b) => (asc ? a[sort] - b[sort] : b[sort] - a[sort]));
   return (
-    <div className="table-wrap"><table>
+    <div className="table-wrap" tabIndex={0}><table>
       <thead><tr><th>#</th><th>Team</th>
         <th className="r"><button className="chip" aria-pressed={sort === "net"} onClick={() => setSort("net")}>Net</button></th>
         {COLS.map(([k, label]) => <th key={k} className="r"><button className="chip" aria-pressed={sort === k} onClick={() => setSort(k)}>{label}</button></th>)}

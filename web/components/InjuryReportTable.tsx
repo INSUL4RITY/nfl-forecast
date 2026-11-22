@@ -56,7 +56,7 @@ export default function InjuryReportTable({ r, season, week, gameType, venueTz }
           <a href={nflUrl(season, week, gameType)} target="_blank" rel="noopener noreferrer">official injury report on NFL.com</a>.</p>
       )}
       {n > 0 && (
-        <div className="table-wrap" style={{ marginTop: 8 }}><table>
+        <div className="table-wrap" tabIndex={0} style={{ marginTop: 8 }}><table>
           <thead><tr><th>Team</th><th>Player</th><th>Pos</th><th>Depth chart</th><th>Injury</th><th>Practice</th><th>Game status</th></tr></thead>
           <tbody>{r.players.map((p, i) => (
             <tr key={`${p.team}-${p.full_name}-${i}`}><td>{p.team}</td><td>{p.full_name}</td><td>{p.position ?? "—"}</td>

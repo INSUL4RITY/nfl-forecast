@@ -6,6 +6,7 @@ import TeamBadge from "./TeamBadge";
 import StateLabel from "./StateLabel";
 import { gradeText, PredictionSummary, RETRO_NOTE } from "./Pick";
 import { DeservedLine } from "./Deserved";
+import { AbsenceSummary } from "./Absences";
 
 function ProbBar({ pAway, pTie, pHome, away, home, awayColor, homeColor }: {
   pAway: number; pTie: number; pHome: number; away: string; home: string; awayColor: string; homeColor: string;
@@ -73,6 +74,7 @@ export default function GameCard({ g, teams, tz }: { g: WeekGame; teams: Record<
                    awayColor={pair.away} homeColor={pair.home} />
           <PredictionSummary g={g} lockedAt={g.locked_pick ? fmtDateTime(g.locked_pick.generated_at, tz) : null}
             locksAt={g.locked_pick?.locks_at ? fmtDateTime(g.locked_pick.locks_at, tz) : null} />
+          {g.absences && <AbsenceSummary a={g.absences} away={g.away} home={g.home} />}
           {g.result_grade && <div className="small"><b>Result:</b> {gradeText(g.result_grade, g)}</div>}
           {g.result_grade && <DeservedLine g={g} />}
           {(g.locked_pick?.retrospectively_derived || g.pick?.retrospectively_derived) &&
@@ -82,7 +84,7 @@ export default function GameCard({ g, teams, tz }: { g: WeekGame; teams: Record<
           </div>
           <div className="tags">
             {e.market_inputs_used
-              ? <span className="tag info" title="The combined model uses the market spread and total as inputs">Uses market spread &amp; total</span>
+              ? null       // the card shows the model line (stats only); the market-adjusted row is on the game page
               : e.status === "fallback_after_validation_failure"
                 ? <span className="tag warn">Football-only fallback (combined forecast failed validation)</span>
                 : <span className="tag warn">Football-only fallback (no line)</span>}

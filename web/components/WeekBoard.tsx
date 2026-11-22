@@ -1,9 +1,9 @@
 ﻿"use client";
-import { useEffect, useMemo, useState } from "react";
-import type { Manifest, SeasonRecord, Team, WeekDoc, WLP } from "@/lib/types";
-import { dateRange, dayKey, fmtDateTime, isPlayoffWeek, tzFor, weekName, type TzMode } from "@/lib/format";
+import { useEffect, useMemo, useState, type ReactNode } from "react";
+import type { BandRate, GapBand, Manifest, SeasonRecord, Team, WeekDoc, WLP } from "@/lib/types";
+import { dateRange, dayKey, fmtDateTime, isPlayoffWeek, tzFor, weekName, wilson, type TzMode } from "@/lib/format";
 import GameCard from "./GameCard";
-import { WeekResultsPanel } from "./Pick";
+import { pickExplain, WeekResultsPanel } from "./Pick";
 
 const pctOf = (w: number, l: number) => (w + l ? `${((100 * w) / (w + l)).toFixed(2)}%` : "—");
 
@@ -12,54 +12,47 @@ const weeksText = (w: number[]) => (w.length < 2 ? weekName(w[0])
   : isPlayoffWeek(w[w.length - 1]) ? `Week ${w[0]} – ${weekName(w[w.length - 1])}` : `Weeks ${w[0]}–${w[w.length - 1]}`);
 const wlp = (x: WLP) => `${x.win}–${x.loss}${x.push ? `–${x.push}` : ""}`;
 
-function RecCell({ label, x }: { label: string; x: WLP }) {
+function Tile({ label, x, children }: { label: string; x: WLP | null; children?: ReactNode }) {
   return (
-    <div className="rec-cell rec-num">
+    <div className="tile">
       <span className="caps">{label}</span>
-      <span className="rec-big">{wlp(x)}</span>
-      <span className="small ink2 num">{pctOf(x.win, x.loss)}</span>
+      <span className="tile-big num">{x ? wlp(x) : "—"}</span>
+      <span className="small ink2 num">{x ? (x.win + x.loss ? pctOf(x.win, x.loss) : "No finished games yet") : "No finished games yet"}</span>
+      {children}
     </div>
   );
 }
 
 const NONE: WLP = { win: 0, loss: 0, push: 0 };
+const pc0 = (x: number) => `${Math.round(x * 100)}%`;
 
-/** The model line's own record at each pick's lock, all season (it is the official pick's basis from week 7), plus the
- *  Big/Biggest gap games. The market-adjusted line's record is on the Performance page (user decision 2026-10-28). */
-function StatsOnlyStrip({ s }: { s: NonNullable<SeasonRecord["stats_only"]> }) {
+/** Records as one row of tiles ("Scoreboard rail", the site's own header design, user 2026-11-22): the official model
+ *  pick (season and the week on screen), the model line's own record at each lock, and the gap bands 3–4 and 4+ points
+ *  (not overlapping) with their 95% range and the retrospective 2019–25 rate for the same band. */
+function Records({ r, week, weekLabel }: { r: SeasonRecord; week: WLP | null; weekLabel: string }) {
+  const s = r.stats_only && r.stats_only.weeks.length ? r.stats_only : null;
+  const band = (b: GapBand) => {
+    const x = s?.bands?.[b]?.all ?? (b === "3-4" ? s?.big_gap : s?.biggest_gap) ?? NONE;
+    const ci = wilson(x.win, x.win + x.loss), h: BandRate | undefined = s?.band_history?.bands?.[b]?.all;
+    return (
+      <Tile key={b} label={b === "3-4" ? "Gap 3–4 pts (Big)" : "Gap 4+ pts (Biggest)"} x={x}>
+        {ci && <span className="small muted num">95% range {pc0(ci[0])}–{pc0(ci[1])}</span>}
+        {h && h.rate != null && <span className="small muted num">2019–25: {pc0(h.rate)} of {h.n}</span>}
+      </Tile>);
+  };
   return (
-    <section className="record-strip four" aria-label="Model line record">
-      <div className="rec-cell">
-        <span className="caps">Model line, all weeks</span>
-        <b>Model line vs market line</b>
-        <span className="small muted">{weeksText(s.weeks)} · the side of the locked line the model line fell on, every
-          week (the model pick from week 7)</span>
+    <section className="records" aria-label="Records against the market line">
+      <div className="tiles">
+        <Tile label="Model pick · season" x={r.spread} />
+        <Tile label={`Model pick · ${weekLabel}`} x={week} />
+        {s && <Tile label="Model line · all weeks" x={s.spread} />}
+        {s && band("3-4")}
+        {s && band("4+")}
       </div>
-      <RecCell label="Model line (stats only)" x={s.spread} />
-      <RecCell label="Big gaps (3+ pts)" x={s.big_gap} />
-      <RecCell label="Biggest gaps (4+ pts)" x={s.biggest_gap ?? NONE} />
-    </section>
-  );
-}
-
-/** Model pick record vs the market line: season to date and the week on screen (publicly verifiable pregame only). */
-function RecordStrip({ r, week, weekLabel }: { r: SeasonRecord; week: WLP | null; weekLabel: string }) {
-  return (
-    <section className="record-strip" aria-label="Model pick record vs market line">
-      <div className="rec-cell">
-        <span className="caps">Model performance</span>
-        <b>Model pick vs market line</b>
-        <span className="small muted">{weeksText(r.weeks)} · published before kickoff · weeks 3–6 followed the
-          market-adjusted line (the rule then; not regraded), from week 7 the model line</span>
-      </div>
-      <RecCell label="Season · vs market line" x={r.spread} />
-      {week ? <RecCell label={`${weekLabel} · vs market line`} x={week} /> : (
-        <div className="rec-cell rec-num">
-          <span className="caps">{weekLabel} · vs market line</span>
-          <span className="rec-big">—</span>
-          <span className="small ink2">No finished games yet</span>
-        </div>
-      )}
+      <p className="small muted records-note">Against the market line, publicly verifiable forecasts only ({weeksText(r.weeks)}).
+        Model pick: weeks 3–6 followed the market-adjusted line (the rule then; not regraded), from week 7 the model line.
+        Model line: the side of the locked line the stats-only model fell on every week. Gap tiles: games where the model line
+        was 3–4 or 4+ points from the locked line; 2019–25 is retrospective.</p>
     </section>
   );
 }
@@ -98,49 +91,38 @@ export default function WeekBoard({ doc, teams, manifest }: { doc: WeekDoc; team
   const weeks = manifest.weeks.filter((w) => w.season === doc.season);
   const isLatest = manifest.latest.season === doc.season && manifest.latest.week === doc.week;
   const pv = doc.results?.groups?.publicly_verifiable_pregame;
+  const hb = manifest.season_record?.stats_only?.band_history?.bands;
   const weekRec: WLP | null = pv && (pv.pick_graded ?? pv.graded)
     ? { win: pv.lean.win, loss: pv.lean.loss, push: pv.lean.push } : null;
 
   return (
     <>
-      <header className="hero">
-        <div>
+      <header className="rail">
+        <div className="rail-main">
           <div className="caps">{doc.season} · National Football League</div>
-          <h1 className="hero-title">{isPlayoffWeek(doc.week)
-            ? <span className="hero-num">{weekName(doc.week)}</span>
-            : <>Week <span className="hero-num">{doc.week}</span></>}<br />Projections.</h1>
+          <h1 className="rail-title">{isPlayoffWeek(doc.week) ? weekName(doc.week) : <>Week <span className="rail-num">{doc.week}</span></>}
+            <span className="rail-sub"> forecasts</span></h1>
+          <div className="caps rail-meta">{range && <>{range} · </>}{doc.n_games} games · {doc.last_release_at
+            ? <>updated {fmtDateTime(doc.last_release_at, mounted && tzMode !== "stadium" ? tzFor(tzMode, "UTC") : "UTC")}</>
+            : "forecasts publish Tuesday 18:00 UK"}</div>
         </div>
-        <div className="hero-side">
-          <p className="lede">Model-projected scores, margins, totals and comparisons with the market for every game this week.</p>
-          <div className="caps">{range && <>{range} · </>}{doc.n_games} games</div>
-          <div className="caps">
-            {doc.last_release_at
-              ? <>Updated {fmtDateTime(doc.last_release_at, mounted && tzMode !== "stadium" ? tzFor(tzMode, "UTC") : "UTC")}</>
-              : "Forecasts publish Tuesday 18:00 UK"}
-          </div>
-          <div className="hero-links">
-            <a href={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/performance/`}>Model history</a>
-            <label className="small ink2">
-              Week{" "}
-              <select className="select" value={`${doc.season}-${doc.week}`} onChange={(e) => {
-                const [s, w] = e.target.value.split("-");
-                window.location.href = `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/week/${s}/${w}/`;
-              }}>
-                {weeks.map((w) => (
-                  <option key={w.week} value={`${w.season}-${w.week}`}>{weekName(w.week)}{w.has_forecasts ? "" : " (no forecasts)"}</option>
-                ))}
-              </select>
-            </label>
-          </div>
+        <div className="rail-links">
+          <a href={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/performance/`}>Model history</a>
+          <label className="small ink2">
+            Week{" "}
+            <select className="select" value={`${doc.season}-${doc.week}`} onChange={(e) => {
+              const [s, w] = e.target.value.split("-");
+              window.location.href = `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/week/${s}/${w}/`;
+            }}>
+              {weeks.map((w) => (
+                <option key={w.week} value={`${w.season}-${w.week}`}>{weekName(w.week)}{w.has_forecasts ? "" : " (no forecasts)"}</option>
+              ))}
+            </select>
+          </label>
         </div>
       </header>
-      {manifest.season_record && manifest.season_record.weeks.length > 0 && (
-        <div className="records">
-          <RecordStrip r={manifest.season_record} week={weekRec} weekLabel={isLatest ? "This week" : weekName(doc.week)} />
-          {manifest.season_record.stats_only && manifest.season_record.stats_only.weeks.length > 0 &&
-            <StatsOnlyStrip s={manifest.season_record.stats_only} />}
-        </div>
-      )}
+      {manifest.season_record && manifest.season_record.weeks.length > 0 &&
+        <Records r={manifest.season_record} week={weekRec} weekLabel={isLatest ? "this week" : weekName(doc.week)} />}
 
       <div className="controls" role="group" aria-label="Filters">
         <button className="chip" aria-pressed={day === "all"} onClick={() => setDay("all")}>All games</button>
@@ -170,6 +152,19 @@ export default function WeekBoard({ doc, teams, manifest }: { doc: WeekDoc; team
         </section>
       ))}
       {grouped.length === 0 && <p className="muted">No games match these filters.</p>}
+      <div id="pick-explainer" className="panel explainer">
+        <h2 style={{ marginTop: 0 }}>How the model pick works</h2>
+        {Array.from(new Set(doc.games.map((g) => g.locked_pick?.rule ?? "lock-24h"))).map((r) => (
+          <p key={r} className="small ink2" style={{ marginBottom: 6 }}>{pickExplain(r)}</p>))}
+        <p className="small muted" style={{ marginBottom: 0 }}>Gap records: the model line&apos;s side of the locked line in
+          games where it was 3–4 points and 4 or more points from that line, shown separately, with a 95% range. Beside each, the
+          rate for the same band in 2019–2025 (retrospective walk-forward forecasts against untimed, roughly closing, lines).
+          {hb && <> In that history the 3–4 point band finished on the model line&apos;s side {pc0(hb["3-4"].all.rate ?? 0)} of the
+          time (95% range {pc0(hb["3-4"].all.ci95?.[0] ?? 0)}–{pc0(hb["3-4"].all.ci95?.[1] ?? 0)}, {hb["3-4"].all.n} games) and
+          the 4+ band {pc0(hb["4+"].all.rate ?? 0)} ({pc0(hb["4+"].all.ci95?.[0] ?? 0)}–{pc0(hb["4+"].all.ci95?.[1] ?? 0)},{" "}
+          {hb["4+"].all.n} games): bigger gaps have not meant better results.</>} A few dozen 2026 games cannot show
+          that either band is a signal. More detail, split by the size of the line, is on the Performance page.</p>
+      </div>
       <p className="small muted" style={{ marginTop: 28 }}>
         Scores are expected values (means), not predicted final scores. Win probabilities include a small regular-season
         tie probability. Market spread and total are shown for context and, for the combined model, are model inputs.
