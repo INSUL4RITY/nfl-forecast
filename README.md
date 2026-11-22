@@ -62,5 +62,3 @@ cd web; npm install; npx next build   # static site in web/out/
 Data: nflverse (CC-BY-4.0). FTN charting: "FTN Data via nflverse" (CC-BY-SA 4.0), if/when used.
 Snap counts and advanced stats originate from Pro-Football-Reference. See [docs/data_sources.md](docs/data_sources.md).
 
-This project is inspired by the presentation of davidsasser.com/nfl. It does not reconstruct or claim
-to know that site's model.

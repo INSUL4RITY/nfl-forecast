@@ -48,7 +48,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <div className="container">
             Forecasts are produced by a Python pipeline and published as versioned files; this site only displays them.
             Only the market point spread and total are used as market inputs; no prices. For analysis and education only.
-            Data: <a href="https://github.com/nflverse">nflverse</a> (CC-BY 4.0). Presentation inspired by, but independent of, davidsasser.com/nfl.
+            Data: <a href="https://github.com/nflverse">nflverse</a> (CC-BY 4.0).
           </div>
         </footer>
       </body>

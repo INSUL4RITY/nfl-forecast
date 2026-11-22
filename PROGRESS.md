@@ -497,7 +497,9 @@ market lines, QB availability, injury display, weather display). A changed artif
   "Uses market spread & total" moved to the market-adjusted row (game page); UK spelling; Open Graph/Twitter tags + preview
   image; axe-core: 0 serious/critical on home, week, game, Performance, Method, Ratings, About (chip contrast, dl markup,
   underlined text links, focusable table scroll areas, unique section labels). Method page entry dated 21 Nov 2026.
-  Tests 184 pass. Built on branch research/gaps-2026-11; not merged or pushed until the user says so. B6 pending a choice.
+  Tests 184 pass. B6 (user 2026-11-22, "do what u think is best"): option A "Scoreboard rail" (docs/design_b6_proposal.md)
+  replaces the Sasser-style week header (compact title, one row of record tiles incl. the gap bands); the davidsasser.com
+  credit was removed from the footer, About and README in the same change.
 ## 3. Tests and checks (2026-09-25)
 - Live head-to-head (2026-10-13, user request; display only): `picks.head_to_head` compares combined, stats-only and market
   on the same finished, publicly verifiable games by week (margin error, winner correct) plus the vs-line records of the

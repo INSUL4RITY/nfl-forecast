@@ -72,8 +72,9 @@ CLI stay `nflcast`; keep the URL and repo name (published evidence and links poi
   separate 3-4 and 4+ bands with Wilson ranges and the retrospective 2019-25 rate
   (`reports/research/gap_band_history_2026-11-21.json`); "difference" (not "edge") for gap size, "advantage" for matchup
   ranks; the pick explainer once per page; UK spelling; Open Graph/Twitter tags (`web/public/og.png`,
-  `web/scripts/og_image.mjs`). Export-time only: never in the release JSON or "notable". B6 (own design for the
-  Sasser-derived elements) needs a separate yes; keep the credit until it is replaced.
+  `web/scripts/og_image.mjs`). Export-time only: never in the release JSON or "notable". B6 (user, 2026-11-22, "do what
+  u think is best"): the week header is the site's own "Scoreboard rail" (compact title + one row of record tiles), and
+  the davidsasser.com credit was removed from the footer, About and README with it.
 - **Weekly publication (user decisions 2026-10-05, changed 2026-10-06 and 2026-10-13):** a week is first published at
   Tuesday 18:00 UK before its first game (`predict/schedule.py`), and waits up to 24 h if the previous week's finished
   games are not yet in the team data; from week 7 the model pick locks 24 h before each kickoff (see above). Operational only; do not move it without the user.

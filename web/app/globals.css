@@ -334,3 +334,19 @@ details summary { cursor: pointer; font-weight: 700; }
 p a, li a, td a, dd a, .small a, .site-footer a { text-decoration: underline; text-underline-offset: 2px; }
 .mu-mini dd .mu-mini-rank { display: block; font-weight: 400; margin-top: 2px; }
 .table-wrap:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* Week header "Scoreboard rail" (the site's own design, user 2026-11-22; replaces the earlier large headline) */
+.rail { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 10px 24px;
+  padding: 10px 0 14px; margin: 6px 0 14px; border-bottom: 2px solid var(--rule-strong); }
+.rail-main { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.rail-title { font-size: clamp(1.6rem, 4.5vw, 2.3rem); line-height: 1.1; font-weight: 800; letter-spacing: -0.02em; margin: 0; }
+.rail-num { color: var(--accent); }
+.rail-sub { color: var(--ink-2); font-weight: 600; }
+.rail-meta { overflow-wrap: anywhere; }
+.rail-links { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; }
+.rail-links a { font-weight: 700; }
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px; }
+.tile { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 10px 12px; display: flex;
+  flex-direction: column; gap: 2px; min-width: 0; }
+.tile-big { font-size: 1.5rem; font-weight: 800; letter-spacing: -0.02em; line-height: 1.15; }
+.records-note { margin: 8px 0 0; }
