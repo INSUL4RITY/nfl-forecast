@@ -532,7 +532,9 @@ function fmt(v, f) {
 }
 const esc = s => String(s).replace(/[&<>"]/g, c => ({"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;"}[c]));
 // records and scores never break at the hyphen (non-breaking hyphen between digits)
-const rec = s => `<span class="rec">${esc(s ?? "").replace(/(\d)-(\d)/g, "$1&#8209;$2")}</span>`;
+// plain text with non-breaking hyphens between digits (for text that is escaped later, e.g. the summary lists)
+const recT = s => String(s ?? "").replace(/(?<=\d)-(?=\d)/g, "‑");
+const rec = s => `<span class="rec">${esc(recT(s))}</span>`;
 // a rank as text: ", rank 3 of 32" for screen readers and copy-paste; a visible mark for the top and bottom five
 const rkSpan = (q, n) => {
   const top = q <= 5, bot = q > n - 5;
@@ -660,11 +662,11 @@ document.getElementById("notes-method").innerHTML = para((NOTES.sections || {}).
 const tm = t => `<b>${esc(t)}</b>`;
 const F = DATA.F;
 const fItems = [
-  ["Five strongest teams", F.overall, t => `${fmt(BY[t].rating_pg, "s1")} pts/game, ${rec(BY[t].record)}`],
+  ["Five strongest teams", F.overall, t => `${fmt(BY[t].rating_pg, "s1")} pts/game, ${recT(BY[t].record)}`],
   ["Five strongest offences", F.offence, t => `composite ${fmt(BY[t].off_composite, "s2")}, adj. EPA/play ${fmt(BY[t].off_adj_epa, "epa")}`],
   ["Five strongest defences", F.defence, t => `composite ${fmt(BY[t].def_composite, "s2")}, adj. EPA/play ${fmt(BY[t].def_adj_epa, "epa")}`],
-  ["Rating far above record", F.underrated, t => `rating ${ord(BY[t].rating_rank)}, record ${ord(BY[t].winpct_rank)} (${rec(BY[t].record)})`],
-  ["Record far above rating", F.overrated, t => `record ${ord(BY[t].winpct_rank)} (${rec(BY[t].record)}), rating ${ord(BY[t].rating_rank)}`],
+  ["Rating far above record", F.underrated, t => `rating ${ord(BY[t].rating_rank)}, record ${ord(BY[t].winpct_rank)} (${recT(BY[t].record)})`],
+  ["Record far above rating", F.overrated, t => `record ${ord(BY[t].winpct_rank)} (${recT(BY[t].record)}), rating ${ord(BY[t].rating_rank)}`],
   ["Positive regression candidates", F.pos_reg, t => `luck index ${fmt(BY[t].luck_index, "s2")}`],
   ["Negative regression candidates", F.neg_reg, t => `luck index ${fmt(BY[t].luck_index, "s2")}`],
   ["Most concerning availability", F.injury, t => `${fmt(BY[t].absent_snap_weighted, "n2")} snap-weighted regulars out (${fmt(BY[t].absent_n, "int")})`],
