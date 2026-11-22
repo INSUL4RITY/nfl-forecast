@@ -28,7 +28,7 @@ function Side({ abbr, s, pc }: { abbr: string; s: StaffSide | null; pc: PlayCall
     <div>
       <h3 style={{ marginBottom: 6 }}>{abbr}</h3>
       {!s && !pc ? <p className="small muted">Not available.</p> : (
-        <div className="table-wrap"><table><tbody>
+        <div className="table-wrap" tabIndex={0}><table><tbody>
           {s && ROLES.map(([k, label, none]) => {
             const c = s[k];
             return (

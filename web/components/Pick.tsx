@@ -27,7 +27,7 @@ export const BIGGEST_GAP = 4;
 
 const STATS_EXPLAIN = "Model line: the stats-only model, built from football data with no market input, so it can disagree " +
   "with the market. Market-adjusted line: the market line nudged by the football data, so it stays close to the market. " +
-  "Edge: how far the margin behind the pick was from the line (under 0.5 points is about a coin flip). Big gap: the model " +
+  "Difference: how far the margin behind the pick was from the line (under 0.5 points is about a coin flip). Big gap: the model " +
   "line was at least 3 points from the line when the pick was locked (Biggest gap: at least 4 points); a prompt to check " +
   "why the market disagrees, not a recommendation.";
 
@@ -36,9 +36,11 @@ export const V2_EXPLAIN = "Model v2 line (trial, version 2.2): the stats-only mo
   "fatigue from the previous game (plays faced, overtime, short week), divisional games and weather added. Tracked from " +
   "week 8 against the model line; it never sets the model pick.";
 
-const EDGE: Record<string, string> = { tiny: "Tiny edge · about a coin flip", small: "Small edge", moderate: "Moderate edge", large: "Large edge" };
+const EDGE: Record<string, string> = { tiny: "Tiny difference · about a coin flip", small: "Small difference",
+  moderate: "Moderate difference", large: "Large difference" };
 
-/** Size of the model pick's edge over the line, e.g. "Tiny edge · about a coin flip (0.10 pts)"; null without a pick. */
+/** Size of the difference between the margin behind the pick and the line, e.g. "Tiny difference · about a coin flip
+ *  (0.10 pts)"; null without a pick. (Internal name kept; public wording "difference", user decision 2026-11-20.) */
 export function edgeText(p: Pick): string | null {
   const l = p.lean;
   if (!l || l.status !== "lean" || !l.strength || !EDGE[l.strength]) return null;
@@ -79,6 +81,18 @@ const PICK_EXPLAIN_OLD = "Model pick: the side of the market line on which the m
   "before kickoff fell, graded against that forecast's line (the rule for games before 1 October 2026). It is not a " +
   "probability of finishing on that side of the line. " + STATS_EXPLAIN;
 
+/** Short card text for the info toggle (the full explanation is shown once per page, at #pick-explainer). */
+const PICK_SHORT: Record<string, string> = {
+  "lock-24h": "The side of the market line the model line (stats only) fell on 24 hours before kickoff, graded against that line.",
+  "original-pick": "The side of the market line the market-adjusted line fell on at the first forecast with a line (games 1–20 October 2026).",
+  "final-pregame": "The side of the market line the market-adjusted line fell on at the last forecast before kickoff (games before 1 October 2026).",
+};
+
+/** The full explanation for a lock rule (shown once per page). */
+export function pickExplain(rule?: string | null): string {
+  return rule === "final-pregame" ? PICK_EXPLAIN_OLD : rule === "original-pick" ? PICK_EXPLAIN_ORIGINAL : PICK_EXPLAIN;
+}
+
 /** Numerical difference for the version the pick comes from, and its size label (Details page only). */
 export function pickDetail(p: LockedPick, home: string, away: string): string {
   const l = p.lean;
@@ -110,7 +124,6 @@ export function PredictionSummary({ g, lockedAt, locksAt }: { g: WeekGame; locke
   // "then" vs "now": shown whenever the line or that margin has changed since the pick was locked
   const changed = locked && !old && !prov && cur != null
     && (lineMoved || (curBasis != null && Math.abs(curBasis - lp!.projected_margin) >= 0.005));
-  const explain = old ? PICK_EXPLAIN_OLD : lp?.rule === "original-pick" ? PICK_EXPLAIN_ORIGINAL : PICK_EXPLAIN;
   const pair = (line: number, model?: number | null, adj?: number | null) => <>line {spreadText(line, H, A)}
     {model != null && <> · model {modelLine2(model, H, A)}</>}{adj != null && <> · market-adj. {modelLine2(adj, H, A)}</>}</>;
   // the market-adjusted line is shown only where it made the pick (weeks before the stats-only basis)
@@ -130,9 +143,15 @@ export function PredictionSummary({ g, lockedAt, locksAt }: { g: WeekGame; locke
   const gap = statsGap(lp);
   const winHome = mdl.p_home >= mdl.p_away;
   return (
-    <section className="pred" aria-label="Model prediction">
-      <div className="pred-pick" title={explain} aria-describedby={`pick-explain-${g.game_id}`}>
-        <span className="pick-lbl">Model pick</span>
+    <section className="pred" aria-label={`Model prediction, ${A} at ${H}`}>
+      <div className="pred-pick">
+        <div className="pick-lbl-row"><span className="pick-lbl">Model pick</span>
+          <details className="pick-info">
+            <summary aria-label="What is the model pick?">i</summary>
+            <p className="pick-info-body">{PICK_SHORT[lp?.rule ?? "lock-24h"] ?? PICK_SHORT["lock-24h"]} It is not a probability.{" "}
+              <a href="#pick-explainer">How the model pick works</a></p>
+          </details>
+        </div>
         <span className="pick-main">{lp ? pickText(lp) : started ? "No pick" : "No pick yet"}{lp?.retrospectively_derived ? " *" : ""}</span>
         {edge && <span className={`pick-edge${lp!.lean?.strength === "tiny" ? " tiny" : ""}`}>{edge}</span>}
         {locked ? (old ? (
@@ -152,7 +171,6 @@ export function PredictionSummary({ g, lockedAt, locksAt }: { g: WeekGame; locke
             ? <span className="tag warn strong">Biggest gap</span> : <span className="tag warn">Big gap</span>} The model line {prov ? "is" : "was"}{" "}
             {Math.abs(gap).toFixed(1)} pts from the market line, toward {gap > 0 ? H : A}. Check why the market disagrees.</span>
         )}
-        <span className="sr-only" id={`pick-explain-${g.game_id}`}>{explain}</span>
       </div>
       <dl className="pred-grid">
         <div><dt>Market line</dt><dd>{cur != null ? spreadText(cur, H, A) : "—"}</dd></div>
@@ -213,7 +231,7 @@ export function WeekResultsPanel({ r }: { r: WeekResults }) {
         market-adjusted line's, from the last valid forecast before kickoff.
       </p>
       {groups.length === 0 ? <p className="small muted">No finished games yet.</p> : (
-        <div className="table-wrap"><table>
+        <div className="table-wrap" tabIndex={0}><table>
           <thead><tr><th>Forecasts</th><th className="r">Graded</th><th className="r">Model pick vs market line</th>
             <th className="r">Avg. margin error (market-adj.)</th></tr></thead>
           <tbody>{groups.map(([k, g]) => {

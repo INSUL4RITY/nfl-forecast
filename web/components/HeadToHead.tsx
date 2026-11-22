@@ -64,7 +64,7 @@ export default function HeadToHead({ weeks }: { weeks: H2HWeek[] }) {
         record vs the market line uses the locked version of each pick. Lower margin error is better. So far the lowest
         season-to-date margin error is <b>{BEST_TEXT[best]}</b> ({mae(total, best)} points over {total.n} games):
         too few games to separate the forecasts with confidence.</p>
-      <div className="table-wrap"><table>
+      <div className="table-wrap" tabIndex={0}><table>
         <thead>
           <tr><th rowSpan={2}>Week</th><th rowSpan={2} className="r">Games</th>
             <th colSpan={3} className="r">Average margin error (points)</th>
@@ -90,7 +90,7 @@ export default function HeadToHead({ weeks }: { weeks: H2HWeek[] }) {
           <h3 style={{ margin: "0 0 4px" }}>Trial: model line + injuries</h3>
           <p className="small ink2" style={{ marginTop: 0 }}>The stats-only model with the non-QB injury report added, from week 7.
             Compared on the same games only. Display and tracking only; it never sets the model pick.</p>
-          <div className="table-wrap"><table>
+          <div className="table-wrap" tabIndex={0}><table>
             <thead><tr><th className="r">Games</th><th className="r">Model + injuries</th><th className="r">Model line</th>
               <th className="r">Market</th><th className="r">Vs market line</th></tr></thead>
             <tbody><tr><td className="r">{total.inj?.n ?? 0}</td>
@@ -108,7 +108,7 @@ export default function HeadToHead({ weeks }: { weeks: H2HWeek[] }) {
           <p className="small ink2" style={{ marginTop: 0 }}>The stats-only model with penalties, special teams, non-QB injuries,
             regression inputs, fatigue, time of possession and weather added, from week 8. Compared on the same games only. Display and tracking only; it
             never sets the model pick.</p>
-          <div className="table-wrap"><table>
+          <div className="table-wrap" tabIndex={0}><table>
             <thead><tr><th className="r">Games</th><th className="r">Model v2</th><th className="r">Model line</th>
               <th className="r">Market</th><th className="r">Vs market line</th></tr></thead>
             <tbody><tr><td className="r">{total.v2?.n ?? 0}</td>

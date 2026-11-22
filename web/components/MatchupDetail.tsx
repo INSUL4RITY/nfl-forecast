@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import type { MatchupDetail as Detail, MatchupLogRow, MatchupTeam, MatchupUnitRow } from "@/lib/types";
-import { weekName, weekShort } from "@/lib/format";
+import { weekName, weekShort, badgeInk } from "@/lib/format";
 
 const MINUS = "−";
 const sgn = (x: number | null | undefined, d = 2) =>
@@ -26,7 +26,7 @@ function TeamCard({ t, side, color, name, n }: { t: MatchupTeam; side: "away" | 
   return (
     <div className="mu-card" style={{ borderTopColor: color }}>
       <div className="mu-card-head">
-        <span className="mu-chip" style={{ background: color }}>{t.team}</span>
+        <span className="mu-chip" style={{ background: color, color: badgeInk(color) }}>{t.team}</span>
         <div>
           <b>{name}</b>
           <span className="small muted">{side === "away" ? "Away" : "Home"} · {w}–{l}{ti ? `–${ti}` : ""} · {t.games} game{t.games === 1 ? "" : "s"}</span>
@@ -39,9 +39,9 @@ function TeamCard({ t, side, color, name, n }: { t: MatchupTeam; side: "away" | 
           <span className={Math.abs(trend) < 0.05 ? "muted" : trend > 0 ? "mu-up" : "mu-down"}>
             {Math.abs(trend) < 0.05 ? "≈ season" : trend > 0 ? "▲ rising" : "▼ falling"}</span></>}</span>
       <dl className="mu-mini">
-        <div><dt>Offence EPA</dt><dd>{sgn(t.off_epa)}</dd><span>{ord(t.ranks.off_epa)}</span></div>
-        <div><dt>Defence EPA allowed</dt><dd>{sgn(t.def_epa)}</dd><span>{ord(t.ranks.def_epa)}</span></div>
-        <div><dt>Points per drive</dt><dd>{t.ppd.toFixed(2)}</dd><span>{ord(t.ranks.ppd)}</span></div>
+        <div><dt>Offence EPA</dt><dd>{sgn(t.off_epa)}<span className="mu-mini-rank">{ord(t.ranks.off_epa)}</span></dd></div>
+        <div><dt>Defence EPA allowed</dt><dd>{sgn(t.def_epa)}<span className="mu-mini-rank">{ord(t.ranks.def_epa)}</span></dd></div>
+        <div><dt>Points per drive</dt><dd>{t.ppd.toFixed(2)}<span className="mu-mini-rank">{ord(t.ranks.ppd)}</span></dd></div>
       </dl>
       <p className="small mu-qb">
         <span className="muted">QB starts: </span>{t.qb_starts.map((q, i) => <span key={q.qb}>{i ? ", " : ""}{q.qb} ({q.games})</span>)}
@@ -73,7 +73,7 @@ function UnitRows({ rows, off, def, offColor, defColor, n }: { rows: MatchupUnit
           </div>
           <span className={`mu-edge ${r.edge}`} style={r.edge === "offence" ? { borderColor: offColor }
             : r.edge === "defence" ? { borderColor: defColor } : undefined}>
-            {r.edge === "offence" ? `${off} edge` : r.edge === "defence" ? `${def} edge` : r.edge === "even" ? "Even" : "—"}</span>
+            {r.edge === "offence" ? `${off} advantage` : r.edge === "defence" ? `${def} advantage` : r.edge === "even" ? "Even" : "—"}</span>
         </div>
       ))}
     </div>
@@ -83,7 +83,7 @@ function UnitRows({ rows, off, def, offColor, defColor, n }: { rows: MatchupUnit
 function LogColumn({ t, rows, color, metric, max }: { t: string; rows: MatchupLogRow[]; color: string; metric: "epa" | "margin"; max: number }) {
   return (
     <div className="mu-log-col">
-      <div className="mu-log-head"><span className="mu-chip" style={{ background: color }}>{t}</span></div>
+      <div className="mu-log-head"><span className="mu-chip" style={{ background: color, color: badgeInk(color) }}>{t}</span></div>
       {rows.map((r) => {
         const v = metric === "epa" ? r.net_epa : r.margin;
         const w = Math.min(50, (Math.abs(v) / max) * 50);
@@ -147,7 +147,7 @@ export default function MatchupDetail({ d, home, away, homeColor, awayColor, hom
             <i className="swatch" style={{ background: col[s] }} />{ab[s]} has the ball</button>))}
       </div>
       <p className="small ink2" style={{ margin: "10px 0 4px" }}><b>{ab[offSide]} offence</b> against <b>{ab[defSide]} defence</b>.
-        Longer bars mean a better league rank; the edge label appears when one side ranks at least 8 places better.</p>
+        Longer bars mean a better league rank; the advantage label appears when one side ranks at least 8 places better.</p>
       <UnitRows rows={rows} off={ab[offSide]} def={ab[defSide]} offColor={col[offSide]} defColor={col[defSide]} n={n} />
 
       <h3 className="mu-sub">How they play</h3>

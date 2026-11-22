@@ -81,16 +81,16 @@ export function DeservedPanel({ g, teams }: { g: WeekGame; teams: Record<string,
         <DeservedTag d={d} /></p>}
       {p?.chance != null && <p><b>Chance on play quality: {pct(p.chance)}.</b> In {pct(p.chance)} of 2,000 re-runs of the two teams&apos; own
         plays, {sideSpread(p.side, p.line_home_spread, H)} still finished ahead of the line on play quality.</p>}
-      <div className="table-wrap"><table>
-        <thead><tr><th></th><th className="r"><TeamBadge team={teams[A]} abbr={A} /></th><th className="r"><TeamBadge team={teams[H]} abbr={H} /></th></tr></thead>
+      <div className="table-wrap" tabIndex={0}><table>
+        <thead><tr><th><span className="sr-only">Measure</span></th><th className="r"><TeamBadge team={teams[A]} abbr={A} /></th><th className="r"><TeamBadge team={teams[H]} abbr={H} /></th></tr></thead>
         <tbody>{rows.map(([label, fmt]) => (
           <tr key={label}><td>{label}</td><td className="r">{fmt(d.away)}</td><td className="r">{fmt(d.home)}</td></tr>))}</tbody>
       </table></div>
       {d.ledger && <>
         <h3>What made the difference</h3>
         <p className="small ink2" style={{ marginTop: 0 }}>Things the play-quality margin leaves out, for this game. Descriptive only.</p>
-        <div className="table-wrap"><table>
-          <thead><tr><th></th><th className="r"><TeamBadge team={teams[A]} abbr={A} /></th><th className="r"><TeamBadge team={teams[H]} abbr={H} /></th></tr></thead>
+        <div className="table-wrap" tabIndex={0}><table>
+          <thead><tr><th><span className="sr-only">Measure</span></th><th className="r"><TeamBadge team={teams[A]} abbr={A} /></th><th className="r"><TeamBadge team={teams[H]} abbr={H} /></th></tr></thead>
           <tbody>{LEDGER.map(([label, fmt]) => (
             <tr key={label}><td>{label}</td><td className="r">{fmt(d.ledger!.away)}</td><td className="r">{fmt(d.ledger!.home)}</td></tr>))}</tbody>
         </table></div>
@@ -126,7 +126,7 @@ export function DeservedSummary({ d }: { d?: Summary | null }) {
       <p className="small ink2">The scoreboard decides the record. This splits the official Model pick&apos;s finished games by whether the
         side it took also played well enough to be ahead of the locked line, so good and bad breaks show in both directions.
         Publicly verifiable locked picks only ({d.n} games).</p>
-      <div className="table-wrap"><table>
+      <div className="table-wrap" tabIndex={0}><table>
         <thead><tr><th>Scoreboard</th><th className="r">Ahead on play quality</th><th className="r">Behind on play quality</th>
           <th className="r">Close (within 1.5)</th></tr></thead>
         <tbody>
@@ -141,7 +141,7 @@ export function DeservedSummary({ d }: { d?: Summary | null }) {
         too close to call and {c.level} finished level with the line. Bad breaks {c.wrong_unlucky}, good breaks {c.right_fortunate}.</p>
       <details style={{ marginTop: 10 }}>
         <summary className="small">By week</summary>
-        <div className="table-wrap"><table>
+        <div className="table-wrap" tabIndex={0}><table>
           <thead><tr><th>Week</th>{ORDER.map((k) => <th key={k} className="r">{GROUP[k][0]}</th>)}</tr></thead>
           <tbody>{d.by_week.map((w) => (
             <tr key={w.week}><td>{w.week}</td>{ORDER.map((k) => <td key={k} className="r">{w[k]}</td>)}</tr>))}</tbody>
@@ -149,7 +149,7 @@ export function DeservedSummary({ d }: { d?: Summary | null }) {
       </details>
       <details style={{ marginTop: 6 }}>
         <summary className="small">Every game, newest first</summary>
-        <div className="table-wrap"><table>
+        <div className="table-wrap" tabIndex={0}><table>
           <thead><tr><th>Week</th><th>Game</th><th>Model pick</th><th className="r">Scoreboard</th><th className="r">Play quality</th><th className="r">Chance</th><th>Verdict</th></tr></thead>
           <tbody>{d.games.map((x) => (
             <tr key={x.game_id}><td>{x.week}</td><td><a href={`${base}/game/${x.game_id}/`}>{x.away} @ {x.home}</a></td>

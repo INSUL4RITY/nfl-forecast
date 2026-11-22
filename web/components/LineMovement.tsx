@@ -24,7 +24,7 @@ export default function LineMovement({ lm }: { lm?: LineMove | null }) {
       <p className="small ink2">When the market line moves after a pick locks, it usually reflects new information or other models
         agreeing. A line that keeps moving toward the model&apos;s side is a steadier sign of signal than a few weeks of results.
         Finished games with a publicly verifiable locked line; the later line is the last one recorded before kickoff.</p>
-      <div className="table-wrap"><table>
+      <div className="table-wrap" tabIndex={0}><table>
         <thead><tr><th>Side at the lock</th><th className="r">Games</th><th className="r">Moved toward</th>
           <th className="r">Moved away</th><th className="r">No move</th><th className="r">Avg points</th>
           <th className="r">Avg value</th></tr></thead>

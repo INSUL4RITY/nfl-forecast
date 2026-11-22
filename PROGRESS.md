@@ -489,6 +489,15 @@ market lines, QB availability, injury display, weather display). A changed artif
   items recorded in docs/research_2027.md (A3, A7, A10, A12, B7-B11, C2, C5, C7, new C10 market view). No trial line was
   created; nothing changes this season.
 
+- Big-gap display, Part B (user brief 2026-11-20, items B1-B5; display only, model/picks/grading/releases unchanged):
+  "Who is missing" on Big/Biggest gap cards and game pages (predict/absence_display.py, export only; IND@HOU is the worked
+  example: flagged "Measured before final injury reports reached the data"); gap records as separate 3-4 / 4+ bands with
+  Wilson ranges and the 2019-25 retrospective rate (home strip; Performance "Gap records in context" split by line size);
+  "edge" -> "difference", matchup "edge" -> "advantage"; pick explainer once per page with an info toggle per card;
+  "Uses market spread & total" moved to the market-adjusted row (game page); UK spelling; Open Graph/Twitter tags + preview
+  image; axe-core: 0 serious/critical on home, week, game, Performance, Method, Ratings, About (chip contrast, dl markup,
+  underlined text links, focusable table scroll areas, unique section labels). Method page entry dated 21 Nov 2026.
+  Tests 184 pass. Built on branch research/gaps-2026-11; not merged or pushed until the user says so. B6 pending a choice.
 ## 3. Tests and checks (2026-09-25)
 - Live head-to-head (2026-10-13, user request; display only): `picks.head_to_head` compares combined, stats-only and market
   on the same finished, publicly verifiable games by week (margin error, winner correct) plus the vs-line records of the

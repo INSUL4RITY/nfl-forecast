@@ -12,7 +12,8 @@ import { DeservedLine, DeservedPanel } from "@/components/Deserved";
 import TeamBadge from "@/components/TeamBadge";
 import { dataProblems } from "@/components/GameCard";
 import StateLabel from "@/components/StateLabel";
-import { gradeText, pickDetail, PredictionSummary, RETRO_NOTE } from "@/components/Pick";
+import { gradeText, pickDetail, pickExplain, PredictionSummary, RETRO_NOTE } from "@/components/Pick";
+import { AbsencePanel } from "@/components/Absences";
 import { allGames, findGame, getTeams } from "@/lib/data";
 import { f1, f2, f3, marginText, onDark, pct, teamPairColors, pctP, problemText, qbStatusText, rosterText, spreadText, VERIFY_LABEL, weekName } from "@/lib/format";
 import type { Forecast, LineupSide } from "@/lib/types";
@@ -22,18 +23,18 @@ export function generateStaticParams() {
 }
 
 const EFF_ROWS: [string, string, "hi" | "lo", (x: number) => string][] = [
-  ["off_epa_play", "Offense EPA / play", "hi", f3],
-  ["def_epa_play", "Defense EPA / play allowed", "lo", f3],
+  ["off_epa_play", "Offence EPA / play", "hi", f3],
+  ["def_epa_play", "Defence EPA / play allowed", "lo", f3],
   ["off_epa_db", "Passing EPA / dropback", "hi", f3],
-  ["def_epa_db", "Pass defense EPA / dropback", "lo", f3],
+  ["def_epa_db", "Pass defence EPA / dropback", "lo", f3],
   ["off_epa_rush", "Rushing EPA / rush", "hi", f3],
-  ["def_epa_rush", "Run defense EPA / rush", "lo", f3],
+  ["def_epa_rush", "Run defence EPA / rush", "lo", f3],
   ["off_pts_drive", "Points / drive", "hi", f2],
   ["def_pts_drive", "Points / drive allowed", "lo", f2],
   ["off_sack_rate", "Sack rate taken", "lo", (x) => pct(x, 1)],
   ["def_sack_rate", "Sack rate generated", "hi", (x) => pct(x, 1)],
-  ["adj_off_epa", "Opponent-adjusted offense", "hi", f3],
-  ["adj_def_epa", "Opponent-adjusted defense", "hi", f3],
+  ["adj_off_epa", "Opponent-adjusted offence", "hi", f3],
+  ["adj_def_epa", "Opponent-adjusted defence", "hi", f3],
   ["expected_qb_rating", "Expected QB (EPA / dropback, shrunk)", "hi", f3],
   ["games_this_season", "Games this season", "hi", (x) => x.toFixed(0)],
 ];
@@ -120,7 +121,7 @@ function Lineup({ side, abbr }: { side: LineupSide; abbr: string }) {
         <h3>{abbr}: {side.expected_qb ?? "unknown"}</h3>
         <p className="small ink2">Legacy release: expected starter from {LEGACY_SOURCE[side.source ?? ""] ?? "the available team information"}
           {side.qb1_status ? `; QB1 report status ${side.qb1_status}` : "; missing injury information was treated as available"}.</p>
-        <div className="table-wrap"><table><thead><tr><th>Scenario</th><th className="r">Weight</th></tr></thead><tbody>
+        <div className="table-wrap" tabIndex={0}><table><thead><tr><th>Scenario</th><th className="r">Weight</th></tr></thead><tbody>
           {side.scenarios.map((s) => <tr key={s.qb_id ?? "x"}><td>{s.qb} starts</td><td className="r">{pctP(s.p)}</td></tr>)}
         </tbody></table></div>
       </div>
@@ -129,12 +130,12 @@ function Lineup({ side, abbr }: { side: LineupSide; abbr: string }) {
   return (
     <div>
       <h3>{abbr}: {side.expected_qb ?? "unknown"} {pctP(side.scenarios[0]?.p)}</h3>
-      <div className="table-wrap"><table><thead><tr><th>Start scenario</th><th className="r">Probability</th></tr></thead><tbody>
+      <div className="table-wrap" tabIndex={0}><table><thead><tr><th>Start scenario</th><th className="r">Probability</th></tr></thead><tbody>
         {side.scenarios.map((s) => <tr key={s.qb_id ?? "x"}><td>{s.qb ?? "unknown"}</td><td className="r">{pctP(s.p)}</td></tr>)}
       </tbody></table></div>
       <details style={{ marginTop: 6 }}>
         <summary className="small">Evidence for each quarterback</summary>
-        <div className="table-wrap" style={{ marginTop: 6 }}><table>
+        <div className="table-wrap" tabIndex={0} style={{ marginTop: 6 }}><table>
           <thead><tr><th>QB</th><th>Chart</th><th>Status</th><th className="r" title="Chance he starts if everyone ahead of him on the depth chart does not">If next in line</th></tr></thead>
           <tbody>{side.qbs.map((q) => (
             <tr key={q.qb_id} title={detailText(q.detail)}><td>{q.qb ?? "Unnamed QB"}</td><td>{q.depth_rank ? `QB${q.depth_rank}` : "—"}</td>
@@ -247,8 +248,9 @@ export default async function GamePage({ params }: { params: Promise<{ id: strin
               <h2 style={{ marginTop: 0 }}>Prediction</h2>
               <PredictionSummary g={g} lockedAt={g.locked_pick ? <LocalTime venueTz={g.venue_tz} iso={g.locked_pick.generated_at} /> : null}
                 locksAt={g.locked_pick?.locks_at ? <LocalTime venueTz={g.venue_tz} iso={g.locked_pick.locks_at} /> : null} />
-              <details style={{ marginTop: 10 }}>
+              <details style={{ marginTop: 10 }} id="pick-explainer">
                 <summary className="small">Details: how the model pick works</summary>
+                <p className="small" style={{ margin: "6px 0 0" }}>{pickExplain(g.locked_pick?.rule)}</p>
                 {g.locked_pick && <p className="small" style={{ margin: "6px 0 0" }}>{pickDetail(g.locked_pick, H, A)}</p>}
                 <p className="small muted" style={{ margin: "6px 0 0" }}>{g.locked_pick?.rule === "final-pregame"
                   ? <>The model pick is the side of the market line on which the unrounded market-adjusted margin of the last valid
@@ -271,6 +273,8 @@ export default async function GamePage({ params }: { params: Promise<{ id: strin
                 <p className="small muted" style={{ marginBottom: 0 }}>{RETRO_NOTE}</p>}
             </div>
           )}
+
+          {g.absences && <AbsencePanel a={g.absences} away={A} home={H} />}
 
           <div className="three-col">
             <div className="panel stat">
@@ -295,7 +299,7 @@ export default async function GamePage({ params }: { params: Promise<{ id: strin
             <div className="callout warn"><b>Lineup uncertain.</b> This forecast is a probability-weighted mix of starting-QB scenarios.
               Lineup uncertainty is shown here separately from the win probability.
               {e.scenario_forecasts && e.scenario_forecasts.length > 1 && (
-                <div className="table-wrap" style={{ marginTop: 8 }}><table>
+                <div className="table-wrap" tabIndex={0} style={{ marginTop: 8 }}><table>
                   <thead><tr><th>Scenario</th><th className="r">Weight</th><th className="r">Combined margin</th><th className="r">Football-only margin</th></tr></thead>
                   <tbody>{e.scenario_forecasts.map((s, i) => (
                     <tr key={i}><td>{s.away_qb ?? "?"} vs {s.home_qb ?? "?"}</td><td className="r">{pctP(s.p)}</td>
@@ -309,12 +313,13 @@ export default async function GamePage({ params }: { params: Promise<{ id: strin
 
           <div className="panel">
             <h2>Model comparison</h2>
-            <div className="table-wrap"><table>
+            <div className="table-wrap" tabIndex={0}><table>
               <thead><tr><th>Model</th><th className="r">{A}</th><th className="r">{H}</th><th className="r">Margin</th><th className="r">Total</th>
                 <th className="r">P({H} win)</th><th className="r">95% margin range</th><th className="r">80% total range</th></tr></thead>
               <tbody>{models.map(([name, m, desc]) => m ? (
                 <tr key={name} className={name.startsWith("Model") && e.market_inputs_used ? "hl" : undefined}>
-                  <td title={desc}>{name}</td><td className="r">{f1(m.away_pts)}</td><td className="r">{f1(m.home_pts)}</td>
+                  <td title={desc}>{name}{name.startsWith("Market-adjusted") && e.market_inputs_used
+                    ? <> <span className="tag info">Uses market spread &amp; total</span></> : null}</td><td className="r">{f1(m.away_pts)}</td><td className="r">{f1(m.home_pts)}</td>
                   <td className="r">{marginText(m.margin, H, A)}</td><td className="r">{f1(m.total)}</td><td className="r">{pct(m.p_home)}</td>
                   <td className="r">{rangeFmt(m.intervals.margin_95, H, A)}</td>
                   <td className="r">{f1(m.intervals.total_80[0])}–{f1(m.intervals.total_80[1])}</td>
@@ -355,7 +360,7 @@ export default async function GamePage({ params }: { params: Promise<{ id: strin
             ) : e.notable_injuries.length > 0 && (
               <details style={{ marginTop: 10 }}>
                 <summary>Listed injuries ({e.notable_injuries.length})</summary>
-                <div className="table-wrap" style={{ marginTop: 8 }}><table><thead><tr><th>Team</th><th>Player</th><th>Pos</th><th>Status</th></tr></thead><tbody>
+                <div className="table-wrap" tabIndex={0} style={{ marginTop: 8 }}><table><thead><tr><th>Team</th><th>Player</th><th>Pos</th><th>Status</th></tr></thead><tbody>
                   {e.notable_injuries.map((i) => <tr key={i.team + i.full_name}><td>{i.team}</td><td>{i.full_name}</td><td>{i.position}</td><td>{i.report_status}</td></tr>)}
                 </tbody></table></div>
                 <p className="small muted" style={{ marginTop: 6 }}>
@@ -373,7 +378,7 @@ export default async function GamePage({ params }: { params: Promise<{ id: strin
               <h2>What moved the combined model</h2>
               {e.contributions.length ? (
                 <>
-                  <div className="table-wrap"><table><thead><tr><th>Feature</th><th className="r">Effect (pts)</th></tr></thead><tbody>
+                  <div className="table-wrap" tabIndex={0}><table><thead><tr><th>Feature</th><th className="r">Effect (pts)</th></tr></thead><tbody>
                     {e.contributions.map((c) => <tr key={c.feature}><td className="wrap">{c.feature}</td><td className="r">{c.margin_points >= 0 ? "+" : ""}{f2(c.margin_points)}</td></tr>)}
                   </tbody></table></div>
                   <p className="small muted" style={{ marginTop: 8 }}>
@@ -403,7 +408,7 @@ export default async function GamePage({ params }: { params: Promise<{ id: strin
                   <p className={dataProblems(e).length === 0 ? "small ink2" : "small tag warn"} style={{ whiteSpace: "normal" }}>
                     {dataProblems(e).length === 0 ? "All sources were fresh and complete at the cutoff."
                       : `Incomplete at the cutoff: ${dataProblems(e).map((p) => problemText(p, H, A)).join("; ")}. Documented fallbacks were used (see Lineup assumptions).`}</p>
-                  <div className="table-wrap"><table>
+                  <div className="table-wrap" tabIndex={0}><table>
                     <thead><tr><th>Source</th><th>State</th><th>Provider updated</th><th>Last checked by us</th></tr></thead>
                     <tbody>{e.data_freshness.sources.map((s) => (
                       <tr key={s.source} title={s.detail}><td>{SOURCE_NAME[s.source] ?? s.source}</td><td>{STATE_TEXT[s.state] ?? s.state}</td>
@@ -420,7 +425,7 @@ export default async function GamePage({ params }: { params: Promise<{ id: strin
             <div className="panel">
               <h2>Team efficiency entering the game</h2>
               <p className="small ink2">As-of values at the forecast cutoff: exponentially weighted, shrunk toward league average, prior-season games down-weighted.</p>
-              <div className="table-wrap"><table>
+              <div className="table-wrap" tabIndex={0}><table>
                 <thead><tr><th>Measure</th><th className="r">{A}</th><th className="r">{H}</th></tr></thead>
                 <tbody>{EFF_ROWS.map(([k, label, better, fmt]) => {
                   const a = e.team_efficiency!.away[k], h = e.team_efficiency!.home[k];
@@ -437,7 +442,7 @@ export default async function GamePage({ params }: { params: Promise<{ id: strin
       {g.history.length > 0 && (
         <div className="panel">
           <h2>Forecast history</h2>
-          <div className="table-wrap"><table>
+          <div className="table-wrap" tabIndex={0}><table>
             <thead><tr><th>Generated (cutoff)</th><th>Public evidence</th><th className="r">{A}</th><th className="r">{H}</th><th className="r">Margin</th>
               <th className="r">Total</th><th className="r">P({H})</th><th className="r">Market</th><th>State</th><th>Verification</th><th>Archive</th></tr></thead>
             <tbody>{g.history.map((h) => (

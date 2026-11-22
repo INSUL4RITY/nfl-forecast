@@ -1,9 +1,9 @@
 ﻿"use client";
 import { useEffect, useMemo, useState } from "react";
-import type { Manifest, SeasonRecord, Team, WeekDoc, WLP } from "@/lib/types";
-import { dateRange, dayKey, fmtDateTime, isPlayoffWeek, tzFor, weekName, type TzMode } from "@/lib/format";
+import type { BandRate, GapBand, Manifest, SeasonRecord, Team, WeekDoc, WLP } from "@/lib/types";
+import { dateRange, dayKey, fmtDateTime, isPlayoffWeek, tzFor, weekName, wilson, type TzMode } from "@/lib/format";
 import GameCard from "./GameCard";
-import { WeekResultsPanel } from "./Pick";
+import { pickExplain, WeekResultsPanel } from "./Pick";
 
 const pctOf = (w: number, l: number) => (w + l ? `${((100 * w) / (w + l)).toFixed(2)}%` : "—");
 
@@ -23,6 +23,21 @@ function RecCell({ label, x }: { label: string; x: WLP }) {
 }
 
 const NONE: WLP = { win: 0, loss: 0, push: 0 };
+const pc0 = (x: number) => `${Math.round(x * 100)}%`;
+
+/** A gap band's 2026 record with its 95% Wilson range, and the retrospective 2019–25 rate for the same band
+ *  (display only, 2026-11-20). The bands do not overlap: 3–4 points and 4+ points. */
+function BandCell({ label, x, hist }: { label: string; x: WLP; hist?: BandRate | null }) {
+  const n = x.win + x.loss, ci = wilson(x.win, n);
+  return (
+    <div className="rec-cell rec-num">
+      <span className="caps">{label}</span>
+      <span className="rec-big">{wlp(x)}</span>
+      <span className="small ink2 num">{pctOf(x.win, x.loss)}{ci ? ` · 95% range ${pc0(ci[0])}–${pc0(ci[1])}` : ""}</span>
+      {hist && hist.rate != null && <span className="small muted num">2019–25 (retrospective): {pc0(hist.rate)} of {hist.n}</span>}
+    </div>
+  );
+}
 
 /** The model line's own record at each pick's lock, all season (it is the official pick's basis from week 7), plus the
  *  Big/Biggest gap games. The market-adjusted line's record is on the Performance page (user decision 2026-10-28). */
@@ -36,8 +51,11 @@ function StatsOnlyStrip({ s }: { s: NonNullable<SeasonRecord["stats_only"]> }) {
           week (the model pick from week 7)</span>
       </div>
       <RecCell label="Model line (stats only)" x={s.spread} />
-      <RecCell label="Big gaps (3+ pts)" x={s.big_gap} />
-      <RecCell label="Biggest gaps (4+ pts)" x={s.biggest_gap ?? NONE} />
+      {s.bands ? (["3-4", "4+"] as GapBand[]).map((b) => (
+        <BandCell key={b} label={b === "3-4" ? "Gap 3–4 pts (Big)" : "Gap 4+ pts (Biggest)"} x={s.bands![b].all}
+          hist={s.band_history?.bands?.[b]?.all} />)) : (<>
+        <RecCell label="Big gaps (3+ pts)" x={s.big_gap} />
+        <RecCell label="Biggest gaps (4+ pts)" x={s.biggest_gap ?? NONE} /></>)}
     </section>
   );
 }
@@ -98,6 +116,7 @@ export default function WeekBoard({ doc, teams, manifest }: { doc: WeekDoc; team
   const weeks = manifest.weeks.filter((w) => w.season === doc.season);
   const isLatest = manifest.latest.season === doc.season && manifest.latest.week === doc.week;
   const pv = doc.results?.groups?.publicly_verifiable_pregame;
+  const hb = manifest.season_record?.stats_only?.band_history?.bands;
   const weekRec: WLP | null = pv && (pv.pick_graded ?? pv.graded)
     ? { win: pv.lean.win, loss: pv.lean.loss, push: pv.lean.push } : null;
 
@@ -170,6 +189,19 @@ export default function WeekBoard({ doc, teams, manifest }: { doc: WeekDoc; team
         </section>
       ))}
       {grouped.length === 0 && <p className="muted">No games match these filters.</p>}
+      <div id="pick-explainer" className="panel explainer">
+        <h2 style={{ marginTop: 0 }}>How the model pick works</h2>
+        {Array.from(new Set(doc.games.map((g) => g.locked_pick?.rule ?? "lock-24h"))).map((r) => (
+          <p key={r} className="small ink2" style={{ marginBottom: 6 }}>{pickExplain(r)}</p>))}
+        <p className="small muted" style={{ marginBottom: 0 }}>Gap records: the model line&apos;s side of the locked line in
+          games where it was 3–4 points and 4 or more points from that line, shown separately, with a 95% range. Beside each, the
+          rate for the same band in 2019–2025 (retrospective walk-forward forecasts against untimed, roughly closing, lines).
+          {hb && <> In that history the 3–4 point band finished on the model line&apos;s side {pc0(hb["3-4"].all.rate ?? 0)} of the
+          time (95% range {pc0(hb["3-4"].all.ci95?.[0] ?? 0)}–{pc0(hb["3-4"].all.ci95?.[1] ?? 0)}, {hb["3-4"].all.n} games) and
+          the 4+ band {pc0(hb["4+"].all.rate ?? 0)} ({pc0(hb["4+"].all.ci95?.[0] ?? 0)}–{pc0(hb["4+"].all.ci95?.[1] ?? 0)},{" "}
+          {hb["4+"].all.n} games): bigger gaps have not meant better results.</>} A few dozen 2026 games cannot show
+          that either band is a signal. More detail, split by the size of the line, is on the Performance page.</p>
+      </div>
       <p className="small muted" style={{ marginTop: 28 }}>
         Scores are expected values (means), not predicted final scores. Win probabilities include a small regular-season
         tie probability. Market spread and total are shown for context and, for the combined model, are model inputs.

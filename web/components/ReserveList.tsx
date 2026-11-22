@@ -32,7 +32,7 @@ export default function ReserveList({ r, away, home }: { r: RL; away: string; ho
     <details open style={{ marginTop: 10 }}>
       <summary>Reserve lists ({n ? counts : `no players with ${th}+ of snaps`})</summary>
       {n > 0 && (
-        <div className="table-wrap" style={{ marginTop: 8 }}><table>
+        <div className="table-wrap" tabIndex={0} style={{ marginTop: 8 }}><table>
           <thead><tr><th>Team</th><th>Player</th><th>Pos</th><th>List</th><th>On list since</th>
             <th className="r">Snap share before</th><th className="r">Last season</th></tr></thead>
           <tbody>{rows(away, r.away)}{rows(home, r.home)}</tbody>

@@ -2,7 +2,8 @@
 import HeadToHead, { type H2HWeek } from "@/components/HeadToHead";
 import LineMovement from "@/components/LineMovement";
 import { DeservedSummary } from "@/components/Deserved";
-import { getPerformance, getRetro } from "@/lib/data";
+import { getManifest, getPerformance, getRetro } from "@/lib/data";
+import GapBands from "@/components/GapBands";
 import { f1, f2, MODEL_NAMES, pct } from "@/lib/format";
 
 const KEY_MODELS = ["C_resid_noinj", "A_market_raw", "B_qb", "N_naive_home"];
@@ -102,7 +103,7 @@ export default function PerformancePage() {
               <div key={title} style={{ marginTop: 10 }}>
                 <h3>{title}</h3>
                 {rowsP.length ? (
-                  <div className="table-wrap"><table>
+                  <div className="table-wrap" tabIndex={0}><table>
                     <thead><tr><th>Horizon</th><th className="r">Games</th><th className="r">Market-adj. MAE</th><th className="r">Market MAE</th>
                       <th className="r">Model (stats-only) MAE</th><th className="r">Total MAE</th><th className="r">Log loss</th><th className="r">80% coverage</th></tr></thead>
                     <tbody>{rowsP.map((r: any) => (
@@ -119,6 +120,8 @@ export default function PerformancePage() {
       </div>
 
       <HeadToHead weeks={(perf.live_head_to_head ?? []) as H2HWeek[]} />
+      {(() => { const so = getManifest().season_record?.stats_only;
+        return so?.bands ? <GapBands bands={so.bands} hist={so.band_history} /> : null; })()}
       <LineMovement lm={perf.line_movement} />
       <DeservedSummary d={perf.deserved} />
 
@@ -131,7 +134,7 @@ export default function PerformancePage() {
 
       <div className="panel">
         <h2>Point-forecast accuracy (final pregame horizon)</h2>
-        <div className="table-wrap"><table>
+        <div className="table-wrap" tabIndex={0}><table>
           <thead><tr><th>Seasons</th><th>Model</th><th className="r">Games</th><th className="r">Margin MAE</th><th className="r">Margin RMSE</th>
             <th className="r">Total MAE</th><th className="r">Total RMSE</th></tr></thead>
           <tbody>{["tune", "dev", "locked"].flatMap((p) => KEY_MODELS.map((m) => get(p, m)).filter(Boolean).map((r: any) => (
@@ -154,7 +157,7 @@ export default function PerformancePage() {
         <h2>Paired comparison with the market-only benchmark</h2>
         <p className="small ink2">Difference in mean absolute error on the same games (model minus market; negative = better than the market), with 95%
           intervals from a season-week block bootstrap. Intervals that include zero mean no demonstrated difference.</p>
-        <div className="table-wrap"><table>
+        <div className="table-wrap" tabIndex={0}><table>
           <thead><tr><th>Seasons</th><th>Model</th><th>Target</th><th className="r">Games</th><th className="r">Difference</th><th className="r">95% interval</th></tr></thead>
           <tbody>{[...pairedDev.map((p: any) => ({ ...p, per: "dev" })), ...pairedLocked.map((p: any) => ({ ...p, per: "locked" }))].map((p: any) => (
             <tr key={p.per + p.a + p.loss} className={p.a === "C_resid_noinj" ? "hl" : undefined}><td>{PERIOD[p.per]}</td><td>{MODEL_NAMES[p.a] ?? p.a}</td>
@@ -171,13 +174,13 @@ export default function PerformancePage() {
         </div>
         <div className="panel">
           <h2>Win-probability scores</h2>
-          <div className="table-wrap"><table>
+          <div className="table-wrap" tabIndex={0}><table>
             <thead><tr><th>Seasons</th><th>Model</th><th className="r">n</th><th className="r">Log loss</th><th className="r">Brier</th></tr></thead>
             <tbody>{orow.filter((r) => r.horizon === "final").map((r) => (
               <tr key={r.period + r.model} className={r.model === "C_resid_noinj" ? "hl" : undefined}><td>{PERIOD[r.period]}</td><td>{MODEL_NAMES[r.model]}</td>
                 <td className="r">{r.n}</td><td className="r">{r.log_loss.toFixed(4)}</td><td className="r">{r.brier_3class.toFixed(4)}</td></tr>))}</tbody></table></div>
           <h3 style={{ marginTop: 16 }}>Interval coverage (combined model)</h3>
-          <div className="table-wrap"><table>
+          <div className="table-wrap" tabIndex={0}><table>
             <thead><tr><th>Seasons</th><th>Target</th><th className="r">Nominal</th><th className="r">Actual</th><th className="r">Mean width (pts)</th></tr></thead>
             <tbody>{[...(perf.walk_forward?.probabilities.intervals ?? []).filter((r: any) => r.period === "dev"), ...lockedIntervals.filter((r: any) => r.period === "locked")]
               .filter((r: any) => r.model === "C_resid_noinj" && r.method === "residual" && r.horizon === "final").map((r: any) => (
@@ -196,7 +199,7 @@ export default function PerformancePage() {
             <div key={r.group} style={{ marginTop: 12 }}>
               <h3>{r.group}: {r.decision}</h3>
               <p className="small muted">Inputs: {r.inputs}.{r.early_horizon ? ` Early horizon: ${r.early_horizon}.` : ""}</p>
-              <div className="table-wrap"><table>
+              <div className="table-wrap" tabIndex={0}><table>
                 <thead><tr><th>Model</th><th>Seasons</th><th className="r">Games</th><th className="r">Loss difference</th><th className="r">95% interval</th>
                   <th className="r">Total RMSE without → with</th></tr></thead>
                 <tbody>{(["combined", "football_only"] as const).flatMap((arm) => Object.entries(r[arm] ?? {}).map(([per, x]: any) => (
@@ -216,7 +219,7 @@ export default function PerformancePage() {
           <h2>Quarterback start-probability audit</h2>
           <p className="small ink2">What the historical rates measure: whether the depth-chart QB1 <b>started</b>. That is not the same as playing
             or being active. Rates carry 90% intervals, and each test season is predicted from earlier seasons only.</p>
-          <div className="table-wrap"><table>
+          <div className="table-wrap" tabIndex={0}><table>
             <thead><tr><th>Final status</th><th>Final practice</th><th className="r">Cases</th><th className="r">Started</th>
               <th className="r">Played, not started</th><th className="r">Declared inactive</th><th className="r">P(start), 90% interval</th></tr></thead>
             <tbody>{perf.qb_rates.audit.map((a: any) => (
@@ -224,7 +227,7 @@ export default function PerformancePage() {
                 <td className="r">{a.played_not_started}</td><td className="r">{a.declared_inactive}</td>
                 <td className="r">{a.p_start_jeffreys.toFixed(2)} ({a.ci90[0].toFixed(2)}–{a.ci90[1].toFixed(2)})</td></tr>))}</tbody>
           </table></div>
-          <div className="table-wrap" style={{ marginTop: 8 }}><table>
+          <div className="table-wrap" tabIndex={0} style={{ marginTop: 8 }}><table>
             <thead><tr><th>Estimator</th><th>Cases</th><th className="r">Log loss</th><th className="r">Brier</th><th className="r">Mean predicted</th><th className="r">Observed</th></tr></thead>
             <tbody>{perf.qb_rates.evaluation.uncertain.map((r: any) => (
               <tr key={r.method} className={r.method === "status_x_practice" ? "hl" : undefined}><td>{r.method.replace(/_/g, " ")}</td><td>Questionable + Doubtful ({r.n})</td>
@@ -242,7 +245,7 @@ export default function PerformancePage() {
           <h2>Archive: 2025 retrospective forecasts</h2>
           <p className="small ink2">{retro.label}. Combined model shown; these were not published before the games.</p>
           <details><summary>Show {retro.rows.filter((r: any) => r.model === "C_resid_noinj").length} games</summary>
-            <div className="table-wrap"><table>
+            <div className="table-wrap" tabIndex={0}><table>
               <thead><tr><th>Wk</th><th>Game</th><th className="r">Forecast</th><th className="r">P(home)</th><th className="r">Final</th><th className="r">Margin error</th></tr></thead>
               <tbody>{retro.rows.filter((r: any) => r.model === "C_resid_noinj").map((r: any) => (
                 <tr key={r.game_id}><td>{r.week}</td><td>{r.away_team} @ {r.home_team}</td>

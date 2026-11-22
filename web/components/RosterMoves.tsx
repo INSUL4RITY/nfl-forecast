@@ -14,7 +14,7 @@ function Team({ abbr, m: all, reserveShown }: { abbr: string; m: RosterTeamMoves
       <h3 style={{ margin: "0 0 6px" }}>{abbr}</h3>
       {empty && <p className="small muted" style={{ margin: 0 }}>No significant roster moves this season{m.departures.length < all.departures.length ? " apart from reserve lists" : ""}.</p>}
       {m.departures.length > 0 && (
-        <div className="table-wrap"><table>
+        <div className="table-wrap" tabIndex={0}><table>
           <thead><tr><th>Departed</th><th>Pos</th><th>Now</th><th className="r">Snap share</th></tr></thead>
           <tbody>{m.departures.map((d) => (
             <tr key={d.player}><td>{d.player}</td><td>{d.pos ?? "—"}</td><td>{d.move}{d.last_active_week ? ` · last active ${weekName(d.last_active_week)}` : ""}</td>
@@ -22,7 +22,7 @@ function Team({ abbr, m: all, reserveShown }: { abbr: string; m: RosterTeamMoves
         </table></div>
       )}
       {m.arrivals.length > 0 && (
-        <div className="table-wrap" style={{ marginTop: 8 }}><table>
+        <div className="table-wrap" tabIndex={0} style={{ marginTop: 8 }}><table>
           <thead><tr><th>Arrived</th><th>Pos</th><th>From</th><th className="r">Share there</th></tr></thead>
           <tbody>{m.arrivals.map((a) => (
             <tr key={a.player}><td>{a.player}</td><td>{a.pos ?? "—"}</td><td>{a.from} · since {weekName(a.since_week)}</td>

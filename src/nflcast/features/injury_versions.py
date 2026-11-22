@@ -61,3 +61,30 @@ def collect(season: int) -> dict:
             "player_weeks": v.select(["season", "week", "team", "gsis_id"]).unique().height if v.height else 0,
             "non_qb_versions": non_qb.height, "snapshots": len(list((RAW_DIR / "injuries" / str(season)).glob("*.parquet"))),
             "first_snapshot": str(v["first_observed_at"].min()) if v.height else None}
+
+
+GAME_STATUSES = ("Out", "Doubtful", "Questionable")
+
+
+def designations(inj: pl.DataFrame | None, week: int, team: str) -> set[tuple[str, str]]:
+    """Game designations (player id, Out/Doubtful/Questionable) for one team and week in an injury snapshot."""
+    if inj is None:
+        return set()
+    d = inj.filter((pl.col("week") == week) & (franchise(pl.col("team")) == team)
+                   & pl.col("report_status").is_in(list(GAME_STATUSES)))
+    return set(zip(d["gsis_id"].to_list(), d["report_status"].to_list()))
+
+
+def final_statuses_at(season: int, week: int, team: str, at: datetime, final_by: datetime) -> bool | None:
+    """Were the team's final game designations already in our data at `at`? Compares the snapshot in use at `at` with
+    the newest snapshot retrieved before `final_by` (min(now, kickoff)). False when they differ, or when no game
+    designations had reached the data by `final_by` while the game was still to come (research gap_diagnosis
+    2026-11-20, section 1), or when there is no snapshot at `at`. A team with genuinely no designations also reads False
+    (rare: 1 of 116 team-locks in weeks 7-11 of 2026)."""
+    from nflcast.data import sources as S
+    a, _ = S.snapshot_asof("injuries", season, at)
+    if a is None:
+        return False
+    b, _ = S.snapshot_asof("injuries", season, final_by)
+    da, db = designations(a, week, team), designations(b, week, team)
+    return da == db and bool(db)
