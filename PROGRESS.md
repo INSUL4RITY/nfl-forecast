@@ -503,6 +503,8 @@ market lines, QB availability, injury display, weather display). A changed artif
 - Records header (2026-11-22, user: "use the stats only record ... as the main headline"; display only): the first tile is
   "Model line · season" (stats-only, all weeks); the official record as published (weeks 3-6 market-adjusted, not
   regraded) stays as the last tile, labelled "Official record as published". No record or grade changed.
+- Pick info toggle removed (2026-11-22, user: "looks ugly"; display only): the per-card "i" is gone; the explanation
+  stays once per page (week pages: "How the model pick works" at the bottom; game pages: Details).
 ## 3. Tests and checks (2026-09-25)
 - Live head-to-head (2026-10-13, user request; display only): `picks.head_to_head` compares combined, stats-only and market
   on the same finished, publicly verifiable games by week (margin error, winner correct) plus the vs-line records of the

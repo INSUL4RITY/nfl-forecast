@@ -71,7 +71,7 @@ CLI stay `nflcast`; keep the URL and repo name (published evidence and links poi
   final statuses were not in the data at the lock (`injury_versions.final_statuses_at`); gap records are shown as
   separate 3-4 and 4+ bands with Wilson ranges and the retrospective 2019-25 rate
   (`reports/research/gap_band_history_2026-11-21.json`); "difference" (not "edge") for gap size, "advantage" for matchup
-  ranks; the pick explainer once per page; UK spelling; Open Graph/Twitter tags (`web/public/og.png`,
+  ranks; the pick explainer once per page (no per-card toggle: user removed it 2026-11-22); UK spelling; Open Graph/Twitter tags (`web/public/og.png`,
   `web/scripts/og_image.mjs`). Export-time only: never in the release JSON or "notable". B6 (user, 2026-11-22, "do what
   u think is best"): the week header is the site's own "Scoreboard rail" (compact title + one row of record tiles), and
   the davidsasser.com credit was removed from the footer, About and README with it.

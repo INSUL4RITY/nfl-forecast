@@ -187,7 +187,7 @@ export default function Methodology() {
           2019–2025 (retrospective), split by the size of the line on the Performance page. <b>Wording:</b> the size of the gap
           between the margin behind a pick and the line is called a &quot;difference&quot; (it was &quot;edge&quot;), and the matchup
           section&apos;s rank labels say &quot;advantage&quot;. <b>Explainer:</b> the model pick explanation appears once per page
-          (each card has an information toggle), and the &quot;Uses market spread &amp; total&quot; label sits on the
+          (at the bottom of each week page; in Details on game pages), and the &quot;Uses market spread &amp; total&quot; label sits on the
           market-adjusted line it describes.</p>
         <p className="small"><b>Expected-points data fix, 17 November 2026</b> (data only; the model is unchanged). nflverse
           re-published this season&apos;s play-by-play on a revised expected-points scale, which the model was not trained on.

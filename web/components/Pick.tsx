@@ -81,13 +81,6 @@ const PICK_EXPLAIN_OLD = "Model pick: the side of the market line on which the m
   "before kickoff fell, graded against that forecast's line (the rule for games before 1 October 2026). It is not a " +
   "probability of finishing on that side of the line. " + STATS_EXPLAIN;
 
-/** Short card text for the info toggle (the full explanation is shown once per page, at #pick-explainer). */
-const PICK_SHORT: Record<string, string> = {
-  "lock-24h": "The side of the market line the model line (stats only) fell on 24 hours before kickoff, graded against that line.",
-  "original-pick": "The side of the market line the market-adjusted line fell on at the first forecast with a line (games 1–20 October 2026).",
-  "final-pregame": "The side of the market line the market-adjusted line fell on at the last forecast before kickoff (games before 1 October 2026).",
-};
-
 /** The full explanation for a lock rule (shown once per page). */
 export function pickExplain(rule?: string | null): string {
   return rule === "final-pregame" ? PICK_EXPLAIN_OLD : rule === "original-pick" ? PICK_EXPLAIN_ORIGINAL : PICK_EXPLAIN;
@@ -145,13 +138,7 @@ export function PredictionSummary({ g, lockedAt, locksAt }: { g: WeekGame; locke
   return (
     <section className="pred" aria-label={`Model prediction, ${A} at ${H}`}>
       <div className="pred-pick">
-        <div className="pick-lbl-row"><span className="pick-lbl">Model pick</span>
-          <details className="pick-info">
-            <summary aria-label="What is the model pick?">i</summary>
-            <p className="pick-info-body">{PICK_SHORT[lp?.rule ?? "lock-24h"] ?? PICK_SHORT["lock-24h"]} It is not a probability.{" "}
-              <a href="#pick-explainer">How the model pick works</a></p>
-          </details>
-        </div>
+        <span className="pick-lbl">Model pick</span>
         <span className="pick-main">{lp ? pickText(lp) : started ? "No pick" : "No pick yet"}{lp?.retrospectively_derived ? " *" : ""}</span>
         {edge && <span className={`pick-edge${lp!.lean?.strength === "tiny" ? " tiny" : ""}`}>{edge}</span>}
         {locked ? (old ? (
