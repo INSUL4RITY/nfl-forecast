@@ -440,7 +440,7 @@
      "blitzes": 0,
      "share": 0.10666666666666667,
      "per100": 2.2222222222222223,
-     "status": "did not practise"
+     "status": "out/doubtful"
     },
     {
      "name": "Trey Hendrickson",
@@ -500,7 +500,7 @@
      "ypt": 8.061224489795919,
      "rating": 88.39285714285712,
      "share": 0.1590909090909091,
-     "status": "did not practise"
+     "status": "out/doubtful"
     },
     {
      "name": "Kyle Hamilton",
@@ -584,12 +584,15 @@
     }
    ],
    "top3_press_share": 0.4,
-   "press_out_share": 0.12,
+   "press_out_share": 0.24,
    "press_out_names": [
-    "Tavius Robinson (9)"
+    "Tavius Robinson (9)",
+    "Nnamdi Madubuike (8)",
+    "Marlon Humphrey (1)"
    ],
-   "tgt_out_share": 0.06818181818181818,
+   "tgt_out_share": 0.22727272727272727,
    "tgt_out_names": [
+    "Marlon Humphrey (49 targets)",
     "Jaylinn Hawkins (18 targets)",
     "Tavius Robinson (3 targets)"
    ]
@@ -699,7 +702,7 @@
      "ypt": 6.163265306122449,
      "rating": 92.38945578231294,
      "share": 0.1436950146627566,
-     "status": "did not practise"
+     "status": "out/doubtful"
     },
     {
      "name": "Davison Igbinosun",
@@ -731,7 +734,7 @@
      "ypt": 5.333333333333333,
      "rating": 77.87698412698413,
      "share": 0.12316715542521994,
-     "status": ""
+     "status": "did not practise"
     },
     {
      "name": "Cole Bishop",
@@ -779,14 +782,19 @@
      "ypt": 7.518518518518518,
      "rating": 76.62037037037037,
      "share": 0.07917888563049853,
-     "status": "limited in practice"
+     "status": ""
     }
    ],
    "top3_press_share": 0.5887850467289719,
-   "press_out_share": 0.0,
-   "press_out_names": [],
-   "tgt_out_share": 0.0,
-   "tgt_out_names": []
+   "press_out_share": 0.018691588785046728,
+   "press_out_names": [
+    "Dorian Williams (2)"
+   ],
+   "tgt_out_share": 0.21114369501466276,
+   "tgt_out_names": [
+    "Christian Benford (49 targets)",
+    "Dorian Williams (23 targets)"
+   ]
   },
   "CAR": {
    "pfr_games": 9,
@@ -977,13 +985,15 @@
     }
    ],
    "top3_press_share": 0.4358974358974359,
-   "press_out_share": 0.01282051282051282,
+   "press_out_share": 0.07692307692307693,
    "press_out_names": [
+    "Bobby Okereke (5)",
     "Akayleb Evans (1)"
    ],
-   "tgt_out_share": 0.14939024390243902,
+   "tgt_out_share": 0.21036585365853658,
    "tgt_out_names": [
     "Akayleb Evans (31 targets)",
+    "Bobby Okereke (20 targets)",
     "Jaycee Horn (12 targets)",
     "Michael Jackson (6 targets)"
    ]
@@ -1215,7 +1225,7 @@
      "blitzes": 0,
      "share": 0.15789473684210525,
      "per100": 3.7593984962406015,
-     "status": ""
+     "status": "did not practise"
     },
     {
      "name": "Jonathan Allen",
@@ -1229,7 +1239,7 @@
      "blitzes": 0,
      "share": 0.15789473684210525,
      "per100": 4.189944134078212,
-     "status": "did not practise"
+     "status": "limited in practice"
     },
     {
      "name": "Myles Murphy",
@@ -1321,7 +1331,7 @@
      "ypt": 7.9523809523809526,
      "rating": 90.77380952380952,
      "share": 0.1320754716981132,
-     "status": "did not practise"
+     "status": "questionable"
     },
     {
      "name": "Demetrius Knight",
@@ -1623,7 +1633,7 @@
      "blitzes": 12,
      "share": 0.13541666666666666,
      "per100": 3.258145363408521,
-     "status": "limited in practice"
+     "status": ""
     },
     {
      "name": "Otito Ogbonnia",
@@ -1683,7 +1693,7 @@
      "ypt": 8.68421052631579,
      "rating": 120.13888888888889,
      "share": 0.18037974683544303,
-     "status": "did not practise"
+     "status": "out/doubtful"
     },
     {
      "name": "Caleb Downs",
@@ -1763,14 +1773,15 @@
      "ypt": 6.6,
      "rating": 110.83333333333334,
      "share": 0.06329113924050633,
-     "status": ""
+     "status": "questionable"
     }
    ],
    "top3_press_share": 0.4791666666666667,
    "press_out_share": 0.0,
    "press_out_names": [],
-   "tgt_out_share": 0.012658227848101266,
+   "tgt_out_share": 0.1930379746835443,
    "tgt_out_names": [
+    "DaRon Bland (57 targets)",
     "Jalen Thompson (4 targets)"
    ]
   },
@@ -2112,7 +2123,7 @@
      "ypt": 9.083333333333334,
      "rating": 93.17129629629632,
      "share": 0.0989010989010989,
-     "status": "limited in practice"
+     "status": "questionable"
     },
     {
      "name": "Chuck Clark",
@@ -2793,7 +2804,7 @@
      "blitzes": 4,
      "share": 0.19767441860465115,
      "per100": 4.038004750593824,
-     "status": "limited in practice"
+     "status": ""
     },
     {
      "name": "Josh Hines-Allen",
@@ -3442,7 +3453,7 @@
      "blitzes": 27,
      "share": 0.07246376811594203,
      "per100": 0.9861932938856016,
-     "status": "did not practise"
+     "status": "out/doubtful"
     },
     {
      "name": "Dalvin Tomlinson",
@@ -3474,7 +3485,7 @@
      "ypt": 7.82051282051282,
      "rating": 103.04487179487181,
      "share": 0.1392857142857143,
-     "status": ""
+     "status": "questionable"
     },
     {
      "name": "Cam Hart",
@@ -3506,7 +3517,7 @@
      "ypt": 6.852941176470588,
      "rating": 82.10784313725489,
      "share": 0.12142857142857143,
-     "status": "did not practise"
+     "status": "out/doubtful"
     },
     {
      "name": "Genesis Smith",
@@ -3558,12 +3569,14 @@
     }
    ],
    "top3_press_share": 0.5217391304347826,
-   "press_out_share": 0.014492753623188406,
+   "press_out_share": 0.08695652173913043,
    "press_out_names": [
+    "Daiyan Henley (5)",
     "Derwin James (1)"
    ],
-   "tgt_out_share": 0.039285714285714285,
+   "tgt_out_share": 0.16071428571428573,
    "tgt_out_names": [
+    "Daiyan Henley (34 targets)",
     "Derwin James (11 targets)"
    ]
   },
@@ -3946,18 +3959,20 @@
      "ypt": 7.36,
      "rating": 109.41666666666667,
      "share": 0.09689922480620156,
-     "status": "limited in practice"
+     "status": ""
     }
    ],
    "top3_press_share": 0.6129032258064516,
-   "press_out_share": 0.24193548387096775,
+   "press_out_share": 0.25806451612903225,
    "press_out_names": [
     "Zach Sieler (7)",
     "Zeek Biggers (5)",
-    "Jordan Phillips (3)"
+    "Jordan Phillips (3)",
+    "Dante Trader (1)"
    ],
-   "tgt_out_share": 0.027131782945736434,
+   "tgt_out_share": 0.08914728682170543,
    "tgt_out_names": [
+    "Dante Trader (16 targets)",
     "Zeek Biggers (4 targets)",
     "Zach Sieler (3 targets)"
    ]
@@ -3993,7 +4008,7 @@
      "blitzes": 76,
      "share": 0.1810344827586207,
      "per100": 4.6255506607929515,
-     "status": "limited in practice"
+     "status": ""
     },
     {
      "name": "Blake Cashman",
@@ -4099,7 +4114,7 @@
      "ypt": 6.0285714285714285,
      "rating": 53.39285714285714,
      "share": 0.1346153846153846,
-     "status": "limited in practice"
+     "status": "questionable"
     },
     {
      "name": "James Pierre",
@@ -4147,7 +4162,7 @@
      "ypt": 3.857142857142857,
      "rating": 49.90079365079365,
      "share": 0.08076923076923077,
-     "status": "limited in practice"
+     "status": ""
     }
    ],
    "top3_press_share": 0.5517241379310345,
@@ -4411,7 +4426,7 @@
      "blitzes": 25,
      "share": 0.056338028169014086,
      "per100": 0.8771929824561403,
-     "status": "did not practise"
+     "status": "questionable"
     },
     {
      "name": "Colby Wooden",
@@ -4489,7 +4504,7 @@
      "ypt": 9.371428571428572,
      "rating": 126.84523809523809,
      "share": 0.11784511784511785,
-     "status": "did not practise"
+     "status": ""
     },
     {
      "name": "Quincy Riley",
@@ -4537,7 +4552,7 @@
      "ypt": 6.28125,
      "rating": 95.96354166666666,
      "share": 0.10774410774410774,
-     "status": "did not practise"
+     "status": "questionable"
     }
    ],
    "top3_press_share": 0.6338028169014085,
@@ -4984,7 +4999,7 @@
      "blitzes": 11,
      "share": 0.14084507042253522,
      "per100": 2.785515320334262,
-     "status": "limited in practice"
+     "status": ""
     },
     {
      "name": "Zack Baun",
@@ -4998,7 +5013,7 @@
      "blitzes": 32,
      "share": 0.1267605633802817,
      "per100": 1.7999999999999998,
-     "status": "did not practise"
+     "status": "out/doubtful"
     },
     {
      "name": "Jalyx Hunt",
@@ -5092,7 +5107,7 @@
      "ypt": 5.870967741935484,
      "rating": 77.62096774193549,
      "share": 0.10064935064935066,
-     "status": "did not practise"
+     "status": "out/doubtful"
     },
     {
      "name": "Andrew Mukuba",
@@ -5128,10 +5143,14 @@
     }
    ],
    "top3_press_share": 0.5070422535211268,
-   "press_out_share": 0.0,
-   "press_out_names": [],
-   "tgt_out_share": 0.0,
-   "tgt_out_names": []
+   "press_out_share": 0.1267605633802817,
+   "press_out_names": [
+    "Zack Baun (9)"
+   ],
+   "tgt_out_share": 0.10064935064935066,
+   "tgt_out_names": [
+    "Zack Baun (31 targets)"
+   ]
   },
   "PIT": {
    "pfr_games": 9,
@@ -5192,7 +5211,7 @@
      "blitzes": 3,
      "share": 0.08333333333333333,
      "per100": 1.9933554817275747,
-     "status": "did not practise"
+     "status": "questionable"
     },
     {
      "name": "Patrick Queen",
@@ -5206,7 +5225,7 @@
      "blitzes": 25,
      "share": 0.06944444444444445,
      "per100": 0.8726003490401396,
-     "status": "limited in practice"
+     "status": "questionable"
     },
     {
      "name": "Keeanu Benton",
@@ -5302,7 +5321,7 @@
      "ypt": 4.857142857142857,
      "rating": 58.03571428571429,
      "share": 0.12860892388451445,
-     "status": "limited in practice"
+     "status": "questionable"
     },
     {
      "name": "Jaquan Brisker",
@@ -5676,7 +5695,7 @@
      "ypt": 9.2,
      "rating": 128.51190476190476,
      "share": 0.10542168674698796,
-     "status": "limited in practice"
+     "status": "questionable"
     },
     {
      "name": "Dre Greenlaw",
@@ -5692,7 +5711,7 @@
      "ypt": 4.314285714285714,
      "rating": 81.96428571428571,
      "share": 0.10542168674698796,
-     "status": "limited in practice"
+     "status": "questionable"
     },
     {
      "name": "Ji'Ayir Brown",
@@ -5708,7 +5727,7 @@
      "ypt": 7.555555555555555,
      "rating": 98.37962962962963,
      "share": 0.08132530120481928,
-     "status": "limited in practice"
+     "status": ""
     }
    ],
    "top3_press_share": 0.4318181818181818,
@@ -5762,7 +5781,7 @@
      "blitzes": 9,
      "share": 0.10144927536231885,
      "per100": 2.6615969581749046,
-     "status": "limited in practice"
+     "status": "questionable"
     },
     {
      "name": "Josiah Trotter",
@@ -5906,10 +5925,14 @@
     }
    ],
    "top3_press_share": 0.36231884057971014,
-   "press_out_share": 0.0,
-   "press_out_names": [],
-   "tgt_out_share": 0.0,
-   "tgt_out_names": []
+   "press_out_share": 0.014492753623188406,
+   "press_out_names": [
+    "Antoine Winfield Jr. (1)"
+   ],
+   "tgt_out_share": 0.0364741641337386,
+   "tgt_out_names": [
+    "Antoine Winfield Jr. (12 targets)"
+   ]
   },
   "TEN": {
    "pfr_games": 9,
@@ -5998,7 +6021,7 @@
      "blitzes": 15,
      "share": 0.058823529411764705,
      "per100": 0.8912655971479502,
-     "status": "limited in practice"
+     "status": "questionable"
     }
    ],
    "cov": [
@@ -6032,7 +6055,7 @@
      "ypt": 7.805555555555555,
      "rating": 113.31018518518519,
      "share": 0.12,
-     "status": "limited in practice"
+     "status": "questionable"
     },
     {
      "name": "Amani Hooker",
@@ -6210,7 +6233,7 @@
      "ypt": 6.833333333333333,
      "rating": 88.63636363636364,
      "share": 0.19020172910662825,
-     "status": ""
+     "status": "questionable"
     },
     {
      "name": "Sonny Styles",
@@ -6311,5 +6334,5 @@
  },
  "press_flag": 0.15,
  "tgt_flag": 0.2,
- "matched_status": 76
+ "matched_status": 71
 }

@@ -1,18 +1,14 @@
 {
  "inputs": {
-  "template.html": "f386a52303d89e5d2b48ab67a99e30b3e796e62742c1fed1ee6543956ec2bab8",
-  "build_html.py": "81cb96775f858f2c57e37c2143cc6eee5fae3622bcbb68b1e7883b4c8ed6b72a",
+  "template.html": "459011f998d92cbb0984879c0a9ff6388c6ca2dbf364c107a2d6c8686f7bd954",
+  "build_html.py": "29404e14989c051eb2044eb91844b0e15655b66322d57d04c4377b4cfe2821ac",
   "publish_public.py": "0cfa69c8ad2a241c925e3c81854d8074a4990bf27ff6d955fc2c4a5b08abf114",
   "layout_audit.js": "be266bbe1bf54702ee1e30e0b0ab7bbd883b21f957bc85d7fc12428fb37d6d26"
  },
  "passed": {
   "local": {
-   "at": "2026-11-20 18:57 UTC",
-   "note": "audit phases A+B branch: standards mode, axe-core 4.10.2 in the audit, 5 widths, 0 issues (0 axe findings of any impact)"
-  },
-  "live": {
-   "at": "2026-11-20 20:03 UTC",
-   "note": "public page 0d635d3 (week 11, audit A+B), 5 widths, 0 issues; axe 0 serious/critical, 3 moderate (region: phone Top link outside a landmark)"
+   "at": "2026-11-22 11:54 UTC",
+   "note": "week 11 Sunday fixes (summary-list records, traded QB sample, Top link landmark), 5 widths, 0 issues, 0 axe findings"
   }
  }
 }
