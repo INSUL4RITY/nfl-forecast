@@ -43,16 +43,19 @@ function Records({ r, week, weekLabel }: { r: SeasonRecord; week: WLP | null; we
   return (
     <section className="records" aria-label="Records against the market line">
       <div className="tiles">
-        <Tile label="Model pick · season" x={r.spread} />
+        {s && <Tile label="Model line · season" x={s.spread} />}
         <Tile label={`Model pick · ${weekLabel}`} x={week} />
-        {s && <Tile label="Model line · all weeks" x={s.spread} />}
         {s && band("3-4")}
         {s && band("4+")}
+        <Tile label="Official record as published" x={r.spread}>
+          <span className="small muted">Weeks 3–6 used the market-adjusted line</span>
+        </Tile>
       </div>
       <p className="small muted records-note">Against the market line, publicly verifiable forecasts only ({weeksText(r.weeks)}).
-        Model pick: weeks 3–6 followed the market-adjusted line (the rule then; not regraded), from week 7 the model line.
-        Model line: the side of the locked line the stats-only model fell on every week. Gap tiles: games where the model line
-        was 3–4 or 4+ points from the locked line; 2019–25 is retrospective.</p>
+        Model line (headline): the side of the locked line the stats-only model fell on, every week; it has been the model
+        pick since week 7. Gap tiles: games where the model line was 3–4 or 4+ points from the locked line; 2019–25 is
+        retrospective. Official record as published: the model pick exactly as graded at the time; in weeks 3–6 it followed
+        the market-adjusted line (the rule then) and those weeks are not regraded.</p>
     </section>
   );
 }
