@@ -1,0 +1,58 @@
+[
+ {
+  "player": "Jacoby Brissett",
+  "draft_round": 3,
+  "draft_pick": 91,
+  "bucket": "R23",
+  "career_dropbacks": 2962,
+  "designed_runs": 109,
+  "rating_current": -0.0658,
+  "rating_qb_layer": -0.058,
+  "weighted_plays_current": 658.3,
+  "cpoe_qb_layer": -0.64,
+  "prior_current": -0.1419,
+  "prior_qb_layer": -0.1397
+ },
+ {
+  "player": "Kyle McCord",
+  "draft_round": 6,
+  "draft_pick": 181,
+  "bucket": "R47",
+  "career_dropbacks": 37,
+  "designed_runs": 1,
+  "rating_current": -0.1744,
+  "rating_qb_layer": -0.2203,
+  "weighted_plays_current": 37.0,
+  "cpoe_qb_layer": -4.63,
+  "prior_current": -0.1419,
+  "prior_qb_layer": -0.194
+ },
+ {
+  "player": "Fernando Mendoza",
+  "draft_round": 1,
+  "draft_pick": 1,
+  "bucket": "R1",
+  "career_dropbacks": 48,
+  "designed_runs": 2,
+  "rating_current": -0.1577,
+  "rating_qb_layer": -0.1086,
+  "weighted_plays_current": 47.6,
+  "cpoe_qb_layer": -3.62,
+  "prior_current": -0.1419,
+  "prior_qb_layer": -0.1106
+ },
+ {
+  "player": "Joe Milton III",
+  "draft_round": 6,
+  "draft_pick": 193,
+  "bucket": "R47",
+  "career_dropbacks": 104,
+  "designed_runs": 11,
+  "rating_current": -0.1384,
+  "rating_qb_layer": -0.1728,
+  "weighted_plays_current": 81.8,
+  "cpoe_qb_layer": -3.29,
+  "prior_current": -0.1419,
+  "prior_qb_layer": -0.194
+ }
+]

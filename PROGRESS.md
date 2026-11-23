@@ -505,6 +505,15 @@ market lines, QB availability, injury display, weather display). A changed artif
   regraded) stays as the last tile, labelled "Official record as published". No record or grade changed.
 - Pick info toggle removed (2026-11-22, user: "looks ugly"; display only): the per-card "i" is gone; the explanation
   stays once per page (week pages: "How the model pick works" at the bottom; game pages: Details).
+- QB layer test (B34; user 2026-11-23, research only, nothing published or frozen changed): pre-registered
+  (qb_layer_v2_3_preregistration_2026-11-23.md, RFC 3161 23 Nov 19:23:35 GMT) and run
+  (qb_layer_v2_3_evaluation_2026-11-23.md, run 20261123T193014Z). "v2.3" = v2.2 + QB-split team form (B1) + designed QB
+  runs and opponent-adjusted dropbacks in the rating (B3) + draft-pedigree newcomer prior (B27) + CPOE (B4): FAILED
+  (-0.31 [-0.94, +0.29] squared points vs v2.2, 2019-24, 4/6 seasons, dev not worse). Exploratory leads: B3 alone
+  -0.27 [-0.53, -0.02]; B27 alone -0.22 [-0.53, +0.10], best on dev. B1 worse (backup-QB games +3.2), CPOE nothing,
+  tuning (B32) no dev gain. "Inherited production": qb_delta already corrects for a new QB; residual slope on qb_delta
+  in QB-change games +9 pts per 1.0 (SE 5), not significant. Builder reproduces the current rating exactly; leakage
+  test identical. v2.2 reference rebuilt on 20 Nov data (stored v22 snapshot predates the starter-rule fix; disclosed).
 ## 3. Tests and checks (2026-09-25)
 - Live head-to-head (2026-10-13, user request; display only): `picks.head_to_head` compares combined, stats-only and market
   on the same finished, publicly verifiable games by week (margin error, winner correct) plus the vs-line records of the
