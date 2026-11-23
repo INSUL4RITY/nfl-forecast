@@ -1,0 +1,81 @@
+{
+ "fitted_on": [
+  2021,
+  2025
+ ],
+ "buckets": [
+  "1-2",
+  "3-5",
+  "6-10",
+  "11-20",
+  "21-40",
+  "41+"
+ ],
+ "rates": {
+  "target": {
+   "1-2": {
+    "rate": 0.5413,
+    "n": 883
+   },
+   "3-5": {
+    "rate": 0.438,
+    "n": 1573
+   },
+   "6-10": {
+    "rate": 0.2915,
+    "n": 2638
+   },
+   "11-20": {
+    "rate": 0.1378,
+    "n": 6388
+   },
+   "21-40": {
+    "rate": 0.044,
+    "n": 16128
+   },
+   "41+": {
+    "rate": 0.0074,
+    "n": 58859
+   }
+  },
+  "carry": {
+   "1-2": {
+    "rate": 0.5303,
+    "n": 1897
+   },
+   "3-5": {
+    "rate": 0.2714,
+    "n": 1651
+   },
+   "6-10": {
+    "rate": 0.1175,
+    "n": 2520
+   },
+   "11-20": {
+    "rate": 0.0453,
+    "n": 5613
+   },
+   "21-40": {
+    "rate": 0.0121,
+    "n": 13145
+   },
+   "41+": {
+    "rate": 0.0034,
+    "n": 41236
+   }
+  }
+ },
+ "test": {
+  "players": 999,
+  "split_week": 9,
+  "min_opps": 20,
+  "mae_actual_td_pg": 0.23,
+  "mae_expected_td_pg": 0.2142,
+  "mae_mix_oos": 0.2019,
+  "corr_actual": 0.432,
+  "corr_expected": 0.413,
+  "gap_kept": 0.29,
+  "xtd_coef": 0.575
+ },
+ "note": "rates: league touchdown share per opportunity by yards from the end zone; test: weeks 1-9 predict weeks 10-18, rates fitted without the tested season; gap_kept = share of (touchdowns - expected) per game that carried into the second half beyond expected touchdowns"
+}

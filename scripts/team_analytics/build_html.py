@@ -53,7 +53,9 @@ PLAYER_MIN = {"epa_tgt": ("targets", 10), "ypt": ("targets", 10), "sr_tgt": ("ta
 # player ranking tables rank on usage only: in 2021-25 only about 3% of a player's per-carry or per-target efficiency gap at 10
 # opportunities, and about 20% at 80, lasted (backtest_player_sample.py); efficiency columns carry a reliability badge instead
 PLAYER_USAGE_KEYS = {"games", "snap_pct", "carries", "car_share", "car_share_l3", "rz_car", "gl_car", "targets", "tgt_share",
-                     "tgt_share_l3", "air_share", "rz_tgt", "rz_tgt_share"}
+                     "tgt_share_l3", "air_share", "rz_tgt", "rz_tgt_share", "i10_tgt", "rz_opps", "xtd"}
+_TDX = Path(__file__).resolve().parent / "td_expectation.json"
+TDX = json.loads(_TDX.read_text(encoding="utf-8")) if _TDX.exists() else None
 
 
 def player_col_rule(c: dict) -> dict:
@@ -175,9 +177,11 @@ def trim_usage(US, tables):
     """Only the player fields the page shows (rank-table columns, sample sizes, the usage table and game logs)."""
     rk = {c[x] for tb in tables if tb["rows"] in ("rb", "wr", "te") for c in tb["cols"] for x in ("k", "n", "b") if c.get(x)}
     rk |= {"label", "sub", "team", "name"}
+    rk_td = {c[x] for tb in tables if tb["rows"] == "td" for c in tb["cols"] for x in ("k", "n", "b") if c.get(x)} | {"label", "sub", "team", "name"}
     return {"rb": [{k: v for k, v in r.items() if k in rk} for r in US["rb"]],
             "wr": [{k: v for k, v in r.items() if k in rk} for r in US["wr"]],
             "te": [{k: v for k, v in r.items() if k in rk} for r in US["te"]],
+            "td": [{k: v for k, v in r.items() if k in rk_td} for r in US.get("td", [])],
             "logs": US["logs"], "team_players": {t: [{k: r.get(k) for k in TP_KEYS} for r in v] for t, v in US["team_players"].items()}}
 
 
@@ -195,9 +199,9 @@ def finish_tables(tables, T, wr_ok, practice_ok=True):
                 c["f"] = "s1" if c["f"] in ("s1", "s2") else "n1"
                 if not any(x in c["l"] for x in ("(yd)", "Y/A", "RYOE", "yd", "Yds", "Yards", "yds")):
                     c["l"] += " (yd)"
-            if t["rows"] in ("rb", "wr", "te") and c["k"] in PLAYER_MIN:
+            if t["rows"] in ("rb", "wr", "te", "td") and c["k"] in PLAYER_MIN:
                 c["n"], c["min"] = PLAYER_MIN[c["k"]]
-            if t["rows"] in ("rb", "wr", "te"):
+            if t["rows"] in ("rb", "wr", "te", "td"):
                 c = player_col_rule(c)
             if t["rows"] == "teams":
                 if c["k"] in REL_COLS:
@@ -772,6 +776,20 @@ def _lasted(kind, K):
     return r
 
 
+def td_note() -> str:
+    """Note for the touchdown-opportunity table, from td_expectation.json."""
+    t, y = TDX["test"], TDX["fitted_on"]
+    R = TDX["rates"]
+    return (f"Where a player gets the ball decides most of his touchdowns. Expected touchdowns add up the {y[0]}-{y[1]} league touchdown rate of each "
+            f"target and designed carry from that distance (a target 1-2 yards out scored {R['target']['1-2']['rate']:.0%}, a carry from there "
+            f"{R['carry']['1-2']['rate']:.0%}; from 11-20 yards {R['target']['11-20']['rate']:.0%} and {R['carry']['11-20']['rate']:.0%}). "
+            f"Tested on {y[0]}-{y[1]} ({t['players']} player-seasons, weeks 1-{t['split_week']} predicting the rest, rates fitted without the tested "
+            f"season): expected touchdowns per game missed by {t['mae_expected_td_pg']:.3f} against {t['mae_actual_td_pg']:.3f} for actual touchdowns "
+            f"per game, and only about {t['gap_kept']:.0%} of a player's touchdowns above or below expected carried on. A large positive "
+            f"'TD vs expected' is mostly finishing luck; a large negative one with heavy red-zone use is the player most likely to catch up. "
+            f"Season figures.")
+
+
 def player_note(which):
     """Data-driven caution for the player ranking tables ('rb' or 'rec')."""
     if not PLAYER_SHRINK:
@@ -1101,6 +1119,17 @@ def line_method() -> str:
             f"{100 * h['per_missing_ci'][1]:+.1f}). The cost was no larger against strong pass rushes (extra effect "
             f"{e['extra_vs_strong_rush']:+.3f}, 95% {e['extra_vs_strong_rush_ci'][0]:+.3f} to {e['extra_vs_strong_rush_ci'][1]:+.3f}).{old}</p>"
             "<p>No other position has a pre-game cost measured this way, so other absences are listed with snap shares but no cost.</p>")
+
+
+RBSDM = "https://rbsdm.com/box_scores/#"
+
+
+def add_box_scores(games: list, G: pd.DataFrame) -> None:
+    """Links to rbsdm.com box scores (nflfastR play-by-play, by Ben Baldwin and Sebastian Carl): this game (live on game day)
+    and each team's latest game in the data."""
+    last = G.sort_values("week").groupby("team").game_id.last().to_dict()
+    for g in games:
+        g["box"] = {"game": RBSDM + g["id"], "last": {t: RBSDM + last[t] for t in (g["away"], g["home"]) if t in last}}
 
 
 def build_matchups(T, nxt, MM, A, mm, notes, PL, US, QBS, REF, ARR, UN, WX=None, NG=None, HC=None):
@@ -2092,6 +2121,16 @@ def main():
                 "not the receiver alone. Yards per route run needs routes, which free data does not record." + player_note("rec"))
     tables.append(table("rank_wr", f"Wide receivers ({US['rec_min']}+ targets)", rk_common + rec_cols, "targets", rec_note, rows="wr"))
     tables.append(table("rank_te", f"Tight ends ({US['rec_min']}+ targets)", rk_common + rec_cols, "targets", rec_note, rows="te"))
+    if TDX and US.get("td"):
+        tables.append(table("td_opp", f"Touchdown opportunities ({US['td_min']:g}+ expected touchdowns)", [
+            C("status", "Status", "str", 0), C("pos", "Pos.", "str", 0), C("games", "Games", "int", 0),
+            C("xtd", "Expected TD", "n1", 1, "Sum over his targets and carries of the 2021-25 touchdown rate from that spot on the field"),
+            C("td_total", "TD", "int", 1, "Receiving plus rushing touchdowns"),
+            C("td_oe", "TD vs expected", "s1", 0, "Touchdowns minus expected touchdowns; most of the gap does not last"),
+            C("rz_opps", "Red-zone chances", "int", 1, "Red-zone targets plus red-zone carries"),
+            C("rz_tgt", "RZ targets", "int", 1), C("i10_tgt", "Targets inside 10", "int", 1),
+            C("rz_car", "RZ carries", "int", 1), C("gl_car", "Carries inside 5", "int", 1),
+        ], "xtd", td_note(), rows="td"))
     tables.append(table("sos", "Strength of schedule", [
         C("record", "Record", "str", 0), C("sos_net", "Opp. net adj. EPA/play", "epa", 0, "Positive = tougher schedule"),
         C("sos_off", "Defences faced (adj. EPA allowed effect)", "epa", 0, "Positive = faced defences that allow more (easier for the offence)"),
@@ -2380,6 +2419,7 @@ def main():
     tables = finish_tables(tables, T, not wr_probs, bool((A.last_report_week == meta["through_week"] + 1).any()))
     HCT = hot_cold(T, G)
     games = build_matchups(T, nxt, MM, A, mm, notes, PL, US, CTX["qb"], REF, ARR, UN, WX, NG, HCT)
+    add_box_scores(games, G)
     pen_types_js = PEN_T.to_dict("records")
     # embed only the team fields the page or the per-game export reads (table columns, sample sizes, keys named in the
     # page's script or the exporter, and the team-chart measures, whose keys the page builds at run time)

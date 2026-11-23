@@ -160,3 +160,32 @@ def test_own_db_uses_the_whole_season_sample():
     q = {"dropbacks": 38, "dropbacks_season": 391, "season_teams": "LV/MIN"}
     assert bh.own_db(q) == 391 and bh.with_teams(q) == " with LV and MIN"
     assert bh.own_db({"dropbacks": 120}) == 120 and bh.with_teams({"season_teams": "MIN"}) == ""
+
+
+
+# ---- touchdown opportunities and box-score links (week 12 additions)
+def test_td_rate_by_distance():
+    import usage
+    if usage.TDX is None:
+        pytest.skip("td_expectation.json missing")
+    yl = pd.Series([1, 4, 8, 15, 30, 70])
+    r_t, r_c = usage.td_rate("target", yl), usage.td_rate("carry", yl)
+    assert list(r_t) == sorted(r_t, reverse=True) and list(r_c) == sorted(r_c, reverse=True)   # closer = likelier
+    assert r_c.iloc[0] > 0.4 and r_t.iloc[-1] < 0.02
+
+
+def test_td_expectation_file_records_its_test():
+    import json
+    d = json.loads((HERE / "td_expectation.json").read_text(encoding="utf-8"))
+    t = d["test"]
+    assert t["players"] > 500 and 0 <= t["gap_kept"] < 1
+    assert t["mae_expected_td_pg"] < t["mae_actual_td_pg"]            # the reason the table leads with expected touchdowns
+
+
+def test_box_score_links():
+    import build_html as bh
+    G = pd.DataFrame({"team": ["AAA", "AAA", "BBB"], "week": [9, 10, 10], "game_id": ["2026_09_AAA_CCC", "2026_10_DDD_AAA", "2026_10_BBB_EEE"]})
+    games = [{"id": "2026_11_AAA_BBB", "away": "AAA", "home": "BBB"}]
+    bh.add_box_scores(games, G)
+    assert games[0]["box"]["game"] == "https://rbsdm.com/box_scores/#2026_11_AAA_BBB"
+    assert games[0]["box"]["last"] == {"AAA": "https://rbsdm.com/box_scores/#2026_10_DDD_AAA", "BBB": "https://rbsdm.com/box_scores/#2026_10_BBB_EEE"}

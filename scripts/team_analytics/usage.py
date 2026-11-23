@@ -14,6 +14,9 @@ compute.py calls build() and writes usage.json with the rest of the bundle.
 """
 from __future__ import annotations
 
+import json
+from pathlib import Path
+
 import numpy as np
 import pandas as pd
 
@@ -22,6 +25,20 @@ from depth import OUT_CLASSES, STATUS_TEXT, _norm
 
 RB_MIN, REC_MIN = 40, 20
 OUT, STATUS = OUT_CLASSES, STATUS_TEXT
+_TDX = Path(__file__).resolve().parent / "td_expectation.json"
+TDX = json.loads(_TDX.read_text(encoding="utf-8")) if _TDX.exists() else None
+TD_EDGES = [0, 2, 5, 10, 20, 40, 100]          # yards from the end zone (backtest_td_expectation.py)
+TD_LABELS = ["1-2", "3-5", "6-10", "11-20", "21-40", "41+"]
+TD_LIST_MIN_XTD = 1.5                           # players shown in the touchdown-opportunity table
+
+
+def td_rate(kind: str, yl: pd.Series) -> pd.Series:
+    """2021-25 touchdown rate of a target or a designed carry by yards from the end zone (0 when the file is missing)."""
+    if TDX is None:
+        return pd.Series(0.0, index=yl.index)
+    b = pd.cut(yl, TD_EDGES, labels=TD_LABELS).astype(str)
+    R = TDX["rates"][kind]
+    return b.map(lambda x: R[x]["rate"] if x in R else 0.0).astype(float)
 TGT_FLAG, CAR_FLAG = 0.20, 0.35   # a caution when players now out had this share of targets / carries
 
 
@@ -65,10 +82,13 @@ def build(p: pd.DataFrame, season: int, through_week: int, absences: pd.DataFram
     tg["rec_yds"] = np.where(tg.complete_pass == 1, tg.yards_gained, 0)
     tg["rec_td"] = (tg.pass_touchdown == 1).astype(int)   # not `touchdown`, which also marks a defensive return after a catch
     tg["rz"] = tg.yardline_100 <= 20
+    tg["i10"] = tg.yardline_100 <= 10
+    tg["xtd"] = td_rate("target", tg.yardline_100)
     ca = p[p.drush & p.rusher_player_id.notna()].copy()
     ca["rz"] = ca.yardline_100 <= 20
     ca["gl"] = ca.yardline_100 <= 5
     ca["rush_td"] = (ca.rush_touchdown == 1).astype(int)
+    ca["xtd"] = td_rate("carry", ca.yardline_100)
 
     # last three games per team
     gw = p.groupby(["posteam", "week"]).size().reset_index()[["posteam", "week"]]
@@ -84,7 +104,7 @@ def build(p: pd.DataFrame, season: int, through_week: int, absences: pd.DataFram
     r = tg.groupby(["posteam", "receiver_player_id"]).agg(
         targets=("epa", "size"), rec=("complete_pass", "sum"), rec_yds=("rec_yds", "sum"), rec_td=("rec_td", "sum"),
         air=("air_yards", "sum"), adot=("air_yards", "mean"), epa_tgt=("epa", "mean"), epa_rec_total=("epa", "sum"),
-        sr_tgt=("success", "mean"), rz_tgt=("rz", "sum"), tgt_games=("game_id", "nunique"))
+        sr_tgt=("success", "mean"), rz_tgt=("rz", "sum"), i10_tgt=("i10", "sum"), xtd_rec=("xtd", "sum"), tgt_games=("game_id", "nunique"))
     r["yac_pr"] = tg[tg.complete_pass == 1].groupby(["posteam", "receiver_player_id"]).yards_after_catch.mean()
     r["yacoe_pr"] = tg[tg.comp].groupby(["posteam", "receiver_player_id"]).yacoe.mean()
     r["tgt_l3"] = tg[tg.l3].groupby(["posteam", "receiver_player_id"]).size()
@@ -92,7 +112,7 @@ def build(p: pd.DataFrame, season: int, through_week: int, absences: pd.DataFram
     c = ca.groupby(["posteam", "rusher_player_id"]).agg(
         carries=("epa", "size"), rush_yds=("yards_gained", "sum"), rush_td=("rush_td", "sum"), epa_car=("epa", "mean"),
         epa_rush_total=("epa", "sum"), sr_car=("success", "mean"), stuff=("stuffed", "mean"),
-        expl_run=("expl_run", "mean"), rz_car=("rz", "sum"), gl_car=("gl", "sum"), car_games=("game_id", "nunique"))
+        expl_run=("expl_run", "mean"), rz_car=("rz", "sum"), gl_car=("gl", "sum"), xtd_rush=("xtd", "sum"), car_games=("game_id", "nunique"))
     c["car_l3"] = ca[ca.l3].groupby(["posteam", "rusher_player_id"]).size()
     c.index.names = ["team", "gsis"]
     U = r.join(c, how="outer").reset_index()
@@ -158,6 +178,10 @@ def build(p: pd.DataFrame, season: int, through_week: int, absences: pd.DataFram
             "drops": int(vp.receiving_drop) if vp is not None else None,
             "yds_total": int((x.rec_yds if tgt else 0) + (x.rush_yds if car else 0)),
             "td_total": int((x.rec_td if tgt else 0) + (x.rush_td if car else 0)),
+            "i10_tgt": int(x.i10_tgt) if tgt else 0,
+            "xtd": _f((x.xtd_rec if tgt else 0) + (x.xtd_rush if car else 0)) if TDX else None,
+            "td_oe": _f((x.rec_td if tgt else 0) + (x.rush_td if car else 0) - (x.xtd_rec if tgt else 0) - (x.xtd_rush if car else 0)) if TDX else None,
+            "rz_opps": int((x.rz_tgt if tgt else 0) + (x.rz_car if car else 0)),
             "rel_tgt": reliability.level(reliability.player_kept(f"target_{pp}", tgt)) if tgt else None,
             "rel_car": reliability.level(reliability.player_kept("carry", car)) if car else None,
         })
@@ -206,8 +230,10 @@ def build(p: pd.DataFrame, season: int, through_week: int, absences: pd.DataFram
     rb = rank_rows((P.pos == "RB") & (P.carries >= RB_MIN))
     wr = rank_rows((P.pos == "WR") & (P.targets >= REC_MIN))
     te = rank_rows((P.pos == "TE") & (P.targets >= REC_MIN))
+    td = rank_rows((P.xtd >= TD_LIST_MIN_XTD) & P.pos.isin(["WR", "TE", "RB", "QB"])) if TDX else []
+    td.sort(key=lambda r: -(r["xtd"] or 0))
     usage_by = {(r["team"], r["id"]): r for r in P.replace({np.nan: None}).to_dict("records")}
-    return {"rb": rb, "wr": wr, "te": te, "logs": logs, "teams": teams, "team_players": team_players, "rb_min": RB_MIN, "rec_min": REC_MIN,
+    return {"rb": rb, "wr": wr, "te": te, "td": td, "td_min": TD_LIST_MIN_XTD, "logs": logs, "teams": teams, "team_players": team_players, "rb_min": RB_MIN, "rec_min": REC_MIN,
             "tgt_flag": TGT_FLAG, "car_flag": CAR_FLAG,
             "absent_usage": [{"team": t, "player": a_name, **{k: usage_by.get((t, g), {}).get(k) for k in
                               ("tgt_share", "car_share", "targets", "carries", "tgt_share_l3", "car_share_l3")}}
