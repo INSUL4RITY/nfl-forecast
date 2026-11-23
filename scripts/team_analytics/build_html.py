@@ -615,10 +615,10 @@ def mismatches(T, nxt, MM, QBS=None):
                 note = (f"; built with the quarterbacks who played before {news['starter']} (week news), so treat it with care"
                         if news and key in PASS_KEYS else "")
                 edges.append((score, lab.format(o=o, d=d), det(T, o, d) + note, o if zf >= 0 else d,
-                              round(float(m["off"]["w"][o]), 2), round(float(m["def"]["w"][d]), 2)))
+                              round(float(m["off"]["w"][o]), 2), round(float(m["def"]["w"][d]), 2), key))
         edges = sorted(edges, key=lambda e: -abs(e[0]))[:3]
         rows.append({"game": f"{a} at {h}", "day": str(g.gameday), "edges": [
-            {"score": round(float(e[0]), 2), "what": e[1], "detail": e[2], "favours": e[3], "w_off": e[4], "w_def": e[5]} for e in edges]})
+            {"score": round(float(e[0]), 2), "what": e[1], "detail": e[2], "favours": e[3], "w_off": e[4], "w_def": e[5], "m": e[6]} for e in edges]})
     return rows
 
 
@@ -1122,6 +1122,97 @@ def line_method() -> str:
 
 
 RBSDM = "https://rbsdm.com/box_scores/#"
+CAL_RUN: dict = {}                                      # this run's matchup calibration, for the game summaries
+_QBC = Path(__file__).resolve().parent / "qb_change.json"
+QBC = json.loads(_QBC.read_text(encoding="utf-8")) if _QBC.exists() else None
+EDGE_WORDS = {"pressure": "pass rush vs protection", "epa_rush": "run game", "epa_db": "passing", "expl_pass": "big passing plays",
+              "expl_run": "big runs"}
+
+
+def qb_class(q: dict) -> str:
+    if q.get("rookie"):
+        return "rookie"
+    if "/" in str(q.get("season_teams") or ""):
+        return "traded in"
+    return "veteran backup"
+
+
+def qb_change(t: str, info: dict) -> dict | None:
+    """When the expected starter is not the team's opening starter: his class and the 2021-25 team cost (qb_change.json)."""
+    xs = expected_starter(info)
+    if not QBC or not xs or xs.get("team_opener", True):
+        return None
+    cls = qb_class(xs)
+    c, cp_ = QBC["epa_db"][cls], QBC["epa_play"][cls]
+    n = QBC["change_games"][cls]
+    opener = next((r["name"] for r in info.get("qbs", []) if r.get("team_opener")), None)
+    y = QBC["fitted_on"]
+    settled = c["ci"][1] < 0
+    who = {"rookie": "a rookie", "veteran backup": "a veteran backup", "traded in": "a quarterback traded in that season"}[cls]
+    text = (f"{t} starts {xs['name']} ({cls}){', not its opening starter ' + opener if opener else ''}. In {y[0]}-{y[1]}, with {who} starting "
+            f"({n} games), team EPA per dropback was {c['cost']:+.3f} (95% {c['ci'][0]:+.3f} to {c['ci'][1]:+.3f}) against what the team in its "
+            f"opening starter's games and the opponent predicted; per play {cp_['cost']:+.3f}."
+            + ("" if settled else " Too few cases to call it a cost: the range includes zero.")
+            + " The matchup rows still use the team's season figures.")
+    return {"cls": cls, "cost": c["cost"], "settled": settled, "name": xs["name"], "text": text}
+
+
+def qb_change_method() -> str:
+    """Method paragraph for the quarterback-change cost (qb_change.json)."""
+    if not QBC:
+        return ""
+    y, d, p = QBC["fitted_on"], QBC["epa_db"], QBC["epa_play"]
+    rows = "; ".join(f"{c} {d[c]['cost']:+.3f} (95% {d[c]['ci'][0]:+.3f} to {d[c]['ci'][1]:+.3f}, {QBC['change_games'][c]} games)" for c in ("rookie", "veteran backup", "traded in"))
+    return (f"<h3>Quarterback changes</h3><p>When a team's expected starter is not the quarterback who opened its season, the matchup cautions and summary "
+            f"quote the cost measured by <code>backtest_qb_change.py</code> ({y[0]}-{y[1]}, {QBC['team_games']:,} team-games from week 3). The starter is the "
+            f"passer of the first dropback, so a quarterback hurt during a game is not counted. Each game's EPA per dropback is compared with the team's "
+            f"figure in earlier games started by its opening quarterback and with the opponent's season-to-date figure allowed. EPA per dropback: {rows}. "
+            f"Out of sample (each season from the other four) the class cost lowered the error on those games from {d['oos_mae_without']:.4f} to "
+            f"{d['oos_mae_with_cost']:.4f} per dropback; on EPA per play it made no difference ({p['oos_mae_without']:.4f} both ways). Traded-in starters are too few "
+            f"to call. The team rows in each matchup still use the season figures; the quarterback's own numbers carry the separate role adjustment above.</p>")
+
+
+def game_summary(a: str, h: str, mmrow: dict | None, A: pd.DataFrame, QBS: dict, CAL: dict | None) -> list[str]:
+    """Three lines at the top of a game: the biggest unit edge with its 2021-25 record, absences with a tested pre-game
+    cost, and the strongest point the other way."""
+    out = []
+    edges = (mmrow or {}).get("edges") or []
+    e = edges[0] if edges else None
+    E = (CAL or {}).get("edges") or {}
+    if e:
+        rec = (E.get("notable_by_measure") or {}).get(e.get("m"), {})
+        if abs(e["score"]) >= E.get("notable", 1.0) and rec.get("right"):
+            q = f"{EDGE_WORDS.get(e['m'], 'headline')} edges that size pointed the right way {rec['right']:.0%} of the time in 2021-25 ({rec['cases']} cases)"
+        elif E.get("small_right") is not None:
+            q = (f"below the {E.get('notable', 1.0):.1f} line for a notable edge (in 2021-25 notable edges were right {E['notable_right']:.0%} of the time, "
+                 f"edges under {E['small']:.1f} {E['small_right']:.0%})")
+        else:
+            q = ""
+        out.append(f"Biggest edge: {e['what']} ({e['score']:+.2f}, favours {e['favours']}){'; ' + q if q else ''}.")
+    else:
+        out.append("Biggest edge: none of the headline measures has a clear edge.")
+    parts = []
+    for t in (a, h):
+        n = len(line_starters_out(A, t))
+        if n and LINE_BT:
+            parts.append(f"{t} {n} line starter{'s' if n > 1 else ''} out (about {n * LINE_BT['epa']['per_missing_starter']:+.3f} EPA per dropback)")
+        qc = qb_change(t, QBS.get(t, {}))
+        if qc:
+            who = {"rookie": "a rookie", "veteran backup": "a veteran backup", "traded in": "traded in this season"}[qc["cls"]]
+            parts.append(f"{t} starts {qc['name']}, {who} ({'about ' + format(qc['cost'], '+.3f') + ' EPA per dropback' if qc['settled'] else 'cost not established'})")
+    out.append("Absences with a tested cost: " + ("; ".join(parts) if parts else "none (line starters and quarterback changes are the tested ones)") + ".")
+    fav = e["favours"] if e else None
+    other = [x for x in edges[1:] if fav and x["favours"] != fav]
+    if other:
+        x = other[0]
+        out.append(f"Against it: {x['what']} ({x['score']:+.2f}, favours {x['favours']}).")
+    elif fav:
+        out.append(f"Against it: none of the three largest edges favours {a if fav == h else h}; the case against is sample size and "
+                   f"anything the season figures miss (see the cautions).")
+    return out
+
+
+
 
 
 def add_box_scores(games: list, G: pd.DataFrame) -> None:
@@ -1231,6 +1322,9 @@ def build_matchups(T, nxt, MM, A, mm, notes, PL, US, QBS, REF, ARR, UN, WX=None,
                 cautions.append(f"{t} expected quarterback {xs['name']}: be wary of his own numbers ("
                                 + (f"{own_db(xs)} dropbacks{with_teams(xs)}, ±{qb_range(own_db(xs)):.2f}" if own_db(xs) else "no 2026 dropbacks") + ")."
                                 + role_text(xs) + one_q_text(xs.get("one_q")))
+            qc = qb_change(t, QBS.get(t, {}))
+            if qc:
+                cautions.append(qc["text"])
             outs = A[(A.team == t) & A.status_class.isin(["confirmed: reserve list", "listed Out/Doubtful", "inactive 3+ games"]) & (A.term == "new")]
             if len(outs):
                 cautions.append(f"{t} regulars newly out (0-1 games missed): " + ", ".join(
@@ -1274,6 +1368,7 @@ def build_matchups(T, nxt, MM, A, mm, notes, PL, US, QBS, REF, ARR, UN, WX=None,
             "neutral": neutral, "div": bool(g.div_game == 1),
             "rest": {a: None if pd.isna(g.away_rest) else int(g.away_rest), h: None if pd.isna(g.home_rest) else int(g.home_rest)},
             "sides": sides, "st": st, "coach": coach, "expect": exp, "cautions": cautions, "final": final,
+            "gsum": game_summary(a, h, next((r for r in mm if r["game"] == f"{a} at {h}"), None), A, QBS, CAL_RUN.get("cal")),
             "summary": {t: {"record": T.loc[t, "record"], "rating": float(T.loc[t, "rating_pg"]), "rating_rank": int(T.loc[t, "rating_rank"]),
                             "stab_rank": int(T.loc[t, "stab_rank"]), "off_rank": int(T.loc[t, "off_adj_rank"]),
                             "def_rank": int(T.loc[t, "def_adj_rank"]), "st_rank": int(rank(T.st_epa_pg)[t]),
@@ -1654,6 +1749,7 @@ def main():
                 if k in NGS_LABELS and t in T.index:
                     T.loc[t, f"ngs_{k}"] = v
     CAL = meta.get("calibration")
+    CAL_RUN["cal"] = CAL
     if CAL:
         NOTABLE["v"] = CAL["edges"]["notable"]
     notes_path = d / "analyst_notes.json"
@@ -2662,6 +2758,7 @@ what could neutralise it, and whether a more specific split supports it: run dir
 Penalty vulnerabilities are hypotheses built from rates per opportunity (per 100 snaps or dropbacks) and fouls drawn by the opponent. Workload levels: <i>plausible</i> = a top-8 defensive snap count
 in the last game plus a short week; <i>minor</i> = one of those, or a top-8 three-and-out or quick-turnaround rate on a short week.</p>
 {line_method()}
+{qb_change_method()}
 <h3>Workload and fatigue</h3>
 <p>Team snaps come from PFR snap counts (the most snaps any player on the unit played). Possession time, plays and three-and-outs come from nflfastR drives. Real rest is wall-clock time between the
 last play of one defensive drive and the first play of the next in the same half, so it includes kicks and stoppages. The fatigue study pools {meta['history_seasons'][0]}-{meta['season']} play-by-play. It regresses EPA (and success)

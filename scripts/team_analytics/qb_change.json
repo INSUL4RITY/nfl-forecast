@@ -1,0 +1,63 @@
+{
+ "fitted_on": [
+  2021,
+  2025
+ ],
+ "team_games": 2374,
+ "change_games": {
+  "rookie": 154,
+  "traded in": 15,
+  "veteran backup": 392
+ },
+ "definition": "starter = passer of the team's first dropback; change = a start by anyone but the team's opening starter; baseline = the team's EPA in earlier games started by its opening quarterback; opponent = its season-to-date EPA allowed",
+ "epa_db": {
+  "rookie": {
+   "cost": -0.104,
+   "ci": [
+    -0.1532,
+    -0.0599
+   ]
+  },
+  "traded in": {
+   "cost": -0.0545,
+   "ci": [
+    -0.2041,
+    0.1132
+   ]
+  },
+  "veteran backup": {
+   "cost": -0.0854,
+   "ci": [
+    -0.1169,
+    -0.0572
+   ]
+  },
+  "oos_mae_with_cost": 0.2221,
+  "oos_mae_without": 0.226
+ },
+ "epa_play": {
+  "rookie": {
+   "cost": -0.0692,
+   "ci": [
+    -0.1013,
+    -0.0387
+   ]
+  },
+  "traded in": {
+   "cost": 0.0025,
+   "ci": [
+    -0.0885,
+    0.117
+   ]
+  },
+  "veteran backup": {
+   "cost": -0.06,
+   "ci": [
+    -0.0786,
+    -0.0394
+   ]
+  },
+  "oos_mae_with_cost": 0.1541,
+  "oos_mae_without": 0.1541
+ }
+}

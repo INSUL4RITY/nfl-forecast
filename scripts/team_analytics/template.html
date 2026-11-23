@@ -52,6 +52,8 @@ section:first-child { border-top: 0; margin-top: 0; }
 .callout { background: var(--info-bg); border: 1px solid var(--info-border); border-radius: 8px; padding: 12px 14px; margin: 12px 0; max-width: 90ch; }
 .callout.warn { background: var(--warn-bg); border-color: var(--warn-border); }
 .callout.warn b { color: var(--warn-ink); }
+.callout.gsum ul { margin: 6px 0 0; padding-left: 18px; }
+.callout.gsum li { margin-bottom: 4px; }
 .table-wrap { position: relative; overflow-x: auto; border: 1px solid var(--rule); border-radius: 8px; background: var(--surface); margin: 8px 0 4px; }
 table { border-collapse: collapse; font-size: 0.84rem; font-variant-numeric: tabular-nums; width: max-content; min-width: 100%; }
 th, td { padding: 5px 8px; border-bottom: 1px solid var(--rule); text-align: right; white-space: nowrap; }
@@ -280,10 +282,10 @@ td .rk .mk { margin-left: 1px; }
 <section id="matchups">
   <div class="sec-head"><span class="sec-num">3</span><h2>Week {{WEEK}} matchups</h2></div>
   <p class="lead">Each game side by side: every offence against the defence it faces, special teams, and coaching tendencies. Pick a game, or use the cards at the bottom of this section.</p>
-  <div class="callout warn"><b>How to read the expected values.</b> "Expected in this matchup" adds the offence's and the defence's opponent-adjusted effects to the league average, plus home field.
+  <details class="full"><summary>How to read this: expected values, shrinkage and confidence</summary><p>"Expected in this matchup" adds the offence's and the defence's opponent-adjusted effects to the league average, plus home field.
   Each effect is first pulled towards the league average in proportion to how little data supports it (empirical-Bayes shrinkage), so a unit with few plays or noisy results moves the expectation very little.
   Confidence describes how much of each team's own record survives that shrinkage: moderate, low, very low, or no signal yet. Nothing here is a score or a result forecast,
-  {{CAL_NOTE}}. Coaching labels describe what each staff has done in 2026 on small samples: 20-40 fourth-down decisions per team.</div>
+  {{CAL_NOTE}}. Coaching labels describe what each staff has done in 2026 on small samples: 20-40 fourth-down decisions per team.</p></details>
   <div class="controls"><label for="game-sel">Game</label><select id="game-sel"></select></div>
   <div id="game"></div>
   <h3>All week {{WEEK}} games at a glance</h3>
@@ -1191,6 +1193,7 @@ function renderGame(id) {
     ${g.weather ? `<p class="meta"><b>Weather.</b> ${esc(g.weather)}</p>` : ""}
     ${g.box ? `<p class="meta"><b>Box scores</b> on rbsdm.com (nflfastR play-by-play): <a href="${esc(g.box.game)}" target="_blank" rel="noopener">this game</a> (live on game day)${[A, H].filter(t => g.box.last[t]).map(t => ` · <a href="${esc(g.box.last[t])}" target="_blank" rel="noopener">${esc(t)}'s last game</a>`).join("")}</p>` : ""}
     ${g.final ? `<p class="final">${rec(g.final)}</p>` : ""}</div>`;
+  if (g.gsum && g.gsum.length) h += `<div class="callout gsum"><b>Matchup summary</b><ul>${g.gsum.map(x => `<li>${esc(x)}</li>`).join("")}</ul></div>`;
   h += `<div class="table-wrap"><table><thead><tr><th>Team</th><th>Record</th><th>Overall rating</th><th>With 2025 prior</th><th>Offence (adj.)</th><th>Defence (adj.)</th><th>Special teams</th><th title="Opponent-adjusted net EPA/play over the team's last four games, and the change from its season figure">Net EPA last 4 (change)</th><th style="text-align:left">QB starts</th></tr></thead><tbody>${[A, H].map(t =>
     `<tr><td class="tm">${t}${t === H ? "<small>home</small>" : ""}</td><td>${rec(S[t].record)}</td><td>${fmt(S[t].rating, "s1")}${rk(S[t].rating_rank)}</td><td>${ord(S[t].stab_rank)}</td><td>${ord(S[t].off_rank)}</td><td>${ord(S[t].def_rank)}</td><td>${ord(S[t].st_rank)}</td><td title="weeks ${esc(g.form[t].weeks)}">${fmt(g.form[t].net_l4, "epa")} <span class="rk">${fmt(g.form[t].net_change, "epa")}</span></td><td style="text-align:left">${esc(S[t].qb)}</td></tr>`).join("")}</tbody></table></div>`;
   for (const t of [A, H]) for (const u of (g.unusual || {})[t] || []) h += unusualBlock(u);

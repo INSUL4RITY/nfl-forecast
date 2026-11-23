@@ -189,3 +189,28 @@ def test_box_score_links():
     bh.add_box_scores(games, G)
     assert games[0]["box"]["game"] == "https://rbsdm.com/box_scores/#2026_11_AAA_BBB"
     assert games[0]["box"]["last"] == {"AAA": "https://rbsdm.com/box_scores/#2026_10_DDD_AAA", "BBB": "https://rbsdm.com/box_scores/#2026_10_BBB_EEE"}
+
+
+
+# ---- quarterback change cost and the matchup summary
+def test_qb_change_classes_and_text():
+    import build_html as bh
+    if not bh.QBC:
+        pytest.skip("qb_change.json missing")
+    info = {"qbs": [{"name": "Opener", "team_opener": True, "latest_starter": False, "roster_status": "RES", "report_status": None, "starts": 6, "dropbacks": 200},
+                    {"name": "Rook", "team_opener": False, "rookie": True, "latest_starter": True, "roster_status": "ACT", "report_status": None, "starts": 2, "dropbacks": 60}]}
+    qc = bh.qb_change("AAA", info)
+    assert qc["cls"] == "rookie" and qc["settled"] and "not its opening starter Opener" in qc["text"]
+    assert bh.qb_class({"season_teams": "LV/MIN"}) == "traded in" and bh.qb_class({}) == "veteran backup"
+    info["qbs"][1]["team_opener"] = True
+    assert bh.qb_change("AAA", info) is None                       # the opening starter is no change
+
+
+def test_game_summary_three_lines():
+    import build_html as bh
+    A = pd.DataFrame(columns=["team", "player", "group", "status_class", "share", "term", "out_since_week"])
+    mmrow = {"edges": [{"score": 1.4, "what": "HHH passing vs AAA pass defence", "favours": "HHH", "m": "epa_db"},
+                       {"score": -0.6, "what": "AAA pass rush vs HHH protection", "favours": "AAA", "m": "pressure"}]}
+    cal = {"edges": {"notable": 1.0, "notable_right": 0.67, "small": 0.5, "small_right": 0.53, "notable_by_measure": {"epa_db": {"cases": 355, "right": 0.66}}}}
+    out = bh.game_summary("AAA", "HHH", mmrow, A, {}, cal)
+    assert len(out) == 3 and "66%" in out[0] and out[1].endswith("tested ones).") and out[2].startswith("Against it: AAA pass rush")

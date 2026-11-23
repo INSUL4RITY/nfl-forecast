@@ -43,6 +43,7 @@ reads or changes the forecasting model, and it uses no market data (spread, tota
 | `reliability.py` | The Low/Medium/High reliability badges, from the fitted shrinkage weights (team measures and player efficiency) |
 | `backtest_special_teams.py`, `st_shrinkage.json` | How much special-teams EPA per game lasts; the combined rating keeps that share (about 27% after 9 games) |
 | `backtest_streaks.py`, `streak_backtest.json` | Hot and cold teams (2021-25): how much of a last-four-games form change lasted (none measurable), and whether luck and one-score records carry on (they do not); the hot/cold verdicts quote it |
+| `backtest_qb_change.py`, `qb_change.json` | What a team loses when someone other than its opening quarterback starts (2021-25, pre-game definition): EPA per dropback -0.104 with a rookie (95% -0.153 to -0.060, 154 games), -0.085 with a veteran backup (-0.117 to -0.057, 392); traded-in starters too few to call. Quoted in the matchup cautions and summaries |
 | `backtest_td_expectation.py`, `td_expectation.json` | Touchdown rate of a target or designed carry by yards from the end zone (2021-25) and the test behind the touchdown-opportunity table: expected touchdowns predicted second-half touchdowns with less error than actual touchdowns (0.214 vs 0.230 per game); only 29% of touchdowns above or below expected carried on |
 | `backtest_line_absences_pregame.py`, `line_absence_pregame.json` | What an offensive-line starter known to be out before kickoff costs (2021-25, 2,238 team-games: -0.036 EPA per dropback each, 95% -0.051 to -0.020; no extra cost against strong pass rushes); the line caution quotes it from week 11 |
 | `backtest_line_absences.py`, `line_absence_backtest.json` | Kept for history: the first version counted a starter as missing when he played under half the snaps, so it included in-game injuries (-0.047) |
@@ -61,6 +62,18 @@ Outputs for each week are in [`reports/team_analytics/`](../../reports/team_anal
 
 The page is a standard HTML document (`lang="en-GB"`). `scripts/layout_audit.js` checks it at 1280, 768, 414, 375 and 320 px for sideways
 scrolling and overflowing panels, and runs axe-core 4 in the same pass: any serious or critical accessibility violation fails the audit.
+
+## Weekly build checklist
+
+1. Check the data is in: every game of the last week in play-by-play, FTN charting and PFR advanced stats (nflverse).
+2. Update the hand-kept files: `qb_news_<season>.json` (named starters the rosters cannot show yet), `referees_<season>.json`
+   (Football Zebras), `referee_rates_<season>.json` (Hashtag Football), `ngs_trends_<season>.json` (NFL.com Next Gen Trends,
+   `ngs_trends.py`).
+3. `compute.py --season 2026 --through-week <W> --refresh`, then `refresh_status.py --season 2026 --through-week <W>` (statuses,
+   page and per-game Markdown).
+4. `python -m pytest -q`, then `layout_audit_state.py check`; if it says AUDIT NEEDED, run the browser audit (layout and axe-core,
+   five widths) on the local page and record it.
+5. Publish the private report (with `glossary.html`), run `publish_public.py`, push both repositories, audit the live page and record it.
 
 ## Run it
 

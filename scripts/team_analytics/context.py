@@ -656,6 +656,8 @@ def qb_scenarios(p: pd.DataFrame, Q: pd.DataFrame, ros_cur: pd.DataFrame, inj_la
                 "dropbacks_season": int(r.dropbacks) if r is not None and "dropbacks" in r else None,   # sample behind his rates (all teams)
                 "season_teams": str(r.teams) if r is not None and "teams" in r else None,
                 "opened_season": bool(pid in set(opened.values)),
+                "team_opener": bool(pid == opened.get(t)),                 # this team's opening starter
+                "rookie": bool(len(ro) and "years_exp" in ro and ro.years_exp.iloc[0] == 0),
             })
         primary = max(rows, key=lambda r: (r["starts"], r["dropbacks"]))["id"] if rows else None
         flags = []
