@@ -1,0 +1,51 @@
+{
+ "game_ids": [
+  "2026_11_CIN_WAS"
+ ],
+ "generated_at_utc": "2026-11-23T21:16:21.544921+00:00",
+ "information_cutoff_utc": "2026-11-23T21:16:21.544921+00:00",
+ "input_snapshots": {
+  "depth_charts": {
+   "content_sha256": "c5dd4054337584e5ef10d5e6ede8e3845f2dbccdc6363b224af62cfaac5e94b3",
+   "http_last_modified": "Mon, 23 Nov 2026 19:11:19 GMT",
+   "last_confirmed_at_utc": "2026-11-23T21:15:36.720805+00:00",
+   "observed_at_utc": "2026-11-23T19:15:35.855348+00:00"
+  },
+  "injuries": {
+   "content_sha256": "6abb2c2d6d5eb2bc6d0752ab60611ea78eca4bfb63e4411530e1d3d7d3bdabc0",
+   "http_last_modified": "Mon, 23 Nov 2026 19:10:40 GMT",
+   "last_confirmed_at_utc": "2026-11-23T21:15:36.148341+00:00",
+   "observed_at_utc": "2026-11-22T11:09:18.310988+00:00"
+  },
+  "pbp_ep_scale": {
+   "applied": true,
+   "check_team_error_mean": 0.0056,
+   "check_team_error_sd": 0.008,
+   "ok": true,
+   "plays_converted": 2234,
+   "plays_old_values": 26062,
+   "reference_snapshot": "pbp_2026__observed_20261116T194534Z.parquet",
+   "season": 2026
+  },
+  "schedules": {
+   "content_sha256": "a73674f5ac69d4735801ab4cb90e1fea08f1c3852fabc2041674215023e0fc99",
+   "http_last_modified": "Mon, 23 Nov 2026 21:06:28 GMT",
+   "last_confirmed_at_utc": "2026-11-23T21:15:32.617717+00:00",
+   "observed_at_utc": "2026-11-23T20:15:32.945406+00:00"
+  }
+ },
+ "manifest_created_at_utc": "2026-11-23T21:16:31.111671+00:00",
+ "model_version": {
+  "code_hash": "3a5e919dbd51a525ad2d0579337b1c4ec6f809e6a397d04999efb6ef0de00f28",
+  "oof_source_run": "locked_20260924T234835Z",
+  "production_config_sha256_at_archiving": "93370fd999d74861e7ac08a4d9522756fc384a2be04d04c60dad10fefd9f23f8",
+  "qb_start_rates": "v3_start_practice_listed_through_2025",
+  "stage": "production_v1.1"
+ },
+ "note": "Manifest creation time is when this archive entry was made; it is not a publication time.",
+ "release_path": "releases/2026/week_11/rel_20261123T211621Z.json",
+ "run_id": "rel_20261123T211621Z",
+ "schema_version": 3,
+ "sha256": "b017ff1dc4f0a51a4abb25eb40a21ab268e26397987d483b8f8d1432f1617ee5",
+ "size_bytes": 25841
+}
