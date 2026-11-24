@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 import type { BandRate, GapBand, Manifest, SeasonRecord, Team, WeekDoc, WLP } from "@/lib/types";
 import { dateRange, dayKey, fmtDateTime, isPlayoffWeek, tzFor, weekName, wilson, type TzMode } from "@/lib/format";
