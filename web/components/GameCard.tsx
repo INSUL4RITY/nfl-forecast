@@ -1,7 +1,7 @@
 ﻿import Link from "next/link";
 import type { LineupSide, ReleaseEntry, Team, WeekGame } from "@/lib/types";
 import type { CSSProperties } from "react";
-import { f1, fmtDateTime, fmtKickoff, pct, pctP, problemText, teamPairColors } from "@/lib/format";
+import { f1, fmtDateTime, fmtKickoff, pct, pctP, problemText, stadiumName, teamPairColors } from "@/lib/format";
 import TeamBadge from "./TeamBadge";
 import StateLabel from "./StateLabel";
 import { gradeText, PredictionSummary, RETRO_NOTE } from "./Pick";
@@ -46,7 +46,7 @@ export default function GameCard({ g, teams, tz }: { g: WeekGame; teams: Record<
       <div className="card-top">
         <span className="num">{fmtKickoff(g.kickoff_utc, tz, g.kickoff_time_known)}
           {g.div_game && <span className="tag" style={{ marginLeft: 6 }} title="Both teams are in the same division">Divisional</span>}</span>
-        <span>{g.neutral_site ? "Neutral · " : ""}{g.stadium}</span>
+        <span>{g.neutral_site ? "Neutral · " : ""}{stadiumName(g.stadium)}</span>
       </div>
       {rows.map((r) => (
         <div className="team-row" key={r.side}>

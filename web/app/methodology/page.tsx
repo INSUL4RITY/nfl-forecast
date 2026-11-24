@@ -6,6 +6,27 @@ export default function Methodology() {
         <h1>Methodology, data &amp; limitations</h1>
       </div></div>
 
+      <div className="panel" id="lines">
+        <h2>Which line is official</h2>
+        <dl className="small" style={{ margin: 0 }}>
+          <dt><b>Official: the model line (stats only)</b></dt>
+          <dd style={{ margin: "0 0 8px" }}>Built from football data only, with no market input. The model pick is the side of the market
+            line it falls on, locked 24 hours before kickoff, and the headline record is its record. It is the frozen v1.0 model.</dd>
+          <dt><b>Reference: the market line and the market-adjusted line</b></dt>
+          <dd style={{ margin: "0 0 8px" }}>The market line is the consensus point spread. The market-adjusted line is a market view: the
+            market line nudged by the football data, so it nearly always agrees with the market. It is the most accurate on the final
+            margin, but its agreement with the market is by design, not a second opinion. It set the model pick in weeks 3–6 only.</dd>
+          <dt><b>Trial: the model v2 line</b></dt>
+          <dd style={{ margin: "0 0 8px" }}>A candidate for the 2027 model: the model line plus penalties, special teams, non-QB injuries,
+            turnover and close-game regression, 3rd/4th-down rates, QB scrambles, 4th-down decisions, time of possession, fatigue from the
+            previous game and weather. It is shown only on game pages, in its own &quot;Trial line (not official)&quot; section, never
+            sets the model pick, and is judged at the end of the season on weeks 8–18. A second trial (the model line plus non-QB
+            injuries) is still recorded for the end-of-season review but is not shown.</dd>
+        </dl>
+        <p className="small muted" style={{ margin: 0 }}>Layout change 24 November 2026: trial lines moved off the week cards so each
+          card shows one official line. No forecast, pick or grade changed.</p>
+      </div>
+
       <div className="panel">
         <h2>What is forecast</h2>
         <p>For every regular-season and playoff game: expected home and away points (including overtime), the expected margin (home minus away),

@@ -514,6 +514,14 @@ market lines, QB availability, injury display, weather display). A changed artif
   tuning (B32) no dev gain. "Inherited production": qb_delta already corrects for a new QB; residual slope on qb_delta
   in QB-change games +9 pts per 1.0 (SE 5), not significant. Builder reproduces the current rating exactly; leakage
   test identical. v2.2 reference rebuilt on 20 Nov data (stored v22 snapshot predates the starter-rule fix; disclosed).
+- One official line (user 2026-11-24, after an outside review; display only, no forecast/pick/grade changed): the v2 trial
+  row left the week cards and the game-page comparison table and is now a separate "Trial line (not official)" panel on
+  game pages with its definition; the comparison table marks the model line "official" and describes the market-adjusted
+  line as the market nudged by football data; the Method page opens with "Which line is official". Performance "Gap records
+  in context" adds bands under 1, 1-2 and 2-3 points (2019-25: 47%, 50%, 48%; only 3-4 stands above 50%); record tiles
+  read right-wrong-level with "% right" and link to "Line movement after the lock" (already the site's closing-line check).
+  Venue names mapped for display (Reliant -> NRG Stadium etc.). Not done, with reasons: availability in the official line
+  (model frozen; absences v1 failed), Brier/log loss against no-vig odds (needs prices, banned by data policy).
 ## 3. Tests and checks (2026-09-25)
 - Live head-to-head (2026-10-13, user request; display only): `picks.head_to_head` compares combined, stats-only and market
   on the same finished, publicly verifiable games by week (margin error, winner correct) plus the vs-line records of the

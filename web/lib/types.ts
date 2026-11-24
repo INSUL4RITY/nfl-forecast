@@ -313,8 +313,8 @@ export interface SeasonRecord {
   spread: { win: number; loss: number; push: number };
   /** Display-only tracking record of the stats-only numbers from each locked version (not the official model pick). */
   stats_only?: { weeks: number[]; spread: WLP; big_gap: WLP; biggest_gap?: WLP; total: WLP; market_adjusted?: WLP; injury_adjusted?: WLP; v2_trial?: WLP;
-    /** Gap bands 3-4 and 4+ points, each split by the locked line's size (display only, 2026-11-20). */
-    bands?: Record<GapBand, Record<LineSize, WLP>>; band_history?: BandHistory | null };
+    /** Gap bands (3-4 and 4+ from 2026-11-20; under 1, 1-2 and 2-3 from 2026-11-24), each split by the locked line's size. */
+    bands?: Partial<Record<GapBand, Record<LineSize, WLP>>>; band_history?: BandHistory | null };
 }
 
 export interface WLP { win: number; loss: number; push: number }
@@ -387,11 +387,11 @@ export interface DeservedLedger {
   explosive: number; st_epa: number;
 }
 
-export type GapBand = "3-4" | "4+";
+export type GapBand = "0-1" | "1-2" | "2-3" | "3-4" | "4+";
 export type LineSize = "all" | "lt7" | "ge7";
 export interface BandRate { n: number; model_side: number; rate: number | null; ci95: [number, number] | null }
 /** Retrospective 2019-2025 rate of the model line's side by gap band and line size (reports/research/gap_band_history). */
-export interface BandHistory { source: string; lines: string; retrospective: boolean; bands: Record<GapBand, Record<LineSize, BandRate>> }
+export interface BandHistory { source: string; lines: string; retrospective: boolean; bands: Partial<Record<GapBand, Record<LineSize, BandRate>>> }
 
 export interface AbsencePlayer {
   player: string; pos?: string | null; unit: string; status: string;

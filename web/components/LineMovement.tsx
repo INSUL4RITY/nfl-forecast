@@ -19,7 +19,7 @@ export default function LineMovement({ lm }: { lm?: LineMove | null }) {
     ["· 3 pts or more", lm.model_line_bands["3_plus"], true],
   ];
   return (
-    <div className="panel">
+    <div className="panel" id="line-movement">
       <h2>Line movement after the lock</h2>
       <p className="small ink2">When the market line moves after a pick locks, it usually reflects new information or other models
         agreeing. A line that keeps moving toward the model&apos;s side is a steadier sign of signal than a few weeks of results.
