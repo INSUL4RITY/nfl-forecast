@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { ReactNode } from "react";
 import type { GroupResults, LockedPick, Pick, ResultGrade, WeekGame, WeekResults } from "@/lib/types";
 import { f1, pct, spreadText } from "@/lib/format";
@@ -31,10 +32,29 @@ const STATS_EXPLAIN = "Model line: the stats-only model, built from football dat
   "line was at least 3 points from the line when the pick was locked (Biggest gap: at least 4 points); a prompt to check " +
   "why the market disagrees, not a recommendation.";
 
-export const V2_EXPLAIN = "Model v2 line (trial, version 2.2): the stats-only model with penalties, special teams, non-QB " +
-  "injuries, turnover and close-game regression, 3rd/4th-down rates, QB scrambles, 4th-down decisions, time of possession, " +
-  "fatigue from the previous game (plays faced, overtime, short week), divisional games and weather added. Tracked from " +
-  "week 8 against the model line; it never sets the model pick.";
+/** The v2 trial line on a game page, apart from the official numbers (user 2026-11-24: one official line on the
+ *  cards, trials kept separate and defined). Margin and implied side from the same version and line as the model pick. */
+export function TrialPanel({ g }: { g: WeekGame }) {
+  const e = g.forecast, v2 = e?.football_only_v2;
+  if (!e || !v2) return null;
+  const lp = g.locked_pick, H = g.home, A = g.away;
+  const locked = !!lp && lp.line_home_spread != null;
+  const line = locked ? lp!.line_home_spread! : e.market?.home_spread ?? null;
+  const m = locked ? lp?.stats_v2?.margin ?? v2.margin : v2.margin;
+  const p = line != null ? trialPick(m, line, H, A, g.stats_only_grade?.v2_trial) : null;
+  return (
+    <div className="panel">
+      <h2>Trial line (not official)</h2>
+      <p style={{ margin: "0 0 6px" }}><b>Model v2 line{locked ? " at the model pick's lock" : ""}:</b> {modelLineText(m, H, A)}{p ? ` · ${p}` : ""}</p>
+      <p className="small ink2" style={{ margin: 0 }}>A candidate for the 2027 model, tracked alongside the official model line
+        and judged at the end of the season on weeks 8–18. It never sets the model pick and is not part of any record shown on
+        this site. What it adds to the model line: penalties, special teams, non-QB injuries, turnover and close-game
+        regression, 3rd/4th-down rates, QB scrambles, 4th-down decisions, time of possession, fatigue from the previous game
+        (plays faced, overtime, short week), divisional games and weather. <Link href="/methodology/#lines">Which line is
+        official</Link>.</p>
+    </div>
+  );
+}
 
 const EDGE: Record<string, string> = { tiny: "Tiny difference · about a coin flip", small: "Small difference",
   moderate: "Moderate difference", large: "Large difference" };
@@ -99,7 +119,8 @@ export function pickDetail(p: LockedPick, home: string, away: string): string {
 }
 
 /** Prediction block for game cards and game pages: the locked model pick (most prominent), then the current market line,
- *  model line (stats only) with totals and the trial lines with the side they imply, then the projected winner.
+ *  model line (stats only) with totals, then the projected winner. Trial lines are not shown here (TrialPanel, game
+ *  pages only; user 2026-11-24).
  *  `lockedAt` / `locksAt` are the formatted times the pick was / will be locked. */
 export function PredictionSummary({ g, lockedAt, locksAt }: { g: WeekGame; lockedAt?: ReactNode; locksAt?: ReactNode }) {
   const e = g.forecast, f = e?.forecast;
@@ -123,15 +144,6 @@ export function PredictionSummary({ g, lockedAt, locksAt }: { g: WeekGame; locke
   const statsBasis = lp?.basis === "stats_only";
   const lockPair = () => pair(lp!.line_home_spread!, lp!.stats_only?.margin,
     statsBasis ? null : lp!.market_adjusted_margin ?? lp!.projected_margin);
-  // trial lines: the margin and side from the same version and line as the model pick (current ones before any lock)
-  const pickLine = locked ? lp!.line_home_spread! : cur;
-  const trial = (lockedMargin: number | null | undefined, current: number | null | undefined, res?: string | null) => {
-    const m = locked ? lockedMargin ?? current : current;
-    if (m == null) return null;
-    const p = pickLine != null ? trialPick(m, pickLine, H, A, res) : null;
-    return <>{modelLineText(m, H, A)}{p && <span className="dd-note">{p[0].toUpperCase() + p.slice(1)}</span>}</>;
-  };
-  const sg = g.stats_only_grade;
   const edge = lp ? edgeText(lp) : null;
   const gap = statsGap(lp);
   const winHome = mdl.p_home >= mdl.p_away;
@@ -164,8 +176,6 @@ export function PredictionSummary({ g, lockedAt, locksAt }: { g: WeekGame; locke
         <div><dt>Model line</dt><dd>{modelLineText(mdl.margin, H, A)}</dd></div>
         <div><dt>Market total</dt><dd>{e.market?.total != null ? f1(e.market.total) : "—"}</dd></div>
         <div><dt>Model total</dt><dd>{f1(mdl.total)}</dd></div>
-        {e.football_only_v2 && <div className="full" title={V2_EXPLAIN}><dt>Model v2 line (trial)</dt>
-          <dd>{trial(lp?.stats_v2?.margin, e.football_only_v2.margin, sg?.v2_trial)}</dd></div>}
         <div className="full"><dt>Projected winner (model)</dt>
           <dd>{Math.abs(mdl.margin) < 0.05 ? "Toss-up"
             : `${winHome ? H : A} ${pct(winHome ? mdl.p_home : mdl.p_away)} · by ${Math.abs(mdl.margin).toFixed(1)}`}</dd></div>

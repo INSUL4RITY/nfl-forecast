@@ -92,7 +92,7 @@ CLI stay `nflcast`; keep the URL and repo name (published evidence and links poi
   Performance); trial rows on the card show the side they imply ("Pick NYG +10.5", + result when graded).
   2026-10-28 (user): top records = official Model pick as published (weeks 3-6 market-adjusted basis, never regraded) +
   "Model line, all weeks" (model line / Big / Biggest gaps); market-adjusted record only on Performance; the v2 trial's
-  record is NOT shown on the site (user tracks it manually; its per-game card row stays). 2026-11-22 (user): the model
+  record is NOT shown on the site (user tracks it manually). 2026-11-24 (user: "one official line and keep the trial separate"): week cards show only the official numbers; the v2 trial line is on game pages only, in a "Trial line (not official)" panel with its definition (`Pick.TrialPanel`), and the Method page opens with "Which line is official". Performance gap records add bands under 1, 1-2 and 2-3 points (`gap_band_history_2026-11-24.json`); record tiles read right-wrong-level; old venue names are mapped for display (`format.stadiumName`). 2026-11-22 (user): the model
   line (stats only, all weeks) is the headline record tile; the official record as published (weeks 3-6 market-adjusted,
   never regraded) stays as a labelled tile ("Official record as published").
 - After any display change, run `scripts/layout_audit.js` in the browser on the local build (widths 1280, 768, 414, 375, 320)

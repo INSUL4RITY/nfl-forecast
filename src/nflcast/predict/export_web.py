@@ -421,7 +421,8 @@ def export() -> Path:
                             # gap bands shown separately (display only; user authorisation 2026-11-20, item B2): 3-4 and
                             # 4+ points, each split by the locked line's size (under 7 / 7 or more), with the retrospective
                             # 2019-2025 rate for the same band (reports/research/gap_band_history_2026-11-21.json)
-                            "bands": {b: {"all": wlp(), "lt7": wlp(), "ge7": wlp()} for b in ("3-4", "4+")},
+                            # 2026-11-24 (user): finer bands under 1, 1-2 and 2-3 points added on Performance
+                            "bands": {b: {"all": wlp(), "lt7": wlp(), "ge7": wlp()} for b in GAP_BANDS},
                             "band_history": _band_history()}
     h2h: list[dict] = []
     abs_cache: dict = {}
@@ -535,8 +536,10 @@ def export() -> Path:
                                  ("injury_adjusted", sg.get("injury_adjusted")), ("v2_trial", sg.get("v2_trial"))):
                     if res:
                         so[key][res] += 1
-                if sg["big_gap"] and sg["spread"] and lk.get("line_home_spread") is not None:
-                    band = so["bands"]["4+" if sg["biggest_gap"] else "3-4"]
+                gap = (abs(lk["stats_only"]["margin"] + lk["line_home_spread"])
+                       if lk.get("stats_only") and lk.get("line_home_spread") is not None else None)
+                if sg["spread"] and gap is not None and gap > 0:
+                    band = so["bands"][gap_band(gap, sg["big_gap"], sg["biggest_gap"])]
                     band["all"][sg["spread"]] += 1
                     band["ge7" if abs(lk["line_home_spread"]) >= 7 else "lt7"][sg["spread"]] += 1
         week_index.append({"season": season, "week": week, "n_games": wk.height, "has_forecasts": bool(rel),
@@ -559,9 +562,22 @@ def export() -> Path:
     return WEB_DATA
 
 
+GAP_BANDS = ("0-1", "1-2", "2-3", "3-4", "4+")
+
+
+def gap_band(gap: float, big: bool, biggest: bool) -> str:
+    """Gap band of a locked pick; 3-4 and 4+ follow the Big / Biggest gap flags exactly."""
+    if biggest:
+        return "4+"
+    if big:
+        return "3-4"
+    return "0-1" if gap < 1 else "1-2" if gap < 2 else "2-3"
+
+
 def _band_history() -> dict | None:
-    """Retrospective 2019-2025 rate of the Model line's side by gap band and line size (display only, item B2)."""
-    p = REPORTS_DIR / "research" / "gap_band_history_2026-11-21.json"
+    """Retrospective 2019-2025 rate of the Model line's side by gap band and line size (display only, item B2; bands
+    under 1, 1-2 and 2-3 added 2026-11-24)."""
+    p = REPORTS_DIR / "research" / "gap_band_history_2026-11-24.json"
     return json.loads(p.read_text(encoding="utf-8")) if p.exists() else None
 
 

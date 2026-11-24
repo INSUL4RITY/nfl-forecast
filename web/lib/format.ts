@@ -238,3 +238,12 @@ export function wilson(k: number, n: number, z = 1.96): [number, number] | null 
   const h = (z * Math.sqrt((p * (1 - p)) / n + (z * z) / (4 * n * n))) / d;
   return [Math.max(0, c - h), Math.min(1, c + h)];
 }
+
+/** Current names for venues the schedule data still lists under an old or informal name (display only, 2026-11-24). */
+const STADIUM_NAMES: Record<string, string> = {
+  "Reliant Stadium": "NRG Stadium",
+  "FC Bayern Munich Stadium": "Allianz Arena",
+  "Bernabeu": "Santiago Bernabéu",
+  "Maracana Stadium": "Maracanã Stadium",
+};
+export const stadiumName = (s: string | null | undefined) => (s ? STADIUM_NAMES[s] ?? s : "");

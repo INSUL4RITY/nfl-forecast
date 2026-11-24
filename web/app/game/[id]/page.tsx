@@ -12,10 +12,10 @@ import { DeservedLine, DeservedPanel } from "@/components/Deserved";
 import TeamBadge from "@/components/TeamBadge";
 import { dataProblems } from "@/components/GameCard";
 import StateLabel from "@/components/StateLabel";
-import { gradeText, pickDetail, pickExplain, PredictionSummary, RETRO_NOTE } from "@/components/Pick";
+import { gradeText, pickDetail, pickExplain, PredictionSummary, RETRO_NOTE, TrialPanel } from "@/components/Pick";
 import { AbsencePanel } from "@/components/Absences";
 import { allGames, findGame, getTeams } from "@/lib/data";
-import { f1, f2, f3, marginText, onDark, pct, teamPairColors, pctP, problemText, qbStatusText, rosterText, spreadText, VERIFY_LABEL, weekName } from "@/lib/format";
+import { f1, f2, f3, marginText, onDark, pct, teamPairColors, pctP, problemText, qbStatusText, rosterText, spreadText, stadiumName, VERIFY_LABEL, weekName } from "@/lib/format";
 import type { Forecast, LineupSide } from "@/lib/types";
 
 export function generateStaticParams() {
@@ -175,11 +175,10 @@ export default async function GamePage({ params }: { params: Promise<{ id: strin
     "--c-pick": pickSide === H ? pair.home : pickSide === A ? pair.away : undefined } as CSSProperties;
   type Row = [string, Forecast | null | undefined, string];
   const models: Row[] = (e ? ([
-    ["Model (stats only)", e.football_only, "Football data only, no market input; the model pick follows it from week 7"],
-    ["Market-adjusted (combined)", e.combined, "Market spread & total + football features; residual ridge"],
-    ["Model v2 (trial)", e.football_only_v2 ?? null, "Stats-only model plus penalties, special teams, injuries, regression inputs, fatigue, time of possession and weather; display and tracking only"],
+    ["Model (stats only) · official", e.football_only, "Football data only, no market input; the model pick follows it from week 7"],
+    ["Market-adjusted (combined)", e.combined, "The market line nudged by football data; it mostly agrees with the market"],
     ["Market only", e.market_only, "Spread & total mapped to scores (benchmark)"],
-  ] as Row[]) : []).filter(([name, m]) => m || !name.includes("(trial)"));   // trial rows only where they exist
+  ] as Row[]) : []);   // the v2 trial line is in its own panel below (user 2026-11-24: one official line, trials separate)
 
   return (
     <>
@@ -192,7 +191,7 @@ export default async function GamePage({ params }: { params: Promise<{ id: strin
             <h1 style={{ margin: 0 }}>{teams[A]?.nick} at {teams[H]?.nick}</h1>
           </div>
           <div className="meta-line" style={{ marginTop: 8 }}>
-            <LocalTime venueTz={g.venue_tz} iso={g.kickoff_utc} kickoff known={g.kickoff_time_known} /> · {g.stadium}{g.neutral_site ? " (neutral site)" : ""}
+            <LocalTime venueTz={g.venue_tz} iso={g.kickoff_utc} kickoff known={g.kickoff_time_known} /> · {stadiumName(g.stadium)}{g.neutral_site ? " (neutral site)" : ""}
             {g.roof ? ` · ${g.roof}` : ""} · {g.game_type === "REG" ? "Regular season" : `Playoffs · ${weekName(g.week)}`}{g.div_game ? " · Divisional game" : ""}
           </div>
         </div>
@@ -340,6 +339,8 @@ export default async function GamePage({ params }: { params: Promise<{ id: strin
               </p>
             )}
           </div>
+
+          <TrialPanel g={g} />
 
           {e.football_breakdown && <MarginBreakdown b={e.football_breakdown} home={H} away={A} homeColor={pair.home}
             awayColor={pair.away} homeName={teams[H]?.nick} awayName={teams[A]?.nick} />}

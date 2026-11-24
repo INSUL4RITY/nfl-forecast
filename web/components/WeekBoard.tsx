@@ -1,7 +1,8 @@
-﻿"use client";
+"use client";
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 import type { BandRate, GapBand, Manifest, SeasonRecord, Team, WeekDoc, WLP } from "@/lib/types";
 import { dateRange, dayKey, fmtDateTime, isPlayoffWeek, tzFor, weekName, wilson, type TzMode } from "@/lib/format";
+import Link from "next/link";
 import GameCard from "./GameCard";
 import { pickExplain, WeekResultsPanel } from "./Pick";
 
@@ -16,8 +17,9 @@ function Tile({ label, x, children }: { label: string; x: WLP | null; children?:
   return (
     <div className="tile">
       <span className="caps">{label}</span>
-      <span className="tile-big num">{x ? wlp(x) : "—"}</span>
-      <span className="small ink2 num">{x ? (x.win + x.loss ? pctOf(x.win, x.loss) : "No finished games yet") : "No finished games yet"}</span>
+      <span className="tile-big num" aria-label={x ? `${x.win} right, ${x.loss} wrong${x.push ? `, ${x.push} level` : ""}` : undefined}>
+        {x ? wlp(x) : "—"}</span>
+      <span className="small ink2 num">{x ? (x.win + x.loss ? `${pctOf(x.win, x.loss)} right` : "No finished games yet") : "No finished games yet"}</span>
       {children}
     </div>
   );
@@ -51,11 +53,13 @@ function Records({ r, week, weekLabel }: { r: SeasonRecord; week: WLP | null; we
           <span className="small muted">Weeks 3–6 used the market-adjusted line</span>
         </Tile>
       </div>
-      <p className="small muted records-note">Against the market line, publicly verifiable forecasts only ({weeksText(r.weeks)}).
+      <p className="small muted records-note">Records read right–wrong–level against the market line (level: the result finished
+        exactly on the line; left out of the percentage). Publicly verifiable forecasts only ({weeksText(r.weeks)}).
         Model line (headline): the side of the locked line the stats-only model fell on, every week; it has been the model
         pick since week 7. Gap tiles: games where the model line was 3–4 or 4+ points from the locked line; 2019–25 is
         retrospective. Official record as published: the model pick exactly as graded at the time; in weeks 3–6 it followed
-        the market-adjusted line (the rule then) and those weeks are not regraded.</p>
+        the market-adjusted line (the rule then) and those weeks are not regraded. A check that settles faster than results:{" "}
+        <Link href="/performance/#line-movement">how the market line moved after each lock</Link>.</p>
     </section>
   );
 }
@@ -162,11 +166,12 @@ export default function WeekBoard({ doc, teams, manifest }: { doc: WeekDoc; team
         <p className="small muted" style={{ marginBottom: 0 }}>Gap records: the model line&apos;s side of the locked line in
           games where it was 3–4 points and 4 or more points from that line, shown separately, with a 95% range. Beside each, the
           rate for the same band in 2019–2025 (retrospective walk-forward forecasts against untimed, roughly closing, lines).
-          {hb && <> In that history the 3–4 point band finished on the model line&apos;s side {pc0(hb["3-4"].all.rate ?? 0)} of the
+          {hb?.["3-4"] && hb["4+"] && <> In that history the 3–4 point band finished on the model line&apos;s side {pc0(hb["3-4"].all.rate ?? 0)} of the
           time (95% range {pc0(hb["3-4"].all.ci95?.[0] ?? 0)}–{pc0(hb["3-4"].all.ci95?.[1] ?? 0)}, {hb["3-4"].all.n} games) and
           the 4+ band {pc0(hb["4+"].all.rate ?? 0)} ({pc0(hb["4+"].all.ci95?.[0] ?? 0)}–{pc0(hb["4+"].all.ci95?.[1] ?? 0)},{" "}
           {hb["4+"].all.n} games): bigger gaps have not meant better results.</>} A few dozen 2026 games cannot show
-          that either band is a signal. More detail, split by the size of the line, is on the Performance page.</p>
+          that either band is a signal. More detail, with smaller gaps (under 1, 1–2 and 2–3 points) and split by the size of the
+          line, is on the Performance page.</p>
       </div>
       <p className="small muted" style={{ marginTop: 28 }}>
         Scores are expected values (means), not predicted final scores. Win probabilities include a small regular-season
