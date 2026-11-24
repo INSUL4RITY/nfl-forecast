@@ -95,7 +95,7 @@ def predictions(seasons=SEASONS, game_var=False) -> pd.DataFrame:
                 for r in next_week(name, fr, mask, y, P, DR, tg, W).itertuples():
                     o, d = m["off"], m["def"]
                     eo, ed, wo, wd = o["eff"][r.posteam], d["eff"][r.defteam], o["w"][r.posteam], d["w"][r.defteam]
-                    rows.append({"season": S, "W": W, "metric": name, "n": r.n, "actual": r.actual - m["mean"] - m["home"] * r.is_home,
+                    rows.append({"season": S, "W": W, "metric": name, "n": r.n, "game_id": r.game_id, "posteam": r.posteam, "defteam": r.defteam, "actual": r.actual - m["mean"] - m["home"] * r.is_home,
                                  "raw": eo + ed, "shr": wo * eo + wd * ed,
                                  "z": wo * eo / np.sqrt(o["tau2"]) + wd * ed / np.sqrt(d["tau2"])})
         print(S, "done", flush=True)

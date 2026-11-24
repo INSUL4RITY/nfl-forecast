@@ -1,7 +1,8 @@
 """Weather line for the coming week's games: forecast at each venue plus what similar games did in the past.
 
-Forecast: National Weather Service hourly forecast for US venues, Open-Meteo for other venues or when NWS cannot be read
-(neither needs a key), for the kickoff hour and the next three hours. Rain or snow counts as likely at a 50%+ chance of precipitation in any of those hours; wind is the mean over them. Indoor games have no forecast; a
+Forecast: National Weather Service hourly forecast for US venues AND Open-Meteo for every venue (neither needs a key), for the
+kickoff hour and the next three hours. When both are read, the line shows each source's chance of precipitation and wind,
+and the label uses the wetter and windier of the two (the CIN at WAS forecast in week 11 read dry from one source only). Rain or snow counts as likely at a 50%+ chance of precipitation in any of those hours; wind is the mean over them. Indoor games have no forecast; a
 blank nflverse roof means open or closed is not known yet, so the forecast is shown without any history.
 
 History: raw averages from all outdoor and open-roof 2021-25 regular-season games with a usable weather text, grouped
@@ -153,6 +154,28 @@ def fetch_open_meteo(lat, lon, ko: dt.datetime, get=requests.get) -> dict | None
         return None
 
 
+def combine(fcs: list[dict]) -> dict:
+    """One summary from one or two forecasts: the first source's temperature, the wetter chance of precipitation, the windier
+    mean wind, the larger gust, any snow."""
+    pick = lambda k: [f[k] for f in fcs if f.get(k) is not None]   # noqa: E731
+    return {"temp": fcs[0]["temp"], "wind": max(pick("wind")), "gust": max(pick("gust")) if pick("gust") else None,
+            "pop": max(pick("pop")) if pick("pop") else None, "inches": pick("inches")[0] if pick("inches") else None,
+            "snow": any(f.get("snow") for f in fcs)}
+
+
+def sources_text(r: dict) -> str:
+    """' Sources: NWS 0% chance, wind 8 mph; Open-Meteo 40% chance, wind 12 mph (gusts 23).' when two were read."""
+    src = r.get("sources") or []
+    if len(src) < 2:
+        return ""
+    short = {"National Weather Service": "NWS"}
+    part = lambda f: (f"{short.get(f['source'], f['source'])} " + ("chance not given" if f.get("pop") is None else f"{f['pop']:.0f}% chance")   # noqa: E731
+                      + f", wind {f['wind']:.0f} mph" + ("" if f.get("gust") is None else f" (gusts {f['gust']:.0f})"))
+    pops = [f["pop"] for f in src if f.get("pop") is not None]
+    split = " The two forecasts disagree on rain." if len(pops) == 2 and abs(pops[0] - pops[1]) >= 30 else ""
+    return " Sources: " + "; ".join(part(f) for f in src) + "." + split
+
+
 def game_record(g, now: dt.datetime, get=requests.get) -> dict:
     ko = kickoff(g)
     rec = {"kickoff_utc": ko.isoformat(timespec="minutes")}
@@ -164,14 +187,18 @@ def game_record(g, now: dt.datetime, get=requests.get) -> dict:
     lat, lon, _, _ = ctx.venue_geo(g)
     if pd.isna(lat):
         return rec | {"kind": "none"}
-    fc = fetch_nws(lat, lon, ko, get) if str(g.location) != "Neutral" else None
-    source = "National Weather Service"
-    if fc is None:
-        fc, source = fetch_open_meteo(lat, lon, ko, get), "Open-Meteo"
-    if fc is None:
+    fcs = []
+    nws = fetch_nws(lat, lon, ko, get) if str(g.location) != "Neutral" else None
+    if nws is not None:
+        fcs.append(("National Weather Service", nws))
+    om = fetch_open_meteo(lat, lon, ko, get)
+    if om is not None:
+        fcs.append(("Open-Meteo", om))
+    if not fcs:
         return rec | {"kind": "none"}
-    return rec | {"kind": "forecast" if roof in ("outdoors", "open") else "roof_unknown", "source": source, "read_utc": now.isoformat(timespec="minutes"),
-                  "lead_days": round((ko - now).total_seconds() / 86400, 1)} | fc
+    return rec | {"kind": "forecast" if roof in ("outdoors", "open") else "roof_unknown", "source": " and ".join(s for s, _ in fcs),
+                  "read_utc": now.isoformat(timespec="minutes"), "lead_days": round((ko - now).total_seconds() / 86400, 1),
+                  "sources": [{"source": s} | f for s, f in fcs]} | combine([f for _, f in fcs])
 
 
 def conditions(r: dict) -> tuple[str, str | None]:
@@ -206,7 +233,7 @@ def line(r: dict, H: dict) -> str | None:
     gust = "" if r["gust"] is None else f" (gusts {r['gust']:.0f})"
     when = dt.datetime.fromisoformat(r["read_utc"]).strftime("%d %b %H:%M UTC")
     early = f"; early forecast, {r['lead_days']:.0f} days before kickoff" if r["lead_days"] >= EARLY_DAYS else ""
-    head = f"{label}: {r['temp']:.0f}°F at kickoff, wind {r['wind']:.0f} mph{gust}, {pop}{amount} ({r['source']}, read {when}{early})."
+    head = f"{label}: {r['temp']:.0f}°F at kickoff, wind {r['wind']:.0f} mph{gust}, {pop}{amount} ({r['source']}, read {when}{early})." + sources_text(r)
     if k == "roof_unknown":
         return f"Roof not listed, so open or closed is not known yet. If open: {head}"
     return head if group in (None, BASE) else f"{head} {history_text(group, H)}"

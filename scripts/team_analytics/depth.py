@@ -29,7 +29,7 @@ OUT_CLASSES = ("confirmed: reserve list", "listed Out/Doubtful", "inactive 3+ ga
 STATUS_TEXT = {"confirmed: reserve list": "out (reserve list)", "listed Out/Doubtful": "out/doubtful",
                "inactive 3+ games": "out (inactive 3+ games)", "listed Questionable": "questionable",
                "did not practise": "did not practise", "limited in practice": "limited in practice",
-               "unconfirmed": "missed last game"}
+               "unconfirmed": "missed last game", "rest day": "rest day (not injured)"}
 
 
 SUFFIX = {"jr", "sr", "ii", "iii", "iv", "v"}

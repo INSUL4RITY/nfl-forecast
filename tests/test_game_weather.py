@@ -86,3 +86,21 @@ def test_failed_read_never_raises():
     now = dt.datetime(2026, 11, 14, 12, 0, tzinfo=UTC)
     assert gw.line(gw.game_record(game(), now, boom), HIST) == "Forecast not loaded."
     assert gw.game_window({"hourly": {"time": []}}, gw.kickoff(game())) is None
+
+
+def test_two_sources_take_the_wetter_and_show_both():
+    ko = gw.kickoff(game())
+    periods = [{"startTime": (ko + dt.timedelta(hours=i)).astimezone(gw.ET).isoformat(), "temperature": 53, "windSpeed": "8 mph",
+                "probabilityOfPrecipitation": {"value": 0}, "shortForecast": "Clear"} for i in range(4)]
+    om = body(ko, pop=60, wind=12, code=61)
+
+    def get(url, **k):
+        if "open-meteo" in url:
+            return SimpleNamespace(raise_for_status=lambda: None, json=lambda: om)
+        p = {"forecastHourly": "hourly"} if "points" in url else {"periods": periods}
+        return SimpleNamespace(raise_for_status=lambda: None, json=lambda: {"properties": p})
+    r = gw.game_record(game(), dt.datetime(2026, 11, 14, 12, 0, tzinfo=UTC), get)
+    assert r["source"] == "National Weather Service and Open-Meteo" and r["pop"] == 60 and r["wind"] == 12
+    txt = gw.line(r, HIST)
+    assert txt.startswith("Rain likely") and "NWS 0% chance, wind 8 mph; Open-Meteo 60% chance, wind 12 mph (gusts 17)" in txt
+    assert "disagree on rain" in txt

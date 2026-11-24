@@ -1,18 +1,14 @@
 {
  "inputs": {
-  "template.html": "459011f998d92cbb0984879c0a9ff6388c6ca2dbf364c107a2d6c8686f7bd954",
-  "build_html.py": "29404e14989c051eb2044eb91844b0e15655b66322d57d04c4377b4cfe2821ac",
+  "template.html": "0bd72f01927c0391cdb18fad33905c3b1a8388473f7094d0159a8718dcaaa779",
+  "build_html.py": "ed921059e158e5b6b39b35a4ac6aef4e0c33ab3663a426a3406963cc9ab34821",
   "publish_public.py": "0cfa69c8ad2a241c925e3c81854d8074a4990bf27ff6d955fc2c4a5b08abf114",
   "layout_audit.js": "be266bbe1bf54702ee1e30e0b0ab7bbd883b21f957bc85d7fc12428fb37d6d26"
  },
  "passed": {
   "local": {
-   "at": "2026-11-22 11:54 UTC",
-   "note": "week 11 Sunday fixes (summary-list records, traded QB sample, Top link landmark), 5 widths, 0 issues, 0 axe findings"
-  },
-  "live": {
-   "at": "2026-11-22 12:02 UTC",
-   "note": "public page e00ba26 (week 11 Sunday fixes), 5 widths, 0 issues, 0 axe findings"
+   "at": "2026-11-24 18:30 UTC",
+   "note": "week 11 test rebuild with the edge-target sheet, two-source weather and rest days (layout + axe, 5 widths, 0 issues)"
   }
  }
 }

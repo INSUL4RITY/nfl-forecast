@@ -603,22 +603,30 @@ def mismatches(T, nxt, MM, QBS=None):
     rows = []
     for _, g in nxt.iterrows():
         h, a = g.home_team, g.away_team
-        edges = []
+        edges, F = [], {}
         for o, d in [(h, a), (a, h)]:
+            F[o] = {}
+            if "epa_play" in MM:
+                m = MM["epa_play"]
+                F[o]["epa_play"] = round(float(m["off"]["w"][o] * m["off"]["eff"][o] / math.sqrt(m["off"]["tau2"])
+                                               + m["def"]["w"][d] * m["def"]["eff"][d] / math.sqrt(m["def"]["tau2"])), 3)
             for key, sgn, lab, det in EDGE_SPECS:
                 m = MM[key]
                 zo = m["off"]["w"][o] * m["off"]["eff"][o] / math.sqrt(m["off"]["tau2"])
                 zd = m["def"]["w"][d] * m["def"]["eff"][d] / math.sqrt(m["def"]["tau2"])
                 zf = sgn * (zo + zd)                                 # > 0 favours the offence
+                F[o][key], F[o]["n_" + key] = round(float(zf), 3), int(m["off"]["n"].get(o, 0))
                 score = -zf if lab.startswith("{d}") else zf        # sign follows the unit named first
                 news = (QBS.get(o) or {}).get("news")
                 note = (f"; built with the quarterbacks who played before {news['starter']} (week news), so treat it with care"
                         if news and key in PASS_KEYS else "")
                 edges.append((score, lab.format(o=o, d=d), det(T, o, d) + note, o if zf >= 0 else d,
-                              round(float(m["off"]["w"][o]), 2), round(float(m["def"]["w"][d]), 2), key))
+                              round(float(m["off"]["w"][o]), 2), round(float(m["def"]["w"][d]), 2), key,
+                              int(m["off"]["n"].get(o, 0)), int(m["def"]["n"].get(d, 0))))
         edges = sorted(edges, key=lambda e: -abs(e[0]))[:3]
-        rows.append({"game": f"{a} at {h}", "day": str(g.gameday), "edges": [
-            {"score": round(float(e[0]), 2), "what": e[1], "detail": e[2], "favours": e[3], "w_off": e[4], "w_def": e[5], "m": e[6]} for e in edges]})
+        rows.append({"game": f"{a} at {h}", "day": str(g.gameday), "f": F, "edges": [
+            {"score": round(float(e[0]), 2), "what": e[1], "detail": e[2], "favours": e[3], "w_off": e[4], "w_def": e[5], "m": e[6],
+             "n_off": e[7], "n_def": e[8], "conf": conf_label((e[4] + e[5]) / 2), "pred": PRED_WORDS.get(edge_group(e[6]) or "", "")} for e in edges]})
     return rows
 
 
@@ -635,6 +643,7 @@ MATCH_ROWS = {
         ("Pass block vs pass rush win rate (ESPN)", None, "pbwr", "prwr", "pct", 1, True),
         ("Air yards per completion (raw)", None, "off_air_per_cmp", "def_air_per_cmp", "n1", 1),
         ("EPA per dropback vs the blitz (FTN)", None, "off_epa_blitz", "def_epa_blitz", "epa", 1),
+        ("Hit-or-sack rate, 4 or fewer rushers (FTN)", None, "off_hs_r4", "def_hs_r4", "pct", -1),
         ("YAC per completion (raw)", None, "off_yac_per_cmp", "def_yac_per_cmp", "n1", 1),
         ("YAC over expected per catch (NGS)", None, "off_yacoe", "def_yacoe", "n2", 1),
         ("Broken tackles after catch per game (PFR)", None, "rec_brk_tkl_pg", "def_rec_brk_tkl_allowed_pg", "n2", 1),
@@ -1076,6 +1085,25 @@ def line_starters_out(A: pd.DataFrame, team: str, min_share: float = 0.5) -> pd.
     return A[(A.team == team) & (A.group == "OL") & A.status_class.isin(OUT_CLASSES_CONFIRMED) & (A.share >= min_share)]
 
 
+INTERIOR_OL = ("G", "C", "OG", "LG", "RG")
+
+
+def rush_split(x: pd.DataFrame, d: str, T: pd.DataFrame) -> str:
+    """Where the missing linemen play (guards/centre vs tackles) against where the defence's pressure comes from
+    (PFR pressures by roster position). Display only: not part of the tested line cost."""
+    if "def_int_press_share" not in T or pd.isna(T.def_int_press_share.get(d)):
+        return ""
+    pos = x.position.astype(str).str.upper() if "position" in x else pd.Series(dtype=str)
+    n_in, n_t = int(pos.isin(INTERIOR_OL).sum()), int(pos.isin(["T", "OT", "LT", "RT"]).sum())
+    n_u = len(pos) - n_in - n_t
+    where = ", ".join(p for p in (f"{n_in} interior (guard or centre)" if n_in else "", f"{n_t} tackle{'s' if n_t > 1 else ''}" if n_t else "",
+                                   f"{n_u} listed only as offensive line" if n_u else "") if p)
+    share_in, share_e = T.def_int_press_share[d], T.def_edge_press_share[d]
+    rk = int(rank(T.def_int_press_share)[d])
+    return (f" Where they play: {where}. {d} gets {share_in:.0%} of its pressures from interior linemen ({ordinal(rk)} most) and {share_e:.0%} "
+            f"from edge rushers (PFR, {int(T.def_pressures_pfr[d])} pressures). This split is shown for context; it is not part of the tested cost.")
+
+
 def line_caution(o: str, d: str, A: pd.DataFrame, T: pd.DataFrame) -> str | None:
     x = line_starters_out(A, o)
     if x.empty:
@@ -1097,6 +1125,7 @@ def line_caution(o: str, d: str, A: pd.DataFrame, T: pd.DataFrame) -> str | None
         txt += "."
     if (x.term != "new").any():
         txt += " Starters out for a while are partly in the season figures already."
+    txt += rush_split(x, d, T)
     return txt
 
 
@@ -1172,25 +1201,26 @@ def qb_change_method() -> str:
             f"to call. The team rows in each matchup still use the season figures; the quarterback's own numbers carry the separate role adjustment above.</p>")
 
 
-def game_summary(a: str, h: str, mmrow: dict | None, A: pd.DataFrame, QBS: dict, CAL: dict | None) -> list[str]:
-    """Three lines at the top of a game: the biggest unit edge with its 2021-25 record, absences with a tested pre-game
-    cost, and the strongest point the other way."""
-    out = []
-    edges = (mmrow or {}).get("edges") or []
-    e = edges[0] if edges else None
-    E = (CAL or {}).get("edges") or {}
-    if e:
-        rec = (E.get("notable_by_measure") or {}).get(e.get("m"), {})
-        if abs(e["score"]) >= E.get("notable", 1.0) and rec.get("right"):
-            q = f"{EDGE_WORDS.get(e['m'], 'headline')} edges that size pointed the right way {rec['right']:.0%} of the time in 2021-25 ({rec['cases']} cases)"
-        elif E.get("small_right") is not None:
-            q = (f"below the {E.get('notable', 1.0):.1f} line for a notable edge (in 2021-25 notable edges were right {E['notable_right']:.0%} of the time, "
-                 f"edges under {E['small']:.1f} {E['small_right']:.0%})")
-        else:
-            q = ""
-        out.append(f"Biggest edge: {e['what']} ({e['score']:+.2f}, favours {e['favours']}){'; ' + q if q else ''}.")
-    else:
-        out.append("Biggest edge: none of the headline measures has a clear edge.")
+_ETG = Path(__file__).resolve().parent / "edge_targets.json"
+ETG = json.loads(_ETG.read_text(encoding="utf-8")) if _ETG.exists() else None
+UNIT_NOUN = {"epa_db": "dropbacks", "epa_rush": "designed runs", "pressure": "dropbacks", "expl_pass": "attempts", "epa_play": "plays"}
+PRED_WORDS = {"margin": "adds a little to the margin", "points": "points for that offence", "total": "total points",
+              "unit": "that unit's result; already inside the overall gap"}
+PLAYER_ROWS = ("EPA per target to wide receivers", "EPA per target to tight ends", "EPA per target to running backs",
+               "EPA per dropback vs the blitz (FTN)", "YAC per completion (raw)", "YAC over expected per catch (NGS)",
+               "Hit-or-sack rate, 4 or fewer rushers (FTN)", "20+ yd catches per target, WRs", "20+ yd catches per target, TEs")
+TOP, BOTTOM = 8, 25
+
+
+def edge_group(m: str) -> str | None:
+    """What a headline measure predicted in 2021-25 beyond the overall efficiency gap (edge_targets.json)."""
+    r = (ETG or {}).get("measures", {}).get(m)
+    if not r:
+        return None
+    return next((k for k in ("margin", "points", "total") if r[k]["passes"]), "unit")
+
+
+def absences_line(a: str, h: str, A: pd.DataFrame, QBS: dict) -> str:
     parts = []
     for t in (a, h):
         n = len(line_starters_out(A, t))
@@ -1200,19 +1230,143 @@ def game_summary(a: str, h: str, mmrow: dict | None, A: pd.DataFrame, QBS: dict,
         if qc:
             who = {"rookie": "a rookie", "veteran backup": "a veteran backup", "traded in": "traded in this season"}[qc["cls"]]
             parts.append(f"{t} starts {qc['name']}, {who} ({'about ' + format(qc['cost'], '+.3f') + ' EPA per dropback' if qc['settled'] else 'cost not established'})")
-    out.append("Absences with a tested cost: " + ("; ".join(parts) if parts else "none (line starters and quarterback changes are the tested ones)") + ".")
-    fav = e["favours"] if e else None
-    other = [x for x in edges[1:] if fav and x["favours"] != fav]
-    if other:
-        x = other[0]
-        out.append(f"Against it: {x['what']} ({x['score']:+.2f}, favours {x['favours']}).")
-    elif fav:
-        out.append(f"Against it: none of the three largest edges favours {a if fav == h else h}; the case against is sample size and "
-                   f"anything the season figures miss (see the cautions).")
+    return "Absences with a tested cost: " + ("; ".join(parts) if parts else "none (line starters and quarterback changes are the tested ones)") + "."
+
+
+def player_matchups(sides: list) -> list[str]:
+    """Season-figure mismatches between one group and the unit facing it: a top-8 against a bottom-8 rank. Not tested."""
+    out = []
+    for sd in sides:
+        o, d = sd["off"], sd["def"]
+        for grp in sd["groups"]:
+            for r in grp["rows"]:
+                if r["lab"] not in PLAYER_ROWS or r.get("o") is None or r.get("d") is None:
+                    continue
+                if r["o_rank"] <= TOP and r["d_rank"] >= BOTTOM:
+                    who = o
+                elif r["o_rank"] >= BOTTOM and r["d_rank"] <= TOP:
+                    who = d
+                else:
+                    continue
+                out.append(f"{r['lab']}: {o} offence {fmt(r['o'], r['f'])} ({ordinal(r['o_rank'])}) against {d} defence {fmt(r['d'], r['f'])} "
+                           f"({ordinal(r['d_rank'])}); favours {who}.")
     return out
 
 
+def game_sheet(a: str, h: str, mmrow: dict | None, A: pd.DataFrame, QBS: dict, CAL: dict | None, sides: list | None = None,
+               wx: str | None = None, T: pd.DataFrame | None = None) -> list[dict]:
+    """The matchup sheet at the top of a game, grouped by what each piece predicted in 2021-25 (backtest_edge_targets.py):
+    the margin, one side's points, that unit's own result, the total, and untested player-level context."""
+    F = (mmrow or {}).get("f") or {}
+    edges = (mmrow or {}).get("edges") or []
+    E = (CAL or {}).get("edges") or {}
+    y = ETG["fitted_on"] if ETG else None
+    secs = []
+    # 1. margin
+    items = []
+    if ETG and F.get(a, {}).get("epa_play") is not None and F.get(h, {}).get("epa_play") is not None:
+        b, net = ETG["base"], F[h]["epa_play"] - F[a]["epa_play"]
+        items.append(f"Overall efficiency (EPA per play, each offence against the defence it faces): {a} {F[a]['epa_play']:+.2f}, {h} {F[h]['epa_play']:+.2f}; "
+                     f"the gap favours {h if net >= 0 else a} by {abs(net):.2f}. In {y[0]}-{y[1]} ({ETG['games']} games) each 1.0 of this gap went with about "
+                     f"{b['margin_per_unit_gap']:.1f} points of final margin, plus about {b['home_field']:.1f} for the home side; it explains only part of a result "
+                     f"(correlation {b['r_margin']:.2f}).")
+        for m in [k for k in ETG["measures"] if edge_group(k) == "margin"]:
+            if F[a].get(m) is None or F[h].get(m) is None:
+                continue
+            n2, r = F[h][m] - F[a][m], ETG["measures"][m]["margin"]
+            weak = r["oos_mae_with"] >= r["oos_mae_without"]
+            items.append(f"{EDGE_WORDS.get(m, m).capitalize()}: the two run-game matchups net {abs(n2):.2f} towards {h if n2 >= 0 else a}. Beyond the overall gap "
+                         f"this added about {r['coef_per_unit']:.1f} points of margin per 1.0 (95% {r['ci'][0]:+.1f} to {r['ci'][1]:+.1f})"
+                         + ("; it did not lower the error on held-out seasons, so it is a weak signal." if weak else "."))
+    items.append(absences_line(a, h, A, QBS))
+    secs.append({"h": "Margin: who the numbers favour", "items": items})
+    # 2. one side's points
+    if ETG:
+        items = []
+        for m in [k for k in ETG["measures"] if edge_group(k) == "points"]:
+            r = ETG["measures"][m]["points"]
+            hits = [o for o in (a, h) if F.get(o, {}).get(m) is not None and abs(F[o][m]) >= 0.5]
+            for o in hits:
+                items.append(f"{o} {EDGE_WORDS.get(m, m)}: {F[o][m]:+.2f} for the {o} offence"
+                             + (f" ({F[o].get('n_' + m, 0):,} {UNIT_NOUN.get(m, 'plays')})" if F[o].get("n_" + m) else "") + ".")
+            if hits:
+                items.append(f"In {y[0]}-{y[1]} each 1.0 of a {EDGE_WORDS.get(m, m)} edge added about {r['coef_per_unit']:.1f} points to that offence's score "
+                             f"(95% {r['ci'][0]:+.1f} to {r['ci'][1]:+.1f}); beyond the overall gap it did not predict the margin or the total.")
+        if items:
+            secs.append({"h": "Points for one side", "note": "Edges of 0.5 or more.", "items": items})
+    # 3. unit matchups
+    items = []
+    for e in edges:
+        g = edge_group(e.get("m"))
+        if ETG and g not in ("unit", None):
+            continue
+        rec = (E.get("notable_by_measure") or {}).get(e.get("m"), {})
+        q = (f"; {EDGE_WORDS.get(e['m'], 'headline')} edges that size pointed the right way for that unit {rec['right']:.0%} of the time ({rec['cases']} cases)"
+             if abs(e["score"]) >= E.get("notable", 1.0) and rec.get("right") else "")
+        st = f"; {e['conf']} stability, n {e['n_off']:,} / {e['n_def']:,} {UNIT_NOUN.get(e['m'], 'plays')}" if e.get("conf") else ""
+        items.append(f"{e['what']} ({e['score']:+.2f}, favours {e['favours']}{st}){q}.")
+    if items:
+        secs.append({"h": "Unit matchups", "note": (f"These describe where the yards should come from. They are already inside the overall gap: in {y[0]}-{y[1]}, "
+                                                    "beyond it, they did not predict the margin or the total." if ETG else ""), "items": items})
+    # 4. total
+    items = []
+    for sd in sides or []:
+        r = next((r for grp in sd["groups"] for r in grp["rows"] if r["lab"] == "Points per drive" and r.get("exp") is not None), None)
+        if r:
+            items.append(f"{sd['off']} offence against the {sd['def']} defence: expected {r['exp']:.2f} points per drive (league {r['lg']:.2f}; n {r['no']:,} / {r['nd']:,} drives).")
+    if T is not None and "c_off_pace_sec" in T:
+        pr = rank(T.c_off_pace_sec, False)
+        items.append("Pace: " + ", ".join(f"{t} {T.c_off_pace_sec[t]:.0f} s between snaps ({ordinal(int(pr[t]))} fastest)" for t in (a, h)
+                                           if pd.notna(T.c_off_pace_sec.get(t))) + ".")
+    if wx:
+        items.append(f"Weather: {wx.split(').')[0] + ').' if ').' in wx else wx}")
+    if items:
+        secs.append({"h": "Total points: context", "note": (f"None of the tested edges predicted the total beyond overall efficiency in {y[0]}-{y[1]}." if ETG else ""),
+                     "items": items})
+    # 5. player and scheme matchups
+    items = player_matchups(sides or [])
+    if items:
+        secs.append({"h": "Player and scheme matchups", "note": f"Season figures, not opponent-adjusted and not tested: a top-{TOP} rank against a bottom-{33 - BOTTOM} one.",
+                     "items": items})
+    return secs
 
+
+def target_note() -> str:
+    """One sentence under the overview cards: what the headline edges predicted in 2021-25."""
+    if not ETG:
+        return ""
+    y = ETG["fitted_on"]
+    lab = {"epa_db": "passing", "epa_rush": "run game", "pressure": "pass rush", "expl_pass": "big passing plays", "expl_run": "big runs"}
+    by = {}
+    for m in ETG["measures"]:
+        by.setdefault(edge_group(m), []).append(lab.get(m, m))
+    say = {"margin": "added a little to the margin", "points": "added a little to that offence's score", "total": "went with the total",
+           "unit": "predicted only that unit's own result"}
+    parts = [f"{' and '.join(v)} {say[k]}" for k, v in by.items()]
+    tot = "" if "total" in by else " No edge predicted the total."
+    return (f" What an edge predicts comes from a {y[0]}-{y[1]} test ({ETG['games']} games): the overall efficiency gap goes with the final margin; beyond it, "
+            + "; ".join(parts) + "." + tot + " Each game's sheet groups them that way.")
+
+
+def edge_target_method() -> str:
+    if not ETG:
+        return ""
+    y, b = ETG["fitted_on"], ETG["base"]
+    lab = {"epa_db": "Passing", "epa_rush": "Run game", "pressure": "Pass rush vs protection", "expl_pass": "Big passing plays", "expl_run": "Big runs"}
+    cell = lambda r: f"{r['coef_per_unit']:+.1f} ({r['ci'][0]:+.1f} to {r['ci'][1]:+.1f})"   # noqa: E731
+    rows = "".join(f"<tr><td>{lab[m]}</td><td>{cell(r['margin'])}</td><td>{cell(r['total'])}</td><td>{cell(r['points'])}</td><td>{PRED_WORDS[edge_group(m)]}</td></tr>"
+                   for m, r in ETG["measures"].items())
+    f1 = ETG["one_dimensional_favourite"]
+    return (f"<h3>What each edge predicts</h3><p>Tested with <code>backtest_edge_targets.py</code> on {y[0]}-{y[1]} ({ETG['games']} games, cut weeks 4-16, "
+            f"pre-game matchup figures calibrated as on this page). The overall efficiency gap (EPA per play, both matchups) went with about "
+            f"{b['margin_per_unit_gap']:.1f} points of margin per 1.0, plus {b['home_field']:.1f} for home field (correlation {b['r_margin']:.2f}). Each headline edge "
+            f"was then added on top: to the margin, to the total (with season effects) and to that offence's points. Points per 1.0 of edge, with 95% bootstrap "
+            f"ranges; an edge counts only when the whole range is above zero.</p><div class=\"table-wrap\"><table><thead><tr><th>Edge</th><th>Margin</th><th>Total</th>"
+            f"<th>That offence's points</th><th>Grouped as</th></tr></thead><tbody>{rows}</tbody></table></div>"
+            f"<p>A 'one-dimensional favourite' flag (a 5+ point favourite on overall efficiency with a bottom-{f1['bottom']} run game) was tested the same way "
+            f"and is not shown: those {f1['flagged_games']} favourites beat the expected margin by {f1['flagged_resid']:+.1f} points against {f1['other_resid']:+.1f} "
+            f"for the other {f1['other_games']} (difference 95% {f1['ci'][0]:+.1f} to {f1['ci'][1]:+.1f}). A flag for market-line moves is not possible here: "
+            f"this page uses no market data.</p>")
 
 
 def add_box_scores(games: list, G: pd.DataFrame) -> None:
@@ -1340,6 +1494,10 @@ def build_matchups(T, nxt, MM, A, mm, notes, PL, US, QBS, REF, ARR, UN, WX=None,
             q = A[(A.team == t) & (A.status_class == "listed Questionable")]
             if len(q):
                 cautions.append(f"{t} questionable ({report_label(q.last_report_week.max())}): " + ", ".join(f"{x.player} ({x.position})" for x in q.itertuples()) + ".")
+            rd = A[(A.team == t) & (A.status_class == "rest day")]
+            if len(rd):
+                cautions.append(f"{t} rest days ({report_label(rd.last_report_week.max())}): " + ", ".join(f"{x.player} ({x.position})" for x in rd.itertuples())
+                                + " missed or were limited in practice with 'not injury related - resting player' on the report. Not an injury, so not counted as a concern.")
             pr = A[(A.team == t) & A.status_class.isin(["did not practise", "limited in practice"])]
             if len(pr):
                 cautions.append(f"{t} practice report ({report_label(pr.last_report_week.max())}, no game status yet): " + ", ".join(
@@ -1368,7 +1526,8 @@ def build_matchups(T, nxt, MM, A, mm, notes, PL, US, QBS, REF, ARR, UN, WX=None,
             "neutral": neutral, "div": bool(g.div_game == 1),
             "rest": {a: None if pd.isna(g.away_rest) else int(g.away_rest), h: None if pd.isna(g.home_rest) else int(g.home_rest)},
             "sides": sides, "st": st, "coach": coach, "expect": exp, "cautions": cautions, "final": final,
-            "gsum": game_summary(a, h, next((r for r in mm if r["game"] == f"{a} at {h}"), None), A, QBS, CAL_RUN.get("cal")),
+            "gsum": game_sheet(a, h, next((r for r in mm if r["game"] == f"{a} at {h}"), None), A, QBS, CAL_RUN.get("cal"), sides,
+                               ((WX or {}).get("games", {}).get(g.game_id) or {}).get("text"), T),
             "summary": {t: {"record": T.loc[t, "record"], "rating": float(T.loc[t, "rating_pg"]), "rating_rank": int(T.loc[t, "rating_rank"]),
                             "stab_rank": int(T.loc[t, "stab_rank"]), "off_rank": int(T.loc[t, "off_adj_rank"]),
                             "def_rank": int(T.loc[t, "def_adj_rank"]), "st_rank": int(rank(T.st_epa_pg)[t]),
@@ -2570,7 +2729,7 @@ def main():
     page = page.replace("{{WEEK}}", str(meta["through_week"] + 1)).replace("{{THRU}}", str(meta["through_week"]))
     page = page.replace("{{WEEKS_WORD}}", WK["word"]).replace("{{WEEKS_WORD_CAP}}", WK["word"].capitalize())
     page = page.replace("{{METHOD}}", method_html(meta, T, A, data["wr"], REF, ARR, UN, WX, MM))
-    page = page.replace("{{EDGE_NOTE}}", edge_note(CAL)).replace("{{CAL_NOTE}}", cal_note(CAL))
+    page = page.replace("{{EDGE_NOTE}}", edge_note(CAL)).replace("{{CAL_NOTE}}", cal_note(CAL)).replace("{{TARGET_NOTE}}", target_note())
     png = d / og_card.IMAGE
     og_problem = og_card.render(T, meta, png)
     if og_problem:
@@ -2759,6 +2918,7 @@ Penalty vulnerabilities are hypotheses built from rates per opportunity (per 100
 in the last game plus a short week; <i>minor</i> = one of those, or a top-8 three-and-out or quick-turnaround rate on a short week.</p>
 {line_method()}
 {qb_change_method()}
+{edge_target_method()}
 <h3>Workload and fatigue</h3>
 <p>Team snaps come from PFR snap counts (the most snaps any player on the unit played). Possession time, plays and three-and-outs come from nflfastR drives. Real rest is wall-clock time between the
 last play of one defensive drive and the first play of the next in the same half, so it includes kicks and stoppages. The fatigue study pools {meta['history_seasons'][0]}-{meta['season']} play-by-play. It regresses EPA (and success)

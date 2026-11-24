@@ -1,0 +1,228 @@
+{
+ "fitted_on": [
+  2021,
+  2025
+ ],
+ "games": 959,
+ "rules": "What does each headline edge predict: the margin, the total points, or only that unit's own result? Backtest on 2021-25.\n\nRules fixed before the run (24 Nov 2026, after CIN at WAS, where the largest edge on the page, CIN passing, came true as\na unit result while CIN lost 22-20):\n\nInputs are the pre-game matchup predictions of backtest_matchups.predictions (each season, cut weeks 4-16, predicting\nweek W + 1 from weeks 1..W), calibrated exactly as the page calibrates them (matchup_calibration.json). For a team's\noffence against the opponent's defence, f = the edge score on the page in the offence's favour (pressure sign-flipped).\nFor each game: base_net = f(home, EPA per play) - f(away, EPA per play), the overall efficiency gap; base_sum = their sum.\n  * margin:  home margin ~ home-field + base_net + (f_home,m - f_away,m)\n  * total:   total points ~ season + base_sum + (f_home,m + f_away,m)\n  * points:  a team's points ~ its own f(EPA per play) + its f_m\nAn edge predicts the margin (or the total, or that team's points) when the 95% bootstrap interval (games resampled) of\nits coefficient lies above zero, i.e. it adds to what the overall efficiency gap already says. Leave-one-season-out\nerror with and without the edge is reported alongside.\n\nFlag \"one-dimensional favourite\": the favourite by the overall efficiency gap (expected margin of 5+ points from\nthe margin model without the measure, fitted out of sample by season) whose own season-to-date EPA per designed rush\nranks in the bottom five. It is shown on the page only if favourites like that fell short of the expected margin by\nmore than other 5+ point favourites, with the 95% interval of the difference below zero.",
+ "base": {
+  "margin_per_unit_gap": 4.28,
+  "home_field": 2.01,
+  "r_margin": 0.381
+ },
+ "measures": {
+  "epa_db": {
+   "margin": {
+    "coef_per_unit": -1.938,
+    "ci": [
+     -4.233,
+     0.284
+    ],
+    "points_per_sd": -2.38,
+    "games": 959,
+    "oos_mae_with": 10.361,
+    "oos_mae_without": 10.346,
+    "passes": false
+   },
+   "total": {
+    "coef_per_unit": -0.603,
+    "ci": [
+     -2.9,
+     1.738
+    ],
+    "points_per_sd": -0.61,
+    "games": 959,
+    "oos_mae_with": 10.748,
+    "oos_mae_without": 10.725,
+    "passes": false
+   },
+   "points": {
+    "coef_per_unit": -0.338,
+    "ci": [
+     -1.91,
+     1.256
+    ],
+    "points_per_sd": -0.27,
+    "games": 959,
+    "oos_mae_with": 7.683,
+    "oos_mae_without": 7.675,
+    "passes": false
+   },
+   "group": "unit"
+  },
+  "epa_rush": {
+   "margin": {
+    "coef_per_unit": 1.328,
+    "ci": [
+     0.05,
+     2.596
+    ],
+    "points_per_sd": 1.02,
+    "games": 959,
+    "oos_mae_with": 10.362,
+    "oos_mae_without": 10.346,
+    "passes": true
+   },
+   "total": {
+    "coef_per_unit": 0.55,
+    "ci": [
+     -0.913,
+     1.89
+    ],
+    "points_per_sd": 0.46,
+    "games": 959,
+    "oos_mae_with": 10.756,
+    "oos_mae_without": 10.725,
+    "passes": false
+   },
+   "points": {
+    "coef_per_unit": 0.696,
+    "ci": [
+     -0.26,
+     1.653
+    ],
+    "points_per_sd": 0.4,
+    "games": 959,
+    "oos_mae_with": 7.682,
+    "oos_mae_without": 7.675,
+    "passes": false
+   },
+   "group": "margin"
+  },
+  "pressure": {
+   "margin": {
+    "coef_per_unit": 1.04,
+    "ci": [
+     -0.17,
+     2.174
+    ],
+    "points_per_sd": 0.89,
+    "games": 959,
+    "oos_mae_with": 10.343,
+    "oos_mae_without": 10.346,
+    "passes": false
+   },
+   "total": {
+    "coef_per_unit": -0.151,
+    "ci": [
+     -1.151,
+     0.96
+    ],
+    "points_per_sd": -0.14,
+    "games": 959,
+    "oos_mae_with": 10.741,
+    "oos_mae_without": 10.725,
+    "passes": false
+   },
+   "points": {
+    "coef_per_unit": 0.483,
+    "ci": [
+     -0.309,
+     1.186
+    ],
+    "points_per_sd": 0.3,
+    "games": 959,
+    "oos_mae_with": 7.671,
+    "oos_mae_without": 7.675,
+    "passes": false
+   },
+   "group": "unit"
+  },
+  "expl_pass": {
+   "margin": {
+    "coef_per_unit": 0.908,
+    "ci": [
+     -0.556,
+     2.303
+    ],
+    "points_per_sd": 0.71,
+    "games": 959,
+    "oos_mae_with": 10.352,
+    "oos_mae_without": 10.346,
+    "passes": false
+   },
+   "total": {
+    "coef_per_unit": 0.733,
+    "ci": [
+     -0.475,
+     1.91
+    ],
+    "points_per_sd": 0.58,
+    "games": 959,
+    "oos_mae_with": 10.72,
+    "oos_mae_without": 10.725,
+    "passes": false
+   },
+   "points": {
+    "coef_per_unit": 0.995,
+    "ci": [
+     0.134,
+     2.017
+    ],
+    "points_per_sd": 0.55,
+    "games": 959,
+    "oos_mae_with": 7.669,
+    "oos_mae_without": 7.675,
+    "passes": true
+   },
+   "group": "unit"
+  },
+  "expl_run": {
+   "margin": {
+    "coef_per_unit": 0.891,
+    "ci": [
+     -0.334,
+     2.199
+    ],
+    "points_per_sd": 0.66,
+    "games": 959,
+    "oos_mae_with": 10.347,
+    "oos_mae_without": 10.346,
+    "passes": false
+   },
+   "total": {
+    "coef_per_unit": 0.536,
+    "ci": [
+     -0.901,
+     1.877
+    ],
+    "points_per_sd": 0.37,
+    "games": 959,
+    "oos_mae_with": 10.734,
+    "oos_mae_without": 10.725,
+    "passes": false
+   },
+   "points": {
+    "coef_per_unit": 0.756,
+    "ci": [
+     -0.116,
+     1.673
+    ],
+    "points_per_sd": 0.38,
+    "games": 959,
+    "oos_mae_with": 7.668,
+    "oos_mae_without": 7.675,
+    "passes": false
+   },
+   "group": "unit"
+  }
+ },
+ "one_dimensional_favourite": {
+  "favourite_min_points": 5.0,
+  "bottom": 5,
+  "flagged_games": 25,
+  "other_games": 333,
+  "flagged_resid": 2.99,
+  "other_resid": 0.74,
+  "difference": 2.25,
+  "ci": [
+   -2.57,
+   6.93
+  ],
+  "flagged_won": 0.84,
+  "other_won": 0.754,
+  "flagged_abs_margin": 12.8,
+  "other_abs_margin": 13.0,
+  "passes": false
+ }
+}

@@ -289,7 +289,7 @@ td .rk .mk { margin-left: 1px; }
   <div class="controls"><label for="game-sel">Game</label><select id="game-sel"></select></div>
   <div id="game"></div>
   <h3>All week {{WEEK}} games at a glance</h3>
-  <p class="tnote">The three largest unit-versus-unit edges in each game, scored on the shrunk matchup effects: each unit's effect times the share of it that survives shrinkage, in standard deviations, added for the two units ({{EDGE_NOTE}}). A measure with no reliable team-to-team signal cannot become a headline edge. Select a card to open the game.</p>
+  <p class="tnote">The three largest unit-versus-unit edges in each game, scored on the shrunk matchup effects: each unit's effect times the share of it that survives shrinkage, in standard deviations, added for the two units ({{EDGE_NOTE}}). A measure with no reliable team-to-team signal cannot become a headline edge; stability is how much of each team's record survives that shrinkage, and n is the offence's and the defence's sample.{{TARGET_NOTE}} Select a card to open the game.</p>
   <div class="mm" id="mm"></div>
 </section>
 
@@ -1134,7 +1134,7 @@ whenOpen(lazyFor("identity-table"), () => document.getElementById("identity-tabl
 // matchups: overview cards
 const GAMES = DATA.games, GBY = Object.fromEntries(GAMES.map(g => [g.id, g]));
 document.getElementById("mm").innerHTML = GAMES.map(g => `<div class="card"><h4><button type="button" class="linkbtn" data-game="${esc(g.id)}">${esc(g.label)}</button> · ${esc(g.when)}</h4>${g.final ? `<p class="meta"><b>${rec(g.final)}</b></p>` : ""}<ul>${g.edges.map(e =>
-  `<li><span class="sc">${e.score >= 0 ? "+" : "−"}${Math.abs(e.score).toFixed(1)}</span>${esc(e.what)} <span class="det">${esc(e.detail)} · edge to ${esc(e.favours)}${Math.abs(e.score) < 1.5 ? " (modest)" : ""}; shrinkage keeps ${Math.round(100 * e.w_off)}% / ${Math.round(100 * e.w_def)}%</span></li>`).join("")}</ul></div>`).join("");
+  `<li><span class="sc">${e.score >= 0 ? "+" : "−"}${Math.abs(e.score).toFixed(1)}</span>${esc(e.what)} <span class="det">${esc(e.detail)} · edge to ${esc(e.favours)}${Math.abs(e.score) < 1.5 ? " (modest)" : ""}; ${e.conf ? `${esc(e.conf)} stability, n ${e.n_off} / ${e.n_def}` : `shrinkage keeps ${Math.round(100 * e.w_off)}% / ${Math.round(100 * e.w_def)}%`}${e.pred ? `; predicts ${esc(e.pred)}` : ""}</span></li>`).join("")}</ul></div>`).join("");
 
 // matchups: one game in detail
 const gameSel = document.getElementById("game-sel");
@@ -1193,7 +1193,8 @@ function renderGame(id) {
     ${g.weather ? `<p class="meta"><b>Weather.</b> ${esc(g.weather)}</p>` : ""}
     ${g.box ? `<p class="meta"><b>Box scores</b> on rbsdm.com (nflfastR play-by-play): <a href="${esc(g.box.game)}" target="_blank" rel="noopener">this game</a> (live on game day)${[A, H].filter(t => g.box.last[t]).map(t => ` · <a href="${esc(g.box.last[t])}" target="_blank" rel="noopener">${esc(t)}'s last game</a>`).join("")}</p>` : ""}
     ${g.final ? `<p class="final">${rec(g.final)}</p>` : ""}</div>`;
-  if (g.gsum && g.gsum.length) h += `<div class="callout gsum"><b>Matchup summary</b><ul>${g.gsum.map(x => `<li>${esc(x)}</li>`).join("")}</ul></div>`;
+  if (g.gsum && g.gsum.length) h += `<div class="callout gsum"><b>Matchup sheet</b>${g.gsum.map(s => typeof s === "string" ? `<p>${esc(s)}</p>`
+    : `<h4 class="rh">${esc(s.h)}</h4>${s.note ? `<p class="tnote">${esc(s.note)}</p>` : ""}<ul>${s.items.map(x => `<li>${esc(x)}</li>`).join("")}</ul>`).join("")}</div>`;
   h += `<div class="table-wrap"><table><thead><tr><th>Team</th><th>Record</th><th>Overall rating</th><th>With 2025 prior</th><th>Offence (adj.)</th><th>Defence (adj.)</th><th>Special teams</th><th title="Opponent-adjusted net EPA/play over the team's last four games, and the change from its season figure">Net EPA last 4 (change)</th><th style="text-align:left">QB starts</th></tr></thead><tbody>${[A, H].map(t =>
     `<tr><td class="tm">${t}${t === H ? "<small>home</small>" : ""}</td><td>${rec(S[t].record)}</td><td>${fmt(S[t].rating, "s1")}${rk(S[t].rating_rank)}</td><td>${ord(S[t].stab_rank)}</td><td>${ord(S[t].off_rank)}</td><td>${ord(S[t].def_rank)}</td><td>${ord(S[t].st_rank)}</td><td title="weeks ${esc(g.form[t].weeks)}">${fmt(g.form[t].net_l4, "epa")} <span class="rk">${fmt(g.form[t].net_change, "epa")}</span></td><td style="text-align:left">${esc(S[t].qb)}</td></tr>`).join("")}</tbody></table></div>`;
   for (const t of [A, H]) for (const u of (g.unusual || {})[t] || []) h += unusualBlock(u);
@@ -1223,7 +1224,7 @@ function renderGame(id) {
         const hasExp = r.exp !== undefined;
         h += `<tr><td>${esc(r.lab)}</td><td>${esc(fmt(r.o, r.f))}${rk(r.o_rank)}</td><td>${esc(fmt(r.d, r.f))}${rk(r.d_rank)}</td>
           <td>${hasExp ? `<b>${esc(fmt(r.exp, r.f))}</b>` : `<span class="muted">Season figures only (no estimate)</span>`}</td><td>${hasExp ? esc(fmt(r.lg, r.f)) : ""}</td>
-          <td>${hasExp ? leanPill(r.lean) : ""}</td><td class="${hasExp ? "conf-" + r.conf.replace(/ /g, "-") : ""}" title="${hasExp ? `Weight kept: offence ${r.wo.toFixed(2)} (n=${r.no}), defence ${r.wd.toFixed(2)} (n=${r.nd})` : ""}">${hasExp ? esc(r.conf) : ""}</td></tr>`;
+          <td>${hasExp ? leanPill(r.lean) : ""}</td><td class="${hasExp ? "conf-" + r.conf.replace(/ /g, "-") : ""}" title="${hasExp ? `Weight kept: offence ${r.wo.toFixed(2)} (n=${r.no}), defence ${r.wd.toFixed(2)} (n=${r.nd})` : ""}">${hasExp ? `${esc(r.conf)}<br><small class="muted">n ${r.no} / ${r.nd}</small>` : ""}</td></tr>`;
       }
     }
     h += `</tbody></table></div>`;

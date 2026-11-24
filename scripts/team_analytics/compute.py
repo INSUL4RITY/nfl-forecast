@@ -949,6 +949,14 @@ def main():
         T[f"{side}_pfr_games"] = g.size()
     pdf = fetch(f"pfr_advstats/advstats_week_def_{S}.parquet")
     pdf = pdf[(pdf.week <= W) & (pdf.game_type == "REG")]
+    # who makes the pressure: interior (DT/NT) vs edge (DE/OLB) share of the team's PFR pressures, by roster position
+    pfr_pos = (fetch(f"weekly_rosters/roster_weekly_{S}.parquet").dropna(subset=["pfr_id"]).sort_values("week")
+               .drop_duplicates("pfr_id", keep="last").set_index("pfr_id").depth_chart_position)
+    pz = pdf.assign(pos=pdf.pfr_player_id.map(pfr_pos))
+    tot = pz.groupby("team").def_pressures.sum()
+    T["def_pressures_pfr"] = tot
+    T["def_int_press_share"] = pz[pz.pos.isin(["DT", "NT"])].groupby("team").def_pressures.sum().reindex(tot.index).fillna(0) / tot
+    T["def_edge_press_share"] = pz[pz.pos.isin(["DE", "OLB"])].groupby("team").def_pressures.sum().reindex(tot.index).fillna(0) / tot
     T["def_missed_tackles_pg"] = pdf.groupby("team").def_missed_tackles.sum() / pdf.groupby("team").game_id.nunique()
     T["def_missed_tackle_pct"] = pdf.groupby("team").def_missed_tackles.sum() / (
         pdf.groupby("team").def_missed_tackles.sum() + pdf.groupby("team").def_tackles_combined.sum())
@@ -1490,6 +1498,7 @@ def personnel(S, W, p, teams, qc=None):
     reg["last_practice_status"] = reg.gsis_id.map(rep.practice_status)
     reg["last_report_week"] = reg.gsis_id.map(rep.week)
     reg["last_report_injury"] = reg.gsis_id.map(rep.report_primary_injury)
+    reg["last_practice_injury"] = reg.gsis_id.map(rep.practice_primary_injury) if "practice_primary_injury" in rep else np.nan
     reg["missed_last_game"] = reg.last_week < reg.team.map(team_last)
     # how long he has been out: team games played after his last game
     reg["games_missed"] = [sum(1 for w in team_weeks[t] if w > lw) for t, lw in zip(reg.team, reg.last_week)]
@@ -1511,10 +1520,14 @@ def personnel(S, W, p, teams, qc=None):
     # back: active on a roster dated after the team's last game (e.g. missed a game, then a bye, then active)
     reg["back"] = reg.roster_status.eq("ACT") & (reg.roster_week > reg.team.map(team_last))
     # midweek reports carry practice participation but no game status until the final report
-    reg["dnp"] = (reg.last_report_status.isna() & reg.last_practice_status.fillna("").str.startswith("Did Not"))
-    reg["limited"] = (reg.last_report_status.isna() & reg.last_practice_status.fillna("").str.startswith("Limited"))
+    # a rest day ("Not injury related - resting player" on the practice report) is not an injury: shown, never counted
+    # (only a missed or limited practice; a personal matter is not rest and stays a practice concern)
+    reg["rest_day"] = (reg.last_report_status.isna() & reg.last_practice_status.fillna("").str.match(r"Did Not|Limited")
+                       & reg.last_practice_injury.fillna("").str.contains(r"not injury related.*rest", case=False, regex=True))
+    reg["dnp"] = (reg.last_report_status.isna() & reg.last_practice_status.fillna("").str.startswith("Did Not") & ~reg.rest_day)
+    reg["limited"] = (reg.last_report_status.isna() & reg.last_practice_status.fillna("").str.startswith("Limited") & ~reg.rest_day)
     unconfirmed = reg.missed_last_game & ~reg.left_team & reg.position.ne("QB") & ~reg.back & ~reg.inactive_long
-    ab = reg[reg.on_reserve | reg.out_or_doubtful | reg.inactive_long | reg.questionable | reg.dnp | reg.limited | unconfirmed].copy()
+    ab = reg[reg.on_reserve | reg.out_or_doubtful | reg.inactive_long | reg.questionable | reg.dnp | reg.limited | reg.rest_day | unconfirmed].copy()
     ab = ab[~ab.left_team]
     ab = ab[ab.position.ne("QB").values | np.array([x in (qb_latest.get(t), qb_most.get(t)) for t, x in zip(ab.team, ab.pfr_player_id)], dtype=bool)]
     n_dup = int(ab.duplicated(["team", "gsis_id"]).sum())
@@ -1525,7 +1538,8 @@ def personnel(S, W, p, teams, qc=None):
                                            np.where(ab.inactive_long, "inactive 3+ games",
                                                     np.where(ab.questionable, "listed Questionable",
                                                              np.where(ab.dnp, "did not practise",
-                                                                      np.where(ab.limited, "limited in practice", "unconfirmed"))))))
+                                                                      np.where(ab.limited, "limited in practice",
+                                                                               np.where(ab.rest_day, "rest day", "unconfirmed")))))))
     # before the coming week's practice reports exist, every status is from last week's report
     lastwk = ab.last_report_week <= W
     wk = (pd.Series(np.where(lastwk, "last week's report (week ", "week "), index=ab.index) + ab.last_report_week.astype("Int64").astype(str)
@@ -1534,7 +1548,9 @@ def personnel(S, W, p, teams, qc=None):
                             np.where(ab.out_or_doubtful | ab.questionable, wk + ab.last_report_status.fillna(""),
                                      np.where(ab.inactive_long, "inactive (INA) on the roster for each of the team's last three games; no injury designation",
                                               np.where(ab.dnp | ab.limited, wk + ab.last_practice_status.fillna("") + " (no game status yet)",
-                                                       "did not play in the team's latest game; no injury designation"))))
+                                              np.where(ab.rest_day, wk + ab.last_practice_status.fillna("") + ": " + ab.last_practice_injury.fillna("")
+                                                       + " (not an injury; not counted)",
+                                                       "did not play in the team's latest game; no injury designation")))))
     conf = ab[ab.status_class.isin(depth.OUT_CLASSES)]
     if qc is not None:
         qc.append(f"Absence classes: {int(ab.on_reserve.sum())} on the reserve list, {int((ab.status_class == 'inactive 3+ games').sum())} inactive "
@@ -1567,7 +1583,7 @@ def personnel(S, W, p, teams, qc=None):
     out["def_players_25pct"] = snaps[snaps.defense_pct >= 0.25].groupby("team").pfr_player_id.nunique()
     out["snap_week"] = cur_week
     ab_out = ab[["team", "player", "gsis_id", "position", "group", "unit", "games", "share", "status_class", "reason",
-                 "last_report_injury", "last_practice_status", "last_report_week", "last_week", "out_since_week", "games_missed", "term", "team_games"]]
+                 "last_report_injury", "last_practice_status", "last_practice_injury", "last_report_week", "last_week", "out_since_week", "games_missed", "term", "team_games"]]
     ab_out.attrs["roster_week"] = cur_week
     return out, ol_tbl, ab_out.sort_values(["team", "share"], ascending=[True, False])
 

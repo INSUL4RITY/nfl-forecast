@@ -206,11 +206,44 @@ def test_qb_change_classes_and_text():
     assert bh.qb_change("AAA", info) is None                       # the opening starter is no change
 
 
-def test_game_summary_three_lines():
+def test_game_sheet_groups_by_what_edges_predict():
     import build_html as bh
     A = pd.DataFrame(columns=["team", "player", "group", "status_class", "share", "term", "out_since_week"])
-    mmrow = {"edges": [{"score": 1.4, "what": "HHH passing vs AAA pass defence", "favours": "HHH", "m": "epa_db"},
-                       {"score": -0.6, "what": "AAA pass rush vs HHH protection", "favours": "AAA", "m": "pressure"}]}
+    mmrow = {"f": {"AAA": {"epa_play": -0.2, "epa_rush": 0.1, "expl_pass": 0.9, "n_expl_pass": 300},
+                   "HHH": {"epa_play": 0.8, "epa_rush": 0.6, "expl_pass": 0.1}},
+             "edges": [{"score": 1.4, "what": "HHH passing vs AAA pass defence", "favours": "HHH", "m": "epa_db", "conf": "low", "n_off": 380, "n_def": 390},
+                       {"score": -0.6, "what": "AAA pass rush vs HHH protection", "favours": "AAA", "m": "pressure", "conf": "low", "n_off": 380, "n_def": 390}]}
     cal = {"edges": {"notable": 1.0, "notable_right": 0.67, "small": 0.5, "small_right": 0.53, "notable_by_measure": {"epa_db": {"cases": 355, "right": 0.66}}}}
-    out = bh.game_summary("AAA", "HHH", mmrow, A, {}, cal)
-    assert len(out) == 3 and "66%" in out[0] and out[1].endswith("tested ones).") and out[2].startswith("Against it: AAA pass rush")
+    secs = bh.game_sheet("AAA", "HHH", mmrow, A, {}, cal)
+    heads = [s["h"] for s in secs]
+    assert heads[0].startswith("Margin") and "the gap favours HHH by 1.00" in secs[0]["items"][0]
+    assert secs[0]["items"][-1].startswith("Absences with a tested cost: none")
+    if bh.ETG:
+        assert bh.edge_group("epa_db") == "unit" and "Unit matchups" in heads
+        unit = next(s for s in secs if s["h"] == "Unit matchups")
+        assert "66% of the time" in unit["items"][0] and "n 380 / 390 dropbacks" in unit["items"][0]
+        if bh.edge_group("expl_pass") == "points":
+            pts = next(s for s in secs if s["h"] == "Points for one side")
+            assert pts["items"][0].startswith("AAA big passing plays: +0.90") and "300 attempts" in pts["items"][0]
+
+
+def test_player_matchups_need_top_against_bottom():
+    import build_html as bh
+    row = lambda lab, o, d: {"lab": lab, "f": "epa", "o": 0.4, "o_rank": o, "d": 0.3, "d_rank": d}   # noqa: E731
+    sides = [{"off": "CIN", "def": "WAS", "groups": [{"name": "Passing", "rows": [row("EPA per target to tight ends", 2, 29),
+                                                                                    row("EPA per target to running backs", 24, 11),
+                                                                                    row("EPA per dropback", 1, 30)]}]}]
+    out = bh.player_matchups(sides)
+    assert len(out) == 1 and out[0].startswith("EPA per target to tight ends: CIN offence") and out[0].endswith("favours CIN.")
+
+
+def test_edge_targets_file_rules():
+    import json
+    p = Path(__file__).resolve().parents[1] / "scripts" / "team_analytics" / "edge_targets.json"
+    j = json.loads(p.read_text(encoding="utf-8"))
+    assert j["fitted_on"] == [2021, 2025] and j["games"] > 900
+    for m, r in j["measures"].items():
+        for k in ("margin", "total", "points"):
+            assert r[k]["passes"] == (r[k]["ci"][0] > 0)
+    f = j["one_dimensional_favourite"]
+    assert f["passes"] == (f["ci"][1] < 0)
