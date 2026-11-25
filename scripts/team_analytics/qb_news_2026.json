@@ -1,6 +1,6 @@
 {
  "season": 2026,
- "checked": "2026-11-19",
+ "checked": "2026-11-25",
  "how_to_update": "Hand-kept. Each Tuesday, before the build, add the coming week's quarterback news that the nflverse rosters and injury reports cannot show yet: trades, signings, benchings and starters named by the team or reported by a named reporter. One entry per team under the week number: 'starter' (the name as nflverse spells it), 'conf' ('named' = the team or a reporter says he is the starter; 'expected' = the coach or a reporter says he is expected or could start), 'sources' (who, what, when in UTC), and 'unavailable' (quarterbacks in the team's season figures who will not play for it, with why). Never add a starter without a source. The injury report still decides game statuses; this file only covers what it cannot.",
  "weeks": {
   "10": {
@@ -99,9 +99,51 @@
     "unavailable": []
    }
   },
-  "11": {}
+  "11": {},
+  "12": {
+   "NE": {
+    "starter": "Tommy DeVito",
+    "conf": "expected",
+    "sources": [
+     {
+      "who": "Boston Globe",
+      "what": "Drake Maye has a serious lower-leg injury from the Lions game and is expected to be out indefinitely; DeVito expected to start (https://www.bostonglobe.com/2026/11/16/sports/drake-maye-injury)",
+      "when": "2026-11-16"
+     },
+     {
+      "who": "nflverse depth chart",
+      "what": "DeVito listed QB1",
+      "when": "2026-11-25 17:56 UTC"
+     }
+    ],
+    "unavailable": [
+     {
+      "player": "Drake Maye",
+      "why": "lower-leg injury on 15 Nov, out indefinitely"
+     }
+    ]
+   },
+   "SEA": {
+    "starter": "Sam Darnold",
+    "conf": "expected",
+    "sources": [
+     {
+      "who": "4for4 news (citing Mike Macdonald)",
+      "what": "Seahawks expect Darnold (quad, ribs) to start week 12 after the bye; 'If he gets through the week well, he'll start'",
+      "when": "2026-11-23"
+     },
+     {
+      "who": "nflverse depth chart",
+      "what": "Darnold listed QB1",
+      "when": "2026-11-25 17:56 UTC"
+     }
+    ],
+    "unavailable": []
+   }
+  }
  },
  "notes": {
-  "11": "Checked 19 Nov: no trade, signing or named starter the rosters cannot show. Week 10's new starters (Beck ARI, McCord MIA, Mendoza LV, Cousins MIN, Brissett BAL) are now in the play-by-play. Mayfield (TB, foot) and Geno Smith (NYJ, ankle) were reported likely to play; the injury report decides."
+  "11": "Checked 19 Nov: no trade, signing or named starter the rosters cannot show. Week 10's new starters (Beck ARI, McCord MIA, Mendoza LV, Cousins MIN, Brissett BAL) are now in the play-by-play. Mayfield (TB, foot) and Geno Smith (NYJ, ankle) were reported likely to play; the injury report decides.",
+  "12": "Checked 25 Nov 18:30 UTC. NE (DeVito for the injured Maye) and SEA (Darnold expected back from his quad injury; Drew Lock started weeks 9-10) are sourced. Not entered, because no dated 2026 source was found: the depth charts list Mason Rudolph first at PIT (Rodgers started week 11), Anthony Richardson at IND (Daniel Jones started week 11) and Carson Beck at ARI (Josh Johnson started week 11). The page flags those through the depth-chart caution; the injury report decides game statuses."
  }
 }

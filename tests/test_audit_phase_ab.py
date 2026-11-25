@@ -224,7 +224,7 @@ def test_game_sheet_groups_by_what_edges_predict():
         assert "66% of the time" in unit["items"][0] and "n 380 / 390 dropbacks" in unit["items"][0]
         if bh.edge_group("expl_pass") == "points":
             pts = next(s for s in secs if s["h"] == "Points for one side")
-            assert pts["items"][0].startswith("AAA big passing plays: +0.90") and "300 attempts" in pts["items"][0]
+            assert pts["items"][0].startswith("AAA big passing plays: 0.90 towards the AAA offence") and "300 attempts" in pts["items"][0]
 
 
 def test_player_matchups_need_top_against_bottom():
@@ -247,3 +247,16 @@ def test_edge_targets_file_rules():
             assert r[k]["passes"] == (r[k]["ci"][0] > 0)
     f = j["one_dimensional_favourite"]
     assert f["passes"] == (f["ci"][1] < 0)
+
+
+def test_qb_change_skips_a_starter_who_made_most_starts():
+    import build_html as bh
+    if not bh.QBC:
+        return
+    info = {"qbs": [{"name": "Penix", "starts": 8, "latest_starter": True, "team_opener": False, "rookie": False, "season_teams": "ATL",
+                     "roster_status": "ACT", "report_status": None},
+                    {"name": "Rush", "starts": 2, "latest_starter": False, "team_opener": True, "rookie": False, "season_teams": "ATL",
+                     "roster_status": "ACT", "report_status": None}]}
+    assert bh.qb_change("ATL", info) is None
+    info["qbs"][0]["starts"], info["qbs"][1]["starts"] = 2, 8
+    assert bh.qb_change("ATL", info)["cls"] == "veteran backup"

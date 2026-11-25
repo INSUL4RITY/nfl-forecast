@@ -1171,6 +1171,9 @@ def qb_change(t: str, info: dict) -> dict | None:
     xs = expected_starter(info)
     if not QBC or not xs or xs.get("team_opener", True):
         return None
+    team_starts = sum(int(r.get("starts") or 0) for r in info.get("qbs", []))
+    if team_starts and int(xs.get("starts") or 0) * 2 >= team_starts:     # his games are most of the season figures already
+        return None
     cls = qb_class(xs)
     c, cp_ = QBC["epa_db"][cls], QBC["epa_play"][cls]
     n = QBC["change_games"][cls]
@@ -1287,7 +1290,8 @@ def game_sheet(a: str, h: str, mmrow: dict | None, A: pd.DataFrame, QBS: dict, C
             r = ETG["measures"][m]["points"]
             hits = [o for o in (a, h) if F.get(o, {}).get(m) is not None and abs(F[o][m]) >= 0.5]
             for o in hits:
-                items.append(f"{o} {EDGE_WORDS.get(m, m)}: {F[o][m]:+.2f} for the {o} offence"
+                d = h if o == a else a
+                items.append(f"{o} {EDGE_WORDS.get(m, m)}: {abs(F[o][m]):.2f} towards " + (f"the {o} offence" if F[o][m] >= 0 else f"the {d} defence")
                              + (f" ({F[o].get('n_' + m, 0):,} {UNIT_NOUN.get(m, 'plays')})" if F[o].get("n_" + m) else "") + ".")
             if hits:
                 items.append(f"In {y[0]}-{y[1]} each 1.0 of a {EDGE_WORDS.get(m, m)} edge added about {r['coef_per_unit']:.1f} points to that offence's score "

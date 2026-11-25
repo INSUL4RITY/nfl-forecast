@@ -1,0 +1,127 @@
+team,player,gsis_id,position,group,unit,games,share,status_class,reason,last_report_injury,last_practice_status,last_practice_injury,last_report_week,last_week,out_since_week,games_missed,term,team_games
+ARI,Paris Johnson,00-0038540,OL,OL,off,4,0.995,confirmed: reserve list,reserve list (week 12 roster),,,,,4,5.0,7,long-term,11
+ARI,Will Johnson,00-0040751,CB,DB,def,2,0.895,confirmed: reserve list,reserve list (week 12 roster),,,,,2,3.0,9,long-term,11
+ARI,Michael Wilson,00-0038559,WR,WR/TE,off,9,0.8822222222222221,confirmed: reserve list,reserve list (week 12 roster),,,,,9,10.0,2,long-term,11
+ARI,Andrew Wingard,00-0035378,S,DB,def,7,0.8628571428571429,confirmed: reserve list,reserve list (week 12 roster),,,,,10,11.0,1,new,11
+ARI,Jon Gaines,00-0038571,OL,OL,off,6,0.5966666666666667,listed Out/Doubtful,last week's report (week 11): Out,Ankle,Did Not Participate In Practice,Ankle,11.0,6,7.0,5,long-term,11
+ARI,Kendrick Bourne,00-0033307,WR,WR/TE,off,8,0.54875,confirmed: reserve list,reserve list (week 12 roster),,,,,8,9.0,3,long-term,11
+ATL,Divine Deablo,00-0036990,LB,LB,def,7,0.7828571428571429,listed Out/Doubtful,last week's report (week 10): Doubtful,Forearm,Did Not Participate In Practice,Forearm,10.0,9,10.0,1,new,10
+BAL,Jovaughn Gwyn,00-0038629,OL,OL,off,3,0.9066666666666666,confirmed: reserve list,reserve list (week 12 roster),,,,,3,4.0,8,long-term,11
+BAL,Jaylinn Hawkins,00-0036302,S,DB,def,6,0.8133333333333334,listed Out/Doubtful,last week's report (week 11): Out,Knee,Did Not Participate In Practice,Knee,11.0,6,7.0,5,long-term,11
+BAL,Marlon Humphrey,00-0033281,CB,DB,def,10,0.79,listed Out/Doubtful,last week's report (week 11): Out,Not injury related - personal matter,Did Not Participate In Practice,Not injury related - personal matter,11.0,10,11.0,1,new,11
+BAL,Tyler Huntley,00-0035993,QB,QB,off,5,0.736,confirmed: reserve list,reserve list (week 12 roster),,,,,8,9.0,3,long-term,11
+BAL,Tavius Robinson,00-0038505,LB,LB,def,6,0.7216666666666667,confirmed: reserve list,reserve list (week 12 roster),,,,,6,7.0,5,long-term,11
+BAL,Nnamdi Madubuike,00-0036130,DL,DL/EDGE,def,8,0.7025,listed Out/Doubtful,last week's report (week 11): Out,Hamstring,Did Not Participate In Practice,Hamstring,11.0,10,11.0,1,new,11
+BAL,Emery Jones,00-0040068,G,OL,off,6,0.5616666666666666,inactive 3+ games,inactive (INA) on the roster for each of the team's last three games; no injury designation,,,,,7,8.0,4,long-term,11
+BUF,O'Cyrus Torrence,00-0038548,G,OL,off,10,0.9949999999999999,limited in practice,week 12 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,Ankle,12.0,11,,0,new,10
+BUF,Christian Benford,00-0037288,CB,DB,def,8,0.85625,limited in practice,week 12 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,Groin,12.0,10,11.0,1,new,10
+BUF,Dalton Kincaid,00-0038933,TE,WR/TE,off,9,0.6211111111111111,limited in practice,week 12 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,Thumb,12.0,10,11.0,1,new,10
+BUF,Dorian Williams,00-0038557,LB,LB,def,9,0.6033333333333333,limited in practice,week 12 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,Calf,12.0,10,11.0,1,new,10
+CAR,Bobby Okereke,00-0035687,LB,LB,def,7,0.89,listed Out/Doubtful,last week's report (week 11): Out,Foot,Did Not Participate In Practice,Foot,11.0,8,9.0,3,long-term,10
+CAR,Jaycee Horn,00-0036944,CB,DB,def,3,0.8733333333333334,confirmed: reserve list,reserve list (week 12 roster),,,,,3,4.0,7,long-term,10
+CAR,Akayleb Evans,00-0038101,CB,DB,def,6,0.6066666666666667,confirmed: reserve list,reserve list (week 12 roster),,,,,7,8.0,4,long-term,10
+CHI,Braxton Jones,00-0037081,OL,OL,off,3,0.65,confirmed: reserve list,reserve list (week 12 roster),,,,,3,4.0,7,long-term,10
+CHI,Cole Kmet,00-0036290,TE,WR/TE,off,7,0.6142857142857142,confirmed: reserve list,reserve list (week 12 roster),,,,,7,8.0,3,long-term,10
+CHI,Dayo Odeyingbo,00-0036480,DL,DL/EDGE,def,5,0.564,confirmed: reserve list,reserve list (week 12 roster),,,,,5,6.0,5,long-term,10
+CIN,Dalton Risner,00-0035702,G,OL,off,9,0.9355555555555556,listed Out/Doubtful,last week's report (week 11): Out,Knee,Did Not Participate In Practice,Knee,11.0,10,11.0,1,new,10
+CIN,Jalen Davis,00-0034446,CB,DB,def,3,0.6133333333333334,confirmed: reserve list,reserve list (week 12 roster),Hamstring,Full Participation in Practice,Hamstring,11.0,3,4.0,7,long-term,10
+CIN,Andrei Iosivas,00-0038619,WR,WR/TE,off,2,0.5700000000000001,confirmed: reserve list,reserve list (week 12 roster),Thumb,Full Participation in Practice,Thumb,11.0,2,3.0,8,long-term,10
+CLE,Ronnie Hickman,00-0038715,S,DB,def,9,0.9877777777777779,listed Out/Doubtful,last week's report (week 10): Out,Concussion,Did Not Participate In Practice,Concussion,10.0,9,10.0,1,new,10
+DAL,Tyler Booker,00-0040007,G,OL,off,10,0.9400000000000001,did not practise,week 12 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,Ankle,12.0,10,11.0,1,new,11
+DAL,DaRon Bland,00-0037275,CB,DB,def,10,0.893,confirmed: reserve list,reserve list (week 12 roster),,,,,10,11.0,1,new,11
+DAL,Jalen Thompson,00-0035705,S,DB,def,3,0.8066666666666666,confirmed: reserve list,reserve list (week 12 roster),,Full Participation in Practice,Hamstring,12.0,3,4.0,8,long-term,11
+DAL,Dee Winters,00-0038625,LB,LB,def,9,0.6255555555555555,limited in practice,week 12 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,Knee,12.0,11,,0,new,11
+DAL,Jake Ferguson,00-0038041,TE,WR/TE,off,9,0.5644444444444444,did not practise,week 12 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,Knee,12.0,9,10.0,2,long-term,11
+DAL,Jaishawn Barham,00-0040872,LB,LB,def,10,0.509,limited in practice,week 12 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,Hip,12.0,10,11.0,1,new,11
+DEN,Taylor Rapp,00-0035663,S,DB,def,5,0.6719999999999999,limited in practice,week 12 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,Quadricep,12.0,11,,0,new,10
+DEN,Jonah Elliss,00-0039809,LB,LB,def,6,0.5833333333333334,confirmed: reserve list,reserve list (week 12 roster),,,,,6,7.0,4,long-term,10
+DEN,Eyioma Uwazurike,00-0038106,DL,DL/EDGE,def,8,0.52125,confirmed: reserve list,reserve list (week 12 roster),,,,,8,9.0,2,long-term,10
+DET,Jack Campbell,00-0039018,LB,LB,def,7,0.9671428571428571,confirmed: reserve list,reserve list (week 12 roster),,,,,8,9.0,3,long-term,10
+DET,D.J. Reed,00-0034384,CB,DB,def,7,0.9400000000000001,inactive 3+ games,inactive (INA) on the roster for each of the team's last three games; no injury designation,,Full Participation in Practice,Hip,12.0,8,9.0,3,long-term,10
+DET,Ben Bartch,00-0036272,OL,OL,off,2,0.9299999999999999,confirmed: reserve list,reserve list (week 12 roster),,,,,2,3.0,8,long-term,10
+DET,Chuck Clark,00-0033294,S,DB,def,10,0.9099999999999999,limited in practice,week 12 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,Hamstring,12.0,11,,0,new,10
+DET,Aidan Hutchinson,00-0037236,DE,DL/EDGE,def,9,0.8144444444444444,confirmed: reserve list,reserve list (week 12 roster),,,,,10,11.0,1,new,10
+DET,Avonte Maddox,00-0034377,DB,DB,def,2,0.6499999999999999,confirmed: reserve list,reserve list (week 12 roster),,,,,2,3.0,8,long-term,10
+DET,D.J. Wonnum,00-0036335,DE,DL/EDGE,def,9,0.5833333333333334,did not practise,week 12 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,Back,12.0,11,,0,new,10
+DET,Thomas Harper,00-0039660,S,DB,def,2,0.525,confirmed: reserve list,reserve list (week 12 roster),,,,,2,3.0,8,long-term,10
+GB,Travis Glover,00-0039819,G,OL,off,5,1.0,listed Questionable,week 12 report: Questionable,Shoulder,Limited Participation in Practice,Shoulder,12.0,10,,0,new,10
+GB,Zaire Franklin,00-0034431,LB,LB,def,6,0.9883333333333333,listed Questionable,week 12 report: Questionable,Shin,Limited Participation in Practice,Shin,12.0,6,7.0,4,long-term,10
+GB,Sean Rhyan,00-0037076,C,OL,off,7,0.8657142857142857,listed Questionable,week 12 report: Questionable,Ankle,Limited Participation in Practice,Ankle,12.0,7,8.0,3,long-term,10
+GB,Edgerrin Cooper,00-0039850,LB,LB,def,4,0.825,confirmed: reserve list,reserve list (week 12 roster),,,,,4,5.0,6,long-term,10
+GB,Jacob Monk,00-0039817,C,OL,off,4,0.74,confirmed: reserve list,reserve list (week 12 roster),,,,,7,8.0,3,long-term,10
+GB,Zach Bako-Bewele,00-0037817,OL,OL,off,2,0.525,confirmed: reserve list,reserve list (week 12 roster),,,,,2,3.0,8,long-term,10
+HOU,Azeez Al-Shaair,00-0035166,LB,LB,def,7,0.9357142857142857,confirmed: reserve list,reserve list (week 12 roster),,Did Not Participate In Practice,Groin,11.0,9,10.0,2,long-term,10
+HOU,Danielle Hunter,00-0031565,DE,DL/EDGE,def,8,0.75625,listed Out/Doubtful,last week's report (week 11): Out,Hamstring,Did Not Participate In Practice,Hamstring,11.0,9,10.0,2,long-term,10
+HOU,Woody Marks,00-0040583,RB,RB,off,9,0.6033333333333333,listed Out/Doubtful,last week's report (week 11): Out,Concussion,Did Not Participate In Practice,Concussion,11.0,10,11.0,1,new,10
+IND,Jalen Travis,00-0040163,T,OL,off,9,0.9277777777777777,listed Out/Doubtful,last week's report (week 11): Out,Knee,Did Not Participate In Practice,Knee,11.0,9,10.0,2,long-term,11
+IND,Akeem Davis-Gaither,00-0036298,LB,LB,def,8,0.9175,confirmed: reserve list,reserve list (week 12 roster),,,,,8,9.0,3,long-term,11
+IND,Bernhard Raimann,00-0037757,T,OL,off,10,0.8859999999999999,listed Out/Doubtful,last week's report (week 11): Out,Concussion,Did Not Participate In Practice,Concussion,11.0,10,11.0,1,new,11
+IND,Sauce Gardner,00-0037190,CB,DB,def,9,0.8722222222222222,listed Questionable,last week's report (week 11): Questionable,Calf,Did Not Participate In Practice,Calf,11.0,10,11.0,1,new,11
+IND,Charvarius Ward,00-0034573,CB,DB,def,10,0.8720000000000001,listed Out/Doubtful,last week's report (week 11): Out,Knee,Did Not Participate In Practice,Knee,11.0,10,11.0,1,new,11
+JAX,Anton Harrison,00-0038934,OL,OL,off,5,0.916,confirmed: reserve list,reserve list (week 12 roster),,,,,5,6.0,5,long-term,10
+JAX,Robert Hainsey,00-0036985,OL,OL,off,9,0.9099999999999999,listed Out/Doubtful,last week's report (week 11): Out,Knee,Did Not Participate In Practice,Knee,11.0,10,11.0,1,new,10
+JAX,Eric Murray,00-0033038,S,DB,def,6,0.6716666666666667,confirmed: reserve list,reserve list (week 12 roster),,,,,8,9.0,3,long-term,10
+KC,Jaylon Moore,00-0036557,OL,OL,off,7,0.8728571428571429,did not practise,week 12 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,Ankle,12.0,9,10.0,2,long-term,10
+KC,Kenneth Walker III,00-0038134,RB,RB,off,8,0.74,limited in practice,week 12 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,Groin,12.0,9,10.0,2,long-term,10
+KC,L'Jarius Sneed,00-0036374,CB,DB,def,6,0.6366666666666666,confirmed: reserve list,reserve list (week 12 roster),,,,,7,8.0,4,long-term,10
+KC,Tyquan Thornton,00-0038104,WR,WR/TE,off,4,0.5900000000000001,confirmed: reserve list,reserve list (week 12 roster),,,,,4,6.0,6,long-term,10
+LA,Kamren Curl,00-0036349,S,DB,def,10,0.93,limited in practice,week 12 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,Toe,12.0,10,,0,new,10
+LA,Coleman Shelton,00-0034114,OL,OL,off,10,0.922,listed Out/Doubtful,week 12 report: Out,Hamstring,Did Not Participate In Practice,Hamstring,12.0,10,,0,new,10
+LA,Steve Avila,00-0039058,OL,OL,off,9,0.911111111111111,listed Out/Doubtful,week 12 report: Out,Hamstring,Did Not Participate In Practice,Hamstring,12.0,9,10.0,1,new,10
+LA,Puka Nacua,00-0039075,WR,WR/TE,off,7,0.87,confirmed: reserve list,reserve list (week 12 roster),,,,,9,10.0,1,new,10
+LA,Jaylen Watson,00-0037195,CB,DB,def,7,0.84,confirmed: reserve list,reserve list (week 12 roster),,,,,8,9.0,2,long-term,10
+LA,Davante Adams,00-0031381,WR,WR/TE,off,6,0.7399999999999999,confirmed: reserve list,reserve list (week 12 roster),,,,,6,7.0,4,long-term,10
+LA,Kobie Turner,00-0039138,DE,DL/EDGE,def,6,0.6066666666666667,confirmed: reserve list,reserve list (week 12 roster),,Full Participation in Practice,Groin,12.0,6,7.0,4,long-term,10
+LAC,Rashawn Slater,00-0037009,T,OL,off,4,0.9625,confirmed: reserve list,reserve list (week 12 roster),,,,,4,5.0,6,long-term,10
+LAC,Tarheeb Still,00-0039366,CB,DB,def,9,0.9477777777777777,listed Questionable,last week's report (week 11): Questionable,Ankle,Limited Participation in Practice,Ankle,11.0,10,11.0,1,new,10
+LAC,Derwin James,00-0034790,S,DB,def,3,0.9433333333333334,confirmed: reserve list,reserve list (week 12 roster),,,,,3,4.0,7,long-term,10
+LAC,Daiyan Henley,00-0038553,LB,LB,def,9,0.87,listed Out/Doubtful,last week's report (week 11): Out,Knee,Did Not Participate In Practice,Knee,11.0,10,11.0,1,new,10
+LAC,Trevor Penning,00-0037241,OL,OL,off,3,0.68,confirmed: reserve list,reserve list (week 12 roster),,,,,4,5.0,6,long-term,10
+LV,Brock Bowers,00-0039338,TE,WR/TE,off,8,0.7725,listed Questionable,last week's report (week 11): Questionable,Ankle,Limited Participation in Practice,Ankle,11.0,10,11.0,1,new,11
+MIA,Malik Willis,00-0038128,QB,QB,off,8,1.0,confirmed: reserve list,reserve list (week 12 roster),,,,,9,10.0,2,long-term,10
+MIA,Dante Trader,00-0040182,S,DB,def,9,0.8522222222222222,listed Out/Doubtful,last week's report (week 11): Doubtful,Shoulder,Did Not Participate In Practice,Shoulder,11.0,10,11.0,1,new,10
+MIA,Zach Sieler,00-0034285,DL,DL/EDGE,def,8,0.76,confirmed: reserve list,reserve list (week 12 roster),,,,,9,10.0,2,long-term,10
+MIA,Jordan Phillips,00-0040175,DL,DL/EDGE,def,9,0.5922222222222222,confirmed: reserve list,reserve list (week 12 roster),,,,,10,11.0,1,new,10
+MIA,De'Von Achane,00-0039040,RB,RB,off,3,0.5566666666666666,confirmed: reserve list,reserve list (week 12 roster),,,,,3,4.0,7,long-term,10
+MIA,Zeek Biggers,00-0040248,DL,DL/EDGE,def,9,0.5466666666666666,confirmed: reserve list,reserve list (week 12 roster),,,,,10,11.0,1,new,10
+MIN,Jordan Addison,00-0038994,WR,WR/TE,off,7,0.9171428571428571,listed Out/Doubtful,last week's report (week 11): Out,Thumb,Did Not Participate In Practice,Thumb,11.0,9,10.0,2,long-term,10
+MIN,Kyler Murray,00-0035228,QB,QB,off,6,0.8616666666666667,listed Out/Doubtful,last week's report (week 11): Out,Hamstring,Did Not Participate In Practice,Hamstring,11.0,8,9.0,3,long-term,10
+MIN,Isaiah Rodgers,00-0036222,CB,DB,def,9,0.8322222222222222,listed Questionable,last week's report (week 11): Questionable,Quadricep,Limited Participation in Practice,Quadricep,11.0,10,11.0,1,new,10
+MIN,Donovan Jackson,00-0040661,G,OL,off,4,0.7725,confirmed: reserve list,reserve list (week 12 roster),,,,,4,5.0,6,long-term,10
+MIN,Josh Oliver,00-0035249,TE,WR/TE,off,3,0.5533333333333333,confirmed: reserve list,reserve list (week 12 roster),,,,,3,4.0,7,long-term,10
+NE,Alijah Vera-Tucker,00-0036979,G,OL,off,6,0.8866666666666667,confirmed: reserve list,reserve list (week 12 roster),,,,,6,7.0,4,long-term,10
+NE,Carlton Davis,00-0034778,CB,DB,def,5,0.8699999999999999,listed Out/Doubtful,last week's report (week 10): Out,Knee,Did Not Participate In Practice,Knee,10.0,9,10.0,1,new,10
+NE,Michael Onwenu,00-0036198,OL,OL,off,2,0.635,confirmed: reserve list,reserve list (week 12 roster),,,,,2,3.0,8,long-term,10
+NE,Ben Brown,00-0037413,C,OL,off,7,0.5771428571428572,listed Out/Doubtful,last week's report (week 10): Out,Knee,Did Not Participate In Practice,Knee,10.0,9,10.0,1,new,10
+NE,Romeo Doubs,00-0037816,WR,WR/TE,off,6,0.5766666666666667,confirmed: reserve list,reserve list (week 12 roster),,,,,6,7.0,4,long-term,10
+NO,Taliese Fuaga,00-0039339,T,OL,off,8,1.0,listed Out/Doubtful,last week's report (week 11): Out,Knee,Did Not Participate In Practice,Knee,11.0,9,10.0,2,long-term,10
+NO,Erik McCoy,00-0035242,C,OL,off,8,0.965,listed Out/Doubtful,last week's report (week 11): Out,Biceps,Did Not Participate In Practice,Biceps,11.0,9,10.0,2,long-term,10
+NO,Pete Werner,00-0036927,LB,LB,def,9,0.7444444444444445,listed Questionable,last week's report (week 11): Questionable,Hamstring,Did Not Participate In Practice,Hamstring,11.0,10,11.0,1,new,10
+NO,Asim Richards,00-0038601,OL,OL,off,9,0.68,listed Out/Doubtful,last week's report (week 11): Out,Knee,Did Not Participate In Practice,Knee,11.0,10,11.0,1,new,10
+NYG,Tremaine Edmunds,00-0034673,LB,LB,def,6,1.0,confirmed: reserve list,reserve list (week 12 roster),,,,,6,7.0,4,long-term,10
+NYG,Greg Newsome II,00-0036996,CB,DB,def,9,0.8322222222222222,confirmed: reserve list,reserve list (week 12 roster),,,,,11,,0,new,10
+NYG,Brian Burns,00-0035713,LB,LB,def,3,0.6466666666666666,confirmed: reserve list,reserve list (week 12 roster),,,,,3,4.0,7,long-term,10
+NYG,Chauncey Golston,00-0036982,DL,DL/EDGE,def,4,0.5175,confirmed: reserve list,reserve list (week 12 roster),,,,,4,5.0,6,long-term,10
+NYJ,Isaiah Williams,00-0039451,WR,WR/TE,off,10,0.569,listed Out/Doubtful,last week's report (week 11): Out,Ribs,Did Not Participate In Practice,Ribs,11.0,10,11.0,1,new,11
+NYJ,Omar Cooper,00-0041511,WR,WR/TE,off,6,0.53,listed Out/Doubtful,last week's report (week 11): Out,Ankle,Did Not Participate In Practice,Ankle,11.0,10,11.0,1,new,11
+PHI,Lane Johnson,00-0030561,T,OL,off,3,1.0,inactive 3+ games,inactive (INA) on the roster for each of the team's last three games; no injury designation,,,,,3,4.0,7,long-term,10
+PHI,Jalen Hurts,00-0036389,QB,QB,off,5,0.984,confirmed: reserve list,reserve list (week 12 roster),,,,,5,6.0,5,long-term,10
+PHI,Zack Baun,00-0036418,LB,LB,def,8,0.925,confirmed: reserve list,reserve list (week 12 roster),,,,,9,11.0,1,new,10
+PHI,Quinyon Mitchell,00-0039888,CB,DB,def,10,0.916,limited in practice,week 12 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,Hamstring,12.0,11,,0,new,10
+PHI,Dontayvion Wicks,00-0038393,WR,WR/TE,off,6,0.7983333333333333,confirmed: reserve list,reserve list (week 12 roster),,,,,6,7.0,4,long-term,10
+PIT,Mason McCormick,00-0039358,G,OL,off,9,0.9266666666666666,confirmed: reserve list,reserve list (week 12 roster),,,,,10,11.0,1,new,10
+PIT,Michael Pittman Jr.,00-0036252,WR,WR/TE,off,3,0.7766666666666667,confirmed: reserve list,reserve list (week 12 roster),,Full Participation in Practice,Foot,12.0,4,5.0,6,long-term,10
+PIT,Alex Highsmith,00-0036333,LB,LB,def,10,0.6,did not practise,week 12 report: Did Not Participate In Practice (no game status yet),,Did Not Participate In Practice,Ankle,12.0,11,,0,new,10
+PIT,Nick Herbig,00-0038577,LB,LB,def,9,0.5244444444444444,limited in practice,week 12 report: Limited Participation in Practice (no game status yet),,Limited Participation in Practice,Hip,12.0,10,11.0,1,new,10
+SEA,Charles Cross,00-0037821,T,OL,off,7,0.9757142857142858,listed Out/Doubtful,last week's report (week 10): Out,Ankle,Did Not Participate In Practice,Ankle,10.0,7,8.0,3,long-term,10
+SEA,Sam Darnold,00-0034869,QB,QB,off,7,0.8714285714285713,listed Out/Doubtful,last week's report (week 10): Out,Ribs,Did Not Participate In Practice,Ribs,10.0,8,9.0,2,long-term,10
+SEA,Leonard Williams,00-0031933,DT,DL/EDGE,def,8,0.715,listed Out/Doubtful,last week's report (week 10): Out,Stinger,Did Not Participate In Practice,Stinger,10.0,8,9.0,2,long-term,10
+SF,Dre Greenlaw,00-0034982,LB,LB,def,8,0.76,listed Questionable,last week's report (week 11): Questionable,Neck,Limited Participation in Practice,Neck,11.0,10,11.0,1,new,10
+TB,Antoine Winfield Jr.,00-0036411,S,DB,def,6,0.8883333333333333,listed Out/Doubtful,last week's report (week 11): Out,Ankle,Did Not Participate In Practice,Ankle,11.0,9,11.0,1,new,10
+TEN,Peter Skoronski,00-0039034,G,OL,off,8,0.9725,confirmed: reserve list,reserve list (week 12 roster),,,,,8,10.0,2,long-term,10
+TEN,Fernando Carmona,00-0040881,G,OL,off,3,0.6733333333333333,confirmed: reserve list,reserve list (week 12 roster),Ankle,Full Participation in Practice,Ankle,11.0,3,4.0,7,long-term,10
+TEN,Wan'Dale Robinson,00-0038117,WR,WR/TE,off,9,0.6533333333333333,confirmed: reserve list,reserve list (week 12 roster),,,,,10,11.0,1,new,10
+WAS,Amik Robertson,00-0036375,CB,DB,def,9,0.9844444444444443,listed Questionable,last week's report (week 11): Questionable,Ankle,Did Not Participate In Practice,Ankle,11.0,10,11.0,1,new,10
+WAS,Daron Payne,00-0034333,DT,DL/EDGE,def,6,0.7383333333333333,confirmed: reserve list,reserve list (week 12 roster),,,,,6,8.0,4,long-term,10
+WAS,Javon Kinlaw,00-0036260,DT,DL/EDGE,def,6,0.6016666666666667,confirmed: reserve list,reserve list (week 12 roster),,,,,6,8.0,4,long-term,10
+WAS,Terry McLaurin,00-0035659,WR,WR/TE,off,5,0.6,confirmed: reserve list,reserve list (week 12 roster),,,,,6,8.0,4,long-term,10
