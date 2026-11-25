@@ -9,6 +9,10 @@
   "local": {
    "at": "2026-11-25 18:24 UTC",
    "note": "week 12 build b273f5c (layout + axe, 5 widths, 0 issues)"
+  },
+  "live": {
+   "at": "2026-11-25 18:32 UTC",
+   "note": "public page 8b3402a, week 12 (layout + axe, 5 widths, 0 issues)"
   }
  }
 }
