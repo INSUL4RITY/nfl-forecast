@@ -1,14 +1,14 @@
 {
  "inputs": {
   "template.html": "0bd72f01927c0391cdb18fad33905c3b1a8388473f7094d0159a8718dcaaa779",
-  "build_html.py": "ed921059e158e5b6b39b35a4ac6aef4e0c33ab3663a426a3406963cc9ab34821",
+  "build_html.py": "992c56ead118b31575c1c61bab3bf834dd565d661470a89425bc9568a5d83045",
   "publish_public.py": "0cfa69c8ad2a241c925e3c81854d8074a4990bf27ff6d955fc2c4a5b08abf114",
   "layout_audit.js": "be266bbe1bf54702ee1e30e0b0ab7bbd883b21f957bc85d7fc12428fb37d6d26"
  },
  "passed": {
   "local": {
-   "at": "2026-11-24 18:30 UTC",
-   "note": "week 11 test rebuild with the edge-target sheet, two-source weather and rest days (layout + axe, 5 widths, 0 issues)"
+   "at": "2026-11-25 18:24 UTC",
+   "note": "week 12 build b273f5c (layout + axe, 5 widths, 0 issues)"
   }
  }
 }
