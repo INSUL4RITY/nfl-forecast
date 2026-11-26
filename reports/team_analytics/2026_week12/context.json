@@ -490,7 +490,7 @@
      "scr_rate": 0.04082,
      "team_epa_play_in_starts": -0.4258555747299505,
      "team_plays_in_starts": 129,
-     "roster_status": "TRT",
+     "roster_status": "CUT",
      "now_team": "TB",
      "report_status": null,
      "practice_status": null,
@@ -916,8 +916,8 @@
      "roster_status": "ACT",
      "now_team": null,
      "report_status": null,
-     "practice_status": "Full Participation in Practice",
-     "report_week": 11,
+     "practice_status": null,
+     "report_week": null,
      "latest_starter": true,
      "one_q": null,
      "dropbacks_season": 425,
@@ -1499,8 +1499,8 @@
      "roster_status": "ACT",
      "now_team": null,
      "report_status": null,
-     "practice_status": null,
-     "report_week": null,
+     "practice_status": "Did Not Participate In Practice",
+     "report_week": 12,
      "latest_starter": true,
      "one_q": null,
      "dropbacks_season": 372,
@@ -1512,7 +1512,9 @@
    ],
    "latest": "00-0036355",
    "primary": "00-0036355",
-   "flags": []
+   "flags": [
+    "Latest starter Justin Herbert: practice status in the week 12 report: did not participate in practice."
+   ]
   },
   "LV": {
    "qbs": [
@@ -1712,9 +1714,9 @@
      "team_plays_in_starts": 309,
      "roster_status": "ACT",
      "now_team": null,
-     "report_status": "Out",
-     "practice_status": "Did Not Participate In Practice",
-     "report_week": 11,
+     "report_status": null,
+     "practice_status": "Limited Participation in Practice",
+     "report_week": 12,
      "latest_starter": false,
      "one_q": null,
      "dropbacks_season": 198,
@@ -1803,7 +1805,7 @@
    "primary": "00-0035228",
    "flags": [
     "Season figures mix quarterbacks.",
-    "Kyler Murray (6 starts, the most on the team) was listed Out in last week's report (week 11) (did not participate in practice). If he returns, the passing profile could differ from the recent games.",
+    "Kyler Murray (6 starts, the most on the team) practice status in the week 12 report: limited participation in practice. If he returns, the passing profile could differ from the recent games.",
     "Carson Wentz: one quarter (week 9, Q1) produced -10.46 of his -20.09 EPA; without it -0.122 per dropback."
    ]
   },
@@ -1841,8 +1843,8 @@
      "roster_status": "ACT",
      "now_team": null,
      "report_status": null,
-     "practice_status": "Full Participation in Practice",
-     "report_week": 10,
+     "practice_status": "Did Not Participate In Practice",
+     "report_week": 12,
      "latest_starter": true,
      "one_q": null,
      "dropbacks_season": 341,
@@ -1897,6 +1899,7 @@
    "primary": "00-0039851",
    "flags": [
     "Season figures mix quarterbacks.",
+    "Latest starter Drake Maye: practice status in the week 12 report: did not participate in practice.",
     "Tommy DeVito: one quarter (week 10, Q2) produced -10.55 of his -10.13 EPA; without it +0.012 per dropback.",
     "Week 12 news: Tommy DeVito is expected to start (not confirmed by the team); his 2026 sample is 44 dropbacks (0 starts). Drake Maye (10 starts) lower-leg injury on 15 Nov, out indefinitely: his games are in the season figures, but he will not play for this team. Source: Boston Globe, 2026-11-16: Drake Maye has a serious lower-leg injury from the Lions game and is expected to be out indefinitely; DeVito expected to start (https://www.bostonglobe.com/2026/11/16/sports/drake-maye-injury); nflverse depth chart, 2026-11-25 17:56 UTC: DeVito listed QB1."
    ],
@@ -2118,8 +2121,8 @@
      "roster_status": "ACT",
      "now_team": null,
      "report_status": null,
-     "practice_status": "Full Participation in Practice",
-     "report_week": 11,
+     "practice_status": null,
+     "report_week": null,
      "latest_starter": true,
      "one_q": null,
      "dropbacks_season": 374,
@@ -2282,11 +2285,11 @@
      "scr_rate": 0.02138,
      "team_epa_play_in_starts": -0.024974551359104733,
      "team_plays_in_starts": 647,
-     "roster_status": "ACT",
+     "roster_status": "CUT",
      "now_team": null,
      "report_status": null,
-     "practice_status": null,
-     "report_week": null,
+     "practice_status": "Did Not Participate In Practice",
+     "report_week": 12,
      "latest_starter": true,
      "one_q": null,
      "dropbacks_season": 421,
@@ -2298,7 +2301,9 @@
    ],
    "latest": "00-0023459",
    "primary": "00-0023459",
-   "flags": []
+   "flags": [
+    "Latest starter Aaron Rodgers: practice status in the week 12 report: did not participate in practice."
+   ]
   },
   "SEA": {
    "qbs": [
@@ -2330,9 +2335,9 @@
      "team_plays_in_starts": 401,
      "roster_status": "ACT",
      "now_team": null,
-     "report_status": "Out",
-     "practice_status": "Did Not Participate In Practice",
-     "report_week": 10,
+     "report_status": null,
+     "practice_status": "Full Participation in Practice",
+     "report_week": 12,
      "latest_starter": false,
      "one_q": null,
      "dropbacks_season": 246,
@@ -2369,7 +2374,7 @@
      "now_team": null,
      "report_status": null,
      "practice_status": "Limited Participation in Practice",
-     "report_week": 10,
+     "report_week": 12,
      "latest_starter": true,
      "one_q": null,
      "dropbacks_season": 110,
@@ -2437,8 +2442,8 @@
      "roster_status": "ACT",
      "now_team": null,
      "report_status": null,
-     "practice_status": null,
-     "report_week": null,
+     "practice_status": "Did Not Participate In Practice",
+     "report_week": 12,
      "latest_starter": true,
      "one_q": null,
      "dropbacks_season": 338,
@@ -2450,7 +2455,9 @@
    ],
    "latest": "00-0037834",
    "primary": "00-0037834",
-   "flags": []
+   "flags": [
+    "Latest starter Brock Purdy: practice status in the week 12 report: did not participate in practice."
+   ]
   },
   "TB": {
    "qbs": [
@@ -2618,7 +2625,7 @@
      "now_team": null,
      "report_status": null,
      "practice_status": "Full Participation in Practice",
-     "report_week": 11,
+     "report_week": 12,
      "latest_starter": true,
      "one_q": null,
      "dropbacks_season": 312,

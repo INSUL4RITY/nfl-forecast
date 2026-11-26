@@ -1,7 +1,31 @@
 {
  "depth": {
-  "as_of": "2026-11-25T17:56:34Z",
+  "as_of": "2026-11-26T17:41:02Z",
   "absences": [
+   {
+    "team": "ARI",
+    "player": "Hjalte Froholdt",
+    "slot": "C",
+    "next_up": "Hayden Conner",
+    "next_up_rank": 3,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 201,
+    "next_up_games": 5,
+    "next_up_last_share": 0.0
+   },
+   {
+    "team": "ARI",
+    "player": "Isaac Seumalo",
+    "slot": "LG",
+    "next_up": "Kingsley Eguakun",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 0,
+    "next_up_games": 0,
+    "next_up_last_share": 0.0
+   },
    {
     "team": "ARI",
     "player": "Paris Johnson",
@@ -13,6 +37,30 @@
     "next_up_snaps": 183,
     "next_up_games": 7,
     "next_up_last_share": 1.0
+   },
+   {
+    "team": "ARI",
+    "player": "Mack Wilson",
+    "slot": "MLB",
+    "next_up": "Cody Simon",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 119,
+    "next_up_games": 9,
+    "next_up_last_share": 0.26
+   },
+   {
+    "team": "ARI",
+    "player": "Budda Baker",
+    "slot": "SS",
+    "next_up": "Dadrion Taylor-Demerson",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 101,
+    "next_up_games": 5,
+    "next_up_last_share": 0.04
    },
    {
     "team": "ARI",
@@ -64,6 +112,18 @@
    },
    {
     "team": "ARI",
+    "player": "Josh Sweat",
+    "slot": "LDE",
+    "next_up": "Eku Leota",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 85,
+    "next_up_games": 8,
+    "next_up_last_share": 0.39
+   },
+   {
+    "team": "ARI",
     "player": "Kendrick Bourne",
     "slot": "WR",
     "next_up": "Reggie Virgil",
@@ -76,15 +136,39 @@
    },
    {
     "team": "ATL",
-    "player": "Divine Deablo",
-    "slot": "RILB",
-    "next_up": "Harold Perkins Jr.",
+    "player": "Matthew Bergeron",
+    "slot": "LG",
+    "next_up": "Kyle Hinton",
     "next_up_rank": 2,
     "still_first": true,
     "note": "",
-    "next_up_snaps": 380,
-    "next_up_games": 10,
-    "next_up_last_share": 0.58
+    "next_up_snaps": 24,
+    "next_up_games": 6,
+    "next_up_last_share": 0.0
+   },
+   {
+    "team": "ATL",
+    "player": "Jahan Dotson",
+    "slot": "WR",
+    "next_up": "Beaux Collins",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 30,
+    "next_up_games": 2,
+    "next_up_last_share": 0.35
+   },
+   {
+    "team": "BAL",
+    "player": "John Simpson",
+    "slot": "LG",
+    "next_up": "Ryan Neuzil",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 559,
+    "next_up_games": 9,
+    "next_up_last_share": 0.0
    },
    {
     "team": "BAL",
@@ -112,18 +196,6 @@
    },
    {
     "team": "BAL",
-    "player": "Marlon Humphrey",
-    "slot": "RCB",
-    "next_up": "T.J. Tampa",
-    "next_up_rank": 2,
-    "still_first": true,
-    "note": "",
-    "next_up_snaps": 92,
-    "next_up_games": 4,
-    "next_up_last_share": 0.56
-   },
-   {
-    "team": "BAL",
     "player": "Tyler Huntley",
     "slot": "QB",
     "next_up": "Jacoby Brissett",
@@ -136,6 +208,18 @@
    },
    {
     "team": "BAL",
+    "player": "Rashod Bateman",
+    "slot": "WR",
+    "next_up": "Elijah Sarratt",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 23,
+    "next_up_games": 1,
+    "next_up_last_share": 0.36
+   },
+   {
+    "team": "BAL",
     "player": "Tavius Robinson",
     "slot": "WLB",
     "next_up": "Mike Green",
@@ -145,6 +229,18 @@
     "next_up_snaps": 386,
     "next_up_games": 11,
     "next_up_last_share": 0.72
+   },
+   {
+    "team": "BAL",
+    "player": "Zay Flowers",
+    "slot": "WR",
+    "next_up": "Devontez Walker",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 215,
+    "next_up_games": 10,
+    "next_up_last_share": 0.14
    },
    {
     "team": "BAL",
@@ -169,6 +265,30 @@
     "next_up_snaps": 560,
     "next_up_games": 10,
     "next_up_last_share": 1.0
+   },
+   {
+    "team": "BAL",
+    "player": "Mike Green",
+    "slot": "WLB",
+    "next_up": "Zion Young",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 254,
+    "next_up_games": 11,
+    "next_up_last_share": 0.34
+   },
+   {
+    "team": "BAL",
+    "player": "Derrick Henry",
+    "slot": "RB",
+    "next_up": "Justice Hill",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 316,
+    "next_up_games": 11,
+    "next_up_last_share": 0.55
    },
    {
     "team": "BUF",
@@ -256,6 +376,18 @@
    },
    {
     "team": "CHI",
+    "player": "Tyrique Stevenson",
+    "slot": "RCB",
+    "next_up": "Malik Muhammad",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 283,
+    "next_up_games": 8,
+    "next_up_last_share": 0.11
+   },
+   {
+    "team": "CHI",
     "player": "Braxton Jones",
     "slot": "LT",
     "next_up": "Theo Benedet",
@@ -316,6 +448,18 @@
    },
    {
     "team": "CIN",
+    "player": "Jonathan Allen",
+    "slot": "RDT",
+    "next_up": "B.J. Hill",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 210,
+    "next_up_games": 7,
+    "next_up_last_share": 0.49
+   },
+   {
+    "team": "CIN",
     "player": "Andrei Iosivas",
     "slot": "WR",
     "next_up": "Dohnte Meyers",
@@ -328,15 +472,75 @@
    },
    {
     "team": "CLE",
-    "player": "Ronnie Hickman",
-    "slot": "FS",
-    "next_up": "Daniel Thomas",
+    "player": "Austin Barber",
+    "slot": "RG",
+    "next_up": "Zak Zinter",
     "next_up_rank": 2,
     "still_first": true,
     "note": "",
-    "next_up_snaps": 33,
+    "next_up_snaps": 3,
     "next_up_games": 3,
-    "next_up_last_share": 0.16
+    "next_up_last_share": 0.0
+   },
+   {
+    "team": "CLE",
+    "player": "Elgton Jenkins",
+    "slot": "C",
+    "next_up": "Luke Wypler",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 64,
+    "next_up_games": 1,
+    "next_up_last_share": 0.0
+   },
+   {
+    "team": "CLE",
+    "player": "Quincy Williams",
+    "slot": "SLB",
+    "next_up": "Justin Jefferson",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 0,
+    "next_up_games": 0,
+    "next_up_last_share": 0.0
+   },
+   {
+    "team": "CLE",
+    "player": "Denzel Boston",
+    "slot": "WR",
+    "next_up": "Malachi Corley",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 95,
+    "next_up_games": 8,
+    "next_up_last_share": 0.31
+   },
+   {
+    "team": "CLE",
+    "player": "Harold Fannin",
+    "slot": "TE",
+    "next_up": "Blake Whiteheart",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 218,
+    "next_up_games": 10,
+    "next_up_last_share": 0.38
+   },
+   {
+    "team": "CLE",
+    "player": "Isaiah McGuire",
+    "slot": "LDE",
+    "next_up": "Derek Barnett",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 228,
+    "next_up_games": 10,
+    "next_up_last_share": 0.3
    },
    {
     "team": "DAL",
@@ -367,23 +571,11 @@
     "player": "Jalen Thompson",
     "slot": "SS",
     "next_up": "P.J. Locke",
-    "next_up_rank": 1,
-    "still_first": false,
-    "note": "",
-    "next_up_snaps": 142,
-    "next_up_games": 4,
-    "next_up_last_share": 0.67
-   },
-   {
-    "team": "DAL",
-    "player": "Dee Winters",
-    "slot": "RILB",
-    "next_up": "Justin Barron",
     "next_up_rank": 2,
     "still_first": true,
     "note": "",
-    "next_up_snaps": 71,
-    "next_up_games": 6,
+    "next_up_snaps": 142,
+    "next_up_games": 4,
     "next_up_last_share": 0.67
    },
    {
@@ -397,18 +589,6 @@
     "next_up_snaps": 404,
     "next_up_games": 11,
     "next_up_last_share": 0.68
-   },
-   {
-    "team": "DAL",
-    "player": "Jaishawn Barham",
-    "slot": "WLB",
-    "next_up": "Rashan Gary",
-    "next_up_rank": 1,
-    "still_first": false,
-    "note": "",
-    "next_up_snaps": 485,
-    "next_up_games": 11,
-    "next_up_last_share": 0.45
    },
    {
     "team": "DEN",
@@ -616,6 +796,18 @@
    },
    {
     "team": "HOU",
+    "player": "Keylan Rutledge",
+    "slot": "LG",
+    "next_up": "Febechi Nwaiwu",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 79,
+    "next_up_games": 2,
+    "next_up_last_share": 0.18
+   },
+   {
+    "team": "HOU",
     "player": "Azeez Al-Shaair",
     "slot": "MLB",
     "next_up": "Henry To'oTo'o",
@@ -640,15 +832,27 @@
    },
    {
     "team": "HOU",
-    "player": "Woody Marks",
-    "slot": "RB",
-    "next_up": "David Montgomery",
-    "next_up_rank": 1,
-    "still_first": false,
+    "player": "Sheldon Rankins",
+    "slot": "RDT",
+    "next_up": "Logan Hall",
+    "next_up_rank": 2,
+    "still_first": true,
     "note": "",
-    "next_up_snaps": 203,
-    "next_up_games": 6,
-    "next_up_last_share": 0.73
+    "next_up_snaps": 242,
+    "next_up_games": 10,
+    "next_up_last_share": 0.44
+   },
+   {
+    "team": "HOU",
+    "player": "Kayshon Boutte",
+    "slot": "WR",
+    "next_up": "Nikko Remigio",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 2,
+    "next_up_games": 1,
+    "next_up_last_share": 0.0
    },
    {
     "team": "IND",
@@ -676,30 +880,6 @@
    },
    {
     "team": "IND",
-    "player": "Bernhard Raimann",
-    "slot": "LT",
-    "next_up": "Luke Tenuta",
-    "next_up_rank": 2,
-    "still_first": true,
-    "note": "",
-    "next_up_snaps": 175,
-    "next_up_games": 9,
-    "next_up_last_share": 1.0
-   },
-   {
-    "team": "IND",
-    "player": "Sauce Gardner",
-    "slot": "LCB",
-    "next_up": "Kenneth Harris",
-    "next_up_rank": 2,
-    "still_first": true,
-    "note": "",
-    "next_up_snaps": 138,
-    "next_up_games": 6,
-    "next_up_last_share": 0.42
-   },
-   {
-    "team": "IND",
     "player": "Charvarius Ward",
     "slot": "RCB",
     "next_up": "Johnathan Edwards",
@@ -712,15 +892,27 @@
    },
    {
     "team": "JAX",
+    "player": "Cole Van Lanen",
+    "slot": "RT",
+    "next_up": "Walker Little",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 355,
+    "next_up_games": 8,
+    "next_up_last_share": 0.64
+   },
+   {
+    "team": "JAX",
     "player": "Anton Harrison",
     "slot": "LT",
-    "next_up": "Wyatt Milum",
+    "next_up": "Walker Little",
     "next_up_rank": 1,
     "still_first": false,
     "note": "",
-    "next_up_snaps": 103,
-    "next_up_games": 9,
-    "next_up_last_share": 0.39
+    "next_up_snaps": 355,
+    "next_up_games": 8,
+    "next_up_last_share": 0.64
    },
    {
     "team": "JAX",
@@ -736,6 +928,18 @@
    },
    {
     "team": "JAX",
+    "player": "Jakobi Meyers",
+    "slot": "WR",
+    "next_up": "Travis Hunter",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 54,
+    "next_up_games": 9,
+    "next_up_last_share": 0.08
+   },
+   {
+    "team": "JAX",
     "player": "Eric Murray",
     "slot": "SS",
     "next_up": "Jessie Bates III",
@@ -747,16 +951,40 @@
     "next_up_last_share": 0.94
    },
    {
-    "team": "KC",
-    "player": "Jaylon Moore",
-    "slot": "RT",
-    "next_up": "Joshua Ezeudu",
+    "team": "JAX",
+    "player": "Walker Little",
+    "slot": "LT",
+    "next_up": "Wyatt Milum",
     "next_up_rank": 2,
     "still_first": true,
     "note": "",
-    "next_up_snaps": 244,
-    "next_up_games": 8,
-    "next_up_last_share": 1.0
+    "next_up_snaps": 103,
+    "next_up_games": 9,
+    "next_up_last_share": 0.39
+   },
+   {
+    "team": "JAX",
+    "player": "Bhayshul Tuten",
+    "slot": "RB",
+    "next_up": "Chris Rodriguez Jr.",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 168,
+    "next_up_games": 10,
+    "next_up_last_share": 0.38
+   },
+   {
+    "team": "KC",
+    "player": "Jaylon Moore",
+    "slot": "LT",
+    "next_up": "Kahlil Benson",
+    "next_up_rank": 1,
+    "still_first": false,
+    "note": "",
+    "next_up_snaps": 642,
+    "next_up_games": 10,
+    "next_up_last_share": 0.93
    },
    {
     "team": "KC",
@@ -781,6 +1009,18 @@
     "next_up_snaps": 50,
     "next_up_games": 5,
     "next_up_last_share": 0.09
+   },
+   {
+    "team": "KC",
+    "player": "Noah Gray",
+    "slot": "TE",
+    "next_up": "Travis Kelce",
+    "next_up_rank": 1,
+    "still_first": false,
+    "note": "",
+    "next_up_snaps": 464,
+    "next_up_games": 10,
+    "next_up_last_share": 0.72
    },
    {
     "team": "KC",
@@ -834,13 +1074,13 @@
     "team": "LA",
     "player": "Puka Nacua",
     "slot": "WR",
-    "next_up": "Konata Mumpfield",
+    "next_up": "CJ Daniels",
     "next_up_rank": 1,
     "still_first": false,
     "note": "",
-    "next_up_snaps": 317,
-    "next_up_games": 10,
-    "next_up_last_share": 0.63
+    "next_up_snaps": 52,
+    "next_up_games": 4,
+    "next_up_last_share": 0.61
    },
    {
     "team": "LA",
@@ -858,25 +1098,25 @@
     "team": "LA",
     "player": "Davante Adams",
     "slot": "WR",
-    "next_up": "CJ Daniels",
+    "next_up": "Xavier Smith",
     "next_up_rank": 1,
     "still_first": false,
     "note": "",
-    "next_up_snaps": 52,
+    "next_up_snaps": 89,
     "next_up_games": 4,
-    "next_up_last_share": 0.61
+    "next_up_last_share": 0.12
    },
    {
-    "team": "LA",
-    "player": "Kobie Turner",
-    "slot": "LDE",
-    "next_up": "Braden Fiske",
-    "next_up_rank": 1,
-    "still_first": false,
+    "team": "LAC",
+    "player": "Justin Herbert",
+    "slot": "QB",
+    "next_up": "DJ Uiagalelei",
+    "next_up_rank": 2,
+    "still_first": true,
     "note": "",
-    "next_up_snaps": 356,
-    "next_up_games": 10,
-    "next_up_last_share": 0.57
+    "next_up_snaps": 15,
+    "next_up_games": 1,
+    "next_up_last_share": 0.21
    },
    {
     "team": "LAC",
@@ -925,6 +1165,30 @@
    },
    {
     "team": "LAC",
+    "player": "Tuli Tuipulotu",
+    "slot": "WLB",
+    "next_up": "Bud Dupree",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 76,
+    "next_up_games": 6,
+    "next_up_last_share": 0.05
+   },
+   {
+    "team": "LAC",
+    "player": "Khalil Mack",
+    "slot": "SLB",
+    "next_up": "Akheem Mesidor",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 344,
+    "next_up_games": 10,
+    "next_up_last_share": 0.2
+   },
+   {
+    "team": "LAC",
     "player": "Trevor Penning",
     "slot": "RG",
     "next_up": "Kayode Awosika",
@@ -934,6 +1198,42 @@
     "next_up_snaps": 145,
     "next_up_games": 3,
     "next_up_last_share": 1.0
+   },
+   {
+    "team": "LAC",
+    "player": "Teair Tart",
+    "slot": "LDE",
+    "next_up": "Nick Barrett",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 154,
+    "next_up_games": 10,
+    "next_up_last_share": 0.23
+   },
+   {
+    "team": "LAC",
+    "player": "Akheem Mesidor",
+    "slot": "SLB",
+    "next_up": "Khalil Mack",
+    "next_up_rank": 1,
+    "still_first": false,
+    "note": "",
+    "next_up_snaps": 449,
+    "next_up_games": 10,
+    "next_up_last_share": 0.75
+   },
+   {
+    "team": "LAC",
+    "player": "Dalvin Tomlinson",
+    "slot": "NT",
+    "next_up": "Jamaree Caldwell",
+    "next_up_rank": 1,
+    "still_first": false,
+    "note": "",
+    "next_up_snaps": 306,
+    "next_up_games": 9,
+    "next_up_last_share": 0.55
    },
    {
     "team": "LV",
@@ -946,6 +1246,30 @@
     "next_up_snaps": 574,
     "next_up_games": 11,
     "next_up_last_share": 0.67
+   },
+   {
+    "team": "LV",
+    "player": "Adam Butler",
+    "slot": "NT",
+    "next_up": "Tim Keenan III",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 100,
+    "next_up_games": 5,
+    "next_up_last_share": 0.12
+   },
+   {
+    "team": "MIA",
+    "player": "Austin Jackson",
+    "slot": "RT",
+    "next_up": "Chukwuebuka Godrick",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 0,
+    "next_up_games": 0,
+    "next_up_last_share": 0.0
    },
    {
     "team": "MIA",
@@ -982,6 +1306,18 @@
     "next_up_snaps": 179,
     "next_up_games": 6,
     "next_up_last_share": 0.67
+   },
+   {
+    "team": "MIA",
+    "player": "Julius Brents",
+    "slot": "RCB",
+    "next_up": "Marcellas Dial Jr.",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 1,
+    "next_up_games": 1,
+    "next_up_last_share": 0.01
    },
    {
     "team": "MIA",
@@ -1033,6 +1369,18 @@
    },
    {
     "team": "MIN",
+    "player": "Christian Darrisaw",
+    "slot": "LT",
+    "next_up": "Ryan Van Demark",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 130,
+    "next_up_games": 3,
+    "next_up_last_share": 0.34
+   },
+   {
+    "team": "MIN",
     "player": "Kyler Murray",
     "slot": "QB",
     "next_up": "Kirk Cousins",
@@ -1054,6 +1402,18 @@
     "next_up_snaps": 16,
     "next_up_games": 2,
     "next_up_last_share": 0.26
+   },
+   {
+    "team": "MIN",
+    "player": "Jalen Redmond",
+    "slot": "RDE",
+    "next_up": "Tyrion Ingram-Dawkins",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 318,
+    "next_up_games": 9,
+    "next_up_last_share": 0.44
    },
    {
     "team": "MIN",
@@ -1080,6 +1440,18 @@
     "next_up_last_share": 0.51
    },
    {
+    "team": "MIN",
+    "player": "Harrison Smith",
+    "slot": "FS",
+    "next_up": "Theo Jackson",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 322,
+    "next_up_games": 9,
+    "next_up_last_share": 0.54
+   },
+   {
     "team": "NE",
     "player": "Alijah Vera-Tucker",
     "slot": "LG",
@@ -1090,6 +1462,18 @@
     "next_up_snaps": 123,
     "next_up_games": 4,
     "next_up_last_share": 1.0
+   },
+   {
+    "team": "NE",
+    "player": "Drake Maye",
+    "slot": "QB",
+    "next_up": "Tommy DeVito",
+    "next_up_rank": 1,
+    "still_first": false,
+    "note": "",
+    "next_up_snaps": 73,
+    "next_up_games": 3,
+    "next_up_last_share": 0.83
    },
    {
     "team": "NE",
@@ -1117,18 +1501,6 @@
    },
    {
     "team": "NE",
-    "player": "Ben Brown",
-    "slot": "C",
-    "next_up": "Jared Wilson",
-    "next_up_rank": 1,
-    "still_first": false,
-    "note": "",
-    "next_up_snaps": 626,
-    "next_up_games": 10,
-    "next_up_last_share": 0.9
-   },
-   {
-    "team": "NE",
     "player": "Romeo Doubs",
     "slot": "WR",
     "next_up": "DeMario Douglas",
@@ -1141,15 +1513,27 @@
    },
    {
     "team": "NO",
-    "player": "Taliese Fuaga",
-    "slot": "RT",
-    "next_up": "Mason Murphy",
-    "next_up_rank": 3,
+    "player": "David Edwards",
+    "slot": "LG",
+    "next_up": "Dillon Radunz",
+    "next_up_rank": 2,
     "still_first": true,
     "note": "",
-    "next_up_snaps": 89,
-    "next_up_games": 4,
-    "next_up_last_share": 1.0
+    "next_up_snaps": 0,
+    "next_up_games": 0,
+    "next_up_last_share": null
+   },
+   {
+    "team": "NO",
+    "player": "Taliese Fuaga",
+    "slot": "RT",
+    "next_up": "Asim Richards",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 396,
+    "next_up_games": 7,
+    "next_up_last_share": 0.81
    },
    {
     "team": "NO",
@@ -1188,6 +1572,18 @@
     "next_up_last_share": 1.0
    },
    {
+    "team": "NO",
+    "player": "Juwan Johnson",
+    "slot": "TE",
+    "next_up": "Noah Fant",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 319,
+    "next_up_games": 9,
+    "next_up_last_share": 0.68
+   },
+   {
     "team": "NYG",
     "player": "Tremaine Edmunds",
     "slot": "RILB",
@@ -1198,6 +1594,30 @@
     "next_up_snaps": 271,
     "next_up_games": 5,
     "next_up_last_share": 0.96
+   },
+   {
+    "team": "NYG",
+    "player": "Arvell Reese",
+    "slot": "LILB",
+    "next_up": "Jack Kelly",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 6,
+    "next_up_games": 2,
+    "next_up_last_share": 0.07
+   },
+   {
+    "team": "NYG",
+    "player": "Abdul Carter",
+    "slot": "SLB",
+    "next_up": "Trace Ford",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 102,
+    "next_up_games": 7,
+    "next_up_last_share": 0.17
    },
    {
     "team": "NYG",
@@ -1213,6 +1633,30 @@
    },
    {
     "team": "NYG",
+    "player": "Isaiah Likely",
+    "slot": "TE",
+    "next_up": "Theo Johnson",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 168,
+    "next_up_games": 8,
+    "next_up_last_share": 0.2
+   },
+   {
+    "team": "NYG",
+    "player": "Andru Phillips",
+    "slot": "NB",
+    "next_up": "Tavierre Thomas",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 0,
+    "next_up_games": 0,
+    "next_up_last_share": 0.0
+   },
+   {
+    "team": "NYG",
     "player": "Brian Burns",
     "slot": "WLB",
     "next_up": "Kayvon Thibodeaux",
@@ -1222,6 +1666,18 @@
     "next_up_snaps": 488,
     "next_up_games": 10,
     "next_up_last_share": 0.72
+   },
+   {
+    "team": "NYG",
+    "player": "Shelby Harris",
+    "slot": "LDE",
+    "next_up": "Darius Alexander",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 228,
+    "next_up_games": 8,
+    "next_up_last_share": 0.39
    },
    {
     "team": "NYG",
@@ -1237,6 +1693,18 @@
    },
    {
     "team": "NYJ",
+    "player": "Dylan Parham",
+    "slot": "LG",
+    "next_up": "Jordan Meredith",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 309,
+    "next_up_games": 6,
+    "next_up_last_share": 0.82
+   },
+   {
+    "team": "NYJ",
     "player": "Isaiah Williams",
     "slot": "WR",
     "next_up": "Garrett Wilson",
@@ -1246,6 +1714,18 @@
     "next_up_snaps": 558,
     "next_up_games": 10,
     "next_up_last_share": 0.9
+   },
+   {
+    "team": "NYJ",
+    "player": "Harrison Phillips",
+    "slot": "RDT",
+    "next_up": "Jowon Briggs",
+    "next_up_rank": 1,
+    "still_first": false,
+    "note": "",
+    "next_up_snaps": 392,
+    "next_up_games": 11,
+    "next_up_last_share": 0.32
    },
    {
     "team": "NYJ",
@@ -1297,18 +1777,6 @@
    },
    {
     "team": "PHI",
-    "player": "Quinyon Mitchell",
-    "slot": "RCB",
-    "next_up": "Kelee Ringo",
-    "next_up_rank": 2,
-    "still_first": true,
-    "note": "",
-    "next_up_snaps": 9,
-    "next_up_games": 2,
-    "next_up_last_share": 0.1
-   },
-   {
-    "team": "PHI",
     "player": "Dontayvion Wicks",
     "slot": "WR",
     "next_up": "Makai Lemon",
@@ -1345,27 +1813,51 @@
    },
    {
     "team": "PIT",
-    "player": "Alex Highsmith",
-    "slot": "SLB",
-    "next_up": "Jack Sawyer",
+    "player": "Cameron Heyward",
+    "slot": "RDE",
+    "next_up": "Kevin Jobity Jr.",
     "next_up_rank": 2,
     "still_first": true,
     "note": "",
-    "next_up_snaps": 223,
-    "next_up_games": 10,
-    "next_up_last_share": 0.74
+    "next_up_snaps": 28,
+    "next_up_games": 3,
+    "next_up_last_share": 0.06
+   },
+   {
+    "team": "PIT",
+    "player": "Alex Highsmith",
+    "slot": "SLB",
+    "next_up": "Nick Herbig",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 301,
+    "next_up_games": 9,
+    "next_up_last_share": 0.42
    },
    {
     "team": "PIT",
     "player": "Nick Herbig",
-    "slot": "WLB",
-    "next_up": "T.J. Watt",
+    "slot": "SLB",
+    "next_up": "Alex Highsmith",
     "next_up_rank": 1,
     "still_first": false,
     "note": "",
-    "next_up_snaps": 420,
+    "next_up_snaps": 382,
     "next_up_games": 10,
-    "next_up_last_share": 0.81
+    "next_up_last_share": 0.11
+   },
+   {
+    "team": "SEA",
+    "player": "Ernest Jones",
+    "slot": "RILB",
+    "next_up": "Patrick O'Connell",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 6,
+    "next_up_games": 5,
+    "next_up_last_share": 0.02
    },
    {
     "team": "SEA",
@@ -1381,14 +1873,38 @@
    },
    {
     "team": "SEA",
-    "player": "Sam Darnold",
-    "slot": "QB",
-    "next_up": "Drew Lock",
+    "player": "Abraham Lucas",
+    "slot": "RT",
+    "next_up": "Josh Jones",
     "next_up_rank": 2,
     "still_first": true,
     "note": "",
-    "next_up_snaps": 239,
-    "next_up_games": 4,
+    "next_up_snaps": 208,
+    "next_up_games": 8,
+    "next_up_last_share": 1.0
+   },
+   {
+    "team": "SEA",
+    "player": "Jaxon Smith-Njigba",
+    "slot": "WR",
+    "next_up": "Tory Horton",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 222,
+    "next_up_games": 9,
+    "next_up_last_share": 0.18
+   },
+   {
+    "team": "SEA",
+    "player": "Anthony Bradford",
+    "slot": "RG",
+    "next_up": "Grey Zabel",
+    "next_up_rank": 1,
+    "still_first": false,
+    "note": "",
+    "next_up_snaps": 651,
+    "next_up_games": 10,
     "next_up_last_share": 1.0
    },
    {
@@ -1404,6 +1920,66 @@
     "next_up_last_share": 0.24
    },
    {
+    "team": "SEA",
+    "player": "DeMarcus Lawrence",
+    "slot": "WLB",
+    "next_up": "Dante Fowler Jr.",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 121,
+    "next_up_games": 10,
+    "next_up_last_share": 0.34
+   },
+   {
+    "team": "SF",
+    "player": "Brock Purdy",
+    "slot": "QB",
+    "next_up": "Mac Jones",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 20,
+    "next_up_games": 3,
+    "next_up_last_share": 0.11
+   },
+   {
+    "team": "SF",
+    "player": "Deommodore Lenoir",
+    "slot": "RCB",
+    "next_up": "Nate Hobbs",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 0,
+    "next_up_games": 0,
+    "next_up_last_share": null
+   },
+   {
+    "team": "SF",
+    "player": "Colton McKivitz",
+    "slot": "RT",
+    "next_up": "Vederian Lowe",
+    "next_up_rank": 1,
+    "still_first": false,
+    "note": "",
+    "next_up_snaps": 74,
+    "next_up_games": 4,
+    "next_up_last_share": 0.7
+   },
+   {
+    "team": "SF",
+    "player": "Trent Williams",
+    "slot": "LT",
+    "next_up": "Vederian Lowe",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 74,
+    "next_up_games": 4,
+    "next_up_last_share": 0.7
+   },
+   {
     "team": "SF",
     "player": "Dre Greenlaw",
     "slot": "WLB",
@@ -1414,6 +1990,54 @@
     "next_up_snaps": 111,
     "next_up_games": 6,
     "next_up_last_share": 0.76
+   },
+   {
+    "team": "SF",
+    "player": "Christian McCaffrey",
+    "slot": "RB",
+    "next_up": "Kaelon Black",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 186,
+    "next_up_games": 10,
+    "next_up_last_share": 0.3
+   },
+   {
+    "team": "SF",
+    "player": "Upton Stout",
+    "slot": "NB",
+    "next_up": "Ashtyn Davis",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 21,
+    "next_up_games": 2,
+    "next_up_last_share": 0.0
+   },
+   {
+    "team": "SF",
+    "player": "Jordan Watkins",
+    "slot": "WR",
+    "next_up": "Mike Evans",
+    "next_up_rank": 1,
+    "still_first": false,
+    "note": "",
+    "next_up_snaps": 220,
+    "next_up_games": 7,
+    "next_up_last_share": 0.43
+   },
+   {
+    "team": "SF",
+    "player": "Mike Evans",
+    "slot": "WR",
+    "next_up": "Jordan Watkins",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 287,
+    "next_up_games": 8,
+    "next_up_last_share": 0.52
    },
    {
     "team": "TB",
@@ -1441,6 +2065,30 @@
    },
    {
     "team": "TEN",
+    "player": "Dan Moore",
+    "slot": "LT",
+    "next_up": "James Hudson III",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 70,
+    "next_up_games": 5,
+    "next_up_last_share": 0.41
+   },
+   {
+    "team": "TEN",
+    "player": "Cordale Flott",
+    "slot": "RCB",
+    "next_up": "Micah Robinson",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 144,
+    "next_up_games": 6,
+    "next_up_last_share": 0.46
+   },
+   {
+    "team": "TEN",
     "player": "Fernando Carmona",
     "slot": "RG",
     "next_up": "Atonio Mafi",
@@ -1462,6 +2110,18 @@
     "next_up_snaps": 400,
     "next_up_games": 10,
     "next_up_last_share": 0.54
+   },
+   {
+    "team": "TEN",
+    "player": "John Franklin-Myers",
+    "slot": "LDT",
+    "next_up": "Timmy Horne",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 146,
+    "next_up_games": 5,
+    "next_up_last_share": 0.57
    },
    {
     "team": "WAS",
@@ -1489,6 +2149,18 @@
    },
    {
     "team": "WAS",
+    "player": "Stefon Diggs",
+    "slot": "WR",
+    "next_up": "Van Jefferson",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 86,
+    "next_up_games": 5,
+    "next_up_last_share": 0.24
+   },
+   {
+    "team": "WAS",
     "player": "Javon Kinlaw",
     "slot": "RDE",
     "next_up": "Shy Tuttle",
@@ -1510,6 +2182,30 @@
     "next_up_snaps": 370,
     "next_up_games": 9,
     "next_up_last_share": 0.66
+   },
+   {
+    "team": "WAS",
+    "player": "Treylon Burks",
+    "slot": "WR",
+    "next_up": "Dyami Brown",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 204,
+    "next_up_games": 7,
+    "next_up_last_share": 0.25
+   },
+   {
+    "team": "WAS",
+    "player": "Charles Omenihu",
+    "slot": "LDE",
+    "next_up": "Jer'Zhan Newton",
+    "next_up_rank": 2,
+    "still_first": true,
+    "note": "",
+    "next_up_snaps": 61,
+    "next_up_games": 3,
+    "next_up_last_share": 0.34
    }
   ],
   "checks": {
@@ -1655,12 +2351,10 @@
     "qb_match": true,
     "last_week": 11,
     "ol_new": [
-     "LT Wyatt Milum",
      "C Robert Hainsey"
     ],
     "ol_dropped": [
-     "Jonah Monheim",
-     "Walker Little"
+     "Jonah Monheim"
     ]
    },
    "KC": {
@@ -1669,12 +2363,10 @@
     "qb_match": true,
     "last_week": 11,
     "ol_new": [
-     "RG Trey Smith",
-     "RT Jaylon Moore"
+     "RG Trey Smith"
     ],
     "ol_dropped": [
-     "Hunter Nourzad",
-     "Joshua Ezeudu"
+     "Hunter Nourzad"
     ]
    },
    "LA": {
@@ -2157,6 +2849,38 @@
   "min_note": "Next Gen season rows cover qualifying receivers only"
  },
  "nextup": {
+  "ARI|Hjalte Froholdt": {
+   "group": "OL",
+   "kind": "ol",
+   "snaps": 201,
+   "starts": 3,
+   "other_games": 8,
+   "epa_db_started": -0.13591176589915882,
+   "epa_db_not": -0.003848610026757839,
+   "db_started": 137,
+   "db_not": 334,
+   "sack_started": 0.0948905109489051,
+   "sack_not": 0.05389221556886228,
+   "hs_started": 0.2116788321167883,
+   "hs_not": 0.1467065868263473,
+   "text": "Hayden Conner: 201 snaps, 3 starts. Team in his starts: -0.136 EPA/dropback, sack rate 9.5% (137 dropbacks); other games -0.004, 5.4% (334 dropbacks)"
+  },
+  "ARI|Isaac Seumalo": {
+   "group": "OL",
+   "kind": "ol",
+   "snaps": 0,
+   "starts": 0,
+   "other_games": 11,
+   "epa_db_started": null,
+   "epa_db_not": -0.04226188466480229,
+   "db_started": 0,
+   "db_not": 471,
+   "sack_started": null,
+   "sack_not": 0.06581740976645435,
+   "hs_started": null,
+   "hs_not": 0.16560509554140126,
+   "text": "Kingsley Eguakun: 0 offensive snaps, no starts yet"
+  },
   "ARI|Paris Johnson": {
    "group": "OL",
    "kind": "ol",
@@ -2172,6 +2896,30 @@
    "hs_started": 0.15625,
    "hs_not": 0.168,
    "text": "Josh Fryar: 183 snaps, 3 starts; too few dropbacks for a with/without split (96 in his starts, 375 in other games)"
+  },
+  "ARI|Mack Wilson": {
+   "group": "LB",
+   "kind": "rush",
+   "games": 6,
+   "snaps": 119,
+   "pressures": 0,
+   "sacks": 0.0,
+   "per100": 0.0,
+   "text": "Cody Simon: 119 defensive snaps in 6 games, 0 pressures (0.0 per 100 snaps), 0 sacks"
+  },
+  "ARI|Budda Baker": {
+   "group": "DB",
+   "kind": "db",
+   "snaps": 101,
+   "starts": 2,
+   "other_games": 9,
+   "epa_db_started": 0.40283160071245927,
+   "epa_db_not": 0.3207720755905396,
+   "db_started": 69,
+   "db_not": 312,
+   "targets": 3,
+   "rating": 109.72222222222221,
+   "text": "Dadrion Taylor-Demerson: 101 snaps, 2 starts; too few dropbacks for a with/without split (69 in his starts, 312 in other games)"
   },
   "ARI|Will Johnson": {
    "group": "DB",
@@ -2227,6 +2975,16 @@
    "hs_not": 0.2,
    "text": "Hjalte Froholdt: 694 snaps, 10 starts; too few dropbacks for a with/without split (446 in his starts, 25 in other games)"
   },
+  "ARI|Josh Sweat": {
+   "group": "LB",
+   "kind": "rush",
+   "games": 3,
+   "snaps": 85,
+   "pressures": 1,
+   "sacks": 0.0,
+   "per100": 1.1764705882352942,
+   "text": "Eku Leota: 85 defensive snaps in 3 games, 1 pressure (1.2 per 100 snaps), 0 sacks"
+  },
   "ARI|Kendrick Bourne": {
    "group": "WR/TE",
    "kind": "skill",
@@ -2239,15 +2997,49 @@
    "epa_car": null,
    "text": "Reggie Virgil: 3 games, 22.4% of snaps, 11 targets (-0.018 EPA/target, \u00b10.96). Per-target and per-carry rates are mostly noise at this volume; his share of the work is the steadier guide"
   },
-  "ATL|Divine Deablo": {
-   "group": "LB",
-   "kind": "rush",
-   "games": 10,
-   "snaps": 380,
-   "pressures": 3,
-   "sacks": 1.5,
-   "per100": 0.7894736842105263,
-   "text": "Harold Perkins Jr.: 380 defensive snaps in 10 games, 3 pressures (0.8 per 100 snaps), 1.5 sacks"
+  "ATL|Matthew Bergeron": {
+   "group": "OL",
+   "kind": "ol",
+   "snaps": 24,
+   "starts": 0,
+   "other_games": 10,
+   "epa_db_started": null,
+   "epa_db_not": -0.15799998519436248,
+   "db_started": 0,
+   "db_not": 357,
+   "sack_started": null,
+   "sack_not": 0.05322128851540616,
+   "hs_started": null,
+   "hs_not": 0.08403361344537816,
+   "text": "Kyle Hinton: 24 offensive snaps, no starts yet"
+  },
+  "ATL|Jahan Dotson": {
+   "group": "WR/TE",
+   "kind": "skill",
+   "pos": "WR",
+   "games": 1,
+   "snap_pct": 0.215,
+   "targets": 2,
+   "epa_tgt": -0.5320469908765517,
+   "carries": 0,
+   "epa_car": null,
+   "text": "Beaux Collins: 1 game, 21.5% of snaps, 2 targets (too few for a rate)"
+  },
+  "BAL|John Simpson": {
+   "group": "OL",
+   "kind": "ol",
+   "snaps": 0,
+   "starts": 0,
+   "other_games": 11,
+   "epa_db_started": null,
+   "epa_db_not": 0.03244341675463564,
+   "db_started": 0,
+   "db_not": 400,
+   "sack_started": null,
+   "sack_not": 0.0675,
+   "hs_started": null,
+   "hs_not": 0.1625,
+   "text": "Ryan Neuzil: 0 offensive snaps, no starts yet"
   },
   "BAL|Jovaughn Gwyn": {
    "group": "OL",
@@ -2279,19 +3071,17 @@
    "rating": 144.79166666666669,
    "text": "Keondre Jackson: 82 defensive snaps, no starts yet"
   },
-  "BAL|Marlon Humphrey": {
-   "group": "DB",
-   "kind": "db",
-   "snaps": 92,
-   "starts": 1,
-   "other_games": 10,
-   "epa_db_started": 0.08725938111707414,
-   "epa_db_not": 0.08919315789175045,
-   "db_started": 35,
-   "db_not": 370,
-   "targets": 8,
-   "rating": 94.79166666666666,
-   "text": "T.J. Tampa: 92 snaps, 1 start; too few dropbacks for a with/without split (35 in his starts, 370 in other games)"
+  "BAL|Rashod Bateman": {
+   "group": "WR/TE",
+   "kind": "skill",
+   "pos": "WR",
+   "games": 1,
+   "snap_pct": 0.36,
+   "targets": 2,
+   "epa_tgt": 0.14113241575250868,
+   "carries": 0,
+   "epa_car": null,
+   "text": "Elijah Sarratt: 1 game, 36.0% of snaps, 2 targets (too few for a rate)"
   },
   "BAL|Tavius Robinson": {
    "group": "LB",
@@ -2302,6 +3092,18 @@
    "sacks": 7.5,
    "per100": 4.145077720207254,
    "text": "Mike Green: 386 defensive snaps in 10 games, 16 pressures (4.1 per 100 snaps), 7.5 sacks"
+  },
+  "BAL|Zay Flowers": {
+   "group": "WR/TE",
+   "kind": "skill",
+   "pos": "WR",
+   "games": 6,
+   "snap_pct": 0.33999999999999997,
+   "targets": 10,
+   "epa_tgt": 0.7964340515833476,
+   "carries": 0,
+   "epa_car": null,
+   "text": "Devontez Walker: 6 games, 34.0% of snaps, 10 targets (+0.796 EPA/target, \u00b11.01). Per-target and per-carry rates are mostly noise at this volume; his share of the work is the steadier guide"
   },
   "BAL|Nnamdi Madubuike": {
    "group": "DL/EDGE",
@@ -2328,6 +3130,28 @@
    "hs_started": 0.1437308868501529,
    "hs_not": 0.2465753424657534,
    "text": "Olaivavega Ioane: 560 snaps, 9 starts; too few dropbacks for a with/without split (327 in his starts, 73 in other games)"
+  },
+  "BAL|Mike Green": {
+   "group": "LB",
+   "kind": "rush",
+   "games": 5,
+   "snaps": 254,
+   "pressures": 1,
+   "sacks": 0.0,
+   "per100": 0.39370078740157477,
+   "text": "Zion Young: 254 defensive snaps in 5 games, 1 pressure (0.4 per 100 snaps), 0 sacks"
+  },
+  "BAL|Derrick Henry": {
+   "group": "RB",
+   "kind": "skill",
+   "pos": "RB",
+   "games": 10,
+   "snap_pct": 0.4563636363636363,
+   "targets": 40,
+   "epa_tgt": -0.25342486252180413,
+   "carries": 42,
+   "epa_car": 0.12080572638250936,
+   "text": "Justice Hill: 10 games, 45.6% of snaps, 40 targets (-0.253 EPA/target, \u00b10.44), 42 carries (+0.121 EPA/carry, \u00b10.27). Per-target and per-carry rates are mostly noise at this volume; his share of the work is the steadier guide"
   },
   "BUF|O'Cyrus Torrence": {
    "group": "OL",
@@ -2417,6 +3241,20 @@
    "rating": 78.75,
    "text": "Marco Wilson: 207 snaps, 3 starts, 25 targets as nearest defender (rating 79). Defence in his starts: +0.182 EPA/dropback allowed (133 dropbacks); other games +0.068 (284)"
   },
+  "CHI|Tyrique Stevenson": {
+   "group": "DB",
+   "kind": "db",
+   "snaps": 283,
+   "starts": 6,
+   "other_games": 4,
+   "epa_db_started": -0.03929803225140788,
+   "epa_db_not": -0.050610220260362,
+   "db_started": 200,
+   "db_not": 172,
+   "targets": 31,
+   "rating": 81.78763440860214,
+   "text": "Malik Muhammad: 283 snaps, 6 starts, 31 targets as nearest defender (rating 82). Defence in his starts: -0.039 EPA/dropback allowed (200 dropbacks); other games -0.051 (172)"
+  },
   "CHI|Braxton Jones": {
    "group": "OL",
    "kind": "ol",
@@ -2485,6 +3323,16 @@
    "rating": 90.77380952380952,
    "text": "Dax Hill: 616 snaps, 10 starts, 42 targets as nearest defender (rating 91); too few dropbacks for a with/without split (418 in his starts, 0 in other games)"
   },
+  "CIN|Jonathan Allen": {
+   "group": "DL/EDGE",
+   "kind": "rush",
+   "games": 3,
+   "snaps": 210,
+   "pressures": 3,
+   "sacks": 0.0,
+   "per100": 1.4285714285714286,
+   "text": "B.J. Hill: 210 defensive snaps in 3 games, 3 pressures (1.4 per 100 snaps), 0 sacks"
+  },
   "CIN|Andrei Iosivas": {
    "group": "WR/TE",
    "kind": "skill",
@@ -2497,19 +3345,71 @@
    "epa_car": 0.895173191151116,
    "text": "Dohnte Meyers: 10 games, 42.5% of snaps, 30 targets (+0.227 EPA/target, \u00b10.58), 2 carries (too few for a rate). Per-target and per-carry rates are mostly noise at this volume; his share of the work is the steadier guide"
   },
-  "CLE|Ronnie Hickman": {
-   "group": "DB",
-   "kind": "db",
-   "snaps": 33,
+  "CLE|Austin Barber": {
+   "group": "OL",
+   "kind": "ol",
+   "snaps": 3,
    "starts": 0,
    "other_games": 10,
    "epa_db_started": null,
-   "epa_db_not": 0.0024771895870903194,
+   "epa_db_not": 0.0168855714358327,
    "db_started": 0,
-   "db_not": 395,
-   "targets": 1,
-   "rating": 152.08333333333331,
-   "text": "Daniel Thomas: 33 defensive snaps, no starts yet"
+   "db_not": 422,
+   "sack_started": null,
+   "sack_not": 0.0995260663507109,
+   "hs_started": null,
+   "hs_not": 0.1943127962085308,
+   "text": "Zak Zinter: 3 offensive snaps, no starts yet"
+  },
+  "CLE|Elgton Jenkins": {
+   "group": "OL",
+   "kind": "ol",
+   "snaps": 64,
+   "starts": 1,
+   "other_games": 9,
+   "epa_db_started": 0.3354100383848074,
+   "epa_db_not": -0.015549034859232608,
+   "db_started": 39,
+   "db_not": 383,
+   "sack_started": 0.05128205128205128,
+   "sack_not": 0.10443864229765012,
+   "hs_started": 0.1282051282051282,
+   "hs_not": 0.2010443864229765,
+   "text": "Luke Wypler: 64 snaps, 1 start; too few dropbacks for a with/without split (39 in his starts, 383 in other games)"
+  },
+  "CLE|Denzel Boston": {
+   "group": "WR/TE",
+   "kind": "skill",
+   "pos": "WR",
+   "games": 2,
+   "snap_pct": 0.175,
+   "targets": 4,
+   "epa_tgt": 0.7663644354470307,
+   "carries": 0,
+   "epa_car": null,
+   "text": "Malachi Corley: 2 games, 17.5% of snaps, 4 targets (too few for a rate)"
+  },
+  "CLE|Harold Fannin": {
+   "group": "WR/TE",
+   "kind": "skill",
+   "pos": "TE",
+   "games": 6,
+   "snap_pct": 0.33599999999999997,
+   "targets": 7,
+   "epa_tgt": -0.508510801999364,
+   "carries": 0,
+   "epa_car": null,
+   "text": "Blake Whiteheart: 6 games, 33.6% of snaps, 7 targets (too few for a rate)"
+  },
+  "CLE|Isaiah McGuire": {
+   "group": "DL/EDGE",
+   "kind": "rush",
+   "games": 7,
+   "snaps": 228,
+   "pressures": 7,
+   "sacks": 0.0,
+   "per100": 3.070175438596491,
+   "text": "Derek Barnett: 228 defensive snaps in 7 games, 7 pressures (3.1 per 100 snaps), 0 sacks"
   },
   "DAL|Tyler Booker": {
    "group": "OL",
@@ -2555,16 +3455,6 @@
    "rating": 113.69047619047619,
    "text": "P.J. Locke: 142 snaps, 2 starts; too few dropbacks for a with/without split (96 in his starts, 343 in other games)"
   },
-  "DAL|Dee Winters": {
-   "group": "LB",
-   "kind": "rush",
-   "games": 3,
-   "snaps": 71,
-   "pressures": 0,
-   "sacks": 0.0,
-   "per100": 0.0,
-   "text": "Justin Barron: 71 defensive snaps in 3 games, 0 pressures (0.0 per 100 snaps), 0 sacks"
-  },
   "DAL|Jake Ferguson": {
    "group": "WR/TE",
    "kind": "skill",
@@ -2576,16 +3466,6 @@
    "carries": 0,
    "epa_car": null,
    "text": "Brevyn Spann-Ford: 10 games, 51.1% of snaps, 26 targets (+0.187 EPA/target, \u00b10.53). Per-target and per-carry rates are mostly noise at this volume; his share of the work is the steadier guide"
-  },
-  "DAL|Jaishawn Barham": {
-   "group": "LB",
-   "kind": "rush",
-   "games": 9,
-   "snaps": 485,
-   "pressures": 18,
-   "sacks": 2.0,
-   "per100": 3.711340206185567,
-   "text": "Rashan Gary: 485 defensive snaps in 9 games, 18 pressures (3.7 per 100 snaps), 2 sacks"
   },
   "DEN|Taylor Rapp": {
    "group": "DB",
@@ -2805,6 +3685,22 @@
    "hs_not": 0.32608695652173914,
    "text": "Anthony Belton: 579 snaps, 9 starts; too few dropbacks for a with/without split (376 in his starts, 46 in other games)"
   },
+  "HOU|Keylan Rutledge": {
+   "group": "OL",
+   "kind": "ol",
+   "snaps": 79,
+   "starts": 1,
+   "other_games": 9,
+   "epa_db_started": 0.07888284654164023,
+   "epa_db_not": 0.19852859140864942,
+   "db_started": 45,
+   "db_not": 368,
+   "sack_started": 0.022222222222222223,
+   "sack_not": 0.04619565217391304,
+   "hs_started": 0.044444444444444446,
+   "hs_not": 0.11413043478260869,
+   "text": "Febechi Nwaiwu: 79 snaps, 1 start; too few dropbacks for a with/without split (45 in his starts, 368 in other games)"
+  },
   "HOU|Azeez Al-Shaair": {
    "group": "LB",
    "kind": "rush",
@@ -2825,17 +3721,15 @@
    "per100": 4.149377593360995,
    "text": "Jadeveon Clowney: 241 defensive snaps in 5 games, 10 pressures (4.1 per 100 snaps), 5.5 sacks"
   },
-  "HOU|Woody Marks": {
-   "group": "RB",
-   "kind": "skill",
-   "pos": "RB",
-   "games": 6,
-   "snap_pct": 0.5116666666666667,
-   "targets": 11,
-   "epa_tgt": 0.37118302249160284,
-   "carries": 78,
-   "epa_car": -0.25553566154596236,
-   "text": "David Montgomery: 6 games, 51.2% of snaps, 11 targets (+0.371 EPA/target, \u00b10.83), 78 carries (-0.256 EPA/carry, \u00b10.20). Per-target and per-carry rates are mostly noise at this volume; his share of the work is the steadier guide"
+  "HOU|Sheldon Rankins": {
+   "group": "DL/EDGE",
+   "kind": "rush",
+   "games": 7,
+   "snaps": 242,
+   "pressures": 11,
+   "sacks": 4.0,
+   "per100": 4.545454545454546,
+   "text": "Logan Hall: 242 defensive snaps in 7 games, 11 pressures (4.5 per 100 snaps), 4 sacks"
   },
   "IND|Jalen Travis": {
    "group": "OL",
@@ -2853,36 +3747,6 @@
    "hs_not": null,
    "text": "Matt Goncalves: 697 snaps, 11 starts; too few dropbacks for a with/without split (414 in his starts, 0 in other games)"
   },
-  "IND|Bernhard Raimann": {
-   "group": "OL",
-   "kind": "ol",
-   "snaps": 175,
-   "starts": 3,
-   "other_games": 8,
-   "epa_db_started": -0.37171649947115903,
-   "epa_db_not": -0.18709810513831324,
-   "db_started": 103,
-   "db_not": 311,
-   "sack_started": 0.04854368932038835,
-   "sack_not": 0.07395498392282958,
-   "hs_started": 0.13592233009708737,
-   "hs_not": 0.1832797427652733,
-   "text": "Luke Tenuta: 175 snaps, 3 starts. Team in his starts: -0.372 EPA/dropback, sack rate 4.9% (103 dropbacks); other games -0.187, 7.4% (311 dropbacks)"
-  },
-  "IND|Sauce Gardner": {
-   "group": "DB",
-   "kind": "db",
-   "snaps": 138,
-   "starts": 1,
-   "other_games": 10,
-   "epa_db_started": 0.12480785098255995,
-   "epa_db_not": 0.09346672502283516,
-   "db_started": 44,
-   "db_not": 349,
-   "targets": 11,
-   "rating": 120.26515151515152,
-   "text": "Kenneth Harris: 138 snaps, 1 start, 11 targets as nearest defender (rating 120); too few dropbacks for a with/without split (44 in his starts, 349 in other games)"
-  },
   "IND|Charvarius Ward": {
    "group": "DB",
    "kind": "db",
@@ -2897,21 +3761,37 @@
    "rating": 106.25,
    "text": "Johnathan Edwards: 45 snaps, 1 start; too few dropbacks for a with/without split (32 in his starts, 361 in other games)"
   },
+  "JAX|Cole Van Lanen": {
+   "group": "OL",
+   "kind": "ol",
+   "snaps": 355,
+   "starts": 5,
+   "other_games": 5,
+   "epa_db_started": 0.21216895726796212,
+   "epa_db_not": 0.21621744952957966,
+   "db_started": 183,
+   "db_not": 171,
+   "sack_started": 0.03825136612021858,
+   "sack_not": 0.05847953216374269,
+   "hs_started": 0.12021857923497267,
+   "hs_not": 0.1695906432748538,
+   "text": "Walker Little: 355 snaps, 5 starts. Team in his starts: +0.212 EPA/dropback, sack rate 3.8% (183 dropbacks); other games +0.216, 5.8% (171 dropbacks)"
+  },
   "JAX|Anton Harrison": {
    "group": "OL",
    "kind": "ol",
-   "snaps": 103,
-   "starts": 1,
-   "other_games": 9,
-   "epa_db_started": 0.24535277927167376,
-   "epa_db_not": 0.21205524670366974,
-   "db_started": 22,
-   "db_not": 332,
-   "sack_started": 0.13636363636363635,
-   "sack_not": 0.04216867469879518,
-   "hs_started": 0.18181818181818182,
-   "hs_not": 0.14156626506024098,
-   "text": "Wyatt Milum: 103 snaps, 1 start; too few dropbacks for a with/without split (22 in his starts, 332 in other games)"
+   "snaps": 355,
+   "starts": 5,
+   "other_games": 5,
+   "epa_db_started": 0.21216895726796212,
+   "epa_db_not": 0.21621744952957966,
+   "db_started": 183,
+   "db_not": 171,
+   "sack_started": 0.03825136612021858,
+   "sack_not": 0.05847953216374269,
+   "hs_started": 0.12021857923497267,
+   "hs_not": 0.1695906432748538,
+   "text": "Walker Little: 355 snaps, 5 starts. Team in his starts: +0.212 EPA/dropback, sack rate 3.8% (183 dropbacks); other games +0.216, 5.8% (171 dropbacks)"
   },
   "JAX|Robert Hainsey": {
    "group": "OL",
@@ -2929,6 +3809,18 @@
    "hs_not": 0.132890365448505,
    "text": "Jonah Monheim: 127 snaps, 1 start; too few dropbacks for a with/without split (53 in his starts, 301 in other games)"
   },
+  "JAX|Jakobi Meyers": {
+   "group": "WR/TE",
+   "kind": "skill",
+   "pos": "WR",
+   "games": 7,
+   "snap_pct": 0.09333333333333334,
+   "targets": 11,
+   "epa_tgt": 0.12234208416332513,
+   "carries": 4,
+   "epa_car": 0.19513958074975538,
+   "text": "Travis Hunter: 7 games, 9.3% of snaps, 11 targets (+0.122 EPA/target, \u00b10.96), 4 carries (too few for a rate). Per-target and per-carry rates are mostly noise at this volume; his share of the work is the steadier guide"
+  },
   "JAX|Eric Murray": {
    "group": "DB",
    "kind": "db",
@@ -2943,21 +3835,49 @@
    "rating": 79.16666666666666,
    "text": "Jessie Bates III: 66 snaps, 1 start; too few dropbacks for a with/without split (47 in his starts, 355 in other games)"
   },
+  "JAX|Walker Little": {
+   "group": "OL",
+   "kind": "ol",
+   "snaps": 103,
+   "starts": 1,
+   "other_games": 9,
+   "epa_db_started": 0.24535277927167376,
+   "epa_db_not": 0.21205524670366974,
+   "db_started": 22,
+   "db_not": 332,
+   "sack_started": 0.13636363636363635,
+   "sack_not": 0.04216867469879518,
+   "hs_started": 0.18181818181818182,
+   "hs_not": 0.14156626506024098,
+   "text": "Wyatt Milum: 103 snaps, 1 start; too few dropbacks for a with/without split (22 in his starts, 332 in other games)"
+  },
+  "JAX|Bhayshul Tuten": {
+   "group": "RB",
+   "kind": "skill",
+   "pos": "RB",
+   "games": 10,
+   "snap_pct": 0.269,
+   "targets": 6,
+   "epa_tgt": 0.7749000149769483,
+   "carries": 63,
+   "epa_car": 0.06406629108045662,
+   "text": "Chris Rodriguez Jr.: 10 games, 26.9% of snaps, 6 targets (too few for a rate), 63 carries (+0.064 EPA/carry, \u00b10.22). Per-target and per-carry rates are mostly noise at this volume; his share of the work is the steadier guide"
+  },
   "KC|Jaylon Moore": {
    "group": "OL",
    "kind": "ol",
-   "snaps": 244,
-   "starts": 3,
-   "other_games": 7,
-   "epa_db_started": 0.24750667781424845,
-   "epa_db_not": 0.19279219525220212,
-   "db_started": 117,
-   "db_not": 266,
-   "sack_started": 0.02564102564102564,
-   "sack_not": 0.03759398496240601,
-   "hs_started": 0.1623931623931624,
-   "hs_not": 0.15789473684210525,
-   "text": "Joshua Ezeudu: 244 snaps, 3 starts. Team in his starts: +0.248 EPA/dropback, sack rate 2.6% (117 dropbacks); other games +0.193, 3.8% (266 dropbacks)"
+   "snaps": 642,
+   "starts": 10,
+   "other_games": 0,
+   "epa_db_started": 0.20950654110013794,
+   "epa_db_not": null,
+   "db_started": 383,
+   "db_not": 0,
+   "sack_started": 0.033942558746736295,
+   "sack_not": null,
+   "hs_started": 0.15926892950391644,
+   "hs_not": null,
+   "text": "Kahlil Benson: 642 snaps, 10 starts; too few dropbacks for a with/without split (383 in his starts, 0 in other games)"
   },
   "KC|Kenneth Walker III": {
    "group": "RB",
@@ -2984,6 +3904,18 @@
    "targets": 12,
    "rating": 95.13888888888889,
    "text": "Jadon Canady: 50 defensive snaps, no starts yet, 12 targets as nearest defender (rating 95)"
+  },
+  "KC|Noah Gray": {
+   "group": "WR/TE",
+   "kind": "skill",
+   "pos": "TE",
+   "games": 10,
+   "snap_pct": 0.718,
+   "targets": 57,
+   "epa_tgt": 0.6236459456178328,
+   "carries": 1,
+   "epa_car": 2.1548254381632432,
+   "text": "Travis Kelce: 10 games, 71.8% of snaps, 57 targets (+0.624 EPA/target, \u00b10.36), 1 carry (too few for a rate). Per-target and per-carry rates are mostly noise at this volume; his share of the work is the steadier guide"
   },
   "KC|Tyquan Thornton": {
    "group": "WR/TE",
@@ -3047,13 +3979,13 @@
    "group": "WR/TE",
    "kind": "skill",
    "pos": "WR",
-   "games": 9,
-   "snap_pct": 0.449,
-   "targets": 27,
-   "epa_tgt": -0.0498685247157734,
+   "games": 1,
+   "snap_pct": 0.175,
+   "targets": 2,
+   "epa_tgt": 0.3593805833637824,
    "carries": 0,
    "epa_car": null,
-   "text": "Konata Mumpfield: 9 games, 44.9% of snaps, 27 targets (-0.050 EPA/target, \u00b10.61). Per-target and per-carry rates are mostly noise at this volume; his share of the work is the steadier guide"
+   "text": "CJ Daniels: 1 game, 17.5% of snaps, 2 targets (too few for a rate)"
   },
   "LA|Jaylen Watson": {
    "group": "DB",
@@ -3073,23 +4005,13 @@
    "group": "WR/TE",
    "kind": "skill",
    "pos": "WR",
-   "games": 1,
-   "snap_pct": 0.175,
-   "targets": 2,
-   "epa_tgt": 0.3593805833637824,
+   "games": 2,
+   "snap_pct": 0.31,
+   "targets": 3,
+   "epa_tgt": 1.813828158386362,
    "carries": 0,
    "epa_car": null,
-   "text": "CJ Daniels: 1 game, 17.5% of snaps, 2 targets (too few for a rate)"
-  },
-  "LA|Kobie Turner": {
-   "group": "DL/EDGE",
-   "kind": "rush",
-   "games": 9,
-   "snaps": 356,
-   "pressures": 10,
-   "sacks": 2.5,
-   "per100": 2.8089887640449436,
-   "text": "Braden Fiske: 356 defensive snaps in 9 games, 10 pressures (2.8 per 100 snaps), 2.5 sacks"
+   "text": "Xavier Smith: 2 games, 31.0% of snaps, 3 targets (too few for a rate)"
   },
   "LAC|Rashawn Slater": {
    "group": "OL",
@@ -3131,6 +4053,26 @@
    "per100": 4.032258064516129,
    "text": "Troy Dye: 124 defensive snaps in 8 games, 5 pressures (4.0 per 100 snaps), 2.5 sacks"
   },
+  "LAC|Tuli Tuipulotu": {
+   "group": "LB",
+   "kind": "rush",
+   "games": 2,
+   "snaps": 76,
+   "pressures": 1,
+   "sacks": 0.0,
+   "per100": 1.3157894736842104,
+   "text": "Bud Dupree: 76 defensive snaps in 2 games, 1 pressure (1.3 per 100 snaps), 0 sacks"
+  },
+  "LAC|Khalil Mack": {
+   "group": "LB",
+   "kind": "rush",
+   "games": 7,
+   "snaps": 344,
+   "pressures": 9,
+   "sacks": 2.5,
+   "per100": 2.616279069767442,
+   "text": "Akheem Mesidor: 344 defensive snaps in 7 games, 9 pressures (2.6 per 100 snaps), 2.5 sacks"
+  },
   "LAC|Trevor Penning": {
    "group": "OL",
    "kind": "ol",
@@ -3147,6 +4089,36 @@
    "hs_not": 0.18681318681318682,
    "text": "Kayode Awosika: 145 snaps, 3 starts. Team in his starts: -0.010 EPA/dropback, sack rate 11.1% (108 dropbacks); other games -0.192, 9.9% (273 dropbacks)"
   },
+  "LAC|Teair Tart": {
+   "group": "DL/EDGE",
+   "kind": "rush",
+   "games": 2,
+   "snaps": 154,
+   "pressures": 2,
+   "sacks": 0.5,
+   "per100": 1.2987012987012987,
+   "text": "Nick Barrett: 154 defensive snaps in 2 games, 2 pressures (1.3 per 100 snaps), 0.5 sacks"
+  },
+  "LAC|Akheem Mesidor": {
+   "group": "LB",
+   "kind": "rush",
+   "games": 7,
+   "snaps": 449,
+   "pressures": 11,
+   "sacks": 3.0,
+   "per100": 2.4498886414253898,
+   "text": "Khalil Mack: 449 defensive snaps in 7 games, 11 pressures (2.4 per 100 snaps), 3 sacks"
+  },
+  "LAC|Dalvin Tomlinson": {
+   "group": "DL/EDGE",
+   "kind": "rush",
+   "games": 5,
+   "snaps": 306,
+   "pressures": 3,
+   "sacks": 0.0,
+   "per100": 0.9803921568627451,
+   "text": "Jamaree Caldwell: 306 defensive snaps in 5 games, 3 pressures (1.0 per 100 snaps), 0 sacks"
+  },
   "LV|Brock Bowers": {
    "group": "WR/TE",
    "kind": "skill",
@@ -3158,6 +4130,32 @@
    "carries": 1,
    "epa_car": 0.5902471028966829,
    "text": "Michael Mayer: 11 games, 79.2% of snaps, 53 targets (+0.173 EPA/target, \u00b10.37), 1 carry (too few for a rate). Per-target and per-carry rates are mostly noise at this volume; his share of the work is the steadier guide"
+  },
+  "LV|Adam Butler": {
+   "group": "DL/EDGE",
+   "kind": "rush",
+   "games": 1,
+   "snaps": 100,
+   "pressures": 2,
+   "sacks": 1.0,
+   "per100": 2.0,
+   "text": "Tim Keenan III: 100 defensive snaps in 1 game, 2 pressures (2.0 per 100 snaps), 1 sack"
+  },
+  "MIA|Austin Jackson": {
+   "group": "OL",
+   "kind": "ol",
+   "snaps": 0,
+   "starts": 0,
+   "other_games": 10,
+   "epa_db_started": null,
+   "epa_db_not": -0.06707278251055385,
+   "db_started": 0,
+   "db_not": 357,
+   "sack_started": null,
+   "sack_not": 0.08123249299719888,
+   "hs_started": null,
+   "hs_not": 0.15406162464985995,
+   "text": "Chukwuebuka Godrick: 0 offensive snaps, no starts yet"
   },
   "MIA|Dante Trader": {
    "group": "DB",
@@ -3182,6 +4180,18 @@
    "sacks": 0.0,
    "per100": 0.5586592178770949,
    "text": "Kenneth Grant: 179 defensive snaps in 1 game, 1 pressure (0.6 per 100 snaps), 0 sacks"
+  },
+  "MIA|Julius Brents": {
+   "group": "DB",
+   "kind": "db",
+   "snaps": 1,
+   "starts": 0,
+   "other_games": 10,
+   "epa_db_started": null,
+   "epa_db_not": 0.14503151809832113,
+   "db_started": 0,
+   "db_not": 339,
+   "text": "Marcellas Dial Jr.: 1 defensive snaps, no starts yet"
   },
   "MIA|Jordan Phillips": {
    "group": "DL/EDGE",
@@ -3227,6 +4237,22 @@
    "epa_car": 0.3971139439381659,
    "text": "Myles Price: 6 games, 22.6% of snaps, 17 targets (-0.366 EPA/target, \u00b10.77), 2 carries (too few for a rate). Per-target and per-carry rates are mostly noise at this volume; his share of the work is the steadier guide"
   },
+  "MIN|Christian Darrisaw": {
+   "group": "OL",
+   "kind": "ol",
+   "snaps": 130,
+   "starts": 1,
+   "other_games": 9,
+   "epa_db_started": -0.023880989260980562,
+   "epa_db_not": -0.1164339349105516,
+   "db_started": 41,
+   "db_not": 328,
+   "sack_started": 0.04878048780487805,
+   "sack_not": 0.07621951219512195,
+   "hs_started": 0.07317073170731707,
+   "hs_not": 0.15548780487804878,
+   "text": "Ryan Van Demark: 130 snaps, 1 start; too few dropbacks for a with/without split (41 in his starts, 328 in other games)"
+  },
   "MIN|Isaiah Rodgers": {
    "group": "DB",
    "kind": "db",
@@ -3238,6 +4264,16 @@
    "db_started": 0,
    "db_not": 348,
    "text": "Charles Demmings: 16 defensive snaps, no starts yet"
+  },
+  "MIN|Jalen Redmond": {
+   "group": "DL/EDGE",
+   "kind": "rush",
+   "games": 6,
+   "snaps": 318,
+   "pressures": 6,
+   "sacks": 1.0,
+   "per100": 1.8867924528301887,
+   "text": "Tyrion Ingram-Dawkins: 318 defensive snaps in 6 games, 6 pressures (1.9 per 100 snaps), 1 sack"
   },
   "MIN|Donovan Jackson": {
    "group": "OL",
@@ -3266,6 +4302,20 @@
    "carries": 0,
    "epa_car": null,
    "text": "T.J. Hockenson: 9 games, 66.3% of snaps, 51 targets (+0.441 EPA/target, \u00b10.38). Per-target and per-carry rates are mostly noise at this volume; his share of the work is the steadier guide"
+  },
+  "MIN|Harrison Smith": {
+   "group": "DB",
+   "kind": "db",
+   "snaps": 322,
+   "starts": 7,
+   "other_games": 3,
+   "epa_db_started": -0.08985379710903875,
+   "epa_db_not": -0.15729565794741096,
+   "db_started": 261,
+   "db_not": 87,
+   "targets": 10,
+   "rating": 158.33333333333331,
+   "text": "Theo Jackson: 322 snaps, 7 starts, 10 targets as nearest defender (rating 158); too few dropbacks for a with/without split (261 in his starts, 87 in other games)"
   },
   "NE|Alijah Vera-Tucker": {
    "group": "OL",
@@ -3313,22 +4363,6 @@
    "hs_not": 0.13861386138613863,
    "text": "Matt Pryor: 282 snaps, 5 starts. Team in his starts: +0.054 EPA/dropback, sack rate 7.6% (184 dropbacks); other games +0.185, 5.4% (202 dropbacks)"
   },
-  "NE|Ben Brown": {
-   "group": "OL",
-   "kind": "ol",
-   "snaps": 626,
-   "starts": 10,
-   "other_games": 0,
-   "epa_db_started": 0.12263536964820235,
-   "epa_db_not": null,
-   "db_started": 386,
-   "db_not": 0,
-   "sack_started": 0.06476683937823834,
-   "sack_not": null,
-   "hs_started": 0.13989637305699482,
-   "hs_not": null,
-   "text": "Jared Wilson: 626 snaps, 10 starts; too few dropbacks for a with/without split (386 in his starts, 0 in other games)"
-  },
   "NE|Romeo Doubs": {
    "group": "WR/TE",
    "kind": "skill",
@@ -3341,21 +4375,37 @@
    "epa_car": null,
    "text": "DeMario Douglas: 10 games, 58.4% of snaps, 49 targets (+0.474 EPA/target, \u00b10.46). Per-target and per-carry rates are mostly noise at this volume; his share of the work is the steadier guide"
   },
+  "NO|David Edwards": {
+   "group": "OL",
+   "kind": "ol",
+   "snaps": 0,
+   "starts": 0,
+   "other_games": 10,
+   "epa_db_started": null,
+   "epa_db_not": 0.00500862440126658,
+   "db_started": 0,
+   "db_not": 457,
+   "sack_started": null,
+   "sack_not": 0.06345733041575492,
+   "hs_started": null,
+   "hs_not": 0.14660831509846828,
+   "text": "Dillon Radunz: 0 offensive snaps, no starts yet"
+  },
   "NO|Taliese Fuaga": {
    "group": "OL",
    "kind": "ol",
-   "snaps": 89,
-   "starts": 1,
-   "other_games": 9,
-   "epa_db_started": -0.1526335825935562,
-   "epa_db_not": 0.025249105299367282,
-   "db_started": 52,
-   "db_not": 405,
-   "sack_started": 0.11538461538461539,
-   "sack_not": 0.056790123456790124,
-   "hs_started": 0.19230769230769232,
-   "hs_not": 0.14074074074074075,
-   "text": "Mason Murphy: 89 snaps, 1 start; too few dropbacks for a with/without split (52 in his starts, 405 in other games)"
+   "snaps": 396,
+   "starts": 6,
+   "other_games": 4,
+   "epa_db_started": -0.013494652134199665,
+   "epa_db_not": 0.027553878820693895,
+   "db_started": 251,
+   "db_not": 206,
+   "sack_started": 0.0398406374501992,
+   "sack_not": 0.09223300970873786,
+   "hs_started": 0.14741035856573706,
+   "hs_not": 0.14563106796116504,
+   "text": "Asim Richards: 396 snaps, 6 starts. Team in his starts: -0.013 EPA/dropback, sack rate 4.0% (251 dropbacks); other games +0.028, 9.2% (206 dropbacks)"
   },
   "NO|Erik McCoy": {
    "group": "OL",
@@ -3399,6 +4449,18 @@
    "hs_not": 0.1407766990291262,
    "text": "Kelvin Banks Jr.: 340 snaps, 5 starts. Team in his starts: +0.014 EPA/dropback, sack rate 8.8% (251 dropbacks); other games -0.006, 3.4% (206 dropbacks)"
   },
+  "NO|Juwan Johnson": {
+   "group": "WR/TE",
+   "kind": "skill",
+   "pos": "TE",
+   "games": 8,
+   "snap_pct": 0.5244444444444444,
+   "targets": 24,
+   "epa_tgt": -0.36772552992947033,
+   "carries": 0,
+   "epa_car": null,
+   "text": "Noah Fant: 8 games, 52.4% of snaps, 24 targets (-0.368 EPA/target, \u00b10.55). Per-target and per-carry rates are mostly noise at this volume; his share of the work is the steadier guide"
+  },
   "NYG|Tremaine Edmunds": {
    "group": "LB",
    "kind": "rush",
@@ -3408,6 +4470,26 @@
    "sacks": 1.0,
    "per100": 1.4760147601476015,
    "text": "Micah McFadden: 271 defensive snaps in 4 games, 4 pressures (1.5 per 100 snaps), 1 sack"
+  },
+  "NYG|Arvell Reese": {
+   "group": "LB",
+   "kind": "rush",
+   "games": 1,
+   "snaps": 6,
+   "pressures": 1,
+   "sacks": 0.0,
+   "per100": 16.666666666666664,
+   "text": "Jack Kelly: 6 defensive snaps in 1 game, 1 pressure (16.7 per 100 snaps), 0 sacks"
+  },
+  "NYG|Abdul Carter": {
+   "group": "LB",
+   "kind": "rush",
+   "games": 4,
+   "snaps": 102,
+   "pressures": 2,
+   "sacks": 0.0,
+   "per100": 1.9607843137254901,
+   "text": "Trace Ford: 102 defensive snaps in 4 games, 2 pressures (2.0 per 100 snaps), 0 sacks"
   },
   "NYG|Greg Newsome II": {
    "group": "DB",
@@ -3423,6 +4505,30 @@
    "rating": 12.310606060606059,
    "text": "Paulson Adebo: 138 snaps, 2 starts, 11 targets as nearest defender (rating 12); too few dropbacks for a with/without split (88 in his starts, 316 in other games)"
   },
+  "NYG|Isaiah Likely": {
+   "group": "WR/TE",
+   "kind": "skill",
+   "pos": "TE",
+   "games": 6,
+   "snap_pct": 0.2975,
+   "targets": 13,
+   "epa_tgt": 0.2224836953323152,
+   "carries": 0,
+   "epa_car": null,
+   "text": "Theo Johnson: 6 games, 29.8% of snaps, 13 targets (+0.222 EPA/target, \u00b10.75). Per-target and per-carry rates are mostly noise at this volume; his share of the work is the steadier guide"
+  },
+  "NYG|Andru Phillips": {
+   "group": "DB",
+   "kind": "db",
+   "snaps": 0,
+   "starts": 0,
+   "other_games": 10,
+   "epa_db_started": null,
+   "epa_db_not": 0.01546860296340872,
+   "db_started": 0,
+   "db_not": 404,
+   "text": "Tavierre Thomas: 0 defensive snaps, no starts yet"
+  },
   "NYG|Brian Burns": {
    "group": "LB",
    "kind": "rush",
@@ -3432,6 +4538,32 @@
    "sacks": 0.0,
    "per100": 1.639344262295082,
    "text": "Kayvon Thibodeaux: 488 defensive snaps in 9 games, 8 pressures (1.6 per 100 snaps), 0 sacks"
+  },
+  "NYG|Shelby Harris": {
+   "group": "DL/EDGE",
+   "kind": "rush",
+   "games": 4,
+   "snaps": 228,
+   "pressures": 4,
+   "sacks": 1.5,
+   "per100": 1.7543859649122806,
+   "text": "Darius Alexander: 228 defensive snaps in 4 games, 4 pressures (1.8 per 100 snaps), 1.5 sacks"
+  },
+  "NYJ|Dylan Parham": {
+   "group": "OL",
+   "kind": "ol",
+   "snaps": 309,
+   "starts": 5,
+   "other_games": 6,
+   "epa_db_started": -0.04502598197965279,
+   "epa_db_not": 0.18613247126977603,
+   "db_started": 175,
+   "db_not": 225,
+   "sack_started": 0.09142857142857143,
+   "sack_not": 0.07555555555555556,
+   "hs_started": 0.22857142857142856,
+   "hs_not": 0.11555555555555555,
+   "text": "Jordan Meredith: 309 snaps, 5 starts. Team in his starts: -0.045 EPA/dropback, sack rate 9.1% (175 dropbacks); other games +0.186, 7.6% (225 dropbacks)"
   },
   "NYJ|Isaiah Williams": {
    "group": "WR/TE",
@@ -3444,6 +4576,16 @@
    "carries": 0,
    "epa_car": null,
    "text": "Garrett Wilson: 10 games, 89.8% of snaps, 82 targets (+0.238 EPA/target, \u00b10.35). Per-target and per-carry rates are mostly noise at this volume; his share of the work is the steadier guide"
+  },
+  "NYJ|Harrison Phillips": {
+   "group": "DL/EDGE",
+   "kind": "rush",
+   "games": 5,
+   "snaps": 392,
+   "pressures": 6,
+   "sacks": 3.5,
+   "per100": 1.530612244897959,
+   "text": "Jowon Briggs: 392 defensive snaps in 5 games, 6 pressures (1.5 per 100 snaps), 3.5 sacks"
   },
   "PHI|Lane Johnson": {
    "group": "OL",
@@ -3470,20 +4612,6 @@
    "sacks": 0.5,
    "per100": 0.6042296072507553,
    "text": "Jeremiah Trotter Jr.: 331 defensive snaps in 7 games, 2 pressures (0.6 per 100 snaps), 0.5 sacks"
-  },
-  "PHI|Quinyon Mitchell": {
-   "group": "DB",
-   "kind": "db",
-   "snaps": 9,
-   "starts": 0,
-   "other_games": 10,
-   "epa_db_started": null,
-   "epa_db_not": 0.11756070661935719,
-   "db_started": 0,
-   "db_not": 409,
-   "targets": 1,
-   "rating": 158.33333333333331,
-   "text": "Kelee Ringo: 9 defensive snaps, no starts yet"
   },
   "PHI|Dontayvion Wicks": {
    "group": "WR/TE",
@@ -3525,25 +4653,45 @@
    "epa_car": null,
    "text": "Roman Wilson: 6 games, 51.0% of snaps, 31 targets (+0.179 EPA/target, \u00b10.57). Per-target and per-carry rates are mostly noise at this volume; his share of the work is the steadier guide"
   },
+  "PIT|Cameron Heyward": {
+   "group": "DL/EDGE",
+   "kind": "rush",
+   "games": 1,
+   "snaps": 28,
+   "pressures": 1,
+   "sacks": 1.0,
+   "per100": 3.571428571428571,
+   "text": "Kevin Jobity Jr.: 28 defensive snaps in 1 game, 1 pressure (3.6 per 100 snaps), 1 sack"
+  },
   "PIT|Alex Highsmith": {
    "group": "LB",
    "kind": "rush",
-   "games": 4,
-   "snaps": 223,
-   "pressures": 3,
-   "sacks": 1.0,
-   "per100": 1.345291479820628,
-   "text": "Jack Sawyer: 223 defensive snaps in 4 games, 3 pressures (1.3 per 100 snaps), 1 sack"
+   "games": 8,
+   "snaps": 301,
+   "pressures": 6,
+   "sacks": 3.0,
+   "per100": 1.9933554817275747,
+   "text": "Nick Herbig: 301 defensive snaps in 8 games, 6 pressures (2.0 per 100 snaps), 3 sacks"
   },
   "PIT|Nick Herbig": {
    "group": "LB",
    "kind": "rush",
    "games": 9,
-   "snaps": 420,
-   "pressures": 15,
-   "sacks": 7.5,
-   "per100": 3.571428571428571,
-   "text": "T.J. Watt: 420 defensive snaps in 9 games, 15 pressures (3.6 per 100 snaps), 7.5 sacks"
+   "snaps": 382,
+   "pressures": 14,
+   "sacks": 5.5,
+   "per100": 3.664921465968586,
+   "text": "Alex Highsmith: 382 defensive snaps in 9 games, 14 pressures (3.7 per 100 snaps), 5.5 sacks"
+  },
+  "SEA|Ernest Jones": {
+   "group": "LB",
+   "kind": "rush",
+   "games": 2,
+   "snaps": 6,
+   "pressures": 0,
+   "sacks": 0.0,
+   "per100": 0.0,
+   "text": "Patrick O'Connell: 6 defensive snaps in 2 games, 0 pressures (0.0 per 100 snaps), 0 sacks"
   },
   "SEA|Charles Cross": {
    "group": "OL",
@@ -3561,6 +4709,50 @@
    "hs_not": 0.1875,
    "text": "Josh Jones: 208 snaps, 3 starts. Team in his starts: +0.143 EPA/dropback, sack rate 5.9% (101 dropbacks); other games +0.103, 6.2% (256 dropbacks)"
   },
+  "SEA|Abraham Lucas": {
+   "group": "OL",
+   "kind": "ol",
+   "snaps": 208,
+   "starts": 3,
+   "other_games": 7,
+   "epa_db_started": 0.14336650414836635,
+   "epa_db_not": 0.10332282178272394,
+   "db_started": 101,
+   "db_not": 256,
+   "sack_started": 0.0594059405940594,
+   "sack_not": 0.0625,
+   "hs_started": 0.12871287128712872,
+   "hs_not": 0.1875,
+   "text": "Josh Jones: 208 snaps, 3 starts. Team in his starts: +0.143 EPA/dropback, sack rate 5.9% (101 dropbacks); other games +0.103, 6.2% (256 dropbacks)"
+  },
+  "SEA|Jaxon Smith-Njigba": {
+   "group": "WR/TE",
+   "kind": "skill",
+   "pos": "WR",
+   "games": 6,
+   "snap_pct": 0.3611111111111111,
+   "targets": 19,
+   "epa_tgt": 0.2343872729596976,
+   "carries": 0,
+   "epa_car": null,
+   "text": "Tory Horton: 6 games, 36.1% of snaps, 19 targets (+0.234 EPA/target, \u00b10.73). Per-target and per-carry rates are mostly noise at this volume; his share of the work is the steadier guide"
+  },
+  "SEA|Anthony Bradford": {
+   "group": "OL",
+   "kind": "ol",
+   "snaps": 651,
+   "starts": 10,
+   "other_games": 0,
+   "epa_db_started": 0.1146517067096984,
+   "epa_db_not": null,
+   "db_started": 357,
+   "db_not": 0,
+   "sack_started": 0.06162464985994398,
+   "sack_not": null,
+   "hs_started": 0.17086834733893558,
+   "hs_not": null,
+   "text": "Grey Zabel: 651 snaps, 10 starts; too few dropbacks for a with/without split (357 in his starts, 0 in other games)"
+  },
   "SEA|Leonard Williams": {
    "group": "DL/EDGE",
    "kind": "rush",
@@ -3571,6 +4763,60 @@
    "per100": 2.1739130434782608,
    "text": "Mike Morris: 92 defensive snaps in 3 games, 2 pressures (2.2 per 100 snaps), 1 sack"
   },
+  "SEA|DeMarcus Lawrence": {
+   "group": "LB",
+   "kind": "rush",
+   "games": 5,
+   "snaps": 121,
+   "pressures": 5,
+   "sacks": 2.0,
+   "per100": 4.132231404958678,
+   "text": "Dante Fowler Jr.: 121 defensive snaps in 5 games, 5 pressures (4.1 per 100 snaps), 2 sacks"
+  },
+  "SF|Deommodore Lenoir": {
+   "group": "DB",
+   "kind": "db",
+   "snaps": 0,
+   "starts": 0,
+   "other_games": 10,
+   "epa_db_started": null,
+   "epa_db_not": 0.03746509619602158,
+   "db_started": 0,
+   "db_not": 423,
+   "text": "Nate Hobbs: 0 defensive snaps, no starts yet"
+  },
+  "SF|Colton McKivitz": {
+   "group": "OL",
+   "kind": "ol",
+   "snaps": 74,
+   "starts": 1,
+   "other_games": 9,
+   "epa_db_started": 0.7354880068401968,
+   "epa_db_not": 0.3430363035695,
+   "db_started": 29,
+   "db_not": 311,
+   "sack_started": 0.034482758620689655,
+   "sack_not": 0.04180064308681672,
+   "hs_started": 0.13793103448275862,
+   "hs_not": 0.11254019292604502,
+   "text": "Vederian Lowe: 74 snaps, 1 start; too few dropbacks for a with/without split (29 in his starts, 311 in other games)"
+  },
+  "SF|Trent Williams": {
+   "group": "OL",
+   "kind": "ol",
+   "snaps": 74,
+   "starts": 1,
+   "other_games": 9,
+   "epa_db_started": 0.7354880068401968,
+   "epa_db_not": 0.3430363035695,
+   "db_started": 29,
+   "db_not": 311,
+   "sack_started": 0.034482758620689655,
+   "sack_not": 0.04180064308681672,
+   "hs_started": 0.13793103448275862,
+   "hs_not": 0.11254019292604502,
+   "text": "Vederian Lowe: 74 snaps, 1 start; too few dropbacks for a with/without split (29 in his starts, 311 in other games)"
+  },
   "SF|Dre Greenlaw": {
    "group": "LB",
    "kind": "rush",
@@ -3580,6 +4826,56 @@
    "sacks": 0.0,
    "per100": 0.0,
    "text": "Garret Wallow: 111 defensive snaps in 5 games, 0 pressures (0.0 per 100 snaps), 0 sacks"
+  },
+  "SF|Christian McCaffrey": {
+   "group": "RB",
+   "kind": "skill",
+   "pos": "RB",
+   "games": 10,
+   "snap_pct": 0.3,
+   "targets": 9,
+   "epa_tgt": -0.18278369103613812,
+   "carries": 85,
+   "epa_car": -0.08765492580126147,
+   "text": "Kaelon Black: 10 games, 30.0% of snaps, 9 targets (too few for a rate), 85 carries (-0.088 EPA/carry, \u00b10.19). Per-target and per-carry rates are mostly noise at this volume; his share of the work is the steadier guide"
+  },
+  "SF|Upton Stout": {
+   "group": "DB",
+   "kind": "db",
+   "snaps": 21,
+   "starts": 0,
+   "other_games": 10,
+   "epa_db_started": null,
+   "epa_db_not": 0.03746509619602158,
+   "db_started": 0,
+   "db_not": 423,
+   "targets": 4,
+   "rating": 104.16666666666667,
+   "text": "Ashtyn Davis: 21 defensive snaps, no starts yet"
+  },
+  "SF|Jordan Watkins": {
+   "group": "WR/TE",
+   "kind": "skill",
+   "pos": "WR",
+   "games": 7,
+   "snap_pct": 0.5242857142857142,
+   "targets": 46,
+   "epa_tgt": 1.0921844966755856,
+   "carries": 0,
+   "epa_car": null,
+   "text": "Mike Evans: 7 games, 52.4% of snaps, 46 targets (+1.092 EPA/target, \u00b10.47). Per-target and per-carry rates are mostly noise at this volume; his share of the work is the steadier guide"
+  },
+  "SF|Mike Evans": {
+   "group": "WR/TE",
+   "kind": "skill",
+   "pos": "WR",
+   "games": 6,
+   "snap_pct": 0.5650000000000001,
+   "targets": 17,
+   "epa_tgt": 1.0581798339418054,
+   "carries": 0,
+   "epa_car": null,
+   "text": "Jordan Watkins: 6 games, 56.5% of snaps, 17 targets (+1.058 EPA/target, \u00b10.77). Per-target and per-carry rates are mostly noise at this volume; his share of the work is the steadier guide"
   },
   "TB|Antoine Winfield Jr.": {
    "group": "DB",
@@ -3611,6 +4907,36 @@
    "hs_not": 0.12162162162162163,
    "text": "Chandler Zavala: 126 snaps, 2 starts; too few dropbacks for a with/without split (82 in his starts, 296 in other games)"
   },
+  "TEN|Dan Moore": {
+   "group": "OL",
+   "kind": "ol",
+   "snaps": 70,
+   "starts": 0,
+   "other_games": 10,
+   "epa_db_started": null,
+   "epa_db_not": -0.046530444189663324,
+   "db_started": 0,
+   "db_not": 378,
+   "sack_started": null,
+   "sack_not": 0.05026455026455026,
+   "hs_started": null,
+   "hs_not": 0.12433862433862433,
+   "text": "James Hudson III: 70 offensive snaps, no starts yet"
+  },
+  "TEN|Cordale Flott": {
+   "group": "DB",
+   "kind": "db",
+   "snaps": 144,
+   "starts": 2,
+   "other_games": 8,
+   "epa_db_started": 0.2258580497679145,
+   "epa_db_not": 0.2926883930094233,
+   "db_started": 82,
+   "db_not": 312,
+   "targets": 7,
+   "rating": 158.33333333333331,
+   "text": "Micah Robinson: 144 snaps, 2 starts; too few dropbacks for a with/without split (82 in his starts, 312 in other games)"
+  },
   "TEN|Fernando Carmona": {
    "group": "OL",
    "kind": "ol",
@@ -3639,6 +4965,16 @@
    "epa_car": null,
    "text": "Elic Ayomanor: 10 games, 66.3% of snaps, 39 targets (+0.155 EPA/target, \u00b10.51). Per-target and per-carry rates are mostly noise at this volume; his share of the work is the steadier guide"
   },
+  "TEN|John Franklin-Myers": {
+   "group": "DL/EDGE",
+   "kind": "rush",
+   "games": 1,
+   "snaps": 146,
+   "pressures": 0,
+   "sacks": 0.0,
+   "per100": 0.0,
+   "text": "Timmy Horne: 146 defensive snaps in 1 game, 0 pressures (0.0 per 100 snaps), 0 sacks"
+  },
   "WAS|Amik Robertson": {
    "group": "DB",
    "kind": "db",
@@ -3663,6 +4999,18 @@
    "per100": 0.7352941176470588,
    "text": "Tim Settle: 272 defensive snaps in 2 games, 2 pressures (0.7 per 100 snaps), 0.5 sacks"
   },
+  "WAS|Stefon Diggs": {
+   "group": "WR/TE",
+   "kind": "skill",
+   "pos": "WR",
+   "games": 3,
+   "snap_pct": 0.26799999999999996,
+   "targets": 9,
+   "epa_tgt": 0.26561169625448827,
+   "carries": 0,
+   "epa_car": null,
+   "text": "Van Jefferson: 3 games, 26.8% of snaps, 9 targets (too few for a rate)"
+  },
   "WAS|Javon Kinlaw": {
    "group": "DL/EDGE",
    "kind": "rush",
@@ -3684,6 +5032,28 @@
    "carries": 0,
    "epa_car": null,
    "text": "Stefon Diggs: 9 games, 61.8% of snaps, 65 targets (+0.118 EPA/target, \u00b10.40). Per-target and per-carry rates are mostly noise at this volume; his share of the work is the steadier guide"
+  },
+  "WAS|Treylon Burks": {
+   "group": "WR/TE",
+   "kind": "skill",
+   "pos": "WR",
+   "games": 6,
+   "snap_pct": 0.4357142857142858,
+   "targets": 16,
+   "epa_tgt": -0.23469786518999702,
+   "carries": 0,
+   "epa_car": null,
+   "text": "Dyami Brown: 6 games, 43.6% of snaps, 16 targets (-0.235 EPA/target, \u00b10.80). Per-target and per-carry rates are mostly noise at this volume; his share of the work is the steadier guide"
+  },
+  "WAS|Charles Omenihu": {
+   "group": "DL/EDGE",
+   "kind": "rush",
+   "games": 1,
+   "snaps": 61,
+   "pressures": 2,
+   "sacks": 0.0,
+   "per100": 3.278688524590164,
+   "text": "Jer'Zhan Newton: 61 defensive snaps in 1 game, 2 pressures (3.3 per 100 snaps), 0 sacks"
   }
  }
 }

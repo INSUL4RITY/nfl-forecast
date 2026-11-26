@@ -567,6 +567,30 @@
   "TEN": [
    {
     "team": "TEN",
+    "name": "Corey Thornton",
+    "pos": "DB",
+    "kind": "trade or move",
+    "prev_team": "CAR",
+    "first_week": 12,
+    "status": "ACT",
+    "games_new": 0,
+    "snaps_new": 0,
+    "share_new": null,
+    "last_share": null,
+    "games_prev": 2,
+    "share_prev": 0.755,
+    "former_regular": true,
+    "role": "db",
+    "recent": true,
+    "starts_new": 0,
+    "db_with": 0,
+    "db_without": 394,
+    "epa_db_with": null,
+    "epa_db_without": 0.2787795398474848,
+    "text": "Corey Thornton (DB, from CAR, first week 12): no games yet for TEN; a regular for CAR (76% of snaps in 2 games). 0 starts for TEN; too few dropbacks for a with/without split (0 with, 394 without)."
+   },
+   {
+    "team": "TEN",
     "name": "Timmy Horne",
     "pos": "DL",
     "kind": "promoted from the practice squad",
@@ -1079,13 +1103,30 @@
     "status_now": "ACT",
     "text": "Christian Haynes (OL, to MIA): last game for SEA week 7, 43% of snaps, played 7 of its 10 games"
    }
+  ],
+  "CAR": [
+   {
+    "team": "CAR",
+    "name": "Corey Thornton",
+    "pos": "DB",
+    "new_team": "TEN",
+    "first_week_new": 12,
+    "last_week": 10,
+    "share": 0.755,
+    "games": 2,
+    "team_games": 10,
+    "games_since": 1,
+    "new": true,
+    "status_now": "ACT",
+    "text": "Corey Thornton (DB, to TEN): last game for CAR week 10, 76% of snaps, played 2 of its 10 games"
+   }
   ]
  },
- "n": 34,
- "n_former_regular": 15,
- "n_recent": 10,
- "n_departures": 15,
- "n_new_departures": 3,
+ "n": 35,
+ "n_former_regular": 16,
+ "n_recent": 11,
+ "n_departures": 16,
+ "n_new_departures": 4,
  "share_min": 0.4,
  "through_week": 11,
  "roster_week": 12
