@@ -61,116 +61,87 @@
   },
   "2026_12_KC_BUF": {
    "kickoff_utc": "2026-11-27T01:20+00:00",
-   "kind": "forecast",
-   "source": "National Weather Service and Open-Meteo",
-   "read_utc": "2026-11-26T21:39+00:00",
-   "lead_days": 0.2,
-   "sources": [
-    {
-     "source": "National Weather Service",
-     "temp": 37.0,
-     "wind": 14.0,
-     "gust": null,
-     "pop": 98,
-     "inches": null,
-     "snow": false
-    },
-    {
-     "source": "Open-Meteo",
-     "temp": 34.9,
-     "wind": 14.4,
-     "gust": 36.0,
-     "pop": 100,
-     "inches": 0.775,
-     "snow": false
-    }
-   ],
-   "temp": 37.0,
-   "wind": 14.4,
-   "gust": 36.0,
-   "pop": 100,
-   "inches": 0.775,
-   "snow": false,
-   "text": "Rain likely: 37\u00b0F at kickoff, wind 14 mph (gusts 36), 100% chance of precipitation, 0.78 in forecast (National Weather Service and Open-Meteo, read 26 Nov 21:39 UTC). Sources: NWS 98% chance, wind 14 mph; Open-Meteo 100% chance, wind 14 mph (gusts 36). In 2021-25 games with rain and wind under 15 mph (50 games), teams passed on 59.9% of plays in close games (61.1% with dry conditions and wind under 15 mph), EPA/dropback -0.032 (+0.066), EPA/rush -0.093 (-0.062). Raw averages, not adjusted for teams."
+   "kind": "started",
+   "text": null
   },
   "2026_12_DEN_PIT": {
    "kickoff_utc": "2026-11-27T20:00+00:00",
    "kind": "forecast",
    "source": "National Weather Service and Open-Meteo",
-   "read_utc": "2026-11-26T21:39+00:00",
-   "lead_days": 0.9,
+   "read_utc": "2026-11-27T19:04+00:00",
+   "lead_days": 0.0,
    "sources": [
     {
      "source": "National Weather Service",
-     "temp": 43.0,
-     "wind": 16.75,
+     "temp": 37.0,
+     "wind": 16.25,
      "gust": null,
-     "pop": 65,
+     "pop": 81,
      "inches": null,
      "snow": false
     },
     {
      "source": "Open-Meteo",
-     "temp": 40.4,
-     "wind": 12.725,
-     "gust": 32.2,
-     "pop": 49,
-     "inches": 0.032,
-     "snow": false
+     "temp": 36.5,
+     "wind": 11.875,
+     "gust": 30.9,
+     "pop": 42,
+     "inches": 0.06,
+     "snow": true
     }
    ],
-   "temp": 43.0,
-   "wind": 16.75,
-   "gust": 32.2,
-   "pop": 65,
-   "inches": 0.032,
-   "snow": false,
-   "text": "Rain likely: 43\u00b0F at kickoff, wind 17 mph (gusts 32), 65% chance of precipitation, 0.03 in forecast (National Weather Service and Open-Meteo, read 26 Nov 21:39 UTC). Sources: NWS 65% chance, wind 17 mph; Open-Meteo 49% chance, wind 13 mph (gusts 32). In 2021-25 games with rain and wind of 15+ mph (10 games), teams passed on 54.4% of plays in close games (61.1% with dry conditions and wind under 15 mph), EPA/dropback -0.083 (+0.066), EPA/rush -0.063 (-0.062). Raw averages, not adjusted for teams."
+   "temp": 37.0,
+   "wind": 16.25,
+   "gust": 30.9,
+   "pop": 81,
+   "inches": 0.06,
+   "snow": true,
+   "text": "Snow likely: 37\u00b0F at kickoff, wind 16 mph (gusts 31), 81% chance of precipitation, 0.06 in forecast (National Weather Service and Open-Meteo, read 27 Nov 19:04 UTC). Sources: NWS 81% chance, wind 16 mph; Open-Meteo 42% chance, wind 12 mph (gusts 31). The two forecasts disagree on rain. In 2021-25 games with snow (11 games), teams passed on 58.5% of plays in close games (61.1% with dry conditions and wind under 15 mph), EPA/dropback +0.007 (+0.066), EPA/rush -0.009 (-0.062). Raw averages, not adjusted for teams."
   },
   "2026_12_NO_CIN": {
    "kickoff_utc": "2026-11-29T18:00+00:00",
    "kind": "forecast",
    "source": "National Weather Service and Open-Meteo",
-   "read_utc": "2026-11-26T21:39+00:00",
-   "lead_days": 2.8,
+   "read_utc": "2026-11-27T19:04+00:00",
+   "lead_days": 2.0,
    "sources": [
     {
      "source": "National Weather Service",
      "temp": 51.0,
-     "wind": 13.75,
+     "wind": 14.25,
      "gust": null,
-     "pop": 97,
+     "pop": 100,
      "inches": null,
      "snow": false
     },
     {
      "source": "Open-Meteo",
-     "temp": 50.3,
-     "wind": 10.5,
-     "gust": 37.6,
-     "pop": 95,
-     "inches": 0.453,
+     "temp": 52.9,
+     "wind": 12.975,
+     "gust": 40.5,
+     "pop": 100,
+     "inches": 0.016,
      "snow": false
     }
    ],
    "temp": 51.0,
-   "wind": 13.75,
-   "gust": 37.6,
-   "pop": 97,
-   "inches": 0.453,
+   "wind": 14.25,
+   "gust": 40.5,
+   "pop": 100,
+   "inches": 0.016,
    "snow": false,
-   "text": "Rain likely: 51\u00b0F at kickoff, wind 14 mph (gusts 38), 97% chance of precipitation, 0.45 in forecast (National Weather Service and Open-Meteo, read 26 Nov 21:39 UTC). Sources: NWS 97% chance, wind 14 mph; Open-Meteo 95% chance, wind 10 mph (gusts 38). In 2021-25 games with rain and wind under 15 mph (50 games), teams passed on 59.9% of plays in close games (61.1% with dry conditions and wind under 15 mph), EPA/dropback -0.032 (+0.066), EPA/rush -0.093 (-0.062). Raw averages, not adjusted for teams."
+   "text": "Rain likely: 51\u00b0F at kickoff, wind 14 mph (gusts 40), 100% chance of precipitation, 0.02 in forecast (National Weather Service and Open-Meteo, read 27 Nov 19:04 UTC). Sources: NWS 100% chance, wind 14 mph; Open-Meteo 100% chance, wind 13 mph (gusts 40). In 2021-25 games with rain and wind under 15 mph (50 games), teams passed on 59.9% of plays in close games (61.1% with dry conditions and wind under 15 mph), EPA/dropback -0.032 (+0.066), EPA/rush -0.093 (-0.062). Raw averages, not adjusted for teams."
   },
   "2026_12_BAL_HOU": {
    "kickoff_utc": "2026-11-29T18:00+00:00",
    "kind": "roof_unknown",
    "source": "National Weather Service and Open-Meteo",
-   "read_utc": "2026-11-26T21:39+00:00",
-   "lead_days": 2.8,
+   "read_utc": "2026-11-27T19:04+00:00",
+   "lead_days": 2.0,
    "sources": [
     {
      "source": "National Weather Service",
-     "temp": 68.0,
+     "temp": 66.0,
      "wind": 15.0,
      "gust": null,
      "pop": 0,
@@ -179,67 +150,67 @@
     },
     {
      "source": "Open-Meteo",
-     "temp": 67.5,
-     "wind": 16.474999999999998,
-     "gust": 23.3,
+     "temp": 67.4,
+     "wind": 17.575,
+     "gust": 25.3,
      "pop": 1,
      "inches": 0,
      "snow": false
     }
    ],
-   "temp": 68.0,
-   "wind": 16.474999999999998,
-   "gust": 23.3,
+   "temp": 66.0,
+   "wind": 17.575,
+   "gust": 25.3,
    "pop": 1,
    "inches": 0,
    "snow": false,
-   "text": "Roof not listed, so open or closed is not known yet. If open: Dry: 68\u00b0F at kickoff, wind 16 mph (gusts 23), 1% chance of precipitation (National Weather Service and Open-Meteo, read 26 Nov 21:39 UTC). Sources: NWS 0% chance, wind 15 mph; Open-Meteo 1% chance, wind 16 mph (gusts 23)."
+   "text": "Roof not listed, so open or closed is not known yet. If open: Dry: 66\u00b0F at kickoff, wind 18 mph (gusts 25), 1% chance of precipitation (National Weather Service and Open-Meteo, read 27 Nov 19:04 UTC). Sources: NWS 0% chance, wind 15 mph; Open-Meteo 1% chance, wind 18 mph (gusts 25)."
   },
   "2026_12_NYG_IND": {
    "kickoff_utc": "2026-11-29T18:00+00:00",
    "kind": "roof_unknown",
    "source": "National Weather Service and Open-Meteo",
-   "read_utc": "2026-11-26T21:39+00:00",
-   "lead_days": 2.8,
+   "read_utc": "2026-11-27T19:04+00:00",
+   "lead_days": 2.0,
    "sources": [
     {
      "source": "National Weather Service",
-     "temp": 47.0,
-     "wind": 10.0,
+     "temp": 46.0,
+     "wind": 11.0,
      "gust": null,
-     "pop": 98,
+     "pop": 94,
      "inches": null,
      "snow": false
     },
     {
      "source": "Open-Meteo",
-     "temp": 45.3,
-     "wind": 5.1,
-     "gust": 19.7,
-     "pop": 93,
-     "inches": 0.488,
+     "temp": 45.9,
+     "wind": 4.6000000000000005,
+     "gust": 26.6,
+     "pop": 99,
+     "inches": 0.8500000000000001,
      "snow": false
     }
    ],
-   "temp": 47.0,
-   "wind": 10.0,
-   "gust": 19.7,
-   "pop": 98,
-   "inches": 0.488,
+   "temp": 46.0,
+   "wind": 11.0,
+   "gust": 26.6,
+   "pop": 99,
+   "inches": 0.8500000000000001,
    "snow": false,
-   "text": "Roof not listed, so open or closed is not known yet. If open: Rain likely: 47\u00b0F at kickoff, wind 10 mph (gusts 20), 98% chance of precipitation, 0.49 in forecast (National Weather Service and Open-Meteo, read 26 Nov 21:39 UTC). Sources: NWS 98% chance, wind 10 mph; Open-Meteo 93% chance, wind 5 mph (gusts 20)."
+   "text": "Roof not listed, so open or closed is not known yet. If open: Rain likely: 46\u00b0F at kickoff, wind 11 mph (gusts 27), 99% chance of precipitation, 0.85 in forecast (National Weather Service and Open-Meteo, read 27 Nov 19:04 UTC). Sources: NWS 94% chance, wind 11 mph; Open-Meteo 99% chance, wind 5 mph (gusts 27)."
   },
   "2026_12_TEN_JAX": {
    "kickoff_utc": "2026-11-29T18:00+00:00",
    "kind": "forecast",
    "source": "National Weather Service and Open-Meteo",
-   "read_utc": "2026-11-26T21:39+00:00",
-   "lead_days": 2.8,
+   "read_utc": "2026-11-27T19:04+00:00",
+   "lead_days": 2.0,
    "sources": [
     {
      "source": "National Weather Service",
      "temp": 65.0,
-     "wind": 7.0,
+     "wind": 9.0,
      "gust": null,
      "pop": 0,
      "inches": null,
@@ -247,55 +218,55 @@
     },
     {
      "source": "Open-Meteo",
-     "temp": 66.1,
-     "wind": 8.075,
-     "gust": 21.9,
+     "temp": 68.7,
+     "wind": 6.6,
+     "gust": 11.2,
      "pop": 3,
-     "inches": 0.008,
+     "inches": 0,
      "snow": false
     }
    ],
    "temp": 65.0,
-   "wind": 8.075,
-   "gust": 21.9,
+   "wind": 9.0,
+   "gust": 11.2,
    "pop": 3,
-   "inches": 0.008,
+   "inches": 0,
    "snow": false,
-   "text": "Dry: 65\u00b0F at kickoff, wind 8 mph (gusts 22), 3% chance of precipitation (National Weather Service and Open-Meteo, read 26 Nov 21:39 UTC). Sources: NWS 0% chance, wind 7 mph; Open-Meteo 3% chance, wind 8 mph (gusts 22)."
+   "text": "Dry: 65\u00b0F at kickoff, wind 9 mph (gusts 11), 3% chance of precipitation (National Weather Service and Open-Meteo, read 27 Nov 19:04 UTC). Sources: NWS 0% chance, wind 9 mph; Open-Meteo 3% chance, wind 7 mph (gusts 11)."
   },
   "2026_12_NYJ_MIA": {
    "kickoff_utc": "2026-11-29T18:00+00:00",
    "kind": "forecast",
    "source": "National Weather Service and Open-Meteo",
-   "read_utc": "2026-11-26T21:39+00:00",
-   "lead_days": 2.8,
+   "read_utc": "2026-11-27T19:04+00:00",
+   "lead_days": 2.0,
    "sources": [
     {
      "source": "National Weather Service",
      "temp": 77.0,
-     "wind": 5.5,
+     "wind": 5.75,
      "gust": null,
-     "pop": 10,
+     "pop": 5,
      "inches": null,
      "snow": false
     },
     {
      "source": "Open-Meteo",
-     "temp": 77.9,
-     "wind": 7.225,
-     "gust": 11.0,
-     "pop": 10,
+     "temp": 77.6,
+     "wind": 9.175,
+     "gust": 12.1,
+     "pop": 6,
      "inches": 0,
      "snow": false
     }
    ],
    "temp": 77.0,
-   "wind": 7.225,
-   "gust": 11.0,
-   "pop": 10,
+   "wind": 9.175,
+   "gust": 12.1,
+   "pop": 6,
    "inches": 0,
    "snow": false,
-   "text": "Dry: 77\u00b0F at kickoff, wind 7 mph (gusts 11), 10% chance of precipitation (National Weather Service and Open-Meteo, read 26 Nov 21:39 UTC). Sources: NWS 10% chance, wind 6 mph; Open-Meteo 10% chance, wind 7 mph (gusts 11)."
+   "text": "Dry: 77\u00b0F at kickoff, wind 9 mph (gusts 12), 6% chance of precipitation (National Weather Service and Open-Meteo, read 27 Nov 19:04 UTC). Sources: NWS 5% chance, wind 6 mph; Open-Meteo 6% chance, wind 9 mph (gusts 12)."
   },
   "2026_12_ATL_MIN": {
    "kickoff_utc": "2026-11-29T18:00+00:00",
@@ -311,8 +282,8 @@
    "kickoff_utc": "2026-11-29T21:25+00:00",
    "kind": "roof_unknown",
    "source": "National Weather Service and Open-Meteo",
-   "read_utc": "2026-11-26T21:39+00:00",
-   "lead_days": 3.0,
+   "read_utc": "2026-11-27T19:04+00:00",
+   "lead_days": 2.1,
    "sources": [
     {
      "source": "National Weather Service",
@@ -325,123 +296,123 @@
     },
     {
      "source": "Open-Meteo",
-     "temp": 74.1,
-     "wind": 4.575,
-     "gust": 6.3,
+     "temp": 73.9,
+     "wind": 5.15,
+     "gust": 7.4,
      "pop": 0,
      "inches": 0,
      "snow": false
     }
    ],
    "temp": 78.0,
-   "wind": 4.575,
-   "gust": 6.3,
+   "wind": 5.15,
+   "gust": 7.4,
    "pop": 0,
    "inches": 0,
    "snow": false,
-   "text": "Roof not listed, so open or closed is not known yet. If open: Dry: 78\u00b0F at kickoff, wind 5 mph (gusts 6), 0% chance of precipitation (National Weather Service and Open-Meteo, read 26 Nov 21:39 UTC; early forecast, 3 days before kickoff). Sources: NWS 0% chance, wind 2 mph; Open-Meteo 0% chance, wind 5 mph (gusts 6)."
+   "text": "Roof not listed, so open or closed is not known yet. If open: Dry: 78\u00b0F at kickoff, wind 5 mph (gusts 7), 0% chance of precipitation (National Weather Service and Open-Meteo, read 27 Nov 19:04 UTC). Sources: NWS 0% chance, wind 2 mph; Open-Meteo 0% chance, wind 5 mph (gusts 7)."
   },
   "2026_12_SEA_SF": {
    "kickoff_utc": "2026-11-29T21:25+00:00",
    "kind": "forecast",
    "source": "National Weather Service and Open-Meteo",
-   "read_utc": "2026-11-26T21:39+00:00",
-   "lead_days": 3.0,
+   "read_utc": "2026-11-27T19:04+00:00",
+   "lead_days": 2.1,
    "sources": [
     {
      "source": "National Weather Service",
      "temp": 64.0,
-     "wind": 12.75,
+     "wind": 13.0,
      "gust": null,
-     "pop": 93,
+     "pop": 90,
      "inches": null,
      "snow": false
     },
     {
      "source": "Open-Meteo",
-     "temp": 64.6,
-     "wind": 9.5,
-     "gust": 23.9,
-     "pop": 77,
-     "inches": 0.008,
+     "temp": 67.4,
+     "wind": 10.125,
+     "gust": 26.2,
+     "pop": 61,
+     "inches": 0,
      "snow": false
     }
    ],
    "temp": 64.0,
-   "wind": 12.75,
-   "gust": 23.9,
-   "pop": 93,
-   "inches": 0.008,
+   "wind": 13.0,
+   "gust": 26.2,
+   "pop": 90,
+   "inches": 0,
    "snow": false,
-   "text": "Rain likely: 64\u00b0F at kickoff, wind 13 mph (gusts 24), 93% chance of precipitation, 0.01 in forecast (National Weather Service and Open-Meteo, read 26 Nov 21:39 UTC; early forecast, 3 days before kickoff). Sources: NWS 93% chance, wind 13 mph; Open-Meteo 77% chance, wind 10 mph (gusts 24). In 2021-25 games with rain and wind under 15 mph (50 games), teams passed on 59.9% of plays in close games (61.1% with dry conditions and wind under 15 mph), EPA/dropback -0.032 (+0.066), EPA/rush -0.093 (-0.062). Raw averages, not adjusted for teams."
+   "text": "Rain likely: 64\u00b0F at kickoff, wind 13 mph (gusts 26), 90% chance of precipitation, 0.00 in forecast (National Weather Service and Open-Meteo, read 27 Nov 19:04 UTC). Sources: NWS 90% chance, wind 13 mph; Open-Meteo 61% chance, wind 10 mph (gusts 26). In 2021-25 games with rain and wind under 15 mph (50 games), teams passed on 59.9% of plays in close games (61.1% with dry conditions and wind under 15 mph), EPA/dropback -0.032 (+0.066), EPA/rush -0.093 (-0.062). Raw averages, not adjusted for teams."
   },
   "2026_12_LV_CLE": {
    "kickoff_utc": "2026-11-30T01:20+00:00",
    "kind": "forecast",
    "source": "National Weather Service and Open-Meteo",
-   "read_utc": "2026-11-26T21:39+00:00",
-   "lead_days": 3.2,
+   "read_utc": "2026-11-27T19:04+00:00",
+   "lead_days": 2.3,
    "sources": [
     {
      "source": "National Weather Service",
-     "temp": 49.0,
-     "wind": 18.5,
+     "temp": 48.0,
+     "wind": 14.0,
      "gust": null,
-     "pop": 97,
+     "pop": 100,
      "inches": null,
      "snow": false
     },
     {
      "source": "Open-Meteo",
-     "temp": 50.1,
-     "wind": 10.3,
-     "gust": 33.1,
-     "pop": 98,
-     "inches": 0.197,
+     "temp": 49.2,
+     "wind": 13.525,
+     "gust": 35.6,
+     "pop": 100,
+     "inches": 0.134,
      "snow": false
     }
    ],
-   "temp": 49.0,
-   "wind": 18.5,
-   "gust": 33.1,
-   "pop": 98,
-   "inches": 0.197,
+   "temp": 48.0,
+   "wind": 14.0,
+   "gust": 35.6,
+   "pop": 100,
+   "inches": 0.134,
    "snow": false,
-   "text": "Rain likely: 49\u00b0F at kickoff, wind 18 mph (gusts 33), 98% chance of precipitation, 0.20 in forecast (National Weather Service and Open-Meteo, read 26 Nov 21:39 UTC; early forecast, 3 days before kickoff). Sources: NWS 97% chance, wind 18 mph; Open-Meteo 98% chance, wind 10 mph (gusts 33). In 2021-25 games with rain and wind of 15+ mph (10 games), teams passed on 54.4% of plays in close games (61.1% with dry conditions and wind under 15 mph), EPA/dropback -0.083 (+0.066), EPA/rush -0.063 (-0.062). Raw averages, not adjusted for teams."
+   "text": "Rain likely: 48\u00b0F at kickoff, wind 14 mph (gusts 36), 100% chance of precipitation, 0.13 in forecast (National Weather Service and Open-Meteo, read 27 Nov 19:04 UTC). Sources: NWS 100% chance, wind 14 mph; Open-Meteo 100% chance, wind 14 mph (gusts 36). In 2021-25 games with rain and wind under 15 mph (50 games), teams passed on 59.9% of plays in close games (61.1% with dry conditions and wind under 15 mph), EPA/dropback -0.032 (+0.066), EPA/rush -0.093 (-0.062). Raw averages, not adjusted for teams."
   },
   "2026_12_CAR_TB": {
    "kickoff_utc": "2026-12-01T01:15+00:00",
    "kind": "forecast",
    "source": "National Weather Service and Open-Meteo",
-   "read_utc": "2026-11-26T21:39+00:00",
-   "lead_days": 4.1,
+   "read_utc": "2026-11-27T19:04+00:00",
+   "lead_days": 3.3,
    "sources": [
     {
      "source": "National Weather Service",
      "temp": 67.0,
-     "wind": 3.0,
+     "wind": 4.0,
      "gust": null,
-     "pop": 45,
+     "pop": 37,
      "inches": null,
      "snow": false
     },
     {
      "source": "Open-Meteo",
-     "temp": 64.2,
-     "wind": 7.15,
-     "gust": 13.2,
-     "pop": 40,
-     "inches": 0.044,
+     "temp": 69.2,
+     "wind": 6.05,
+     "gust": 11.2,
+     "pop": 31,
+     "inches": 0.024,
      "snow": false
     }
    ],
    "temp": 67.0,
-   "wind": 7.15,
-   "gust": 13.2,
-   "pop": 45,
-   "inches": 0.044,
+   "wind": 6.05,
+   "gust": 11.2,
+   "pop": 37,
+   "inches": 0.024,
    "snow": false,
-   "text": "Some chance of rain: 67\u00b0F at kickoff, wind 7 mph (gusts 13), 45% chance of precipitation (National Weather Service and Open-Meteo, read 26 Nov 21:39 UTC; early forecast, 4 days before kickoff). Sources: NWS 45% chance, wind 3 mph; Open-Meteo 40% chance, wind 7 mph (gusts 13)."
+   "text": "Some chance of rain: 67\u00b0F at kickoff, wind 6 mph (gusts 11), 37% chance of precipitation (National Weather Service and Open-Meteo, read 27 Nov 19:04 UTC; early forecast, 3 days before kickoff). Sources: NWS 37% chance, wind 4 mph; Open-Meteo 31% chance, wind 6 mph (gusts 11)."
   }
  },
  "wet_pop": 50,

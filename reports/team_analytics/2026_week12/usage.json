@@ -297,7 +297,7 @@
    "pos": "RB",
    "games": 11,
    "snap_pct": 0.5445454545454546,
-   "status": "limited in practice",
+   "status": "",
    "out": false,
    "targets": 24,
    "tgt_share": 0.07430340557275542,
@@ -1225,7 +1225,7 @@
    "pos": "RB",
    "games": 6,
    "snap_pct": 0.5116666666666667,
-   "status": "",
+   "status": "rest day (not injured)",
    "out": false,
    "targets": 11,
    "tgt_share": 0.03333333333333333,
@@ -3197,7 +3197,7 @@
    "pos": "RB",
    "games": 10,
    "snap_pct": 0.6759999999999999,
-   "status": "rest day (not injured)",
+   "status": "",
    "out": false,
    "targets": 52,
    "tgt_share": 0.18439716312056736,
@@ -3429,7 +3429,7 @@
    "pos": "RB",
    "games": 10,
    "snap_pct": 0.646,
-   "status": "",
+   "status": "rest day (not injured)",
    "out": false,
    "targets": 31,
    "tgt_share": 0.10367892976588629,
@@ -3953,7 +3953,7 @@
    "pos": "WR",
    "games": 11,
    "snap_pct": 0.7354545454545455,
-   "status": "limited in practice",
+   "status": "",
    "out": false,
    "targets": 42,
    "tgt_share": 0.13003095975232198,
@@ -4011,7 +4011,7 @@
    "pos": "WR",
    "games": 10,
    "snap_pct": 0.714,
-   "status": "limited in practice",
+   "status": "",
    "out": false,
    "targets": 82,
    "tgt_share": 0.25386996904024767,
@@ -4417,7 +4417,7 @@
    "pos": "WR",
    "games": 10,
    "snap_pct": 0.8220000000000001,
-   "status": "",
+   "status": "did not practise",
    "out": false,
    "targets": 87,
    "tgt_share": 0.2543859649122807,
@@ -6099,7 +6099,7 @@
    "pos": "WR",
    "games": 10,
    "snap_pct": 0.752,
-   "status": "",
+   "status": "limited in practice",
    "out": false,
    "targets": 81,
    "tgt_share": 0.2691029900332226,
@@ -8129,7 +8129,7 @@
    "pos": "WR",
    "games": 7,
    "snap_pct": 0.569,
-   "status": "limited in practice",
+   "status": "",
    "out": false,
    "targets": 22,
    "tgt_share": 0.06918238993710692,
@@ -8883,7 +8883,7 @@
    "pos": "WR",
    "games": 7,
    "snap_pct": 0.5242857142857142,
-   "status": "did not practise",
+   "status": "limited in practice",
    "out": false,
    "targets": 46,
    "tgt_share": 0.16312056737588654,
@@ -10103,7 +10103,7 @@
    "pos": "TE",
    "games": 10,
    "snap_pct": 0.607,
-   "status": "",
+   "status": "limited in practice",
    "out": false,
    "targets": 36,
    "tgt_share": 0.10526315789473684,
@@ -10335,7 +10335,7 @@
    "pos": "TE",
    "games": 10,
    "snap_pct": 0.865,
-   "status": "limited in practice",
+   "status": "",
    "out": false,
    "targets": 62,
    "tgt_share": 0.1962025316455696,
@@ -10683,7 +10683,7 @@
    "pos": "TE",
    "games": 10,
    "snap_pct": 0.5660000000000001,
-   "status": "",
+   "status": "limited in practice",
    "out": false,
    "targets": 50,
    "tgt_share": 0.15151515151515152,
@@ -12541,7 +12541,7 @@
    "pos": "RB",
    "games": 11,
    "snap_pct": 0.5445454545454546,
-   "status": "limited in practice",
+   "status": "",
    "out": false,
    "targets": 24,
    "tgt_share": 0.07430340557275542,
@@ -12599,7 +12599,7 @@
    "pos": "RB",
    "games": 10,
    "snap_pct": 0.6759999999999999,
-   "status": "rest day (not injured)",
+   "status": "",
    "out": false,
    "targets": 52,
    "tgt_share": 0.18439716312056736,
@@ -13237,7 +13237,7 @@
    "pos": "RB",
    "games": 10,
    "snap_pct": 0.646,
-   "status": "",
+   "status": "rest day (not injured)",
    "out": false,
    "targets": 31,
    "tgt_share": 0.10367892976588629,
@@ -13701,7 +13701,7 @@
    "pos": "WR",
    "games": 10,
    "snap_pct": 0.8220000000000001,
-   "status": "",
+   "status": "did not practise",
    "out": false,
    "targets": 87,
    "tgt_share": 0.2543859649122807,
@@ -14281,7 +14281,7 @@
    "pos": "WR",
    "games": 10,
    "snap_pct": 0.752,
-   "status": "",
+   "status": "limited in practice",
    "out": false,
    "targets": 81,
    "tgt_share": 0.2691029900332226,
@@ -16021,7 +16021,7 @@
    "pos": "RB",
    "games": 6,
    "snap_pct": 0.5116666666666667,
-   "status": "",
+   "status": "rest day (not injured)",
    "out": false,
    "targets": 11,
    "tgt_share": 0.03333333333333333,
@@ -17355,7 +17355,7 @@
    "pos": "WR",
    "games": 7,
    "snap_pct": 0.5242857142857142,
-   "status": "did not practise",
+   "status": "limited in practice",
    "out": false,
    "targets": 46,
    "tgt_share": 0.16312056737588654,
@@ -17471,7 +17471,7 @@
    "pos": "TE",
    "games": 10,
    "snap_pct": 0.865,
-   "status": "limited in practice",
+   "status": "",
    "out": false,
    "targets": 62,
    "tgt_share": 0.1962025316455696,
@@ -18283,7 +18283,7 @@
    "pos": "WR",
    "games": 10,
    "snap_pct": 0.714,
-   "status": "limited in practice",
+   "status": "",
    "out": false,
    "targets": 82,
    "tgt_share": 0.25386996904024767,
@@ -18399,7 +18399,7 @@
    "pos": "TE",
    "games": 10,
    "snap_pct": 0.607,
-   "status": "",
+   "status": "limited in practice",
    "out": false,
    "targets": 36,
    "tgt_share": 0.10526315789473684,
@@ -20719,7 +20719,7 @@
    "pos": "TE",
    "games": 10,
    "snap_pct": 0.5660000000000001,
-   "status": "",
+   "status": "limited in practice",
    "out": false,
    "targets": 50,
    "tgt_share": 0.15151515151515152,
@@ -22285,7 +22285,7 @@
    "pos": "WR",
    "games": 11,
    "snap_pct": 0.7354545454545455,
-   "status": "limited in practice",
+   "status": "",
    "out": false,
    "targets": 42,
    "tgt_share": 0.13003095975232198,
@@ -25964,7 +25964,7 @@
     {
      "name": "Zay Flowers",
      "pos": "WR",
-     "status": "limited in practice",
+     "status": "",
      "cells": [
       {
        "t": 6,
@@ -26176,7 +26176,7 @@
     {
      "name": "Rashod Bateman",
      "pos": "WR",
-     "status": "limited in practice",
+     "status": "",
      "cells": [
       {
        "t": 1,
@@ -26494,7 +26494,7 @@
     {
      "name": "Derrick Henry",
      "pos": "RB",
-     "status": "limited in practice",
+     "status": "",
      "cells": [
       {
        "t": 1,
@@ -29516,7 +29516,7 @@
     {
      "name": "Tetairoa McMillan",
      "pos": "WR",
-     "status": "",
+     "status": "did not practise",
      "cells": [
       {
        "t": 8,
@@ -29904,7 +29904,7 @@
     {
      "name": "Tommy Tremble",
      "pos": "TE",
-     "status": "",
+     "status": "limited in practice",
      "cells": [
       {
        "t": 5,
@@ -34213,7 +34213,7 @@
     {
      "name": "Harold Fannin Jr.",
      "pos": "TE",
-     "status": "limited in practice",
+     "status": "",
      "cells": [
       {
        "t": 3,
@@ -42263,7 +42263,7 @@
     {
      "name": "Dalton Schultz",
      "pos": "TE",
-     "status": "",
+     "status": "limited in practice",
      "cells": [
       {
        "t": 8,
@@ -42942,7 +42942,7 @@
     {
      "name": "David Montgomery",
      "pos": "RB",
-     "status": "",
+     "status": "rest day (not injured)",
      "cells": [
       {
        "t": 3,
@@ -46022,7 +46022,7 @@
     {
      "name": "Parker Washington",
      "pos": "WR",
-     "status": "",
+     "status": "limited in practice",
      "cells": [
       {
        "t": 6,
@@ -63566,7 +63566,7 @@
     {
      "name": "Isaiah Williams",
      "pos": "WR",
-     "status": "limited in practice",
+     "status": "",
      "cells": [
       {
        "t": 1,
@@ -67434,7 +67434,7 @@
     {
      "name": "Michael Pittman",
      "pos": "WR",
-     "status": "out (reserve list)",
+     "status": "",
      "cells": [
       {
        "t": 3,
@@ -69951,7 +69951,7 @@
     {
      "name": "Christian McCaffrey",
      "pos": "RB",
-     "status": "rest day (not injured)",
+     "status": "",
      "cells": [
       {
        "t": 8,
@@ -70048,7 +70048,7 @@
     {
      "name": "Mike Evans",
      "pos": "WR",
-     "status": "did not practise",
+     "status": "limited in practice",
      "cells": [
       {
        "t": 7,
@@ -73147,7 +73147,7 @@
     {
      "name": "Tony Pollard",
      "pos": "RB",
-     "status": "",
+     "status": "rest day (not injured)",
      "cells": [
       {
        "t": 2,
@@ -76687,11 +76687,9 @@
    ]
   },
   "PIT": {
-   "tgt_out_share": 0.03529411764705882,
+   "tgt_out_share": 0.0,
    "car_out_share": 0.0,
-   "tgt_out_names": [
-    "Michael Pittman (4% of targets)"
-   ],
+   "tgt_out_names": [],
    "car_out_names": []
   },
   "SEA": {
@@ -78648,7 +78646,7 @@
     "pos": "WR",
     "games": 10,
     "snap_pct": 0.714,
-    "status": "limited in practice",
+    "status": "",
     "out": false,
     "targets": 82,
     "tgt_share": 0.25386996904024767,
@@ -78760,7 +78758,7 @@
     "pos": "WR",
     "games": 11,
     "snap_pct": 0.7354545454545455,
-    "status": "limited in practice",
+    "status": "",
     "out": false,
     "targets": 42,
     "tgt_share": 0.13003095975232198,
@@ -78928,7 +78926,7 @@
     "pos": "RB",
     "games": 11,
     "snap_pct": 0.5445454545454546,
-    "status": "limited in practice",
+    "status": "",
     "out": false,
     "targets": 24,
     "tgt_share": 0.07430340557275542,
@@ -80556,7 +80554,7 @@
     "pos": "WR",
     "games": 10,
     "snap_pct": 0.8220000000000001,
-    "status": "",
+    "status": "did not practise",
     "out": false,
     "targets": 87,
     "tgt_share": 0.2543859649122807,
@@ -80780,7 +80778,7 @@
     "pos": "TE",
     "games": 10,
     "snap_pct": 0.607,
-    "status": "",
+    "status": "limited in practice",
     "out": false,
     "targets": 36,
     "tgt_share": 0.10526315789473684,
@@ -83194,7 +83192,7 @@
     "pos": "TE",
     "games": 10,
     "snap_pct": 0.865,
-    "status": "limited in practice",
+    "status": "",
     "out": false,
     "targets": 62,
     "tgt_share": 0.1962025316455696,
@@ -87628,7 +87626,7 @@
     "pos": "TE",
     "games": 10,
     "snap_pct": 0.5660000000000001,
-    "status": "",
+    "status": "limited in practice",
     "out": false,
     "targets": 50,
     "tgt_share": 0.15151515151515152,
@@ -88020,7 +88018,7 @@
     "pos": "RB",
     "games": 6,
     "snap_pct": 0.5116666666666667,
-    "status": "",
+    "status": "rest day (not injured)",
     "out": false,
     "targets": 11,
     "tgt_share": 0.03333333333333333,
@@ -89648,7 +89646,7 @@
     "pos": "WR",
     "games": 10,
     "snap_pct": 0.752,
-    "status": "",
+    "status": "limited in practice",
     "out": false,
     "targets": 81,
     "tgt_share": 0.2691029900332226,
@@ -99412,7 +99410,7 @@
     "pos": "WR",
     "games": 7,
     "snap_pct": 0.569,
-    "status": "limited in practice",
+    "status": "",
     "out": false,
     "targets": 22,
     "tgt_share": 0.06918238993710692,
@@ -101544,8 +101542,8 @@
     "pos": "WR",
     "games": 3,
     "snap_pct": 0.7766666666666667,
-    "status": "out (reserve list)",
-    "out": true,
+    "status": "",
+    "out": false,
     "targets": 12,
     "tgt_share": 0.03529411764705882,
     "air_share": 0.045091779728651235,
@@ -101638,8 +101636,8 @@
     "yaco_att": null,
     "brk_tkl_rush": null,
     "brk_per_car": null,
-    "brk_tkl_rec": null,
-    "drops": null,
+    "brk_tkl_rec": 0.0,
+    "drops": 0.0,
     "yds_total": 61,
     "td_total": 1,
     "i10_tgt": 0,
@@ -102948,7 +102946,7 @@
     "pos": "RB",
     "games": 10,
     "snap_pct": 0.6759999999999999,
-    "status": "rest day (not injured)",
+    "status": "",
     "out": false,
     "targets": 52,
     "tgt_share": 0.18439716312056736,
@@ -103004,7 +103002,7 @@
     "pos": "WR",
     "games": 7,
     "snap_pct": 0.5242857142857142,
-    "status": "did not practise",
+    "status": "limited in practice",
     "out": false,
     "targets": 46,
     "tgt_share": 0.16312056737588654,
@@ -104744,7 +104742,7 @@
     "pos": "RB",
     "games": 10,
     "snap_pct": 0.646,
-    "status": "",
+    "status": "rest day (not injured)",
     "out": false,
     "targets": 31,
     "tgt_share": 0.10367892976588629,
@@ -106652,26 +106650,6 @@
  "absent_usage": [
   {
    "team": "ARI",
-   "player": "Hjalte Froholdt",
-   "tgt_share": null,
-   "car_share": null,
-   "targets": null,
-   "carries": null,
-   "tgt_share_l3": null,
-   "car_share_l3": null
-  },
-  {
-   "team": "ARI",
-   "player": "Isaac Seumalo",
-   "tgt_share": null,
-   "car_share": null,
-   "targets": null,
-   "carries": null,
-   "tgt_share_l3": null,
-   "car_share_l3": null
-  },
-  {
-   "team": "ARI",
    "player": "Paris Johnson",
    "tgt_share": null,
    "car_share": null,
@@ -106722,6 +106700,16 @@
   },
   {
    "team": "ATL",
+   "player": "Jawaan Taylor",
+   "tgt_share": null,
+   "car_share": null,
+   "targets": null,
+   "carries": null,
+   "tgt_share_l3": null,
+   "car_share_l3": null
+  },
+  {
+   "team": "ATL",
    "player": "Jahan Dotson",
    "tgt_share": 0.13380281690140844,
    "car_share": 0.0,
@@ -106732,7 +106720,7 @@
   },
   {
    "team": "BAL",
-   "player": "John Simpson",
+   "player": "Jovaughn Gwyn",
    "tgt_share": null,
    "car_share": null,
    "targets": null,
@@ -106742,7 +106730,7 @@
   },
   {
    "team": "BAL",
-   "player": "Jovaughn Gwyn",
+   "player": "Olaivavega Ioane",
    "tgt_share": null,
    "car_share": null,
    "targets": null,
@@ -106762,26 +106750,6 @@
   },
   {
    "team": "BAL",
-   "player": "Rashod Bateman",
-   "tgt_share": 0.13003095975232198,
-   "car_share": 0.0,
-   "targets": 42,
-   "carries": 0,
-   "tgt_share_l3": 0.13131313131313133,
-   "car_share_l3": null
-  },
-  {
-   "team": "BAL",
-   "player": "Zay Flowers",
-   "tgt_share": 0.25386996904024767,
-   "car_share": 0.025547445255474453,
-   "targets": 82,
-   "carries": 7,
-   "tgt_share_l3": 0.24242424242424243,
-   "car_share_l3": 0.05714285714285714
-  },
-  {
-   "team": "BAL",
    "player": "Emery Jones",
    "tgt_share": null,
    "car_share": null,
@@ -106789,16 +106757,6 @@
    "carries": null,
    "tgt_share_l3": null,
    "car_share_l3": null
-  },
-  {
-   "team": "BAL",
-   "player": "Derrick Henry",
-   "tgt_share": 0.07430340557275542,
-   "car_share": 0.7226277372262774,
-   "targets": 24,
-   "carries": 198,
-   "tgt_share_l3": 0.10101010101010101,
-   "car_share_l3": 0.5714285714285714
   },
   {
    "team": "BUF",
@@ -106818,6 +106776,26 @@
    "targets": 41,
    "carries": 0,
    "tgt_share_l3": 0.06382978723404255,
+   "car_share_l3": null
+  },
+  {
+   "team": "CAR",
+   "player": "Tetairoa McMillan",
+   "tgt_share": 0.2543859649122807,
+   "car_share": 0.0,
+   "targets": 87,
+   "carries": 0,
+   "tgt_share_l3": 0.22916666666666666,
+   "car_share_l3": null
+  },
+  {
+   "team": "CAR",
+   "player": "Tommy Tremble",
+   "tgt_share": 0.10526315789473684,
+   "car_share": 0.0,
+   "targets": 36,
+   "carries": 0,
+   "tgt_share_l3": 0.125,
    "car_share_l3": null
   },
   {
@@ -106888,16 +106866,6 @@
    "targets": 62,
    "carries": 0,
    "tgt_share_l3": 0.1834862385321101,
-   "car_share_l3": null
-  },
-  {
-   "team": "CLE",
-   "player": "Harold Fannin",
-   "tgt_share": 0.1962025316455696,
-   "car_share": 0.0,
-   "targets": 62,
-   "carries": 0,
-   "tgt_share_l3": 0.21100917431192662,
    "car_share_l3": null
   },
   {
@@ -106982,6 +106950,16 @@
   },
   {
    "team": "HOU",
+   "player": "Dalton Schultz",
+   "tgt_share": 0.15151515151515152,
+   "car_share": 0.0,
+   "targets": 50,
+   "carries": 0,
+   "tgt_share_l3": 0.0707070707070707,
+   "car_share_l3": null
+  },
+  {
+   "team": "HOU",
    "player": "Kayshon Boutte",
    "tgt_share": 0.09393939393939393,
    "car_share": 0.0,
@@ -106989,6 +106967,16 @@
    "carries": 0,
    "tgt_share_l3": 0.08080808080808081,
    "car_share_l3": null
+  },
+  {
+   "team": "HOU",
+   "player": "David Montgomery",
+   "tgt_share": 0.03333333333333333,
+   "car_share": 0.3333333333333333,
+   "targets": 11,
+   "carries": 78,
+   "tgt_share_l3": 0.04040404040404041,
+   "car_share_l3": 0.3333333333333333
   },
   {
    "team": "IND",
@@ -107039,6 +107027,16 @@
    "carries": 2,
    "tgt_share_l3": 0.20754716981132076,
    "car_share_l3": 0.012658227848101266
+  },
+  {
+   "team": "JAX",
+   "player": "Parker Washington",
+   "tgt_share": 0.2691029900332226,
+   "car_share": 0.0076045627376425855,
+   "targets": 81,
+   "carries": 2,
+   "tgt_share_l3": 0.3113207547169811,
+   "car_share_l3": 0.0
   },
   {
    "team": "JAX",
@@ -107322,16 +107320,6 @@
   },
   {
    "team": "NO",
-   "player": "Erik McCoy",
-   "tgt_share": null,
-   "car_share": null,
-   "targets": null,
-   "carries": null,
-   "tgt_share_l3": null,
-   "car_share_l3": null
-  },
-  {
-   "team": "NO",
    "player": "Asim Richards",
    "tgt_share": null,
    "car_share": null,
@@ -107369,16 +107357,6 @@
    "carries": null,
    "tgt_share_l3": null,
    "car_share_l3": null
-  },
-  {
-   "team": "NYJ",
-   "player": "Isaiah Williams",
-   "tgt_share": 0.06918238993710692,
-   "car_share": 0.014925373134328358,
-   "targets": 22,
-   "carries": 4,
-   "tgt_share_l3": 0.07777777777777778,
-   "car_share_l3": 0.0125
   },
   {
    "team": "NYJ",
@@ -107428,16 +107406,6 @@
    "targets": null,
    "carries": null,
    "tgt_share_l3": null,
-   "car_share_l3": null
-  },
-  {
-   "team": "PIT",
-   "player": "Michael Pittman Jr.",
-   "tgt_share": 0.03529411764705882,
-   "car_share": 0.0,
-   "targets": 12,
-   "carries": 0,
-   "tgt_share_l3": 0.0,
    "car_share_l3": null
   },
   {
@@ -107502,26 +107470,6 @@
   },
   {
    "team": "SF",
-   "player": "Trent Williams",
-   "tgt_share": null,
-   "car_share": null,
-   "targets": null,
-   "carries": null,
-   "tgt_share_l3": null,
-   "car_share_l3": null
-  },
-  {
-   "team": "SF",
-   "player": "Christian McCaffrey",
-   "tgt_share": 0.18439716312056736,
-   "car_share": 0.5,
-   "targets": 52,
-   "carries": 127,
-   "tgt_share_l3": 0.12987012987012986,
-   "car_share_l3": 0.5058823529411764
-  },
-  {
-   "team": "SF",
    "player": "Jordan Watkins",
    "tgt_share": 0.06028368794326241,
    "car_share": 0.0,
@@ -107579,6 +107527,16 @@
    "carries": 1,
    "tgt_share_l3": 0.10576923076923077,
    "car_share_l3": 0.0
+  },
+  {
+   "team": "TEN",
+   "player": "Tony Pollard",
+   "tgt_share": 0.10367892976588629,
+   "car_share": 0.7688679245283019,
+   "targets": 31,
+   "carries": 163,
+   "tgt_share_l3": 0.14423076923076922,
+   "car_share_l3": 0.7846153846153846
   },
   {
    "team": "WAS",

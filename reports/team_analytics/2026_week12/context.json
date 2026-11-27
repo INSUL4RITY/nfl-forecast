@@ -490,7 +490,7 @@
      "scr_rate": 0.04082,
      "team_epa_play_in_starts": -0.4258555747299505,
      "team_plays_in_starts": 129,
-     "roster_status": "CUT",
+     "roster_status": "TRT",
      "now_team": "TB",
      "report_status": null,
      "practice_status": null,
@@ -745,7 +745,7 @@
      "now_team": null,
      "report_status": null,
      "practice_status": "Full Participation in Practice",
-     "report_week": 11,
+     "report_week": 12,
      "latest_starter": true,
      "one_q": null,
      "dropbacks_season": 430,
@@ -854,7 +854,7 @@
      "scr_rate": 0.03333,
      "team_epa_play_in_starts": 0.13370956987726085,
      "team_plays_in_starts": 70,
-     "roster_status": "ACT",
+     "roster_status": "INA",
      "now_team": null,
      "report_status": null,
      "practice_status": null,
@@ -2296,14 +2296,68 @@
      "season_teams": "PIT",
      "opened_season": true,
      "team_opener": true,
-     "rookie": false
+     "rookie": false,
+     "news_status": "released (CUT on the week 12 weekly roster)"
+    },
+    {
+     "id": "00-0034771",
+     "name": "Mason Rudolph",
+     "dropbacks": 6,
+     "starts": 0,
+     "start_weeks": [],
+     "start_teams": [],
+     "epa_db": -0.89783,
+     "adj_epa_db": -0.94492,
+     "sr": 0.16667,
+     "sack_rate": 0.0,
+     "int_worthy": 0.0,
+     "epa_vs_blitz": null,
+     "db_blitz": 0,
+     "db_hit": 0,
+     "epa_hit_sack": null,
+     "scr_rate": 0.33333,
+     "team_epa_play_in_starts": null,
+     "team_plays_in_starts": 0,
+     "roster_status": null,
+     "report_status": null,
+     "practice_status": null,
+     "report_week": null,
+     "latest_starter": false,
+     "sample_team": "PIT",
+     "one_q": null,
+     "opened_season": false,
+     "news": true,
+     "news_status": "expected starter, not confirmed"
     }
    ],
    "latest": "00-0023459",
    "primary": "00-0023459",
    "flags": [
-    "Latest starter Aaron Rodgers: practice status in the week 12 report: did not participate in practice."
-   ]
+    "Latest starter Aaron Rodgers: practice status in the week 12 report: did not participate in practice.",
+    "Week 12 news: Mason Rudolph is expected to start (not confirmed by the team); only 6 2026 dropbacks, too few for an own sample. Aaron Rodgers (10 starts) released (CUT on the week 12 weekly roster): his games are in the season figures, but he will not play for this team. Source: nflverse depth chart (team depth chart), 2026-11-27 17:24 UTC: Mason Rudolph listed QB1, Will Howard QB2, Drew Allar QB3; nflverse weekly roster, week 12, 2026-11-27 19:02 UTC (read): Aaron Rodgers status CUT (released); NFL injury report, week 12, 2026-11-26: Rodgers did not practise: 'Not injury related - personal matter'."
+   ],
+   "news": {
+    "starter": "Mason Rudolph",
+    "conf": "expected",
+    "sources": [
+     {
+      "who": "nflverse depth chart (team depth chart)",
+      "what": "Mason Rudolph listed QB1, Will Howard QB2, Drew Allar QB3",
+      "when": "2026-11-27 17:24 UTC"
+     },
+     {
+      "who": "nflverse weekly roster, week 12",
+      "what": "Aaron Rodgers status CUT (released)",
+      "when": "2026-11-27 19:02 UTC (read)"
+     },
+     {
+      "who": "NFL injury report, week 12",
+      "what": "Rodgers did not practise: 'Not injury related - personal matter'",
+      "when": "2026-11-26"
+     }
+    ],
+    "flag": "Week 12 news: Mason Rudolph is expected to start (not confirmed by the team); only 6 2026 dropbacks, too few for an own sample. Aaron Rodgers (10 starts) released (CUT on the week 12 weekly roster): his games are in the season figures, but he will not play for this team. Source: nflverse depth chart (team depth chart), 2026-11-27 17:24 UTC: Mason Rudolph listed QB1, Will Howard QB2, Drew Allar QB3; nflverse weekly roster, week 12, 2026-11-27 19:02 UTC (read): Aaron Rodgers status CUT (released); NFL injury report, week 12, 2026-11-26: Rodgers did not practise: 'Not injury related - personal matter'."
+   }
   },
   "SEA": {
    "qbs": [
@@ -2489,9 +2543,9 @@
      "team_plays_in_starts": 445,
      "roster_status": "ACT",
      "now_team": null,
-     "report_status": "Questionable",
-     "practice_status": "Limited Participation in Practice",
-     "report_week": 11,
+     "report_status": null,
+     "practice_status": "Full Participation in Practice",
+     "report_week": 12,
      "latest_starter": true,
      "one_q": null,
      "dropbacks_season": 229,
@@ -2539,8 +2593,7 @@
    "latest": "00-0034855",
    "primary": "00-0034855",
    "flags": [
-    "Season figures mix quarterbacks.",
-    "Latest starter Baker Mayfield was listed Questionable in last week's report (week 11) (limited participation in practice)."
+    "Season figures mix quarterbacks."
    ]
   },
   "TEN": {

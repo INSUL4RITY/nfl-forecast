@@ -73,7 +73,7 @@
      "blitzes": 30,
      "share": 0.07352941176470588,
      "per100": 0.7072135785007072,
-     "status": "rest day (not injured)"
+     "status": ""
     },
     {
      "name": "L.J. Collier",
@@ -121,7 +121,7 @@
      "ypt": 8.375,
      "rating": 109.89583333333333,
      "share": 0.11594202898550725,
-     "status": "rest day (not injured)"
+     "status": ""
     },
     {
      "name": "Mack Wilson",
@@ -137,7 +137,7 @@
      "ypt": 8.846153846153847,
      "rating": 120.1388888888889,
      "share": 0.11304347826086956,
-     "status": "rest day (not injured)"
+     "status": ""
     },
     {
      "name": "Max Melton",
@@ -214,7 +214,7 @@
      "blitzes": 0,
      "share": 0.1568627450980392,
      "per100": 3.7296037296037294,
-     "status": ""
+     "status": "limited in practice"
     },
     {
      "name": "Brandon Dorlus",
@@ -350,7 +350,7 @@
      "ypt": 5.027027027027027,
      "rating": 72.57882882882883,
      "share": 0.10306406685236769,
-     "status": ""
+     "status": "limited in practice"
     },
     {
      "name": "Xavier Watts",
@@ -408,7 +408,7 @@
      "blitzes": 11,
      "share": 0.1839080459770115,
      "per100": 4.145077720207254,
-     "status": "limited in practice"
+     "status": ""
     },
     {
      "name": "Tavius Robinson",
@@ -815,7 +815,7 @@
      "blitzes": 0,
      "share": 0.14285714285714285,
      "per100": 3.869047619047619,
-     "status": ""
+     "status": "limited in practice"
     },
     {
      "name": "Patrick Jones II",
@@ -829,7 +829,7 @@
      "blitzes": 0,
      "share": 0.12087912087912088,
      "per100": 2.925531914893617,
-     "status": ""
+     "status": "did not practise"
     },
     {
      "name": "Devin Lloyd",
@@ -2430,7 +2430,7 @@
      "blitzes": 0,
      "share": 0.10576923076923077,
      "per100": 2.5345622119815667,
-     "status": "did not practise"
+     "status": "limited in practice"
     },
     {
      "name": "Jadeveon Clowney",
@@ -2642,7 +2642,7 @@
      "blitzes": 1,
      "share": 0.0641025641025641,
      "per100": 1.1820330969267139,
-     "status": ""
+     "status": "rest day (not injured)"
     },
     {
      "name": "Arden Key",
@@ -3386,7 +3386,7 @@
      "blitzes": 6,
      "share": 0.15492957746478872,
      "per100": 2.4498886414253898,
-     "status": "rest day (not injured)"
+     "status": ""
     },
     {
      "name": "Akheem Mesidor",
@@ -3414,7 +3414,7 @@
      "blitzes": 0,
      "share": 0.08450704225352113,
      "per100": 1.7341040462427744,
-     "status": "rest day (not injured)"
+     "status": ""
     },
     {
      "name": "Troy Dye",
@@ -4035,7 +4035,7 @@
      "blitzes": 0,
      "share": 0.08064516129032258,
      "per100": 2.0,
-     "status": "did not practise"
+     "status": "limited in practice"
     }
    ],
    "cov": [
@@ -4818,7 +4818,7 @@
      "blitzes": 0,
      "share": 0.056818181818181816,
      "per100": 1.282051282051282,
-     "status": "did not practise"
+     "status": "limited in practice"
     }
    ],
    "cov": [
@@ -5154,7 +5154,7 @@
      "blitzes": 5,
      "share": 0.18666666666666668,
      "per100": 3.664921465968586,
-     "status": "did not practise"
+     "status": "out/doubtful"
     },
     {
      "name": "Cameron Heyward",
@@ -5168,7 +5168,7 @@
      "blitzes": 0,
      "share": 0.13333333333333333,
      "per100": 2.518891687657431,
-     "status": "rest day (not injured)"
+     "status": ""
     },
     {
      "name": "Nick Herbig",
@@ -5182,7 +5182,7 @@
      "blitzes": 3,
      "share": 0.08,
      "per100": 1.9933554817275747,
-     "status": "limited in practice"
+     "status": ""
     },
     {
      "name": "Patrick Queen",
@@ -5312,10 +5312,14 @@
     }
    ],
    "top3_press_share": 0.52,
-   "press_out_share": 0.0,
-   "press_out_names": [],
-   "tgt_out_share": 0.0,
-   "tgt_out_names": []
+   "press_out_share": 0.18666666666666668,
+   "press_out_names": [
+    "Alex Highsmith (14)"
+   ],
+   "tgt_out_share": 0.014925373134328358,
+   "tgt_out_names": [
+    "Alex Highsmith (6 targets)"
+   ]
   },
   "SEA": {
    "pfr_games": 10,
@@ -5334,7 +5338,7 @@
      "blitzes": 10,
      "share": 0.1743119266055046,
      "per100": 4.896907216494846,
-     "status": "did not practise"
+     "status": "limited in practice"
     },
     {
      "name": "Leonard Williams",
@@ -5404,7 +5408,7 @@
      "blitzes": 7,
      "share": 0.07339449541284404,
      "per100": 3.2128514056224895,
-     "status": ""
+     "status": "limited in practice"
     }
    ],
    "cov": [
@@ -5778,7 +5782,7 @@
      "blitzes": 41,
      "share": 0.09210526315789473,
      "per100": 1.3725490196078431,
-     "status": ""
+     "status": "limited in practice"
     },
     {
      "name": "Rueben Bain",
@@ -5826,7 +5830,7 @@
      "ypt": 6.87037037037037,
      "rating": 63.117283950617285,
      "share": 0.1487603305785124,
-     "status": ""
+     "status": "limited in practice"
     },
     {
      "name": "Alex Anzalone",
@@ -5890,18 +5894,14 @@
      "ypt": 5.0588235294117645,
      "rating": 69.73039215686273,
      "share": 0.09366391184573003,
-     "status": ""
+     "status": "limited in practice"
     }
    ],
    "top3_press_share": 0.3815789473684211,
-   "press_out_share": 0.013157894736842105,
-   "press_out_names": [
-    "Antoine Winfield Jr. (1)"
-   ],
-   "tgt_out_share": 0.03305785123966942,
-   "tgt_out_names": [
-    "Antoine Winfield Jr. (12 targets)"
-   ]
+   "press_out_share": 0.0,
+   "press_out_names": [],
+   "tgt_out_share": 0.0,
+   "tgt_out_names": []
   },
   "TEN": {
    "pfr_games": 10,
@@ -5962,7 +5962,7 @@
      "blitzes": 0,
      "share": 0.11956521739130435,
      "per100": 3.064066852367688,
-     "status": "limited in practice"
+     "status": ""
     },
     {
      "name": "Alontae Taylor",
@@ -6303,5 +6303,5 @@
  },
  "press_flag": 0.15,
  "tgt_flag": 0.2,
- "matched_status": 88
+ "matched_status": 89
 }

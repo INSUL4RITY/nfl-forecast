@@ -1,6 +1,6 @@
 {
  "season": 2026,
- "checked": "2026-11-25",
+ "checked": "2026-11-27",
  "how_to_update": "Hand-kept. Each Tuesday, before the build, add the coming week's quarterback news that the nflverse rosters and injury reports cannot show yet: trades, signings, benchings and starters named by the team or reported by a named reporter. One entry per team under the week number: 'starter' (the name as nflverse spells it), 'conf' ('named' = the team or a reporter says he is the starter; 'expected' = the coach or a reporter says he is expected or could start), 'sources' (who, what, when in UTC), and 'unavailable' (quarterbacks in the team's season figures who will not play for it, with why). Never add a starter without a source. The injury report still decides game statuses; this file only covers what it cannot.",
  "weeks": {
   "10": {
@@ -139,11 +139,38 @@
      }
     ],
     "unavailable": []
+   },
+   "PIT": {
+    "starter": "Mason Rudolph",
+    "conf": "expected",
+    "sources": [
+     {
+      "who": "nflverse depth chart (team depth chart)",
+      "what": "Mason Rudolph listed QB1, Will Howard QB2, Drew Allar QB3",
+      "when": "2026-11-27 17:24 UTC"
+     },
+     {
+      "who": "nflverse weekly roster, week 12",
+      "what": "Aaron Rodgers status CUT (released)",
+      "when": "2026-11-27 19:02 UTC (read)"
+     },
+     {
+      "who": "NFL injury report, week 12",
+      "what": "Rodgers did not practise: 'Not injury related - personal matter'",
+      "when": "2026-11-26"
+     }
+    ],
+    "unavailable": [
+     {
+      "player": "Aaron Rodgers",
+      "why": "released (CUT on the week 12 weekly roster)"
+     }
+    ]
    }
   }
  },
  "notes": {
   "11": "Checked 19 Nov: no trade, signing or named starter the rosters cannot show. Week 10's new starters (Beck ARI, McCord MIA, Mendoza LV, Cousins MIN, Brissett BAL) are now in the play-by-play. Mayfield (TB, foot) and Geno Smith (NYJ, ankle) were reported likely to play; the injury report decides.",
-  "12": "Checked 25 Nov 18:30 UTC. NE (DeVito for the injured Maye) and SEA (Darnold expected back from his quad injury; Drew Lock started weeks 9-10) are sourced. Not entered, because no dated 2026 source was found: the depth charts list Mason Rudolph first at PIT (Rodgers started week 11), Anthony Richardson at IND (Daniel Jones started week 11) and Carson Beck at ARI (Josh Johnson started week 11). The page flags those through the depth-chart caution; the injury report decides game statuses."
+  "12": "Checked 25 Nov 18:30 UTC. NE (DeVito for the injured Maye) and SEA (Darnold expected back from his quad injury; Drew Lock started weeks 9-10) are sourced. Not entered, because no dated 2026 source was found: the depth charts list Mason Rudolph first at PIT (Rodgers started week 11), Anthony Richardson at IND (Daniel Jones started week 11) and Carson Beck at ARI (Josh Johnson started week 11). The page flags those through the depth-chart caution; the injury report decides game statuses. Update 27 Nov 19:10 UTC: PIT added (Rudolph QB1 on the depth chart, Rodgers released per the week 12 roster); no team announcement was read, so 'expected', not 'named'."
  }
 }
