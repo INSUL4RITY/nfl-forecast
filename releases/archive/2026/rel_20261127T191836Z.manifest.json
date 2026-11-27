@@ -1,0 +1,62 @@
+{
+ "game_ids": [
+  "2026_12_DEN_PIT",
+  "2026_12_ATL_MIN",
+  "2026_12_BAL_HOU",
+  "2026_12_NO_CIN",
+  "2026_12_NYG_IND",
+  "2026_12_NYJ_MIA",
+  "2026_12_TEN_JAX",
+  "2026_12_NE_LAC",
+  "2026_12_SEA_SF",
+  "2026_12_WAS_ARI",
+  "2026_12_LV_CLE",
+  "2026_12_CAR_TB"
+ ],
+ "generated_at_utc": "2026-11-27T19:18:36.125797+00:00",
+ "information_cutoff_utc": "2026-11-27T19:18:36.125797+00:00",
+ "input_snapshots": {
+  "depth_charts": {
+   "content_sha256": "971111d3270ac7f68e533496ceea2d99b76da154dc123afabb9ba212b57e2369",
+   "http_last_modified": "Fri, 27 Nov 2026 17:24:50 GMT",
+   "last_confirmed_at_utc": "2026-11-27T19:15:37.316530+00:00",
+   "observed_at_utc": "2026-11-27T18:02:23.851943+00:00"
+  },
+  "injuries": {
+   "content_sha256": "6c71337ec61753efeddbd5b6f1828e6c24993e3e589fd41a3301c327e4314a3f",
+   "http_last_modified": "Fri, 27 Nov 2026 17:24:28 GMT",
+   "last_confirmed_at_utc": "2026-11-27T19:15:36.979288+00:00",
+   "observed_at_utc": "2026-11-27T18:02:23.524056+00:00"
+  },
+  "pbp_ep_scale": {
+   "applied": true,
+   "check_team_error_mean": 0.0056,
+   "check_team_error_sd": 0.008,
+   "ok": true,
+   "plays_converted": 3117,
+   "plays_old_values": 26060,
+   "reference_snapshot": "pbp_2026__observed_20261116T194534Z.parquet",
+   "season": 2026
+  },
+  "schedules": {
+   "content_sha256": "e7a3ea5a9a115eff52832e8daded90410ee54df4245b8337284ec8d617ca870b",
+   "http_last_modified": "Fri, 27 Nov 2026 19:06:36 GMT",
+   "last_confirmed_at_utc": "2026-11-27T19:15:33.354033+00:00",
+   "observed_at_utc": "2026-11-27T19:15:33.354033+00:00"
+  }
+ },
+ "manifest_created_at_utc": "2026-11-27T19:18:55.472493+00:00",
+ "model_version": {
+  "code_hash": "947bb1d12d911295e2d73753a899ae14e97cad373702ce11ccca9e57cba613be",
+  "oof_source_run": "locked_20260924T234835Z",
+  "production_config_sha256_at_archiving": "93370fd999d74861e7ac08a4d9522756fc384a2be04d04c60dad10fefd9f23f8",
+  "qb_start_rates": "v3_start_practice_listed_through_2025",
+  "stage": "production_v1.1"
+ },
+ "note": "Manifest creation time is when this archive entry was made; it is not a publication time.",
+ "release_path": "releases/2026/week_12/rel_20261127T191836Z.json",
+ "run_id": "rel_20261127T191836Z",
+ "schema_version": 3,
+ "sha256": "1c6bcdaa0fc3a50b78a9ad3f58dd27590c69ea9f0d579080a94921fa41b0f06a",
+ "size_bytes": 244019
+}
