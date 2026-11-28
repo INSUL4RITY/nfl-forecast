@@ -1,0 +1,61 @@
+{
+ "game_ids": [
+  "2026_12_ATL_MIN",
+  "2026_12_BAL_HOU",
+  "2026_12_NO_CIN",
+  "2026_12_NYG_IND",
+  "2026_12_NYJ_MIA",
+  "2026_12_TEN_JAX",
+  "2026_12_NE_LAC",
+  "2026_12_SEA_SF",
+  "2026_12_WAS_ARI",
+  "2026_12_LV_CLE",
+  "2026_12_CAR_TB"
+ ],
+ "generated_at_utc": "2026-11-28T11:44:38.855998+00:00",
+ "information_cutoff_utc": "2026-11-28T11:44:38.855998+00:00",
+ "input_snapshots": {
+  "depth_charts": {
+   "content_sha256": "bbd7c88c251515716f666e12cdc9187036fe0be5b2e7a78fe29f8a0183469b1c",
+   "http_last_modified": "Sat, 28 Nov 2026 09:35:27 GMT",
+   "last_confirmed_at_utc": "2026-11-28T11:42:05.001673+00:00",
+   "observed_at_utc": "2026-11-28T11:42:05.001673+00:00"
+  },
+  "injuries": {
+   "content_sha256": "ff40dfc414a782c55ff9c90053c4aad7067a537628a119bb63e111cd017a8284",
+   "http_last_modified": "Sat, 28 Nov 2026 09:35:07 GMT",
+   "last_confirmed_at_utc": "2026-11-28T11:42:04.627964+00:00",
+   "observed_at_utc": "2026-11-28T11:42:04.627964+00:00"
+  },
+  "pbp_ep_scale": {
+   "applied": true,
+   "check_team_error_mean": 0.0056,
+   "check_team_error_sd": 0.008,
+   "ok": true,
+   "plays_converted": 3273,
+   "plays_old_values": 26060,
+   "reference_snapshot": "pbp_2026__observed_20261116T194534Z.parquet",
+   "season": 2026
+  },
+  "schedules": {
+   "content_sha256": "ecbd8cb178fb397346a980d495668f0cc675536618d284431890bc0dd103a4f0",
+   "http_last_modified": "Sat, 28 Nov 2026 11:05:56 GMT",
+   "last_confirmed_at_utc": "2026-11-28T11:42:01.739645+00:00",
+   "observed_at_utc": "2026-11-28T11:42:01.739645+00:00"
+  }
+ },
+ "manifest_created_at_utc": "2026-11-28T11:44:52.850746+00:00",
+ "model_version": {
+  "code_hash": "947bb1d12d911295e2d73753a899ae14e97cad373702ce11ccca9e57cba613be",
+  "oof_source_run": "locked_20260924T234835Z",
+  "production_config_sha256_at_archiving": "93370fd999d74861e7ac08a4d9522756fc384a2be04d04c60dad10fefd9f23f8",
+  "qb_start_rates": "v3_start_practice_listed_through_2025",
+  "stage": "production_v1.1"
+ },
+ "note": "Manifest creation time is when this archive entry was made; it is not a publication time.",
+ "release_path": "releases/2026/week_12/rel_20261128T114438Z.json",
+ "run_id": "rel_20261128T114438Z",
+ "schema_version": 3,
+ "sha256": "140dc987098293bd012bf23157c2ac743ad5d74ac2f6a917d82a2c0bdcf2c780",
+ "size_bytes": 233623
+}
